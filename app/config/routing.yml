@@ -2,3 +2,7 @@
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
+
+MuzichIndexBundle:
+  resource: "@MuzichIndexBundle/Resources/config/routing.yml"
+  prefix: /
