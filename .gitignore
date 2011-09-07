@@ -1,5 +1,8 @@
 #
 app/cache/
 app/logs/
+app/logs/dev.log
+app/logs/prog.log
+app/logs/test.log
 *.*~
 nbproject
