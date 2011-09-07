@@ -12,6 +12,18 @@ class Element
 {
   
   /**
+   * @ORM\ManyToOne(targetEntity="ElementType", inversedBy="elements")
+   * @ORM\JoinColumn(name="element_type_id", referencedColumnName="id")
+   */
+  protected $type;
+  
+  /**
+   * @ManyToMany(targetEntity="Tag", inversedBy="elements")
+   * @JoinTable(name="elements_tag")
+   */
+  private $tags;
+  
+  /**
    * @ORM\Id
    * @ORM\Column(type="integer")
    * @ORM\GeneratedValue(strategy="AUTO")
@@ -106,6 +118,32 @@ class Element
   public function getDateAdded()
   {
       return $this->date_added;
+  }
+  
+  /**
+   * Set type
+   *
+   * @param Muzich\CoreBundle\Entity\ElementType $type
+   */
+  public function setType(\Muzich\CoreBundle\Entity\ElementType $type)
+  {
+      $this->type = $type;
+  }
+
+  /**
+   * Get type
+   *
+   * @return Muzich\CoreBundle\Entity\ElementType 
+   */
+  public function getType()
+  {
+      return $this->type;
+  }
+  
+  
+  public function __construct()
+  {
+    $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
   }
   
 }
