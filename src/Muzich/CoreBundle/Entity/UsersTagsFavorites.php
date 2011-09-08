@@ -99,4 +99,14 @@ class UsersTagsFavorites
       return $this->tags_favorites;
   }
   
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }
