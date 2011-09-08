@@ -44,6 +44,20 @@ class User extends BaseUser
    * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\Element", mappedBy="owner")
    */
   protected $elements;
+  
+  /**
+   * Users que cet utilisateur suit.
+   * 
+   * @ORM\OneToMany(targetEntity="FollowUser", mappedBy="follower")
+   */
+  protected $followeds_users;
+  
+  /**
+   * Users qui suivent cet utilisateur.
+   * 
+   * @ORM\OneToMany(targetEntity="FollowUser", mappedBy="followed")
+   */
+  protected $followers_users;
 
   /**
    * 
@@ -123,5 +137,35 @@ class User extends BaseUser
   public function getElements()
   {
       return $this->elements;
+  }
+
+  /**
+   * Add followeds_users
+   *
+   * @param FollowUser $followedsUsers
+   */
+  public function addFollowUser(FollowUser $followedsUsers)
+  {
+      $this->followeds_users[] = $followedsUsers;
+  }
+
+  /**
+   * Get followeds_users
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getFollowedsUsers()
+  {
+      return $this->followeds_users;
+  }
+
+  /**
+   * Get followers_users
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getFollowersUsers()
+  {
+      return $this->followers_users;
   }
 }
