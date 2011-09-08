@@ -12,9 +12,9 @@ class Tag
 {
   
   /**
-   * @ManyToMany(targetEntity="Tag", mappedBy="tags")
+   * @ORM\ManyToMany(targetEntity="Tag", mappedBy="tags")
    */
-  private $elements;
+  protected $elements;
   
   /**
    * @ORM\Id
@@ -35,4 +35,54 @@ class Tag
     $this->elements = new \Doctrine\Common\Collections\ArrayCollection();
   }
   
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Add elements
+     *
+     * @param Muzich\CoreBundle\Entity\Tag $elements
+     */
+    public function addTag(\Muzich\CoreBundle\Entity\Tag $elements)
+    {
+        $this->elements[] = $elements;
+    }
+
+    /**
+     * Get elements
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getElements()
+    {
+        return $this->elements;
+    }
 }

@@ -18,8 +18,8 @@ class Element
   protected $type;
   
   /**
-   * @ManyToMany(targetEntity="Tag", inversedBy="elements")
-   * @JoinTable(name="elements_tag")
+   * @ORM\ManyToMany(targetEntity="Tag", inversedBy="elements")
+   * @ORM\JoinTable(name="elements_tag")
    */
   private $tags;
   
@@ -146,4 +146,24 @@ class Element
     $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
   }
   
+
+    /**
+     * Add tags
+     *
+     * @param Muzich\CoreBundle\Entity\Tag $tags
+     */
+    public function addTag(\Muzich\CoreBundle\Entity\Tag $tags)
+    {
+        $this->tags[] = $tags;
+    }
+
+    /**
+     * Get tags
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
 }
