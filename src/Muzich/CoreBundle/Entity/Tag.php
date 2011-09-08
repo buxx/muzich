@@ -3,23 +3,16 @@
 namespace Muzich\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
+ * Cet entité représente le Tag.
+ * 
  * @ORM\Entity
  * @ORM\Table(name="tag")
  */
 class Tag
 {
-  
-  /**
-   * @ORM\ManyToMany(targetEntity="Element", mappedBy="tags")
-   */
-  protected $elements;
-  
-  /**
-   * @ORM\OneToMany(targetEntity="UsersTagsFavorites", mappedBy="tag")
-   */
-  protected $users_favorites;
   
   /**
    * @ORM\Id
@@ -30,6 +23,22 @@ class Tag
   protected $id;
   
   /**
+   * Cet attribu stocke la liste des élèments liés a ce tag.
+   * 
+   * @ORM\ManyToMany(targetEntity="Element", mappedBy="tags")
+   */
+  protected $elements;
+  
+  /**
+   * Cet attribu stocke les enregistrements UsersTagsFavorites liés
+   * a ce Tag dans le cadre des Tags favoris.
+   * 
+   * @ORM\OneToMany(targetEntity="UsersTagsFavorites", mappedBy="tag")
+   */
+  protected $users_favorites;
+  /**
+   * Nom du tag
+   * 
    * @ORM\Column(type="string", length=32)
    * @var type string
    */
@@ -40,8 +49,8 @@ class Tag
    */
   public function __construct()
   {
-    $this->users_favorites = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->elements = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->users_favorites = new ArrayCollection();
+    $this->elements = new ArrayCollection();
   }
   
 

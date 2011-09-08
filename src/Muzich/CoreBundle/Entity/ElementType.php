@@ -5,16 +5,16 @@ namespace Muzich\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Type d'element
+ *  * Youtube
+ *  * Jamendo
+ *  * ...
+ * 
  * @ORM\Entity
  * @ORM\Table(name="element_type")
  */
 class ElementType
 {
-  
-  /**
-   * @ORM\OneToMany(targetEntity="Element", mappedBy="element_type")
-   */
-  protected $elements;
   
   /**
    * @ORM\Id
@@ -24,11 +24,27 @@ class ElementType
   protected $id;
   
   /**
+   * Liste des elements de ce type
+   * 
+   * @ORM\OneToMany(targetEntity="Element", mappedBy="element_type")
+   */
+  protected $elements;
+  
+  /**
+   * Libelle du type
+   * 
    * @ORM\Column(type="string", length=128)
    * @var type string
    */
   protected $name;
   
+  /**
+   * 
+   */
+  public function __construct()
+  {
+    $this->elements = new ArrayCollection();
+  }
 
   /**
    * Set name
@@ -57,7 +73,7 @@ class ElementType
    */
   public function setId($id)
   {
-      $this->id = $id;
+    $this->id = $id;
   }
 
   /**
@@ -67,7 +83,7 @@ class ElementType
    */
   public function getId()
   {
-      return $this->id;
+    return $this->id;
   }
 
   /**
@@ -77,7 +93,7 @@ class ElementType
    */
   public function addElement(\Muzich\CoreBundle\Entity\Element $elements)
   {
-      $this->elements[] = $elements;
+    $this->elements[] = $elements;
   }
 
   /**
@@ -87,11 +103,6 @@ class ElementType
    */
   public function getElements()
   {
-      return $this->elements;
-  }
-  
-  public function __construct()
-  {
-    $this->elements = new ArrayCollection();
+    return $this->elements;
   }
 }

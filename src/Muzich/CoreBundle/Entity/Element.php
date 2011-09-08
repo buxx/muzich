@@ -5,23 +5,14 @@ namespace Muzich\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * L'Element est l'Element (huhu) central de l'application. C'est cet
+ * entité qui stocke le media partagé sur le réseau.
+ * 
  * @ORM\Entity
  * @ORM\Table(name="element")
  */
 class Element
 {
-  
-  /**
-   * @ORM\ManyToOne(targetEntity="ElementType", inversedBy="elements")
-   * @ORM\JoinColumn(name="element_type_id", referencedColumnName="id")
-   */
-  protected $type;
-  
-  /**
-   * @ORM\ManyToMany(targetEntity="Tag", inversedBy="elements")
-   * @ORM\JoinTable(name="elements_tag")
-   */
-  private $tags;
   
   /**
    * @ORM\Id
@@ -32,18 +23,40 @@ class Element
   protected $id;
 
   /**
+   * Cet attribut stocke le type d'élément.
+   * 
+   * @ORM\ManyToOne(targetEntity="ElementType", inversedBy="elements")
+   * @ORM\JoinColumn(name="element_type_id", referencedColumnName="id")
+   */
+  protected $type;
+  
+  /**
+   * Cet attribut stocke la liste des tags liés a cet élément.
+   * 
+   * @ORM\ManyToMany(targetEntity="Tag", inversedBy="elements")
+   * @ORM\JoinTable(name="elements_tag")
+   */
+  private $tags;
+  
+  /**
+   * L'url est l'url du media. 
+   * 
    * @ORM\Column(type="string", length=1024)
    * @var type string
    */
   protected $url;
   
   /**
+   * Libellé du media
+   * 
    * @ORM\Column(type="string", length=128)
    * @var type string
    */
   protected $name;
   
   /**
+   * Date d'ajout dans le réseau
+   * 
    * @ORM\Column(type="datetime")
    * @var type string
    */
@@ -57,7 +70,7 @@ class Element
    */
   public function getId()
   {
-      return $this->id;
+    return $this->id;
   }
 
   /**
@@ -67,7 +80,7 @@ class Element
    */
   public function setUrl($url)
   {
-      $this->url = $url;
+    $this->url = $url;
   }
 
   /**
@@ -77,7 +90,7 @@ class Element
    */
   public function getUrl()
   {
-      return $this->url;
+    return $this->url;
   }
 
   /**
@@ -87,7 +100,7 @@ class Element
    */
   public function setName($name)
   {
-      $this->name = $name;
+    $this->name = $name;
   }
 
   /**
@@ -97,7 +110,7 @@ class Element
    */
   public function getName()
   {
-      return $this->name;
+    return $this->name;
   }
 
   /**
@@ -107,7 +120,7 @@ class Element
    */
   public function setDateAdded($dateAdded)
   {
-      $this->date_added = $dateAdded;
+    $this->date_added = $dateAdded;
   }
 
   /**
@@ -117,7 +130,7 @@ class Element
    */
   public function getDateAdded()
   {
-      return $this->date_added;
+    return $this->date_added;
   }
   
   /**
@@ -127,7 +140,7 @@ class Element
    */
   public function setType(\Muzich\CoreBundle\Entity\ElementType $type)
   {
-      $this->type = $type;
+    $this->type = $type;
   }
 
   /**
@@ -137,7 +150,7 @@ class Element
    */
   public function getType()
   {
-      return $this->type;
+    return $this->type;
   }
   
   
@@ -146,24 +159,24 @@ class Element
     $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
   }
   
+  /**
+   * Add tags
+   *
+   * @param Muzich\CoreBundle\Entity\Tag $tags
+   */
+  public function addTag(\Muzich\CoreBundle\Entity\Tag $tags)
+  {
+    $this->tags[] = $tags;
+  }
 
-    /**
-     * Add tags
-     *
-     * @param Muzich\CoreBundle\Entity\Tag $tags
-     */
-    public function addTag(\Muzich\CoreBundle\Entity\Tag $tags)
-    {
-        $this->tags[] = $tags;
-    }
-
-    /**
-     * Get tags
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
+  /**
+   * Get tags
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getTags()
+  {
+    return $this->tags;
+  }
+  
 }
