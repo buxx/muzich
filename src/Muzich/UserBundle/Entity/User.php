@@ -1,6 +1,7 @@
 <?php
 
 namespace Muzich\UserBundle\Entity;
+
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,7 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User extends BaseUser
 {
+  
   /**
+   * @ORM\ManyToMany(targetEntity="Muzich\CoreBundle\Entity\Tag", inversedBy="users_favorites")
+   * @ORM\JoinTable(name="users_tags_favorites")
+   */
+  private $tags_favorites;
+  
+ /**
   * @ORM\Id
   * @ORM\Column(type="integer")
   * @ORM\generatedValue(strategy="AUTO")
@@ -19,7 +27,8 @@ class User extends BaseUser
 
   public function __construct()
   {
-      parent::__construct();
+    $this->tags_favorites = new \Doctrine\Common\Collections\ArrayCollection();
+    parent::__construct();
   }
 
   /**
@@ -29,7 +38,28 @@ class User extends BaseUser
    */
   public function getId()
   {
-      return $this->id;
+    return $this->id;
+  }
+  
+
+  /**
+   * Add tags_favorites
+   *
+   * @param Muzich\UserBundle\Entity\Tag $tagsFavorites
+   */
+  public function addTag(\Muzich\UserBundle\Entity\Tag $tagsFavorites)
+  {
+      $this->tags_favorites[] = $tagsFavorites;
+  }
+
+  /**
+   * Get tags_favorites
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getTagsFavorites()
+  {
+      return $this->tags_favorites;
   }
   
 }
