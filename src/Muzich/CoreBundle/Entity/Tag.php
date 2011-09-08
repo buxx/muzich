@@ -17,7 +17,7 @@ class Tag
   protected $elements;
   
   /**
-   * @ORM\ManyToMany(targetEntity="Muzich\UserBundle\Entity\User", mappedBy="tags_favorites")
+   * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\UsersTagsFavorites", mappedBy="tags_favorites")
    */
   protected $users_favorites;
   
@@ -112,4 +112,14 @@ class Tag
       return $this->users_favorites;
   }
     
+
+    /**
+     * Add users_favorites
+     *
+     * @param Muzich\CoreBundle\Entity\UsersTagsFavorites $usersFavorites
+     */
+    public function addUsersTagsFavorites(Muzich\CoreBundle\Entity\UsersTagsFavorites $usersFavorites)
+    {
+        $this->users_favorites[] = $usersFavorites;
+    }
 }

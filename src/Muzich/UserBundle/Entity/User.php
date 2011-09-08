@@ -13,8 +13,7 @@ class User extends BaseUser
 {
   
   /**
-   * @ORM\ManyToMany(targetEntity="Muzich\CoreBundle\Entity\Tag", inversedBy="users_favorites")
-   * @ORM\JoinTable(name="users_tags_favorites")
+   * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\UsersTagsFavorites", mappedBy="users_favorites")
    */
   private $tags_favorites;
   
@@ -27,7 +26,7 @@ class User extends BaseUser
 
   public function __construct()
   {
-    $this->tags_favorites = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->tags_favorites = new Doctrine\Common\Collections\ArrayCollection();
     parent::__construct();
   }
 
@@ -47,7 +46,7 @@ class User extends BaseUser
    *
    * @param Muzich\UserBundle\Entity\Tag $tagsFavorites
    */
-  public function addTag(\Muzich\UserBundle\Entity\Tag $tagsFavorites)
+  public function addTag(Muzich\CoreBundle\Entity\UsersTagsFavorites $tagsFavorites)
   {
       $this->tags_favorites[] = $tagsFavorites;
   }
@@ -62,4 +61,14 @@ class User extends BaseUser
       return $this->tags_favorites;
   }
   
+
+  /**
+   * Add tags_favorites
+   *
+   * @param Muzich\CoreBundle\Entity\UsersTagsFavorites $tagsFavorites
+   */
+  public function addUsersTagsFavorites(Muzich\CoreBundle\Entity\UsersTagsFavorites $tagsFavorites)
+  {
+      $this->tags_favorites[] = $tagsFavorites;
+  }
 }
