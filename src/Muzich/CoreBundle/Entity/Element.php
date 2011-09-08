@@ -37,6 +37,14 @@ class Element
    * @ORM\JoinTable(name="elements_tag")
    */
   private $tags;
+
+  /**
+   * Propriétaire de l'élément
+   * 
+   * @ORM\ManyToOne(targetEntity="Muzich\UserBundle\Entity\User", inversedBy="elements")
+   * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+   */
+  protected $owner;
   
   /**
    * L'url est l'url du media. 

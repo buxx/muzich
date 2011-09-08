@@ -28,7 +28,14 @@ class User extends BaseUser
    * 
    * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\UsersTagsFavorites", mappedBy="user")
    */
-  private $tags_favorites;
+  protected $tags_favorites;
+  
+  /**
+   * Liste des Elements appartenant a cet utilisateur.
+   * 
+   * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\Element", mappedBy="owner")
+   */
+  protected $elements;
 
   /**
    * 
@@ -36,6 +43,7 @@ class User extends BaseUser
   public function __construct()
   {
     $this->tags_favorites = new ArrayCollection();
+    $this->elements = new ArrayCollection();
     parent::__construct();
   }
 
