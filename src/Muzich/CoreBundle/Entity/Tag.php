@@ -12,12 +12,12 @@ class Tag
 {
   
   /**
-   * @ORM\ManyToMany(targetEntity="Tag", mappedBy="tags")
+   * @ORM\ManyToMany(targetEntity="Element", mappedBy="tags")
    */
   protected $elements;
   
   /**
-   * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\UsersTagsFavorites", mappedBy="tags_favorites")
+   * @ORM\OneToMany(targetEntity="UsersTagsFavorites", mappedBy="tag")
    */
   protected $users_favorites;
   
@@ -35,6 +35,9 @@ class Tag
    */
   protected $name;
   
+  /**
+   * 
+   */
   public function __construct()
   {
     $this->users_favorites = new \Doctrine\Common\Collections\ArrayCollection();
@@ -72,54 +75,44 @@ class Tag
       return $this->name;
   }
 
-  /**
-   * Add elements
-   *
-   * @param Muzich\CoreBundle\Entity\Tag $elements
-   */
-  public function addTag(Muzich\CoreBundle\Entity\Tag $elements)
-  {
-      $this->elements[] = $elements;
-  }
 
-  /**
-   * Get elements
-   *
-   * @return Doctrine\Common\Collections\Collection 
-   */
-  public function getElements()
-  {
-      return $this->elements;
-  }
+    /**
+     * Add elements
+     *
+     * @param Element $elements
+     */
+    public function addElement(Element $elements)
+    {
+        $this->elements[] = $elements;
+    }
 
-  /**
-   * Add users_favorites
-   *
-   * @param Muzich\UserBundle\Entity\User $usersFavorites
-   */
-  public function addUser(Muzich\UserBundle\Entity\User $usersFavorites)
-  {
-      $this->users_favorites[] = $usersFavorites;
-  }
-
-  /**
-   * Get users_favorites
-   *
-   * @return Doctrine\Common\Collections\Collection 
-   */
-  public function getUsersFavorites()
-  {
-      return $this->users_favorites;
-  }
-    
+    /**
+     * Get elements
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getElements()
+    {
+        return $this->elements;
+    }
 
     /**
      * Add users_favorites
      *
-     * @param Muzich\CoreBundle\Entity\UsersTagsFavorites $usersFavorites
+     * @param UsersTagsFavorites $usersFavorites
      */
-    public function addUsersTagsFavorites(Muzich\CoreBundle\Entity\UsersTagsFavorites $usersFavorites)
+    public function addUsersTagsFavorites(UsersTagsFavorites $usersFavorites)
     {
         $this->users_favorites[] = $usersFavorites;
+    }
+
+    /**
+     * Get users_favorites
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getUsersFavorites()
+    {
+        return $this->users_favorites;
     }
 }

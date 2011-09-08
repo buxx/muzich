@@ -12,16 +12,16 @@ class UsersTagsFavorites
 {
   
   /**
-   * @ORM\ManyToOne(targetEntity="Muzich\UserBundle\Entity\User", inversedBy="tags_favorites")
+   * @ORM\ManyToOne(targetEntity="Muzich\UserBundle\Entity\User", inversedBy="tags")
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
    */
-  protected $users_favorites;
+  protected $user;
   
   /**
-   * @ORM\ManyToOne(targetEntity="Muzich\CoreBundle\Entity\Tag", inversedBy="users_favorites")
+   * @ORM\ManyToOne(targetEntity="Tag", inversedBy="users")
    * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
    */
-  protected $tags_favorites;
+  protected $tag;
   
   
   /**
@@ -58,55 +58,57 @@ class UsersTagsFavorites
   {
       return $this->position;
   }
-
-  /**
-   * Set users_favorites
-   *
-   * @param Muzich\UserBundle\Entity\User $usersFavorites
-   */
-  public function setUsersFavorites(Muzich\UserBundle\Entity\User $usersFavorites)
-  {
-      $this->users_favorites = $usersFavorites;
-  }
-
-  /**
-   * Get users_favorites
-   *
-   * @return \Muzich\UserBundle\Entity\User 
-   */
-  public function getUsersFavorites()
-  {
-      return $this->users_favorites;
-  }
-
-  /**
-   * Set tags_favorites
-   *
-   * @param Muzich\CoreBundle\Entity\Tag $tagsFavorites
-   */
-  public function setTagsFavorites(Muzich\CoreBundle\Entity\Tag $tagsFavorites)
-  {
-      $this->tags_favorites = $tagsFavorites;
-  }
-
-  /**
-   * Get tags_favorites
-   *
-   * @return Muzich\CoreBundle\Entity\Tag 
-   */
-  public function getTagsFavorites()
-  {
-      return $this->tags_favorites;
-  }
   
 
+  /**
+   * Get id
+   *
+   * @return integer 
+   */
+  public function getId()
+  {
+      return $this->id;
+  }
+
+
+
     /**
-     * Get id
+     * Set user
      *
-     * @return integer 
+     * @param Muzich\UserBundle\Entity\User $user
      */
-    public function getId()
+    public function setUser(Muzich\UserBundle\Entity\User $user)
     {
-        return $this->id;
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Muzich\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set tag
+     *
+     * @param Muzich\CoreBundle\Entity\Tag $tag
+     */
+    public function setTag(Muzich\CoreBundle\Entity\Tag $tag)
+    {
+        $this->tag = $tag;
+    }
+
+    /**
+     * Get tag
+     *
+     * @return Muzich\CoreBundle\Entity\Tag 
+     */
+    public function getTag()
+    {
+        return $this->tag;
     }
 }

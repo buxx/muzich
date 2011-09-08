@@ -13,7 +13,7 @@ class User extends BaseUser
 {
   
   /**
-   * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\UsersTagsFavorites", mappedBy="users_favorites")
+   * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\UsersTagsFavorites", mappedBy="user")
    */
   private $tags_favorites;
   
@@ -26,7 +26,7 @@ class User extends BaseUser
 
   public function __construct()
   {
-    $this->tags_favorites = new Doctrine\Common\Collections\ArrayCollection();
+    $this->tags_favorites = new \Doctrine\Common\Collections\ArrayCollection();
     parent::__construct();
   }
 
