@@ -31,6 +31,14 @@ class User extends BaseUser
   protected $tags_favorites;
   
   /**
+   * Cet attribut contient les enregistrements UsersElementsFavorites lié 
+   * a cet utilisateur dans le cadre des éléments Favoris.
+   * 
+   * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\UsersElementsFavorites", mappedBy="user")
+   */
+  protected $elements_favorites;
+  
+  /**
    * Liste des Elements appartenant a cet utilisateur.
    * 
    * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\Element", mappedBy="owner")
@@ -75,5 +83,45 @@ class User extends BaseUser
   public function addUsersTagsFavorites(Muzich\CoreBundle\Entity\UsersTagsFavorites $tagsFavorites)
   {
     $this->tags_favorites[] = $tagsFavorites;
+  }
+  
+  /**
+   * Add elements_favorites
+   *
+   * @param Muzich\CoreBundle\Entity\UsersElementsFavorites $elementsFavorites
+   */
+  public function addUsersElementsFavorites(Muzich\CoreBundle\Entity\UsersElementsFavorites $elementsFavorites)
+  {
+      $this->elements_favorites[] = $elementsFavorites;
+  }
+
+  /**
+   * Get elements_favorites
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getElementsFavorites()
+  {
+      return $this->elements_favorites;
+  }
+
+  /**
+   * Add elements
+   *
+   * @param Muzich\CoreBundle\Entity\Element $elements
+   */
+  public function addElement(Muzich\CoreBundle\Entity\Element $elements)
+  {
+      $this->elements[] = $elements;
+  }
+
+  /**
+   * Get elements
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getElements()
+  {
+      return $this->elements;
   }
 }

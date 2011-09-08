@@ -30379,3 +30379,1641 @@
 [2011-09-08 19:37:40] doctrine.DEBUG: ALTER TABLE element ADD CONSTRAINT FK_41405E39A76ED395 FOREIGN KEY (user_id) REFERENCES muzich_user(id) NOT DEFERRABLE INITIALLY IMMEDIATE ([]) [] []
 [2011-09-08 19:37:40] doctrine.DEBUG: CREATE INDEX IDX_41405E39A76ED395 ON element (user_id) ([]) [] []
 [2011-09-08 19:37:40] doctrine.DEBUG: ALTER TABLE muzich_user ALTER roles TYPE TEXT ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT
+                    c.relname, n.nspname AS schemaname
+                FROM
+                   pg_class c, pg_namespace n
+                WHERE relkind = 'S' AND n.oid = c.relnamespace AND 
+                    (n.nspname NOT LIKE 'pg_%' AND n.nspname != 'information_schema') ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM product_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM element_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM tag_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM user_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM muzich_user_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM users_tags_favorites_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT tablename AS table_name, schemaname AS schema_name
+                FROM pg_tables WHERE schemaname NOT LIKE 'pg_%' AND schemaname != 'information_schema' ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'product'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'product'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'product' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16390 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'muzich_user'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'muzich_user'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'muzich_user' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (3 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (5 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'element_type'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'element_type'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'element_type' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16400 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'tag'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'tag'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'tag' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16424 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'elements_tag'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'elements_tag'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'elements_tag' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (1 ,2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'users_tags_favorites'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'users_tags_favorites'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'users_tags_favorites' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (6 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (5 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (3 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'element'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'element'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'element' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (6 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT
+                    c.relname, n.nspname AS schemaname
+                FROM
+                   pg_class c, pg_namespace n
+                WHERE relkind = 'S' AND n.oid = c.relnamespace AND 
+                    (n.nspname NOT LIKE 'pg_%' AND n.nspname != 'information_schema') ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM product_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM element_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM tag_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM user_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM muzich_user_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT min_value, increment_by FROM users_tags_favorites_id_seq ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT tablename AS table_name, schemaname AS schema_name
+                FROM pg_tables WHERE schemaname NOT LIKE 'pg_%' AND schemaname != 'information_schema' ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'product'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'product'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'product' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16390 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:19] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'muzich_user'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'muzich_user'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'muzich_user' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (3 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (5 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'element_type'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'element_type'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'element_type' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16400 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'tag'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'tag'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'tag' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16424 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'elements_tag'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'elements_tag'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'elements_tag' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (1 ,2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'users_tags_favorites'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'users_tags_favorites'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'users_tags_favorites' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (6 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (5 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (3 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'element'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'element'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'element' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (6 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: CREATE SEQUENCE users_elements_favorites_id_seq INCREMENT BY 1 MINVALUE 1 START 1 ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: CREATE TABLE users_elements_favorites (id INT NOT NULL, user_id INT DEFAULT NULL, tag_id INT DEFAULT NULL, PRIMARY KEY(id)) ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: CREATE INDEX IDX_CAA86BCAA76ED395 ON users_elements_favorites (user_id) ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: CREATE INDEX IDX_CAA86BCABAD26311 ON users_elements_favorites (tag_id) ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: ALTER TABLE users_elements_favorites ADD CONSTRAINT FK_CAA86BCAA76ED395 FOREIGN KEY (user_id) REFERENCES muzich_user(id) NOT DEFERRABLE INITIALLY IMMEDIATE ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: ALTER TABLE users_elements_favorites ADD CONSTRAINT FK_CAA86BCABAD26311 FOREIGN KEY (tag_id) REFERENCES tag(id) NOT DEFERRABLE INITIALLY IMMEDIATE ([]) [] []
+[2011-09-08 20:16:20] doctrine.DEBUG: ALTER TABLE muzich_user ALTER roles TYPE TEXT ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    c.relname, n.nspname AS schemaname
+                FROM
+                   pg_class c, pg_namespace n
+                WHERE relkind = 'S' AND n.oid = c.relnamespace AND 
+                    (n.nspname NOT LIKE 'pg_%' AND n.nspname != 'information_schema') ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM product_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM element_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM tag_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM user_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM muzich_user_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM users_elements_favorites_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM users_tags_favorites_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT tablename AS table_name, schemaname AS schema_name
+                FROM pg_tables WHERE schemaname NOT LIKE 'pg_%' AND schemaname != 'information_schema' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'product'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'product'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'product' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16390 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'muzich_user'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'muzich_user'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'muzich_user' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (3 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (5 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'element_type'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'element_type'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'element_type' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16400 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'tag'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'tag'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'tag' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16424 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'elements_tag'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'elements_tag'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'elements_tag' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (1 ,2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'users_tags_favorites'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'users_tags_favorites'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'users_tags_favorites' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (6 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (5 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (3 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'users_elements_favorites'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'users_elements_favorites'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'users_elements_favorites' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16642 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16642 AND attnum IN (2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16642 AND attnum IN (3 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'element'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'element'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'element' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (6 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    c.relname, n.nspname AS schemaname
+                FROM
+                   pg_class c, pg_namespace n
+                WHERE relkind = 'S' AND n.oid = c.relnamespace AND 
+                    (n.nspname NOT LIKE 'pg_%' AND n.nspname != 'information_schema') ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM product_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM element_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM tag_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM user_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM muzich_user_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM users_elements_favorites_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT min_value, increment_by FROM users_tags_favorites_id_seq ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT tablename AS table_name, schemaname AS schema_name
+                FROM pg_tables WHERE schemaname NOT LIKE 'pg_%' AND schemaname != 'information_schema' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'product'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'product'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'product' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16390 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'muzich_user'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'muzich_user'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'muzich_user' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (3 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16451 AND attnum IN (5 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'element_type'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'element_type'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'element_type' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16400 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'tag'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'tag'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'tag' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16424 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'elements_tag'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'elements_tag'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'elements_tag' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (1 ,2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16429 AND attnum IN (2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'users_tags_favorites'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'users_tags_favorites'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'users_tags_favorites' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (6 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (5 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16495 AND attnum IN (3 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'users_elements_favorites'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'users_elements_favorites'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'users_elements_favorites' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16642 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16642 AND attnum IN (2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16642 AND attnum IN (3 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT
+                    a.attnum,
+                    a.attname AS field,
+                    t.typname AS type,
+                    format_type(a.atttypid, a.atttypmod) AS complete_type,
+                    (SELECT t1.typname FROM pg_catalog.pg_type t1 WHERE t1.oid = t.typbasetype) AS domain_type,
+                    (SELECT format_type(t2.typbasetype, t2.typtypmod) FROM pg_catalog.pg_type t2
+                     WHERE t2.typtype = 'd' AND t2.typname = format_type(a.atttypid, a.atttypmod)) AS domain_complete_type,
+                    a.attnotnull AS isnotnull,
+                    (SELECT 't'
+                     FROM pg_index
+                     WHERE c.oid = pg_index.indrelid
+                        AND pg_index.indkey[0] = a.attnum
+                        AND pg_index.indisprimary = 't'
+                    ) AS pri,
+                    (SELECT pg_attrdef.adsrc
+                     FROM pg_attrdef
+                     WHERE c.oid = pg_attrdef.adrelid
+                        AND pg_attrdef.adnum=a.attnum
+                    ) AS default,
+                    (SELECT pg_description.description
+                        FROM pg_description WHERE pg_description.objoid = c.oid AND a.attnum = pg_description.objsubid
+                    ) AS comment
+                    FROM pg_attribute a, pg_class c, pg_type t, pg_namespace n
+                    WHERE c.relname = 'element'
+                        AND a.attnum > 0
+                        AND a.attrelid = c.oid
+                        AND a.atttypid = t.oid
+                        AND n.oid = c.relnamespace
+                    ORDER BY a.attnum ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT r.conname, pg_catalog.pg_get_constraintdef(r.oid, true) as condef
+                  FROM pg_catalog.pg_constraint r
+                  WHERE r.conrelid =
+                  (
+                      SELECT c.oid
+                      FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n
+                      WHERE c.relname = 'element'
+                        AND n.oid = c.relnamespace
+                  )
+                  AND r.contype = 'f' ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT relname, pg_index.indisunique, pg_index.indisprimary,
+                       pg_index.indkey, pg_index.indrelid
+                 FROM pg_class, pg_index
+                 WHERE oid IN (
+                    SELECT indexrelid
+                    FROM pg_index si, pg_class sc, pg_namespace sn
+                    WHERE sc.relname = 'element' AND sc.oid=si.indrelid AND sc.relnamespace = sn.oid
+                 ) AND pg_index.indexrelid = oid ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (1 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (2 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: SELECT attnum, attname FROM pg_attribute
+                WHERE attrelid=16405 AND attnum IN (6 ) ORDER BY attnum ASC; ([]) [] []
+[2011-09-08 20:16:22] doctrine.DEBUG: ALTER TABLE muzich_user ALTER roles TYPE TEXT ([]) [] []

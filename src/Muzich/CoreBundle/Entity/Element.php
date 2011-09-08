@@ -47,6 +47,14 @@ class Element
   protected $owner;
   
   /**
+   * Cet attribu stocke les enregistrements UsersElementsFavorites liés
+   * a ce Tag dans le cadre des Elements favoris.
+   * 
+   * @ORM\OneToMany(targetEntity="UsersElementsFavorites", mappedBy="tag")
+   */
+  protected $elements_favorites;
+  
+  /**
    * L'url est l'url du media. 
    * 
    * @ORM\Column(type="string", length=1024)
@@ -187,4 +195,44 @@ class Element
     return $this->tags;
   }
   
+
+  /**
+   * Set owner
+   *
+   * @param Muzich\UserBundle\Entity\User $owner
+   */
+  public function setOwner(\Muzich\UserBundle\Entity\User $owner)
+  {
+      $this->owner = $owner;
+  }
+
+  /**
+   * Get owner
+   *
+   * @return Muzich\UserBundle\Entity\User 
+   */
+  public function getOwner()
+  {
+      return $this->owner;
+  }
+
+  /**
+   * Add elements_favorites
+   *
+   * @param UsersElementsFavorites $elementsFavorites
+   */
+  public function addUsersElementsFavorites(UsersElementsFavorites $elementsFavorites)
+  {
+      $this->elements_favorites[] = $elementsFavorites;
+  }
+
+  /**
+   * Get elements_favorites
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getElementsFavorites()
+  {
+      return $this->elements_favorites;
+  }
 }
