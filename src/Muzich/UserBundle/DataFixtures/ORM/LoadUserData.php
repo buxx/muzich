@@ -27,13 +27,11 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
    * @param string $email
    * @param string $password_raw
    * @param array $roles
-   * @return User 
    */
   protected function createUser($username, $email, $password_raw, $superadmin = false, $enabled = true)
   {
     
     $user = $this->user_manager->createUser();
-    $user = new User();
     $user->setUsername($username);
     $user->setEmail($email);
     $user->setSuperAdmin($superadmin);
@@ -54,6 +52,10 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
     
     $this->createUser('admin', 'admin@root', 'toor');
     $this->createUser('bux', 'bux@root', 'toor');
+    $this->createUser('jean', 'jean@root', 'toor');
+    $this->createUser('paul', 'paul@root', 'toor');
+    $this->createUser('bob', 'bob@root', 'toor');
+    $this->createUser('joelle', 'joelle@root', 'toor');
 
     $this->entity_manager->flush();
   }
