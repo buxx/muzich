@@ -47,6 +47,14 @@ class Element
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
    */
   protected $owner;
+
+  /**
+   * Groupe de l'élément
+   * 
+   * @ORM\ManyToOne(targetEntity="Group", inversedBy="elements")
+   * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+   */
+  protected $group = null;
   
   /**
    * Cet attribu stocke les enregistrements UsersElementsFavorites liés
@@ -236,5 +244,25 @@ class Element
   public function getElementsFavorites()
   {
       return $this->elements_favorites;
+  }
+
+  /**
+   * Set group
+   *
+   * @param Group $group
+   */
+  public function setGroup(Group $group)
+  {
+      $this->group = $group;
+  }
+
+  /**
+   * Get group
+   *
+   * @return Group 
+   */
+  public function getGroup()
+  {
+      return $this->group;
   }
 }

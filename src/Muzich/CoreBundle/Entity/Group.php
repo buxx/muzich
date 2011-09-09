@@ -65,6 +65,14 @@ class Group
    * @ORM\OneToMany(targetEntity="GroupsTagsFavorites", mappedBy="group")
    */
   protected $tags;
+  
+  /**
+   * Cet attribut contient les enregistrements Element lié 
+   * a ce Groupe.
+   * 
+   * @ORM\OneToMany(targetEntity="Element", mappedBy="group")
+   */
+  protected $elements;
 
   /**
    * 
@@ -183,5 +191,25 @@ class Group
   public function getTags()
   {
     return $this->tags;
+  }
+
+  /**
+   * Add elements
+   *
+   * @param Element $elements
+   */
+  public function addElement(Element $elements)
+  {
+      $this->elements[] = $elements;
+  }
+
+  /**
+   * Get elements
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getElements()
+  {
+      return $this->elements;
   }
 }
