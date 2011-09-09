@@ -25,7 +25,7 @@ class UsersElementsFavorites
   /**
    * Cet attribut contient l'objet User lié
    * 
-   * @ORM\ManyToOne(targetEntity="Muzich\UserBundle\Entity\User", inversedBy="tags")
+   * @ORM\ManyToOne(targetEntity="User", inversedBy="tags")
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
    */
   protected $user;
@@ -33,7 +33,7 @@ class UsersElementsFavorites
   /**
    * Cet attribut contient l'objet Element lié
    * 
-   * @ORM\ManyToOne(targetEntity="Tag", inversedBy="users")
+   * @ORM\ManyToOne(targetEntity="Element", inversedBy="users")
    * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
    */
   protected $element;
@@ -52,9 +52,9 @@ class UsersElementsFavorites
   /**
    * Set user
    *
-   * @param Muzich\UserBundle\Entity\User $user
+   * @param User $user
    */
-  public function setUser(\Muzich\UserBundle\Entity\User $user)
+  public function setUser(User $user)
   {
     $this->user = $user;
   }
@@ -62,7 +62,7 @@ class UsersElementsFavorites
   /**
    * Get user
    *
-   * @return Muzich\UserBundle\Entity\User 
+   * @return User 
    */
   public function getUser()
   {
@@ -72,9 +72,9 @@ class UsersElementsFavorites
   /**
    * Set element
    *
-   * @param Muzich\CoreBundle\Entity\Tag $element
+   * @param Element $element
    */
-  public function setElement(\Muzich\CoreBundle\Entity\Tag $element)
+  public function setElement(Element $element)
   {
     $this->element = $element;
   }
@@ -82,7 +82,7 @@ class UsersElementsFavorites
   /**
    * Get element
    *
-   * @return Muzich\CoreBundle\Entity\Tag 
+   * @return Element 
    */
   public function getElement()
   {

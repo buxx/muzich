@@ -3,6 +3,8 @@
 namespace Muzich\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * L'Element est l'Element (huhu) central de l'application. C'est cet
@@ -41,7 +43,7 @@ class Element
   /**
    * Propriétaire de l'élément
    * 
-   * @ORM\ManyToOne(targetEntity="Muzich\UserBundle\Entity\User", inversedBy="elements")
+   * @ORM\ManyToOne(targetEntity="User", inversedBy="elements")
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
    */
   protected $owner;
@@ -152,9 +154,9 @@ class Element
   /**
    * Set type
    *
-   * @param Muzich\CoreBundle\Entity\ElementType $type
+   * @param ElementType $type
    */
-  public function setType(\Muzich\CoreBundle\Entity\ElementType $type)
+  public function setType(ElementType $type)
   {
     $this->type = $type;
   }
@@ -162,7 +164,7 @@ class Element
   /**
    * Get type
    *
-   * @return Muzich\CoreBundle\Entity\ElementType 
+   * @return ElementType 
    */
   public function getType()
   {
@@ -172,15 +174,15 @@ class Element
   
   public function __construct()
   {
-    $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->tags = new ArrayCollection();
   }
   
   /**
    * Add tags
    *
-   * @param Muzich\CoreBundle\Entity\Tag $tags
+   * @param Tag $tags
    */
-  public function addTag(\Muzich\CoreBundle\Entity\Tag $tags)
+  public function addTag(Tag $tags)
   {
     $this->tags[] = $tags;
   }
@@ -199,9 +201,9 @@ class Element
   /**
    * Set owner
    *
-   * @param Muzich\UserBundle\Entity\User $owner
+   * @param User $owner
    */
-  public function setOwner(\Muzich\UserBundle\Entity\User $owner)
+  public function setOwner(User $owner)
   {
       $this->owner = $owner;
   }
@@ -209,7 +211,7 @@ class Element
   /**
    * Get owner
    *
-   * @return Muzich\UserBundle\Entity\User 
+   * @return User 
    */
   public function getOwner()
   {

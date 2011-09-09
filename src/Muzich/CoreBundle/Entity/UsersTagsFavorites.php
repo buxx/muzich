@@ -25,7 +25,7 @@ class UsersTagsFavorites
   /**
    * Cet attribut contient l'objet User lié
    * 
-   * @ORM\ManyToOne(targetEntity="Muzich\UserBundle\Entity\User", inversedBy="tags")
+   * @ORM\ManyToOne(targetEntity="User", inversedBy="tags")
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
    */
   protected $user;
@@ -82,9 +82,9 @@ class UsersTagsFavorites
   /**
    * Set user
    *
-   * @param Muzich\UserBundle\Entity\User $user
+   * @param User $user
    */
-  public function setUser(Muzich\UserBundle\Entity\User $user)
+  public function setUser(User $user)
   {
     $this->user = $user;
   }
@@ -92,7 +92,7 @@ class UsersTagsFavorites
   /**
    * Get user
    *
-   * @return Muzich\UserBundle\Entity\User 
+   * @return User 
    */
   public function getUser()
   {
@@ -102,9 +102,9 @@ class UsersTagsFavorites
   /**
    * Set tag
    *
-   * @param Muzich\CoreBundle\Entity\Tag $tag
+   * @param Tag $tag
    */
-  public function setTag(Muzich\CoreBundle\Entity\Tag $tag)
+  public function setTag(Tag $tag)
   {
     $this->tag = $tag;
   }
@@ -112,7 +112,7 @@ class UsersTagsFavorites
   /**
    * Get tag
    *
-   * @return Muzich\CoreBundle\Entity\Tag 
+   * @return Tag 
    */
   public function getTag()
   {

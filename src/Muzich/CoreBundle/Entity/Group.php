@@ -53,7 +53,7 @@ class Group
   /**
    * Propriétaire
    * 
-   * @ORM\ManyToOne(targetEntity="Muzich\UserBundle\Entity\User")
+   * @ORM\ManyToOne(targetEntity="User")
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
    */
   protected $owner;
@@ -140,9 +140,9 @@ class Group
   /**
    * Set owner
    *
-   * @param Muzich\UserBundle\Entity\User $owner
+   * @param User $owner
    */
-  public function setOwner(Muzich\UserBundle\Entity\User $owner)
+  public function setOwner(User $owner)
   {
       $this->owner = $owner;
   }
@@ -150,7 +150,7 @@ class Group
   /**
    * Get owner
    *
-   * @return Muzich\UserBundle\Entity\User 
+   * @return User 
    */
   public function getOwner()
   {

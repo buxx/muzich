@@ -89,9 +89,9 @@ class ElementType
   /**
    * Add elements
    *
-   * @param Muzich\CoreBundle\Entity\Element $elements
+   * @param Element $elements
    */
-  public function addElement(\Muzich\CoreBundle\Entity\Element $elements)
+  public function addElement(Element $elements)
   {
     $this->elements[] = $elements;
   }

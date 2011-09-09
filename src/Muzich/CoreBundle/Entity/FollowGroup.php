@@ -25,7 +25,7 @@ class FollowGroup
   /**
    * Ee suiveur
    * 
-   * @ORM\ManyToOne(targetEntity="Muzich\UserBundle\Entity\User", inversedBy="followed_groups")
+   * @ORM\ManyToOne(targetEntity="User", inversedBy="followed_groups")
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
    */
   protected $follower;
@@ -51,9 +51,9 @@ class FollowGroup
   /**
    * Set follower
    *
-   * @param Muzich\UserBundle\Entity\User $follower
+   * @param User $follower
    */
-  public function setFollower(Muzich\UserBundle\Entity\User $follower)
+  public function setFollower(User $follower)
   {
     $this->follower = $follower;
   }
@@ -61,7 +61,7 @@ class FollowGroup
   /**
    * Get follower
    *
-   * @return Muzich\UserBundle\Entity\User 
+   * @return User 
    */
   public function getFollower()
   {
