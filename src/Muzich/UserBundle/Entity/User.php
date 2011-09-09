@@ -58,6 +58,21 @@ class User extends BaseUser
    * @ORM\OneToMany(targetEntity="FollowUser", mappedBy="followed")
    */
   protected $followers_users;
+  
+  /**
+   * Cet attribut contient les enregistrements FollowGroup lié 
+   * a cet utilisateur dans le cadre des groupes suivis.
+   * 
+   * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\FollowGroup", mappedBy="user")
+   */
+  protected $followed_groups;
+  
+  /**
+   * Liste des Groupes appartenant a cet utilisateur.
+   * 
+   * @ORM\OneToMany(targetEntity="Muzich\CoreBundle\Entity\Group", mappedBy="owner")
+   */
+  protected $groups_owned;
 
   /**
    * 
@@ -66,6 +81,11 @@ class User extends BaseUser
   {
     $this->tags_favorites = new ArrayCollection();
     $this->elements = new ArrayCollection();
+    $this->elements_favorites = new ArrayCollection();
+    $this->followeds_users = new ArrayCollection();
+    $this->followers_users = new ArrayCollection();
+    $this->followed_groups = new ArrayCollection();
+    $this->groups = new ArrayCollection();
     parent::__construct();
   }
 
@@ -106,7 +126,7 @@ class User extends BaseUser
    */
   public function addUsersElementsFavorites(Muzich\CoreBundle\Entity\UsersElementsFavorites $elementsFavorites)
   {
-      $this->elements_favorites[] = $elementsFavorites;
+    $this->elements_favorites[] = $elementsFavorites;
   }
 
   /**
@@ -116,7 +136,7 @@ class User extends BaseUser
    */
   public function getElementsFavorites()
   {
-      return $this->elements_favorites;
+    return $this->elements_favorites;
   }
 
   /**
@@ -126,7 +146,7 @@ class User extends BaseUser
    */
   public function addElement(Muzich\CoreBundle\Entity\Element $elements)
   {
-      $this->elements[] = $elements;
+    $this->elements[] = $elements;
   }
 
   /**
@@ -136,7 +156,7 @@ class User extends BaseUser
    */
   public function getElements()
   {
-      return $this->elements;
+    return $this->elements;
   }
 
   /**
@@ -146,7 +166,7 @@ class User extends BaseUser
    */
   public function addFollowUser(FollowUser $followedsUsers)
   {
-      $this->followeds_users[] = $followedsUsers;
+    $this->followeds_users[] = $followedsUsers;
   }
 
   /**
@@ -156,7 +176,7 @@ class User extends BaseUser
    */
   public function getFollowedsUsers()
   {
-      return $this->followeds_users;
+    return $this->followeds_users;
   }
 
   /**
@@ -166,6 +186,46 @@ class User extends BaseUser
    */
   public function getFollowersUsers()
   {
-      return $this->followers_users;
+    return $this->followers_users;
+  }
+
+  /**
+   * Add followed_groups
+   *
+   * @param Muzich\CoreBundle\Entity\FollowGroup $followedGroups
+   */
+  public function addFollowGroup(Muzich\CoreBundle\Entity\FollowGroup $followedGroups)
+  {
+    $this->followed_groups[] = $followedGroups;
+  }
+
+  /**
+   * Get followed_groups
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getFollowedGroups()
+  {
+    return $this->followed_groups;
+  }
+
+  /**
+   * Add groups
+   *
+   * @param Muzich\CoreBundle\Entity\Group $groups
+   */
+  public function addGroupOwned(Muzich\CoreBundle\Entity\Group $groups)
+  {
+    $this->groups[] = $groups;
+  }
+
+  /**
+   * Get groups
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getGroupsOnwed()
+  {
+    return $this->groups;
   }
 }

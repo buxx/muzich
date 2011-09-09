@@ -38,12 +38,6 @@ class FollowUser
    */
   protected $followed;
   
-  public function __construct()
-  {
-    $this->follower = new ArrayCollection();
-    $this->followed = new ArrayCollection();
-  }
-  
   /**
    * Get id
    *
