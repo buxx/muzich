@@ -57,6 +57,14 @@ class Group
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
    */
   protected $owner;
+  
+  /**
+   * Cet attribut contient les enregistrements GroupsTagsFavorites lié 
+   * a ce Groupe dans le cadre des tags de groupe.
+   * 
+   * @ORM\OneToMany(targetEntity="GroupsTagsFavorites", mappedBy="group")
+   */
+  protected $tags;
 
   /**
    * 
@@ -155,5 +163,25 @@ class Group
   public function getOwner()
   {
       return $this->owner;
+  }
+
+  /**
+   * Add tags
+   *
+   * @param GroupsTagsFavorites $tags
+   */
+  public function addGroupsTagsFavorites(GroupsTagsFavorites $tags)
+  {
+    $this->tags[] = $tags;
+  }
+
+  /**
+   * Get tags
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getTags()
+  {
+    return $this->tags;
   }
 }

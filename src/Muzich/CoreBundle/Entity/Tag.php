@@ -31,11 +31,20 @@ class Tag
   
   /**
    * Cet attribu stocke les enregistrements UsersTagsFavorites liés
-   * a ce Tag dans le cadre des Tags favoris.
+   * a ce Tag dans le cadre des Tags favoris de l'user.
    * 
    * @ORM\OneToMany(targetEntity="UsersTagsFavorites", mappedBy="tag")
    */
   protected $users_favorites;
+  
+  /**
+   * Cet attribu stocke les enregistrements GroupsTagsFavorites liés
+   * a ce Tag dans le cadre des Tags favoris du groupe.
+   * 
+   * @ORM\OneToMany(targetEntity="GroupsTagsFavorites", mappedBy="tag")
+   */
+  protected $groups_favorites;
+  
   /**
    * Nom du tag
    * 
@@ -84,44 +93,63 @@ class Tag
       return $this->name;
   }
 
+  /**
+   * Add elements
+   *
+   * @param Element $elements
+   */
+  public function addElement(Element $elements)
+  {
+    $this->elements[] = $elements;
+  }
 
-    /**
-     * Add elements
-     *
-     * @param Element $elements
-     */
-    public function addElement(Element $elements)
-    {
-        $this->elements[] = $elements;
-    }
+  /**
+   * Get elements
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getElements()
+  {
+    return $this->elements;
+  }
 
-    /**
-     * Get elements
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getElements()
-    {
-        return $this->elements;
-    }
+  /**
+   * Add users_favorites
+   *
+   * @param UsersTagsFavorites $usersFavorites
+   */
+  public function addUsersTagsFavorites(UsersTagsFavorites $usersFavorites)
+  {
+    $this->users_favorites[] = $usersFavorites;
+  }
 
-    /**
-     * Add users_favorites
-     *
-     * @param UsersTagsFavorites $usersFavorites
-     */
-    public function addUsersTagsFavorites(UsersTagsFavorites $usersFavorites)
-    {
-        $this->users_favorites[] = $usersFavorites;
-    }
+  /**
+   * Get users_favorites
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getUsersFavorites()
+  {
+    return $this->users_favorites;
+  }
 
-    /**
-     * Get users_favorites
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getUsersFavorites()
-    {
-        return $this->users_favorites;
-    }
+  /**
+   * Add groups_favorites
+   *
+   * @param GroupsTagsFavorites $groupsFavorites
+   */
+  public function addGroupsTagsFavorites(GroupsTagsFavorites $groupsFavorites)
+  {
+    $this->groups_favorites[] = $groupsFavorites;
+  }
+
+  /**
+   * Get groups_favorites
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getGroupsFavorites()
+  {
+    return $this->groups_favorites;
+  }
 }
