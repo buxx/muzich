@@ -6,3 +6,7 @@
 MuzichIndexBundle:
   resource: "@MuzichIndexBundle/Resources/config/routing.yml"
   prefix: /
+
+MuzichHomeBundle:
+  resource: "@MuzichHomeBundle/Resources/config/routing.yml"
+  prefix: /

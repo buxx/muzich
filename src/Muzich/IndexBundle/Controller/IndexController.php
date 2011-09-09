@@ -2,101 +2,99 @@
 
 namespace Muzich\IndexBundle\Controller;
 
-//use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use FOS\UserBundle\Controller\SecurityController as BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use Muzich\CoreBundle\Entity\Tag;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 use Muzich\CoreBundle\Entity\User;
 
-class IndexController extends Controller
+class IndexController extends BaseController
 {
+  
   /**
-   *
+   * 
    * @Template()
    */
   public function indexAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
-    
-    $bux = $em
-      ->getRepository('MuzichCoreBundle:User')
-      ->findOneByUsername('bux')
-    ;
-//    
-//    $tag_hardtek = $em
-//      ->getRepository('MuzichCoreBundle:Tag')
-//      ->findOneByName('Hardtek')
-//    ;
-//    
-//    if (!$tag_hardtek)
-//    {
-//      $tag_hardtek = new Tag();
-//      $tag_hardtek->setName('Hardtek');
-//      $em->persist($tag_hardtek);
-//    }
-//    
-//    $tag_tribe = $em
-//      ->getRepository('MuzichCoreBundle:Tag')
-//      ->findOneByName('Tribe')
-//    ;
-//    
-//    if (!$tag_tribe)
-//    {
-//      $tag_tribe = new Tag();
-//      $tag_tribe->setName('Tribe');
-//      $em->persist($tag_tribe);
-//    }
-//    
-//    //
-//    
-//    $user_tag_favorite_bux_hardtek = $em
-//      ->getRepository('MuzichCoreBundle:UsersTagsFavorites')
-//      ->findOneBy(array(
-//        'tag' => $tag_hardtek->getId(),
-//        'user' => $bux->getId()
-//      ))
-//    ;
-//    
-//    if (!$user_tag_favorite_bux_hardtek)
-//    {
-//      $user_tag_favorite_bux_hardtek = new UsersTagsFavorites();
-//      $user_tag_favorite_bux_hardtek->setTag($tag_hardtek);
-//      $user_tag_favorite_bux_hardtek->setUser($bux);
-//      $user_tag_favorite_bux_hardtek->setPosition(0);
-//      $em->persist($user_tag_favorite_bux_hardtek);
-//    }
-//    
-//    $user_tag_favorite_bux_tribe = $em
-//      ->getRepository('MuzichCoreBundle:UsersTagsFavorites')
-//      ->findOneBy(array(
-//        'tag' => $tag_tribe->getId(),
-//        'user' => $bux->getId()
-//      ))
-//    ;
-//    
-//    if (!$user_tag_favorite_bux_tribe)
-//    {
-//      $user_tag_favorite_bux_tribe = new UsersTagsFavorites();
-//      $user_tag_favorite_bux_tribe->setTag($tag_tribe);
-//      $user_tag_favorite_bux_tribe->setUser($bux);
-//      $user_tag_favorite_bux_tribe->setPosition(0);
-//      $em->persist($user_tag_favorite_bux_tribe);
-//    }
-//    
-//    $em->flush();
-//    
-//    //$bux = new User();
-//    //var_dump($bux->getTagsFavorites()->get(0)->getTag()->getName());
-//    
-//    foreach ($bux->getTagsFavorites() as $UserTagFavorite)
-//    {
-//      echo $UserTagFavorite->getTag()->getName().'<br />';
-//    }
-    
-    //die();
-        
-    return array('bux' => $bux);
+    $vars = $this->proceedLogin();
+    $vars = array_merge($vars, $this->proceedRegister());
+    return $vars;
   }
+  
+  /**
+   * Gestion du formulaire d'identification sur la page d'index.
+   * 
+   * @return type array
+   */
+  protected function proceedLogin()
+  {
+    $request = $this->container->get('request');
+    /* @var $request \Symfony\Component\HttpFoundation\Request */
+    $session = $request->getSession();
+    /* @var $session \Symfony\Component\HttpFoundation\Session */
+
+    // get the error if any (works with forward and redirect -- see below)
+    if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
+        $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
+    } elseif (null !== $session && $session->has(SecurityContext::AUTHENTICATION_ERROR)) {
+        $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
+        $session->remove(SecurityContext::AUTHENTICATION_ERROR);
+    } else {
+        $error = '';
+    }
+
+    if ($error) {
+        // TODO: this is a potential security risk (see http://trac.symfony-project.org/ticket/9523)
+        $error = $error->getMessage();
+    }
+    // last username entered by the user
+    $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
+
+    return array(
+        'last_username' => $lastUsername,
+        'error'         => $error,
+    );
+  }
+  
+  /**
+   * Gestion du formulaire d'inscription sur la page d'index.
+   * 
+   * @return type array
+   */
+  protected function proceedRegister()
+  {
+    $form = $this->container->get('fos_user.registration.form');
+    $formHandler = $this->container->get('fos_user.registration.form.handler');
+    $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
+
+    $process = $formHandler->process($confirmationEnabled);
+    if ($process) {
+        $user = $form->getData();
+
+        if ($confirmationEnabled) {
+            $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
+            $route = 'fos_user_registration_check_email';
+        } else {
+            $this->authenticateUser($user);
+            $route = 'fos_user_registration_confirmed';
+        }
+
+        $this->setFlash('fos_user_success', 'registration.flash.user_created');
+        $url = $this->container->get('router')->generate($route);
+
+        return new RedirectResponse($url);
+    }
+
+    return array(
+        'form' => $form->createView(),
+        'theme' => $this->container->getParameter('fos_user.template.theme'),
+    );
+  }
+  
 }

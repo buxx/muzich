@@ -7,9 +7,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class MuzichUserBundle extends Bundle
 {
   
-  public function getParent()
-  {
-      return 'FOSUserBundle';
-  }
+//  public function getParent()
+//  {
+//    return 'FOSUserBundle';
+//  }
 
 }

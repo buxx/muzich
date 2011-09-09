@@ -1,7 +1,7 @@
 ## Routing du Bundle Index
 
 index:
-    pattern:  /
+    pattern:  /hello
     defaults: { _controller: MuzichIndexBundle:Index:index }
 
 fos_user_security:
