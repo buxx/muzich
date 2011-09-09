@@ -2,12 +2,13 @@
 
 namespace Muzich\UserBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Muzich\CoreBundle\Entity\Tag;
 
-class LoadTagData implements FixtureInterface, ContainerAwareInterface
+class LoadTagData  extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
   
   private $container;
@@ -18,14 +19,20 @@ class LoadTagData implements FixtureInterface, ContainerAwareInterface
     $this->container = $container;
   }
   
+  public function getOrder()
+  {
+    return 2; // the order in which fixtures will be loaded
+  }
+  
   /**
    *  
    */
   protected function createTag($name)
   {
     $tag = new Tag();
-    $tag->setName($name);
+    $tag->setName(ucfirst($name));
     $this->entity_manager->persist($tag);
+    $this->addReference('tag_'.$name, $tag);
   }
   
   public function load($entity_manager)
@@ -33,7 +40,7 @@ class LoadTagData implements FixtureInterface, ContainerAwareInterface
     $this->entity_manager = $entity_manager;
 
     foreach (array(
-      'hardtek', 'tribe', 'electro', 'pop', 'poprock', 'indie',
+      'hardtek', 'tribe', 'electro', 'pop', 'poprock',
        'independent', 'indie', 'indiepop', 'indierock', 'industrial', 
       'instrumental', 'italiano', 'jam', 'jazz',  'jazzrock',  'jazzy', 'jungle',
       'keyboard', 'latin',  'latino',  'live', 'lofi', 'lounge', 'meditation', 

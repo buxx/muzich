@@ -2,13 +2,13 @@
 
 namespace Muzich\UserBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Muzich\CoreBundle\Entity\User;
-use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Muzich\CoreBundle\Entity\User;
 
-class LoadUserData implements FixtureInterface, ContainerAwareInterface
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
   
   private $container;
@@ -18,6 +18,11 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
   public function setContainer(ContainerInterface $container = null)
   {
     $this->container = $container;
+  }
+  
+  public function getOrder()
+  {
+    return 1; // the order in which fixtures will be loaded
   }
   
   /**
@@ -43,6 +48,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
     
     $this->user_manager->updateUser($user, false);
     $this->entity_manager->persist($user);
+    $this->addReference('user_'.$username, $user);
   }
   
   public function load($entity_manager)
