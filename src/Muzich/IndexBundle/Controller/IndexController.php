@@ -85,7 +85,7 @@ class IndexController extends Controller
       $em->persist($user_tag_favorite_bux_tribe);
     }
     
-    
+    bfgbgfb
     $em->flush();
     
     //$bux = new User();
