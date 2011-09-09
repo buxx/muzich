@@ -1,2 +1,5 @@
 [2011-09-06 10:17:47] request.ERROR: Symfony\Component\HttpKernel\Exception\NotFoundHttpException: No route found for "GET /" (uncaught exception) at /home/bux/NetBeansProjects/muzi.ch/vendor/symfony/src/Symfony/Bundle/FrameworkBundle/EventListener/RouterListener.php line 85 [] []
 [2011-09-06 10:18:52] request.ERROR: Symfony\Component\HttpKernel\Exception\NotFoundHttpException: No route found for "GET /" (uncaught exception) at /home/bux/NetBeansProjects/muzi.ch/vendor/symfony/src/Symfony/Bundle/FrameworkBundle/EventListener/RouterListener.php line 85 [] []
+[2011-09-09 10:43:54] security.INFO: Populated SecurityContext with an anonymous Token [] []
+[2011-09-09 10:43:54] request.INFO: Matched route "index" (parameters: "_controller": "Muzich\IndexBundle\Controller\IndexController::indexAction", "_route": "index") [] []
+[2011-09-09 10:43:54] request.CRITICAL: Twig_Error_Syntax: The function "code" does not exist in {} at line 7 (uncaught exception) at /home/bux/NetBeansProjects/muzich/vendor/twig/lib/Twig/Node/Expression/Function.php line 22 [] []
