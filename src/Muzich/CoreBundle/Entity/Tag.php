@@ -54,6 +54,15 @@ class Tag
   protected $name;
   
   /**
+   * Compteur total d'utilisation. Utilisé pour faire ressortir les 
+   * tags les plus utilisés.
+   * 
+   * @ORM\Column(type="integer")
+   * @var int
+   */
+  protected $count = 0;
+  
+  /**
    * 
    */
   public function __construct()
