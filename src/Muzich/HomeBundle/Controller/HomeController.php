@@ -24,7 +24,7 @@ class HomeController extends Controller
       'count' => 30
     ));
     
-    die(var_dump($s));
+    //die(var_dump($s));
     
     return array('user' => $user);
   }
