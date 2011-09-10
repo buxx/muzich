@@ -12,6 +12,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * 
  * @ORM\Entity
  * @ORM\Table(name="element")
+ * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\ElementRepository")
  */
 class Element
 {

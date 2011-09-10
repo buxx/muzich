@@ -4,7 +4,22 @@
 
 {% block content %}
     
-  Salut {{ user.username }}
+<ul>
+  {% for element in elements %} 
+    <li>
+      {{element.name}}
+        
+        <ul>
+          {% for tag in element.tags %} 
+            <li>
+              {{tag.name}}
+            </li>
+          {% endfor %} 
+        </ul>
+        
+    </li>
+  {% endfor %} 
+</ul>
     
     
 {% endblock %}

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Muzich\CoreBundle\Searcher\ElementSearcher;
+use Doctrine\ORM\Query;
 
 class HomeController extends Controller
 {
@@ -17,15 +18,26 @@ class HomeController extends Controller
   public function indexAction()
   {        
     $user = $this->container->get('security.context')->getToken()->getUser();
-    $s = new ElementSearcher();
-    $s->init(array(
+    
+    $search = new ElementSearcher();
+    
+    $search->init(array(
       'network' => ElementSearcher::NETWORK_PUBLIC,
-      'tags' => array('toto', 'pipi'),
+      'tags' => array(
+        $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek'),
+        $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe')
+      ),
       'count' => 30
     ));
     
-    //die(var_dump($s));
+    $query = $this->getDoctrine()
+      ->getRepository('MuzichCoreBundle:Element')
+      ->findBySearch($search)
+    ;
     
-    return array('user' => $user);
+    //$product = new Query();
+//    $product->execute();
+    
+    return array('elements' => $query->execute());
   }
 }

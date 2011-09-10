@@ -34,19 +34,19 @@ class ElementSearcher extends Searcher implements SearcherInterface
    */
   protected $count = 20;
   
-  /**
-   * Objet requete
-   * 
-   * @var  
-   */
-  protected $query = null;
-  
-  /**
-   * Liste des Element Résultats
-   * 
-   * @var array
-   */
-  protected $results = array();
+//  /**
+//   * Objet requete
+//   * 
+//   * @var  
+//   */
+//  protected $query = null;
+//  
+//  /**
+//   * Liste des Element Résultats
+//   * 
+//   * @var array
+//   */
+//  protected $results = array();
   
   /**
    * @see SearcherInterface
@@ -78,36 +78,51 @@ class ElementSearcher extends Searcher implements SearcherInterface
     ), $params);
   }
   
-  /**
-   * @see SearcherInterface
-   */
-  public function constructQueryObject()
+//  /**
+//   * @see SearcherInterface
+//   */
+//  public function constructQueryObject()
+//  {
+//    
+//  }
+//  
+//  /**
+//   * @see SearcherInterface
+//   * @return 
+//   */
+//  public function getQueryObject()
+//  {
+//    if (!$this->query)
+//    {
+//      $this->constructQueryObject();
+//    }
+//    
+//    return $this->query;
+//  }
+//  
+//  public function getResults()
+//  {
+//    if (!$this->query)
+//    {
+//      $this->constructQueryObject();
+//    }
+//    
+//    //...
+//  }
+  
+  public function getNetwork()
   {
-    
+    return $this->network;
   }
   
-  /**
-   * @see SearcherInterface
-   * @return 
-   */
-  public function getQueryObject()
+  public function getTags()
   {
-    if (!$this->query)
-    {
-      $this->constructQueryObject();
-    }
-    
-    return $this->query;
+    return $this->tags;
   }
   
-  public function getResults()
+  public function getCount()
   {
-    if (!$this->query)
-    {
-      $this->constructQueryObject();
-    }
-    
-    //...
+    return $this->count;
   }
   
 }

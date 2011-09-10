@@ -19,20 +19,20 @@ interface SearcherInterface
    */
   public function update($params);
   
-  /**
-   * Procédure qui construit la requete.
-   */
-  public function constructQueryObject();
-  
-  /**
-   * Récupération de l'objet requete, pour ajouter des JOIN 
-   * par exemple.
-   */
-  public function getQueryObject();
-  
-  /**
-   * Récupération des résultats.
-   */
-  public function getResults();
+//  /**
+//   * Procédure qui construit la requete.
+//   */
+//  public function constructQueryObject();
+//  
+//  /**
+//   * Récupération de l'objet requete, pour ajouter des JOIN 
+//   * par exemple.
+//   */
+//  public function getQueryObject();
+//  
+//  /**
+//   * Récupération des résultats.
+//   */
+//  public function getResults();
   
 }

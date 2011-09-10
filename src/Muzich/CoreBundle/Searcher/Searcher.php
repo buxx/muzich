@@ -16,6 +16,10 @@ class Searcher
       {
         throw new \Exception($message);
       }
+      elseif (empty($params[$config_id]))
+      {
+        throw new \Exception($message);
+      }
     }
   }
   
