@@ -1,15 +1,17 @@
-{% extends "MuzichCoreBundle::layout.html.twig" %}
+{% extends "MuzichIndexBundle::layout.html.twig" %}
 
 {% block title %}Hello{% endblock %}
 
 {% block content %}
-    <h1>Hello</h1>
     
-    <img src="/favicon.ico" />
+  <div class="hello">
+
+    <div class="login_box">
+      {% include "MuzichUserBundle:Security:login.html.twig" %}
+      {% include "MuzichUserBundle:Registration:register.html.twig" %}
+    </div>
     
-    {% include "MuzichUserBundle:Security:login.html.twig" %}
-    {% include "MuzichUserBundle:Registration:register.html.twig" %}
-    
+  </div>
     
     
 {% endblock %}
