@@ -50,13 +50,14 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     $element->setType($type);
     $element->setOwner($owner);
     $element->setDateAdded($date);
-    $this->entity_manager->persist($element);
     $this->addReference('element_'.$reference_id, $element);
     
     foreach ($tags as $tag)
     {
-//      $elementTag = new 
+      $element->addTag($tag);
     }
+    
+    $this->entity_manager->persist($element);
   }
   
   public function load($entity_manager)
