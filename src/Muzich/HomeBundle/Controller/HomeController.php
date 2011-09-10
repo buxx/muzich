@@ -15,6 +15,8 @@ class HomeController extends Controller
    */
   public function indexAction()
   {        
-    return array();
+    $user = $this->container->get('security.context')->getToken()->getUser();
+    
+    return array('user' => $user);
   }
 }
