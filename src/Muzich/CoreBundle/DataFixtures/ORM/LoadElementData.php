@@ -115,17 +115,17 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     $this->createElement('jamendo_caio_1', 'All Is Full Of Pain', 
       'http://soundcloud.com/keytek/all-is-full-of-pain', 
       $this->getArrayOfTag(array('tribe', 'hardtek')),
-    $soundclound, $jean);
+    $soundclound, $paul);
     
     $this->createElement('jamendo_reverb_1', 'RE-FUCK (ReVeRB_FBC) mix.', 
       'http://soundcloud.com/reverb-2/re-fuck-reverb_fbc-mix', 
       $this->getArrayOfTag(array('tribe')),
-    $soundclound, $jean);
+    $soundclound, $paul);
     
     $this->createElement('jamendo_cardio_1', 'CardioT3K - Juggernaut Trap', 
       'http://soundcloud.com/cardiot3k/cardiot3k-juggernaut-trap', 
       $this->getArrayOfTag(array('tribe')),
-    $soundclound, $jean);
+    $soundclound, $paul);
 
     $this->entity_manager->flush();
   }

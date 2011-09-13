@@ -68,4 +68,14 @@ class Controller extends BaseController
     }
   }
   
+  /**
+   * Retourne l'objet User.
+   * 
+   * @return User
+   */
+  protected function getUser()
+  {
+    return $this->container->get('security.context')->getToken()->getUser();
+  }
+  
 }

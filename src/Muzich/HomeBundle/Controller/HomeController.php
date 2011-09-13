@@ -17,7 +17,7 @@ class HomeController extends Controller
    */
   public function indexAction()
   {        
-    $user = $this->container->get('security.context')->getToken()->getUser();
+    $user = $this->getUser();
        
     $query = $this->getDoctrine()
       ->getRepository('MuzichCoreBundle:Element')

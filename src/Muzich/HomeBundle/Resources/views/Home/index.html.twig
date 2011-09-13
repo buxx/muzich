@@ -8,7 +8,7 @@
   {% for element in elements %} 
     <li>
       {{element.name}} ({{element.owner.username}})
-        
+        <a href="{{element.url}}" target="_blank">link</a>
         <ul>
           {% for tag in element.tags %} 
             <li>
