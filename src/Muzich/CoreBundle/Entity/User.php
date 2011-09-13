@@ -11,6 +11,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * 
  * @ORM\Entity
  * @ORM\Table(name="m_user")
+ * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {
@@ -228,4 +229,11 @@ class User extends BaseUser
   {
     return $this->groups;
   }
+  
+  /*
+   * 
+   * 
+   */
+  
+  
 }

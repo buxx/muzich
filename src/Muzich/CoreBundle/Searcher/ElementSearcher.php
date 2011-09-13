@@ -20,7 +20,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
   protected $network = self::NETWORK_PUBLIC;
   
   /**
-   * Liste des tags utilisés lors de la recherche.
+   * Liste des tag_ids utilisés lors de la recherche.
    * 
    * @var array
    */
@@ -33,20 +33,6 @@ class ElementSearcher extends Searcher implements SearcherInterface
    * @var int
    */
   protected $count = 20;
-  
-//  /**
-//   * Objet requete
-//   * 
-//   * @var  
-//   */
-//  protected $query = null;
-//  
-//  /**
-//   * Liste des Element Résultats
-//   * 
-//   * @var array
-//   */
-//  protected $results = array();
   
   /**
    * @see SearcherInterface
@@ -78,37 +64,19 @@ class ElementSearcher extends Searcher implements SearcherInterface
     ), $params);
   }
   
-//  /**
-//   * @see SearcherInterface
-//   */
-//  public function constructQueryObject()
-//  {
-//    
-//  }
-//  
-//  /**
-//   * @see SearcherInterface
-//   * @return 
-//   */
-//  public function getQueryObject()
-//  {
-//    if (!$this->query)
-//    {
-//      $this->constructQueryObject();
-//    }
-//    
-//    return $this->query;
-//  }
-//  
-//  public function getResults()
-//  {
-//    if (!$this->query)
-//    {
-//      $this->constructQueryObject();
-//    }
-//    
-//    //...
-//  }
+  /**
+   * Récupération des paramètres de la recherche.
+   * 
+   * @return array 
+   */
+  public function getParams()
+  {
+    return array(
+      'network' => $this->getNetwork(),
+      'tags' => $this->getTags(),
+      'count' => $this->getCount()
+    );
+  }
   
   public function getNetwork()
   {

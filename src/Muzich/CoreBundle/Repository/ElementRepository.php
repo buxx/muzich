@@ -46,14 +46,14 @@ class ElementRepository extends EntityRepository
     }
     
     $query_with = "WITH ";
-    foreach ($searcher->getTags() as $tag)
+    foreach ($searcher->getTags() as $tag_id)
     {
       if ($query_with != "WITH ")
       {
         $query_with .= "OR ";
       }
-      $query_with .= "t.id = :tagid".$tag->getId()." ";
-      $params['tagid'.$tag->getId()] = $tag->getId();
+      $query_with .= "t.id = :tagid".$tag_id." ";
+      $params['tagid'.$tag_id] = $tag_id;
     }
     
     $query_join2 = ' JOIN e.owner';
