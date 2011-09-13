@@ -12,18 +12,10 @@ use Doctrine\ORM\Query;
 class HomeController extends Controller
 {
   /**
-   * @Route("/")
    * @Template()
    */
   public function indexAction()
   {        
-    $user = $this->getUser();
-       
-    $query = $this->getDoctrine()
-      ->getRepository('MuzichCoreBundle:Element')
-      ->findBySearch($this->getElementSearcher($user->getId()))
-    ;
-    
-    return array('elements' => $query->execute());
+    return array('search' => $this->getElementSearcher($this->getUser()->getId()));
   }
 }
