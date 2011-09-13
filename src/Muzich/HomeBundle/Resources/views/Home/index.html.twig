@@ -7,7 +7,7 @@
 <ul>
   {% for element in elements %} 
     <li>
-      {{element.name}}
+      {{element.name}} ({{element.owner.username}})
         
         <ul>
           {% for tag in element.tags %} 

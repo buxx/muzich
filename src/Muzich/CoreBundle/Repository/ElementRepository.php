@@ -31,11 +31,7 @@ class ElementRepository extends EntityRepository
    * @return Doctrine\ORM\Query
    */
   public function findBySearch(ElementSearcher $searcher)
-  {
-    $query_select = "e, et, t";
-    $query_join = "e.type et JOIN e.tags t";
-    $query_where = "";
-    $query_with = "WITH ";
+  {;
     $params = array();
     
     switch ($searcher->getNetwork())
@@ -49,6 +45,7 @@ class ElementRepository extends EntityRepository
       break;
     }
     
+    $query_with = "WITH ";
     foreach ($searcher->getTags() as $tag)
     {
       if ($query_with != "WITH ")
@@ -59,15 +56,18 @@ class ElementRepository extends EntityRepository
       $params['tagid'.$tag->getId()] = $tag->getId();
     }
     
-    $query_string = "SELECT $query_select 
+    $query_join2 = ' JOIN e.owner';
+    
+    $query_string = "SELECT e, et, t, eu 
       FROM MuzichCoreBundle:Element e 
-      JOIN $query_join $query_with
-      ORDER BY e.date_added DESC"
+      JOIN e.type et JOIN e.tags t $query_with JOIN e.owner eu
+      ORDER BY e.date_added DESC "
     ;
     
     $query = $this->getEntityManager()
       ->createQuery($query_string)
       ->setParameters($params)
+      ->setMaxResults($searcher->getCount())
     ;
     
     return $query;
