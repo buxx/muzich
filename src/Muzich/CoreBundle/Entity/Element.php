@@ -7,12 +7,13 @@ use \Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
- * L'Element est l'Element (huhu) central de l'application. C'est cet
+ * L'Element est l'Element central de l'application. C'est cet
  * entité qui stocke le media partagé sur le réseau.
  * 
  * @ORM\Entity
  * @ORM\Table(name="element")
  * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\ElementRepository")
+ * 
  */
 class Element
 {
