@@ -40,9 +40,11 @@ class ElementRepository extends EntityRepository
       case ElementSearcher::NETWORK_PERSONAL:
         
         $join_personal = "
-          JOIN eu.followers_users f WITH f.follower = :userid
-        ";
+          LEFT JOIN eu.followers_users f WITH f.follower = :userid "
+          ."LEFT JOIN g.followers gf WITH gf.follower = :useridg"
+          ;
         $params['userid'] = $user_id;
+        $params['useridg'] = $user_id;
         
       break;
     }
@@ -60,11 +62,19 @@ class ElementRepository extends EntityRepository
     
     $query_join2 = ' JOIN e.owner';
     
-    $query_string = "SELECT e, et, t, eu 
+    $query_string = "SELECT e, et, t, eu, g
       FROM MuzichCoreBundle:Element e 
-      JOIN e.type et JOIN e.tags t $query_with JOIN e.owner eu $join_personal
+      LEFT JOIN e.group g JOIN e.type et JOIN e.tags t $query_with 
+        JOIN e.owner eu $join_personal
       ORDER BY e.date_added DESC "
     ;
+    
+//    $query_string = "
+//      SELECT e, g
+//      FROM MuzichCoreBundle:Element e 
+//      LEFT JOIN e.group g
+//      ORDER BY e.date_added DESC
+//    ";
     
     $query = $this->getEntityManager()
       ->createQuery($query_string)

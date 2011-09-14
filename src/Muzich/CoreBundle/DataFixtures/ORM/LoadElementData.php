@@ -50,6 +50,8 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     $element->setType($type);
     $element->setOwner($owner);
     $element->setDateAdded($date);
+    if ($group)
+      $element->setGroup($group);
     $this->addReference('element_'.$reference_id, $element);
     
     foreach ($tags as $tag)
