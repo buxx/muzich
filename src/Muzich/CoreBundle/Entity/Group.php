@@ -34,6 +34,14 @@ class Group
   protected $name;
   
   /**
+   * Description
+   * 
+   * @ORM\Column(type="text")
+   * @var type string
+   */
+  protected $description;
+  
+  /**
    * Si open est a vrai, cela traduit que les followers peuvent 
    * diffuser leur element en tant qu'élément de ce groupe.
    * 
@@ -80,7 +88,6 @@ class Group
   public function __construct()
   {
     $this->followers = new ArrayCollection();
-    parent::__construct();
   }
   
   /**
@@ -111,6 +118,26 @@ class Group
   public function getName()
   {
     return $this->name;
+  }
+
+  /**
+   * Set description
+   *
+   * @param string $description
+   */
+  public function setDescription($description)
+  {
+    $this->description = $description;
+  }
+
+  /**
+   * Get description
+   *
+   * @return string 
+   */
+  public function getDescription()
+  {
+    return $this->description;
   }
 
   /**
