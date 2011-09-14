@@ -65,7 +65,7 @@ class ElementRepository extends EntityRepository
       JOIN e.type et JOIN e.tags t $query_with JOIN e.owner eu $join_personal
       ORDER BY e.date_added DESC "
     ;
-    //die($query_string);
+    
     $query = $this->getEntityManager()
       ->createQuery($query_string)
       ->setParameters($params)
