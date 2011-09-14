@@ -3,6 +3,10 @@
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
 
+MuzichCoreBundle:
+  resource: "@MuzichCoreBundle/Resources/config/routing.yml"
+  prefix: /
+  
 MuzichIndexBundle:
   resource: "@MuzichIndexBundle/Resources/config/routing.yml"
   prefix: /

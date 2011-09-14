@@ -1,5 +1,5 @@
 ## Routing du Bundle
 
-index:
+home:
   pattern:  /
   defaults: { _controller: MuzichHomeBundle:Home:index }

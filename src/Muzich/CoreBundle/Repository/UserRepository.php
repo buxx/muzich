@@ -8,7 +8,7 @@ class UserRepository extends EntityRepository
 {
   
   /**
-   * Retourne les tag_ids préférés de l'user.
+   * Retourne les tag id préférés de l'user.
    * 
    * @param int $user_id
    * @param int $limit
@@ -16,7 +16,8 @@ class UserRepository extends EntityRepository
    */
   public function getTagIdsFavorites($user_id, $limit)
   {
-    return $this->getEntityManager()
+    $tag_ids = array();
+    foreach ($this->getEntityManager()
       ->createQuery('
         SELECT t.id FROM MuzichCoreBundle:Tag t 
         JOIN t.users_favorites uf
@@ -26,8 +27,11 @@ class UserRepository extends EntityRepository
       )
       ->setParameter('uid', $user_id)
       ->setMaxResults($limit)
-      ->getArrayResult()
-    ;
+      ->getArrayResult() as $tag)
+    {
+      $tag_ids[] = $tag['id'];
+    }
+    return $tag_ids;
   }
   
 }

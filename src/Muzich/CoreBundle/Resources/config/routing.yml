@@ -1,1 +1,6 @@
-## Routing du Bundle Core
+
+
+search_elements:
+   pattern:  /search-elements
+   defaults: { _controller: MuzichCoreBundle:Search:searchElements }
+     

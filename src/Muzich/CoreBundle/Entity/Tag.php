@@ -10,6 +10,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * 
  * @ORM\Entity
  * @ORM\Table(name="tag")
+ * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\TagRepository")
  */
 class Tag
 {

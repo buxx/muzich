@@ -1,0 +1,11 @@
+<form action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
+  {{ form_errors(search_form) }}
+
+  {{ form_row(search_form.network) }}
+
+  {{ form_row(search_form.tags) }}
+
+  {{ form_rest(search_form) }}
+
+  <input type="submit" />
+</form>

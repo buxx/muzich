@@ -8,17 +8,17 @@ use Muzich\CoreBundle\Searcher\ElementSearcher;
 class Controller extends BaseController
 {
   
-  private $ElementSearcher = null;
+  //private $ElementSearcher = null;
     
   /**
-   * Met a jour l'objet ElementSearcher
+   * Met a jour l'objet ElementSearcher (en réallité on met a jour les
+   * paramètres en sessions).
    * 
    * @param ElementSearcher $es 
    */
   protected function setElementSearcher(ElementSearcher $es)
   {
-    $this->ElementSearcher = $es;
-    $session->set('user.element_search.params', $es->getParams());
+    $this->get("session")->set('user.element_search.params', $es->getParams());
   }
   
   /**
@@ -29,43 +29,31 @@ class Controller extends BaseController
    */
   protected function getElementSearcher($user_id)
   {
-    // Premièrement, est-ce que l'objet existe
-    if (!$this->ElementSearcher)
+    $session = $this->get("session");
+    // Si l'objet n'existe pas encore, a t-on déjà des paramètres de recherche
+    if (!$session->has('user.element_search.params'))
     {
-      $session  = $this->get("session");
-      // Si l'objet n'existe pas encore, a t-on déjà des paramètres de recherche
-      if (!$session->has('user.element_search.params'))
-      {
-        // Il nous faut instancier notre premier objet recherche
-        // Premièrement on récupère les tags favoris de l'utilisateur
-        $tags_id = array();
-        foreach ($this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-          // TODO: 3: CONFIG !!
-          ->getTagIdsFavorites($user_id, 3)
-          as $tag)
-        {
-          $tags_id[] = $tag['id'];
-        }
-        
-        // Ensuite on fabrique l'objet ElementSearcher
-        $this->ElementSearcher = new ElementSearcher();
-        $this->ElementSearcher->init(array(
-          'tags' => $tags_id
-        ));
-        
-        // Et on met en session les paramètres
-        $session->set('user.element_search.params', $this->ElementSearcher->getParams());
-      }
-      else
-      {
-        // Des paramètres existes, on fabrique l'objet recherche
-        $this->ElementSearcher = new ElementSearcher();
-        $this->ElementSearcher->init($session->get('user.element_search.params'));
-      }
-      
-      // L'objet existe déjà, on le retourne
-      return $this->ElementSearcher;
+      // Il nous faut instancier notre premier objet recherche
+      // Premièrement on récupère les tags favoris de l'utilisateur
+      $this->ElementSearcher = new ElementSearcher();
+      $this->ElementSearcher->init(array(
+        'tags' => $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+        // TODO: 3: CONFIG !!
+        ->getTagIdsFavorites($user_id, 3)
+      ));
+
+      // Et on met en session les paramètres
+      $session->set('user.element_search.params', $this->ElementSearcher->getParams());
     }
+    else
+    {
+      // Des paramètres existes, on fabrique l'objet recherche
+      $this->ElementSearcher = new ElementSearcher();
+      $this->ElementSearcher->init($session->get('user.element_search.params'));
+    }
+    
+    // on le retourne
+    return $this->ElementSearcher;
   }
   
   /**
@@ -76,6 +64,18 @@ class Controller extends BaseController
   protected function getUser()
   {
     return $this->container->get('security.context')->getToken()->getUser();
+  }
+  
+  /**
+   * Retourne un tabeau avec les tags connus.
+   * TODO: Voir pour que cette info soit stocké (par exemple) dans un champs
+   * texte en base. (json array)
+   * 
+   * @return array
+   */
+  protected function getTagsArray()
+  {
+    return $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->getTagsArray();
   }
   
 }
