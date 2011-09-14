@@ -55,7 +55,7 @@ class SearchController extends Controller
   {
     $elements = $this->getDoctrine()
       ->getRepository('MuzichCoreBundle:Element')
-      ->findBySearch($search)
+      ->findBySearch($search, $this->getUser()->getId())
       ->execute()
     ;
     

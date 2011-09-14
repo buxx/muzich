@@ -30,17 +30,19 @@ class ElementRepository extends EntityRepository
    * @param ElementSearcher $searcher
    * @return Doctrine\ORM\Query
    */
-  public function findBySearch(ElementSearcher $searcher)
+  public function findBySearch(ElementSearcher $searcher, $user_id)
   {;
     $params = array();
+    $join_personal = '';
     
     switch ($searcher->getNetwork())
     {
-      case ElementSearcher::NETWORK_PUBLIC:
-        
-      break;
-    
       case ElementSearcher::NETWORK_PERSONAL:
+        
+        $join_personal = "
+          JOIN eu.followers_users f WITH f.follower = :userid
+        ";
+        $params['userid'] = $user_id;
         
       break;
     }
@@ -60,10 +62,10 @@ class ElementRepository extends EntityRepository
     
     $query_string = "SELECT e, et, t, eu 
       FROM MuzichCoreBundle:Element e 
-      JOIN e.type et JOIN e.tags t $query_with JOIN e.owner eu
+      JOIN e.type et JOIN e.tags t $query_with JOIN e.owner eu $join_personal
       ORDER BY e.date_added DESC "
     ;
-    
+    //die($query_string);
     $query = $this->getEntityManager()
       ->createQuery($query_string)
       ->setParameters($params)
