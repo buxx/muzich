@@ -94,6 +94,10 @@ class LoadGroupData  extends AbstractFixture implements OrderedFixtureInterface,
         et recouvertes par beaucoup d'autres rythmes, souvent produits par le célèbre synthétiseur Roland TB-303.", 
     true, $this->entity_manager->merge($this->getReference('user_bob')));
     
+    $group_joelle = $this->createGroup('joelle', 'Le groupe de joelle', 
+      "Joelle, et ben elle aime bien la musique d'abord.", 
+    true, $this->entity_manager->merge($this->getReference('user_joelle')));
+    
     // Followers
     
     $this->theyFollowGroup(array(
@@ -116,6 +120,10 @@ class LoadGroupData  extends AbstractFixture implements OrderedFixtureInterface,
     $this->groupHasTags(array(
       $this->entity_manager->merge($this->getReference('tag_psytrance'))
     ), $group_fan_de_psytrance);
+    
+    $this->groupHasTags(array(
+      $this->entity_manager->merge($this->getReference('tag_chanteuse'))
+    ), $group_joelle);
 
     $this->entity_manager->flush();
   }

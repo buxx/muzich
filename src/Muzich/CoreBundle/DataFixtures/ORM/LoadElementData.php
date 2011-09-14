@@ -140,15 +140,28 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     $this->createElement('infected_psycho', 'Infected Mushroom - Psycho', 
       'http://www.youtube.com/watch?v=dLWXSsYJoWY', 
       $this->getArrayOfTag(array('psytrance')),
-      $jamendo, $paul,
+      $youtube, $paul,
       $this->entity_manager->merge($this->getReference('group_fan_de_psytrance'))
     );
     
     $this->createElement('infected_muse', 'Infected mushroom - Muse Breaks', 
       'http://www.youtube.com/watch?v=g0Cbfm1PStA', 
       $this->getArrayOfTag(array('psytrance')),
-      $jamendo, $bob,
+      $youtube, $bob,
       $this->entity_manager->merge($this->getReference('group_fan_de_psytrance'))
+    );
+    
+    $this->createElement('joelle_1', 'Cents Pas - Joëlle', 
+      'http://www.youtube.com/watch?v=bIAFB4vRdGw', 
+      $this->getArrayOfTag(array('chanteuse')),
+      $youtube, $joelle
+    );
+    
+    $this->createElement('joelle_2', 'Cents Pas - Joëlle (bis)', 
+      'http://www.youtube.com/watch?v=bIAFB4vRdGw', 
+      $this->getArrayOfTag(array('chanteuse')),
+      $youtube, $joelle,
+      $this->entity_manager->merge($this->getReference('group_joelle'))
     );
     
 
