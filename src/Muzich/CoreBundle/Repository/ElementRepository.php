@@ -41,7 +41,7 @@ class ElementRepository extends EntityRepository
         
         $join_personal = "
           LEFT JOIN eu.followers_users f WITH f.follower = :userid "
-          ."LEFT JOIN g.followers gf WITH gf.follower = :useridg"
+          ."JOIN g.followers gf WITH gf.follower = :useridg"
           ;
         $params['userid'] = $user_id;
         $params['useridg'] = $user_id;
