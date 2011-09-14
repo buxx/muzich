@@ -21,7 +21,7 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
   
   public function getOrder()
   {
-    return 4;
+    return 6;
   }
   
   protected function getArrayOfTag($names)
@@ -37,7 +37,7 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
   /**
    *  
    */
-  protected function createElement($reference_id, $name, $url, $tags, $type, $owner, $date = null)
+  protected function createElement($reference_id, $name, $url, $tags, $type, $owner, $group = null, $date = null)
   {
     if (!$date)
     {
@@ -68,6 +68,7 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     $jean = $this->entity_manager->merge($this->getReference('user_jean'));
     $paul = $this->entity_manager->merge($this->getReference('user_paul'));
     $bob  = $this->entity_manager->merge($this->getReference('user_bob'));
+    $joelle  = $this->entity_manager->merge($this->getReference('user_joelle'));
 
     // 'youtube', 'soundclound', 'son2teuf', 'jamendo'
     $youtube     = $this->entity_manager->merge($this->getReference('element_type_youtube'));
@@ -126,6 +127,28 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
       'http://soundcloud.com/cardiot3k/cardiot3k-juggernaut-trap', 
       $this->getArrayOfTag(array('tribe')),
     $soundclound, $paul);
+    
+    $this->createElement('dudeldrum', 'DUDELDRUM', 
+      'http://www.jamendo.com/fr/album/89109', 
+      $this->getArrayOfTag(array('medieval')),
+      $jamendo, $joelle,
+      $this->entity_manager->merge($this->getReference('group_dudeldrum'))
+    );
+    
+    $this->createElement('infected_psycho', 'Infected Mushroom - Psycho', 
+      'http://www.youtube.com/watch?v=dLWXSsYJoWY', 
+      $this->getArrayOfTag(array('psytrance')),
+      $jamendo, $paul,
+      $this->entity_manager->merge($this->getReference('group_fan_de_psytrance'))
+    );
+    
+    $this->createElement('infected_muse', 'Infected mushroom - Muse Breaks', 
+      'http://www.youtube.com/watch?v=g0Cbfm1PStA', 
+      $this->getArrayOfTag(array('psytrance')),
+      $jamendo, $bob,
+      $this->entity_manager->merge($this->getReference('group_fan_de_psytrance'))
+    );
+    
 
     $this->entity_manager->flush();
   }
