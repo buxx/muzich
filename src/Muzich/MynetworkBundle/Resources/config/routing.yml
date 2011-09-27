@@ -1,0 +1,4 @@
+
+mynetwork_index:
+  pattern:  /my-network
+  defaults: { _controller: MuzichMynetworkBundle:Mynetwork:index }
