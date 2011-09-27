@@ -15,7 +15,17 @@ class MynetworkController extends Controller
    */
   public function indexAction()
   {
-    return array();
+    $user = $this->getUser();
+    
+    $followeds_users = $user->getFollowedsUsers();
+    $followeds_groups = $user->getFollowedGroups();
+    $followers_users = $user->getFollowersUsers();
+    
+    return array(
+      'followeds_users' => $followeds_users,
+      'followeds_groups' => $followeds_groups,
+      'followers_users' => $followers_users
+    );
   }
   
 }
