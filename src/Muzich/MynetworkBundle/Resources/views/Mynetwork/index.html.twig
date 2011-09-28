@@ -3,6 +3,12 @@
 {% block title %}Mon réseau{% endblock %}
 
 {% block content %}
+
+  <p>
+    <a href="{{ path('mynetwork_search') }}" >
+      Rechercher
+    </a>
+  </p>
   
   {% if followeds_users %}
     <b>Utilisateurs</b>

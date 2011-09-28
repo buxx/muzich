@@ -28,4 +28,14 @@ class MynetworkController extends Controller
     );
   }
   
+  /**
+   * 
+   * @Template()
+   */
+  public function searchAction()
+  {
+    
+    return array();
+  }
+  
 }
