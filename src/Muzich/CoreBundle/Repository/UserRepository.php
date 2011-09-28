@@ -34,5 +34,27 @@ class UserRepository extends EntityRepository
     return $tag_ids;
   }
   
+  /**
+   * Retourne un tableau d'user correspondant a un chaine de caractère
+   * La recherche est effectué sur le username.
+   * 
+   * @param type $string
+   * @return Doctrine\ORM\Query
+   */
+  public function findByString($string)
+  {
+    return $this->getEntityManager()
+      ->createQuery("
+        SELECT u FROM MuzichCoreBundle:User u
+        WHERE UPPER(u.username) LIKE :str
+        OR UPPER(u.usernameCanonical) LIKE :str
+        ORDER BY u.username ASC"
+      )
+      ->setParameters(array(
+        'str' => '%'.strtoupper(trim($string)).'%'
+      ))
+    ;
+  }
+  
 }
   

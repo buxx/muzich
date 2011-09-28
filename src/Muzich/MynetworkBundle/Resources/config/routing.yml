@@ -7,3 +7,7 @@ mynetwork_search:
   pattern:  /my-network/search
   defaults: { _controller: MuzichMynetworkBundle:Mynetwork:search }
   
+#mynetwork_search:
+#  pattern:  /my-network/search/do
+#  defaults: { _controller: MuzichMynetworkBundle:Mynetwork:search }
+  

@@ -13,6 +13,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * 
  * @ORM\Entity
  * @ORM\Table(name="m_group")
+ * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\GroupRepository")
  */
 class Group
 {
