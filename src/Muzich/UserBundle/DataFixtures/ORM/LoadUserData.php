@@ -67,8 +67,18 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
   
   public function load($entity_manager)
   {
+    
     $this->entity_manager = $entity_manager;
     $this->user_manager = $this->container->get('fos_user.user_manager');
+    
+    // Slug stuff
+    $evm = new \Doctrine\Common\EventManager();
+    // ORM and ODM
+    $sluggableListener = new \Gedmo\Sluggable\SluggableListener();
+    $evm->addEventSubscriber($sluggableListener);
+    // now this event manager should be passed to entity manager constructor
+    $entity_manager->getEventManager()->addEventSubscriber($sluggableListener);
+    
     
     // Création des Users
     $admin  = $this->createUser('admin', 'admin@root', 'toor');

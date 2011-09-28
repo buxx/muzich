@@ -79,6 +79,14 @@ class LoadGroupData  extends AbstractFixture implements OrderedFixtureInterface,
   {
     $this->entity_manager = $entity_manager;
 
+    // Slug stuff
+    $evm = new \Doctrine\Common\EventManager();
+    // ORM and ODM
+    $sluggableListener = new \Gedmo\Sluggable\SluggableListener();
+    $evm->addEventSubscriber($sluggableListener);
+    // now this event manager should be passed to entity manager constructor
+    $entity_manager->getEventManager()->addEventSubscriber($sluggableListener);
+    
     // Création des groupes
     
     $group_dudeldrum = $this->createGroup('dudeldrum', 'DUDELDRUM', 

@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Muzich\CoreBundle\MuzichCoreBundle(),
             new Muzich\UserBundle\MuzichUserBundle(),
             new Muzich\IndexBundle\MuzichIndexBundle(),
