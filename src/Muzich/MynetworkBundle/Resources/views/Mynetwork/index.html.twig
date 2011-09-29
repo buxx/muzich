@@ -1,0 +1,46 @@
+{% extends "MuzichMynetworkBundle::layout.html.twig" %}
+
+{% block title %}Mon réseau{% endblock %}
+
+{% block content %}
+
+  <p>
+    <a href="{{ path('mynetwork_search') }}" >
+      Rechercher
+    </a>
+  </p>
+  
+  {% if followeds_users %}
+    <b>Utilisateurs</b>
+    <ul>
+    {% for user in followeds_users %} 
+      <li>
+        {{ user.username }}
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  
+  {% if followeds_groups %}
+    <b>Groupes</b>
+    <ul>
+    {% for group in followeds_groups %} 
+      <li>
+        {{ group.name }}
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  
+  {% if followers_users %}
+    <b>Vous êtes suivis par</b>
+    <ul>
+    {% for user in followers_users %} 
+      <li>
+        {{ user.username }}
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+
+{% endblock %}

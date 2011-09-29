@@ -65,7 +65,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
   }
   
   /**
-   * Récupération des paramètres de la recherche.
+   * @see SearcherInterface
    * 
    * @return array 
    */

@@ -14,6 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * 
  * @ORM\Entity
  * @ORM\Table(name="m_group")
+ * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\GroupRepository")
  */
 class Group
 {

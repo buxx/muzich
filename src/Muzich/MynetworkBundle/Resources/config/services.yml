@@ -1,0 +1,7 @@
+parameters:
+#    muzich_mynetwork.example.class: Muzich\MynetworkBundle\Example
+
+services:
+#    muzich_mynetwork.example:
+#        class: %muzich_mynetwork.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

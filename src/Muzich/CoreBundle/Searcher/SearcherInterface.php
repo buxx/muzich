@@ -19,6 +19,11 @@ interface SearcherInterface
    */
   public function update($params);
   
+  /**
+   * Récupération des paramètres
+   */
+  public function getParams();
+  
 //  /**
 //   * Procédure qui construit la requete.
 //   */

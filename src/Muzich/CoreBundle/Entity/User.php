@@ -71,7 +71,7 @@ class User extends BaseUser
    * Cet attribut contient les enregistrements FollowGroup lié 
    * a cet utilisateur dans le cadre des groupes suivis.
    * 
-   * @ORM\OneToMany(targetEntity="FollowGroup", mappedBy="user")
+   * @ORM\OneToMany(targetEntity="FollowGroup", mappedBy="follower")
    */
   protected $followed_groups;
   
@@ -184,7 +184,12 @@ class User extends BaseUser
    */
   public function getFollowedsUsers()
   {
-    return $this->followeds_users;
+    $users = array();
+    foreach ($this->followeds_users as $follow_user)
+    {
+      $users[] = $follow_user->getFollowed();
+    }
+    return $users;
   }
 
   /**
@@ -194,7 +199,12 @@ class User extends BaseUser
    */
   public function getFollowersUsers()
   {
-    return $this->followers_users;
+    $users = array();
+    foreach ($this->followers_users as $follow_user)
+    {
+      $users[] = $follow_user->getFollower();
+    }
+    return $users;
   }
 
   /**
@@ -214,7 +224,12 @@ class User extends BaseUser
    */
   public function getFollowedGroups()
   {
-    return $this->followed_groups;
+    $groups = array();
+    foreach ($this->followed_groups as $follow_group)
+    {
+      $groups[] = $follow_group->getGroup();
+    }
+    return $groups;
   }
 
   /**
