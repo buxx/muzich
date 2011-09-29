@@ -64,7 +64,7 @@ class ElementRepository extends EntityRepository
       FROM MuzichCoreBundle:Element e 
       LEFT JOIN e.group g JOIN e.type et JOIN e.tags t $query_with 
         JOIN e.owner eu $join_personal
-      ORDER BY e.date_added DESC "
+      ORDER BY e.created DESC "
     ;
     
     $query = $this->getEntityManager()
@@ -74,6 +74,54 @@ class ElementRepository extends EntityRepository
     ;
     
     return $query;
+  }
+  
+  /**
+   * Retourne une requete selectionnant les Elements en fonction du
+   * propriétaire.
+   * 
+   * @param int $user_id
+   * @param int $limit
+   * @return type Doctrine\ORM\Query
+   */
+  public function findByUser($user_id, $limit)
+  {
+    return $this->getEntityManager()
+      ->createQuery('
+        SELECT e, u, g, t FROM MuzichCoreBundle:Element e
+        JOIN e.owner u
+        JOIN e.group g
+        JOIN e.tags t
+        WHERE u.id = :uid
+        ORDER BY e.created DESC'
+      )
+      ->setParameter('uid', $user_id)
+      ->setMaxResults($limit)
+    ;
+  }
+  
+  /**
+   * Retourne une requete selectionnant les Elements en fonction du
+   * groupe.
+   * 
+   * @param int $user_id
+   * @param int $limit
+   * @return type Doctrine\ORM\Query
+   */
+  public function findByGroup($group_id, $limit)
+  {
+    return $this->getEntityManager()
+      ->createQuery('
+        SELECT e, u, g, t FROM MuzichCoreBundle:Element e
+        JOIN e.owner u
+        JOIN e.group g
+        JOIN e.tags t
+        WHERE g.id = :gid
+        ORDER BY e.created DESC'
+      )
+      ->setParameter('gid', $group_id)
+      ->setMaxResults($limit)
+    ;
   }
   
 }

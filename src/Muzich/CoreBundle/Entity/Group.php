@@ -129,6 +129,26 @@ class Group
   }
 
   /**
+   * Set slug
+   *
+   * @param string $slug
+   */
+  public function setSlug($slug)
+  {
+    $this->slug = $slug;
+  }
+
+  /**
+   * Get slug
+   *
+   * @return string 
+   */
+  public function getSlug()
+  {
+    return $this->slug;
+  }
+
+  /**
    * Set description
    *
    * @param string $description

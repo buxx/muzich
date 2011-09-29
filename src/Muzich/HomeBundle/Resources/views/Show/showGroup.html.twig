@@ -1,0 +1,11 @@
+{% extends "MuzichHomeBundle::layout.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+    
+  <b>{{ group.name }}</b>
+  
+  {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
+    
+{% endblock %}

@@ -75,7 +75,8 @@ class UserRepository extends EntityRepository
   }
   
   /**
-   * Retourne un tableau d'user correspondant a un chaine de caractère
+   * Retourne la requete selectionnant les user correspondant a une 
+   * chaine de caractère
    * La recherche est effectué sur le username.
    * 
    * @param type $string
@@ -92,6 +93,25 @@ class UserRepository extends EntityRepository
       )
       ->setParameters(array(
         'str' => '%'.strtoupper(trim($string)).'%'
+      ))
+    ;
+  }
+  
+  /**
+   * Retourne une Query sleectionnant un User par son slug
+   * 
+   * @param type string 
+   * @return Doctrine\ORM\Query
+   */
+  public function findOneBySlug($slug)
+  {
+    return $this->getEntityManager()
+      ->createQuery("
+        SELECT u FROM MuzichCoreBundle:User u
+        WHERE u.slug = :str
+      ")
+      ->setParameters(array(
+        'str' => $slug
       ))
     ;
   }

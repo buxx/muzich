@@ -28,5 +28,24 @@ class GroupRepository extends EntityRepository
     ;
   }
   
+  /**
+   * Retourne une Query sleectionnant un Group par son slug
+   * 
+   * @param type string 
+   * @return Doctrine\ORM\Query
+   */
+  public function findOneBySlug($slug)
+  {
+    return $this->getEntityManager()
+      ->createQuery("
+        SELECT g FROM MuzichCoreBundle:Group g
+        WHERE g.slug = :str
+      ")
+      ->setParameters(array(
+        'str' => $slug
+      ))
+    ;
+  }
+  
 }
   
