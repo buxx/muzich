@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Le groupe est une sorte de liste de diffusion, a laquelle les
@@ -33,6 +34,12 @@ class Group
    * @var type string
    */
   protected $name;
+  
+  /**
+   * @Gedmo\Slug(fields={"name"})
+   * @ORM\Column(length=128, unique=true)
+   */
+  protected $slug;
   
   /**
    * Description

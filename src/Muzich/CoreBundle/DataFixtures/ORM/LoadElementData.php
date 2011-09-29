@@ -37,19 +37,13 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
   /**
    *  
    */
-  protected function createElement($reference_id, $name, $url, $tags, $type, $owner, $group = null, $date = null)
-  {
-    if (!$date)
-    {
-      $date = new \DateTime();
-    }
-    
+  protected function createElement($reference_id, $name, $url, $tags, $type, $owner, $group = null)
+  {    
     $element = new Element();
     $element->setName(ucfirst($name));
     $element->setUrl($url);
     $element->setType($type);
     $element->setOwner($owner);
-    $element->setDateAdded($date);
     if ($group)
       $element->setGroup($group);
     $this->addReference('element_'.$reference_id, $element);
@@ -65,7 +59,16 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
   public function load($entity_manager)
   {
     $this->entity_manager = $entity_manager;
+    
+    // Timestampable stuff
+    $evm = new \Doctrine\Common\EventManager();
+    // ORM and ORM
+    $timestampableListener = new \Gedmo\Timestampable\TimestampableListener();
+    $evm->addEventSubscriber($timestampableListener);
+    // now this event manager should be passed to entity manager constructor
+    $this->entity_manager->getEventManager()->addEventSubscriber($timestampableListener);
 
+    // 
     $bux  = $this->entity_manager->merge($this->getReference('user_bux'));
     $jean = $this->entity_manager->merge($this->getReference('user_jean'));
     $paul = $this->entity_manager->merge($this->getReference('user_paul'));
