@@ -64,7 +64,7 @@ class ElementRepository extends EntityRepository
       FROM MuzichCoreBundle:Element e 
       LEFT JOIN e.group g JOIN e.type et JOIN e.tags t $query_with 
         JOIN e.owner eu $join_personal
-      ORDER BY e.date_added DESC "
+      ORDER BY e.created DESC "
     ;
     
     $query = $this->getEntityManager()
@@ -88,8 +88,10 @@ class ElementRepository extends EntityRepository
   {
     return $this->getEntityManager()
       ->createQuery('
-        SELECT e FROM MuzichCoreBundle:Element e
+        SELECT e, u, g, t FROM MuzichCoreBundle:Element e
         JOIN e.owner u
+        JOIN e.group g
+        JOIN e.tags t
         WHERE u.id = :uid
         ORDER BY e.created DESC'
       )
@@ -110,9 +112,10 @@ class ElementRepository extends EntityRepository
   {
     return $this->getEntityManager()
       ->createQuery('
-        SELECT e FROM MuzichCoreBundle:Element e
+        SELECT e, u, g, t FROM MuzichCoreBundle:Element e
         JOIN e.owner u
         JOIN e.group g
+        JOIN e.tags t
         WHERE g.id = :gid
         ORDER BY e.created DESC'
       )

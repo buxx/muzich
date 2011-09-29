@@ -66,6 +66,7 @@ class ShowController extends Controller
     return $this->getDoctrine()
       ->getRepository('MuzichCoreBundle:Element')
       ->$findBy($entity_id, 10)
+      
       ->execute()
     ;
   }
