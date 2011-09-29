@@ -91,7 +91,7 @@ class ElementRepository extends EntityRepository
         SELECT e FROM MuzichCoreBundle:Element e
         JOIN e.owner u
         WHERE u.id = :uid
-        ORDER BY e.id DESC'
+        ORDER BY e.created DESC'
       )
       ->setParameter('uid', $user_id)
       ->setMaxResults($limit)
@@ -114,7 +114,7 @@ class ElementRepository extends EntityRepository
         JOIN e.owner u
         JOIN e.group g
         WHERE g.id = :gid
-        ORDER BY e.id DESC'
+        ORDER BY e.created DESC'
       )
       ->setParameter('gid', $group_id)
       ->setMaxResults($limit)
