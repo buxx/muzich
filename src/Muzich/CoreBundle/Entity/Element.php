@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 
 /**
@@ -83,12 +84,20 @@ class Element
   protected $name;
   
   /**
-   * Date d'ajout dans le réseau
-   * 
+   * @var datetime $created
+   *
+   * @Gedmo\Timestampable(on="create")
    * @ORM\Column(type="datetime")
-   * @var type string
    */
-  protected $date_added;
+  private $created;
+
+  /**
+   * @var datetime $updated
+   *
+   * @ORM\Column(type="datetime")
+   * @Gedmo\Timestampable(on="update")
+   */
+  private $updated;
   
 
   /**
@@ -139,26 +148,6 @@ class Element
   public function getName()
   {
     return $this->name;
-  }
-
-  /**
-   * Set date_added
-   *
-   * @param datetime $dateAdded
-   */
-  public function setDateAdded($dateAdded)
-  {
-    $this->date_added = $dateAdded;
-  }
-
-  /**
-   * Get date_added
-   *
-   * @return datetime 
-   */
-  public function getDateAdded()
-  {
-    return $this->date_added;
   }
   
   /**
@@ -266,5 +255,45 @@ class Element
   public function getGroup()
   {
       return $this->group;
+  }
+
+  /**
+   * Set created
+   *
+   * @param date $created
+   */
+  public function setCreated($created)
+  {
+      $this->created = $created;
+  }
+
+  /**
+   * Get created
+   *
+   * @return date 
+   */
+  public function getCreated()
+  {
+      return $this->created;
+  }
+
+  /**
+   * Set updated
+   *
+   * @param datetime $updated
+   */
+  public function setUpdated($updated)
+  {
+      $this->updated = $updated;
+  }
+
+  /**
+   * Get updated
+   *
+   * @return datetime 
+   */
+  public function getUpdated()
+  {
+      return $this->updated;
   }
 }
