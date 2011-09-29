@@ -1,7 +1,8 @@
-/* 
-    Document   : mynetwork
-    Created on : 27 sept. 2011, 14:41:54
-    Author     : bux
-    Description:
-        Purpose of the stylesheet follows.
-*/
+
+#container .link_navigation
+{
+  float: right;
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+}
