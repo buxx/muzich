@@ -31,7 +31,8 @@ class ShowController extends Controller
     return array(
       'viewed_user' => $viewed_user,
       'elements'    => $this->getShowedEntityElements($viewed_user->getId(), 'User'),
-      'following'   => $user->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId())
+      'following'   => $user->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
+      'user'        => $user
     );
   }
   
@@ -58,7 +59,8 @@ class ShowController extends Controller
     return array(
       'group'       => $group,
       'elements'    => $this->getShowedEntityElements($group->getId(), 'Group'),
-      'following'   => $user->isFollowingGroupByQuery($this->getDoctrine(), $group->getId())
+      'following'   => $user->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()),
+      'user'        => $user
     );
   }
   

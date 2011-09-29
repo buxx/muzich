@@ -321,4 +321,8 @@ class User extends BaseUser
     ;
   }
   
+  public function getPersonalHash()
+  {
+    return hash('sha256', $this->getSalt().$this->getUsername());
+  }
 }
