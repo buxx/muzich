@@ -9,10 +9,11 @@ body {
   padding: 1em; /* Remettre à zéro si nécessaire. */
   /* Pensez à utiliser une collection de polices (2), par ex:
   font-family: Arial, Helvetica, FreeSans, sans-serif; */
-  font-size: .8em; /* À adapter pour la police choisie. (3) */
-  line-height: 1.4; /* À adapter au design. (4) */
+  /*font-size: .8em;*/ /* À adapter pour la police choisie. (3) */
   color: black;
-  background: white;
+  background-color: #9AE4E8;
+  font: 13.34px helvetica,arial,freesans,clean,sans-serif;
+  line-height: 1.4;
 }
 
 /* Titres */
