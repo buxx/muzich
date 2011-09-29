@@ -3,3 +3,11 @@
 home:
   pattern:  /
   defaults: { _controller: MuzichHomeBundle:Home:index }
+  
+show_user:
+  pattern: /user/{slug}
+  defaults: { _controller: MuzichHomeBundle:Show:showUser }
+  
+show_group:
+  pattern: /group/{slug}
+  defaults: { _controller: MuzichHomeBundle:Show:showGroup }

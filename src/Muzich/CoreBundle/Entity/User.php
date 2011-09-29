@@ -267,5 +267,9 @@ class User extends BaseUser
    * 
    */
   
+  public function getName()
+  {
+    return $this->getUsername();
+  }
   
 }

@@ -15,7 +15,7 @@
     <ul>
     {% for user in followeds_users %} 
       <li>
-        {{ user.username }}
+        <a href="{{ path('show_user', { 'slug': user.slug }) }}">{{ user.username }}</a>
       </li>
     {% endfor %}
     </ul>
@@ -26,7 +26,7 @@
     <ul>
     {% for group in followeds_groups %} 
       <li>
-        {{ group.name }}
+        <a href="{{ path('show_group', { 'slug': group.slug }) }}">{{ group.name }}</a>
       </li>
     {% endfor %}
     </ul>
@@ -37,7 +37,7 @@
     <ul>
     {% for user in followers_users %} 
       <li>
-        {{ user.username }}
+        <a href="{{ path('show_user', { 'slug': user.slug }) }}">{{ user.username }}</a>
       </li>
     {% endfor %}
     </ul>
