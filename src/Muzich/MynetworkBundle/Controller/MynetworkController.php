@@ -15,7 +15,9 @@ class MynetworkController extends Controller
    */
   public function indexAction()
   {
-    $user = $this->getUser();
+    $user = $this->getUser(true, array('join' => array(
+      'followeds_users', 'followers_users', 'followeds_groups'
+    )));
     
     $followeds_users = $user->getFollowedsUsers();
     $followeds_groups = $user->getFollowedGroups();
@@ -68,6 +70,12 @@ class MynetworkController extends Controller
     }
   }
   
+  /**
+   * Retourne le résultat de recherche sur les users et groupes.
+   * 
+   * @param string $search
+   * @return array 
+   */
   protected function doSearchAction($search)
   {
     $string = str_replace('%', '#', $search->getString());

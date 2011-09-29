@@ -33,7 +33,7 @@ class FollowGroup
   /**
    * Groupe suivis
    * 
-   * @ORM\ManyToOne(targetEntity="Group", inversedBy="follower")
+   * @ORM\ManyToOne(targetEntity="Group", inversedBy="followers")
    * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
    */
   protected $group;

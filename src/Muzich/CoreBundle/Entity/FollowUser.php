@@ -25,7 +25,7 @@ class FollowUser
   /**
    * User suiveur
    * 
-   * @ORM\ManyToOne(targetEntity="User", inversedBy="followed")
+   * @ORM\ManyToOne(targetEntity="User", inversedBy="followeds_users")
    * @ORM\JoinColumn(name="follower_id", referencedColumnName="id")
    */
   protected $follower;
@@ -33,7 +33,7 @@ class FollowUser
   /**
    * User suivis
    * 
-   * @ORM\ManyToOne(targetEntity="User", inversedBy="follower")
+   * @ORM\ManyToOne(targetEntity="User", inversedBy="followers_users")
    * @ORM\JoinColumn(name="followed_id", referencedColumnName="id")
    */
   protected $followed;

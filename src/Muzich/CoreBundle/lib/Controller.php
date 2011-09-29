@@ -59,11 +59,22 @@ class Controller extends BaseController
   /**
    * Retourne l'objet User.
    * 
+   * @param array $params
    * @return User
    */
-  protected function getUser()
+  protected function getUser($personal_query = false, $params = array())
   {
-    return $this->container->get('security.context')->getToken()->getUser();
+    if (!$personal_query)
+    {
+      return $this->container->get('security.context')->getToken()->getUser();
+    }
+    else
+    {
+      return $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+        $this->container->get('security.context')->getToken()->getUser()->getId(),
+        array_key_exists('join', $params) ? $params['join'] : array()
+      )->getSingleResult();
+    }
   }
   
   /**

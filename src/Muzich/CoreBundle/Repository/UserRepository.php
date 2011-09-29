@@ -8,6 +8,46 @@ class UserRepository extends EntityRepository
 {
   
   /**
+   * Retourne une Query construite selon les paramètres fournis.
+   * 
+   * @param int $user_id
+   * @param array $join
+   * @return  Doctrine\ORM\Query
+   */
+  public function findOneById($user_id, $join_list)
+  {
+    $select = 'u';
+    $join = '';
+    
+    if (in_array('followeds_users', $join_list))
+    {
+      $select .= ', fdu, fdu_u';
+      $join   .= ' JOIN u.followeds_users fdu JOIN fdu.followed fdu_u';
+    }
+    
+    if (in_array('followers_users', $join_list))
+    {
+      $select .= ', fru, fru_u';
+      $join   .= ' JOIN u.followers_users fru JOIN fru.follower fru_u';
+    }
+    
+    if (in_array('followeds_groups', $join_list))
+    {
+      $select .= ', fdg, fdg_g';
+      $join   .= ' JOIN u.followed_groups fdg JOIN fdg.group fdg_g';
+    }
+    
+    return $this->getEntityManager()
+      ->createQuery("
+        SELECT $select FROM MuzichCoreBundle:User u
+        $join
+        WHERE u.id = :uid
+      ")
+      ->setParameter('uid', $user_id)
+    ;
+  }
+  
+  /**
    * Retourne les tag id préférés de l'user.
    * 
    * @param int $user_id
