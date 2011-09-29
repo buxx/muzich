@@ -55,7 +55,7 @@ class IndexController extends BaseController
     }
     // last username entered by the user
     $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
-
+    
     return array(
         'last_username' => $lastUsername,
         'error'         => $error,
