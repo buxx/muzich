@@ -3,6 +3,16 @@
 {% block title %}{% endblock %}
 
 {% block content %}
+
+  {% if following %}
+    <a href="" class="follow_link following" >
+      Ne plus suivre
+    </a>
+  {% else %}
+    <a href="" class="follow_link notfollowing" >
+      Suivre
+    </a>
+  {% endif %}
     
   <h2>{{ group.name }}</h2>
   
