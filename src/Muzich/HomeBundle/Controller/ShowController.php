@@ -25,9 +25,9 @@ class ShowController extends Controller
         throw $this->createNotFoundException('Utilisateur introuvable.');
     }
     
-    
     return array(
-      'viewed_user' => $viewed_user
+      'viewed_user' => $viewed_user,
+      'elements' => $this->getShowedEntityElements($viewed_user->getId(), 'User')
     );
   }
   
@@ -48,15 +48,26 @@ class ShowController extends Controller
         throw $this->createNotFoundException('Groupe introuvable.');
     }
     
-    
     return array(
-      'group' => $group
+      'group' => $group,
+      'elements' => $this->getShowedEntityElements($group->getId(), 'Group')
     );
   }
   
-  protected function getShowedEntityElements()
+  /**
+   *
+   * @param Entity $entity
+   * @param string $type
+   * @return array 
+   */
+  protected function getShowedEntityElements($entity_id, $type)
   {
-    
+    $findBy = 'findBy'.$type;
+    return $this->getDoctrine()
+      ->getRepository('MuzichCoreBundle:Element')
+      ->$findBy($entity_id, 10)
+      ->execute()
+    ;
   }
   
 }

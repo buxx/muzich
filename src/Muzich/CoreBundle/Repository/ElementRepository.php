@@ -76,4 +76,49 @@ class ElementRepository extends EntityRepository
     return $query;
   }
   
+  /**
+   * Retourne une requete selectionnant les Elements en fonction du
+   * propriétaire.
+   * 
+   * @param int $user_id
+   * @param int $limit
+   * @return type Doctrine\ORM\Query
+   */
+  public function findByUser($user_id, $limit)
+  {
+    return $this->getEntityManager()
+      ->createQuery('
+        SELECT e FROM MuzichCoreBundle:Element e
+        JOIN e.owner u
+        WHERE u.id = :uid
+        ORDER BY e.id DESC'
+      )
+      ->setParameter('uid', $user_id)
+      ->setMaxResults($limit)
+    ;
+  }
+  
+  /**
+   * Retourne une requete selectionnant les Elements en fonction du
+   * groupe.
+   * 
+   * @param int $user_id
+   * @param int $limit
+   * @return type Doctrine\ORM\Query
+   */
+  public function findByGroup($group_id, $limit)
+  {
+    return $this->getEntityManager()
+      ->createQuery('
+        SELECT e FROM MuzichCoreBundle:Element e
+        JOIN e.owner u
+        JOIN e.group g
+        WHERE g.id = :gid
+        ORDER BY e.id DESC'
+      )
+      ->setParameter('gid', $group_id)
+      ->setMaxResults($limit)
+    ;
+  }
+  
 }
