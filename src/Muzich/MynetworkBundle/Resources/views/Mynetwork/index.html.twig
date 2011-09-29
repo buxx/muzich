@@ -4,11 +4,9 @@
 
 {% block content %}
 
-  <p>
-    <a href="{{ path('mynetwork_search') }}" >
-      Rechercher
-    </a>
-  </p>
+  <a class="link_navigation" href="{{ path('mynetwork_search') }}" >
+    Rechercher
+  </a>
   
   {% if followeds_users %}
     <b>Utilisateurs</b>

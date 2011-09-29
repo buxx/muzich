@@ -20,11 +20,11 @@
 </head>
 <body>
 	
-  <div id="connexion">
-    {% include "MuzichUserBundle::connexion.html.twig" %}
-  </div>
+  {% include "MuzichUserBundle::connexion.html.twig" %}
   
-  {% block main_content %}{% endblock %}
+  <div id="container">
+    {% block main_content %}{% endblock %}
+  </div>
   
 </body>
 </html>

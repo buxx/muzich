@@ -4,11 +4,9 @@
 
 {% block content %}
 
-  <p>
-    <a href="{{ path('mynetwork_index') }}" >
-      Retour
-    </a>
-  </p>
+  <a class="link_navigation" href="{{ path('mynetwork_index') }}" >
+    Retour
+  </a>
   
   <b>Rechercher des utilisateurs et des groupes</b>
   
@@ -32,7 +30,7 @@
       <ul>
       {% for user in results.users %} 
         <li>
-          {{ user.username }}
+          <a href="{{ path('show_user', { 'slug': user.slug }) }}">{{ user.username }}</a>
         </li>
       {% endfor %}
       </ul>
@@ -46,7 +44,7 @@
       <ul>
       {% for group in results.groups %} 
         <li>
-          {{ group.name }}
+          <a href="{{ path('show_group', { 'slug': group.slug }) }}">{{ group.name }}</a>
         </li>
       {% endfor %}
       </ul>

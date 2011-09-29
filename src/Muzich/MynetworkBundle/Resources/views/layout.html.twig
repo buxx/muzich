@@ -5,5 +5,9 @@
 {% endblock %}
 
 {% block main_content %}
-    {% block content %}{% endblock %}
+  
+  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with { 'active': 'private' } %}
+  
+  {% block content %}{% endblock %}
+  
 {% endblock %}
