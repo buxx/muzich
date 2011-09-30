@@ -38,7 +38,7 @@ class UserController extends Controller
     $process = $formHandler->process($user);
     if ($process)
     {
-      $this->container->get('session')->setFlash('fos_user_success', 'change_password.flash.success');
+      $this->container->get('session')->setFlash('success', 'Le mot de passe a été changé avec succès.');
       return new RedirectResponse($this->generateUrl('my_account'));
     }
     else
