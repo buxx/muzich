@@ -3,6 +3,7 @@
 namespace Muzich\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class UserRepository extends EntityRepository
 {
@@ -18,6 +19,8 @@ class UserRepository extends EntityRepository
   {
     $select = 'u';
     $join = '';
+    $where = '';
+    $parameters = array('uid' => $user_id);
     
     if (in_array('followeds_users', $join_list))
     {
@@ -37,13 +40,23 @@ class UserRepository extends EntityRepository
       $join   .= ' JOIN u.followed_groups fdg JOIN fdg.group fdg_g';
     }
     
+//    if (array_key_exists('followed_user_id', $join_list))
+//    {
+//      $select .= ', fu, fu_u';
+//      $join   .= ' LEFT JOIN u.followeds_users fu WITH fu.followed = :fuid LEFT JOIN fu.followed fu_u';
+//      $parameters = array_merge($parameters, array(
+//        'fuid' => $join_list['followed_user_id']
+//      ));
+//    }
+    
     return $this->getEntityManager()
       ->createQuery("
         SELECT $select FROM MuzichCoreBundle:User u
         $join
         WHERE u.id = :uid
+        $where
       ")
-      ->setParameter('uid', $user_id)
+      ->setParameters($parameters)
     ;
   }
   
@@ -114,6 +127,40 @@ class UserRepository extends EntityRepository
         'str' => $slug
       ))
     ;
+  }
+  
+  public function isFollowingUser($follower_id, $followed_id)
+  {
+    $result = $this->getEntityManager()
+      ->createQuery("
+        SELECT COUNT(fu.id) FROM MuzichCoreBundle:FollowUser fu
+        WHERE fu.follower = :frid AND fu.followed = :fdid
+      ")
+      ->setParameters(array(
+        'frid' => $follower_id,
+        'fdid' => $followed_id
+      ))
+      ->getSingleResult(Query::HYDRATE_ARRAY)
+    ;
+    
+    return $result[1];
+  }
+  
+  public function isFollowingGroup($follower_id, $group_id)
+  {
+    $result = $this->getEntityManager()
+      ->createQuery("
+        SELECT COUNT(fg.id) FROM MuzichCoreBundle:FollowGroup fg
+        WHERE fg.follower = :frid AND fg.group = :fdgid
+      ")
+      ->setParameters(array(
+        'frid' => $follower_id,
+        'fdgid' => $group_id
+      ))
+      ->getSingleResult(Query::HYDRATE_ARRAY)
+    ;
+    
+    return $result[1];
   }
   
 }

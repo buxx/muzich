@@ -272,4 +272,57 @@ class User extends BaseUser
     return $this->getUsername();
   }
   
+  /**
+   * Retourn si l'user_id transmis fait partis des enregistrements
+   * followed de l'objet.
+   * 
+   * @param int $user_id 
+   * @return boolean
+   */
+  public function isFollowingUser($user_id)
+  {
+    foreach ($this->followeds_users as $followed_user)
+    {
+      if ($followed_user->getFollowed()->getId() == $user_id)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  /**
+   * Retourn si l'user_id transmis est l'un des User suivis
+   * 
+   * @param Symfony\Bundle\DoctrineBundle\Registry doctrine
+   * @param int $user_id 
+   * @return boolean
+   */
+  public function isFollowingUserByQuery($doctrine, $user_id)
+  {
+    return $doctrine
+      ->getRepository('MuzichCoreBundle:User')
+      ->isFollowingUser($this->getId(), $user_id)
+    ;
+  }
+  
+  /**
+   * Retourn si l'group_id transmis est l'un des groupe suivis
+   * 
+   * @param Symfony\Bundle\DoctrineBundle\Registry doctrine
+   * @param int $user_id 
+   * @return boolean
+   */
+  public function isFollowingGroupByQuery($doctrine, $group_id)
+  {
+    return $doctrine
+      ->getRepository('MuzichCoreBundle:User')
+      ->isFollowingGroup($this->getId(), $group_id)
+    ;
+  }
+  
+  public function getPersonalHash()
+  {
+    return hash('sha256', $this->getSalt().$this->getUsername());
+  }
 }

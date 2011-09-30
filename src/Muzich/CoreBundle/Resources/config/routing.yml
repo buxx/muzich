@@ -3,4 +3,9 @@
 search_elements:
    pattern:  /search-elements
    defaults: { _controller: MuzichCoreBundle:Search:searchElements }
+   
+follow:
+   pattern:  /follow/{type}/{id}/{token}
+   defaults: { _controller: MuzichCoreBundle:Core:follow }
+   
      
