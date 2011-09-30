@@ -1,0 +1,27 @@
+
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+<div id="top_bar">
+
+  {#<ul>
+    <li>
+      <a href="{{ path('my_account') }}" >
+        Mon compte
+      </a>
+    </li>
+    <li>
+      <a href="{{ path('fos_user_security_logout') }}" >
+        Déconnexion
+      </a>
+    </li>
+  </ul>#}
+  
+  <a href="{{ path('my_account') }}" >
+    Mon compte
+  </a>
+  
+  <a href="{{ path('fos_user_security_logout') }}" >
+    Déconnexion
+  </a>
+  
+</div>
+{% endif %}

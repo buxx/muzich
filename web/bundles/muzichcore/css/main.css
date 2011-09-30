@@ -77,3 +77,56 @@
 {
   text-decoration: none;
 }
+
+#top_bar
+{
+  width: 220px;
+  background-color: white;
+  padding: 0px;
+  
+  margin-left: auto;
+  margin-right: auto;
+  
+  border-radius: 0px 0px 4px 4px;
+  -moz-border-radius: 0px 0px 4px 4px;
+  -webkit-border-radius: 0px 0px 4px 4px;
+  
+	text-align: center;
+}
+
+#top_bar a 
+{
+  text-decoration: none;
+  color: black;
+  padding-left: 3px; padding-right: 3px;
+}
+
+/*#top_bar ul
+{
+  text-align: center;
+  margin-top: -5px;
+}
+
+#top_bar ul li
+{
+  display: inline;
+  float: left;
+  list-style: none;
+  padding-left: 6px;
+}
+
+#top_bar ul li a 
+{
+  text-decoration: none;
+  color: black;
+}*/
+
+ul.inline 
+{
+  
+}
+
+ul.inline li
+{
+  display: inline;
+}
