@@ -4,15 +4,13 @@
 
 {% block content %}
 
-  {% if following %}
-    <a href="" class="follow_link following" >
+  <a href="{{ path('follow', { 'type': 'group', 'id': group.id, 'token': user.personalHash }) }}" class="follow_link following" >
+    {% if following %}
       Ne plus suivre
-    </a>
-  {% else %}
-    <a href="" class="follow_link notfollowing" >
+    {% else %}
       Suivre
-    </a>
-  {% endif %}
+    {% endif %}
+  </a>
     
   <h2>{{ group.name }}</h2>
   
