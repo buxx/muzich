@@ -8,3 +8,11 @@ change_password:
   pattern: /account/change-password
   defaults: { _controller: MuzichUserBundle:User:changePassword }
   
+register:
+  pattern: /register/do
+  defaults: { _controller: MuzichUserBundle:User:register }
+  
+register_finish:
+  pattern: /register/finish
+  defaults: { _controller: MuzichUserBundle:User:registerFinish }
+  

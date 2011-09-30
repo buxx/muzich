@@ -24,6 +24,7 @@ $(document).ready(function(){
   // When message is clicked, hide it
   $('.message a.message-close').click(function(){			  
     $(this).parent('.message').animate({top: -$(this).outerHeight()-50}, 700);
+    return false;
   });		 
 		 
 });   

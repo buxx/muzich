@@ -4,11 +4,22 @@ namespace Muzich\CoreBundle\lib;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class Controller extends BaseController
 {
   
-  //private $ElementSearcher = null;
+  /**
+   * Authenticate a user with Symfony Security
+   *
+   */
+  protected function authenticateUser($user)
+  {
+    $providerKey = $this->container->getParameter('fos_user.firewall_name');
+    $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
+
+    $this->container->get('security.context')->setToken($token);
+  }
     
   /**
    * Met a jour l'objet ElementSearcher (en réallité on met a jour les
@@ -87,6 +98,11 @@ class Controller extends BaseController
   protected function getTagsArray()
   {
     return $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->getTagsArray();
+  }
+  
+  protected function setFlash($type, $value)
+  {
+    $this->container->get('session')->setFlash($type, $value);
   }
   
 }

@@ -13,6 +13,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @ORM\Table(name="m_user")
  * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User extends BaseUser
 {
@@ -272,6 +273,17 @@ class User extends BaseUser
     return $this->getUsername();
   }
   
+//  /**
+//  * @ORM\prePersist
+//  */
+//  public function setSlug()
+//  {
+//    if (!$this->slug)
+//    {
+//      
+//    }
+//  }
+//  
   /**
    * Retourn si l'user_id transmis fait partis des enregistrements
    * followed de l'objet.

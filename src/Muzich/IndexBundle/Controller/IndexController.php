@@ -3,17 +3,16 @@
 namespace Muzich\IndexBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use FOS\UserBundle\Controller\SecurityController as BaseController;
+use Muzich\CoreBundle\lib\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use Muzich\CoreBundle\Entity\Tag;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 use Muzich\CoreBundle\Entity\User;
 
-class IndexController extends BaseController
+class IndexController extends Controller
 {
   
   /**
@@ -23,8 +22,12 @@ class IndexController extends BaseController
   public function indexAction()
   {
     $vars = $this->proceedLogin();
-    $vars = array_merge($vars, $this->proceedRegister());
-    return $vars;
+    
+    $form = $this->container->get('fos_user.registration.form');
+    
+    return array_merge($vars, array(
+      'form' => $form->createView()
+    ));
   }
   
   /**
@@ -67,34 +70,9 @@ class IndexController extends BaseController
    * 
    * @return type array
    */
-  protected function proceedRegister()
+  public function proceedRegister()
   {
-    $form = $this->container->get('fos_user.registration.form');
-    $formHandler = $this->container->get('fos_user.registration.form.handler');
-    $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
-
-    $process = $formHandler->process($confirmationEnabled);
-    if ($process) {
-        $user = $form->getData();
-
-        if ($confirmationEnabled) {
-            $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
-            $route = 'fos_user_registration_check_email';
-        } else {
-            $this->authenticateUser($user);
-            $route = 'fos_user_registration_confirmed';
-        }
-
-        $this->setFlash('fos_user_success', 'registration.flash.user_created');
-        $url = $this->container->get('router')->generate($route);
-
-        return new RedirectResponse($url);
-    }
-
-    return array(
-        'form' => $form->createView(),
-        'theme' => $this->container->getParameter('fos_user.template.theme'),
-    );
+    
   }
   
 }
