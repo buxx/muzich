@@ -40,7 +40,7 @@ class UserController extends Controller
         $route = 'fos_user_registration_check_email';
       } else {
         $this->authenticateUser($user);
-        $route = 'register_finish';
+        $route = 'start';
       }
 
       $this->setFlash('success', 'Votre compte a bien été créé');
@@ -93,7 +93,7 @@ class UserController extends Controller
    * 
    * @Template()
    */
-  public function registerFinishAction()
+  public function startAction()
   {
     
     return array();

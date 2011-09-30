@@ -12,7 +12,7 @@ register:
   pattern: /register/do
   defaults: { _controller: MuzichUserBundle:User:register }
   
-register_finish:
-  pattern: /register/finish
-  defaults: { _controller: MuzichUserBundle:User:registerFinish }
+start:
+  pattern: /start
+  defaults: { _controller: MuzichUserBundle:User:start }
   
