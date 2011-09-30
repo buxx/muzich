@@ -3,9 +3,10 @@
 namespace Muzich\CoreBundle\Controller;
 
 use Muzich\CoreBundle\lib\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Muzich\CoreBundle\Entity\FollowUser;
-use Doctrine\ORM\Query;
+use Muzich\CoreBundle\Entity\FollowGroup;
+//use Doctrine\ORM\Query;
 
 class CoreController extends Controller
 {
@@ -26,7 +27,7 @@ class CoreController extends Controller
     }
     
     $em = $this->getDoctrine()->getEntityManager();
-    $FollowUser = $em
+    $Follow = $em
       ->getRepository('MuzichCoreBundle:Follow' . ucfirst($type))
       ->findOneBy(
         array(
@@ -36,25 +37,29 @@ class CoreController extends Controller
       )
     ;
     
-    if ($FollowUser)
+    if ($Follow)
     {
       // L'utilisateur suis déjà, on doit détruire l'entité
-      $em->remove($FollowUser);
+      $em->remove($Follow);
       $em->flush();
     }
     else
     {
-      $followed_user = $em->getRepository('MuzichCoreBundle:User')->find($id);
+      $followed = $em->getRepository('MuzichCoreBundle:'.ucfirst($type))->find($id);
 
-      if (!$followed_user) {
-          throw $this->createNotFoundException('No user found for id '.$id);
+      if (!$followed) {
+          throw $this->createNotFoundException('No '.$type.' found for id '.$id);
       }
       
-      $FollowUser = new FollowUser();
-      $FollowUser->setFollowed($followed_user);
-      $FollowUser->setFollower($user);
       
-      $em->persist($FollowUser);
+      if ($type == 'user') { $Follow = new FollowUser(); }
+      else { $Follow = new FollowGroup(); }
+      $Follow->setFollower($user);
+      if ($type == 'user') { $Follow->setFollowed($followed); }
+      else { $Follow->setGroup($followed); }
+      
+      
+      $em->persist($Follow);
       $em->flush();
     }
     
