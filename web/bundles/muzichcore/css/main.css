@@ -39,11 +39,17 @@
   
 }
 
+#container a 
+{
+  text-decoration: none;
+  color: #00d0de;
+}
+
 #container #top-tabs
 {
   float: left;
   list-style: none outside none;
-  margin: -36px 16px 0 -6px;
+  margin: -35px 16px 0 -6px;
   padding: 0;
 }
 
@@ -76,6 +82,7 @@
 #container #top-tabs li a
 {
   text-decoration: none;
+  color: black;
 }
 
 #top_bar
