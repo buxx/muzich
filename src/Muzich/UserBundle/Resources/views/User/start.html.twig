@@ -4,6 +4,26 @@
 
 {% block content %}
 
-  <h2>Inscription terminé !</h2>
+  <h2>Bienvenue sur Muzich !</h2>
+  
+  <p>
+    Bla bla bla ...
+  </p>
+  
+  <h3>Choisissez vos tags préférés</h3>
+  
+  <form action="{{ path('update_tag_favorites') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_errors(form) }}
+
+    {{ form_row(form.tags) }}
+
+    {{ form_rest(form) }}
+
+    <input type="submit" />
+  </form>
+  
+  <p>
+    Vous pourrez egallement modifier vos tags préféré dans la partie 'mon compte'.
+  </p>
       
 {% endblock %}

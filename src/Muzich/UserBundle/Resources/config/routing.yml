@@ -16,3 +16,7 @@ start:
   pattern: /start
   defaults: { _controller: MuzichUserBundle:User:start }
   
+update_tag_favorites:
+  pattern: /account/update-tag-favorites/{redirect}
+  defaults: { _controller: MuzichUserBundle:User:updateTagFavorites, redirect: home }
+    

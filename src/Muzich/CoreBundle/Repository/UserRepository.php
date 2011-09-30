@@ -40,6 +40,12 @@ class UserRepository extends EntityRepository
       $join   .= ' JOIN u.followed_groups fdg JOIN fdg.group fdg_g';
     }
     
+    if (in_array('favorites_tags', $join_list))
+    {
+      $select .= ', tf, tf_t';
+      $join   .= ' LEFT JOIN u.tags_favorites tf LEFT JOIN tf.tag tf_t';
+    }
+    
 //    if (array_key_exists('followed_user_id', $join_list))
 //    {
 //      $select .= ', fu, fu_u';
@@ -67,7 +73,7 @@ class UserRepository extends EntityRepository
    * @param int $limit
    * @return array 
    */
-  public function getTagIdsFavorites($user_id, $limit)
+  public function getTagIdsFavorites($user_id, $limit = null)
   {
     $tag_ids = array();
     foreach ($this->getEntityManager()

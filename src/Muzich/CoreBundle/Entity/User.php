@@ -6,6 +6,8 @@ use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\EntityManager;
+use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 
 /**
  * Cet entité est l'utilisateur ayant effectué la requête.
@@ -337,4 +339,97 @@ class User extends BaseUser
   {
     return hash('sha256', $this->getSalt().$this->getUsername());
   }
+  
+  /**
+   * Ajoute a l'user les tags transmis (id) comme favoris.
+   * 
+   * @param EntityManager $em 
+   * @param array $ids 
+   */
+  public function addTagsFavoritesById(EntityManager $em, $ids)
+  {
+    // TODO: attention aux relations déjà existantes.
+    // TODO penser a supprimer celles qui n'existes plus.
+    
+    $ids_to_add = $ids;
+    
+    // Pour chacun des tags favoris 
+    foreach ($this->tags_favorites as $tag_favorite)
+    {
+      $trouve = false;
+      foreach ($ids as $i => $id)
+      {
+        if ($id == $tag_favorite->getTag()->getId())
+        {
+          $trouve = true;
+          // Si le tag était favoris déjà avant (et aussi maintenant)
+          // il ne sera ni a ajouter, ni a supprimer.
+          unset($ids_to_add[$i]);
+        }
+      }
+      
+      if (!$trouve)
+      {
+        // Si cet ancien tag n'est plus dans la liste, il faut le supprimer
+        // (rappel: on supprime ici la relation, pas le tag)
+        $em->remove($tag_favorite);
+      }
+    }
+    
+    $tag_favorite_position_max = $this->getTagFavoritePositionMax();
+    
+    // Pour les nouveaux ids restants
+    foreach ($ids as $id)
+    {
+      $tag = $em->getRepository('MuzichCoreBundle:Tag')
+        ->findOneById($id)
+      ;
+      
+      $tag_favorite = new UsersTagsFavorites();
+      $tag_favorite->setUser($this);
+      $tag_favorite->setTag($tag);
+      $tag_favorite->setPosition($tag_favorite_position_max);
+      $tag_favorite_position_max++;
+      
+      $this->addUsersTagsFavorites($tag_favorite);
+      $em->persist($tag_favorite);
+    }
+    
+    $em->flush();
+    
+  }
+  
+  /**
+   * Retourne un tableau contenant les ids des tags préférés de l'user
+   * 
+   * @return type array
+   */
+  public function getTagFavoriteIds()
+  {
+    $ids = array();
+    foreach ($this->tags_favorites as $tag_favorite)
+    {
+      $ids[$tag_favorite->getTag()->getId()] = $tag_favorite->getTag()->getId();
+    }
+    return $ids;
+  }
+  
+  /**
+   * Retourne la position max des tag favoris.
+   * 
+   * @return int 
+   */
+  public function getTagFavoritePositionMax()
+  {
+    $max = 0;
+    foreach ($this->tags_favorites as $tag_favorite)
+    {
+      if ($tag_favorite->getPosition() > $max)
+      {
+        $max = $tag_favorite->getPosition();
+      }
+    }
+    return $max;
+  }
+  
 }
