@@ -1,6 +1,10 @@
 
 
 my_account:
-   pattern:  /account
-   defaults: { _controller: MuzichUserBundle:User:account }
+  pattern:  /account
+  defaults: { _controller: MuzichUserBundle:User:account }
      
+change_password:
+  pattern: /account/change-password
+  defaults: { _controller: MuzichUserBundle:User:changePassword }
+  

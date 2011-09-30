@@ -1,7 +1,13 @@
-{% extends "MuzichCoreBundle::layout.html.twig" %}
+{% extends 'MuzichCoreBundle::layout.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block css %}
+	<link href="{{ asset('bundles/muzichuser/css/user.css') }}" rel="stylesheet" media="screen" type="text/css" />
+{% endblock %}
 
-{% block content %}
-    {% block fos_user_content %}{% endblock %}
+{% block main_content %}
+  
+    {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with { 'active': null } %}
+  
+    {% block content %}{% endblock %}
+  
 {% endblock %}

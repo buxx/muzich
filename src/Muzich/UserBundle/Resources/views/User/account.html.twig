@@ -1,9 +1,36 @@
-{% extends "MuzichHomeBundle::layout.html.twig" %}
+{% extends "MuzichUserBundle::layout.html.twig" %}
 
 {% block title %}Mon compte{% endblock %}
 
 {% block content %}
 
+  <h2>Mon compte</h2>
   
+  <ul>
+    <li>
+      <b>Nom d'utilisateur</b>: {{ user.name }}
+    </li>
+    <li>
+      <b>Adresse email</b>: {{ user.email }}
+    </li>
+  </ul>
+  
+  <h3>Changer mon mot de passe</h3>
+  
+  <form action="{{ path('change_password') }}" method="post" {{ form_enctype(form_password) }}>
+    {{ form_errors(form_password) }}
+
+    {{ form_row(form_password.current) }}
+      
+    {{ form_row(form_password.new.first) }}
+      
+    {{ form_row(form_password.new.second) }}
+      
+    {{ form_rest(form_password) }}
+
+    <input type="submit" />
+  </form>
+  
+  <h3>Changer mon adresse email</h3>
     
 {% endblock %}
