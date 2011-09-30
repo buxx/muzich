@@ -6,7 +6,7 @@ html {
 }
 body {
   margin: 0;
-  padding: 1em; /* Remettre à zéro si nécessaire. */
+  padding: 0; /* Remettre à zéro si nécessaire. */
   /* Pensez à utiliser une collection de polices (2), par ex:
   font-family: Arial, Helvetica, FreeSans, sans-serif; */
   /*font-size: .8em;*/ /* À adapter pour la police choisie. (3) */

@@ -18,3 +18,7 @@ MuzichIndexBundle:
 MuzichHomeBundle:
   resource: "@MuzichHomeBundle/Resources/config/routing.yml"
   prefix: /
+
+MuzichUserBundle:
+  resource: "@MuzichUserBundle/Resources/config/routing.yml"
+  prefix: /
