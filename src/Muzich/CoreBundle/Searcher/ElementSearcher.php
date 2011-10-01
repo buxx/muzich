@@ -41,9 +41,9 @@ class ElementSearcher extends Searcher implements SearcherInterface
   public function init($params)
   {
     // Control des parametres transmis.
-    $this->checkParams($params, array(
-      'tags' => "Muzich\CoreBundle\Searcher\ElementSearch::init(): \$params: Au moins un tag est nécéssaire"
-    ));
+//    $this->checkParams($params, array(
+//      'tags' => "Muzich\CoreBundle\Searcher\ElementSearch::init(): \$params: Au moins un tag est nécéssaire"
+//    ));
     
     // Mise a jour des attributs
     $this->setAttributes(array(
