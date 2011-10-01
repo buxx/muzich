@@ -348,13 +348,10 @@ class User extends BaseUser
    */
   public function updateTagsFavoritesById(EntityManager $em, $ids)
   {
-    // TODO: attention aux relations déjà existantes.
-    // TODO penser a supprimer celles qui n'existes plus.
-    
     $ids_to_add = $ids;
     
     // Pour chacun des tags favoris 
-    foreach ($this->tags_favorites as $tag_favorite)
+    foreach ($this->tags_favorites as $ii => $tag_favorite)
     {
       $trouve = false;
       foreach ($ids as $i => $id)
@@ -365,6 +362,7 @@ class User extends BaseUser
           // Si le tag était favoris déjà avant (et aussi maintenant)
           // il ne sera ni a ajouter, ni a supprimer.
           unset($ids_to_add[$i]);
+          var_dump($ids_to_add);
         }
       }
       
@@ -376,27 +374,26 @@ class User extends BaseUser
       }
     }
     
-    $tag_favorite_position_max = $this->getTagFavoritePositionMax();
-    
-    // Pour les nouveaux ids restants
-    foreach ($ids as $id)
+    if (count($ids_to_add))
     {
-      $tag = $em->getRepository('MuzichCoreBundle:Tag')
-        ->findOneById($id)
-      ;
-      
-      $tag_favorite = new UsersTagsFavorites();
-      $tag_favorite->setUser($this);
-      $tag_favorite->setTag($tag);
-      $tag_favorite->setPosition($tag_favorite_position_max);
-      $tag_favorite_position_max++;
-      
-      $this->addUsersTagsFavorites($tag_favorite);
-      $em->persist($tag_favorite);
+      $tag_favorite_position_max = $this->getTagFavoritePositionMax();
+      $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($ids_to_add)->execute();
+
+      // Pour les nouveaux ids restants
+      foreach ($tags as $tag)
+      {      
+        $tag_favorite = new UsersTagsFavorites();
+        $tag_favorite->setUser($this);
+        $tag_favorite->setTag($tag);
+        $tag_favorite->setPosition($tag_favorite_position_max);
+        $tag_favorite_position_max++;
+
+        $this->addUsersTagsFavorites($tag_favorite);
+        $em->persist($tag_favorite);
+      }
     }
     
     $em->flush();
-    
   }
   
   /**

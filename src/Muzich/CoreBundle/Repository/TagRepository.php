@@ -27,5 +27,19 @@ class TagRepository extends EntityRepository
     return $tag_array;
   }
   
+  /**
+   * Retourne une Query selectionnant des tags pour leurs id
+   * 
+   * @param array $ids
+   * @return \Doctrine\ORM\Query 
+   */
+  public function findByIds($ids)
+  {
+    return $this->getEntityManager()->createQuery("
+        SELECT t FROM MuzichCoreBundle:Tag t
+        WHERE t.id IN (:tids)
+    ")->setParameter('tids', $ids);
+  }
+  
 }
   
