@@ -78,7 +78,7 @@ class ElementRepository extends EntityRepository
     $query_string = "SELECT e, et, t2, eu, g
       FROM MuzichCoreBundle:Element e 
       LEFT JOIN e.group g 
-      JOIN e.type et 
+      LEFT JOIN e.type et 
       LEFT JOIN e.tags t 
       LEFT JOIN e.tags t2 
       JOIN e.owner eu $join_personal

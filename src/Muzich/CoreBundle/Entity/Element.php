@@ -5,7 +5,7 @@ namespace Muzich\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
-
+use Doctrine\ORM\EntityManager;
 
 /**
  * L'Element est l'Element central de l'application. C'est cet
@@ -84,6 +84,14 @@ class Element
   protected $name;
   
   /**
+   * Code d'embed
+   * 
+   * @ORM\Column(type="text", nullable=true)
+   * @var type string
+   */
+  protected $embed;
+  
+  /**
    * @var datetime $created
    *
    * @Gedmo\Timestampable(on="create")
@@ -155,7 +163,7 @@ class Element
    *
    * @param ElementType $type
    */
-  public function setType(ElementType $type)
+  public function setType(ElementType $type = null)
   {
     $this->type = $type;
   }
@@ -171,9 +179,10 @@ class Element
   }
   
   
-  public function __construct()
+  public function __construct($url = null)
   {
     $this->tags = new ArrayCollection();
+    $this->url = $url;
   }
   
   /**
@@ -295,5 +304,21 @@ class Element
   public function getUpdated()
   {
       return $this->updated;
+  }
+  
+  /**
+   * Ajoute des relation vers des tags.
+   * 
+   * @param array $ids 
+   */
+  public function setTagsWithIds(EntityManager $em, $ids)
+  {
+    $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($ids)->execute();
+
+    // Pour les nouveaux ids restants
+    foreach ($tags as $tag)
+    {      
+      $this->addTag($tag);
+    }
   }
 }

@@ -1,11 +1,14 @@
 
 
 search_elements:
-   pattern:  /search-elements
-   defaults: { _controller: MuzichCoreBundle:Search:searchElements }
+  pattern:  /search-elements
+  defaults: { _controller: MuzichCoreBundle:Search:searchElements }
    
 follow:
-   pattern:  /follow/{type}/{id}/{token}
-   defaults: { _controller: MuzichCoreBundle:Core:follow }
+  pattern:  /follow/{type}/{id}/{token}
+  defaults: { _controller: MuzichCoreBundle:Core:follow }
    
-     
+element_add:
+  pattern:  /element/add
+  defaults: { _controller: MuzichCoreBundle:Core:elementAdd }
+  

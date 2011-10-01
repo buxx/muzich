@@ -7,6 +7,9 @@ use Muzich\CoreBundle\lib\Controller;
 use Muzich\CoreBundle\Entity\FollowUser;
 use Muzich\CoreBundle\Entity\FollowGroup;
 //use Doctrine\ORM\Query;
+use Muzich\CoreBundle\Form\Element\ElementAddForm;
+use Muzich\CoreBundle\ElementFactory\ElementFactory;
+use Muzich\CoreBundle\Entity\Element;
 
 class CoreController extends Controller
 {
@@ -72,5 +75,50 @@ class CoreController extends Controller
       return $this->redirect($this->container->get('request')->headers->get('referer'));
     }
   }
+  
+  public function elementAddAction()
+  {
+    $user = $this->getUser();
+    $em = $this->getDoctrine()->getEntityManager();
+    
+    $form = $this->createForm(
+      new ElementAddForm(),
+      array(),
+      array('tags' => $this->getTagsArray())
+    );
+    
+    if ($this->getRequest()->getMethod() == 'POST')
+    {
+      $form->bindRequest($this->getRequest());
+      if ($form->isValid())
+      {
+        $data = $form->getData();
+        $element = new Element();
+        
+        $factory = new ElementFactory($element, $em);
+        $factory->proceed($data, $user);
+        
+        $em->persist($element);
+        $em->flush();
+      }
+      
+    }
+    
+    if ($this->getRequest()->isXmlHttpRequest())
+    {
+      
+    }
+    else
+    {
+      return $this->redirect($this->generateUrl('home'));
+    }
+    
+  }
+  
+//  protected function proceedElement(Element $element)
+//  {
+//    $factory = new ElementFactory();
+//    $factory->proceed($element, $form->getData());
+//  }
   
 }
