@@ -12,7 +12,9 @@
   
   <h3>Choisissez vos tags préférés</h3>
   
-  {% include "MuzichCoreBundle:Tag:tagFavoritesForm.html.twig" %}
+  {% include "MuzichCoreBundle:Tag:tagFavoritesForm.html.twig" with { 
+    'redirect' : 'home'
+  } %}
   
   <p>
     Vous pourrez egallement modifier vos tags préféré dans la partie 'mon compte'.

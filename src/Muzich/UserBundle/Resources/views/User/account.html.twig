@@ -15,6 +15,13 @@
     </li>
   </ul>
   
+  <h3>Vos tags préférés</h3>
+  
+  {% include "MuzichCoreBundle:Tag:tagFavoritesForm.html.twig" with { 
+    'form': form_tags_favorites,
+    'redirect' : 'account'
+  } %}
+  
   <h3>Changer mon mot de passe</h3>
   
   <form action="{{ path('change_password') }}" method="post" {{ form_enctype(form_password) }}>

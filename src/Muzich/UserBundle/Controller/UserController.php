@@ -19,10 +19,19 @@ class UserController extends Controller
     $user = $this->getUser();
 
     $form_password = $this->container->get('fos_user.change_password.form');
+    
+    $form_tags_favorites = $this->createForm(
+      new TagFavoritesForm(), 
+      array('tags' => $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+        ->getTagIdsFavorites($user->getId())
+      ),
+      array('tags' => $this->getTagsArray())
+    );
 
       return array(
         'user' => $user,
-        'form_password' => $form_password->createView()
+        'form_password' => $form_password->createView(),
+        'form_tags_favorites' => $form_tags_favorites->createView()
       );
   }
   
@@ -156,7 +165,7 @@ class UserController extends Controller
     }
     else
     {
-      return $this->redirect($this->generateUrl('home'));
+      return $this->redirect($this->generateUrl('my_account'));
     }
   }
     
