@@ -34,6 +34,8 @@ class ElementRepository extends EntityRepository
   {;
     $params = array();
     $join_personal = '';
+    //$query_with = '';
+    $where = '';
     
     switch ($searcher->getNetwork())
     {
@@ -49,21 +51,38 @@ class ElementRepository extends EntityRepository
       break;
     }
     
-    $query_with = "WITH ";
+//    $query_with = "WITH ";
+//    foreach ($searcher->getTags() as $tag_id)
+//    {
+//      if ($query_with != "WITH ")
+//      {
+//        $query_with .= "OR ";
+//      }
+//      $query_with .= "t.id = :tagid".$tag_id." ";
+//      $params['tagid'.$tag_id] = $tag_id;
+//    }
+    
     foreach ($searcher->getTags() as $tag_id)
     {
-      if ($query_with != "WITH ")
+      if ($where == '')
       {
-        $query_with .= "OR ";
+        $where .= 'WHERE t.id = :tid'.$tag_id;
       }
-      $query_with .= "t.id = :tagid".$tag_id." ";
-      $params['tagid'.$tag_id] = $tag_id;
+      else
+      {
+        $where .= ' OR t.id = :tid'.$tag_id;
+      }
+      $params['tid'.$tag_id] = $tag_id;
     }
         
-    $query_string = "SELECT e, et, t, eu, g
+    $query_string = "SELECT e, et, t2, eu, g
       FROM MuzichCoreBundle:Element e 
-      LEFT JOIN e.group g JOIN e.type et JOIN e.tags t $query_with 
-        JOIN e.owner eu $join_personal
+      LEFT JOIN e.group g 
+      JOIN e.type et 
+      LEFT JOIN e.tags t 
+      LEFT JOIN e.tags t2 
+      JOIN e.owner eu $join_personal
+      $where
       ORDER BY e.created DESC "
     ;
     
