@@ -134,7 +134,9 @@ class UserController extends Controller
       if ($form->isValid())
       {
         $data = $form->getData();
-        $user->addTagsFavoritesById($this->getDoctrine()->getEntityManager(), $data['tags']);
+        $user->updateTagsFavoritesById($this->getDoctrine()->getEntityManager(), $data['tags']);
+        
+        $this->container->get('session')->setFlash('success', 'Vos tags péférés ont correctements été mis a jour.');
       }
       else
       {

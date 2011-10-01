@@ -346,7 +346,7 @@ class User extends BaseUser
    * @param EntityManager $em 
    * @param array $ids 
    */
-  public function addTagsFavoritesById(EntityManager $em, $ids)
+  public function updateTagsFavoritesById(EntityManager $em, $ids)
   {
     // TODO: attention aux relations déjà existantes.
     // TODO penser a supprimer celles qui n'existes plus.

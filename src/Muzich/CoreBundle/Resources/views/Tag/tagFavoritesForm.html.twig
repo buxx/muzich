@@ -1,0 +1,9 @@
+<form action="{{ path('update_tag_favorites') }}" method="post" {{ form_enctype(form) }}>
+  {{ form_errors(form) }}
+
+  {{ form_row(form.tags) }}
+
+  {{ form_rest(form) }}
+
+  <input type="submit" />
+</form>
