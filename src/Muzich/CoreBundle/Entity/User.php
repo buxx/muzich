@@ -362,7 +362,6 @@ class User extends BaseUser
           // Si le tag était favoris déjà avant (et aussi maintenant)
           // il ne sera ni a ajouter, ni a supprimer.
           unset($ids_to_add[$i]);
-          var_dump($ids_to_add);
         }
       }
       
