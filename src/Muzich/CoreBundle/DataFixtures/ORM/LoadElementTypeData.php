@@ -39,10 +39,10 @@ class LoadElementTypeData  extends AbstractFixture implements OrderedFixtureInte
   public function load($entity_manager)
   {
     $this->entity_manager = $entity_manager;
-
+    
     foreach (array(
-      'youtube' => 'Youtube', 'soundclound' => 'SoundCloud', 
-      'son2teuf' => 'Son2Teuf', 'jamendo' => 'jamendo'
+      'youtube.com' => 'Youtube', 'soundcloud.com' => 'SoundCloud', 
+      'son2teuf.org' => 'Son2Teuf', 'jamendo.com' => 'jamendo'
       ) as $id => $name)
     {
       $this->createElementType($id, $name);

@@ -6,6 +6,8 @@ use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 
+use Muzich\CoreBundle\ElementFactory\Site\YoutubeFactory;
+
 /**
  * 
  *
@@ -14,10 +16,11 @@ use Doctrine\ORM\EntityManager;
 class ElementFactory
 {
   
-  const TYPE_UNKNOW = 'unknow';
-  
   protected $types = array(
-    'youtube', 'soundclound', 'son2teuf', 'jamendo'
+    'youtube.com'    => 'YoutubeFactory', 
+    'soundcloud.com' => 'SoundCloudFactory', 
+    'son2teuf.org'   => 'Son2TeufFactory', 
+    'jamendo.com'    => 'JamendoFactory'
   );
   
   protected $em;
@@ -75,7 +78,18 @@ class ElementFactory
    */
   protected function determineType()
   {
-    $this->element->setType(null);
+    preg_match("/^(http:\/\/)?([^\/]+)/i", $this->element->getUrl(), $chaines);
+    $host = $chaines[2];
+    // Repérer les derniers segments
+    preg_match("/[^\.\/]+\.[^\.\/]+$/",$host,$chaines);
+    
+    $type = null;
+    if (array_key_exists($chaines[0], $this->types))
+    {
+      $type = $this->em->getRepository('MuzichCoreBundle:ElementType')->find($chaines[0]);
+    }
+    
+    $this->element->setType($type);
   }
   
   /**
@@ -89,6 +103,14 @@ class ElementFactory
     // Instanciation d'un objet factory correspondant au type, par exemple
     // YoutubeFactory, qui répondant a une implementation retournera ces infos.
   
+    if ($this->element->getType())
+    {
+      $factory_name = $this->types[$this->element->getType()->getId()];
+      
+      $site_factory = new YoutubeFactory($this->element);
+      $this->element->getEmbed($site_factory->getEmbedCode());
+    }
+    
   }
     
 }

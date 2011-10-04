@@ -267,6 +267,26 @@ class Element
   }
 
   /**
+   * Set embed
+   *
+   * @param string $code
+   */
+  public function setEmbed($code)
+  {
+      $this->embed = $code;
+  }
+
+  /**
+   * Get embed
+   *
+   * @return string 
+   */
+  public function getEmbed()
+  {
+      return $this->embed;
+  }
+
+  /**
    * Set created
    *
    * @param date $created
