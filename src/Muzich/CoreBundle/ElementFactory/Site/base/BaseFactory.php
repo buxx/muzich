@@ -1,8 +1,10 @@
 <?php
 
-namespace Muzich\CoreBundle\ElementFactory\Site;
+namespace Muzich\CoreBundle\ElementFactory\Site\base;
 
 use Muzich\CoreBundle\Entity\Element;
+use Symfony\Component\DependencyInjection\Container;
+use \Exception;
 
 /**
  *
@@ -13,7 +15,7 @@ class BaseFactory implements FactoryInterface
   
   protected $element;
   
-  public function __construct(Element $element)
+  public function __construct(Element $element, Container $container)
   {
     $this->element = $element;
   }

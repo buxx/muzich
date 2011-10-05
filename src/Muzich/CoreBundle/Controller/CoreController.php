@@ -95,7 +95,7 @@ class CoreController extends Controller
         $data = $form->getData();
         $element = new Element();
         
-        $factory = new ElementFactory($element, $em);
+        $factory = new ElementFactory($element, $em, $this->container);
         $factory->proceed($data, $user);
         
         $em->persist($element);

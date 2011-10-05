@@ -5,6 +5,7 @@ namespace Muzich\CoreBundle\ElementFactory;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\Container;
 
 use Muzich\CoreBundle\ElementFactory\Site\YoutubeFactory;
 
@@ -17,14 +18,15 @@ class ElementFactory
 {
   
   protected $types = array(
-    'youtube.com'    => 'YoutubeFactory', 
-    'soundcloud.com' => 'SoundCloudFactory', 
-    'son2teuf.org'   => 'Son2TeufFactory', 
-    'jamendo.com'    => 'JamendoFactory'
+    'youtube.com', 
+    'soundcloud.com', 
+    'son2teuf.org', 
+    'jamendo.com'
   );
   
   protected $em;
   protected $element;
+  protected $container;
   
   /**
    * Procédure chargé de retourner des information destiné au 
@@ -42,10 +44,11 @@ class ElementFactory
     );
   }
   
-  public function __construct(Element $element, EntityManager $em)
+  public function __construct(Element $element, EntityManager $em, Container $container)
   {
     $this->element = $element;
     $this->em = $em;
+    $this->container = $container;
     
     $evm = new \Doctrine\Common\EventManager();
     $timestampableListener = new \Gedmo\Timestampable\TimestampableListener();
@@ -105,12 +108,33 @@ class ElementFactory
   
     if ($this->element->getType())
     {
-      $factory_name = $this->types[$this->element->getType()->getId()];
-      
-      $site_factory = new YoutubeFactory($this->element);
-      $this->element->getEmbed($site_factory->getEmbedCode());
+      $site_factory = $this->getFactory();
+      $this->element->setEmbed($site_factory->getEmbedCode());
     }
     
+  }
+  
+  protected function getFactory()
+  { 
+    switch ($this->element->getType()->getId())
+    {
+      case 'youtube.com':
+        return new YoutubeFactory($this->element, $this->container);
+      break;
+      case 'soundcloud.com':
+        return new SoundCloudFactory($this->element, $this->container);
+      break;
+      case 'son2teuf.org':
+        return new Son2TeufFactory($this->element, $this->container);
+      break;
+      case 'jamendo.com':
+        return new JamendoFactory($this->element, $this->container);
+      break;
+    
+      default:
+        throw new Exception("La Factory n'est pas connu pour ce type.");
+      break;
+    }
   }
     
 }
