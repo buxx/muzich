@@ -14,7 +14,7 @@ use Muzich\CoreBundle\ElementFactory\Site\YoutubeFactory;
  *
  * @author bux
  */
-class ElementFactory
+class ElementManager
 {
   
   protected $types = array(
@@ -66,7 +66,7 @@ class ElementFactory
    * @param User $owner
    * @return Element 
    */
-  public function proceed($params, User $owner)
+  public function proceedFill($params, User $owner)
   {
     $this->element->setName($params['name']);
     $this->element->setUrl($params['url']);
@@ -87,7 +87,9 @@ class ElementFactory
     preg_match("/[^\.\/]+\.[^\.\/]+$/",$host,$chaines);
     
     $type = null;
-    if (array_key_exists($chaines[0], $this->types))
+    
+    
+    if (in_array($chaines[0], $this->types))
     {
       $type = $this->em->getRepository('MuzichCoreBundle:ElementType')->find($chaines[0]);
     }

@@ -8,7 +8,7 @@ use Muzich\CoreBundle\Entity\FollowUser;
 use Muzich\CoreBundle\Entity\FollowGroup;
 //use Doctrine\ORM\Query;
 use Muzich\CoreBundle\Form\Element\ElementAddForm;
-use Muzich\CoreBundle\ElementFactory\ElementFactory;
+use Muzich\CoreBundle\ElementFactory\ElementManager;
 use Muzich\CoreBundle\Entity\Element;
 
 class CoreController extends Controller
@@ -95,8 +95,8 @@ class CoreController extends Controller
         $data = $form->getData();
         $element = new Element();
         
-        $factory = new ElementFactory($element, $em, $this->container);
-        $factory->proceed($data, $user);
+        $factory = new ElementManager($element, $em, $this->container);
+        $factory->proceedFill($data, $user);
         
         $em->persist($element);
         $em->flush();
