@@ -82,7 +82,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     
     // Création des Users
     $admin  = $this->createUser('admin', 'admin@root', 'toor');
-    $bux    = $this->createUser('bux', 'bux@root', 'toor');
+    $bux    = $this->createUser('bux', 'sevajol.bastien@gmail.com', 'toor');
     $jean   = $this->createUser('jean', 'jean@root', 'toor');
     $paul   = $this->createUser('paul', 'paul@root', 'toor');
     $bob    = $this->createUser('bob', 'bob@root', 'toor');
