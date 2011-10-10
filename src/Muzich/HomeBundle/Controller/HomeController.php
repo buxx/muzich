@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Doctrine\ORM\Query;
 use Muzich\CoreBundle\Form\Search\ElementSearchForm;
+use Muzich\CoreBundle\Form\Element\ElementAddForm;
 
 class HomeController extends Controller
 {
@@ -21,10 +22,17 @@ class HomeController extends Controller
     $search_form = $this->createForm(
       new ElementSearchForm(), 
       $search_object->getParams(),
-      array('tags' => $this->getTagsArray())
+      array('tags' => $tags = $this->getTagsArray())
+    );
+    
+    $add_form = $this->createForm(
+      new ElementAddForm(),
+      array(),
+      array('tags' => $tags)
     );
         
     return array(
+      'add_form' => $add_form->createView(),
       'search_object' => $search_object,
       'search_form'   => $search_form->createView()
     );

@@ -19,7 +19,7 @@ class ElementType
   
   /**
    * @ORM\Id
-   * @ORM\Column(type="string", length=12)
+   * @ORM\Column(type="string", length=18)
    * @var type string
    */
   protected $id;

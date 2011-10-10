@@ -76,10 +76,10 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     $joelle  = $this->entity_manager->merge($this->getReference('user_joelle'));
 
     // 'youtube', 'soundclound', 'son2teuf', 'jamendo'
-    $youtube     = $this->entity_manager->merge($this->getReference('element_type_youtube'));
-    $soundclound = $this->entity_manager->merge($this->getReference('element_type_soundclound'));
-    $son2teuf    = $this->entity_manager->merge($this->getReference('element_type_son2teuf'));
-    $jamendo     = $this->entity_manager->merge($this->getReference('element_type_jamendo'));
+    $youtube     = $this->entity_manager->merge($this->getReference('element_type_youtube.com'));
+    $soundclound = $this->entity_manager->merge($this->getReference('element_type_soundcloud.com'));
+    $son2teuf    = $this->entity_manager->merge($this->getReference('element_type_son2teuf.org'));
+    $jamendo     = $this->entity_manager->merge($this->getReference('element_type_jamendo.com'));
     
     $this->createElement('youtube_heretik_1', 'Heretik System Popof - Resistance', 
       'http://www.youtube.com/watch?v=tq4DjQK7nsM',
