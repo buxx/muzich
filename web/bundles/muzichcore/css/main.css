@@ -181,25 +181,25 @@ ul.inline li
 		 -moz-animation: animate-bg 5s linear infinite;
 }
 
-.info
+.info, .fos_user_info
 {
 		 background-color: #4ea5cd;
 		 border-color: #3b8eb5;
 }
 
-.error
+.error, .fos_user_error
 {
 		 background-color: #de4343;
 		 border-color: #c43d3d;
 }
 		 
-.warning
+.warning, .fos_user_warning
 {
 		 background-color: #eaaf51;
 		 border-color: #d99a36;
 }
 
-.success
+.success, .fos_user_success
 {
 		 background-color: #61b832;
 		 border-color: #55a12c;

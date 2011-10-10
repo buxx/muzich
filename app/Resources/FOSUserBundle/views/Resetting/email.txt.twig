@@ -1,7 +1,3 @@
 {% autoescape false %}
 {{ 'resetting.email'|trans({'%username%': user.username, '%confirmationUrl%': confirmationUrl}, 'FOSUserBundle') }}
-
-Bonjour {{ user.username }},
-Vous avez demandé le changement de votre mot de passe, pour le modifier
-rendez-vous acette adresse: {{ confirmationUrl }}
 {% endautoescape %}

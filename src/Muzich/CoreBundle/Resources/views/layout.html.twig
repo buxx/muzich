@@ -34,7 +34,7 @@
   {% for key, flash in app.session.getFlashes() %}
     <div class="{{ key }} message">
       <a class="message-close" href="#" title="fermer"><img alt="close" src="{{ asset('bundles/muzichcore/img/1317386146_cancel.png') }}" /></a>
-      <h3>{{ flash }}</h3>
+      <h3>{{ flash|trans({}, 'flash') }}</h3>
     </div>
   {% endfor %}
 </body>
