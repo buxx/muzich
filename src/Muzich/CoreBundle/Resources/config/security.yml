@@ -30,12 +30,16 @@ security:
         - { path: ^/hello, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        
+        
+        - { path: ^/_wdt/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/_profiler/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/js/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/css/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/bundles/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        
         - { path: ^/, roles: ROLE_USER }
 #        # Liste des pages accessibles à tous les utilisateurs (ne pas toucher)
-#        - { path: ^/_wdt/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/_profiler/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/js/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/css/, role: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/register$, role: IS_AUTHENTICATED_ANONYMOUSLY }
