@@ -2,15 +2,11 @@
 
 namespace Muzich\IndexBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Muzich\CoreBundle\lib\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\SecurityContext;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-use Muzich\CoreBundle\Entity\Tag;
-use Muzich\CoreBundle\Entity\UsersTagsFavorites;
-use Muzich\CoreBundle\Entity\User;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class IndexController extends Controller
 {
@@ -22,7 +18,6 @@ class IndexController extends Controller
   public function indexAction()
   {
     $vars = $this->proceedLogin();
-    
     $form = $this->container->get('fos_user.registration.form');
     
     return array_merge($vars, array(
@@ -63,16 +58,6 @@ class IndexController extends Controller
         'last_username' => $lastUsername,
         'error'         => $error,
     );
-  }
-  
-  /**
-   * Gestion du formulaire d'inscription sur la page d'index.
-   * 
-   * @return type array
-   */
-  public function proceedRegister()
-  {
-    
   }
   
 }

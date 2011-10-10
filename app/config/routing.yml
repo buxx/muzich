@@ -8,6 +8,10 @@
 MuzichIndexBundle:
   resource: "@MuzichIndexBundle/Resources/config/routing.yml"
   prefix: /
+    
+change_language:
+    pattern:  /change-language/{language}/{redirect}
+    defaults: { _controller: MuzichCoreBundle:Core:changeLanguage, redirect: referer }
   
 MuzichCoreBundle:
   resource: "@MuzichCoreBundle/Resources/config/routing.yml"
@@ -16,8 +20,7 @@ MuzichCoreBundle:
 
 MuzichHomeBundle:
   resource: "@MuzichHomeBundle/Resources/config/routing.yml"
-  prefix: /{_locale}/
-  defaults: { _locale: fr }
+  prefix: /
 
 MuzichUserBundle:
   resource: "@MuzichUserBundle/Resources/config/routing.yml"

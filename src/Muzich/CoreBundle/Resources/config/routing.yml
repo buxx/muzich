@@ -11,4 +11,3 @@ follow:
 element_add:
   pattern:  /element/add
   defaults: { _controller: MuzichCoreBundle:Core:elementAdd }
-  

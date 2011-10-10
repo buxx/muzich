@@ -10,9 +10,40 @@ use Muzich\CoreBundle\Entity\FollowGroup;
 use Muzich\CoreBundle\Form\Element\ElementAddForm;
 use Muzich\CoreBundle\ElementFactory\ElementManager;
 use Muzich\CoreBundle\Entity\Element;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class CoreController extends Controller
 {
+  
+  public function changeLanguageAction($language, $redirect)
+  {
+    if($language != null)
+    {
+      $old = $this->get('session')->getLocale();
+      $this->get('session')->setLocale($language);
+    }
+    
+    $url_referer = $this->container->get('request')->headers->get('referer');
+    
+    // On effectue un contrôl un peu sépcial:
+    // Si la page de demande était la page de connexion (hello)
+    if (
+      $this->generateUrl('index', array('_locale' => $old), true) == $url_referer
+      || $this->generateUrl('index', array('_locale' => null), true) == $url_referer
+    )
+    {
+      // On construit l'url
+      $url = $this->generateUrl('index', array('_locale' => $language));
+    }
+    else
+    {
+      // Sinon on retourne sur l'url précédent en modifiant la langue
+      $url = str_replace("/$old", "/$language", 
+        $this->container->get('request')->headers->get('referer'));
+    }
+    
+    return new RedirectResponse($url);
+  }
   
   /**
    * 

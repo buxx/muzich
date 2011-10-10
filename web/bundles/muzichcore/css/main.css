@@ -252,3 +252,15 @@ ul.inline li
 }
 
 /* Message flash end */
+
+#choose_language
+{
+  float: right;
+  margin-right: 5px;
+}
+
+#choose_language a
+{
+  text-decoration: none;
+  color: black;
+}
