@@ -28,8 +28,8 @@ security:
     ## La en tant qu'exemple, exploiter ça (http://j-place.developpez.com/tutoriels/php/ameliorez-vos-applications-developpees-avec-symfony2/#LVI-A-3)
     access_control:
         - { path: ^/hello, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "^/(?:fr|en)/resetting", roles: IS_AUTHENTICATED_ANONYMOUSLY }
         
         
         - { path: ^/_wdt/, role: IS_AUTHENTICATED_ANONYMOUSLY }

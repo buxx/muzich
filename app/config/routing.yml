@@ -1,24 +1,30 @@
-MuzichMynetworkBundle:
-    resource: "@MuzichMynetworkBundle/Resources/config/routing.yml"
-    prefix:   /
+
 
 # Internal routing configuration to handle ESI
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
-
-MuzichCoreBundle:
-  resource: "@MuzichCoreBundle/Resources/config/routing.yml"
-  prefix: /
   
 MuzichIndexBundle:
   resource: "@MuzichIndexBundle/Resources/config/routing.yml"
   prefix: /
+  
+MuzichCoreBundle:
+  resource: "@MuzichCoreBundle/Resources/config/routing.yml"
+  prefix: /{_locale}/
+  defaults: { _locale: fr }
 
 MuzichHomeBundle:
   resource: "@MuzichHomeBundle/Resources/config/routing.yml"
-  prefix: /
+  prefix: /{_locale}/
+  defaults: { _locale: fr }
 
 MuzichUserBundle:
   resource: "@MuzichUserBundle/Resources/config/routing.yml"
-  prefix: /
+  prefix: /{_locale}/
+  defaults: { _locale: fr }
+
+MuzichMynetworkBundle:
+  resource: "@MuzichMynetworkBundle/Resources/config/routing.yml"
+  prefix:   /{_locale}/
+  defaults: { _locale: fr }

@@ -53,7 +53,7 @@ class UserController extends Controller
         $route = 'start';
       }
 
-      $this->setFlash('success', 'Votre compte a bien été créé');
+      $this->setFlash('fos_user_success', 'registration.flash.user_created');
       $url = $this->generateUrl($route);
 
       return new RedirectResponse($url);
