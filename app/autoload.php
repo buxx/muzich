@@ -22,6 +22,11 @@ $loader->registerNamespaces(array(
     'Gedmo' => __DIR__.'/../vendor/gedmo-doctrine-extensions/lib',
     'WhiteOctober' => __DIR__.'/../vendor/bundles',
     'Pagerfanta'   => __DIR__.'/../vendor/pagerfanta/src',
+    'Sonata'                         => __DIR__.'/../vendor/bundles',
+    'Knp'                             => array(
+        __DIR__.'/../vendor/bundles',
+        __DIR__.'/../vendor/knp/menu/src',
+    ),
 ));
 $loader->registerPrefixes(array(
     'Twig_Extensions_' => __DIR__.'/../vendor/twig-extensions/lib',
