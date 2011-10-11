@@ -37,9 +37,26 @@ class CoreController extends Controller
     }
     else
     {
-      // Sinon on retourne sur l'url précédent en modifiant la langue
-      $url = str_replace("/$old", "/$language", 
-        $this->container->get('request')->headers->get('referer'));
+      
+      // Sinon on doit rediriger l'utilisateur vers son url d'origine
+      
+      if (preg_match('/user/', $url_referer))
+      {
+        $search = "/$old/user/";
+        $replace = "/$language/user/";
+      }
+      elseif (preg_match('/group/', $url_referer))
+      {
+        $search = "/$old/group/";
+        $replace = "/$language/group/";
+      }
+      else
+      {
+        $search = "/$old";
+        $replace = "/$language";
+      }
+      
+      $url = str_replace($search, $replace, $url_referer);
     }
     
     return new RedirectResponse($url);
