@@ -5,6 +5,15 @@
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
   
+_white_october_admin:
+    resource: .
+    type: white_october_admin
+
+white_october_admin:
+    resource: "@WhiteOctoberAdminBundle/Resources/config/routing/admin.xml"
+
+  
+  
 MuzichIndexBundle:
   resource: "@MuzichIndexBundle/Resources/config/routing.yml"
   prefix: /

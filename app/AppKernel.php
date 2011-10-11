@@ -20,11 +20,14 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
+            new WhiteOctober\AdminBundle\WhiteOctoberAdminBundle(),
             new Muzich\CoreBundle\MuzichCoreBundle(),
             new Muzich\UserBundle\MuzichUserBundle(),
             new Muzich\IndexBundle\MuzichIndexBundle(),
             new Muzich\HomeBundle\MuzichHomeBundle(),
             new Muzich\MynetworkBundle\MuzichMynetworkBundle(),
+            new Muzich\AdminBundle\MuzichAdminBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
