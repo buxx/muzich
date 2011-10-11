@@ -16,3 +16,5 @@
       <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
   </form>
 </div>
+
+<a href="{{ path('fos_user_resetting_request') }}">{{ 'connexion.password_lost'|trans({}, 'userui') }}</a>

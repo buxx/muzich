@@ -5,10 +5,10 @@
 {% block content %}
 
   <a class="link_navigation" href="{{ path('mynetwork_index') }}" >
-    Retour
+    {{ 'search.return'|trans({}, 'network') }}
   </a>
   
-  <b>Rechercher des utilisateurs et des groupes</b>
+  <b>{{ 'search.search_u_n_g'|trans({}, 'network') }}</b>
   
   <form action="{{ path('mynetwork_search') }}" method="post" {{ form_enctype(search_form) }}>
     
@@ -18,14 +18,14 @@
 
     {{ form_rest(search_form) }}
 
-    <input type="submit" />
+    <input type="submit" value="{{ 'search.form.submit_value'|trans({}, 'network') }}" />
   </form>
   
   {% if results.users|length or results.groups|length %}
   
     {% if results.users %}
 
-      <b>Utilisateurs</b>
+      <b>{{ 'search.users'|trans({}, 'network') }}</b>
       
       <ul class="inline">
       {% for user in results.users %} 
@@ -39,7 +39,7 @@
   
     {% if results.groups %}
 
-      <b>Groupes</b>
+      <b>{{ 'search.groups'|trans({}, 'network') }}</b>
       
       <ul class="inline">
       {% for group in results.groups %} 
@@ -53,7 +53,7 @@
   
   {% elseif search_done %}
       
-      <p>Il n'y a aucun résultat a votre recherche</p>
+      <p>{{ 'search.no_result'|trans({}, 'network') }}</p>
       
   {% endif %}
 

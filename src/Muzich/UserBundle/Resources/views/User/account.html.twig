@@ -4,40 +4,35 @@
 
 {% block content %}
 
-  <h2>Mon compte</h2>
+  <h2>{{ 'my_account.title'|trans({}, 'userui') }}</h2>
   
   <ul>
     <li>
-      <b>Nom d'utilisateur</b>: {{ user.name }}
+      <b>{{ 'my_account.username'|trans({}, 'userui') }}</b>: {{ user.name }}
     </li>
     <li>
-      <b>Adresse email</b>: {{ user.email }}
+      <b>{{ 'my_account.email'|trans({}, 'userui') }}</b>: {{ user.email }}
     </li>
   </ul>
   
-  <h3>Vos tags préférés</h3>
+  <h3>{{ 'my_account.favorite_tags'|trans({}, 'userui') }}</h3>
   
   {% include "MuzichCoreBundle:Tag:tagFavoritesForm.html.twig" with { 
     'form': form_tags_favorites,
     'redirect' : 'account'
   } %}
   
-  <h3>Changer mon mot de passe</h3>
+  <h3>{{ 'my_account.change_password'|trans({}, 'userui') }}</h3>
   
   <form action="{{ path('change_password') }}" method="post" {{ form_enctype(form_password) }}>
-    {{ form_errors(form_password) }}
-
-    {{ form_row(form_password.current) }}
-      
-    {{ form_row(form_password.new.first) }}
-      
-    {{ form_row(form_password.new.second) }}
-      
-    {{ form_rest(form_password) }}
+    
+    {% include "MuzichUserBundle:Security:change_password_form.html.twig" with { 
+      'form': form_password
+    } %}
 
     <input type="submit" />
   </form>
   
-  <h3>Changer mon adresse email</h3>
+  <h3>{{ 'my_account.change_email'|trans({}, 'userui') }}</h3>
     
 {% endblock %}

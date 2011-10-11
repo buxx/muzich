@@ -1,0 +1,13 @@
+
+search:
+  search:               Rechercher
+  return:               Retour
+  search_u_n_g:         Rechercher des utilisateurs et des groupes
+  users:                 Utilisateurs
+  groups:               Groupes
+  no_result:            Il n'y a aucun résultat a votre recherche
+  form:
+    submit_value:       Rechercher
+users:                Utilisateurs
+groups:               Groupes
+followed_by:          Vous êtes suivis par

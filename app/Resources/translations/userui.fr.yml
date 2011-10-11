@@ -1,0 +1,11 @@
+
+my_account: 
+  title:          Mon compte
+  username:         Nom d'utilisateur
+  email:            Adresse email
+  favorite_tags:    Vos tags préférés
+  change_password:  Changer mon mot de passe
+  change_email:     Changer mon adresse email
+  
+connection:
+  password_lost:    Mot de passe perdu ?

@@ -1,4 +1,5 @@
 <form action="{{ path('update_tag_favorites', { 'redirect' : redirect }) }}" method="post" {{ form_enctype(form) }}>
+  
   {{ form_errors(form) }}
 
   {{ form_row(form.tags) }}

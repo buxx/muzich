@@ -1,0 +1,13 @@
+
+search:
+  search:               Search
+  return:               Return
+  search_u_n_g:         Search users and groups
+  users:                Users
+  groups:               Groups
+  no_result:            No result
+  form:
+    submit_value:       Search
+users:                Users
+groups:               Groups
+followed_by:          You're followed by

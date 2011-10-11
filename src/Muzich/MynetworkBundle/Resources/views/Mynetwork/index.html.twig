@@ -5,11 +5,11 @@
 {% block content %}
 
   <a class="link_navigation" href="{{ path('mynetwork_search') }}" >
-    Rechercher
+    {{ 'search.search'|trans({}, 'network') }}
   </a>
   
   {% if followeds_users %}
-    <b>Utilisateurs</b>
+    <b>{{ 'users'|trans({}, 'network') }}</b>
     <ul class="inline">
     {% for user in followeds_users %} 
       <li>
@@ -20,7 +20,7 @@
   {% endif %}
   
   {% if followeds_groups %}
-    <b>Groupes</b>
+    <b>{{ 'groups'|trans({}, 'network') }}</b>
     <ul class="inline">
     {% for group in followeds_groups %} 
       <li>
@@ -31,7 +31,7 @@
   {% endif %}
   
   {% if followers_users %}
-    <b>Vous êtes suivis par</b>
+    <b>{{ 'followed_by'|trans({}, 'network') }}</b>
     <ul class="inline">
     {% for user in followers_users %} 
       <li>

@@ -1,0 +1,9 @@
+
+# FOS
+group.flash.updated: Group has been updated
+group.flash.created: Group has been created
+group.flash.deleted: Group has been deleted
+profile.flash.updated: Profile updated
+change_password.flash.success: Password updated
+registration.flash.user_created: User created
+resetting.flash.success: Password has been initialized

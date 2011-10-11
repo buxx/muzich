@@ -1,0 +1,8 @@
+
+container_menu:
+  the_network:          Le réseau
+  my_network:           Mon réseau
+  
+top_bar:
+  my_account:           Mon compte
+  logout:               Déconnexion

@@ -1,0 +1,11 @@
+
+my_account: 
+  title:          My account
+  username:         Username
+  email:            Email
+  favorite_tags:    Favorite tags
+  change_password:  Change my password
+  change_email:     Change my email
+  
+connexion:
+  password_lost:    Password lost ?

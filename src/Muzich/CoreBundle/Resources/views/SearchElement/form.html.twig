@@ -1,4 +1,5 @@
 <form action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
+  
   {{ form_errors(search_form) }}
 
   {{ form_row(search_form.network) }}
