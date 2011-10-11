@@ -9,4 +9,37 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 
 class ElementAdmin extends Admin
 {
+  
+  protected function configureListFields(ListMapper $listMapper)
+  {
+    $listMapper
+      ->addIdentifier('name')
+      ->add('url')
+      ->add('tags')
+    ;
+  }
+  
+  protected function configureDatagridFilters(DatagridMapper $datagrid)
+  {
+    $datagrid
+      ->add('name')
+      ->add('url')
+      ->add('tags')
+    ;
+  }
+  
+  protected function configureFormFields(FormMapper $formMapper)
+  {
+    $formMapper
+      ->add('id')
+      ->add('name')
+      ->add('url')
+    ;
+  }
+
+//  public function validate(ErrorElement $errorElement, $object)
+//  {
+//     
+//  }
+  
 }

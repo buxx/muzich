@@ -46,6 +46,11 @@ class ElementType
   {
     $this->elements = new ArrayCollection();
   }
+  
+  public function __toString()
+  {
+    return $this->name;
+  }
 
   /**
    * Set name

@@ -71,7 +71,11 @@ class Tag
     $this->users_favorites = new ArrayCollection();
     $this->elements = new ArrayCollection();
   }
-  
+    
+  public function __toString()
+  {
+      return $this->name;
+  }
 
   /**
    * Get id
