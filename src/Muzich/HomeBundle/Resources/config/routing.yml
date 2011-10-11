@@ -3,6 +3,8 @@
 home:
   pattern:  /{_locale}
   defaults: { _controller: MuzichHomeBundle:Home:index, _locale: fr }
+  requirements:
+    _locale: en|fr
   
 show_user:
   pattern: /{_locale}/user/{slug}

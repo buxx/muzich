@@ -7,6 +7,6 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 
-class ElementAdmin extends Admin
+class ElementTypeAdmin extends Admin
 {
 }

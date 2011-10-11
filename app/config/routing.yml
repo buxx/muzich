@@ -5,14 +5,14 @@
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
   
-_white_october_admin:
+admin:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /admin
+
+_sonata_admin:
     resource: .
-    type: white_october_admin
-
-white_october_admin:
-    resource: "@WhiteOctoberAdminBundle/Resources/config/routing/admin.xml"
-
-  
+    type: sonata_admin
+    prefix: /admin
   
 MuzichIndexBundle:
   resource: "@MuzichIndexBundle/Resources/config/routing.yml"
