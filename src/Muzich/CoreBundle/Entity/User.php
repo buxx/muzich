@@ -99,6 +99,11 @@ class User extends BaseUser
     $this->groups = new ArrayCollection();
     parent::__construct();
   }
+  
+  public function __toString()
+  {
+    return $this->getName();
+  }
 
   /**
    * Get id
