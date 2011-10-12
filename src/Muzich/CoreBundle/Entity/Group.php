@@ -98,6 +98,11 @@ class Group
     $this->followers = new ArrayCollection();
   }
   
+  public function __toString()
+  {
+    return $this->getName();
+  }
+  
   /**
    * Get id
    *

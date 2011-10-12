@@ -47,6 +47,10 @@ class GroupsTagsFavorites
    */
   protected $position;
     
+  public function __toString()
+  {
+    return $this->getTag()->getName();
+  }
 
   /**
    * Set position
