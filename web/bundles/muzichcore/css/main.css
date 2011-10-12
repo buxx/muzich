@@ -1,0 +1,266 @@
+
+#container
+{
+  width: 640px;
+  margin-top: 45px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 45px;
+  
+  padding: 10px;
+  background-color: white;
+  border: 0px solid #d5d5d5;
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  
+  -webkit-box-shadow: #666 0px 2px 3px;
+  -moz-box-shadow: #666 0px 2px 3px;
+  box-shadow: #666 0px 2px 3px;
+}
+
+#container h1
+{
+  
+}
+#container h2
+{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  
+  text-shadow: 1px 1px 2px #666;
+}
+#container h3
+{
+  text-shadow: 1px 1px 1px #666;
+}
+#container h4
+{
+  
+}
+
+#container a 
+{
+  text-decoration: none;
+  color: #00d0de;
+}
+
+#container #top-tabs
+{
+  float: left;
+  list-style: none outside none;
+  margin: -35px 16px 0 -6px;
+  padding: 0;
+}
+
+#container #top-tabs li
+{
+  float: left;
+  margin-left: 0px;
+  
+  padding-top: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 3px;
+  
+  background-color: #e9e9e9;
+  
+  border-top: 1px solid #d5d5d5;
+  border-left: 1px solid #d5d5d5;
+  border-right: 1px solid #d5d5d5;
+  border-radius: 5px 5px 0px 0px;
+  -moz-border-radius: 5px 5px 0px 0px;
+  -webkit-border-radius: 5px 5px 0px 0px;
+  
+}
+
+#container #top-tabs li.active
+{
+  background-color: white;
+}
+
+#container #top-tabs li a
+{
+  text-decoration: none;
+  color: black;
+}
+
+#top_bar
+{
+  width: 220px;
+  background-color: white;
+  padding: 0px;
+  
+  margin-left: auto;
+  margin-right: auto;
+  
+  border-radius: 0px 0px 4px 4px;
+  -moz-border-radius: 0px 0px 4px 4px;
+  -webkit-border-radius: 0px 0px 4px 4px;
+  
+	text-align: center;
+}
+
+#top_bar a 
+{
+  text-decoration: none;
+  color: black;
+  padding-left: 3px; padding-right: 3px;
+}
+
+/*#top_bar ul
+{
+  text-align: center;
+  margin-top: -5px;
+}
+
+#top_bar ul li
+{
+  display: inline;
+  float: left;
+  list-style: none;
+  padding-left: 6px;
+}
+
+#top_bar ul li a 
+{
+  text-decoration: none;
+  color: black;
+}*/
+
+ul.inline 
+{
+  
+}
+
+ul.inline li
+{
+  display: inline;
+}
+
+
+/* Messages flash */
+
+.message
+{
+		-webkit-background-size: 40px 40px;
+		-moz-background-size: 40px 40px;
+		background-size: 40px 40px;			
+		background-image: -webkit-gradient(linear, left top, right bottom,
+								color-stop(.25, rgba(255, 255, 255, .05)), color-stop(.25, transparent),
+								color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .05)),
+								color-stop(.75, rgba(255, 255, 255, .05)), color-stop(.75, transparent),
+								to(transparent));
+		background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+							transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+							transparent 75%, transparent);
+		background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+							transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+							transparent 75%, transparent);
+		background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+							transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+							transparent 75%, transparent);
+		background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+							transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+							transparent 75%, transparent);
+		background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+							transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+							transparent 75%, transparent);
+								
+		 -moz-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+		 -webkit-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);		
+		 box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+		 width: 100%;
+		 border: 1px solid;
+		 color: #fff;
+		 padding: 15px;
+		 position: fixed;
+		 _position: absolute;
+		 text-shadow: 0 1px 0 rgba(0,0,0,.5);
+		 -webkit-animation: animate-bg 5s linear infinite;
+		 -moz-animation: animate-bg 5s linear infinite;
+}
+
+.info, .fos_user_info
+{
+		 background-color: #4ea5cd;
+		 border-color: #3b8eb5;
+}
+
+.error, .fos_user_error
+{
+		 background-color: #de4343;
+		 border-color: #c43d3d;
+}
+		 
+.warning, .fos_user_warning
+{
+		 background-color: #eaaf51;
+		 border-color: #d99a36;
+}
+
+.success, .fos_user_success
+{
+		 background-color: #61b832;
+		 border-color: #55a12c;
+}
+
+.message h3
+{
+		 margin: 0 0 5px 0;													 
+}
+
+.message p
+{
+		 margin: 0;													 
+}
+
+.message a.message-close
+{
+  float: right;
+  margin-top: -14px;
+  margin-right: 18px;
+  margin-bottom: -11px;
+}
+
+.message a.message-close img:HOVER
+{
+  width: 52px;
+  height: 52px;
+  margin-bottom: -13px;
+}
+
+@-webkit-keyframes animate-bg
+{
+    from {
+        background-position: 0 0;
+    }
+    to {
+       background-position: -80px 0;
+    }
+}
+
+
+@-moz-keyframes animate-bg 
+{
+    from {
+        background-position: 0 0;
+    }
+    to {
+       background-position: -80px 0;
+    }
+}
+
+/* Message flash end */
+
+#choose_language
+{
+  float: right;
+  margin-right: 5px;
+}
+
+#choose_language a
+{
+  text-decoration: none;
+  color: black;
+}
