@@ -69,7 +69,7 @@ class Group
   /**
    * Propriétaire
    * 
-   * @ORM\ManyToOne(targetEntity="User")
+   * @ORM\ManyToOne(targetEntity="User", inversedBy="groups_owned")
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
    */
   protected $owner;

@@ -11,3 +11,15 @@
     </a>
   </li>
 </ul>
+
+{% if mygroups %}
+
+  <ul id="top-tabs-my-groups" {% if active == 'mygroups' %} class="active" {% endif %}>
+    <li {% if active == 'mygroups' %} class="active" {% endif %}>
+      <a href="{{ path('groups_own_list') }}" >
+        {{ 'network.mygroups'|trans({}, 'navigationui') }}
+      </a>
+    </li>
+  </ul>
+
+{% endif %}

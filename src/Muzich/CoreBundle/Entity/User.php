@@ -97,6 +97,7 @@ class User extends BaseUser
     $this->followers_users = new ArrayCollection();
     $this->followed_groups = new ArrayCollection();
     $this->groups = new ArrayCollection();
+    $this->groups_owned = new ArrayCollection();
     parent::__construct();
   }
   
@@ -255,9 +256,9 @@ class User extends BaseUser
    *
    * @return Doctrine\Common\Collections\Collection 
    */
-  public function getGroupsOnwed()
+  public function getGroupsOwned()
   {
-    return $this->groups;
+    return $this->groups_owned;
   }
   
   public function getSlug()

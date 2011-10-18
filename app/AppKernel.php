@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new Muzich\HomeBundle\MuzichHomeBundle(),
             new Muzich\MynetworkBundle\MuzichMynetworkBundle(),
             new Muzich\AdminBundle\MuzichAdminBundle(),
+            new Muzich\GroupBundle\MuzichGroupBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

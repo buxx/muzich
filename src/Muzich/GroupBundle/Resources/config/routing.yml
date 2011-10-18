@@ -1,0 +1,4 @@
+
+groups_own_list:
+    pattern:  /my-groups
+    defaults: { _controller: MuzichGroupBundle:Default:myList }

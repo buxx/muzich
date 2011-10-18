@@ -1,0 +1,7 @@
+parameters:
+#    muzich_group.example.class: Muzich\GroupBundle\Example
+
+services:
+#    muzich_group.example:
+#        class: %muzich_group.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

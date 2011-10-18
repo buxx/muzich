@@ -1,0 +1,23 @@
+{% extends "MuzichGroupBundle::layout.html.twig" %}
+
+{% block title %}Mes groupes{% endblock %}
+
+{% block content %}
+
+  {% if groups|length %}
+
+    <ul class="inline">
+    {% for group in groups %} 
+      <li>
+        <a href="{{ path('show_group', { 'slug': group.slug }) }}">{{ group.name }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+
+  {% else %}
+
+    {{ 'nogroups.sentence'|trans({}, 'groups') }}
+
+  {% endif %}
+
+{% endblock %}

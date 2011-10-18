@@ -1,5 +1,3 @@
-
-
 # Internal routing configuration to handle ESI
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
@@ -38,5 +36,10 @@ MuzichUserBundle:
 
 MuzichMynetworkBundle:
   resource: "@MuzichMynetworkBundle/Resources/config/routing.yml"
+  prefix:   /{_locale}/
+  defaults: { _locale: fr }
+  
+MuzichGroupBundle:
+  resource: "@MuzichGroupBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
   defaults: { _locale: fr }

@@ -6,3 +6,6 @@ container_menu:
 top_bar:
   my_account:           Mon compte
   logout:               Déconnexion
+  
+network:
+  mygroups:             Mes groupes

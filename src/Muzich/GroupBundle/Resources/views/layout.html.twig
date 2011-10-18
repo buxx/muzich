@@ -1,0 +1,13 @@
+{% extends 'MuzichCoreBundle::layout.html.twig' %}
+
+{% block css %}
+	<link href="{{ asset('bundles/muzichgroups/css/groups.css') }}" rel="stylesheet" media="screen" type="text/css" />
+{% endblock %}
+
+{% block main_content %}
+  
+  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with { 'active': 'mygroups', 'mygroups': true } %}
+  
+  {% block content %}{% endblock %}
+  
+{% endblock %}

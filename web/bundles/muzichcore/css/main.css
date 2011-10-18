@@ -45,7 +45,7 @@
   color: #00d0de;
 }
 
-#container #top-tabs
+#container #top-tabs, #container #top-tabs-my-groups
 {
   float: left;
   list-style: none outside none;
@@ -53,7 +53,7 @@
   padding: 0;
 }
 
-#container #top-tabs li
+#container #top-tabs li, #container #top-tabs-my-groups
 {
   float: left;
   margin-left: 0px;
@@ -71,18 +71,28 @@
   border-radius: 5px 5px 0px 0px;
   -moz-border-radius: 5px 5px 0px 0px;
   -webkit-border-radius: 5px 5px 0px 0px;
-  
 }
 
-#container #top-tabs li.active
+#container #top-tabs li.active, #container #top-tabs-my-groups li.active
 {
   background-color: white;
 }
 
-#container #top-tabs li a
+#container #top-tabs li a, #container #top-tabs-my-groups li a
 {
   text-decoration: none;
   color: black;
+}
+
+#container #top-tabs-my-groups
+{
+  float: right;
+  margin-right: -5px;
+}
+
+#container #top-tabs-my-groups.active
+{
+  background-color: white;
 }
 
 #top_bar

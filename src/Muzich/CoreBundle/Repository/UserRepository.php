@@ -46,6 +46,12 @@ class UserRepository extends EntityRepository
       $join   .= ' LEFT JOIN u.tags_favorites tf LEFT JOIN tf.tag tf_t';
     }
     
+    if (in_array('groups_owned', $join_list))
+    {
+      $select .= ', og';
+      $join   .= ' LEFT JOIN u.groups_owned og';
+    }
+    
 //    if (array_key_exists('followed_user_id', $join_list))
 //    {
 //      $select .= ', fu, fu_u';
