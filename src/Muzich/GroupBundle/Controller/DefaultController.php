@@ -15,7 +15,7 @@ class DefaultController extends Controller
   public function myListAction()
   {
     $user = $this->getUser(true, array('join' => array(
-      //'groups_owned'
+      'groups_owned'
     )));
     
     return array(
