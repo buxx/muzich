@@ -25,19 +25,19 @@ class UserRepository extends EntityRepository
     if (in_array('followeds_users', $join_list))
     {
       $select .= ', fdu, fdu_u';
-      $join   .= ' JOIN u.followeds_users fdu JOIN fdu.followed fdu_u';
+      $join   .= ' LEFT JOIN u.followeds_users fdu LEFT JOIN fdu.followed fdu_u';
     }
     
     if (in_array('followers_users', $join_list))
     {
       $select .= ', fru, fru_u';
-      $join   .= ' JOIN u.followers_users fru JOIN fru.follower fru_u';
+      $join   .= ' LEFT JOIN u.followers_users fru LEFT JOIN fru.follower fru_u';
     }
     
     if (in_array('followeds_groups', $join_list))
     {
       $select .= ', fdg, fdg_g';
-      $join   .= ' JOIN u.followed_groups fdg JOIN fdg.group fdg_g';
+      $join   .= ' LEFT JOIN u.followed_groups fdg LEFT JOIN fdg.group fdg_g';
     }
     
     if (in_array('favorites_tags', $join_list))
