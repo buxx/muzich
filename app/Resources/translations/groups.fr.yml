@@ -1,3 +1,6 @@
 
 nogroups:
   sentence:                     Vous n'avez créé aucun groupe.
+  
+havegroups:
+  sentence:                     Vous administrez les groupes suivants:

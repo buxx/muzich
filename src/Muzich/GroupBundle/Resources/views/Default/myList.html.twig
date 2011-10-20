@@ -6,6 +6,8 @@
 
   {% if groups|length %}
 
+    {{ 'havegroups.sentence'|trans({}, 'groups') }}
+
     <ul class="inline">
     {% for group in groups %} 
       <li>
