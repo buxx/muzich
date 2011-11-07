@@ -26,7 +26,7 @@ class GroupsTagsFavorites
    * Cet attribut contient l'objet Group lié
    * 
    * @ORM\ManyToOne(targetEntity="Group", inversedBy="tags")
-   * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+   * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
    */
   protected $group;
   

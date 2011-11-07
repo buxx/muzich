@@ -7,3 +7,9 @@ profile.flash.updated: Le profil a été mis à jour
 change_password.flash.success: Le mot de passe a été modifié
 registration.flash.user_created: L'utilisateur a été créé avec succès
 resetting.flash.success: Le mot de passe a été réinitialisé avec succès
+
+# muzich
+group:
+  create:
+    success:      Le groupe a été créé avec succés
+    failure:      Un erreur est survenue lors de la création du groupe

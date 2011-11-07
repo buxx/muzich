@@ -5,6 +5,8 @@ namespace Muzich\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\EntityManager;
+use Muzich\CoreBundle\Entity\GroupsTagsFavorites;
 
 /**
  * Le groupe est une sorte de liste de diffusion, a laquelle les
@@ -252,6 +254,25 @@ class Group
   {
     return $this->tags;
   }
+  
+  /**
+   * Add tag
+   *
+   * @param Tag $tag
+   */
+  public function addTag(Tag $tag, EntityManager $em)
+  {
+    $GroupsTagsFavorites = new GroupsTagsFavorites();
+    $GroupsTagsFavorites->setTag($tag);
+    $GroupsTagsFavorites->setPosition(0);
+    $em->persist($GroupsTagsFavorites);
+    $this->tags[] = $GroupsTagsFavorites;
+  }
+  
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
 
   /**
    * Add elements
@@ -272,4 +293,21 @@ class Group
   {
       return $this->elements;
   }
+  
+  /**
+   * Definis les relation vers des tags.
+   * 
+   * @param array $ids 
+   */
+  public function setTagsWithIds(EntityManager $em, $ids)
+  {
+    $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($ids)->execute();
+
+    // Pour les nouveaux ids restants
+    foreach ($tags as $tag)
+    {
+      $this->addTag($tag, $em);
+    }
+  }
+  
 }

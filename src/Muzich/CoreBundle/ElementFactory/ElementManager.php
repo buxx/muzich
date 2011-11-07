@@ -61,10 +61,8 @@ class ElementManager
    * Procédure chargé de construire le contenu de l'élément.
    *  nom, Code d'embed, [...]
    * 
-   * @param Element $element
    * @param array $params
    * @param User $owner
-   * @return Element 
    */
   public function proceedFill($params, User $owner)
   {

@@ -2,3 +2,7 @@
 groups_own_list:
     pattern:  /my-groups
     defaults: { _controller: MuzichGroupBundle:Default:myList }
+
+group_add:
+    pattern:   /my-groups/add
+    defaults: { _controller: MuzichGroupBundle:Default:add }
