@@ -82,4 +82,99 @@ class DefaultController extends Controller
     }
   }
   
+  /**
+   * 
+   * @Template()
+   */
+  public function editAction(Request $request, $slug)
+  {
+    $user = $this->getUser();
+    
+    try {
+      
+      $group = $this->getDoctrine()
+        ->getRepository('MuzichCoreBundle:Group')
+        ->findOneBySlug($slug)
+        ->getSingleResult()
+      ;
+      
+    } catch (\Doctrine\ORM\NoResultException $e) {
+        throw $this->createNotFoundException('Groupe introuvable.');
+    }
+    
+    if ($group->getOwner()->getId() != $user->getId())
+    {
+      throw $this->createNotFoundException('Vous n\'ête pas le créateur de ce groupe.');
+    }
+    
+    $group->setTagsToIds();
+    
+    $form = $this->createForm(
+      new GroupForm(), 
+      $group,
+      array('tags' => $this->getTagsArray())
+    );
+    
+    return array(
+      'group' => $group,
+      'form'  => $form->createView()        
+    );
+  }
+  
+  public function updateAction(Request $request, $slug)
+  {
+    $user = $this->getUser();
+    $em = $this->getDoctrine()->getEntityManager();
+    
+    try {
+      
+      $group = $this->getDoctrine()
+        ->getRepository('MuzichCoreBundle:Group')
+        ->findOneBySlug($slug)
+        ->getSingleResult()
+      ;
+      
+    } catch (\Doctrine\ORM\NoResultException $e) {
+        throw $this->createNotFoundException('Groupe introuvable.');
+    }
+    
+    if ($group->getOwner()->getId() != $user->getId())
+    {
+      throw $this->createNotFoundException('Vous n\'ête pas le créateur de ce groupe.');
+    }
+    
+    $group->setTagsToIds();
+    
+    $form = $this->createForm(
+      new GroupForm(), 
+      $group,
+      array('tags' => $this->getTagsArray())
+    );
+    
+    $form->bindRequest($request);
+    
+    if ($form->isValid())
+    {
+      $factory = new GroupManager($group, $em, $this->container);
+      $factory->proceedTags($group->getTags());
+      
+      $em->persist($group);
+      $em->flush();
+      
+      $this->setFlash('success', 'group.update.success');
+      return $this->redirect($this->generateUrl('show_group', array('slug' => $group->getSlug())));
+    }
+    else
+    {
+      $this->setFlash('error', 'group.update.failure');
+      
+      return $this->render(
+        'GroupBundle:Default:edit.html.twig', 
+         array(
+           'form_new' => $form->createView()
+         )
+      );
+    }
+  }
+  
 }

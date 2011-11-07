@@ -3,4 +3,9 @@ nogroups:
   sentence:                     Vous n'avez créé aucun groupe.
   
 havegroups:
-  sentence:                     Vous administrez les groupes suivants:
+  sentence:                     "Vous administrez les groupes suivants:"
+    
+group:
+  edit:                         Modifier ce groupe
+  follow:                       Suivre
+  notfollow:                    Ne plus suivre

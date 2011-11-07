@@ -39,6 +39,8 @@ class GroupRepository extends EntityRepository
     return $this->getEntityManager()
       ->createQuery("
         SELECT g FROM MuzichCoreBundle:Group g
+        LEFT JOIN g.tags tr 
+        LEFT JOIN tr.tag t
         WHERE g.slug = :str
       ")
       ->setParameters(array(

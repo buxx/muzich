@@ -220,7 +220,7 @@ class Group
    *
    * @param User $owner
    */
-  public function setOwner(User $owner)
+  public function setOwner(User $owner = null)
   {
       $this->owner = $owner;
   }
@@ -265,6 +265,7 @@ class Group
     $GroupsTagsFavorites = new GroupsTagsFavorites();
     $GroupsTagsFavorites->setTag($tag);
     $GroupsTagsFavorites->setPosition(0);
+    $GroupsTagsFavorites->setGroup($this);
     $em->persist($GroupsTagsFavorites);
     $this->tags[] = $GroupsTagsFavorites;
   }
@@ -308,6 +309,16 @@ class Group
     {
       $this->addTag($tag, $em);
     }
+  }
+  
+  public function setTagsToIds()
+  {
+    $tags_id = array();
+    foreach ($this->getTags() as $tag_r)
+    {
+      $tags_id[] = $tag_r->getTag()->getId();
+    }
+    $this->tags = $tags_id;
   }
   
 }

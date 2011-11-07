@@ -58,6 +58,7 @@ class ShowController extends Controller
     
     return array(
       'group'       => $group,
+      'his_group'   => ($group->getOwner()->getId() == $user->getId()) ? true : false,
       'elements'    => $this->getShowedEntityElements($group->getId(), 'Group'),
       'following'   => $user->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()),
       'user'        => $user

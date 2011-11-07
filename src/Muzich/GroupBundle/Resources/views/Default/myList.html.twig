@@ -25,35 +25,8 @@
   <h2>Ajouter un groupe</h2>
 
   <form action="{{ path('group_add') }}" method="post" {{ form_enctype(form_new) }}>
-    {{ form_errors(form_new) }}
-
-    <div class="field">
-      {{ form_label(form_new.name, 'name'|trans({}, 'groupform')) }}
-      {{ form_errors(form_new.name) }}
-      {{ form_widget(form_new.name) }}
-    </div>
-        
-    <div class="field">
-      {{ form_label(form_new.description, 'description'|trans({}, 'groupform')) }}
-      {{ form_errors(form_new.description) }}
-      {{ form_widget(form_new.description) }}
-    </div>
-      
-      <i>{{ 'openhelp'|trans({}, 'groupform') }}</i>
-      
-    <div class="field">
-      {{ form_label(form_new.open, 'open'|trans({}, 'groupform')) }}
-      {{ form_errors(form_new.open) }}
-      {{ form_widget(form_new.open) }}
-    </div>
-      
-    <div class="field">
-      {{ form_label(form_new.tags, 'tags'|trans({}, 'groupform')) }}
-      {{ form_errors(form_new.tags) }}
-      {{ form_widget(form_new.tags) }}
-    </div>
-
-    {{ form_rest(form_new) }}
+    
+    {% include "MuzichGroupBundle:Form:form.html.twig" with { 'form': form_new } %}
 
     <input type="submit" />
   </form>

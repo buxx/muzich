@@ -3,14 +3,18 @@
 {% block title %}{% endblock %}
 
 {% block content %}
+
+  <span class="follow_link following">
     
-  <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash }) }}" class="follow_link following" >
-    {% if following %}
-      Ne plus suivre
-    {% else %}
-      Suivre
-    {% endif %}
-  </a>
+    <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash }) }}" class="follow_link following" >
+      {% if following %}
+        {{ 'user.notfollow'|trans({}, 'users') }}
+      {% else %}
+        {{ 'users.follow'|trans({}, 'users') }}
+      {% endif %}
+    </a>
+    
+  </span>
 
   <h2>{{ viewed_user.name }}</h2>
   

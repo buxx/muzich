@@ -13,3 +13,6 @@ group:
   create:
     success:      Le groupe a été créé avec succés
     failure:      Un erreur est survenue lors de la création du groupe
+  update:
+    success:      La mise a jour a été un succés
+    failure:      Une erreur est survenue lors de la mise a jour du groupe
