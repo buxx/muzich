@@ -1,25 +1,32 @@
-<ul>
-  {% for element in elements %} 
-    <li>
-      {% if element.group %}
-        <b>({{ element.group.name }})</b>
-      {% endif %}
-      {{ element.name }} ({{ element.owner.username }})
-        <a href="{{ element.url }}" target="_blank">link</a>
-        <ul>
-          {% for tag in element.tags %} 
-            <li>
-              {{ tag.name }}
-            </li>
-          {% endfor %} 
-        </ul>
-        
-        {% if element.embed %}
-          {% autoescape false %}
-            {{ element.embed }}
-          {% endautoescape %}
+
+{% if elements|length %}
+  <ul>
+    {% for element in elements %} 
+      <li>
+        {% if element.group %}
+          <b>({{ element.group.name }})</b>
         {% endif %}
-        
-    </li>
-  {% endfor %} 
-</ul>
+        {{ element.name }} ({{ element.owner.username }})
+          <a href="{{ element.url }}" target="_blank">link</a>
+          <ul>
+            {% for tag in element.tags %} 
+              <li>
+                {{ tag.name }}
+              </li>
+            {% endfor %} 
+          </ul>
+
+          {% if element.embed %}
+            {% autoescape false %}
+              {{ element.embed }}
+            {% endautoescape %}
+          {% endif %}
+
+      </li>
+    {% endfor %} 
+  </ul>
+{% else %}
+
+  <p class="no-elements">{{ 'noelements.sentence'|trans({}, 'elements') }}</p>
+
+{% endif %}
