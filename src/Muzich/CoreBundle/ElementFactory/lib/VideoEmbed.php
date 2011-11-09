@@ -107,6 +107,7 @@ class VideoEmbed {
                 throw new exception ('This must be instantiated with a non empty embed code');
             }
         }
+        
         // load arguments
         $this->_embedSource = $embed;
         $this->_width = $width?$width: $this->_video_embed_conf['defaultWidth'];
