@@ -4,6 +4,8 @@
 
 {% block content %}
 
+  <h2>{{ 'favorites.your_favorites'|trans({}, 'network') }}</h2>
 
+  {% render "MuzichCoreBundle:Search:doSearchElements" with { 'search': search_object } %}
     
 {% endblock %}

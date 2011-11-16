@@ -106,7 +106,7 @@ class Controller extends BaseController
    */
   protected function getUserId()
   {
-    $this->getUser()->getId();
+    return $this->getUser()->getId();
   }
   
   /**

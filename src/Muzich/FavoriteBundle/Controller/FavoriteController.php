@@ -5,6 +5,7 @@ namespace Muzich\FavoriteBundle\Controller;
 use Muzich\CoreBundle\lib\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Muzich\CoreBundle\Entity\UsersElementsFavorites;
+use Muzich\CoreBundle\Searcher\ElementSearcher;
 //use Muzich\CoreBundle\Entity\Group;
 //use Muzich\CoreBundle\Form\Group\GroupForm;
 //use Symfony\Component\HttpFoundation\Request;
@@ -59,9 +60,15 @@ class FavoriteController extends Controller
    */
   public function myListAction()
   {
+    $search_object = new ElementSearcher();
+    $search_object->init(array(
+      'user_id'  => $this->getUserId(),
+      'favorite' => true
+    ));
     
-    
-    return array();
+    return array(
+        'search_object' => $search_object
+    );
   }
   
 }

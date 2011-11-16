@@ -11,3 +11,6 @@ search:
 users:                Utilisateurs
 groups:               Groupes
 followed_by:          Vous êtes suivis par
+
+favorites:
+  your_favorites:     Vos favoris

@@ -35,6 +35,27 @@ class ElementSearcher extends Searcher implements SearcherInterface
   protected $count = 20;
   
   /**
+   * Id de l'user si on limite la recherche a un utilisateur
+   * 
+   * @var int
+   */
+  protected $user_id = null;
+  
+  /**
+   * Id du groupe si on limite la recherche a un groupe
+   * 
+   * @var int
+   */
+  protected $group_id = null;
+  
+  /**
+   * Est-ce les favoris qui sont recherché
+   * 
+   * @var boolean 
+   */
+  protected $favorite = false;
+  
+  /**
    * @see SearcherInterface
    * @param array $params 
    */
@@ -47,7 +68,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
     
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count'
+      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite'
     ), $params);
     
   }
@@ -60,7 +81,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
   {
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count'
+      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite'
     ), $params);
   }
   
@@ -72,9 +93,12 @@ class ElementSearcher extends Searcher implements SearcherInterface
   public function getParams()
   {
     return array(
-      'network' => $this->getNetwork(),
-      'tags' => $this->getTags(),
-      'count' => $this->getCount()
+      'network'  => $this->getNetwork(),
+      'tags'     => $this->getTags(),
+      'count'    => $this->getCount(),
+      'user_id'  => $this->getUserId(),
+      'group_id' => $this->getGroupId(),
+      'favorite' => $this->isFavorite()
     );
   }
   
@@ -91,6 +115,21 @@ class ElementSearcher extends Searcher implements SearcherInterface
   public function getCount()
   {
     return $this->count;
+  }
+  
+  public function getUserId()
+  {
+    return $this->user_id;
+  }
+  
+  public function getGroupId()
+  {
+    return $this->group_id;
+  }
+  
+  public function isFavorite()
+  {
+    return $this->favorite;
   }
   
 }

@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class ElementRepository extends EntityRepository
 {
@@ -37,31 +38,18 @@ class ElementRepository extends EntityRepository
     //$query_with = '';
     $where = '';
     
-    switch ($searcher->getNetwork())
+    // Ajout du filtre limitant au réseau personel si c'est le cas
+    if ($searcher->getNetwork() == ElementSearcher::NETWORK_PERSONAL)
     {
-      case ElementSearcher::NETWORK_PERSONAL:
-        
-        $join_personal = "
-          LEFT JOIN eu.followers_users f WITH f.follower = :userid "
-          ."JOIN g.followers gf WITH gf.follower = :useridg"
-          ;
-        $params['userid'] = $user_id;
-        $params['useridg'] = $user_id;
-        
-      break;
+      $join_personal = "
+        LEFT JOIN eu.followers_users f WITH f.follower = :userid "
+        ."JOIN g.followers gf WITH gf.follower = :useridg"
+        ;
+      $params['userid'] = $user_id;
+      $params['useridg'] = $user_id;
     }
     
-//    $query_with = "WITH ";
-//    foreach ($searcher->getTags() as $tag_id)
-//    {
-//      if ($query_with != "WITH ")
-//      {
-//        $query_with .= "OR ";
-//      }
-//      $query_with .= "t.id = :tagid".$tag_id." ";
-//      $params['tagid'.$tag_id] = $tag_id;
-//    }
-    
+    // ajout du filtres de trie avec les tags transmis
     foreach ($searcher->getTags() as $tag_id)
     {
       if ($where == '')
@@ -74,7 +62,52 @@ class ElementRepository extends EntityRepository
       }
       $params['tid'.$tag_id] = $tag_id;
     }
-        
+    
+    // ajout du filtre sur un user si c'est le cas
+    $where_user = '';
+    //                                                  Si c'est une recherche 
+    //                de favoris, on ne filtre pas sur le proprio de l'element
+    if (($search_user_id = $searcher->getUserId()) && !$searcher->isFavorite())
+    {
+      $where_user = ($where != '') ? ' AND' : ' WHERE';
+      $where_user .= ' e.owner = :suid';
+      $params['suid'] = $search_user_id;
+    }
+    
+    // ajout du filtre sur un user si c'est le cas
+    $where_group = '';
+    //                                                 Si c'est une recherche 
+    //               de favoris, on ne filtre pas sur le proprio de l'element
+    if (($search_group_id = $searcher->getGroupId()) && !$searcher->isFavorite())
+    {
+      $where_group = ($where != '') ? ' AND' : ' WHERE';
+      $where_group .= ' e.group = :sgid';
+      $params['sgid'] = $search_group_id;
+    }
+    
+    // Filtre pour afficher que les elements mis en favoris si c'est la demande
+    $join_favorite = ''; $where_favorite = '';
+    if ($searcher->isFavorite())
+    {
+      $where_favorite = ($where != '') ? ' AND' : ' WHERE';
+      if (($favorite_user_id = $searcher->getUserId()) && !$searcher->getGroupId())
+      {
+        $join_favorite = 'JOIN e.elements_favorites fav2';
+        $where_favorite .= ' fav2.user = :fuid';
+        $params['fuid'] = $favorite_user_id;
+      }
+      else if (($favorite_group_id = $searcher->getGroupId()) && !$searcher->getUserId())
+      {
+        // TODO: Faire en sorte que ça affiche les favrois des gens suivant
+        // le groupe
+      }
+      else
+      {
+        throw new Exception('For use favorite search element, you must specify an user_id or group_id');
+      }
+    }
+    
+    // Construction de la requête finale
     $query_string = "SELECT e, et, t2, eu, g, fav
       FROM MuzichCoreBundle:Element e 
       LEFT JOIN e.group g 
@@ -82,11 +115,14 @@ class ElementRepository extends EntityRepository
       LEFT JOIN e.tags t 
       LEFT JOIN e.tags t2 
       LEFT JOIN e.elements_favorites fav WITH fav.user = :uid
+      $join_favorite
       JOIN e.owner eu $join_personal
       $where
+      $where_user
+      $where_group
+      $where_favorite
       ORDER BY e.created DESC "
     ;
-    
     $params['uid'] = $user_id;
     
     $query = $this->getEntityManager()
@@ -144,6 +180,5 @@ class ElementRepository extends EntityRepository
       ->setParameter('gid', $group_id)
       ->setMaxResults($limit)
     ;
-  }
-  
+  }  
 }
