@@ -43,3 +43,8 @@ MuzichGroupBundle:
   resource: "@MuzichGroupBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
   defaults: { _locale: fr }
+  
+MuzichFavoriteBundle:
+  resource: "@MuzichFavoriteBundle/Resources/config/routing.yml"
+  prefix:   /{_locale}/
+  defaults: { _locale: fr }

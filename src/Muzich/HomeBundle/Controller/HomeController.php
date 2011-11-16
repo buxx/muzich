@@ -37,7 +37,7 @@ class HomeController extends Controller
     );
         
     return array(
-      'add_form' => $add_form->createView(),
+      'add_form'      => $add_form->createView(),
       'search_object' => $search_object,
       'search_form'   => $search_form->createView()
     );

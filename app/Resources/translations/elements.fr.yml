@@ -1,3 +1,7 @@
 
 noelements:
   sentence:             Aucun element a afficher
+  
+element:
+  favorite:
+    add:                Ajouter aux favoris

@@ -8,6 +8,14 @@
         {% endif %}
         {{ element.name }} ({{ element.owner.username }})
           <a href="{{ element.url }}" target="_blank">link</a>
+          
+          {% if element.getCountFavorite %}
+          {% else %}
+            | <a href="{{ path('favorite_add', { 'id': element.id, 'token': user.personalHash }) }}" >
+              {{ 'element.favorite.add'|trans({}, 'elements') }}
+            </a>
+          {% endif %}
+          
           <ul>
             {% for tag in element.tags %} 
               <li>

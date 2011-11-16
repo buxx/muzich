@@ -61,7 +61,10 @@ class SearchController extends Controller
     
     return $this->render(
       'MuzichCoreBundle:SearchElement:default.html.twig', 
-      array('elements' => $elements)
+      array(
+        'user' => $this->getUser(),
+        'elements' => $elements
+      )
     );
   }   
   

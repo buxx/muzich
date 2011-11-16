@@ -63,7 +63,7 @@ class Element
    * Cet attribu stocke les enregistrements UsersElementsFavorites liés
    * a ce Tag dans le cadre des Elements favoris.
    * 
-   * @ORM\OneToMany(targetEntity="UsersElementsFavorites", mappedBy="tag")
+   * @ORM\OneToMany(targetEntity="UsersElementsFavorites", mappedBy="element")
    */
   protected $elements_favorites;
   
@@ -346,4 +346,10 @@ class Element
       $this->addTag($tag);
     }
   }
+  
+  public function getCountFavorite()
+  {
+    return count($this->elements_favorites);
+  }
+  
 }

@@ -75,16 +75,19 @@ class ElementRepository extends EntityRepository
       $params['tid'.$tag_id] = $tag_id;
     }
         
-    $query_string = "SELECT e, et, t2, eu, g
+    $query_string = "SELECT e, et, t2, eu, g, fav
       FROM MuzichCoreBundle:Element e 
       LEFT JOIN e.group g 
       LEFT JOIN e.type et 
       LEFT JOIN e.tags t 
       LEFT JOIN e.tags t2 
+      LEFT JOIN e.elements_favorites fav WITH fav.user = :uid
       JOIN e.owner eu $join_personal
       $where
       ORDER BY e.created DESC "
     ;
+    
+    $params['uid'] = $user_id;
     
     $query = $this->getEntityManager()
       ->createQuery($query_string)
