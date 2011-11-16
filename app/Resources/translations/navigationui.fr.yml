@@ -2,6 +2,7 @@
 container_menu:
   the_network:          Le réseau
   my_network:           Mon réseau
+  my_favorites:         Mes favoris
   
 top_bar:
   my_account:           Mon compte

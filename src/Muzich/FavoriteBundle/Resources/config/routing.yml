@@ -3,3 +3,6 @@ favorite_add:
   pattern:   /favorite/add/{id}/{token}
   defaults: { _controller: MuzichFavoriteBundle:Favorite:add }
 
+favorites_my_list:
+  pattern:   /favorites
+  defaults: { _controller: MuzichFavoriteBundle:Favorite:myList }

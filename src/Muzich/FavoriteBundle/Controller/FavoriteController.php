@@ -54,4 +54,14 @@ class FavoriteController extends Controller
     }
   }
   
+  /**
+   * @Template()
+   */
+  public function myListAction()
+  {
+    
+    
+    return array();
+  }
+  
 }

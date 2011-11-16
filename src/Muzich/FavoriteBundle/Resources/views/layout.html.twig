@@ -6,7 +6,11 @@
 
 {% block main_content %}
   
-  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with { 'active': '', 'mygroups': false } %}
+  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with { 
+    'active': 'myfavorites', 
+    'mygroups': false, 
+    'myfavorites': true 
+  } %}
   
   {% block content %}{% endblock %}
   
