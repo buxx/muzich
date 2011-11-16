@@ -49,5 +49,27 @@ class GroupRepository extends EntityRepository
     ;
   }
   
+  /**
+   * Retourne un tableau de groupes étant publics, ou possédé par l'user
+   * 
+   * @param int $user_id
+   * @return array id => name
+   */
+  public function getPublicAndOwnedArray($user_id)
+  {
+    $group_array = array();
+    foreach ($this->getEntityManager()
+      ->createQuery('
+        SELECT g.id, g.name FROM MuzichCoreBundle:Group g
+        LEFT JOIN g.owner o 
+        WHERE g.open = \'1\' OR o.id = :uid'
+      )->setParameter('uid', $user_id)
+      ->getArrayResult() as $group)
+    {
+      $group_array[$group['id']] = $group['name'];
+    }
+    return $group_array;
+  }
+  
 }
   

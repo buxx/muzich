@@ -17,18 +17,23 @@ class HomeController extends Controller
    */
   public function indexAction()
   {
-    $search_object = $this->getElementSearcher($this->getUser()->getId());
+    $search_object = $this->getElementSearcher($this->getUserId());
     
     $search_form = $this->createForm(
       new ElementSearchForm(), 
       $search_object->getParams(),
-      array('tags' => $tags = $this->getTagsArray())
+      array(
+        'tags' => $tags = $this->getTagsArray()
+      )
     );
     
     $add_form = $this->createForm(
       new ElementAddForm(),
       array(),
-      array('tags' => $tags)
+      array(
+        'tags' => $tags,
+        'groups' => $this->getGroupsArray(),
+      )
     );
         
     return array(

@@ -23,6 +23,12 @@ class ElementSearchForm extends AbstractType
       'expanded'          => true,
       'multiple'          => true
     ));
+        
+//    $builder->add('groups', 'choice', array(
+//      'choices'           => $options['groups'],
+//      'expanded'          => true,
+//      'multiple'          => true
+//    ));
   }
 
   public function getName()
@@ -34,6 +40,7 @@ class ElementSearchForm extends AbstractType
   {
     return array(
       'tags' => array(),
+//      'groups' => array(),
     );
   }
 }

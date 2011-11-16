@@ -70,8 +70,18 @@ class ElementManager
     $this->element->setUrl($params['url']);
     $this->element->setOwner($owner);
     $this->element->setTagsWithIds($this->em, $params['tags']);
+    $this->setGroup($params);
     $this->determineType();
     $this->proceedExtraFields();
+  }
+  
+  protected function setGroup($params)
+  {
+    if ($params['group_id'])
+    {
+      $group = $this->em->getRepository('MuzichCoreBundle:Group')->findOneById($params['group_id']);
+      $this->element->setGroup($group);
+    }
   }
   
   /**

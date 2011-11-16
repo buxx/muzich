@@ -132,7 +132,10 @@ class CoreController extends Controller
     $form = $this->createForm(
       new ElementAddForm(),
       array(),
-      array('tags' => $this->getTagsArray())
+      array(
+       'tags'   => $this->getTagsArray(),
+       'groups' => $this->getGroupsArray()
+      )
     );
     
     if ($this->getRequest()->getMethod() == 'POST')
@@ -148,17 +151,31 @@ class CoreController extends Controller
         
         $em->persist($element);
         $em->flush();
+        
+        if ($this->getRequest()->isXmlHttpRequest())
+        {
+
+        }
+        else
+        {
+          return $this->redirect($this->generateUrl('home'));
+        }
+        
+      }
+      else
+      {
+        if ($this->getRequest()->isXmlHttpRequest())
+        {
+
+        }
+        else
+        {
+          $this->setFlash('error', 'element.add.error');
+          return $this->redirect($this->generateUrl('home'));
+        }
+        
       }
       
-    }
-    
-    if ($this->getRequest()->isXmlHttpRequest())
-    {
-      
-    }
-    else
-    {
-      return $this->redirect($this->generateUrl('home'));
     }
     
   }

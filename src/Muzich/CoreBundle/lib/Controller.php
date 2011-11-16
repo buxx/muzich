@@ -9,6 +9,9 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 class Controller extends BaseController
 {
   
+  protected static $user = null;
+  protected static $user_personal_query = null;
+  
   /**
    * Authenticate a user with Symfony Security
    *
@@ -73,31 +76,62 @@ class Controller extends BaseController
    * @param array $params
    * @return User
    */
-  protected function getUser($personal_query = false, $params = array())
+  protected function getUser($personal_query = false, $params = array(), $force_refresh = false)
   {
     if (!$personal_query)
     {
-      return $this->container->get('security.context')->getToken()->getUser();
+      if ($force_refresh || !self::$user)
+      {
+        self::$user = $this->container->get('security.context')->getToken()->getUser();
+        return self::$user;
+      }
+      return self::$user;
     }
     else
     {
-      return $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array_key_exists('join', $params) ? $params['join'] : array()
-      )->getSingleResult();
+      if ($force_refresh || !self::$user_personal_query)
+      {
+        self::$user_personal_query = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+          $this->container->get('security.context')->getToken()->getUser()->getId(),
+          array_key_exists('join', $params) ? $params['join'] : array()
+        )->getSingleResult();
+        return self::$user_personal_query;
+      }
+      return self::$user_personal_query;
     }
+  }
+  
+  /**
+   * @desc Retourne l'id de l'utilisateur en cours
+   */
+  protected function getUserId()
+  {
+    $this->getUser()->getId();
   }
   
   /**
    * Retourne un tabeau avec les tags connus.
    * TODO: Voir pour que cette info soit stocké (par exemple) dans un champs
    * texte en base. (json array)
+   * TODO2: Voir si la question d'opt. "Formulaire d'ajout d'un élément" ne résoue pas
+   * le problème du TODO ci-dessus.
    * 
    * @return array
    */
   protected function getTagsArray()
   {
     return $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->getTagsArray();
+  }
+  
+  /**
+   * Retourne un tabeau avec les groupes accessible pour un ajout d'element.
+   * 
+   * @return array
+   */
+  protected function getGroupsArray()
+  {
+    return $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
+      ->getPublicAndOwnedArray($this->getUserId());
   }
   
   protected function setFlash($type, $value)

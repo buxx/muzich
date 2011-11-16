@@ -16,3 +16,7 @@ group:
   update:
     success:      La mise a jour a été un succés
     failure:      Une erreur est survenue lors de la mise a jour du groupe
+    
+element:
+  add:
+    error:        Une erreur est survenus lors de l'ajout
