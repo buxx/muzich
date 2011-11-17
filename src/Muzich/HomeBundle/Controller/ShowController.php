@@ -9,25 +9,15 @@ class ShowController extends Controller
 {
   
   /**
-   * 
+   * Page public de l'utilisateur demandé.
    * 
    * @Template()
    */
   public function showUserAction($slug)
   {
-    try {
-      
-      $viewed_user = $this->getDoctrine()
-        ->getRepository('MuzichCoreBundle:User')
-        ->findOneBySlug($slug)
-        ->getSingleResult()
-      ;
-      $user = $this->getUser();
-      
-    } catch (\Doctrine\ORM\NoResultException $e) {
-        throw $this->createNotFoundException('Utilisateur introuvable.');
-    }
-    
+    $viewed_user = $this->findUserWithSlug($slug);
+    $user = $this->getUser();
+        
     return array(
       'viewed_user' => $viewed_user,
       'elements'    => $this->getShowedEntityElements($viewed_user->getId(), 'User'),
@@ -37,25 +27,15 @@ class ShowController extends Controller
   }
   
   /**
-   * 
+   * Page publique du groupe demandé.
    * 
    * @Template()
    */
   public function showGroupAction($slug)
   {
-    try {
-      
-      $group = $this->getDoctrine()
-        ->getRepository('MuzichCoreBundle:Group')
-        ->findOneBySlug($slug)
-        ->getSingleResult()
-      ;
-      $user = $this->getUser();
-      
-    } catch (\Doctrine\ORM\NoResultException $e) {
-        throw $this->createNotFoundException('Groupe introuvable.');
-    }
-    
+    $group = $this->findGroupWithSlug($slug);
+    $user = $this->getUser();
+        
     return array(
       'group'       => $group,
       'his_group'   => ($group->getOwner()->getId() == $user->getId()) ? true : false,
@@ -66,6 +46,8 @@ class ShowController extends Controller
   }
   
   /**
+   * Refactorisation pour showUserAction et showGroupAction. Récupére les 
+   * elements de l'entité demandé.
    *
    * @param Entity $entity
    * @param string $type

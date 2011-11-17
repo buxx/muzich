@@ -62,8 +62,7 @@ class FavoriteController extends Controller
    */
   public function myListAction()
   {
-    $search_object = new ElementSearcher();
-    $search_object->init(array(
+    $search_object = $this->createSearchObject(array(
       'user_id'  => $this->getUserId(),
       'favorite' => true
     ));
@@ -81,20 +80,9 @@ class FavoriteController extends Controller
    */
   public function userListAction($slug)
   {
-    try {
-      
-      $viewed_user = $this->getDoctrine()
-        ->getRepository('MuzichCoreBundle:User')
-        ->findOneBySlug($slug)
-        ->getSingleResult()
-      ;
-      
-    } catch (\Doctrine\ORM\NoResultException $e) {
-        throw $this->createNotFoundException('Utilisateur introuvable.');
-    }
+    $viewed_user = $this->findUserWithSlug($slug);
     
-    $search_object = new ElementSearcher();
-    $search_object->init(array(
+    $search_object = $this->createSearchObject(array(
       'user_id'  => $viewed_user->getId(),
       'favorite' => true
     ));

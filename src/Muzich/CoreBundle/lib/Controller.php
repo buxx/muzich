@@ -134,9 +134,66 @@ class Controller extends BaseController
       ->getPublicAndOwnedArray($this->getUserId());
   }
   
+  /**
+   * Met en place un message de type flash.
+   * 
+   * @param string $type
+   * @param string $value 
+   */
   protected function setFlash($type, $value)
   {
     $this->container->get('session')->setFlash($type, $value);
+  }
+  
+  /**
+   * Instancie et retourne un objet ElementSearch
+   * 
+   * @param array $params
+   * @return ElementSearcher 
+   */
+  protected function createSearchObject($params)
+  {
+    $search_object = new ElementSearcher();
+    $search_object->init($params);
+    return $search_object;
+  }
+  
+  /**
+   * Retourne un User en fonction du slug passé
+   * 
+   * @param string $slug
+   * @return User 
+   */
+  protected function findUserWithSlug($slug)
+  {
+    try {
+      return $this->getDoctrine()
+        ->getRepository('MuzichCoreBundle:User')
+        ->findOneBySlug($slug)
+        ->getSingleResult()
+      ;      
+    } catch (\Doctrine\ORM\NoResultException $e) {
+        throw $this->createNotFoundException('Utilisateur introuvable.');
+    }
+  }
+  
+  /**
+   * Retourne un Group en fonction du slug passé
+   * 
+   * @param string $slug
+   * @return Group 
+   */
+  protected function findGroupWithSlug($slug)
+  {
+    try {
+      return $this->getDoctrine()
+        ->getRepository('MuzichCoreBundle:Group')
+        ->findOneBySlug($slug)
+        ->getSingleResult()
+      ;      
+    } catch (\Doctrine\ORM\NoResultException $e) {
+        throw $this->createNotFoundException('Groupe introuvable.');
+    }
   }
   
 }

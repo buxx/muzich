@@ -4,6 +4,12 @@
 
 {% block content %}
 
+  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with { 
+    'active': '', 
+    'mygroups': false, 
+    'myfavorites': true 
+  } %}
+
   <h2>{{ 'favorites.user_favorites'|trans({'%name%' : viewed_user.name}, 'network') }}</h2>
 
   {% render "MuzichCoreBundle:Search:doSearchElements" with { 'search': search_object } %}
