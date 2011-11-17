@@ -1,6 +1,6 @@
 {% extends "MuzichHomeBundle::layout.html.twig" %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ group.name }}{% endblock %}
 
 {% block content %}
 
@@ -24,6 +24,6 @@
     
   <h2>{{ group.name }}</h2>
   
-  {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
+  {% render "MuzichCoreBundle:Search:doSearchElements" with { 'search': search_object } %}
     
 {% endblock %}
