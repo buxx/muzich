@@ -6,3 +6,7 @@ favorite_add:
 favorites_my_list:
   pattern:   /favorites
   defaults: { _controller: MuzichFavoriteBundle:Favorite:myList }
+
+favorite_user_list:
+  pattern:   /user/{slug}/favorites
+  defaults: { _controller: MuzichFavoriteBundle:Favorite:userList }

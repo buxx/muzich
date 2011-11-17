@@ -56,6 +56,8 @@ class FavoriteController extends Controller
   }
   
   /**
+   * Page affichant les elements favoris de l'utilisateur
+   * 
    * @Template()
    */
   public function myListAction()
@@ -68,6 +70,38 @@ class FavoriteController extends Controller
     
     return array(
         'search_object' => $search_object
+    );
+  }
+  
+  /**
+   * Affichage des elements favoris d'un utilisateur particulier.
+   * 
+   * @param type $slug 
+   * @Template()
+   */
+  public function userListAction($slug)
+  {
+    try {
+      
+      $viewed_user = $this->getDoctrine()
+        ->getRepository('MuzichCoreBundle:User')
+        ->findOneBySlug($slug)
+        ->getSingleResult()
+      ;
+      
+    } catch (\Doctrine\ORM\NoResultException $e) {
+        throw $this->createNotFoundException('Utilisateur introuvable.');
+    }
+    
+    $search_object = new ElementSearcher();
+    $search_object->init(array(
+      'user_id'  => $viewed_user->getId(),
+      'favorite' => true
+    ));
+    
+    return array(
+      'viewed_user' => $viewed_user,
+      'search_object' => $search_object
     );
   }
   

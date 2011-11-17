@@ -1,0 +1,11 @@
+{% extends "MuzichFavoriteBundle::layout.html.twig" %}
+
+{% block title %}Favoris de {{ viewed_user.name }}{% endblock %}
+
+{% block content %}
+
+  <h2>{{ 'favorites.user_favorites'|trans({'%name%' : viewed_user.name}, 'network') }}</h2>
+
+  {% render "MuzichCoreBundle:Search:doSearchElements" with { 'search': search_object } %}
+    
+{% endblock %}
