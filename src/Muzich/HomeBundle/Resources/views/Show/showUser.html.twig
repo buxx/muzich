@@ -22,6 +22,6 @@
 
   <h2>{{ viewed_user.name }}</h2>
   
-  {% render "MuzichCoreBundle:Search:doSearchElements" with { 'search': search_object } %}
+  {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
     
 {% endblock %}

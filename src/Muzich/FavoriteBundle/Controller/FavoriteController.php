@@ -68,7 +68,8 @@ class FavoriteController extends Controller
     ));
     
     return array(
-        'search_object' => $search_object
+      'user'     => $this->getUser(),
+      'elements' => $search_object->doSearch($this->getDoctrine(), $this->getUserId())
     );
   }
   
@@ -88,8 +89,9 @@ class FavoriteController extends Controller
     ));
     
     return array(
+      'user'        => $this->getUser(),
       'viewed_user' => $viewed_user,
-      'search_object' => $search_object
+      'elements'    => $search_object->doSearch($this->getDoctrine(), $this->getUserId())
     );
   }
   

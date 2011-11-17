@@ -2,6 +2,8 @@
 
 namespace Muzich\CoreBundle\Searcher;
 
+use Symfony\Bundle\DoctrineBundle\Registry;
+
 class ElementSearcher extends Searcher implements SearcherInterface
 {
   
@@ -130,6 +132,21 @@ class ElementSearcher extends Searcher implements SearcherInterface
   public function isFavorite()
   {
     return $this->favorite;
+  }
+  
+  /**
+   * Retourne les elements correspondant a la recherche
+   * 
+   * @param Registry $doctrine
+   * @return collection
+   */
+  public function doSearch(Registry $doctrine, $user_id)
+  {
+    return $doctrine
+      ->getRepository('MuzichCoreBundle:Element')
+      ->findBySearch($this, $user_id)
+      ->execute()
+    ;
   }
   
 }

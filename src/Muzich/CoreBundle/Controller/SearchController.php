@@ -48,24 +48,4 @@ class SearchController extends Controller
     }
   }
   
-  /**
-   *  Procédure chargé d'afficher les résultats de la recherche.
-   */
-  public function doSearchElementsAction(ElementSearcher $search, $template = 'default')
-  {
-    $elements = $this->getDoctrine()
-      ->getRepository('MuzichCoreBundle:Element')
-      ->findBySearch($search, $this->getUser()->getId())
-      ->execute()
-    ;
-    
-    return $this->render(
-      'MuzichCoreBundle:SearchElement:default.html.twig', 
-      array(
-        'user' => $this->getUser(),
-        'elements' => $elements
-      )
-    );
-  }   
-  
 }

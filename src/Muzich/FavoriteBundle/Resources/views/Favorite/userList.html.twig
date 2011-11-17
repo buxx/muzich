@@ -12,6 +12,6 @@
 
   <h2>{{ 'favorites.user_favorites'|trans({'%name%' : viewed_user.name}, 'network') }}</h2>
 
-  {% render "MuzichCoreBundle:Search:doSearchElements" with { 'search': search_object } %}
+  {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
     
 {% endblock %}

@@ -16,17 +16,16 @@ class ShowController extends Controller
   public function showUserAction($slug)
   {
     $viewed_user = $this->findUserWithSlug($slug);
-    $user = $this->getUser();
         
     $search_object = $this->createSearchObject(array(
       'user_id'  => $viewed_user->getId()
     ));
     
     return array(
-      'viewed_user'   => $viewed_user,
-      'search_object' => $search_object,
-      'following'     => $user->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
-      'user'          => $user
+      'viewed_user' => $viewed_user,
+      'elements'    => $search_object->doSearch($this->getDoctrine(), $this->getUserId()),
+      'following'   => $this->getUser()->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
+      'user'        => $this->getUser()
     );
   }
   
@@ -38,18 +37,17 @@ class ShowController extends Controller
   public function showGroupAction($slug)
   {
     $group = $this->findGroupWithSlug($slug);
-    $user = $this->getUser();
         
     $search_object = $this->createSearchObject(array(
       'group_id'  => $group->getId()
     ));
     
     return array(
-      'group'         => $group,
-      'his_group'     => ($group->getOwner()->getId() == $user->getId()) ? true : false,
-      'search_object' => $search_object,
-      'following'     => $user->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()),
-      'user'          => $user
+      'group'     => $group,
+      'his_group' => ($group->getOwner()->getId() == $this->getUserId()) ? true : false,
+      'elements'  => $search_object->doSearch($this->getDoctrine(), $this->getUserId()),
+      'following' => $this->getUser()->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()),
+      'user'      => $this->getUser()
     );
   }
   

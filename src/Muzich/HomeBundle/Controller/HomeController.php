@@ -13,6 +13,9 @@ class HomeController extends Controller
 {
   
   /**
+   * Page d'accueil ("home") de l'utilisateur. Cette page regroupe le fil
+   * d'éléments général et personalisable et de quoi ajouter un élément.
+   * 
    * @Template()
    */
   public function indexAction()
@@ -37,9 +40,10 @@ class HomeController extends Controller
     );
         
     return array(
-      'add_form'      => $add_form->createView(),
-      'search_object' => $search_object,
-      'search_form'   => $search_form->createView()
+      'user'        => $this->getUser(),
+      'add_form'    => $add_form->createView(),
+      'search_form' => $search_form->createView(),
+      'elements'    => $search_object->doSearch($this->getDoctrine(), $this->getUserId())
     );
   }
 }
