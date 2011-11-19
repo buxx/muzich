@@ -7,5 +7,5 @@ my_account:
   change_password:  Changer mon mot de passe
   change_email:     Changer mon adresse email
   
-connection:
+connexion:
   password_lost:    Mot de passe perdu ?

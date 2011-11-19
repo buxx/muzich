@@ -37,7 +37,7 @@ class ElementRepository extends EntityRepository
     $join_personal = '';
     //$query_with = '';
     $where = '';
-        //die(var_dump($searcher));
+    
     // ajout du filtres de trie avec les tags transmis
     foreach ($searcher->getTags() as $tag_id)
     {

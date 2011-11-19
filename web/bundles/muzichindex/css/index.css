@@ -8,9 +8,14 @@
 
 .hello .login_box
 {
-  width: 640px;
+  width: 525px;
   margin-left: auto;
   margin-right: auto;
   background-color: #e3f6fd;
   padding: 20px;
+}
+
+.login_box input[id="username"], .login_box input[id="password"]
+{
+  width: 100px;
 }
