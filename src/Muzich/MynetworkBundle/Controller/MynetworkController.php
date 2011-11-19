@@ -10,7 +10,9 @@ class MynetworkController extends Controller
 {
   
   /**
-   * 
+   * Page listant les personnes et groupes que l'on suit, ainsi que les 
+   * personnes qui nous duivent.
+   *
    * @Template()
    */
   public function indexAction()

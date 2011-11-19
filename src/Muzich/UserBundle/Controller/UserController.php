@@ -12,6 +12,8 @@ use Muzich\CoreBundle\Form\Tag\TagFavoritesForm;
 class UserController extends Controller
 {
   /**
+   * Page de configuration de son compte
+   *
    * @Template()
    */
   public function accountAction()
@@ -100,6 +102,8 @@ class UserController extends Controller
   }
   
   /**
+   * Page ouverte après l'inscription sur laquelle on propose de saisir ses
+   * tags favoris.
    * 
    * @Template()
    */

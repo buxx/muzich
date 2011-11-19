@@ -12,6 +12,7 @@ class ShowController extends Controller
    * Page public de l'utilisateur demandé.
    * 
    * @Template()
+   * @param string $slug
    */
   public function showUserAction($slug)
   {
@@ -23,7 +24,7 @@ class ShowController extends Controller
     
     return array(
       'viewed_user' => $viewed_user,
-      'elements'    => $search_object->doSearch($this->getDoctrine(), $this->getUserId()),
+      'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
       'following'   => $this->getUser()->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
       'user'        => $this->getUser()
     );
@@ -33,6 +34,7 @@ class ShowController extends Controller
    * Page publique du groupe demandé.
    * 
    * @Template()
+   * @param string $slug
    */
   public function showGroupAction($slug)
   {
@@ -45,7 +47,7 @@ class ShowController extends Controller
     return array(
       'group'     => $group,
       'his_group' => ($group->getOwner()->getId() == $this->getUserId()) ? true : false,
-      'elements'  => $search_object->doSearch($this->getDoctrine(), $this->getUserId()),
+      'elements'  => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
       'following' => $this->getUser()->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()),
       'user'      => $this->getUser()
     );

@@ -14,8 +14,14 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class CoreController extends Controller
 {
-  
-  public function changeLanguageAction($language, $redirect)
+
+  /**
+   * Action permettant de changer le language
+   *
+   * @param string $language
+   * @return RedirectResponse
+   */
+  public function changeLanguageAction($language)
   {
     if($language != null)
     {
@@ -25,7 +31,7 @@ class CoreController extends Controller
     
     $url_referer = $this->container->get('request')->headers->get('referer');
     
-    // On effectue un contrôl un peu sépcial:
+    // On effectue un contrôle un peu spécial:
     // Si la page de demande était la page de connexion (hello)
     if (
       $this->generateUrl('index', array('_locale' => $old), true) == $url_referer
@@ -63,6 +69,8 @@ class CoreController extends Controller
   }
   
   /**
+   * Cette action permet a un utilisateur de suivre ou de ne plus suivre
+   * un utilisateur ou un groupe.
    * 
    * @param string $type
    * @param int $id
@@ -76,7 +84,8 @@ class CoreController extends Controller
     {
       throw $this->createNotFoundException();
     }
-    
+
+    // On tente de récupérer l'enregistrement FollowUser / FollowGroup
     $em = $this->getDoctrine()->getEntityManager();
     $Follow = $em
       ->getRepository('MuzichCoreBundle:Follow' . ucfirst($type))
@@ -87,22 +96,25 @@ class CoreController extends Controller
         )
       )
     ;
-    
+
+    // Si il existe déjà c'est qu'il ne veut plus suivre
     if ($Follow)
     {
       // L'utilisateur suis déjà, on doit détruire l'entité
       $em->remove($Follow);
       $em->flush();
     }
+    // Sinon, c'est qu'il veut le suivre
     else
     {
+      // On récupére l'entité a suivre
       $followed = $em->getRepository('MuzichCoreBundle:'.ucfirst($type))->find($id);
 
       if (!$followed) {
           throw $this->createNotFoundException('No '.$type.' found for id '.$id);
       }
       
-      
+      // On instancie te renseigne l'objet Follow****
       if ($type == 'user') { $Follow = new FollowUser(); }
       else { $Follow = new FollowGroup(); }
       $Follow->setFollower($user);
@@ -123,7 +135,10 @@ class CoreController extends Controller
       return $this->redirect($this->container->get('request')->headers->get('referer'));
     }
   }
-  
+
+  /**
+   *  Procédure d'ajout d'un element
+   */
   public function elementAddAction()
   {
     $user = $this->getUser();
@@ -145,7 +160,8 @@ class CoreController extends Controller
       {
         $data = $form->getData();
         $element = new Element();
-        
+
+        // On utilise le gestionnaire d'élément
         $factory = new ElementManager($element, $em, $this->container);
         $factory->proceedFill($data, $user);
         
@@ -179,11 +195,5 @@ class CoreController extends Controller
     }
     
   }
-  
-//  protected function proceedElement(Element $element)
-//  {
-//    $factory = new ElementFactory();
-//    $factory->proceed($element, $form->getData());
-//  }
   
 }

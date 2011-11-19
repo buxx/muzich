@@ -25,23 +25,22 @@ class Controller extends BaseController
   }
     
   /**
-   * Met a jour l'objet ElementSearcher (en réallité on met a jour les
-   * paramètres en sessions).
+   * Met a jour les parametres de ElementSearcher pour la "mémoire" de la
+   * recherche
    * 
-   * @param ElementSearcher $es 
+   * @param array $params
    */
-  protected function setElementSearcher(ElementSearcher $es)
+  protected function setElementSearcherParams($params)
   {
-    $this->get("session")->set('user.element_search.params', $es->getParams());
+    $this->get("session")->set('user.element_search.params', $params);
   }
   
   /**
    * Retourn l'objet ElementSearcher en cours.
    * 
-   * @param int $user_id
    * @return  ElementSearcher
    */
-  protected function getElementSearcher($user_id)
+  protected function getElementSearcher()
   {
     $session = $this->get("session");
     // Si l'objet n'existe pas encore, a t-on déjà des paramètres de recherche
@@ -53,7 +52,7 @@ class Controller extends BaseController
       $this->ElementSearcher->init(array(
         'tags' => $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
         // TODO: 3: CONFIG !!
-        ->getTagIdsFavorites($user_id, 3)
+        ->getTagIdsFavorites($this->getUserId(), 3)
       ));
 
       // Et on met en session les paramètres
@@ -63,6 +62,7 @@ class Controller extends BaseController
     {
       // Des paramètres existes, on fabrique l'objet recherche
       $this->ElementSearcher = new ElementSearcher();
+      // et on l'initatialise avec ces paramétres connus
       $this->ElementSearcher->init($session->get('user.element_search.params'));
     }
     

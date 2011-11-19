@@ -7,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Muzich\CoreBundle\Searcher\ElementSearcher;
 use Muzich\CoreBundle\Form\Search\ElementSearchForm;
-use Doctrine\ORM\Query;
 
 class SearchController extends Controller
 {
@@ -20,7 +19,7 @@ class SearchController extends Controller
   public function searchElementsAction()
   {
     $request = $this->getRequest();
-    $search_object = $this->getElementSearcher($this->getUser()->getId());
+    $search_object = $this->getElementSearcher();
     
     $search_form = $this->createForm(
       new ElementSearchForm(), 
@@ -31,10 +30,13 @@ class SearchController extends Controller
     if ($request->getMethod() == 'POST')
     {
       $search_form->bindRequest($request);
+      // Si le formulaire est valide
       if ($search_form->isValid())
       {
+        // On met a jour l'objet avec les nouveaux paramétres saisie dans le form
         $search_object->update($search_form->getData());
-        $this->setElementSearcher($search_object);
+        // Et on met a jour la "mémoire" de la recherche
+        $this->setElementSearcherParams($search_object->getParams());
       }
     }
     

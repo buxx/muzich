@@ -8,7 +8,7 @@ class TagRepository extends EntityRepository
 {
   
   /**
-   * Retourne les tags
+   * Retourne tous les tags connus sous forme d'un tableau
    * 
    * @return array id => name
    */

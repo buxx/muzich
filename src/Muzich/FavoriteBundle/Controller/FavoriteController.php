@@ -31,13 +31,15 @@ class FavoriteController extends Controller
     {
       throw $this->createNotFoundException();
     }
-    
+
+    // Si l'élément n'est pas déjà en favoris
     if (!$em->getRepository('MuzichCoreBundle:UsersElementsFavorites')
       ->findOneBy(array(
         'user'    => $user->getId(),
         'element' => $id
       )))
     {
+      // On créer un objet 
       $favorite = new UsersElementsFavorites();
       $favorite->setUser($user);
       $favorite->setElement($element);
@@ -69,7 +71,7 @@ class FavoriteController extends Controller
     
     return array(
       'user'     => $this->getUser(),
-      'elements' => $search_object->doSearch($this->getDoctrine(), $this->getUserId())
+      'elements' => $search_object->getElements($this->getDoctrine(), $this->getUserId())
     );
   }
   
@@ -91,7 +93,7 @@ class FavoriteController extends Controller
     return array(
       'user'        => $this->getUser(),
       'viewed_user' => $viewed_user,
-      'elements'    => $search_object->doSearch($this->getDoctrine(), $this->getUserId())
+      'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId())
     );
   }
   

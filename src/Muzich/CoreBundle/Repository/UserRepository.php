@@ -52,15 +52,6 @@ class UserRepository extends EntityRepository
       $join   .= ' LEFT JOIN u.groups_owned og';
     }
     
-//    if (array_key_exists('followed_user_id', $join_list))
-//    {
-//      $select .= ', fu, fu_u';
-//      $join   .= ' LEFT JOIN u.followeds_users fu WITH fu.followed = :fuid LEFT JOIN fu.followed fu_u';
-//      $parameters = array_merge($parameters, array(
-//        'fuid' => $join_list['followed_user_id']
-//      ));
-//    }
-    
     return $this->getEntityManager()
       ->createQuery("
         SELECT $select FROM MuzichCoreBundle:User u
@@ -140,7 +131,14 @@ class UserRepository extends EntityRepository
       ))
     ;
   }
-  
+
+  /**
+   * Retourne vrai si follower suis followed
+   *
+   * @param int $follower_id
+   * @param int $followed_id
+   * @return boolean
+   */
   public function isFollowingUser($follower_id, $followed_id)
   {
     $result = $this->getEntityManager()
@@ -157,7 +155,14 @@ class UserRepository extends EntityRepository
     
     return $result[1];
   }
-  
+
+  /**
+   * Retourne vrai si follower suis le groupe
+   *
+   * @param int $follower_id
+   * @param int $group_id
+   * @return boolean
+   */
   public function isFollowingGroup($follower_id, $group_id)
   {
     $result = $this->getEntityManager()

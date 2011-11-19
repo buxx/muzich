@@ -2,12 +2,22 @@
 
 namespace Muzich\CoreBundle\Searcher;
 
+use Doctrine\ORM\Query;
+use Symfony\Bundle\DoctrineBundle\Registry;
+
 /**
  * Objet utiliser pour cadrer la recherche.
  * 
  */
-class Searcher
+abstract class Searcher
 {
+  /**
+   * Query est l'objet requete correspondant a la recherche
+   *
+   * @var Query
+   */
+  protected $query = null;
+
   protected function checkParams($params, $neededs)
   {
     foreach ($neededs as $config_id => $message)
@@ -33,4 +43,15 @@ class Searcher
       }
     }
   }
+
+  protected function setQuery(Query $query)
+  {
+    $this->query = $query;
+  }
+
+  public function getQuery(Registry $doctrine, $user_id)
+  {
+    return $this->query;
+  }
+
 }

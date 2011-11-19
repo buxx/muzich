@@ -43,7 +43,13 @@ class ElementManager
       'tags' => array()
     );
   }
-  
+
+  /**
+   * 
+   * @param Element $element
+   * @param EntityManager $em
+   * @param Container $container
+   */
   public function __construct(Element $element, EntityManager $em, Container $container)
   {
     $this->element = $element;

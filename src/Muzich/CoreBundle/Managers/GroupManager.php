@@ -38,7 +38,6 @@ class GroupManager
    * Procédure chargé de construire le contenu tags.
    * 
    * @param array $tags_ids
-   * @param User $owner
    */
   public function proceedTags($tags_ids)
   {

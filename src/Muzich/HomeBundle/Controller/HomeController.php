@@ -20,7 +20,7 @@ class HomeController extends Controller
    */
   public function indexAction()
   {
-    $search_object = $this->getElementSearcher($this->getUserId());
+    $search_object = $this->getElementSearcher();
     
     $search_form = $this->createForm(
       new ElementSearchForm(), 
@@ -43,7 +43,7 @@ class HomeController extends Controller
       'user'        => $this->getUser(),
       'add_form'    => $add_form->createView(),
       'search_form' => $search_form->createView(),
-      'elements'    => $search_object->doSearch($this->getDoctrine(), $this->getUserId())
+      'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId())
     );
   }
 }

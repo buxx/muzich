@@ -13,7 +13,9 @@ class DefaultController extends Controller
 {
   
   /**
-   * 
+   * Page listant les groupes possédés par l'utilisateur. Comporte egallement
+   * un formulaire pour ajouter un groupe.
+   *
    * @Template()
    */
   public function myListAction()
@@ -37,6 +39,9 @@ class DefaultController extends Controller
   
   /**
    * Procédure d'ajout d'un groupe
+   *
+   * @param Request $request
+   * @return redirect|template
    */
   public function addAction(Request $request)
   {
@@ -83,8 +88,12 @@ class DefaultController extends Controller
   }
   
   /**
-   * 
+   * Modification d'un groupe
+   *
    * @Template()
+   * @param Request $request
+   * @param string $slug
+   * @return array
    */
   public function editAction(Request $request, $slug)
   {
@@ -123,26 +132,16 @@ class DefaultController extends Controller
   
   public function updateAction(Request $request, $slug)
   {
-    $user = $this->getUser();
     $em = $this->getDoctrine()->getEntityManager();
+    $group = $this->findGroupWithSlug($slug);
     
-    try {
-      
-      $group = $this->getDoctrine()
-        ->getRepository('MuzichCoreBundle:Group')
-        ->findOneBySlug($slug)
-        ->getSingleResult()
-      ;
-      
-    } catch (\Doctrine\ORM\NoResultException $e) {
-        throw $this->createNotFoundException('Groupe introuvable.');
-    }
-    
-    if ($group->getOwner()->getId() != $user->getId())
+    if ($group->getOwner()->getId() != $this->getUserId())
     {
       throw $this->createNotFoundException('Vous n\'ête pas le créateur de ce groupe.');
     }
-    
+
+    // Pour être compatible avec le formulaire, la collection de tags dois être
+    // une collection d'id
     $group->setTagsToIds();
     
     $form = $this->createForm(

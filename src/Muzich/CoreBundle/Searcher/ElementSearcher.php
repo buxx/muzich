@@ -133,20 +133,45 @@ class ElementSearcher extends Searcher implements SearcherInterface
   {
     return $this->favorite;
   }
+
+  /**
+   * Construction de l'objet Query
+   *
+   * @param Registry $doctrine
+   * @return collection
+   */
+  protected function constructQueryObject(Registry $doctrine, $user_id)
+  {
+    $this->setQuery($doctrine
+      ->getRepository('MuzichCoreBundle:Element')
+      ->findBySearch($this, $user_id))
+    ;
+  }
   
   /**
-   * Retourne les elements correspondant a la recherche
+   * Retourne l'objet Query
    * 
    * @param Registry $doctrine
    * @return collection
    */
-  public function doSearch(Registry $doctrine, $user_id)
+  public function getQuery(Registry $doctrine, $user_id)
   {
-    return $doctrine
-      ->getRepository('MuzichCoreBundle:Element')
-      ->findBySearch($this, $user_id)
-      ->execute()
-    ;
+    if (!$this->query)
+    {
+      $this->constructQueryObject($doctrine, $user_id);
+    }
+    return $this->query;
+  }
+
+  /**
+   * Retourne les elements correspondant a la recherche
+   *
+   * @param Registry $doctrine
+   * @return collection
+   */
+  public function getElements(Registry $doctrine, $user_id)
+  {
+    return $this->getQuery($doctrine, $user_id)->execute();
   }
   
 }

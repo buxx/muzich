@@ -8,8 +8,8 @@ class GroupRepository extends EntityRepository
 {
   
   /**
-   * Retourne un tableau d'user correspondant a un chaine de caractère
-   * La recherche est effectué sur le username.
+   * Retourne un tableau de groupe correspondant a un chaine de caractère
+   * La recherche est effectué sur le name.
    * 
    * @param type $string
    * @return Doctrine\ORM\Query
