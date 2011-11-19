@@ -54,7 +54,7 @@ class MynetworkController extends Controller
       $search_form->bindRequest($request);
       if ($search_form->isValid())
       {
-        $results = $this->doSearchAction($search);
+        $results = $search->getResults($this->getDoctrine());
       }
     }
     
@@ -70,34 +70,6 @@ class MynetworkController extends Controller
         'search_done' => $search->getString() ? true : false
       );
     }
-  }
-  
-  /**
-   * Retourne le résultat de recherche sur les users et groupes.
-   * 
-   * @param string $search
-   * @return array 
-   */
-  protected function doSearchAction($search)
-  {
-    $string = str_replace('%', '#', $search->getString());
-    
-    $users = $this->getDoctrine()
-      ->getRepository('MuzichCoreBundle:User')
-      ->findByString($string)
-      ->execute()
-    ;
-    
-    $groups = $this->getDoctrine()
-      ->getRepository('MuzichCoreBundle:Group')
-      ->findByString($string)
-      ->execute()
-    ;
-    
-    return array(
-      'users'  => $users,
-      'groups' => $groups
-    );
   }
   
 }

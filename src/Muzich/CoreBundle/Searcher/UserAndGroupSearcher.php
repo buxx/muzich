@@ -3,6 +3,7 @@
 namespace Muzich\CoreBundle\Searcher;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bundle\DoctrineBundle\Registry;
 
 class UserAndGroupSearcher extends Searcher implements SearcherInterface
 {
@@ -65,6 +66,35 @@ class UserAndGroupSearcher extends Searcher implements SearcherInterface
   public function setString($string)
   {
     $this->string = $string;
+  }
+  
+  /**
+   * Retourne les user et groupes correspondant a la recherche
+   *
+   * @param Registry $doctrine
+   * @return array
+   */
+  public function getResults(Registry $doctrine)
+  {
+    // On remplace le caratcère '%' au cas ou un malin l'insére.
+    $string = str_replace('%', '#', $this->string);
+    
+    $users = $doctrine
+      ->getRepository('MuzichCoreBundle:User')
+      ->findByString($string)
+      ->execute()
+    ;
+    
+    $groups = $doctrine
+      ->getRepository('MuzichCoreBundle:Group')
+      ->findByString($string)
+      ->execute()
+    ;
+    
+    return array(
+      'users'  => $users,
+      'groups' => $groups
+    );
   }
   
 }
