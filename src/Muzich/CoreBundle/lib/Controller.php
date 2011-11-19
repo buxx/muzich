@@ -80,7 +80,15 @@ class Controller extends BaseController
   {
     if (!$personal_query)
     {
-      if ($force_refresh || !self::$user)
+      // Si on demande l'utilisateur sans forcer la réactualisation et que l'utilisateur
+      // a déjà été demandé mais avec un requête personelle, on retourne cet utilisateur
+      if (!$force_refresh && self::$user_personal_query)
+      {
+        return self::$user_personal_query;
+      }
+      // Si on demande une actualisation ou que l'utilisateur n'a pas encore été demandé
+      // on va le récupérer
+      else if ($force_refresh || !self::$user)
       {
         self::$user = $this->container->get('security.context')->getToken()->getUser();
         return self::$user;
@@ -89,6 +97,8 @@ class Controller extends BaseController
     }
     else
     {
+      // Si l'on demande une réactualisation ou si l'user n'a pas encore été demandé
+      // on va le récupérer en base.
       if ($force_refresh || !self::$user_personal_query)
       {
         self::$user_personal_query = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
