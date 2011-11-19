@@ -321,4 +321,24 @@ class Group
     $this->tags = $tags_id;
   }
   
+  /**
+   * Retourne vrai si l'user_id peut poster dans ce groupe.
+   * 
+   * @param int $user_id
+   * @return boolean 
+   */
+  public function userCanAddElement($user_id)
+  {
+    if ($this->open)
+    {
+      return true;
+    }
+    
+    if ($this->getOwner()->getId() == $user_id)
+    {
+      return true;
+    }
+    
+    return false;
+  }
 }

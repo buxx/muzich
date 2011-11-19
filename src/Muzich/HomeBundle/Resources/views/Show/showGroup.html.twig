@@ -24,6 +24,18 @@
     
   <h2>{{ group.name }}</h2>
   
+  <form action="{{ path('element_add', {'group_slug' : group.slug}) }}" method="post" {{ form_enctype(add_form) }}>
+    
+    {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 'form': add_form } %}
+
+    <p>
+      <i>
+        {{ 'element.add.group.will_be_in'|trans({}, 'elements') }}
+      </i>
+    </p>
+    <input type="submit" />
+  </form>
+  
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
     
 {% endblock %}

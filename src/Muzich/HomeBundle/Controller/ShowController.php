@@ -4,6 +4,8 @@ namespace Muzich\HomeBundle\Controller;
 
 use Muzich\CoreBundle\lib\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Muzich\CoreBundle\Form\Element\ElementAddForm;
+use Muzich\CoreBundle\Entity\Element;
 
 class ShowController extends Controller
 {
@@ -44,12 +46,25 @@ class ShowController extends Controller
       'group_id'  => $group->getId()
     ));
     
+    ($group->getOwner()->getId() == $this->getUserId()) ? $his = true : $his = false;
+    if ($his || $group->getOpen())
+    {      
+      $add_form = $this->createForm(
+        new ElementAddForm(),
+        array(),
+        array(
+          'tags' => $this->getTagsArray()
+        )
+      );
+    }
+    
     return array(
       'group'     => $group,
       'his_group' => ($group->getOwner()->getId() == $this->getUserId()) ? true : false,
       'elements'  => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
       'following' => $this->getUser()->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()),
-      'user'      => $this->getUser()
+      'user'      => $this->getUser(),
+      'add_form'  => (isset($add_form)) ? $add_form->createView() : null
     );
   }
   

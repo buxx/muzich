@@ -139,8 +139,8 @@ class CoreController extends Controller
   /**
    *  Procédure d'ajout d'un element
    */
-  public function elementAddAction()
-  {
+  public function elementAddAction($group_slug)
+  {    
     $user = $this->getUser();
     $em = $this->getDoctrine()->getEntityManager();
     
@@ -149,6 +149,7 @@ class CoreController extends Controller
       array(),
       array(
        'tags'   => $this->getTagsArray(),
+        // Ligne non obligatoire (cf. verif du contenu du form -> ticket)
        'groups' => $this->getGroupsArray()
       )
     );
@@ -165,16 +166,35 @@ class CoreController extends Controller
         $factory = new ElementManager($element, $em, $this->container);
         $factory->proceedFill($data, $user);
         
+        // Si on a précisé un groupe
+        if ($group_slug)
+        {
+          $group = $this->findGroupWithSlug($group_slug);
+          if ($group->userCanAddElement($this->getUserId()))
+          {
+            $element->setGroup($group);
+          }
+          else
+          {
+            throw $this->createNotFoundException('Vous ne pouvez ajouter d\'element a ce groupe.');
+          }
+          $redirect_url = $this->generateUrl('show_group', array('slug' => $group->getSlug()));
+        }
+        else
+        {
+          $redirect_url = $this->generateUrl('home');
+        }
+        
         $em->persist($element);
         $em->flush();
         
         if ($this->getRequest()->isXmlHttpRequest())
         {
-
+          
         }
         else
         {
-          return $this->redirect($this->generateUrl('home'));
+          return $this->redirect($redirect_url);
         }
         
       }
@@ -187,7 +207,7 @@ class CoreController extends Controller
         else
         {
           $this->setFlash('error', 'element.add.error');
-          return $this->redirect($this->generateUrl('home'));
+          return $this->redirect($redirect_url);
         }
         
       }
