@@ -32,35 +32,45 @@ class ElementRepository extends EntityRepository
    * @return Doctrine\ORM\Query
    */
   public function findBySearch(ElementSearcher $searcher, $user_id)
-  {;
+  {
     $params = array();
     $join_personal = '';
     //$query_with = '';
     $where = '';
-    
-    // Ajout du filtre limitant au réseau personel si c'est le cas
-    if ($searcher->getNetwork() == ElementSearcher::NETWORK_PERSONAL)
-    {
-      $join_personal = "
-        LEFT JOIN eu.followers_users f WITH f.follower = :userid "
-        ."JOIN g.followers gf WITH gf.follower = :useridg"
-        ;
-      $params['userid'] = $user_id;
-      $params['useridg'] = $user_id;
-    }
-    
+        //die(var_dump($searcher));
     // ajout du filtres de trie avec les tags transmis
     foreach ($searcher->getTags() as $tag_id)
     {
       if ($where == '')
       {
-        $where .= 'WHERE t.id = :tid'.$tag_id;
+        $where .= 'WHERE (t.id = :tid'.$tag_id;
       }
       else
       {
         $where .= ' OR t.id = :tid'.$tag_id;
       }
       $params['tid'.$tag_id] = $tag_id;
+    }
+    
+    if (count($searcher->getTags()))
+    {
+      // Si on ne met pas les parenthéses, lorsqu'il y a d'autre where (AND, OR)
+      // On perd la précision et des résultats se retrouvent dans le tas
+      $where .= ')';
+    }
+    
+    // Ajout du filtre limitant au réseau personel si c'est le cas
+    $where_network = '';
+    if ($searcher->getNetwork() == ElementSearcher::NETWORK_PERSONAL)
+    {  
+      $join_personal = 
+       " LEFT JOIN eu.followers_users f"
+      ." LEFT JOIN g.followers gf"
+      ;
+      $where_network = ($where != '') ? ' AND' : ' WHERE';
+      $where_network .= ' (f.follower = :userid OR gf.follower = :useridg)';
+      $params['userid'] = $user_id;
+      $params['useridg'] = $user_id;
     }
     
     // ajout du filtre sur un user si c'est le cas
@@ -118,6 +128,7 @@ class ElementRepository extends EntityRepository
       $join_favorite
       JOIN e.owner eu $join_personal
       $where
+      $where_network
       $where_user
       $where_group
       $where_favorite
