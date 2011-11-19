@@ -30,7 +30,6 @@ class ElementSearcher extends Searcher implements SearcherInterface
   
   /**
    * Nombre limite de résultats retournés.
-   * TODO: Placer cette info dans la config.
    * 
    * @var int
    */

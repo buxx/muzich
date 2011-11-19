@@ -51,8 +51,11 @@ class Controller extends BaseController
       $this->ElementSearcher = new ElementSearcher();
       $this->ElementSearcher->init(array(
         'tags' => $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-        // TODO: 3: CONFIG !!
-        ->getTagIdsFavorites($this->getUserId(), 3)
+          ->getTagIdsFavorites(
+            $this->getUserId(),
+            $this->container->getParameter('search_default_favorites_tags_count')
+          ),
+        'count' => $this->container->getParameter('search_default_count')
       ));
 
       // Et on met en session les paramètres
