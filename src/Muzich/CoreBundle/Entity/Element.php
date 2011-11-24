@@ -210,6 +210,10 @@ class Element
     return $this->tags;
   }
   
+  public function setTags($tags)
+  {
+    $this->tags = $tags;
+  }
 
   /**
    * Set owner
@@ -350,6 +354,11 @@ class Element
   public function getCountFavorite()
   {
     return count($this->elements_favorites);
+  }
+  
+  public function setGroupToId()
+  {
+    $this->group = $this->group->getId();
   }
   
 }

@@ -9,5 +9,5 @@ follow:
   defaults: { _controller: MuzichCoreBundle:Core:follow }
    
 element_add:
-  pattern:  /element/add
-  defaults: { _controller: MuzichCoreBundle:Core:elementAdd }
+  pattern:  /element/add/{group_slug}
+  defaults: { _controller: MuzichCoreBundle:Core:elementAdd, group_slug: null }

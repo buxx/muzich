@@ -83,9 +83,9 @@ class ElementManager
   
   protected function setGroup($params)
   {
-    if ($params['group_id'])
+    if ($params['group'])
     {
-      $group = $this->em->getRepository('MuzichCoreBundle:Group')->findOneById($params['group_id']);
+      $group = $this->em->getRepository('MuzichCoreBundle:Group')->findOneById($params['group']);
       $this->element->setGroup($group);
     }
   }

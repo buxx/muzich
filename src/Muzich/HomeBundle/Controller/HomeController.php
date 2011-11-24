@@ -21,6 +21,9 @@ class HomeController extends Controller
   public function indexAction()
   {
     $search_object = $this->getElementSearcher();
+    $user = $this->getUser(true, array('join' => array(
+      'groups_owned'
+    )), true);
     
     $search_form = $this->createForm(
       new ElementSearchForm(), 
@@ -35,7 +38,7 @@ class HomeController extends Controller
       array(),
       array(
         'tags' => $tags,
-        'groups' => $this->getGroupsArray(),
+        'groups' => $user->getGroupsOwnedArray(),
       )
     );
         

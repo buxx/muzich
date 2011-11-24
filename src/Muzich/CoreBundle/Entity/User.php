@@ -260,6 +260,21 @@ class User extends BaseUser
   {
     return $this->groups_owned;
   }
+
+  /**
+   * Get groups in array (id => name)
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getGroupsOwnedArray()
+  {
+    $groups = array();
+    foreach ($this->groups_owned as $group)
+    {
+      $groups[$group->getId()] = $group->getName();
+    }
+    return $groups;
+  }
   
   public function getSlug()
   {

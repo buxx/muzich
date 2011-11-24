@@ -5,3 +5,6 @@ noelements:
 element:
   favorite:
     add:                Ajouter a mes favoris
+  add:
+    group:
+      will_be_in:       L'élément sera ajouté dans le groupe
