@@ -30,42 +30,19 @@ class CoreController extends Controller
     }
     
     $url_referer = $this->container->get('request')->headers->get('referer');
+    $url_referer = str_replace(
+      $siteurl = $this->container->getParameter('siteurl'), 
+      '', 
+      $url_referer
+    );
     
-    // On effectue un contrôle un peu spécial:
-    // Si la page de demande était la page de connexion (hello)
-    if (
-      $this->generateUrl('index', array('_locale' => $old), true) == $url_referer
-      || $this->generateUrl('index', array('_locale' => null), true) == $url_referer
-    )
-    {
-      // On construit l'url
-      $url = $this->generateUrl('index', array('_locale' => $language));
-    }
-    else
-    {
-      
-      // Sinon on doit rediriger l'utilisateur vers son url d'origine
-      
-      if (preg_match('/user/', $url_referer))
-      {
-        $search = "/$old/user/";
-        $replace = "/$language/user/";
-      }
-      elseif (preg_match('/group/', $url_referer))
-      {
-        $search = "/$old/group/";
-        $replace = "/$language/group/";
-      }
-      else
-      {
-        $search = "/$old";
-        $replace = "/$language";
-      }
-      
-      $url = str_replace($search, $replace, $url_referer);
-    }
+    $params = $this->get('router')->match($url_referer);
+    $params['_locale'] = $language;
+    $route = $params['_route'];
+    unset($params['_route'], $params['_controller']);
+    $new_url = $this->generateUrl($route, $params);
     
-    return new RedirectResponse($url);
+    return new RedirectResponse($new_url);
   }
   
   /**
