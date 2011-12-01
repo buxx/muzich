@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\EntityManager;
+use Muzich\CoreBundle\Validator as MuzichAssert;
 
 /**
  * L'Element est l'Element central de l'application. C'est cet
@@ -40,6 +41,7 @@ class Element
    * 
    * @ORM\ManyToMany(targetEntity="Tag", inversedBy="elements")
    * @ORM\JoinTable(name="elements_tag")
+   * @MuzichAssert\Tags()
    */
   private $tags;
 
@@ -56,6 +58,7 @@ class Element
    * 
    * @ORM\ManyToOne(targetEntity="Group", inversedBy="elements")
    * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+   * @MuzichAssert\GroupOwnedOrPublic()
    */
   protected $group = null;
   

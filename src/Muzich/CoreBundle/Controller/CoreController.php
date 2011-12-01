@@ -11,6 +11,7 @@ use Muzich\CoreBundle\Form\Element\ElementAddForm;
 use Muzich\CoreBundle\ElementFactory\ElementManager;
 use Muzich\CoreBundle\Entity\Element;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Muzich\CoreBundle\Form\Search\ElementSearchForm;
 
 class CoreController extends Controller
 {
@@ -137,7 +138,6 @@ class CoreController extends Controller
       $form->bindRequest($this->getRequest());
       if ($form->isValid())
       {
-
         // On utilise le gestionnaire d'élément
         $factory = new ElementManager($element, $em, $this->container);
         $factory->proceedFill($user);
@@ -183,7 +183,27 @@ class CoreController extends Controller
         else
         {
           $this->setFlash('error', 'element.add.error');
-          return $this->redirect($redirect_url);
+          
+          $search_object = $this->getElementSearcher();
+          $user = $this->getUser(true, array('join' => array(
+            'groups_owned'
+          )), true);
+
+          $search_form = $this->createForm(
+            new ElementSearchForm(), 
+            $search_object->getParams(),
+            array(
+              'tags' => $tags = $this->getTagsArray()
+            )
+          );
+
+          return $this->render('MuzichHomeBundle:Home:index.html.twig', array(
+            'user'        => $this->getUser(),
+            'add_form'    => $form->createView(),
+            'search_form' => $search_form->createView(),
+            'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId())
+          ));
+          
         }
         
       }
