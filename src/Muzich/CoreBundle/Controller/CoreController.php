@@ -121,9 +121,10 @@ class CoreController extends Controller
     $user = $this->getUser();
     $em = $this->getDoctrine()->getEntityManager();
     
+    $element = new Element();
     $form = $this->createForm(
       new ElementAddForm(),
-      array(),
+      $element,
       array(
        'tags'   => $this->getTagsArray(),
         // Ligne non obligatoire (cf. verif du contenu du form -> ticket)
@@ -136,14 +137,12 @@ class CoreController extends Controller
       $form->bindRequest($this->getRequest());
       if ($form->isValid())
       {
-        $data = $form->getData();
-        $element = new Element();
 
         // On utilise le gestionnaire d'élément
         $factory = new ElementManager($element, $em, $this->container);
-        $factory->proceedFill($data, $user);
+        $factory->proceedFill($user);
         
-        // Si on a précisé un groupe
+        // Si on a précisé un groupe dans lequel mettre l'element
         if ($group_slug)
         {
           $group = $this->findGroupWithSlug($group_slug);

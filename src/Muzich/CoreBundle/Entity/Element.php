@@ -181,7 +181,7 @@ class Element
   
   public function __construct($url = null)
   {
-    $this->tags = new ArrayCollection();
+    //$this->tags = new ArrayCollection();
     $this->url = $url;
   }
   
@@ -260,7 +260,7 @@ class Element
    *
    * @param Group $group
    */
-  public function setGroup(Group $group)
+  public function setGroup($group)
   {
       $this->group = $group;
   }
@@ -336,14 +336,15 @@ class Element
   }
   
   /**
-   * Ajoute des relation vers des tags.
+   * Etablie des relation vers des tags.
+   * (Supprime les anciens tags, au niveau de l'objet seulement)
    * 
    * @param array $ids 
    */
   public function setTagsWithIds(EntityManager $em, $ids)
   {
     $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($ids)->execute();
-
+    $this->tags = null;
     // Pour les nouveaux ids restants
     foreach ($tags as $tag)
     {      

@@ -71,7 +71,7 @@ class ElementSearcherTest extends UnitTest
       ->createQuery("SELECT e
       FROM MuzichCoreBundle:Element e
       WHERE e.owner = :suid
-      ORDER BY e.created DESC")
+      ORDER BY e.created DESC, e.name DESC")
       ->setParameter('suid', $jean->getId())
       ->setMaxResults(20)
       ->getResult()
@@ -102,7 +102,7 @@ class ElementSearcherTest extends UnitTest
       FROM MuzichCoreBundle:Element e
       JOIN e.elements_favorites fav2
       WHERE fav2.user = :fuid
-      ORDER BY e.created, e.name DESC")
+      ORDER BY e.created DESC, e.name DESC")
       ->setParameter('fuid', $paul->getId())
       ->setMaxResults(20)
       ->getResult()
@@ -136,7 +136,7 @@ class ElementSearcherTest extends UnitTest
       FROM MuzichCoreBundle:Element e 
       LEFT JOIN e.tags t 
       WHERE (t.id = :tidHardtek OR t.id = :tidTribe)
-      ORDER BY e.created, e.name DESC")
+      ORDER BY e.created DESC, e.name DESC")
       ->setParameters(array(
         'tidHardtek' => $hardtek->getId(),
         'tidTribe'   => $tribe->getId()
@@ -178,7 +178,7 @@ class ElementSearcherTest extends UnitTest
 //      JOIN e.owner eu  LEFT JOIN eu.followers_users f LEFT JOIN g.followers gf
 //      WHERE (t.id = :tidHardtek OR t.id = :tidTribe)
 //       AND (f.follower = :userid OR gf.follower = :useridg)
-//      ORDER BY e.created, e.name DESC")
+//      ORDER BY e.created DESC, e.name DESC")
 //      ->setParameters(array(
 //        'tidHardtek' => $hardtek->getId(),
 //        'tidTribe'   => $tribe->getId(),

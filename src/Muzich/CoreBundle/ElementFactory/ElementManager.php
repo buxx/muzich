@@ -70,22 +70,20 @@ class ElementManager
    * @param array $params
    * @param User $owner
    */
-  public function proceedFill($params, User $owner)
+  public function proceedFill(User $owner)
   {
-    $this->element->setName($params['name']);
-    $this->element->setUrl($params['url']);
     $this->element->setOwner($owner);
-    $this->element->setTagsWithIds($this->em, $params['tags']);
-    $this->setGroup($params);
+    $this->element->setTagsWithIds($this->em, $this->element->getTags());
+    $this->setGroup();
     $this->determineType();
     $this->proceedExtraFields();
   }
   
-  protected function setGroup($params)
+  protected function setGroup()
   {
-    if ($params['group'])
+    if ($this->element->getGroup())
     {
-      $group = $this->em->getRepository('MuzichCoreBundle:Group')->findOneById($params['group']);
+      $group = $this->em->getRepository('MuzichCoreBundle:Group')->findOneById($this->element->getGroup());
       $this->element->setGroup($group);
     }
   }

@@ -26,28 +26,20 @@ class ElementFactoryTest extends UnitTest
     
     $youtube_width = '425';
     $youtube_height = '350';
-    
-    $data = array(
-      'name'    => 'Mon bel element',
-      'url'     => 'http://www.youtube.com/watch?v=WC8qb_of04E',
-      'tags'    => array($hardtek->getId(), $tribe->getId()),
-      'group'   => ''
-    );
-    
+        
     $element = new Element();
+    $element->setName('Mon bel element');
+    $element->setTags(array($hardtek->getId(), $tribe->getId()));
+    $element->setUrl('http://www.youtube.com/watch?v=WC8qb_of04E');
     
     $factory = new ElementManager($element, $r->getEntityManager(), $this->_container);
-    $factory->proceedFill($data, $bux);
-    
-    $tags = new ArrayCollection();
-    $tags->add($hardtek);
-    $tags->add($tribe);
+    $factory->proceedFill($bux);
     
     $url = 'http://www.youtube.com/v/WC8qb_of04E&rel=1';
     
     $this->assertEquals($element->getName(), 'Mon bel element');
     $this->assertEquals($element->getUrl(), 'http://www.youtube.com/watch?v=WC8qb_of04E');
-    $this->assertEquals($element->getTags(), $tags);
+    $this->assertEquals($element->getTags(), array($hardtek, $tribe));
     $this->assertEquals($element->getEmbed(), 
       '<object width="'.$youtube_width.'" height="'.$youtube_height.'" >'
      .'<param name="movie" value="'.$url.'"></param><param name="wmode" value="transparent">'
