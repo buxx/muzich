@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Validator\Constraints as Assert;
 use Muzich\CoreBundle\Validator as MuzichAssert;
 
 /**
@@ -74,6 +75,8 @@ class Element
    * L'url est l'url du media. 
    * 
    * @ORM\Column(type="string", length=1024)
+   * @Assert\NotBlank()
+   * @Assert\MaxLength(1024)
    * @var type string
    */
   protected $url;
@@ -82,6 +85,9 @@ class Element
    * Libellé du media
    * 
    * @ORM\Column(type="string", length=128)
+   * @Assert\NotBlank()
+   * @Assert\MinLength(limit=3)
+   * @Assert\MaxLength(64)
    * @var type string
    */
   protected $name;

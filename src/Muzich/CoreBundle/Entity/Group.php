@@ -7,6 +7,8 @@ use \Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\EntityManager;
 use Muzich\CoreBundle\Entity\GroupsTagsFavorites;
+use Symfony\Component\Validator\Constraints as Assert;
+use Muzich\CoreBundle\Validator as MuzichAssert;
 
 /**
  * Le groupe est une sorte de liste de diffusion, a laquelle les
@@ -33,6 +35,9 @@ class Group
    * Nom du groupe
    * 
    * @ORM\Column(type="string", length=128)
+   * @Assert\NotBlank()
+   * @Assert\MinLength(limit=3)
+   * @Assert\MaxLength(64)
    * @var type string
    */
   protected $name;
@@ -47,6 +52,7 @@ class Group
    * Description
    * 
    * @ORM\Column(type="text")
+   * @Assert\MaxLength(2048)
    * @var type string
    */
   protected $description;

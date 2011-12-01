@@ -8,6 +8,8 @@ use \Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\EntityManager;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
+use Symfony\Component\Validator\Constraints as Assert;
+use Muzich\CoreBundle\Validator as MuzichAssert;
 
 /**
  * Cet entité est l'utilisateur ayant effectué la requête.

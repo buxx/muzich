@@ -78,7 +78,7 @@ class DefaultController extends Controller
       $this->setFlash('error', 'group.create.failure');
       
       return $this->render(
-        'GroupBundle:Default:myList.html.twig', 
+        'MuzichGroupBundle:Default:myList.html.twig', 
          array(
            'groups'   => $user->getGroupsOwned(),
            'form_new' => $form_new->createView()
