@@ -86,6 +86,10 @@ class ElementManager
       $group = $this->em->getRepository('MuzichCoreBundle:Group')->findOneById($this->element->getGroup());
       $this->element->setGroup($group);
     }
+    else
+    {
+      $this->element->setGroup(null);
+    }
   }
   
   /**
