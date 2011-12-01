@@ -21,7 +21,8 @@ class ShowController extends Controller
     $viewed_user = $this->findUserWithSlug($slug);
         
     $search_object = $this->createSearchObject(array(
-      'user_id'  => $viewed_user->getId()
+      'user_id'  => $viewed_user->getId(),
+      'count'    => $this->container->getParameter('search_default_count')
     ));
     
     return array(
@@ -43,7 +44,8 @@ class ShowController extends Controller
     $group = $this->findGroupWithSlug($slug);
         
     $search_object = $this->createSearchObject(array(
-      'group_id'  => $group->getId()
+      'group_id'  => $group->getId(),
+      'count'     => $this->container->getParameter('search_default_count')
     ));
     
     ($group->getOwner()->getId() == $this->getUserId()) ? $his = true : $his = false;

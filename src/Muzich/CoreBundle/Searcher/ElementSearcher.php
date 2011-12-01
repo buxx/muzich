@@ -164,8 +164,10 @@ class ElementSearcher extends Searcher implements SearcherInterface
 
   /**
    * Retourne les elements correspondant a la recherche
-   *
+   * user_id: Identifiant de celui qui navigue
+   * 
    * @param Registry $doctrine
+   * @param int $user_id
    * @return collection
    */
   public function getElements(Registry $doctrine, $user_id)

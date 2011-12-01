@@ -62,7 +62,7 @@ class ElementRepository extends EntityRepository
     // Ajout du filtre limitant au réseau personel si c'est le cas
     $where_network = '';
     if ($searcher->getNetwork() == ElementSearcher::NETWORK_PERSONAL)
-    {  
+    {
       $join_personal = 
        " LEFT JOIN eu.followers_users f"
       ." LEFT JOIN g.followers gf"
