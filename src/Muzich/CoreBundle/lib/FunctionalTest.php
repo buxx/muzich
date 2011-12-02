@@ -30,6 +30,36 @@ class FunctionalTest extends WebTestCase
     return $this->client->getContainer()->get('security.context')->getToken()->getUser();
   }
   
+  protected function connectUser($login, $password)
+  {
+    $this->client = self::createClient();
+
+    $this->crawler = $this->client->request('GET', $this->generateUrl('index'));
+    $this->isResponseSuccess();
+
+    $this->assertEquals('anon.', $this->getUser());
+
+    $this->exist('div.login');
+    $this->exist('form[action="'.($url = $this->generateUrl('fos_user_security_check')).'"]');
+    $this->exist('form[action="'.$url.'"] input[id="username"]');
+    $this->exist('form[action="'.$url.'"] input[id="password"]');
+    $this->exist('form[action="'.$url.'"] input[id="remember_me"]');
+    $this->exist('form[action="'.$url.'"] input[type="submit"]');
+
+    $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+    $form['_username'] = $login;
+    $form['_password'] = $password;
+    $form['_remember_me'] = true;
+    $this->submit($form);
+
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+
+    $user = $this->getUser();
+    $this->assertEquals($login, $user->getUsername());
+  }
+  
   /**
    * Generates a URL from the given parameters.
    *
@@ -42,6 +72,25 @@ class FunctionalTest extends WebTestCase
   protected function generateUrl($route, $parameters = array(), $absolute = false)
   {
     return $this->client->getContainer()->get('router')->generate($route, $parameters, $absolute);
+  }
+  
+  protected function getContainer()
+  {
+    return $this->client->getContainer();
+  }
+  
+  protected function getSession()
+  {
+    return $this->getContainer()->get('session');
+  }
+  
+  /**
+   *
+   * @return \Symfony\Bundle\DoctrineBundle\Registry
+   */
+  protected function getDoctrine()
+  {
+    return $this->client->getContainer()->get('doctrine');
   }
   
   /**
@@ -101,7 +150,7 @@ class FunctionalTest extends WebTestCase
    */
   protected function followRedirection()
   {
-    $this->client->followRedirect();
+    $this->crawler = $this->client->followRedirect();
   }
   
   /**
