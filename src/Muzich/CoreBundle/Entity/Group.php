@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Muzich\CoreBundle\Entity\GroupsTagsFavorites;
 use Symfony\Component\Validator\Constraints as Assert;
 use Muzich\CoreBundle\Validator as MuzichAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Le groupe est une sorte de liste de diffusion, a laquelle les
@@ -19,6 +20,7 @@ use Muzich\CoreBundle\Validator as MuzichAssert;
  * @ORM\Entity
  * @ORM\Table(name="m_group")
  * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\GroupRepository")
+ * @UniqueEntity("name")
  */
 class Group
 {
@@ -34,7 +36,7 @@ class Group
   /**
    * Nom du groupe
    * 
-   * @ORM\Column(type="string", length=128)
+   * @ORM\Column(type="string", length=128, unique=true)
    * @Assert\NotBlank()
    * @Assert\MinLength(limit=3)
    * @Assert\MaxLength(64)
