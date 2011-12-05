@@ -73,4 +73,63 @@ class HomeControllerTest extends FunctionalTest
     }
   }
   
+  /**
+   * Test de la présence des elements sur la page d'un utilisateur
+   */
+  public function testUserPage()
+  {
+    $this->connectUser('bux', 'toor');
+    $jean = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername('jean')
+    ;
+    
+    $this->crawler = $this->client->request(
+      'GET', 
+      $this->generateUrl('show_user', array('slug' => $jean->getSlug()))
+    );
+    
+    $this->isResponseSuccess();
+    $this->exist('h2:contains("'.$jean->getName().'")');
+    
+    $es = new ElementSearcher();
+    $es->init(array(
+      'user_id' => $jean->getId()
+    ));
+    
+    foreach ($es->getElements($this->getDoctrine(), $this->getUser()->getId()) as $element)
+    {
+      $this->exist('html:contains("'.$element->getName().'")');
+    }
+  }
+  
+  /**
+   * Test de la présence des elements sur la page d'un utilisateur
+   */
+  public function testGroupPage()
+  {
+    $this->connectUser('bux', 'toor');
+    $fdp = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
+      ->findOneBySlug('fans-de-psytrance')
+      ->getSingleResult()
+    ;
+    
+    $this->crawler = $this->client->request(
+      'GET', 
+      $this->generateUrl('show_group', array('slug' => $fdp->getSlug()))
+    );
+    
+    $this->isResponseSuccess();
+    $this->exist('h2:contains("'.$fdp->getName().'")');
+    
+    $es = new ElementSearcher();
+    $es->init(array(
+      'group_id' => $fdp->getId()
+    ));
+    
+    foreach ($es->getElements($this->getDoctrine(), $this->getUser()->getId()) as $element)
+    {
+      $this->exist('html:contains("'.$element->getName().'")');
+    }
+  }
+  
 }
