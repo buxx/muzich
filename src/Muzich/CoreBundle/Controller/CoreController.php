@@ -129,7 +129,7 @@ class CoreController extends Controller
       array(
        'tags'   => $this->getTagsArray(),
         // Ligne non obligatoire (cf. verif du contenu du form -> ticket)
-       'groups' => $this->getGroupsArray()
+       //'groups' => $this->getGroupsArray()
       )
     );
     

@@ -23,13 +23,13 @@ class ElementAddForm extends AbstractType
       'multiple'          => true
     ));
     
-    $options['groups'][''] = '';
-    $builder->add('group', 'choice', array(
-      'choices'           => $options['groups'],
-      'expanded'          => false,
-      'multiple'          => false,
-      'required'          => false
-    ));
+//    $options['groups'][''] = '';
+//    $builder->add('group', 'choice', array(
+//      'choices'           => $options['groups'],
+//      'expanded'          => false,
+//      'multiple'          => false,
+//      'required'          => false
+//    ));
     
   }
 
@@ -44,7 +44,7 @@ class ElementAddForm extends AbstractType
       'name' => '',
       'url' => '',
       'tags' => array(),
-      'groups' => array(),
+      //'groups' => array(),
       'data_class' => 'Muzich\CoreBundle\Entity\Element'
     );
   }

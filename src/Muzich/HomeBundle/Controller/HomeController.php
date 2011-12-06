@@ -38,7 +38,7 @@ class HomeController extends Controller
       array(),
       array(
         'tags' => $tags,
-        'groups' => $user->getGroupsOwnedArray(),
+        //'groups' => $user->getGroupsOwnedArray(),
       )
     );
         
