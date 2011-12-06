@@ -131,4 +131,153 @@ class HomeControllerTest extends FunctionalTest
     }
   }
   
+  /**
+   * Ajouts d'éléments et tests de cas refusés
+   */
+  public function testAddElementSuccess()
+  {
+    $this->connectUser('bux', 'toor');
+    
+    $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
+    $tribe = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+    
+    // Un groupe open
+    $fan_de_psy = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Fans de psytrance');
+    
+    /*
+     *  Ajout d'un élément avec succés
+     */
+    $this->procedure_add_element(
+      'Mon bel element', 
+      'http://www.youtube.com/watch?v=WC8qb_of04E', 
+      array($hardtek->getId(), $tribe->getId())
+    );
+    
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    
+    $this->exist('li:contains("Mon bel element")');
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Mon bel element')
+    ;
+    $this->assertTrue(!is_null($element));
+        
+  }
+  
+  /**
+   * Ajouts d'éléments et tests de cas refusés
+   */
+  public function testAddElementFailure()
+  {
+    $this->connectUser('bux', 'toor');
+    
+    $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
+    $tribe = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+    
+    // Un groupe no open
+    $dudeldrum = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('DUDELDRUM');
+    
+    /*
+     *  Ajouts d'éléments avec echec
+     */
+    
+    // Nom trop court
+    $this->procedure_add_element(
+      'Mo', 
+      'http://www.youtube.com/watch?v=WC8qb_of04E', 
+      array($hardtek->getId(), $tribe->getId())
+    );
+    
+    $this->isResponseSuccess();
+    
+    $this->notExist('li:contains("Mon bel element")');
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Mon bel element')
+    ;
+    $this->assertTrue(is_null($element));
+    
+    // Nom trop long
+    $this->procedure_add_element(
+      'Mon bel element mais qui a un nom trop court la vache oui trop long hohoho', 
+      'http://www.youtube.com/watch?v=WC8qb_of04E', 
+      array($hardtek->getId(), $tribe->getId())
+    );
+    
+    $this->isResponseSuccess();
+    
+    $this->notExist('li:contains("Mon bel element mais qui a un nom trop court la vache oui trop long hohoho")');
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Mon bel element mais qui a un nom trop court la vache oui trop long hohoho')
+    ;
+    $this->assertTrue(is_null($element));
+    
+    // Pas d'url
+    $this->procedure_add_element(
+      'Mon bel element', 
+      '', 
+      array($hardtek->getId(), $tribe->getId())
+    );
+    
+    $this->isResponseSuccess();
+    
+    $this->notExist('li:contains("Mon bel element")');
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Mon bel element')
+    ;
+    $this->assertTrue(is_null($element));
+    
+    // Pas de nom
+    $this->procedure_add_element(
+      '', 
+      'http://www.youtube.com/watch?v=WC8qb_of04E', 
+      array($hardtek->getId(), $tribe->getId())
+    );
+    
+    $this->isResponseSuccess();
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('')
+    ;
+    $this->assertTrue(is_null($element));
+    
+  }
+  
+  public function testAddElementAtGroupFailure()
+  {
+    $this->connectUser('bux', 'toor');
+    
+    /*
+     * Ajout d'un élément lié a un groupe (success)
+     */
+    $this->procedure_add_element(
+      'Mon bel element', 
+      'http://www.youtube.com/watch?v=WC8qb_of04E', 
+      array($hardtek->getId(), $tribe->getId()),
+      $fan_de_psy->getId()
+    );
+    
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    
+    $this->exist('li:contains("Mon bel element")');
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Mon bel element')
+    ;
+    $this->assertTrue(!is_null($element));
+    if (!is_null($element))
+    {
+      $this->assertEquals($fan_de_psy->getId(), $element->getGroup()->getId());
+    }
+  }
+  
+  /**
+   * L'ajout d'un Element a un de ses groupe ne doit pas poser de problème
+   */
+  public function testAddElementAtMyGroupSuccess()
+  {
+    
+  }
+  
 }

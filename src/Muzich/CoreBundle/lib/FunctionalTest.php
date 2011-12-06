@@ -20,6 +20,13 @@ class FunctionalTest extends WebTestCase
    */
   protected $crawler;
   
+  protected function outputDebug()
+  {
+    unlink('/home/bux/.debug/out.html');
+    $monfichier = fopen('/home/bux/.debug/out.html', 'a+');
+    fwrite($monfichier, $this->client->getResponse()->getContent());
+  }
+  
   /**
    * Retourne l'objet User
    * 
@@ -107,6 +114,30 @@ class FunctionalTest extends WebTestCase
   }
   
   /**
+   * Procédure d'ajout d'un élément a partir de la page home
+   * 
+   * @param string $name
+   * @param string $url
+   * @param array $tags
+   * @param int $group_id 
+   */
+  protected function procedure_add_element($name, $url, $tags, $group_id = '')
+  {
+    $this->crawler = $this->client->request('GET', $this->generateUrl('home'));
+    $this->isResponseSuccess();
+    
+    $form = $this->selectForm('form[action="'.$this->generateUrl('element_add').'"] input[type="submit"]');
+    $form['element_add[name]'] = $name;
+    $form['element_add[url]'] = $url;
+    foreach ($tags as $tag_id)
+    {
+      $form['element_add[tags]['.$tag_id.']'] = $tag_id;
+    }
+    $form['element_add[group]'] = $group_id;
+    $this->submit($form);
+  }
+  
+  /**
    * Generates a URL from the given parameters.
    *
    * @param string $route
@@ -147,6 +178,16 @@ class FunctionalTest extends WebTestCase
   protected function exist($filter)
   {
     $this->assertTrue($this->crawler->filter($filter)->count() > 0);
+  }
+  
+  /**
+   * Test l'inexistance d'un element
+   * 
+   * @param string $filter 
+   */
+  protected function notExist($filter)
+  {
+    $this->assertFalse($this->crawler->filter($filter)->count() > 0);
   }
   
   /**
