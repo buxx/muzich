@@ -2,6 +2,8 @@
 
 namespace Muzich\CoreBundle\ElementFactory\Site;
 
+use Muzich\CoreBundle\ElementFactory\Site\base\BaseFactory;
+
 /**
  * 
  *

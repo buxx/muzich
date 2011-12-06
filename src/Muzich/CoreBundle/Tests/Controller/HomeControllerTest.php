@@ -19,7 +19,6 @@ class HomeControllerTest extends FunctionalTest
     $this->exist('form[action="'.($url = $this->generateUrl('element_add')).'"]');
     $this->exist('form[action="'.$url.'"] input[id="element_add_name"]');
     $this->exist('form[action="'.$url.'"] input[id="element_add_url"]');
-    $this->exist('form[action="'.$url.'"] select[id="element_add_group"]');
     $this->exist('form[action="'.$url.'"] input[type="submit"]');
     
     // Présence du formulaire de filtrage
