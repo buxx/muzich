@@ -122,6 +122,20 @@ class CoreController extends Controller
     $user = $this->getUser();
     $em = $this->getDoctrine()->getEntityManager();
     
+    /*
+     * Contrôle préléminaire si groupe précisé
+     */
+    $group = null;
+    if ($group_slug)
+    {
+      $group = $this->findGroupWithSlug($group_slug);
+      if (!$group->userCanAddElement($this->getUserId()))
+      {
+        $group = null;
+        throw  $this->createNotFoundException('Vous ne pouvez pas ajouter d\'éléments a ce groupe');
+      }
+    }
+    
     $element = new Element();
     $form = $this->createForm(
       new ElementAddForm(),
@@ -156,18 +170,10 @@ class CoreController extends Controller
         $factory->proceedFill($user);
         
         // Si on a précisé un groupe dans lequel mettre l'element
-        if ($group_slug)
+        if ($group)
         {
-          $group = $this->findGroupWithSlug($group_slug);
-          if ($group->userCanAddElement($this->getUserId()))
-          {
-            $element->setGroup($group);
-          }
-          else
-          {
-            throw $this->createNotFoundException('Vous ne pouvez ajouter d\'element a ce groupe.');
-          }
-          $redirect_url = $this->generateUrl('show_group', array('slug' => $group->getSlug()));
+          $element->setGroup($group);
+          $redirect_url = $this->generateUrl('show_group', array('slug' => $group_slug));
         }
         else
         {

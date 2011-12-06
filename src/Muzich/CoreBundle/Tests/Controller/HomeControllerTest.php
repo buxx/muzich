@@ -141,9 +141,6 @@ class HomeControllerTest extends FunctionalTest
     $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
     $tribe = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
     
-    // Un groupe open
-    $fan_de_psy = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Fans de psytrance');
-    
     /*
      *  Ajout d'un élément avec succés
      */
@@ -175,9 +172,6 @@ class HomeControllerTest extends FunctionalTest
     $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
     $tribe = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
     
-    // Un groupe no open
-    $dudeldrum = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('DUDELDRUM');
-    
     /*
      *  Ajouts d'éléments avec echec
      */
@@ -190,10 +184,10 @@ class HomeControllerTest extends FunctionalTest
     );
     
     $this->isResponseSuccess();
-    
-    $this->notExist('li:contains("Mon bel element")');
+        
+    $this->notExist('li:contains("Mon bel element a4er563a1r")');
     $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneByName('Mon bel element')
+      ->findOneByName('Mon bel element a4er563a1r')
     ;
     $this->assertTrue(is_null($element));
     
@@ -221,9 +215,9 @@ class HomeControllerTest extends FunctionalTest
     
     $this->isResponseSuccess();
     
-    $this->notExist('li:contains("Mon bel element")');
+    $this->notExist('li:contains("Mon bel element gfez7f")');
     $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneByName('Mon bel element')
+      ->findOneByName('Mon bel element gfez7f')
     ;
     $this->assertTrue(is_null($element));
     
@@ -243,41 +237,110 @@ class HomeControllerTest extends FunctionalTest
     
   }
   
-  public function testAddElementAtGroupFailure()
+  /**
+   * L'ajout d'un Element a un de ses groupe ne doit pas poser de problème
+   */
+  public function testAddElementAtMyGroupSuccess()
   {
     $this->connectUser('bux', 'toor');
+    // Un groupe open, donc pas de soucis
+    $fan_de_psy = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Fans de psytrance');
     
-    /*
-     * Ajout d'un élément lié a un groupe (success)
-     */
+    $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
+    $tribe = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+        
+    $this->isResponseSuccess();
     $this->procedure_add_element(
-      'Mon bel element', 
+      'Element mis dans le groupe de psytrance', 
       'http://www.youtube.com/watch?v=WC8qb_of04E', 
       array($hardtek->getId(), $tribe->getId()),
-      $fan_de_psy->getId()
+      $fan_de_psy->getSlug()
     );
     
     $this->isResponseRedirection();
     $this->followRedirection();
     $this->isResponseSuccess();
     
-    $this->exist('li:contains("Mon bel element")');
+    $this->exist('li:contains("Element mis dans le groupe de psytrance")');
     $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneByName('Mon bel element')
+      ->findOneByName('Element mis dans le groupe de psytrance')
     ;
     $this->assertTrue(!is_null($element));
+    
     if (!is_null($element))
     {
       $this->assertEquals($fan_de_psy->getId(), $element->getGroup()->getId());
     }
+    else
+    {
+      $this->assertTrue(false);
+    }
+    
+    $this->disconnectUser();
+    
+    /*
+     * Ajout d'un element dans un groupe que l'on posséde.
+     */
+    $this->connectUser('joelle', 'toor');
+    $this->isResponseSuccess();
+    
+    // Ce groupe appartient a joelle
+    $groupe_de_joelle = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Le groupe de joelle');
+    
+    $this->procedure_add_element(
+      'Element mis dans le groupe de joelle', 
+      'http://www.youtube.com/watch?v=WC8qb_of04E', 
+      array($hardtek->getId(), $tribe->getId()),
+      $groupe_de_joelle->getSlug()
+    );
+    
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    
+    $this->exist('li:contains("Element mis dans le groupe de joelle")');
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Element mis dans le groupe de joelle')
+    ;
+    $this->assertTrue(!is_null($element));
+    
+    if (!is_null($element))
+    {
+      $this->assertEquals($groupe_de_joelle->getId(), $element->getGroup()->getId());
+    }
+    else
+    {
+      $this->assertTrue(false);
+    }
   }
   
   /**
-   * L'ajout d'un Element a un de ses groupe ne doit pas poser de problème
+   * L'ajout a un group qui n'est pas a sois, ou qui n'est pas open
+   * doit être impossible.
    */
-  public function testAddElementAtMyGroupSuccess()
+  public function testAddElementAtGroupFailure()
   {
+    $this->connectUser('bux', 'toor');
+    // Un groupe no open
+    $dudeldrum = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('DUDELDRUM');
     
+    $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
+    $tribe = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+        
+    // Nous tentons d'ouvrir l'url d'ajout d'élément avec un groupe qui n'est pas ouvert
+    // et qui n'appartient pas a l'utilisateur connecté
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('element_add', array('group_slug' => $dudeldrum->getSlug())),
+      array(
+        'element_add[name]' => 'Yohoho trululu',
+        'element_add[url]'  => 'http://www.youtube.com/watch?v=WC8qb_of04E',
+        'element_add[tags]['.$hardtek->getId().']' => $hardtek->getId(),
+        'element_add[tags]['.$tribe->getId().']' => $tribe->getId()
+      )
+    );
+    
+    $this->isResponseNotFound();
   }
   
 }

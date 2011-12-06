@@ -67,6 +67,11 @@ class FunctionalTest extends WebTestCase
     $this->assertEquals($login, $user->getUsername());
   }
   
+  protected function disconnectUser()
+  {
+    $this->crawler = $this->client->request('GET', $this->generateUrl('fos_user_security_logout'));
+  }
+  
   protected function validate_registrate_user_form($form, $username, $email, $pass1, $pass2)
   {
     $form['fos_user_registration_form[username]'] = $username;
@@ -114,26 +119,35 @@ class FunctionalTest extends WebTestCase
   }
   
   /**
-   * Procédure d'ajout d'un élément a partir de la page home
+   * Procédure d'ajout d'un élément
    * 
    * @param string $name
    * @param string $url
    * @param array $tags
    * @param int $group_id 
    */
-  protected function procedure_add_element($name, $url, $tags, $group_id = '')
+  protected function procedure_add_element($name, $url, $tags, $group_slug = null)
   {
-    $this->crawler = $this->client->request('GET', $this->generateUrl('home'));
+    if (!$group_slug)
+    {
+      $this->crawler = $this->client->request('GET', $this->generateUrl('home'));
+      $form_url = $this->generateUrl('element_add');
+    }
+    else
+    {
+      $this->crawler = $this->client->request('GET', $this->generateUrl('show_group', array('slug' => $group_slug)));
+      $form_url = $this->generateUrl('element_add', array('group_slug' => $group_slug));
+    }
     $this->isResponseSuccess();
     
-    $form = $this->selectForm('form[action="'.$this->generateUrl('element_add').'"] input[type="submit"]');
+    $form = $this->selectForm('form[action="'.$form_url.'"] input[type="submit"]');
     $form['element_add[name]'] = $name;
     $form['element_add[url]'] = $url;
     foreach ($tags as $tag_id)
     {
       $form['element_add[tags]['.$tag_id.']'] = $tag_id;
     }
-    $form['element_add[group]'] = $group_id;
+    
     $this->submit($form);
   }
   
@@ -161,6 +175,12 @@ class FunctionalTest extends WebTestCase
     return $this->getContainer()->get('session');
   }
   
+  protected function clickOnLink($link)
+  {
+    $this->crawler = $this->client->click($link);
+  }
+
+
   /**
    *
    * @return \Symfony\Bundle\DoctrineBundle\Registry
@@ -256,7 +276,7 @@ class FunctionalTest extends WebTestCase
    */
   protected function isResponseRedirection()
   {
-    $this->client->getResponse()->isRedirection();
+    $this->assertTrue($this->client->getResponse()->isRedirection());
   }
   
   /**
@@ -264,6 +284,14 @@ class FunctionalTest extends WebTestCase
    */
   protected function isResponseSuccess()
   {
-    $this->client->getResponse()->isSuccessful();
+    $this->assertTrue($this->client->getResponse()->isSuccessful());
+  }
+  
+  /**
+   * Contrôle que le CodeStatus de la Response correspond bien a celle d'un Ok
+   */
+  protected function isResponseNotFound()
+  {
+    $this->assertTrue($this->client->getResponse()->isNotFound());
   }
 }
