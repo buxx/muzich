@@ -122,6 +122,20 @@ class CoreController extends Controller
     $user = $this->getUser();
     $em = $this->getDoctrine()->getEntityManager();
     
+    /*
+     * Contrôle préléminaire si groupe précisé
+     */
+    $group = null;
+    if ($group_slug)
+    {
+      $group = $this->findGroupWithSlug($group_slug);
+      if (!$group->userCanAddElement($this->getUserId()))
+      {
+        $group = null;
+        throw  $this->createNotFoundException('Vous ne pouvez pas ajouter d\'éléments a ce groupe');
+      }
+    }
+    
     $element = new Element();
     $form = $this->createForm(
       new ElementAddForm(),
@@ -138,23 +152,28 @@ class CoreController extends Controller
       $form->bindRequest($this->getRequest());
       if ($form->isValid())
       {
+        
+        /**
+         * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
+         * Docrine le voit si on faire une requete directe.
+         */
+        if ($this->container->getParameter('env') == 'test')
+        {
+          $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+            $this->container->get('security.context')->getToken()->getUser()->getId(),
+            array()
+          )->getSingleResult();
+        }
+        
         // On utilise le gestionnaire d'élément
         $factory = new ElementManager($element, $em, $this->container);
         $factory->proceedFill($user);
         
         // Si on a précisé un groupe dans lequel mettre l'element
-        if ($group_slug)
+        if ($group)
         {
-          $group = $this->findGroupWithSlug($group_slug);
-          if ($group->userCanAddElement($this->getUserId()))
-          {
-            $element->setGroup($group);
-          }
-          else
-          {
-            throw $this->createNotFoundException('Vous ne pouvez ajouter d\'element a ce groupe.');
-          }
-          $redirect_url = $this->generateUrl('show_group', array('slug' => $group->getSlug()));
+          $element->setGroup($group);
+          $redirect_url = $this->generateUrl('show_group', array('slug' => $group_slug));
         }
         else
         {

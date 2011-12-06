@@ -21,14 +21,25 @@ class VideoSiteFactory extends BaseFactory
   {
     parent::__construct($element, $container);
     
-    // Configuration de VideoEmbed
-    define('SITEBASE', $container->getParameter('sitebase'));
-    define('VIDEO_EMBED_CONFIG_FILE', SITEBASE.$container->getParameter('video_embed_config_file'));
-    //to activate debug mode and false for production usage. it will write 
-    //to a log file when something goes wrong but should not produce 
-    //exceptions in production enviroment
-    define('DEBUG', $container->getParameter('video_embed_debug')); 
-    
+    //if ($container->getParameter('env') != 'test')
+    //{
+      // Configuration de VideoEmbed
+      if (!defined('SITEBASE')) 
+      {
+        define('SITEBASE', $container->getParameter('sitebase'));
+      }
+    //}
+      if (!defined('VIDEO_EMBED_CONFIG_FILE')) 
+      {
+      define('VIDEO_EMBED_CONFIG_FILE', SITEBASE.$container->getParameter('video_embed_config_file'));
+      }
+      //to activate debug mode and false for production usage. it will write 
+      //to a log file when something goes wrong but should not produce 
+      //exceptions in production enviroment
+      if (!defined('DEBUG')) 
+      {
+        define('DEBUG', $container->getParameter('video_embed_debug')); 
+      }
     try {
       $this->video_engine =  new VideoEmbed($this->element->getUrl());
     } catch (Exception $exc) {
