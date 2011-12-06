@@ -138,6 +138,19 @@ class CoreController extends Controller
       $form->bindRequest($this->getRequest());
       if ($form->isValid())
       {
+        
+        /**
+         * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
+         * Docrine le voit si on faire une requete directe.
+         */
+        if ($this->container->getParameter('env') == 'test')
+        {
+          $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+            $this->container->get('security.context')->getToken()->getUser()->getId(),
+            array()
+          )->getSingleResult();
+        }
+        
         // On utilise le gestionnaire d'élément
         $factory = new ElementManager($element, $em, $this->container);
         $factory->proceedFill($user);

@@ -9,32 +9,32 @@ class Client extends BaseClient
   static protected $connection;
   protected $requested;
 
-    protected function doRequest($request)
-    {
-        if ($this->requested) {
-            $this->kernel->shutdown();
-            $this->kernel->boot();
-        }
-
-        $this->injectConnection();
-        $this->requested = true;
-
-        return $this->kernel->handle($request);
+  protected function doRequest($request)
+  {
+    if ($this->requested) {
+      $this->kernel->shutdown();
+      $this->kernel->boot();
     }
 
-    protected function injectConnection()
-    {
-        if (null === self::$connection) {
-            self::$connection = $this->getContainer()->get('doctrine.dbal.default_connection');
-        } else {
-            if (! $this->requested) {
-                self::$connection->rollback();
-            }
-            $this->getContainer()->set('doctrine.dbal.default_connection', self::$connection);
-        }
+    $this->injectConnection();
+    $this->requested = true;
 
-        if (! $this->requested) {
-            self::$connection->beginTransaction();
-        }
+    return $this->kernel->handle($request);
+  }
+
+  protected function injectConnection()
+  {
+    if (null === self::$connection) {
+      self::$connection = $this->getContainer()->get('doctrine.dbal.default_connection');
+    } else {
+      if (! $this->requested) {
+          self::$connection->rollback();
+      }
+      $this->getContainer()->set('doctrine.dbal.default_connection', self::$connection);
     }
+
+    if (! $this->requested) {
+      self::$connection->beginTransaction();
+    }
+  }
 }
