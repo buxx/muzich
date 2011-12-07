@@ -15,10 +15,7 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <!--<directory>../src/*/*Bundle/Tests</directory>-->
-            <directory>../src/Muzich/CoreBundle/Tests/Controller</directory>
-            <directory>../src/Muzich/CoreBundle/Tests/ElementFactory</directory>
-            <directory>../src/Muzich/CoreBundle/Tests/Searcher</directory>
+            <directory>../src/Muzich/CoreBundle/Tests</directory>
         </testsuite>
     </testsuites>
 
@@ -27,19 +24,18 @@
         <server name="KERNEL_DIR" value="/path/to/your/app/" />
     </php>
     -->
-
-    <!--
+    
     <filter>
-        <whitelist>
-            <directory>../src</directory>
-            <exclude>
-                <directory>../src/*/*Bundle/Resources</directory>
-                <directory>../src/*/*Bundle/Tests</directory>
-                <directory>../src/*/Bundle/*Bundle/Resources</directory>
-                <directory>../src/*/Bundle/*Bundle/Tests</directory>
-            </exclude>
-        </whitelist>
+      <blacklist>
+        <directory suffix=".php">../src/Acme</directory>
+        <exclude>
+          <directory suffix=".php">../src/Acme/DemoBundle</directory>
+        </exclude>
+      </blacklist>
+
+      <whitelist addUncoveredFilesFromWhitelist="true">
+        <directory suffix=".php">../src/Muzich</directory>
+      </whitelist>
     </filter>
-    -->
 
 </phpunit>

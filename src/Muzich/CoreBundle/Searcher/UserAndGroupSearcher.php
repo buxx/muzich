@@ -5,6 +5,9 @@ namespace Muzich\CoreBundle\Searcher;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bundle\DoctrineBundle\Registry;
 
+/**
+ * Objet de recherche
+ */
 class UserAndGroupSearcher extends Searcher implements SearcherInterface
 {
   

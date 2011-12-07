@@ -10,7 +10,7 @@
   
   {% if followeds_users %}
     <b>{{ 'users'|trans({}, 'network') }}</b>
-    <ul class="inline">
+    <ul id="followeds_users" class="inline">
     {% for user in followeds_users %} 
       <li>
         <a href="{{ path('show_user', { 'slug': user.slug }) }}">{{ user.username }}</a>
@@ -21,7 +21,7 @@
   
   {% if followeds_groups %}
     <b>{{ 'groups'|trans({}, 'network') }}</b>
-    <ul class="inline">
+    <ul id="followeds_groups" class="inline">
     {% for group in followeds_groups %} 
       <li>
         <a href="{{ path('show_group', { 'slug': group.slug }) }}">{{ group.name }}</a>
@@ -32,7 +32,7 @@
   
   {% if followers_users %}
     <b>{{ 'followed_by'|trans({}, 'network') }}</b>
-    <ul class="inline">
+    <ul id="followers_users" class="inline">
     {% for user in followers_users %} 
       <li>
         <a href="{{ path('show_user', { 'slug': user.slug }) }}">{{ user.username }}</a>

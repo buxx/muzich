@@ -27,7 +27,7 @@
 
       <b>{{ 'search.users'|trans({}, 'network') }}</b>
       
-      <ul class="inline">
+      <ul id="search_users" class="inline">
       {% for user in results.users %} 
         <li>
           <a href="{{ path('show_user', { 'slug': user.slug }) }}">{{ user.username }}</a>
@@ -41,7 +41,7 @@
 
       <b>{{ 'search.groups'|trans({}, 'network') }}</b>
       
-      <ul class="inline">
+      <ul id="search_groups" class="inline">
       {% for group in results.groups %} 
         <li>
           <a href="{{ path('show_group', { 'slug': group.slug }) }}">{{ group.name }}</a>

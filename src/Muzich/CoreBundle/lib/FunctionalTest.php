@@ -218,7 +218,7 @@ class FunctionalTest extends WebTestCase
    */
   protected function selectLink($filter)
   {
-    return $this->crawler->filter($filter)->eq(1)->link();
+    return $this->crawler->filter($filter)->link();
   }
   
 //  /**
@@ -232,7 +232,7 @@ class FunctionalTest extends WebTestCase
 //  }
   
   /**
-   * Retourne un formulaire
+   * Retourne un formulaire, en filtrant le BOUTON SUBMIT !!
    * 
    * @param string $filter
    * @return \Symfony\Component\DomCrawler\Form 

@@ -12,7 +12,8 @@
       </a> |
     {% endif %}
 
-    <a href="{{ path('follow', { 'type': 'group', 'id': group.id, 'token': user.personalHash }) }}" >
+    <a href="{{ path('follow', { 'type': 'group', 'id': group.id, 'token': user.personalHash }) }}" 
+       class="{% if following %}following{% else %}notfollowing{% endif %}">
       {% if following %}
         {{ 'group.notfollow'|trans({}, 'groups') }}
       {% else %}

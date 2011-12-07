@@ -10,7 +10,8 @@
       {{ 'user.view_favorites'|trans({}, 'users') }}
     </a>
     | 
-    <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash }) }}" class="follow_link following" >
+    <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash }) }}" 
+       class="follow_link {% if following %}following{% else %}notfollowing{% endif %}" >
       {% if following %}
         {{ 'user.notfollow'|trans({}, 'users') }}
       {% else %}
