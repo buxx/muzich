@@ -82,6 +82,44 @@ class FunctionalTest extends WebTestCase
     $this->submit($form);
   }
   
+  protected function procedure_registration_success($username, $email, $pass1, $pass2)
+  {
+    $this->crawler = $this->client->request('GET', $this->generateUrl('index'));
+    $this->isResponseSuccess();
+    $this->assertEquals('anon.', $this->getUser());
+    
+    $url = $this->generateUrl('register');
+    // Les mots de passes sont différents
+    $this->validate_registrate_user_form(
+      $this->selectForm('form[action="'.$url.'"] input[type="submit"]'), 
+      $username, 
+      $email, 
+      $pass1,
+      $pass2
+    );
+    
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+
+    if ('anon.' != ($user = $this->getUser()))
+    {
+      // Nous ne sommes pas identifiés
+      $this->assertEquals($username, $user->getUsername());
+
+      // L'utilisateur n'est pas enregistré, il ne doit donc pas être en base
+      $db_user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+        ->findOneByUsername($username)
+      ;
+
+      $this->assertTrue(!is_null($db_user));
+    }
+    else
+    {
+      $this->assertTrue(false);
+    }
+  }
+  
   protected function procedure_registration_failure($username, $email, $pass1, $pass2)
   {
     $this->crawler = $this->client->request('GET', $this->generateUrl('index'));

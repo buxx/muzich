@@ -85,31 +85,38 @@ class IndexControllerTest extends FunctionalTest
     $this->exist('form[action="'.$url.'"] input[id="fos_user_registration_form_plainPassword_second"]');
     $this->exist('form[action="'.$url.'"] input[type="submit"]');
     
-    $this->validate_registrate_user_form(
-      $this->selectForm('form[action="'.$url.'"] input[type="submit"]'), 
+    $this->procedure_registration_success(
       'raoula', 
-      'raoul.45gf64z@gmail.com', 
-      'toor',
+      'raoula.def4v65sds@gmail.com', 
+      'toor', 
       'toor'
     );
     
-    $this->isResponseRedirection();
-    $this->followRedirection();
-    $this->isResponseSuccess();
-
-    $user = $this->getUser();
-    $this->assertEquals('raoula', $user->getUsername());
-    
-    // L'utilisateur est enregistré, il doit donc être en base
-    $db_user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-      ->findOneByUsername('raoula')
-    ;
-    
-    $this->assertTrue(!is_null($db_user));
-    if ($db_user)
-    {
-      $this->assertEquals('raoula', $db_user->getUsername());
-    }
+//    $this->validate_registrate_user_form(
+//      $this->selectForm('form[action="'.$url.'"] input[type="submit"]'), 
+//      'raoula', 
+//      'raoul.45gf64z@gmail.com', 
+//      'toor',
+//      'toor'
+//    );
+//    
+//    $this->isResponseRedirection();
+//    $this->followRedirection();
+//    $this->isResponseSuccess();
+//
+//    $user = $this->getUser();
+//    $this->assertEquals('raoula', $user->getUsername());
+//    
+//    // L'utilisateur est enregistré, il doit donc être en base
+//    $db_user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+//      ->findOneByUsername('raoula')
+//    ;
+//    
+//    $this->assertTrue(!is_null($db_user));
+//    if ($db_user)
+//    {
+//      $this->assertEquals('raoula', $db_user->getUsername());
+//    }
   }
   
   public function testRegistrationFailure()
