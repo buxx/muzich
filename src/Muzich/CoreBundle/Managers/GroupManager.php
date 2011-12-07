@@ -43,6 +43,15 @@ class GroupManager
   {
     // La procédure se charge pour le moment des tags
     $this->group->setTags(null);
+    // Il faut supprimer tous les liens vers les tags
+    foreach ($this->em->getRepository('MuzichCoreBundle:GroupsTagsFavorites')
+      ->findBy(array(
+        'group' => $this->group->getId()
+      )) as $group_tag)     
+    {
+      $this->em->remove($group_tag);
+    }
+    // Pour etablir les nouveaux liens
     $this->group->setTagsWithIds($this->em, $tags_ids);
   }
   
