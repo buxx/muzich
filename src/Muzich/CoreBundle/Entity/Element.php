@@ -77,6 +77,7 @@ class Element
    * @ORM\Column(type="string", length=1024)
    * @Assert\NotBlank()
    * @Assert\MaxLength(1024)
+   * @Assert\Url()
    * @var type string
    */
   protected $url;
