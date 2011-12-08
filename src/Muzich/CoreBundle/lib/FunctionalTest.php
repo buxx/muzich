@@ -39,8 +39,6 @@ class FunctionalTest extends WebTestCase
   
   protected function connectUser($login, $password)
   {
-    $this->client = self::createClient();
-
     $this->crawler = $this->client->request('GET', $this->generateUrl('index'));
     $this->isResponseSuccess();
 
@@ -64,7 +62,14 @@ class FunctionalTest extends WebTestCase
     $this->isResponseSuccess();
 
     $user = $this->getUser();
-    $this->assertEquals($login, $user->getUsername());
+    if ('anon.' != $user)
+    {
+      $this->assertEquals($login, $user->getUsername());
+    }
+    else
+    {
+      $this->assertTrue(false);
+    }
   }
   
   protected function disconnectUser()
@@ -97,6 +102,8 @@ class FunctionalTest extends WebTestCase
       $pass1,
       $pass2
     );
+    
+    
     
     $this->isResponseRedirection();
     $this->followRedirection();
@@ -211,6 +218,21 @@ class FunctionalTest extends WebTestCase
   protected function getSession()
   {
     return $this->getContainer()->get('session');
+  }
+  
+  protected function getCollector($name)
+  {
+    return$this->client->getProfile()->getCollector($name);
+  }
+  
+  /**
+   * Retourne le MessageDataCollector en cours
+   * 
+   * @return Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector
+   */
+  protected function getMailerMessageDataCollector()
+  {
+    return $this->getCollector('swiftmailer');
   }
   
   protected function clickOnLink($link)

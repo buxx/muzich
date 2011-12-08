@@ -162,4 +162,81 @@ class IndexControllerTest extends FunctionalTest
     );
   }
   
+  /**
+   * Test du changement de mot de passe
+   */
+  public function testPasswordLost()
+  {
+    $this->client = self::createClient();
+    $this->crawler = $this->client->request('GET', $this->generateUrl('index'));
+    
+    $bux = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneByUsername('bux');
+    
+    // On peux voir le lien vers al page de demande de mot de passe
+    $this->exist('a[href="'.($url = $this->generateUrl('fos_user_resetting_request')).'"]');
+    $link = $this->selectLink('a[href="'.$url.'"]');
+    $this->clickOnLink($link);
+    
+    $this->isResponseSuccess();
+    
+    // On trouve le formulaire
+    $this->exist('form[action="'.($url = $this->generateUrl('fos_user_resetting_send_email')).'"]');
+    $this->exist('form[action="'.$url.'"] input[id="username"]');
+    $this->exist('form[action="'.$url.'"] input[type="submit"]');
+    
+    // On selectionne le form
+    $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+    $form['username'] = 'bux';
+    $this->submit($form);
+    
+    $mc = $this->getMailerMessageDataCollector();
+    $this->assertEquals(1, $mc->getMessageCount());
+    
+    $mails = $mc->getMessages();
+    $mail = $mails[0];
+       
+    // $mail = new Swift_Message();
+    
+    $this->assertTrue(!is_null(strpos($mail->getBody(), ($url = $this->generateUrl(
+      'fos_user_resetting_reset', 
+      array('token' => $bux->getConfirmationToken()), 
+      true
+    )))));
+    
+    $keys = array_keys($mail->getTo());
+    $this->assertEquals($bux->getEmail(), $keys[0]);
+        
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    $this->exist('html:contains("'.$bux->getEmail().'")');
+    
+    // On se rend sur le lien envoyé dans le mail
+    $this->crawler = $this->client->request('GET', $url);
+    
+    $this->exist('form[action="'.($url = $this->generateUrl(
+      'fos_user_resetting_reset', 
+      array('token' => $bux->getConfirmationToken())
+    )).'"]');
+    $this->exist('form[action="'.$url.'"] input[id="fos_user_resetting_form_new_first"]');
+    $this->exist('form[action="'.$url.'"] input[id="fos_user_resetting_form_new_second"]');
+    $this->exist('form[action="'.$url.'"] input[type="submit"]');
+    
+    $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+    $form['fos_user_resetting_form[new][first]'] = 'trololo';
+    $form['fos_user_resetting_form[new][second]'] = 'trololo';
+    $this->submit($form);
+    
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    $this->outputDebug();
+    // A ce stade on a été connecté
+    $this->assertEquals('bux', $this->getUser()->getUsername());
+    
+    // On se déconnecte pour aller tester ce nouveau mot de passe
+    $this->disconnectUser();
+    $this->connectUser('bux', 'trololo');
+  }
+  
 }

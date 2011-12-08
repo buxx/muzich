@@ -12,6 +12,7 @@ class GroupControllerTest extends FunctionalTest
    */
   public function testGroupAdd()
   {
+    $this->client = self::createClient();
     $this->connectUser('bob', 'toor');
     
     $Fans_de_psytrance = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Fans de psytrance');
@@ -85,6 +86,7 @@ class GroupControllerTest extends FunctionalTest
    */
   public function testGroupUpdate()
   {
+    $this->client = self::createClient();
     $this->connectUser('bob', 'toor');
     
     $Fans_de_psytrance = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Fans de psytrance');

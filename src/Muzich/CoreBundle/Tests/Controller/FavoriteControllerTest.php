@@ -12,6 +12,7 @@ class FavoriteControllerTest extends FunctionalTest
    */
   public function testMyFavorites()
   {
+    $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
     
     // On va cliquer sur le lien 'Mes favoris'
@@ -45,6 +46,7 @@ class FavoriteControllerTest extends FunctionalTest
    */
   public function testHisFavorites()
   {
+    $this->client = self::createClient();
     $this->connectUser('bob', 'toor');
     
     $bux = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
@@ -80,6 +82,7 @@ class FavoriteControllerTest extends FunctionalTest
    */
   public function testFavoritesManagement()
   {
+    $this->client = self::createClient();
     $this->connectUser('bob', 'toor');
     
     // On se rend sur la page du groupe Dudeldrum

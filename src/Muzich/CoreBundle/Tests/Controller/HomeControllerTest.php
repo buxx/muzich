@@ -13,6 +13,7 @@ class HomeControllerTest extends FunctionalTest
    */
   public function testFilter()
   {
+    $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
 
     // Présence du formulaire d'ajout d'un élément
@@ -77,6 +78,7 @@ class HomeControllerTest extends FunctionalTest
    */
   public function testUserPage()
   {
+    $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
     $jean = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
       ->findOneByUsername('jean')
@@ -106,6 +108,7 @@ class HomeControllerTest extends FunctionalTest
    */
   public function testGroupPage()
   {
+    $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
     $fdp = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
       ->findOneBySlug('fans-de-psytrance')
@@ -136,6 +139,7 @@ class HomeControllerTest extends FunctionalTest
    */
   public function testAddElementSuccess()
   {
+    $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
     
     $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
@@ -167,6 +171,7 @@ class HomeControllerTest extends FunctionalTest
    */
   public function testAddElementFailure()
   {
+    $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
     
     $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
@@ -287,6 +292,7 @@ class HomeControllerTest extends FunctionalTest
    */
   public function testAddElementAtMyGroupSuccess()
   {
+    $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
     // Un groupe open, donc pas de soucis
     $fan_de_psy = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Fans de psytrance');
@@ -326,6 +332,7 @@ class HomeControllerTest extends FunctionalTest
     /*
      * Ajout d'un element dans un groupe que l'on posséde.
      */
+    $this->client = self::createClient();
     $this->connectUser('joelle', 'toor');
     $this->isResponseSuccess();
     
@@ -365,6 +372,7 @@ class HomeControllerTest extends FunctionalTest
    */
   public function testAddElementAtGroupFailure()
   {
+    $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
     // Un groupe no open
     $dudeldrum = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('DUDELDRUM');

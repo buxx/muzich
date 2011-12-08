@@ -16,6 +16,7 @@ class MynetworkControllerTest extends FunctionalTest
      * les groupes DUDELDRUM et Fans de psytrance
      * et est suivis par joelle
      */
+    $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
     $link = $this->selectLink('a[href="'.$this->generateUrl('mynetwork_index').'"]');
     $this->clickOnLink($link);
@@ -40,6 +41,7 @@ class MynetworkControllerTest extends FunctionalTest
    */
   public function testSearch()
   {
+    $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
     $link = $this->selectLink('a[href="'.$this->generateUrl('mynetwork_index').'"]');
     $this->clickOnLink($link);
@@ -81,6 +83,7 @@ class MynetworkControllerTest extends FunctionalTest
    */
   public function testUserFollow()
   {
+    $this->client = self::createClient();
     // Connection de bob
     $this->connectUser('bob', 'toor');
     
@@ -157,6 +160,7 @@ class MynetworkControllerTest extends FunctionalTest
    */
   public function testGroupFollow()
   {
+    $this->client = self::createClient();
     // Connection de bob
     $this->connectUser('bob', 'toor');
     
