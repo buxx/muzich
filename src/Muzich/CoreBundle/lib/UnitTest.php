@@ -6,6 +6,8 @@ require_once(__DIR__ . "/../../../../app/AppKernel.php");
 
 class UnitTest extends \PHPUnit_Framework_TestCase
 {
+    protected $_container;
+  
   public function __construct()
   {
     $kernel = new \AppKernel("test", true);
