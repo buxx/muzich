@@ -221,6 +221,51 @@ class HomeControllerTest extends FunctionalTest
     ;
     $this->assertTrue(is_null($element));
     
+    // url non conforme
+    $this->procedure_add_element(
+      'Mon bel element 789e', 
+      'http://', 
+      array($hardtek->getId(), $tribe->getId())
+    );
+    
+    $this->isResponseSuccess();
+    
+    $this->notExist('li:contains("Mon bel element 789e")');
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Mon bel element 789e')
+    ;
+    $this->assertTrue(is_null($element));
+    
+    // url non conforme
+    $this->procedure_add_element(
+      'Mon bel element 789f', 
+      'http://youtube', 
+      array($hardtek->getId(), $tribe->getId())
+    );
+    
+    $this->isResponseSuccess();
+    
+    $this->notExist('li:contains("Mon bel element 789f")');
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Mon bel element 789f')
+    ;
+    $this->assertTrue(is_null($element));
+    
+    // url non conforme
+    $this->procedure_add_element(
+      'Mon bel element 789g', 
+      'youtube.com?lalala', 
+      array($hardtek->getId(), $tribe->getId())
+    );
+    
+    $this->isResponseSuccess();
+    
+    $this->notExist('li:contains("Mon bel element 789g")');
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Mon bel element 789g')
+    ;
+    $this->assertTrue(is_null($element));
+    
     // Pas de nom
     $this->procedure_add_element(
       '', 
