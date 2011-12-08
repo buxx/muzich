@@ -34,7 +34,7 @@ class UsersElementsFavorites
    * Cet attribut contient l'objet Element lié
    * 
    * @ORM\ManyToOne(targetEntity="Element", inversedBy="users")
-   * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
+   * @ORM\JoinColumn(name="element_id", referencedColumnName="id")
    */
   protected $element;
   
