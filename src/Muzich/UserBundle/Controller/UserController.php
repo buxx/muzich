@@ -133,6 +133,18 @@ class UserController extends Controller
     $request = $this->getRequest();
     $user = $this->getUser(true, array('join' => array('favorites_tags')));
     
+    /**
+     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
+     * Docrine le voit si on faire une requete directe.
+     */
+    if ($this->container->getParameter('env') == 'test')
+    {
+      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+        $this->container->get('security.context')->getToken()->getUser()->getId(),
+        array()
+      )->getSingleResult();
+    }
+    
     $form = $this->createForm(
       new TagFavoritesForm(), 
       array('tags' => $this->getDoctrine()->getRepository('MuzichCoreBundle:User')

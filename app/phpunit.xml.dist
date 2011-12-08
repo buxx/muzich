@@ -27,14 +27,32 @@
     
     <filter>
       <blacklist>
+        
+        
+
+
+
         <directory suffix=".php">../src/Acme</directory>
-        <exclude>
-          <directory suffix=".php">../src/Acme/DemoBundle</directory>
-        </exclude>
+        
       </blacklist>
 
       <whitelist addUncoveredFilesFromWhitelist="true">
         <directory suffix=".php">../src/Muzich</directory>
+        <exclude>
+          <directory suffix=".php">../src/Muzich/CoreBundle/DataFixtures</directory>
+
+          <directory suffix=".php">../src/Muzich/FavoriteBundle/DependencyInjection</directory>
+
+          <directory suffix=".php">../src/Muzich/GroupBundle/DependencyInjection</directory>
+          <directory suffix=".php">../src/Muzich/GroupBundle/Tests</directory>
+
+          <directory suffix=".php">../src/Muzich/MynetworkBundle/DependencyInjection</directory>
+
+          <directory suffix=".php">../src/Muzich/UserBundle/DataFixtures</directory>
+          <directory suffix=".php">../src/Muzich/UserBundle/DependencyInjection</directory>
+          <directory suffix=".php">../src/Muzich/UserBundle/Tests</directory>
+          <directory suffix=".php">../src/Muzich/UserBundle/Entity</directory>
+        </exclude>
       </whitelist>
     </filter>
 

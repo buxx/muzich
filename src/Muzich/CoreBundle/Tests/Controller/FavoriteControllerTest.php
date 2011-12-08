@@ -115,7 +115,7 @@ class FavoriteControllerTest extends FunctionalTest
     ))).'"]');
     $link = $this->selectLink('a[href="'.$url.'"]');
     $this->clickOnLink($link);
-    $this->outputDebug();
+    
     $this->isResponseRedirection();
     $this->followRedirection();
     $this->isResponseSuccess();

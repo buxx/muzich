@@ -57,7 +57,7 @@ class MynetworkControllerTest extends FunctionalTest
     $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
     $form['form[string]'] = 'bob';
     $this->submit($form);
-    $this->outputDebug();
+    
     $this->isResponseSuccess();
     
     // On trouve bob
