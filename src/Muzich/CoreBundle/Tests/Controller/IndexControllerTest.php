@@ -230,7 +230,7 @@ class IndexControllerTest extends FunctionalTest
     $this->isResponseRedirection();
     $this->followRedirection();
     $this->isResponseSuccess();
-    $this->outputDebug();
+    
     // A ce stade on a été connecté
     $this->assertEquals('bux', $this->getUser()->getUsername());
     
