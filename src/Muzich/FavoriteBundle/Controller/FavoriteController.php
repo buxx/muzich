@@ -71,6 +71,45 @@ class FavoriteController extends Controller
   }
   
   /**
+   * Retire comme favoris l'element en id
+   * 
+   * @param int $id
+   * @param string $token 
+   */
+  public function removeAction($id, $token)
+  {
+    $user = $this->getUser();
+    $em = $this->getDoctrine()->getEntityManager();
+    
+    if ($user->getPersonalHash() != $token || !is_numeric($id)
+      || !($element = $em->getRepository('MuzichCoreBundle:Element')->findOneById($id))
+    )
+    {
+      throw $this->createNotFoundException();
+    }
+
+    // Si l'élément est déjà en favoris, ce qui est cencé être le cas
+    if (($fav = $em->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->findOneBy(array(
+        'user'    => $user->getId(),
+        'element' => $id
+      ))))
+    {
+      $em->remove($fav);
+      $em->flush();
+    }
+    
+    if ($this->getRequest()->isXmlHttpRequest())
+    {
+      
+    }
+    else
+    {
+      return $this->redirect($this->container->get('request')->headers->get('referer'));
+    }
+  }
+  
+  /**
    * Page affichant les elements favoris de l'utilisateur
    * 
    * @Template()
