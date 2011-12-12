@@ -127,6 +127,12 @@ class FavoriteControllerTest extends FunctionalTest
     $this->exist('li:contains("DUDELDRUM")');
     $this->notExist('a[href="'.$url.'"]');
     
+    // Il a laissé place aux lien pour le retirer
+    $this->exist('a[href="'.($url_rm = $this->generateUrl('favorite_remove', array(
+      'id'    => $element_DUDELDRUM->getId(),
+      'token' => $this->getUser()->getPersonalHash()
+    ))).'"]');
+    
     // En base l'enregistrement existe
     $favorite = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')->findOneBy(array(
      'user'    => $this->getUser()->getId(),
@@ -139,6 +145,25 @@ class FavoriteControllerTest extends FunctionalTest
     $this->crawler = $this->client->request('GET', $this->generateUrl('favorites_my_list'));
     
     $this->exist('li:contains("DUDELDRUM")');
+    
+    // On va maintenant le retirer de nox favoris
+    $this->exist('a[href="'.$url_rm.'"]');
+    $link = $this->selectLink('a[href="'.$url_rm.'"]');
+    $this->clickOnLink($link);
+    
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    
+    $this->NotExist('li:contains("DUDELDRUM")');
+    
+    // En base l'enregistrement a été supprimé
+    $favorite = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')->findOneBy(array(
+     'user'    => $this->getUser()->getId(),
+     'element' => $element_DUDELDRUM->getId()
+    ));
+    
+    $this->assertTrue(is_null($favorite));
   }
   
 }
