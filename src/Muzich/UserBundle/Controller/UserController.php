@@ -102,11 +102,20 @@ class UserController extends Controller
     }
     else
     {
+      $form_tags_favorites = $this->createForm(
+        new TagFavoritesForm(), 
+        array('tags' => $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+          ->getTagIdsFavorites($user->getId())
+        ),
+        array('tags' => $this->getTagsArray())
+      );
+      
       return $this->container->get('templating')->renderResponse(
         'MuzichUserBundle:User:account.html.twig',
         array(
           'form_password' => $form->createView(),
-          'user' => $user
+          'user' => $user,
+          'form_tags_favorites' => $form_tags_favorites->createView()
         )
       );
     }
