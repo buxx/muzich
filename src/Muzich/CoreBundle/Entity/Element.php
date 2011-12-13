@@ -353,12 +353,15 @@ class Element
    */
   public function setTagsWithIds(EntityManager $em, $ids)
   {
-    $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($ids)->execute();
     $this->tags = null;
-    // Pour les nouveaux ids restants
-    foreach ($tags as $tag)
-    {      
-      $this->addTag($tag);
+    if (count($ids))
+    {
+      $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($ids)->execute();
+      // Pour les nouveaux ids restants
+      foreach ($tags as $tag)
+      {      
+        $this->addTag($tag);
+      }
     }
   }
   
