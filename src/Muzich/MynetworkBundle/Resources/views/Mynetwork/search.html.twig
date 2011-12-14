@@ -12,13 +12,17 @@
   
   <form action="{{ path('mynetwork_search') }}" method="post" {{ form_enctype(search_form) }}>
     
+    {% form_theme search_form 'MuzichCoreBundle:Form:errors.html.twig' %}
     {{ form_errors(search_form) }}
 
-    {{ form_row(search_form.string) }}
+    <div class="field">
+      {{ form_errors(search_form.string) }}
+      {{ form_widget(search_form.string) }}
+      <input type="submit" value="{{ 'search.form.submit_value'|trans({}, 'network') }}" />
+    </div>
 
     {{ form_rest(search_form) }}
 
-    <input type="submit" value="{{ 'search.form.submit_value'|trans({}, 'network') }}" />
   </form>
   
   {% if results.users|length or results.groups|length %}

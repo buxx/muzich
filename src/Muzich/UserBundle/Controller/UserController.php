@@ -41,12 +41,15 @@ class UserController extends Controller
    * Un bug étrange empêche la mise ne place de contraintes sur le formulaire
    * d'inscription. On effectue alors les vérifications ici.
    * 
+   * C'est sale, mais ça marche ...
+   * 
    * @return array of string errors
    */
   protected function checkRegistrationInformations($form)
   {
     $errors = array();
     $form->bindRequest($this->getRequest());
+    $form_values = $this->getRequest()->request->get($form->getName());
     $user = $form->getData();
     
     /*
@@ -68,6 +71,18 @@ class UserController extends Controller
       $errors[] = $this->get('translator')->trans(
         'error.registration.username.max', 
         array('%limit%' => 32),
+        'validators'
+      );
+    }
+    
+    /**
+     * Mot de passes indentiques
+     */
+    if ($form_values['plainPassword']['first'] != $form_values['plainPassword']['second'])
+    {
+      $errors[] = $this->get('translator')->trans(
+        'error.registration.password.notsame', 
+        array(),
         'validators'
       );
     }

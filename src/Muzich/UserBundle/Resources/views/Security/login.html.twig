@@ -1,6 +1,6 @@
 <div class="login">
   {% if error %}
-      <div>{{ error|trans({}, 'validators') }}</div>
+      <ul class="error_list"><li>{{ error|trans({}, 'validators') }}</li></ul>
   {% endif %}
 
   <form action="{{ path("fos_user_security_check") }}" method="post">

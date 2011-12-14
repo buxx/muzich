@@ -4,15 +4,9 @@
     class="fos_user_registration_register"
   >
         
+    {% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
     
-    {% if form.get("errors")|length > 0 %}
-    <ul class="error_list">
-      {% for error in form.get("errors") %}
-        <li>{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-    
+    {{ form_errors(form) }}
     {% if registration_errors_pers|length > 0 %}
     <ul class="error_list">
       {% for error in registration_errors_pers %}
@@ -21,12 +15,16 @@
     </ul>
     {% endif %}
     
+    {{ form_errors(form.username) }}
     {{ form_row(form.username) }}
     
+    {{ form_errors(form.email) }}
     {{ form_row(form.email) }}
     
+    {{ form_errors(form.plainPassword.first) }}
     {{ form_row(form.plainPassword.first) }}
     
+    {{ form_errors(form.plainPassword.second) }}
     {{ form_row(form.plainPassword.second) }}
 
     {{ form_rest(form) }}

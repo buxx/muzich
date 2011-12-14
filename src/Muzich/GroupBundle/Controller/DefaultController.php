@@ -88,7 +88,7 @@ class DefaultController extends Controller
         'groups_owned'
       )));
       
-      $this->setFlash('error', 'group.create.failure');
+      //$this->setFlash('error', 'group.create.failure');
       
       return $this->render(
         'MuzichGroupBundle:Default:myList.html.twig', 

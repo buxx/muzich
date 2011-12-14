@@ -214,7 +214,7 @@ class CoreController extends Controller
         }
         else
         {
-          $this->setFlash('error', 'element.add.error');
+          //$this->setFlash('error', 'element.add.error');
           
           $search_object = $this->getElementSearcher();
           $user = $this->getUser(true, array('join' => array(

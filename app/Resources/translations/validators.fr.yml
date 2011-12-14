@@ -2,15 +2,19 @@
 'The credentials were changed from another session.' :  "La page a été innactive trop longtemps, cuillez recharger la page."
 'The presented password cannot be empty.'            :  "Vous devez saisir un mot de passe."
 'The presented password is invalid.'                 :  "Le mot de passe est invalide."
+'Bad credentials'                                    :  "Vos identifiants sont incorrects."
 
 'The username is already used'   :   Le nom d'utilisateur est déjà utilisé.
-'The email is already used'      :   Cette adresse email est déjà utilisé sur Muzi.ch
+'The email is already used'      :   Cette adresse email est déjà utilisé.
+
 
 error:
   group:
     name:
-      unique:            Ce nom est déjà utilisé pour un autre groupe
+      unique:            Ce nom est déjà utilisé pour un autre groupe.
   registration:
     username:
-      min:               Votre nom d'utilisateur doit contenir au moins %limit% caractères 
-      max:               Votre nom d'utilisateur doit contenir au maximum %limit% caractères 
+      min:               Votre nom d'utilisateur doit contenir au moins %limit% caractères.
+      max:               Votre nom d'utilisateur doit contenir au maximum %limit% caractères.
+    password:
+      notsame:           Vous avez saisie deux mot de passes différents.

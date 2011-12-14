@@ -1,28 +1,30 @@
+{% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
+
 {{ form_errors(form) }}
 
 <div class="field">
-  {{ form_label(form.name, 'name'|trans({}, 'groupform')) }}
   {{ form_errors(form.name) }}
+  {{ form_label(form.name, 'name'|trans({}, 'groupform')) }}
   {{ form_widget(form.name) }}
 </div>
 
 <div class="field">
-  {{ form_label(form.description, 'description'|trans({}, 'groupform')) }}
   {{ form_errors(form.description) }}
+  {{ form_label(form.description, 'description'|trans({}, 'groupform')) }}
   {{ form_widget(form.description) }}
 </div>
 
   <i>{{ 'openhelp'|trans({}, 'groupform') }}</i>
 
 <div class="field">
-  {{ form_label(form.open, 'open'|trans({}, 'groupform')) }}
   {{ form_errors(form.open) }}
+  {{ form_label(form.open, 'open'|trans({}, 'groupform')) }}
   {{ form_widget(form.open) }}
 </div>
 
 <div class="field">
-  {{ form_label(form.tags, 'tags'|trans({}, 'groupform')) }}
   {{ form_errors(form.tags) }}
+  {{ form_label(form.tags, 'tags'|trans({}, 'groupform')) }}
   {{ form_widget(form.tags) }}
 </div>
 

@@ -1,9 +1,23 @@
+{% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
+
 {{ form_errors(form) }}
 
-{{ form_row(form.name) }}
+<div class="field">
+  {{ form_errors(form.name) }}
+  {{ form_label(form.name, 'name'|trans({}, 'elementform')) }}
+  {{ form_widget(form.name) }}
+</div>
 
-{{ form_row(form.url) }}
+<div class="field">
+  {{ form_errors(form.url) }}
+  {{ form_label(form.url, 'url'|trans({}, 'elementform')) }}
+  {{ form_widget(form.url) }}
+</div>
 
-{{ form_row(form.tags) }}
+<div class="field">
+  {{ form_errors(form.tags) }}
+  {{ form_label(form.tags, 'tags'|trans({}, 'elementform')) }}
+  {{ form_widget(form.tags) }}
+</div>
 
 {{ form_rest(form) }}
