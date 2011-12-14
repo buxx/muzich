@@ -57,6 +57,7 @@ class IndexController extends Controller
     return array(
         'last_username' => $lastUsername,
         'error'         => $error,
+        'registration_errors_pers' => array()
     );
   }
   

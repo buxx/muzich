@@ -37,28 +37,70 @@ class UserController extends Controller
       );
   }
   
+  /**
+   * Un bug étrange empêche la mise ne place de contraintes sur le formulaire
+   * d'inscription. On effectue alors les vérifications ici.
+   * 
+   * @return array of string errors
+   */
+  protected function checkRegistrationInformations($form)
+  {
+    $errors = array();
+    $form->bindRequest($this->getRequest());
+    $user = $form->getData();
+    
+    /*
+     * Contrôle de la taille du pseudo
+     * min: 3
+     * max: 32
+     */
+    if (strlen($user->getUsername()) < 3)
+    {
+      $errors[] = $this->get('translator')->trans(
+        'error.registration.username.min', 
+        array('%limit%' => 3),
+        'validators'
+      );
+    }
+    
+    if (strlen($user->getUsername()) > 32)
+    {
+      $errors[] = $this->get('translator')->trans(
+        'error.registration.username.max', 
+        array('%limit%' => 32),
+        'validators'
+      );
+    }
+    
+    return $errors;
+  }
+  
   public function registerAction()
   {
     $form = $this->container->get('fos_user.registration.form');
     $formHandler = $this->container->get('fos_user.registration.form.handler');
     $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
     
-    $process = $formHandler->process($confirmationEnabled);
-    if ($process) {
-      $user = $form->getData();
+    // Pour palier bug, verif interne
+    if (count(($errors = $this->checkRegistrationInformations($form))) < 1)
+    {
+      $process = $formHandler->process($confirmationEnabled);
+      if ($process) {
+        $user = $form->getData();
 
-      if ($confirmationEnabled) {
-        $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
-        $route = 'fos_user_registration_check_email';
-      } else {
-        $this->authenticateUser($user);
-        $route = 'start';
+        if ($confirmationEnabled) {
+          $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
+          $route = 'fos_user_registration_check_email';
+        } else {
+          $this->authenticateUser($user);
+          $route = 'start';
+        }
+
+        $this->setFlash('fos_user_success', 'registration.flash.user_created');
+        $url = $this->generateUrl($route);
+
+        return new RedirectResponse($url);
       }
-
-      $this->setFlash('fos_user_success', 'registration.flash.user_created');
-      $url = $this->generateUrl($route);
-
-      return new RedirectResponse($url);
     }
 
     return $this->container->get('templating')->renderResponse(
@@ -67,6 +109,7 @@ class UserController extends Controller
         'form' => $form->createView(),
         'error' => null,
         'registration_errors' => $form->getErrors(),
+        'registration_errors_pers' => $errors,
         'last_username' => null
       )
     );
