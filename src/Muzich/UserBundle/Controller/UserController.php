@@ -129,6 +129,35 @@ class UserController extends Controller
       )
     );
   }
+  
+  /**
+   * Un bug étrange empêche la mise ne place de contraintes sur le formulaire
+   * d'inscription. On effectue alors les vérifications ici.
+   * 
+   * C'est sale, mais ça marche ...
+   * 
+   * @return array of string errors
+   */
+  protected function checkChangePasswordInformations($form)
+  {
+    $errors = array();
+    $form_values = $this->getRequest()->request->get($form->getName());
+    $user = $form->getData();
+    
+    /**
+     * Mot de passes indentiques
+     */
+    if ($form_values['new']['first'] != $form_values['new']['second'])
+    {
+      $errors[] = $this->get('translator')->trans(
+        'error.changepassword.new.notsame', 
+        array(),
+        'validators'
+      );
+    }
+    
+    return $errors;
+  }
     
   public function changePasswordAction()
   {
@@ -153,8 +182,7 @@ class UserController extends Controller
     $form = $this->container->get('fos_user.change_password.form');
     $formHandler = $this->container->get('fos_user.change_password.form.handler');
     
-    $process = $formHandler->process($user);
-    if ($process)
+    if (count(($errors = $this->checkChangePasswordInformations($form))) < 1 && $process)
     {
       $this->container->get('session')->setFlash('fos_user_success', 'change_password.flash.success');
       return new RedirectResponse($this->generateUrl('my_account'));
@@ -172,8 +200,9 @@ class UserController extends Controller
       return $this->container->get('templating')->renderResponse(
         'MuzichUserBundle:User:account.html.twig',
         array(
-          'form_password' => $form->createView(),
-          'user' => $user,
+          'form_password'       => $form->createView(),
+          'errors_pers'         => $errors,
+          'user'                => $user,
           'form_tags_favorites' => $form_tags_favorites->createView()
         )
       );

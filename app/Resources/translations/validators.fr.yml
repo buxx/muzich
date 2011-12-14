@@ -18,3 +18,6 @@ error:
       max:               Votre nom d'utilisateur doit contenir au maximum %limit% caractères.
     password:
       notsame:           Vous avez saisie deux mot de passes différents.
+  changepassword:
+    new:
+      notsame:           Vous avez saisie deux nouveaux mot de passes différents.
