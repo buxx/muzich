@@ -3,11 +3,16 @@
     method="POST" 
     class="fos_user_registration_register"
   >
+        
     
-    {{ form_widget(form) }}
+    {% if form.get("errors")|length > 0 %}
+    <ul class="error_list">
+      {% for key, error in form.get("errors") %}
+        <li>{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
     
-    {{ form_errors(form) }}
-
     {{ form_row(form.username) }}
     
     {{ form_row(form.email) }}

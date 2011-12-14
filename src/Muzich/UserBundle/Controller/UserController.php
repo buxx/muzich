@@ -66,6 +66,7 @@ class UserController extends Controller
       array(
         'form' => $form->createView(),
         'error' => null,
+        'registration_errors' => $form->getErrors(),
         'last_username' => null
       )
     );

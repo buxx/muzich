@@ -1,0 +1,12 @@
+
+'The credentials were changed from another session.' :  "La page a été innactive trop longtemps, cuillez recharger la page."
+'The presented password cannot be empty.'            :  "Vous devez saisir un mot de passe."
+'The presented password is invalid.'                 :  "Le mot de passe est invalide."
+
+'The username is already used'   :   Le nom d'utilisateur est déjà utilisé.
+'The email is already used'      :   Cette adresse email est déjà utilisé sur Muzi.ch
+
+error:
+  group:
+    name:
+      unique:            Ce nom est déjà utilisé pour un autre groupe

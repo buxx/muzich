@@ -20,7 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity
  * @ORM\Table(name="m_group")
  * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\GroupRepository")
- * @UniqueEntity("name")
+ * @UniqueEntity(fields="name", message="error.group.name.unique")
  */
 class Group
 {
