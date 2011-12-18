@@ -9,3 +9,5 @@ my_account:
   
 connexion:
   password_lost:    Mot de passe perdu ?
+  
+more:    plus

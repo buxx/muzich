@@ -1,15 +1,17 @@
 ## Routing du Bundle
 
 home:
-  pattern:  /{_locale}
-  defaults: { _controller: MuzichHomeBundle:Home:index, _locale: fr }
-  requirements:
-    _locale: en|fr
+  pattern:  /
+  defaults: { _controller: MuzichHomeBundle:Home:index }
+  
+home_more:
+  pattern:  /{count}
+  defaults: { _controller: MuzichHomeBundle:Home:index, count: null }
   
 show_user:
-  pattern: /{_locale}/user/{slug}
-  defaults: { _controller: MuzichHomeBundle:Show:showUser, _locale: fr }
+  pattern: /user/{slug}
+  defaults: { _controller: MuzichHomeBundle:Show:showUser }
   
 show_group:
-  pattern: /{_locale}/group/{slug}
-  defaults: { _controller: MuzichHomeBundle:Show:showGroup, _locale: fr }
+  pattern: /group/{slug}
+  defaults: { _controller: MuzichHomeBundle:Show:showGroup }

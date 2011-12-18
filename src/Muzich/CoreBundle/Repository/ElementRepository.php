@@ -132,6 +132,7 @@ class ElementRepository extends EntityRepository
       $where_user
       $where_group
       $where_favorite
+      GROUP BY e, et, t2, eu, g, fav
       ORDER BY e.created DESC, e.name DESC"
     ;
     $params['uid'] = $user_id;

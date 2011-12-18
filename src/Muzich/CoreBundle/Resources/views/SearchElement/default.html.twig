@@ -2,7 +2,7 @@
 {% if elements|length %}
   <ul>
     {% for element in elements %} 
-      <li>
+      <li id="element_{{ element.id }}">
         {% if element.group %}
           <b>({{ element.group.name }})</b>
         {% endif %}
@@ -36,6 +36,15 @@
       </li>
     {% endfor %} 
   </ul>
+
+   {% if more_count is defined %} 
+     <span class="elements_more">
+       <a href="{{ path('home_more', {'count': more_count}) }}" >
+         {{ 'more'|trans({}, 'userui') }}
+       </a>
+     </span>
+   {% endif %}
+
 {% else %}
 
   <p class="no-elements">{{ 'noelements.sentence'|trans({}, 'elements') }}</p>

@@ -57,6 +57,14 @@ class ElementSearcher extends Searcher implements SearcherInterface
   protected $favorite = false;
   
   /**
+   * Si id_limit est renseigné c'est que l'on veut trouver les elements
+   * plus vieux (ont utilise l'id comme référence) que l'id_limi passé.
+   * 
+   * @var type int
+   */
+  protected $id_limit = null;
+  
+  /**
    * @see SearcherInterface
    * @param array $params 
    */
@@ -69,7 +77,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
     
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite'
+      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit'
     ), $params);
     
   }
@@ -82,7 +90,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
   {
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite'
+      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit'
     ), $params);
   }
   

@@ -18,9 +18,9 @@ class HomeController extends Controller
    * 
    * @Template()
    */
-  public function indexAction()
+  public function indexAction($count = null)
   {
-    $search_object = $this->getElementSearcher();
+    $search_object = $this->getElementSearcher($count);
     $user = $this->getUser(true, array('join' => array(
       'groups_owned'
     )), true);
@@ -41,12 +41,13 @@ class HomeController extends Controller
         //'groups' => $user->getGroupsOwnedArray(),
       )
     );
-        
+    
     return array(
       'user'        => $this->getUser(),
       'add_form'    => $add_form->createView(),
       'search_form' => $search_form->createView(),
-      'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId())
+      'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
+      'more_count'  => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2
     );
   }
 }

@@ -27,24 +27,30 @@ MuzichCoreBundle:
 
 MuzichHomeBundle:
   resource: "@MuzichHomeBundle/Resources/config/routing.yml"
-  prefix: /
+  prefix: /{_locale}/
+  defaults:
+    _locale: en|fr
 
 MuzichUserBundle:
   resource: "@MuzichUserBundle/Resources/config/routing.yml"
   prefix: /{_locale}/
-  defaults: { _locale: fr }
+  defaults:
+    _locale: en|fr
 
 MuzichMynetworkBundle:
   resource: "@MuzichMynetworkBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
-  defaults: { _locale: fr }
+  defaults:
+    _locale: en|fr
   
 MuzichGroupBundle:
   resource: "@MuzichGroupBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
-  defaults: { _locale: fr }
+  defaults:
+    _locale: en|fr
   
 MuzichFavoriteBundle:
   resource: "@MuzichFavoriteBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
-  defaults: { _locale: fr }
+  defaults:
+    _locale: en|fr

@@ -40,7 +40,7 @@ class Controller extends BaseController
    * 
    * @return  ElementSearcher
    */
-  protected function getElementSearcher()
+  protected function getElementSearcher($count = null)
   {
     $session = $this->get("session");
     // Si l'objet n'existe pas encore, a t-on déjà des paramètres de recherche
@@ -55,7 +55,7 @@ class Controller extends BaseController
             $this->getUserId(),
             $this->container->getParameter('search_default_favorites_tags_count')
           ),
-        'count' => $this->container->getParameter('search_default_count')
+        'count' => ($count)?$count:$this->container->getParameter('search_default_count')
       ));
 
       // Et on met en session les paramètres
@@ -67,6 +67,10 @@ class Controller extends BaseController
       $this->ElementSearcher = new ElementSearcher();
       // et on l'initatialise avec ces paramétres connus
       $this->ElementSearcher->init($session->get('user.element_search.params'));
+      if ($count)
+      {
+        $this->ElementSearcher->update(array('count' => $count));
+      }
     }
     
     // on le retourne
