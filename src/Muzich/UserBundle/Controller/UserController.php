@@ -182,6 +182,7 @@ class UserController extends Controller
     $form = $this->container->get('fos_user.change_password.form');
     $formHandler = $this->container->get('fos_user.change_password.form.handler');
     
+    $process = $formHandler->process($user);
     if (count(($errors = $this->checkChangePasswordInformations($form))) < 1 && $process)
     {
       $this->container->get('session')->setFlash('fos_user_success', 'change_password.flash.success');
