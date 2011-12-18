@@ -178,9 +178,20 @@ class ElementSearcher extends Searcher implements SearcherInterface
    * @param int $user_id
    * @return collection
    */
-  public function getElements(Registry $doctrine, $user_id)
+  public function getElements(Registry $doctrine, $user_id, $exec_type = 'execute')
   {
-    return $this->getQuery($doctrine, $user_id)->execute();
+    $query = $this->getQuery($doctrine, $user_id);
+    
+    switch ($exec_type)
+    {
+      case 'execute':
+        return $query->execute();
+      break;
+    
+      default :
+        throw new \Exception('Mode de récupération des Elements non supporté.');
+      break;
+    }
   }
   
 }

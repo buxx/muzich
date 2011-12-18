@@ -16,7 +16,7 @@ class MynetworkController extends Controller
    * @Template()
    */
   public function indexAction()
-  {
+  {    
     $user = $this->getUser(true, array('join' => array(
       'followeds_users', 'followers_users', 'followeds_groups'
     )));

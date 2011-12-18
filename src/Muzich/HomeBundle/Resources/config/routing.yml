@@ -5,7 +5,7 @@ home:
   defaults: { _controller: MuzichHomeBundle:Home:index }
   
 home_more:
-  pattern:  /{count}
+  pattern:  /more/{count}
   defaults: { _controller: MuzichHomeBundle:Home:index, count: null }
   
 show_user:

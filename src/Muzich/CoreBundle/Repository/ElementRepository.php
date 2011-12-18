@@ -32,45 +32,61 @@ class ElementRepository extends EntityRepository
    * @return Doctrine\ORM\Query
    */
   public function findBySearch(ElementSearcher $searcher, $user_id)
-  {
-    $params = array();
-    $join_personal = '';
-    //$query_with = '';
-    $where = '';
+  {    
+    // Tableaux des paramétres
+    $params_ids = array();
+    $params_select = array();
+    $params_select['uid'] = $user_id;
     
-    // ajout du filtres de trie avec les tags transmis
-    foreach ($searcher->getTags() as $tag_id)
+    // Booléen nous permettant de savoir si un where a déjà été écrit
+    $is_where = false;
+    
+    // Construction des conditions pour la selection d'ids
+    $where_tags = '';
+    $join_tags  = '';
+    if (count(($tags = $searcher->getTags())))
     {
-      if ($where == '')
+      foreach ($tags as $tag_id)
       {
-        $where .= 'WHERE (t.id = :tid'.$tag_id;
+        // LEFT JOIN car un element n'est pas obligatoirement lié a un/des tags
+        $join_tags = " LEFT JOIN e_.tags t_";
+        
+        // Construction du chere pour les tags
+        if ($where_tags == '')
+        {
+          $where_tags .= ' WHERE (t_.id = :tid'.$tag_id;
+        }
+        else
+        {
+          $where_tags .= ' OR t_.id = :tid'.$tag_id;
+        }
+        $params_ids['tid'.$tag_id] = $tag_id;
       }
-      else
-      {
-        $where .= ' OR t.id = :tid'.$tag_id;
-      }
-      $params['tid'.$tag_id] = $tag_id;
+      // Fermeture de la parenthése qui isole la condition des tags
+      $where_tags .= ')';
+      $is_where = true;
     }
     
-    if (count($searcher->getTags()))
-    {
-      // Si on ne met pas les parenthéses, lorsqu'il y a d'autre where (AND, OR)
-      // On perd la précision et des résultats se retrouvent dans le tas
-      $where .= ')';
-    }
-    
-    // Ajout du filtre limitant au réseau personel si c'est le cas
+    // Construction de la condition network
+    $join_network  = '';
     $where_network = '';
     if ($searcher->getNetwork() == ElementSearcher::NETWORK_PERSONAL)
     {
-      $join_personal = 
-       " LEFT JOIN eu.followers_users f"
-      ." LEFT JOIN g.followers gf"
+      $join_network = 
+        " JOIN e_.owner o_"
+      // LEFT JOIN car l'element n'est pas obligatoirement lié a un groupe
+      . " LEFT JOIN e_.group g_"
+      // LEFT JOIN car owner n'est pas obligatoirement lié a des followers
+      . " LEFT JOIN o_.followers_users f_"
+      // LEFT JOIN car le groupe n'est pas obligatoirement lié a des followers
+      . " LEFT JOIN g_.followers gf_"
       ;
-      $where_network = ($where != '') ? ' AND' : ' WHERE';
-      $where_network .= ' (f.follower = :userid OR gf.follower = :useridg)';
-      $params['userid'] = $user_id;
-      $params['useridg'] = $user_id;
+      $where_network = ($is_where) ? ' AND' : ' WHERE';
+      // Le filtre applique: Soit le proprio fait partis des followeds de l'utilisateur
+      // soit l'element est ajouté dans un groupe que l'utilisateur follow.
+      $where_network .= ' (f_.follower = :userid OR gf_.follower = :useridg)';
+      $params_ids['userid'] = $user_id;
+      $params_ids['useridg'] = $user_id;
     }
     
     // ajout du filtre sur un user si c'est le cas
@@ -79,9 +95,9 @@ class ElementRepository extends EntityRepository
     //                de favoris, on ne filtre pas sur le proprio de l'element
     if (($search_user_id = $searcher->getUserId()) && !$searcher->isFavorite())
     {
-      $where_user = ($where != '') ? ' AND' : ' WHERE';
-      $where_user .= ' e.owner = :suid';
-      $params['suid'] = $search_user_id;
+      $where_user = ($is_where) ? ' AND' : ' WHERE';
+      $where_user .= ' e_.owner = :suid';
+      $params_ids['suid'] = $search_user_id;
     }
     
     // ajout du filtre sur un user si c'est le cas
@@ -90,25 +106,27 @@ class ElementRepository extends EntityRepository
     //               de favoris, on ne filtre pas sur le proprio de l'element
     if (($search_group_id = $searcher->getGroupId()) && !$searcher->isFavorite())
     {
-      $where_group = ($where != '') ? ' AND' : ' WHERE';
-      $where_group .= ' e.group = :sgid';
-      $params['sgid'] = $search_group_id;
+      $where_group = ($is_where) ? ' AND' : ' WHERE';
+      $where_group .= ' e_.group = :sgid';
+      $params_ids['sgid'] = $search_group_id;
     }
     
-    // Filtre pour afficher que les elements mis en favoris si c'est la demande
-    $join_favorite = ''; $where_favorite = '';
+    // Filtre pour afficher uniquement les elements mis en favoris
+    $join_favorite = ''; 
+    $where_favorite = '';
     if ($searcher->isFavorite())
     {
-      $where_favorite = ($where != '') ? ' AND' : ' WHERE';
+      $where_favorite = ($is_where) ? ' AND' : ' WHERE';
       if (($favorite_user_id = $searcher->getUserId()) && !$searcher->getGroupId())
       {
-        $join_favorite = 'JOIN e.elements_favorites fav2';
-        $where_favorite .= ' fav2.user = :fuid';
-        $params['fuid'] = $favorite_user_id;
+        // Pas de LEFT JOIN car on ne veut que les elements mis en favoris
+        $join_favorite = 'JOIN e_.elements_favorites fav2_';
+        $where_favorite .= ' fav2_.user = :fuid';
+        $params_ids['fuid'] = $favorite_user_id;
       }
       else if (($favorite_group_id = $searcher->getGroupId()) && !$searcher->getUserId())
       {
-        // TODO: Faire en sorte que ça affiche les favrois des gens suivant
+        // TODO: Faire en sorte que ça affiche les favoris des gens suivant
         // le groupe
       }
       else
@@ -117,33 +135,60 @@ class ElementRepository extends EntityRepository
       }
     }
     
-    // Construction de la requête finale
-    $query_string = "SELECT e, et, t2, eu, g, fav
-      FROM MuzichCoreBundle:Element e 
-      LEFT JOIN e.group g 
-      LEFT JOIN e.type et 
-      LEFT JOIN e.tags t 
-      LEFT JOIN e.tags t2 
-      LEFT JOIN e.elements_favorites fav WITH fav.user = :uid
-      $join_favorite
-      JOIN e.owner eu $join_personal
-      $where
-      $where_network
-      $where_user
-      $where_group
-      $where_favorite
-      GROUP BY e, et, t2, eu, g, fav
-      ORDER BY e.created DESC, e.name DESC"
-    ;
-    $params['uid'] = $user_id;
-    
-    $query = $this->getEntityManager()
-      ->createQuery($query_string)
-      ->setParameters($params)
-      ->setMaxResults($searcher->getCount())
+    // Requête qui selectionnera les ids en fonction des critéres
+    $r_ids = $this->getEntityManager()
+      ->createQuery(
+        "SELECT e_.id
+        FROM MuzichCoreBundle:Element e_
+        $join_tags
+        $join_network
+        $join_favorite
+        $where_tags
+        $where_network
+        $where_user
+        $where_group
+        $where_favorite
+        GROUP BY e_.id
+        ORDER BY e_.created DESC, e_.id DESC")
+     ->setParameters($params_ids)
+     ->setMaxResults($searcher->getCount())
+     ->getArrayResult()
     ;
     
-    return $query;
+    $ids = array();
+    
+    if (count($r_ids))
+    {
+      foreach ($r_ids as $r_id)
+      {
+        $ids[] = $r_id['id'];
+      }
+
+      // C'est la requête qui récupérera les données element avec ses jointures.
+      $query_select = "SELECT e, ty, t, o, g, fav
+        FROM MuzichCoreBundle:Element e 
+        LEFT JOIN e.group g 
+        LEFT JOIN e.type ty 
+        LEFT JOIN e.tags t 
+        LEFT JOIN e.elements_favorites fav WITH fav.user = :uid
+        JOIN e.owner o
+        WHERE e.id IN (:ids)
+        ORDER BY e.created DESC, e.id DESC"
+      ;
+
+      $params_select['ids'] = $ids;
+      $query = $this->getEntityManager()
+        ->createQuery($query_select)
+        ->setParameters($params_select)
+      ;
+
+      return $query;
+    }
+    
+    // Il faut retourner une Query
+    return $query = $this->getEntityManager()
+      ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
+    ;
   }
   
   /**
