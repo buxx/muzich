@@ -8,9 +8,37 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\UserBundle\Model\UserInterface;
 use Muzich\CoreBundle\Form\Tag\TagFavoritesForm;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Collection;
 
 class UserController extends Controller
 {
+  
+  protected function getChangeEmailForm()
+  {
+    $collectionConstraint = new Collection(array(
+      'email' => new Email(array('message' => 'error.changeemail.email.invalid')),
+    ));
+    
+    return $this->createFormBuilder(null, array(
+      'validation_constraint' => $collectionConstraint,
+    ))
+      ->add('email', 'text')
+      ->getForm()
+    ;
+  }
+  
+  protected function getTagsFavoritesForm($user)
+  {
+    return $this->createForm(
+      new TagFavoritesForm(), 
+      array('tags' => $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+        ->getTagIdsFavorites($user->getId())
+      ),
+      array('tags' => $this->getTagsArray())
+    );
+  }
+  
   /**
    * Page de configuration de son compte
    *
@@ -19,22 +47,16 @@ class UserController extends Controller
   public function accountAction()
   {
     $user = $this->getUser();
-
     $form_password = $this->container->get('fos_user.change_password.form');
+    $form_tags_favorites = $this->getTagsFavoritesForm($user);
+    $change_email_form = $this->getChangeEmailForm();
     
-    $form_tags_favorites = $this->createForm(
-      new TagFavoritesForm(), 
-      array('tags' => $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-        ->getTagIdsFavorites($user->getId())
-      ),
-      array('tags' => $this->getTagsArray())
+    return array(
+      'user'                => $user,
+      'form_password'       => $form_password->createView(),
+      'form_tags_favorites' => $form_tags_favorites->createView(),
+      'change_email_form'   => $change_email_form->createView()
     );
-
-      return array(
-        'user' => $user,
-        'form_password' => $form_password->createView(),
-        'form_tags_favorites' => $form_tags_favorites->createView()
-      );
   }
   
   /**
@@ -294,6 +316,116 @@ class UserController extends Controller
     {
       return $this->redirect($this->generateUrl('my_account'));
     }
+  }
+  
+  protected function checkChangeEmailFrequencies($user, $new_email)
+  {
+    $delay = $this->container->getParameter('changeemail_security_delay');
+    if (($last_request_datetime = $user->getEmailRequestedDatetime()))
+    {
+      if ((time() - $last_request_datetime) < $delay)
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  
+  /**
+   * Procédure de demande de changement de mot de passe
+   */
+  public function changeEmailRequestAction()
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $user = $this->getUser();
+    $request = $this->getRequest();
+    $change_email_form = $this->getChangeEmailForm();
+    
+    $change_email_form->bindRequest($request);
+    if ($change_email_form->isValid())
+    {
+      $data = $change_email_form->getData();
+      $email = $data['email'];
+      
+      if (!$this->checkChangeEmailFrequencies($user, $email))
+      {
+        $this->setFlash('error', 'user.changeemail.wait');
+        return new RedirectResponse($this->generateUrl('my_account'));
+      }
+      
+      // On renseigne en base l'email demandé
+      $user->setEmailRequested($email);
+      $user->setEmailRequestedDatetime(time());
+      $user->generateConfirmationToken();
+      $token = hash('sha256', $user->getConfirmationToken().$email);
+      $url = $this->get('router')->generate('change_email_confirm', array('token' => $token), true);
+      $rendered = $this->get('templating')->render('MuzichUserBundle:User:change_email_mail.txt.twig', array(
+          'user' => $user,
+          'confirmationUrl' => $url
+      ));
+      
+      //$this->sendEmailMessage($rendered, $this->parameters['from_email']['resetting'], $user->getEmail());
+      
+      // Render the email, use the first line as the subject, and the rest as the body
+      $renderedLines = explode("\n", trim($rendered));
+      $subject = $renderedLines[0];
+      $body = implode("\n", array_slice($renderedLines, 1));
+
+      $message = \Swift_Message::newInstance()
+        ->setSubject($subject)
+        ->setFrom('noreply@muzi.ch')
+        ->setTo($email)
+        ->setBody($body);
+
+      $mailer = $this->get('mailer');
+      $mailer->send($message);
+      
+      $this->setFlash('info', 'user.changeemail.mail_send');
+      $em->flush();
+    }
+    
+    // En cas d'échec
+    $form_password = $this->container->get('fos_user.change_password.form');
+    $form_tags_favorites = $this->getTagsFavoritesForm($user);
+    
+    return $this->container->get('templating')->renderResponse(
+      'MuzichUserBundle:User:account.html.twig',
+      array(
+        'user'                => $user,
+        'form_password'       => $form_password->createView(),
+        'form_tags_favorites' => $form_tags_favorites->createView(),
+        'change_email_form'   => $change_email_form->createView()
+      )
+    );
+  }
+  
+  
+  
+  /**
+   * Procédure de confirmation de la nouvelle adresse email.
+   */
+  public function changeEmailConfirmAction($token)
+  {
+    $em = $this->getDoctrine()->getEntityManager();
+    $um = $this->get('muzich_user_manager');
+    $user = $this->getUser();
+    $token_ = hash('sha256', $user->getConfirmationToken().($email = $user->getEmailRequested()));
+    
+    // Le token est-il valide
+    if ($token_ != $token)
+    {
+      $this->setFlash('error', 'user.changeemail.token_invalid');
+      return new RedirectResponse($this->generateUrl('my_account'));
+    }
+    
+    $user->setEmail($email);
+    $user->setEmailRequested(null);
+    $um->updateCanonicalFields($user);
+    $em->flush();
+    
+    $this->setFlash('success', 'user.changeemail.success');
+    return new RedirectResponse($this->generateUrl('my_account'));
   }
     
 }

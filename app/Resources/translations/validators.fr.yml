@@ -21,3 +21,6 @@ error:
   changepassword:
     new:
       notsame:           Vous avez saisie deux nouveaux mot de passes différents.
+  changeemail:
+    email:
+      invalid:           L'email saisie n'est pas valide.

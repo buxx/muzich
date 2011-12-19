@@ -36,6 +36,17 @@ class User extends BaseUser
   protected $slug;
   
   /**
+   * @ORM\Column(type="text", nullable=true)
+   * @ORM\Column(length=256)
+   */
+  protected $email_requested;
+  
+ /**
+  * @ORM\Column(type="integer", nullable=true)
+  */
+  protected $email_requested_datetime;
+  
+  /**
    * Cet attribut contient les enregistrements UsersTagsFavorites lié 
    * a cet utilisateur dans le cadre des Tags Favoris.
    * 
@@ -288,6 +299,16 @@ class User extends BaseUser
     $this->slug = $slug;
   }
   
+  public function getEmailRequested()
+  {
+    return $this->email_requested;
+  }
+  
+  public function setEmailRequested($email_requested)
+  {
+    $this->email_requested = $email_requested;
+  }
+  
   /*
    * 
    * 
@@ -449,6 +470,26 @@ class User extends BaseUser
       }
     }
     return $max;
+  }
+
+  /**
+   * Set email_requested_datetime
+   *
+   * @param integer $emailRequestedDatetime
+   */
+  public function setEmailRequestedDatetime($emailRequestedDatetime)
+  {
+    $this->email_requested_datetime = $emailRequestedDatetime;
+  }
+
+  /**
+   * Get email_requested_datetime
+   *
+   * @return integer 
+   */
+  public function getEmailRequestedDatetime()
+  {
+    return $this->email_requested_datetime;
   }
   
 }

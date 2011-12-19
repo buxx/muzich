@@ -20,3 +20,12 @@ update_tag_favorites:
   pattern: /account/update-tag-favorites/{redirect}
   defaults: { _controller: MuzichUserBundle:User:updateTagFavorites, redirect: home }
     
+change_email_request:
+  pattern: /account/change-email/request
+  defaults: { _controller: MuzichUserBundle:User:changeEmailRequest }
+  requirements:
+    _method:  POST
+    
+change_email_confirm:
+  pattern: /account/change-email/confirm/{token}
+  defaults: { _controller: MuzichUserBundle:User:changeEmailConfirm }

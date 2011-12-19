@@ -34,5 +34,14 @@
   </form>
   
   <h3>{{ 'my_account.change_email'|trans({}, 'userui') }}</h3>
+  
+  <form action="{{ path('change_email_request') }}" method="post" {{ form_enctype(change_email_form) }}>
+    
+    {% include "MuzichUserBundle:User:change_email_form.html.twig" with { 
+      'form': change_email_form
+    } %}
+
+    <input type="submit" />
+  </form>
     
 {% endblock %}

@@ -1,22 +1,29 @@
 
 # FOS
-group.flash.updated: Le groupe a été mis à jour
-group.flash.created: Le groupe a été créé
-group.flash.deleted: Le groupe a été supprimé
-profile.flash.updated: Le profil a été mis à jour
-change_password.flash.success: Le mot de passe a été modifié
-registration.flash.user_created: L'utilisateur a été créé avec succès
-resetting.flash.success: Le mot de passe a été réinitialisé avec succès
+group.flash.updated: Le groupe a été mis à jour.
+group.flash.created: Le groupe a été créé.
+group.flash.deleted: Le groupe a été supprimé.
+profile.flash.updated: Le profil a été mis à jour.
+change_password.flash.success: Le mot de passe a été modifié.
+registration.flash.user_created: L'utilisateur a été créé avec succès.
+resetting.flash.success: Le mot de passe a été réinitialisé avec succès.
 
 # muzich
 group:
   create:
-    success:      Le groupe a été créé avec succés
-    failure:      Un erreur est survenue lors de la création du groupe
+    success:      Le groupe a été créé avec succés.
+    failure:      Un erreur est survenue lors de la création du groupe.
   update:
-    success:      La mise a jour a été un succés
-    failure:      Une erreur est survenue lors de la mise a jour du groupe
+    success:      La mise a jour a été un succés.
+    failure:      Une erreur est survenue lors de la mise a jour du groupe.
     
 element:
   add:
-    error:        Une erreur est survenus lors de l'ajout
+    error:        Une erreur est survenus lors de l'ajout.
+    
+user:
+  changeemail:
+    mail_send:     Un email a été envoyé a l'adresse communiqué pour confirmation.
+    token_invalid: Le lien pour mettre a jour votre email est périmé, veuillez relancer la procédure.
+    success:       Votre email a correctement été mis a jour.
+    wait:          Vous devez attendre avant de pouvoir faire une nouvelle demande de changement d'email.
