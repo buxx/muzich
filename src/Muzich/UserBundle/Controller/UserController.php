@@ -354,6 +354,11 @@ class UserController extends Controller
         return new RedirectResponse($this->generateUrl('my_account'));
       }
       
+      /*
+       * Optimisation: Ecrire une lib Mailer pour gérer les envois.
+       * cf le mailer de FOSUserBundle
+       */
+      
       // On renseigne en base l'email demandé
       $user->setEmailRequested($email);
       $user->setEmailRequestedDatetime(time());
