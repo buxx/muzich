@@ -16,20 +16,22 @@ class ShowController extends Controller
    * @Template()
    * @param string $slug
    */
-  public function showUserAction($slug)
+  public function showUserAction($slug, $count = null)
   {
     $viewed_user = $this->findUserWithSlug($slug);
         
     $search_object = $this->createSearchObject(array(
       'user_id'  => $viewed_user->getId(),
-      'count'    => $this->container->getParameter('search_default_count')
+      'count'    => ($count)?$count:$this->container->getParameter('search_default_count')
     ));
     
     return array(
       'viewed_user' => $viewed_user,
       'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
       'following'   => $this->getUser()->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
-      'user'        => $this->getUser()
+      'user'        => $this->getUser(),
+      'more_count'  => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
+      'more_route'  => 'show_user_more'
     );
   }
   
@@ -39,13 +41,13 @@ class ShowController extends Controller
    * @Template()
    * @param string $slug
    */
-  public function showGroupAction($slug)
+  public function showGroupAction($slug, $count = null)
   {
     $group = $this->findGroupWithSlug($slug);
         
     $search_object = $this->createSearchObject(array(
       'group_id'  => $group->getId(),
-      'count'     => $this->container->getParameter('search_default_count')
+      'count'     => ($count)?$count:$this->container->getParameter('search_default_count')
     ));
     
     ($group->getOwner()->getId() == $this->getUserId()) ? $his = true : $his = false;
@@ -66,7 +68,9 @@ class ShowController extends Controller
       'elements'  => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
       'following' => $this->getUser()->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()),
       'user'      => $this->getUser(),
-      'add_form'  => (isset($add_form)) ? $add_form->createView() : null
+      'add_form'  => (isset($add_form)) ? $add_form->createView() : null,
+      'more_count'=> ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
+      'more_route'=> 'show_group_more'
     );
   }
   

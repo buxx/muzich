@@ -17,4 +17,13 @@
 
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
     
+  
+  {% if more_count is defined %} 
+   <span class="elements_more">
+     <a href="{{ path('home_more', {'count': more_count}) }}" >
+       {{ 'more'|trans({}, 'userui') }}
+     </a>
+   </span>
+  {% endif %}
+  
 {% endblock %}

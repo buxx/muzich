@@ -12,6 +12,14 @@ show_user:
   pattern: /user/{slug}
   defaults: { _controller: MuzichHomeBundle:Show:showUser }
   
+show_user_more:
+  pattern: /user/{slug}/more/{count}
+  defaults: { _controller: MuzichHomeBundle:Show:showUser, count: null }
+  
 show_group:
   pattern: /group/{slug}
   defaults: { _controller: MuzichHomeBundle:Show:showGroup }
+  
+show_group_more:
+  pattern: /group/{slug}/more/{count}
+  defaults: { _controller: MuzichHomeBundle:Show:showGroup, count: null }
