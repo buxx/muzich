@@ -91,32 +91,6 @@ class IndexControllerTest extends FunctionalTest
       'toor', 
       'toor'
     );
-    
-//    $this->validate_registrate_user_form(
-//      $this->selectForm('form[action="'.$url.'"] input[type="submit"]'), 
-//      'raoula', 
-//      'raoul.45gf64z@gmail.com', 
-//      'toor',
-//      'toor'
-//    );
-//    
-//    $this->isResponseRedirection();
-//    $this->followRedirection();
-//    $this->isResponseSuccess();
-//
-//    $user = $this->getUser();
-//    $this->assertEquals('raoula', $user->getUsername());
-//    
-//    // L'utilisateur est enregistré, il doit donc être en base
-//    $db_user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-//      ->findOneByUsername('raoula')
-//    ;
-//    
-//    $this->assertTrue(!is_null($db_user));
-//    if ($db_user)
-//    {
-//      $this->assertEquals('raoula', $db_user->getUsername());
-//    }
   }
   
   public function testRegistrationFailure()
@@ -135,23 +109,23 @@ class IndexControllerTest extends FunctionalTest
       'toorr'
     );
 
-//    // Pseudo trop court
-//    $this->procedure_registration_failure(
-//      'ra', 
-//      'raoulb.def4v65sds@gmail.com', 
-//      'toor', 
-//      'toor'
-//    );
-//    
-//    // Pseudo trop long
-//    $this->procedure_registration_failure(
-//      'raouuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
-//         .'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
-//         .'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuul', 
-//      'raoulb.def4v65sds@gmail.com', 
-//      'toor', 
-//      'toor'
-//    );
+    // Pseudo trop court
+    $this->procedure_registration_failure(
+      'ra', 
+      'raoulb.def4v65sds@gmail.com', 
+      'toor', 
+      'toor'
+    );
+    
+    // Pseudo trop long
+    $this->procedure_registration_failure(
+      'raouuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
+         .'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
+         .'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuul', 
+      'raoulb.def4v65sds@gmail.com', 
+      'toor', 
+      'toor'
+    );
 
     // Email invalide
     $this->procedure_registration_failure(
