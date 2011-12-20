@@ -197,6 +197,19 @@ class FunctionalTest extends WebTestCase
   }
   
   /**
+   * Retourne un utilisateur en allant le chercher en base.
+   * 
+   * @param string $username
+   * @return \Muzich\CoreBundle\Entity\User 
+   */
+  protected function findUserByUsername($username)
+  {
+    return $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername($username)
+    ;
+  }
+  
+  /**
    * Generates a URL from the given parameters.
    *
    * @param string $route

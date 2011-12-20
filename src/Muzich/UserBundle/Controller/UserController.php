@@ -339,6 +339,19 @@ class UserController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $user = $this->getUser();
+    
+    /**
+     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
+     * Docrine le voit si on faire une requete directe.
+     */
+    if ($this->container->getParameter('env') == 'test')
+    {
+      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+        $this->container->get('security.context')->getToken()->getUser()->getId(),
+        array()
+      )->getSingleResult();
+    }
+    
     $request = $this->getRequest();
     $change_email_form = $this->getChangeEmailForm();
     
@@ -388,6 +401,7 @@ class UserController extends Controller
       
       $this->setFlash('info', 'user.changeemail.mail_send');
       $em->flush();
+      return new RedirectResponse($this->generateUrl('my_account'));
     }
     
     // En cas d'échec
@@ -415,6 +429,19 @@ class UserController extends Controller
     $em = $this->getDoctrine()->getEntityManager();
     $um = $this->get('muzich_user_manager');
     $user = $this->getUser();
+    
+    /**
+     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
+     * Docrine le voit si on faire une requete directe.
+     */
+    if ($this->container->getParameter('env') == 'test')
+    {
+      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+        $this->container->get('security.context')->getToken()->getUser()->getId(),
+        array()
+      )->getSingleResult();
+    }
+    
     $token_ = hash('sha256', $user->getConfirmationToken().($email = $user->getEmailRequested()));
     
     // Le token est-il valide

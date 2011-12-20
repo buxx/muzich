@@ -175,4 +175,175 @@ class UserControllerTest extends FunctionalTest
     $this->assertEquals(1, count($prefereds));
   }
   
+  /**
+   * Test de al procédure de changement d'email.
+   */
+  public function testChangeEmail()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bob', 'toor');
+    $bob = $this->findUserByUsername('bob');
+    
+    // Ouverture de la page Mon compte
+    $this->crawler = $this->client->request('GET', $this->generateUrl('my_account'));
+    
+    // Le mail en cours n'est pas celui que nous voulons mettre
+    $this->assertFalse($bob->getEmail() == 'trololololooo@trolo.com');
+    // Nous n'avons pas encore demandé de nouveau mail
+    $this->assertTrue($bob->getEmailRequested() == null);
+    $this->assertTrue($bob->getEmailRequestedDatetime() == null);
+    
+    // On fait un premier essaie avec une email mal formulé
+    $this->exist('form[action="'.($url = $this->generateUrl(
+      'change_email_request'
+    )).'"]');
+    $this->exist('form[action="'.$url.'"] input[type="submit"]');
+    
+    $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+    $form['form[email]'] = 'trololololooo@trolo';
+    $this->submit($form);
+    
+    // Il n'y as pas de redirection
+    $this->isResponseSuccess();
+    
+    $bob = $this->findUserByUsername('bob');
+    // Les champs n'ont pas bougés
+    $this->assertFalse($bob->getEmail() == 'trololololooo@trolo.com');
+    // Nous n'avons pas encore demandé de nouveau mail
+    $this->assertTrue($bob->getEmailRequested() == null);
+    $this->assertTrue($bob->getEmailRequestedDatetime() == null);
+    
+    $this->exist('form[action="'.($url = $this->generateUrl(
+      'change_email_request'
+    )).'"]');
+    $this->exist('form[action="'.$url.'"] input[type="submit"]');
+    
+    $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+    $form['form[email]'] = 'trololololooo@trolo.com';
+    $this->submit($form);
+    
+    // Ce coup-ci c'est bien une redirection
+    $this->isResponseRedirection();
+    
+    // Un mail a été envoyé
+    $mc = $this->getMailerMessageDataCollector();
+    $this->assertEquals(1, $mc->getMessageCount());
+    
+    $mails = $mc->getMessages();
+    $mail = $mails[0];
+    
+    // Les champs ont bougés
+    $bob = $this->findUserByUsername('bob');
+    $this->assertFalse($bob->getEmail() == 'trololololooo@trolo.com');
+    $this->assertFalse($bob->getEmailRequested() == null);
+    $this->assertTrue($bob->getEmailRequested() == 'trololololooo@trolo.com');
+    $this->assertFalse($bob->getEmailRequestedDatetime() == null);
+    
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    
+    // On ouvre un lien erroné
+    $badurl = $this->generateUrl(
+      'change_email_confirm', 
+      array('token' => $this->getUser()->getConfirmationToken()), 
+      true
+    );
+    $this->crawler = $this->client->request('GET', $badurl);
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    $this->exist('div.error');
+    
+    // Et les champs ont pas bougés
+    $bob = $this->findUserByUsername('bob');
+    $this->assertFalse($bob->getEmail() == 'trololololooo@trolo.com');
+    $this->assertFalse($bob->getEmailRequested() == null);
+    $this->assertTrue($bob->getEmailRequested() == 'trololololooo@trolo.com');
+    $this->assertFalse($bob->getEmailRequestedDatetime() == null);
+    
+    $this->assertTrue(!is_null(strpos($mail->getBody(), ($url = $this->generateUrl(
+      'change_email_confirm', 
+      array('token' => $token = hash('sha256', $bob->getConfirmationToken().'trololololooo@trolo.com')), 
+      true
+    )))));
+    
+    // On ouvre le bon lien
+    $this->crawler = $this->client->request('GET', $url);
+    
+    // C'est un succés
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    
+    $this->outputDebug();
+    $this->notExist('div.error');
+    
+    // Et les champs ont bougés
+    $bob = $this->findUserByUsername('bob');
+    $this->assertTrue($bob->getEmail() == 'trololololooo@trolo.com');
+    $this->assertTrue($bob->getEmailRequested() == null);
+    $this->assertFalse($bob->getEmailRequestedDatetime() == null);
+    
+    // Par contre si on refait une demande maintenant ca échoue (délais entre demandes)
+    $this->exist('form[action="'.($url = $this->generateUrl(
+      'change_email_request'
+    )).'"]');
+    $this->exist('form[action="'.$url.'"] input[type="submit"]');
+    
+    $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+    $form['form[email]'] = 'trololololooo222@trolo.com';
+    $this->submit($form);
+    
+    // Il n'y as pas de redirection
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    $this->exist('div.error');
+    
+    // Et les champs ont bougés
+    $bob = $this->findUserByUsername('bob');
+    $this->assertTrue($bob->getEmail() == 'trololololooo@trolo.com');
+    $this->assertTrue($bob->getEmailRequested() == null);
+    $this->assertFalse($bob->getEmailRequestedDatetime() == null);
+    
+    // Si par contre on manipule le dateTime on pourra
+    $bob = $this->findUserByUsername('bob');
+    $bob->setEmailRequestedDatetime(
+      $this->getUser()->getEmailRequestedDatetime() 
+      - $this->getContainer()->getParameter('changeemail_security_delay')
+    );
+    
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+    $form['form[email]'] = 'trololololooo222@trolo.com';
+    $this->submit($form);
+    
+    // Ce coup-ci c'est bien une redirection
+    $this->isResponseRedirection();
+    
+    // Un mail a été envoyé
+    $mc = $this->getMailerMessageDataCollector();
+    $this->assertEquals(1, $mc->getMessageCount());
+    
+    $mails = $mc->getMessages();
+    $mail = $mails[0];
+       
+    $this->assertTrue(!is_null(strpos($mail->getBody(), ($url = $this->generateUrl(
+      'change_email_confirm', 
+      array('token' => hash('sha256', $this->getUser()->getConfirmationToken().'trololololooo222@trolo.com')), 
+      true
+    )))));
+    
+    // Les champs ont bougés
+    $bob = $this->findUserByUsername('bob');
+    $this->assertFalse($bob->getEmail() == 'trololololooo222@trolo.com');
+    $this->assertFalse($bob->getEmailRequested() == null);
+    $this->assertTrue($bob->getEmailRequested() == 'trololololooo222@trolo.com');
+    $this->assertFalse($bob->getEmailRequestedDatetime() == null);
+    
+    $this->followRedirection();
+    $this->isResponseSuccess();
+  }
+  
 }
