@@ -6,7 +6,7 @@ use Muzich\CoreBundle\lib\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\SecurityContext;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
+//use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class IndexController extends Controller
 {
@@ -17,6 +17,11 @@ class IndexController extends Controller
    */
   public function indexAction()
   {
+    if ($this->getUser() != 'anon.')
+    {
+      return $this->redirect($this->generateUrl('home'));
+    }
+    
     $vars = $this->proceedLogin();
     $form = $this->container->get('fos_user.registration.form');
     
