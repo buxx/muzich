@@ -45,154 +45,280 @@ class ElementSearcherTest extends UnitTest
     $this->assertEquals($ua, $es->getParams());
   }
   
-  public function testGetElements()
+  protected function checkElementSearchResults($es_results, $array_names)
+  {
+    $cpt = 0;
+    $array_names_es = array();
+    foreach ($es_results as $element)
+    {
+      $array_names_es[] = $element->getName();
+    }
+    
+    $this->assertEquals($array_names, $array_names_es);
+  }
+  
+  /**
+   * Test pour la configuration:
+   * public
+   * tags
+   * limit
+   * 
+   * Test basés sur les FIXTURES
+   */
+  public function testGetPublicForTags()
+  {
+    $r = $this->getDoctrine();
+    $bux = $r->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername('bux')
+    ;
+    $hardtek = $r->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
+    $tribe   = $r->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+    $electro = $r->getRepository('MuzichCoreBundle:Tag')->findOneByName('Electro');
+    
+    $es = new ElementSearcher();
+    $es->init(array(
+      'network'   => ElementSearcher::NETWORK_PUBLIC,
+      'tags'      => array($hardtek->getId(), $tribe->getId(), $electro->getId()),
+      'count'     => 5
+    ));
+    
+    $this->checkElementSearchResults(
+      $es->getElements($r, $bux->getId()), 
+      array(
+        'Ed Cox - La fanfare des teuffeurs (Hardcordian)',
+        'CardioT3K - Juggernaut Trap',
+        'Acrotek Hardtek G01',
+        'KoinkOin - H5N1',
+        'Antropod - Polakatek'
+      )
+    );
+    
+  }
+  
+  /**
+   * Test pour la configuration:
+   * personal
+   * tags
+   * limit
+   * 
+   * Test basés sur les FIXTURES
+   */
+  public function testGetPersonalForTags()
+  {
+    $r = $this->getDoctrine();
+    $bux = $r->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername('bux')
+    ;
+    $hardtek = $r->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
+    $tribe   = $r->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+    $electro = $r->getRepository('MuzichCoreBundle:Tag')->findOneByName('Electro');
+    
+    $es = new ElementSearcher();
+    $es->init(array(
+      'network'   => ElementSearcher::NETWORK_PERSONAL,
+      'tags'      => array($hardtek->getId(), $tribe->getId(), $electro->getId()),
+      'count'     => 5
+    ));
+    
+    $this->checkElementSearchResults(
+      $es->getElements($r, $bux->getId()), 
+      array(
+        'CardioT3K - Juggernaut Trap',
+        'Acrotek Hardtek G01',
+        'RE-FUCK (ReVeRB_FBC) mix.',
+        'All Is Full Of Pain',
+        'Dj antoine'
+      )
+    );
+    
+  }
+  
+  /**
+   * Test pour la configuration:
+   * public
+   * limit
+   * 
+   * Test basés sur les FIXTURES
+   */
+  public function testGetPublicWithoutTags()
   {
     $r = $this->getDoctrine();
     $bux = $r->getRepository('MuzichCoreBundle:User')
       ->findOneByUsername('bux')
     ;
     
-    /*
-     * Première passe: On check que la recherche nous retourne bien les 
-     * elements de jean
-     */
+    $es = new ElementSearcher();
+    $es->init(array(
+      'network'   => ElementSearcher::NETWORK_PUBLIC,
+      'count'     => 5
+    ));
+    
+    $this->checkElementSearchResults(
+      $es->getElements($r, $bux->getId()), 
+      array(
+        'DUDELDRUM',
+        'Ed Cox - La fanfare des teuffeurs (Hardcordian)',
+        'Babylon Pression - Des Tasers et des Pauvres',
+        'SOULFLY - Prophecy',
+        'CardioT3K - Juggernaut Trap'
+      )
+    );
+    
+  }
+  
+  /**
+   * Test pour la configuration:
+   * personal
+   * limit
+   * 
+   * Test basés sur les FIXTURES
+   */
+  public function testGetPersonalWithoutTags()
+  {
+    $r = $this->getDoctrine();
+    $bux = $r->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername('bux')
+    ;
+    
+    $es = new ElementSearcher();
+    $es->init(array(
+      'network'   => ElementSearcher::NETWORK_PERSONAL,
+      'count'     => 5
+    ));
+    
+    $this->checkElementSearchResults(
+      $es->getElements($r, $bux->getId()), 
+      array(
+        'DUDELDRUM',
+        'CardioT3K - Juggernaut Trap',
+        'Acrotek Hardtek G01',
+        'Infected Mushroom - Psycho',
+        'Infected mushroom - Muse Breaks'
+      )
+    );
+    
+  }
+  
+  /**
+   * Test pour la configuration:
+   * personal
+   * limit
+   * 
+   * Test basés sur les FIXTURES
+   */
+  public function testGetProfile()
+  {
+    $r = $this->getDoctrine();
+    $bux = $r->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername('bux')
+    ;
     $jean = $r->getRepository('MuzichCoreBundle:User')
       ->findOneByUsername('jean')
     ;
+    
     $es = new ElementSearcher();
     $es->init(array(
       'user_id'   => $jean->getId(),
-      'count'     => 20
+      'count'     => 5
     ));
     
-    // On récupére avec un requte standart ce que devra retourner l'objet de
-    // recherche
-    $query_results = $r->getEntityManager()
-      ->createQuery("SELECT e
-      FROM MuzichCoreBundle:Element e
-      WHERE e.owner = :suid
-      ORDER BY e.created DESC, e.id DESC")
-      ->setParameter('suid', $jean->getId())
-      ->setMaxResults(20)
-      ->getResult()
-    ;
-    
-    // Les résultats de la recherche
-    $searcher_results = $es->getElements($r, $bux->getId());
-    
-    // Maintenant on compare
-    $this->assertEquals($query_results, $searcher_results);
-    
-    /*
-     * Contrôle de sortie des favoris d'un user (paul)
-     */
+    $this->checkElementSearchResults(
+      $es->getElements($r, $bux->getId()), 
+      array(
+        'Acrotek Hardtek G01',
+        'Dj antoine',
+        'DJ FAB'
+      )
+    );
     
     $paul = $r->getRepository('MuzichCoreBundle:User')
       ->findOneByUsername('paul')
     ;
+    
+    $es = new ElementSearcher();
+    $es->init(array(
+      'user_id'   => $paul->getId(),
+      'count'     => 5
+    ));
+    
+    $this->checkElementSearchResults(
+      $es->getElements($r, $bux->getId()), 
+      array(
+        'CardioT3K - Juggernaut Trap',
+        'Infected Mushroom - Psycho',
+        'RE-FUCK (ReVeRB_FBC) mix.',
+        'All Is Full Of Pain'
+      )
+    );
+    
+  }
+  
+  /**
+   * Test pour la configuration:
+   * personal
+   * limit
+   * 
+   * Test basés sur les FIXTURES
+   */
+  public function testGetFavoriteProfile()
+  {
+    $r = $this->getDoctrine();
+    $bux = $r->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername('bux')
+    ;
+    
+    $paul = $r->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername('paul')
+    ;
+    
     $es = new ElementSearcher();
     $es->init(array(
       'user_id'   => $paul->getId(),
       'favorite'  => true,
-      'count'     => 20
+      'count'     => 5
     ));
     
-    $query_results = $r->getEntityManager()
-      ->createQuery("SELECT e
-      FROM MuzichCoreBundle:Element e
-      JOIN e.elements_favorites fav2
-      WHERE fav2.user = :fuid
-      ORDER BY e.created DESC, e.id DESC")
-      ->setParameter('fuid', $paul->getId())
-      ->setMaxResults(20)
-      ->getResult()
+    $this->checkElementSearchResults(
+      $es->getElements($r, $bux->getId()), 
+      array(
+        'Heretik System Popof - Resistance',
+        'All Is Full Of Pain'
+      )
+    );
+    
+  }
+  
+  /**
+   * Test pour la configuration:
+   * personal
+   * limit
+   * 
+   * Test basés sur les FIXTURES
+   */
+  public function testGetGroup()
+  {
+    $r = $this->getDoctrine();
+    $bux = $r->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername('bux')
     ;
-    
-    // Les résultats de la recherche
-    $searcher_results = $es->getElements($r, $paul->getId());
-    
-    // Maintenant on compare
-    $this->assertEquals($query_results, $searcher_results);
-    
-    /*
-     * Contrôle de sortie d'un affichage public, avec tags
-     */
-    
-    $hardtek = $r->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
-    $tribe = $r->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+    $fdepsy = $r->getRepository('MuzichCoreBundle:Group')
+      ->findOneByName('Fans de psytrance')
+    ;
     
     $es = new ElementSearcher();
     $es->init(array(
-      'network'   => ElementSearcher::NETWORK_PUBLIC,
-      'tags'      => array(
-        $hardtek->getId(),
-        $tribe->getId()
-      ),
-      'count'     => 20
+      'group_id'   => $fdepsy->getId(),
+      'count'     => 5
     ));
-        
-    $query_results = $r->getEntityManager()
-      ->createQuery("SELECT e
-      FROM MuzichCoreBundle:Element e 
-      LEFT JOIN e.tags t 
-      WHERE (t.id = :tidHardtek OR t.id = :tidTribe)
-      ORDER BY e.created DESC, e.id DESC")
-      ->setParameters(array(
-        'tidHardtek' => $hardtek->getId(),
-        'tidTribe'   => $tribe->getId()
-      ))
-      ->setMaxResults(20)
-      ->getResult()
-    ;
     
-    // Les résultats de la recherche
-    $searcher_results = $es->getElements($r, $paul->getId());
+    $this->checkElementSearchResults(
+      $es->getElements($r, $bux->getId()), 
+      array(
+        'Infected Mushroom - Psycho',
+        'Infected mushroom - Muse Breaks'
+      )
+    );
     
-    // Maintenant on compare
-    $this->assertEquals($query_results, $searcher_results);
-    
-//    /*
-//     * Contrôle de sortie d'un affichage réseau personel, avec tags
-//     */
-//    
-//    $hardtek = $r->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
-//    $tribe = $r->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
-//    
-//    $es = new ElementSearcher();
-//    $es->init(array(
-//      'network'   => ElementSearcher::NETWORK_PERSONAL,
-//      'tags'      => array(
-//        $hardtek->getId(),
-//        $tribe->getId()
-//      ),
-//      'count'     => 20
-//    ));
-//    
-//    $query_results = $r->getEntityManager()
-//      ->createQuery("SELECT e, et, t2, eu, g
-//      FROM MuzichCoreBundle:Element e 
-//      LEFT JOIN e.group g 
-//      LEFT JOIN e.type et 
-//      LEFT JOIN e.tags t 
-//      LEFT JOIN e.tags t2 
-//      JOIN e.owner eu  LEFT JOIN eu.followers_users f LEFT JOIN g.followers gf
-//      WHERE (t.id = :tidHardtek OR t.id = :tidTribe)
-//       AND (f.follower = :userid OR gf.follower = :useridg)
-//      ORDER BY e.created DESC, e.id DESC")
-//      ->setParameters(array(
-//        'tidHardtek' => $hardtek->getId(),
-//        'tidTribe'   => $tribe->getId(),
-//        'userid'     => $bux->getId(),
-//        'useridg'    => $bux->getId()
-//      ))
-//      ->setMaxResults(20)
-//      ->getResult()
-//    ;
-//    
-//    // Les résultats de la recherche
-//    $searcher_results = $es->getElements($r, $paul->getId());
-//    
-//    // Maintenant on compare
-//    $this->assertEquals($query_results, $searcher_results);
   }
+  
 }
