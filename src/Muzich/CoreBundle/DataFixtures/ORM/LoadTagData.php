@@ -46,6 +46,7 @@ class LoadTagData  extends AbstractFixture implements OrderedFixtureInterface, C
       'keyboard', 'latin',  'latino',  'live', 'lofi', 'lounge', 'meditation', 
       'melancolique', 'mellow',  'melodique', 'metal','metalcore','minimal', 
       'minimalism', 'minimaltechno', 'mix', 'movie', 'medieval', 'psytrance', 'chanteuse'
+      , 'dubstep', 'drum and bass', 'beatbox', 'hardcore'
       
       ) as $tag_name)
     {
