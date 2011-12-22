@@ -1,3 +1,8 @@
+/*
+ * Scripts de Muzi.ch
+ * Rédigé et propriété de Sevajol Bastien (http://www.bux.fr)
+ * 
+ */
 
 // Messages flashs
 
@@ -28,3 +33,19 @@ $(document).ready(function(){
   });		 
 		 
 });   
+
+function findKeyWithValue(arrayt, value)
+{
+  for(i in arrayt)
+  {
+    if (arrayt[i] == value)
+    {
+      return i;
+    }
+  }
+  return "";
+}
+
+
+// Tags
+

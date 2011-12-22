@@ -1,0 +1,61 @@
+
+
+<div class="tags_prompt" id="tags_prompt_{{ form_name }}">
+  {{ 'tags'|trans({}, 'userui') }}: 
+   <input class="tags_prompt_list" id="tags_prompt_list_{{ form_name }}" name="tags" value=""> 
+</div>
+
+<script language="javascript" type="text/javascript">
+
+  var taglist = new Array({{ tags|length }});
+  {% for i, tag in tags %}taglist[{{ i }}] = "{{ tag }}"; {% endfor %}
+  
+  var taginit = new Array();
+  {% if search_tags is defined %}
+    {% for tid in search_tags %}
+      taginit[{{ tid }}] = {{ tid }};
+    {% endfor %}
+  {% endif %}
+  
+  var options = new Array();
+  options.tag_values = taglist;
+  options.form_name  = "{{ form_name }}";
+  options.tag_init   = taginit;
+  
+  $("#tags_prompt_list_{{ form_name }}").tagBox(options);
+  
+  // On détruit la variable taginit
+  delete taginit;
+  
+  // I've hacked the jQuery UI autocomplete render function
+  // to highlight part of the matched string
+  $.ui.autocomplete.prototype._renderItem = function( ul, item) {
+      var re = new RegExp("^" + this.term, "i") ;
+      var t = item.label.replace(re,"<strong>" + this.term + "</strong>");
+      return $( "<li></li>" )
+          .data( "item.autocomplete", item )
+          .append( "<a>" + t + "</a>" )
+          .appendTo( ul );
+  };
+  
+  // The autocomplete for the last tagbox
+  $("#tags_prompt_{{ form_name }} ul.tagbox li.input input").autocomplete({
+      source: function(req, responseFn) {
+          var re = $.ui.autocomplete.escapeRegex(req.term);
+          var matcher = new RegExp( "^" + re, "i" );
+          var a = $.grep( taglist, function(item,index){
+              return matcher.test(item);
+          });
+          responseFn( a );
+      },
+      minLength: 2,
+      select: function(e, ui) {
+          e.preventDefault();
+          if(e.keyCode != 13) {
+              $(this).val(ui.item.value);
+              $(this).trigger("selectTag");
+          }
+      }
+  });  
+    
+</script>

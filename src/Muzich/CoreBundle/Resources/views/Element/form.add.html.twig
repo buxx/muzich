@@ -14,10 +14,6 @@
   {{ form_widget(form.url) }}
 </div>
 
-<div class="field">
-  {{ form_errors(form.tags) }}
-  {{ form_label(form.tags, 'tags'|trans({}, 'elementform')) }}
-  {{ form_widget(form.tags) }}
-</div>
+{% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
 
-{{ form_rest(form) }}
+{{ form_row(form._token) }}

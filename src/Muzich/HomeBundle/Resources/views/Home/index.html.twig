@@ -6,14 +6,20 @@
 
   <form action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}>
     
-    {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 'form': add_form } %}
+    {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
+      'form'          : add_form, 
+      'form_name'     : add_form_name
+    } %}
 
     <input type="submit" />
   </form>
 
   #######
 
-  {% include "MuzichCoreBundle:SearchElement:form.html.twig" %}
+  {% include "MuzichCoreBundle:SearchElement:form.html.twig" with { 
+    'form_name'      : search_form_name,
+    'search_tags' : search_tags_id
+  } %}
 
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
     

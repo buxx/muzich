@@ -4,9 +4,9 @@
 
   {{ form_row(search_form.network) }}
 
-  {{ form_row(search_form.tags) }}
+  {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
 
-  {{ form_rest(search_form) }}
+  {{ form_row(search_form._token) }}
 
   <input type="submit" />
 </form>

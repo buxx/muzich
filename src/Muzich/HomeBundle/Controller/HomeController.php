@@ -43,11 +43,15 @@ class HomeController extends Controller
     );
     
     return array(
-      'user'        => $this->getUser(),
-      'add_form'    => $add_form->createView(),
-      'search_form' => $search_form->createView(),
-      'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
-      'more_count'  => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2
+      'tags'             => $tags,
+      'search_tags_id'   => $search_object->getTags(),
+      'user'             => $this->getUser(),
+      'add_form'         => $add_form->createView(),
+      'add_form_name'    => $add_form->getName(),
+      'search_form'      => $search_form->createView(),
+      'search_form_name' => $search_form->getName(),
+      'elements'         => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
+      'more_count'       => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2
     );
   }
 }
