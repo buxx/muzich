@@ -13,7 +13,10 @@
   <h3>Choisissez vos tags préférés</h3>
   
   {% include "MuzichCoreBundle:Tag:tagFavoritesForm.html.twig" with { 
-    'redirect' : 'home'
+    'form'             : form_tags_favorites,
+    'redirect'         : 'home',
+    'form_name'        : form_tags_favorites_name,
+    'favorite_tags_id' : favorite_tags_id
   } %}
   
   <p>

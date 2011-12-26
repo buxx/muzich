@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilder;
 class TagFavoritesForm extends AbstractType
 {
   public function buildForm(FormBuilder $builder, array $options)
-  {        
+  {    
     $builder->add('tags', 'choice', array(
       'choices'           => $options['tags'],
       'expanded'          => true,

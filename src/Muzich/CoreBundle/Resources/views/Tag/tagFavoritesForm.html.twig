@@ -2,9 +2,12 @@
   
   {{ form_errors(form) }}
 
-  {{ form_row(form.tags) }}
+  {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
+    'form_name'   : form_name,
+    'search_tags' : favorite_tags_id
+  } %}
 
-  {{ form_rest(form) }}
+  {{ form_row(form._token) }}
 
   <input type="submit" />
 </form>

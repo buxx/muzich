@@ -11,6 +11,7 @@ class Controller extends BaseController
   
   protected static $user = null;
   protected static $user_personal_query = null;
+  protected static $tags = array();
   
   /**
    * Authenticate a user with Symfony Security
@@ -135,9 +136,14 @@ class Controller extends BaseController
    * 
    * @return array
    */
-  protected function getTagsArray()
+  protected function getTagsArray($force_refresh = false)
   {
-    return $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->getTagsArray();
+    if (!count(self::$tags) || $force_refresh)
+    {
+      return $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->getTagsArray();
+    }
+    
+    return self::$tags;
   }
   
   /**

@@ -18,8 +18,10 @@
   <h3>{{ 'my_account.favorite_tags'|trans({}, 'userui') }}</h3>
   
   {% include "MuzichCoreBundle:Tag:tagFavoritesForm.html.twig" with { 
-    'form': form_tags_favorites,
-    'redirect' : 'account'
+    'form'             : form_tags_favorites,
+    'redirect'         : 'account',
+    'form_name'        : form_tags_favorites_name,
+    'favorite_tags_id' : favorite_tags_id
   } %}
   
   <h3>{{ 'my_account.change_password'|trans({}, 'userui') }}</h3>
