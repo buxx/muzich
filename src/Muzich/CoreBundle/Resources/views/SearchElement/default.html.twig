@@ -1,14 +1,31 @@
 
 {% if elements|length %}
-  <ul>
+  <ul class="elements">
     {% for element in elements %} 
-      <li id="element_{{ element.id }}">
-        {% if element.group %}
-          <b>({{ element.group.name }})</b>
+      <li class="element" id="element_{{ element.id }}">
+        
+        {% if element.embed %}
+          <img src="{{ asset('bundles/muzichcore/img/1324917083_player.png') }}" alt="player" />
+        {% else %}
+          <img src="{{ asset('bundles/muzichcore/img/1324917097_link.png') }}" alt="link" />
         {% endif %}
-        {{ element.name }} ({{ element.owner.username }})
-          <a href="{{ element.url }}" target="_blank">link</a>
+        
+        {% if element.group %}
+          <b class="element_group">
+            (<a href="{{ path('show_group', {'slug': element.group.slug}) }}">{{ element.group.name }}</a>)
+          </b>
+        {% endif %}
           
+        <span class="element_name">
+          {{ element.name }}
+        </span> 
+        
+        <span class="element_author">
+          (<a href="{{ path('show_group', {'slug': element.owner.slug}) }}">{{ element.owner.name }}</a>)
+        </span>
+        
+        <a class="element_link" href="{{ element.url }}" target="_blank">link</a>
+                  
           {% if element.getCountFavorite %}
             | <a href="{{ path('favorite_remove', { 'id': element.id, 'token': user.personalHash }) }}" >
               {{ 'element.favorite.remove'|trans({}, 'elements') }}
@@ -19,18 +36,29 @@
             </a>
           {% endif %}
           
-          <ul>
+          {% if element.embed %}
+            {% autoescape false %}
+              <div id="embed_{{ element.id }}" class="element_embed" style="display: none;">
+                {{ element.embed }}
+              </div>
+            {% endautoescape %}
+          {% endif %}
+          
+          <ul class="element_tags">
             {% for tag in element.tags %} 
-              <li>
+              <li class="element_tag">
                 {{ tag.name }}
               </li>
             {% endfor %} 
           </ul>
-
+            
           {% if element.embed %}
-            {% autoescape false %}
-              {{ element.embed }}
-            {% endautoescape %}
+          <a href="#" class="element_embed_close_link" style="display: none;">
+            {{ 'element.show.close_embed'|trans({}, 'elements') }}
+          </a>
+          <a href="#" class="element_embed_open_link">
+            {{ 'element.show.open_embed'|trans({}, 'elements') }}
+          </a>
           {% endif %}
 
       </li>

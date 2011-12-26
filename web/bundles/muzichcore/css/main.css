@@ -292,7 +292,7 @@ ul.inline li
 }
 
 
-/*  (TMP) Debut CSS pour tags */
+/*  Debut CSS pour tags */
 
 pre code {background: #ccc; padding:2px 0; display: block; margin-top:4px;}
 .ui-autocomplete {
@@ -371,3 +371,20 @@ background-position: 7px;
 
 
 /* Fin CSS pour tags */
+
+/* Debut CSS pour elements */
+
+.elements ul.element_tags
+{
+  margin-left: 10px;
+  margin-top: 0px;
+}
+  
+.elements ul.element_tags li
+{
+  display: inline;
+  font-size: 90%;
+}
+
+
+/* FIN CSS pour elements */
