@@ -380,6 +380,11 @@ li.element
   margin-bottom: 5px;
 }
 
+ul.elements li.even
+{
+  background-color: #d9f7ff;
+}
+
 .elements ul.element_tags
 {
   margin-left: 10px;

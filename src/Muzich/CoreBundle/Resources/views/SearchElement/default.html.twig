@@ -2,7 +2,7 @@
 {% if elements|length %}
   <ul class="elements">
     {% for element in elements %} 
-      <li class="element" id="element_{{ element.id }}">
+      <li class="element {% if loop.index0 is even %}even{% else %}odd{% endif %}" id="element_{{ element.id }}">
         
         {% if element.embed %}
           <img src="{{ asset('bundles/muzichcore/img/1324917083_player.png') }}" alt="player" />
