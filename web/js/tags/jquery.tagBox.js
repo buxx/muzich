@@ -10,11 +10,22 @@
 *  
 */
 
+
+
 (function($) {
     
     function TagBox(input, options) {
 
         var self = this;
+        
+        // Ce tableau contiendra les tags déjà ajoutés
+        if(typeof(tagsAddeds) === "undefined")
+        {
+          tagsAddeds = new Array();
+        }
+        // On permet de faire un tableau de tags ajoutés par formulaires
+        // TODO: Par 'champ' ce serais mieux.
+        tagsAddeds[options.form_name] = new Array();
         
         self.options = options
         self.delimit_key = 188
@@ -80,39 +91,46 @@
               self.addTag(values[tagid], tagid, options.form_name);
           }
         }
+        
     }
     
     TagBox.prototype = {
         
         addTag : function(label, id, form_name) {
             
-            var self = this;
-            var tag = $('<li class="tag">' + $('<div>').text(label).remove().html() + '</li>');
-            
-            this.tags.push(label);
+            // Nos conditions pour ajouter le tag:
+            // * N'a pas déjà été ajouté a ce champ
+            // * Est dans la liste des tags existants
+            if (id && !findKeyWithValue(tagsAddeds[form_name], id))
+            {
+              var self = this;
+              var tag = $('<li class="tag">' + $('<div>').text(label).remove().html() + '</li>');
 
-            tag.append($('<a>', {
-                "href" : "#",
-                "class": "close",
-                "text": "close",
-                click: function(e) {
-                    e.preventDefault();
-                    var index = self.tagbox.find("li").index($(this).parent());
-                    self.removeTag(index);
-                }
-            })).append($('<input>', {
-              'type'   : 'checkbox',
-              'style'  : 'display: none;',
-              'value'  : id,
-              'name'   : form_name+'[tags]['+id+']',
-              'id'     : form_name+'_tags_'+id,
-              'checked': 'checked'
-            }));
+              this.tags.push(label);
+
+              tag.append($('<a>', {
+                  "href" : "#",
+                  "class": "close",
+                  "text": "close",
+                  click: function(e) {
+                      e.preventDefault();
+                      var index = self.tagbox.find("li").index($(this).parent());
+                      self.removeTag(index);
+                  }
+              })).append($('<input>', {
+                'type'   : 'checkbox',
+                'style'  : 'display: none;',
+                'value'  : id,
+                'name'   : form_name+'[tags]['+id+']',
+                'id'     : form_name+'_tags_'+id,
+                'checked': 'checked'
+              }));
+              
+              tagsAddeds[form_name][id] = id;
+              self.inputHolder.before(tag);
+              self.updateInput();
+            }
             
-            // <input type="checkbox" value="6373" name="group[tags][6373]" id="group_tags_6373">
-            
-            self.inputHolder.before(tag);
-            self.updateInput();
         },
         removeTag : function(index) {
             

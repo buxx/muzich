@@ -30,8 +30,9 @@
   // I've hacked the jQuery UI autocomplete render function
   // to highlight part of the matched string
   $.ui.autocomplete.prototype._renderItem = function( ul, item) {
-      var re = new RegExp("^" + this.term, "i") ;
-      var t = item.label.replace(re,"<strong>" + this.term + "</strong>");
+      var sstr = $.trim(this.term);
+      var re = new RegExp("^" + sstr, "i") ;
+      var t = item.label.replace(re,"<strong>" + sstr + "</strong>");
       return $( "<li></li>" )
           .data( "item.autocomplete", item )
           .append( "<a>" + t + "</a>" )
@@ -41,7 +42,8 @@
   // The autocomplete for the last tagbox
   $("#tags_prompt_{{ form_name }} ul.tagbox li.input input").autocomplete({
       source: function(req, responseFn) {
-          var re = $.ui.autocomplete.escapeRegex(req.term);
+          var sstr = $.trim(req.term);
+          var re = $.ui.autocomplete.escapeRegex(sstr);
           var matcher = new RegExp( "^" + re, "i" );
           var a = $.grep( taglist, function(item,index){
               return matcher.test(item);
