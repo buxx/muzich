@@ -34,7 +34,7 @@
   // to highlight part of the matched string
   $.ui.autocomplete.prototype._renderItem = function( ul, item) {
       var sstr = $.trim(this.term);
-      var re = new RegExp("^" + sstr, "i") ;
+      var re = new RegExp(sstr, "i") ;
       var t = item.label.replace(re,"<strong>" + sstr + "</strong>");
       return $( "<li></li>" )
           .data( "item.autocomplete", item )
@@ -47,7 +47,7 @@
       source: function(req, responseFn) {
           var sstr = $.trim(req.term);
           var re = $.ui.autocomplete.escapeRegex(sstr);
-          var matcher = new RegExp( "^" + re, "i" );
+          var matcher = new RegExp(re, "i" );
           var a = $.grep( taglist, function(item,index){
               return matcher.test(item);
           });
