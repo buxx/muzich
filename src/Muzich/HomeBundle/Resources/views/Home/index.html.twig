@@ -4,17 +4,26 @@
 
 {% block content %}
 
-  <form action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}>
+  <div id="element_add_box" style="display: none;">
     
-    {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
-      'form'          : add_form, 
-      'form_name'     : add_form_name
-    } %}
+    <a href="#" id="element_add_close_link">
+      {{ 'home.add_element_box.close'|trans({}, 'navigationui') }} >>
+    </a>
+    
+    <form action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}>
 
-    <input type="submit" />
-  </form>
+      {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
+        'form'          : add_form, 
+        'form_name'     : add_form_name
+      } %}
 
-  #######
+      <input type="submit" />
+    </form>
+  </div>
+
+  <a href="#" id="element_add_link">
+    {{ 'home.add_element'|trans({}, 'navigationui') }} >>
+  </a>
 
   {% include "MuzichCoreBundle:SearchElement:form.html.twig" with { 
     'form_name'      : search_form_name,

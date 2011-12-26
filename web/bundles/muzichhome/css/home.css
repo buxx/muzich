@@ -5,3 +5,15 @@
   float: right;
   text-decoration: none;
 }
+
+#container #element_add_link, #container #element_add_close_link
+{
+  font-size: 120%;
+  float: right;
+}
+
+#container #element_add_box
+{
+  background-color: #e3f6fd;
+  padding: 20px;
+}
