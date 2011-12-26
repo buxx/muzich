@@ -374,10 +374,17 @@ background-position: 7px;
 
 /* Debut CSS pour elements */
 
+li.element
+{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .elements ul.element_tags
 {
   margin-left: 10px;
   margin-top: 0px;
+  margin-bottom: 0px;
 }
   
 .elements ul.element_tags li
