@@ -6,7 +6,7 @@
   padding: 30px;
 }
 
-.hello .login_box
+.hello #login_box, .hello #registration_box
 {
   width: 525px;
   margin-left: auto;
@@ -15,7 +15,13 @@
   padding: 20px;
 }
 
-.login_box input[id="username"], .login_box input[id="password"]
+#login_box input[id="username"], #login_box input[id="password"]
 {
   width: 100px;
+}
+
+#registration_link, #login_link
+{
+  float: right;
+  font-size: 120%;
 }

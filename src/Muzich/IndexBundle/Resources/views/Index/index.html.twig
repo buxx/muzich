@@ -1,17 +1,25 @@
 {% extends "MuzichIndexBundle::layout.html.twig" %}
 
-{% block title %}Découvrez et partagez{% endblock %}
+{% block title %}{{ 'title.hello'|trans({}, 'navigationui') }}{% endblock %}
 
 {% block content %}
     
   <div class="hello">
 
-    <div class="login_box">
+    <div id="login_box">
       {% include "MuzichUserBundle:Security:login.html.twig" %}
         
-      <br /><br />
-      
+      <a href="#" id="registration_link">
+        {{ 'registration.display'|trans({}, 'navigationui') }} >>
+      </a>
+    </div>
+    
+    <div id="registration_box" style="display: none;">
       {% include "MuzichUserBundle:Registration:register.html.twig" %}
+        
+      <a href="#" id="login_link">
+        {{ 'login.display'|trans({}, 'navigationui') }} >>
+      </a>
     </div>
     
   </div>

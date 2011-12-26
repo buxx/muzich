@@ -10,3 +10,12 @@ top_bar:
   
 network:
   mygroups:             Mes groupes
+  
+registration:
+  display:              Créer un nouveau compte
+  
+login:
+  display:              J'ai déjà un compte
+  
+title:
+  hello:                Découvrez et partagez la musique !
