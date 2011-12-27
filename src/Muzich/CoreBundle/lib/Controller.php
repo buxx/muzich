@@ -142,7 +142,7 @@ class Controller extends BaseController
   {
     if (!count(self::$tags) || $force_refresh)
     {
-      return $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->getTagsArray();
+      return self::$tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->getTagsArray();
     }
     
     return self::$tags;
