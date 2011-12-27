@@ -102,16 +102,23 @@ class ElementManager
    */
   protected function determineType()
   {
-    preg_match("/^(http:\/\/)?([^\/]+)/i", $this->element->getUrl(), $chaines);
-    $host = $chaines[2];
-    // Repérer les derniers segments
-    preg_match("/[^\.\/]+\.[^\.\/]+$/",$host,$chaines);
+    // On ne prend pas de risque avec le www, on l'enlève
+    $url = str_replace('www.', '', $this->element->getUrl());
     
-    $type = null;
+    preg_match("/^(http:\/\/)?([^\/]+)/i", $url, $chaines);
     
-    if (in_array($chaines[0], $this->types))
+    if (array_key_exists(2, $chaines))
     {
-      $type = $this->em->getRepository('MuzichCoreBundle:ElementType')->find($chaines[0]);
+      $host = $chaines[2];
+      // Repérer les derniers segments
+      preg_match("/[^\.\/]+\.[^\.\/]+$/",$host,$chaines);
+
+      $type = null;
+
+      if (in_array($chaines[0], $this->types))
+      {
+        $type = $this->em->getRepository('MuzichCoreBundle:ElementType')->find($chaines[0]);
+      }
     }
     
     $this->element->setType($type);

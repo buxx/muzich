@@ -14,10 +14,17 @@ class BaseFactory implements FactoryInterface
 {
   
   protected $element;
+  protected $container;
   
+  /**
+   *
+   * @param Element $element
+   * @param Container $container 
+   */
   public function __construct(Element $element, Container $container)
   {
-    $this->element = $element;
+    $this->element   = $element;
+    $this->container = $container;
   }
   
   public function getEmbedCode()
