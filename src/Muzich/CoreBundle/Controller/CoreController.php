@@ -214,26 +214,21 @@ class CoreController extends Controller
         }
         else
         {
-          //$this->setFlash('error', 'element.add.error');
           
           $search_object = $this->getElementSearcher();
-          $user = $this->getUser(true, array('join' => array(
-            'groups_owned'
-          )), true);
-
-          $search_form = $this->createForm(
-            new ElementSearchForm(), 
-            $search_object->getParams(),
-            array(
-              'tags' => $tags = $this->getTagsArray()
-            )
-          );
+          $search_form = $this->getSearchForm($search_object);
+          $add_form = $this->getAddForm();
 
           return $this->render('MuzichHomeBundle:Home:index.html.twig', array(
-            'user'        => $this->getUser(),
-            'add_form'    => $form->createView(),
-            'search_form' => $search_form->createView(),
-            'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId())
+            'tags'             => $this->getTagsArray(),
+            'search_tags_id'   => $search_object->getTags(),
+            'user'             => $this->getUser(),
+            'add_form'         => $add_form->createView(),
+            'add_form_name'    => $add_form->getName(),
+            'search_form'      => $search_form->createView(),
+            'search_form_name' => $search_form->getName(),
+            'elements'         => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
+            'more_count'       => $this->container->getParameter('search_default_count')*2
           ));
           
         }

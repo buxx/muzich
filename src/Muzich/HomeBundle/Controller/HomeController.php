@@ -25,25 +25,11 @@ class HomeController extends Controller
       'groups_owned'
     )), true);
     
-    $search_form = $this->createForm(
-      new ElementSearchForm(), 
-      $search_object->getParams(),
-      array(
-        'tags' => $tags = $this->getTagsArray()
-      )
-    );
-    
-    $add_form = $this->createForm(
-      new ElementAddForm(),
-      array(),
-      array(
-        'tags' => $tags,
-        //'groups' => $user->getGroupsOwnedArray(),
-      )
-    );
+    $search_form = $this->getSearchForm($search_object);
+    $add_form = $this->getAddForm();
     
     return array(
-      'tags'             => $tags,
+      'tags'             => $this->getTagsArray(),
       'search_tags_id'   => $search_object->getTags(),
       'user'             => $this->getUser(),
       'add_form'         => $add_form->createView(),

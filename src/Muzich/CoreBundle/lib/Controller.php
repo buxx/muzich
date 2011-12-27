@@ -5,6 +5,8 @@ namespace Muzich\CoreBundle\lib;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Muzich\CoreBundle\Form\Search\ElementSearchForm;
+use Muzich\CoreBundle\Form\Element\ElementAddForm;
 
 class Controller extends BaseController
 {
@@ -217,6 +219,28 @@ class Controller extends BaseController
     } catch (\Doctrine\ORM\NoResultException $e) {
         throw $this->createNotFoundException('Groupe introuvable.');
     }
+  }
+  
+  protected function getSearchForm($search_object)
+  {
+    return $this->createForm(
+      new ElementSearchForm(), 
+      $search_object->getParams(),
+      array(
+        'tags' => $this->getTagsArray()
+      )
+    );
+  }
+  
+  protected function getAddForm()
+  {
+    return $this->createForm(
+      new ElementAddForm(),
+      array(),
+      array(
+        'tags' => $this->getTagsArray()
+      )
+    );
   }
   
 }

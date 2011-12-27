@@ -8,6 +8,10 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 
 use Muzich\CoreBundle\ElementFactory\Site\YoutubeFactory;
+use Muzich\CoreBundle\ElementFactory\Site\DailymotionFactory;
+use Muzich\CoreBundle\ElementFactory\Site\Son2TeufFactory;
+use Muzich\CoreBundle\ElementFactory\Site\JamendoFactory;
+use Muzich\CoreBundle\ElementFactory\Site\SoundCloudFactory;
 
 /**
  * 
@@ -21,7 +25,8 @@ class ElementManager
     'youtube.com', 
     'soundcloud.com', 
     'son2teuf.org', 
-    'jamendo.com'
+    'jamendo.com',
+    'dailymotion.com'
   );
   
   protected $em;
@@ -104,7 +109,6 @@ class ElementManager
     
     $type = null;
     
-    
     if (in_array($chaines[0], $this->types))
     {
       $type = $this->em->getRepository('MuzichCoreBundle:ElementType')->find($chaines[0]);
@@ -148,7 +152,9 @@ class ElementManager
       case 'jamendo.com':
         return new JamendoFactory($this->element, $this->container);
       break;
-    
+      case 'dailymotion.com':
+        return new DailymotionFactory($this->element, $this->container);
+      break;
       default:
         throw new Exception("La Factory n'est pas connu pour ce type.");
       break;

@@ -42,7 +42,8 @@ class LoadElementTypeData  extends AbstractFixture implements OrderedFixtureInte
     
     foreach (array(
       'youtube.com' => 'Youtube', 'soundcloud.com' => 'SoundCloud', 
-      'son2teuf.org' => 'Son2Teuf', 'jamendo.com' => 'jamendo'
+      'son2teuf.org' => 'Son2Teuf', 'jamendo.com' => 'jamendo',
+      'dailymotion.com' => 'Dailymotion'
       ) as $id => $name)
     {
       $this->createElementType($id, $name);
