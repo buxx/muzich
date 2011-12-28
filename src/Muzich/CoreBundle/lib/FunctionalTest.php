@@ -56,20 +56,20 @@ class FunctionalTest extends WebTestCase
     $form['_password'] = $password;
     $form['_remember_me'] = true;
     $this->submit($form);
-//
-//    $this->isResponseRedirection();
-//    $this->followRedirection();
-//    $this->isResponseSuccess();
-//
-//    $user = $this->getUser();
-//    if ('anon.' != $user)
-//    {
-//      $this->assertEquals($login, $user->getUsername());
-//    }
-//    else
-//    {
-//      $this->assertTrue(false);
-//    }
+
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+
+    $user = $this->getUser();
+    if ('anon.' != $user)
+    {
+      $this->assertEquals($login, $user->getUsername());
+    }
+    else
+    {
+      $this->assertTrue(false);
+    }
   }
   
   protected function disconnectUser()
