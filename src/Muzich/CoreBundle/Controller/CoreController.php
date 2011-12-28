@@ -132,6 +132,11 @@ class CoreController extends Controller
    */
   public function elementAddAction($group_slug)
   {    
+    if ($this->getRequest()->getMethod() != 'POST')
+    {
+      throw $this->createNotFoundException('Cette ressource n\'est pas accessible');
+    }
+    
     $user = $this->getUser();
     $em = $this->getDoctrine()->getEntityManager();
     
@@ -160,82 +165,81 @@ class CoreController extends Controller
       )
     );
     
-    if ($this->getRequest()->getMethod() == 'POST')
+    
+    $form->bindRequest($this->getRequest());
+    if ($form->isValid())
     {
-      $form->bindRequest($this->getRequest());
-      if ($form->isValid())
+
+      /**
+       * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
+       * Docrine le voit si on faire une requete directe.
+       */
+      if ($this->container->getParameter('env') == 'test')
       {
-        
-        /**
-         * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-         * Docrine le voit si on faire une requete directe.
-         */
-        if ($this->container->getParameter('env') == 'test')
-        {
-          $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-            $this->container->get('security.context')->getToken()->getUser()->getId(),
-            array()
-          )->getSingleResult();
-        }
-        
-        // On utilise le gestionnaire d'élément
-        $factory = new ElementManager($element, $em, $this->container);
-        $factory->proceedFill($user);
-        
-        // Si on a précisé un groupe dans lequel mettre l'element
-        if ($group)
-        {
-          $element->setGroup($group);
-          $redirect_url = $this->generateUrl('show_group', array('slug' => $group_slug));
-        }
-        else
-        {
-          $redirect_url = $this->generateUrl('home');
-        }
-        
-        $em->persist($element);
-        $em->flush();
-        
-        if ($this->getRequest()->isXmlHttpRequest())
-        {
-          
-        }
-        else
-        {
-          return $this->redirect($redirect_url);
-        }
-        
+        $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+          $this->container->get('security.context')->getToken()->getUser()->getId(),
+          array()
+        )->getSingleResult();
+      }
+
+      // On utilise le gestionnaire d'élément
+      $factory = new ElementManager($element, $em, $this->container);
+      $factory->proceedFill($user);
+
+      // Si on a précisé un groupe dans lequel mettre l'element
+      if ($group)
+      {
+        $element->setGroup($group);
+        $redirect_url = $this->generateUrl('show_group', array('slug' => $group_slug));
       }
       else
       {
-        if ($this->getRequest()->isXmlHttpRequest())
-        {
-
-        }
-        else
-        {
-          
-          $search_object = $this->getElementSearcher();
-          $search_form = $this->getSearchForm($search_object);
-          $add_form = $this->getAddForm();
-
-          return $this->render('MuzichHomeBundle:Home:index.html.twig', array(
-            'tags'             => $this->getTagsArray(),
-            'search_tags_id'   => $search_object->getTags(),
-            'user'             => $this->getUser(),
-            'add_form'         => $add_form->createView(),
-            'add_form_name'    => $add_form->getName(),
-            'search_form'      => $search_form->createView(),
-            'search_form_name' => $search_form->getName(),
-            'elements'         => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
-            'more_count'       => $this->container->getParameter('search_default_count')*2
-          ));
-          
-        }
-        
+        $redirect_url = $this->generateUrl('home');
       }
-      
+
+      $em->persist($element);
+      $em->flush();
+
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+
+      }
+      else
+      {
+        return $this->redirect($redirect_url);
+      }
+
     }
+    else
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+
+      }
+      else
+      {
+
+        $search_object = $this->getElementSearcher();
+        $search_form = $this->getSearchForm($search_object);
+        $add_form = $this->getAddForm();
+
+        return $this->render('MuzichHomeBundle:Home:index.html.twig', array(
+          'tags'             => $this->getTagsArray(),
+          'search_tags_id'   => $search_object->getTags(),
+          'user'             => $this->getUser(),
+          'add_form'         => $add_form->createView(),
+          'add_form_name'    => $add_form->getName(),
+          'search_form'      => $search_form->createView(),
+          'search_form_name' => $search_form->getName(),
+          'elements'         => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
+          'more_count'       => $this->container->getParameter('search_default_count')*2
+        ));
+
+      }
+
+    }
+      
+    
     
   }
   
