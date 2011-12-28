@@ -4,8 +4,12 @@
 
   {{ form_row(search_form.network) }}
 
-  {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
-
+  {% if  app.environment != 'test' %}
+    {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
+  {% else %}
+    {{ form_row(search_form.tags) }}
+  {% endif %}
+  
   {{ form_row(search_form._token) }}
 
   <input type="submit" />

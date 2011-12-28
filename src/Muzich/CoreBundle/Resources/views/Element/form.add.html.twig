@@ -14,6 +14,10 @@
   {{ form_widget(form.url) }}
 </div>
 
-{% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
+{% if  app.environment != 'test' %}
+  {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
+{% else %}
+  {{ form_row(form.tags) }}
+{% endif %}
 
 {{ form_row(form._token) }}
