@@ -17,7 +17,9 @@ class IndexController extends Controller
    */
   public function indexAction()
   {
-    if ($this->getUser() != 'anon.')
+    // On rajoute le test sur l'environnement car dans les tests, d'un test a l'autre
+    // l'utilisateur reste connecté et pas moyen de le déco ...
+    if ($this->getUser() != 'anon.' && $this->container->getParameter('env') != 'test')
     {
       return $this->redirect($this->generateUrl('home'));
     }
