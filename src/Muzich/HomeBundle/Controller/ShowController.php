@@ -53,13 +53,7 @@ class ShowController extends Controller
     ($group->getOwner()->getId() == $this->getUserId()) ? $his = true : $his = false;
     if ($his || $group->getOpen())
     {      
-      $add_form = $this->createForm(
-        new ElementAddForm(),
-        array(),
-        array(
-          'tags' => $this->getTagsArray()
-        )
-      );
+      $add_form = $this->getAddForm();
     }
     
     return array(

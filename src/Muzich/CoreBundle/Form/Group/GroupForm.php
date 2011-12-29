@@ -21,11 +21,7 @@ class GroupForm extends AbstractType
       'required' => false,
     ));
         
-    $builder->add('tags', 'choice', array(
-      'choices'           => $options['tags'],
-      'expanded'          => true,
-      'multiple'          => true
-    ));
+    $builder->add('tags', 'hidden');
   }
 
   public function getName()
@@ -38,7 +34,7 @@ class GroupForm extends AbstractType
     return array(
       'name' => '',
       'open' => true,
-      'tags' => array(),
+      'tags' => '',
       'data_class' => 'Muzich\CoreBundle\Entity\Group'
     );
   }

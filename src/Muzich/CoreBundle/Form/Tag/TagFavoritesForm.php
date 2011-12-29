@@ -9,11 +9,7 @@ class TagFavoritesForm extends AbstractType
 {
   public function buildForm(FormBuilder $builder, array $options)
   {    
-    $builder->add('tags', 'choice', array(
-      'choices'           => $options['tags'],
-      'expanded'          => true,
-      'multiple'          => true
-    ));
+    $builder->add('tags', 'hidden');
   }
 
   public function getName()
@@ -24,7 +20,7 @@ class TagFavoritesForm extends AbstractType
   public function getDefaultOptions(array $options)
   {
     return array(
-      'tags' => array(),
+      'tags' => '',
     );
   }
 }

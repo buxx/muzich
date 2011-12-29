@@ -354,6 +354,7 @@ class Element
   public function setTagsWithIds(EntityManager $em, $ids)
   {
     $this->tags = null;
+    $ids = json_decode($ids);
     if (count($ids))
     {
       $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($ids)->execute();

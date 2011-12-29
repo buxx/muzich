@@ -46,7 +46,7 @@ class ElementRepository extends EntityRepository
     $join_tags  = '';
     if (count(($tags = $searcher->getTags())))
     {
-      foreach ($tags as $tag_id)
+      foreach ($tags as $tag_id => $tag_name)
       {
         // LEFT JOIN car un element n'est pas obligatoirement lié a un/des tags
         $join_tags = " LEFT JOIN e_.tags t_";

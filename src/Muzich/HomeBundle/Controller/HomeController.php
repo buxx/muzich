@@ -29,7 +29,6 @@ class HomeController extends Controller
     $add_form = $this->getAddForm();
     
     return array(
-      'tags'             => $this->getTagsArray(),
       'search_tags_id'   => $search_object->getTags(),
       'user'             => $this->getUser(),
       'add_form'         => $add_form->createView(),

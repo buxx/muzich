@@ -70,12 +70,12 @@ class UserRepository extends EntityRepository
    * @param int $limit
    * @return array 
    */
-  public function getTagIdsFavorites($user_id, $limit = null)
+  public function getTagsFavorites($user_id, $limit = null)
   {
-    $tag_ids = array();
+    $tags = array();
     foreach ($this->getEntityManager()
       ->createQuery('
-        SELECT t.id FROM MuzichCoreBundle:Tag t 
+        SELECT t.id, t.name FROM MuzichCoreBundle:Tag t 
         JOIN t.users_favorites uf
         JOIN uf.user u
         WHERE u.id = :uid
@@ -85,9 +85,9 @@ class UserRepository extends EntityRepository
       ->setMaxResults($limit)
       ->getArrayResult() as $tag)
     {
-      $tag_ids[] = $tag['id'];
+      $tags[$tag['id']] = $tag['name'];
     }
-    return $tag_ids;
+    return $tags;
   }
   
   /**

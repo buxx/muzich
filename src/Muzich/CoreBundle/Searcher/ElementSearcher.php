@@ -99,11 +99,11 @@ class ElementSearcher extends Searcher implements SearcherInterface
    * 
    * @return array 
    */
-  public function getParams()
+  public function getParams($tags_string = false)
   {
     return array(
       'network'  => $this->getNetwork(),
-      'tags'     => $this->getTags(),
+      'tags'     => $this->getTags($tags_string),
       'count'    => $this->getCount(),
       'user_id'  => $this->getUserId(),
       'group_id' => $this->getGroupId(),
@@ -116,9 +116,19 @@ class ElementSearcher extends Searcher implements SearcherInterface
     return $this->network;
   }
   
-  public function getTags()
+  public function getTags($tags_string = false)
   {
-    return $this->tags;
+    if (!$tags_string)
+    {
+      return $this->tags;
+    }
+    
+    $ids = array();
+    foreach ($this->tags as $id => $name)
+    {
+      $ids[] = $id;
+    }
+    return json_encode($ids);
   }
   
   public function getCount()

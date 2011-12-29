@@ -392,6 +392,7 @@ class User extends BaseUser
    */
   public function updateTagsFavoritesById(EntityManager $em, $ids)
   {
+    $ids = json_decode($ids);
     $ids_to_add = $ids;
     
     // Pour chacun des tags favoris 

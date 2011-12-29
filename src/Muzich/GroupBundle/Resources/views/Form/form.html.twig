@@ -22,10 +22,8 @@
   {{ form_widget(form.open) }}
 </div>
 
-<div class="field">
-  {{ form_errors(form.tags) }}
-  {{ form_label(form.tags, 'tags'|trans({}, 'groupform')) }}
-  {{ form_widget(form.tags) }}
-</div>
+{% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
+
+{{ form_row(form.tags) }}
 
 {{ form_rest(form) }}

@@ -2,14 +2,12 @@
   
   {{ form_errors(form) }}
 
-  {% if  app.environment != 'test' %}
-    {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
-      'form_name'   : form_name,
-      'search_tags' : favorite_tags_id
-    } %}
-  {% else %}
-    {{ form_row(form.tags) }}
-  {% endif %}
+  {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
+    'form_name'   : form_name,
+    'search_tags' : favorite_tags_id
+  } %}
+  
+  {{ form_row(form.tags) }}
 
   {{ form_row(form._token) }}
 

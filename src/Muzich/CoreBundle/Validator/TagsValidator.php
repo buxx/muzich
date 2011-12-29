@@ -18,6 +18,8 @@ class TagsValidator extends ConstraintValidator
   
   public function isValid($value, Constraint $constraint)
   {
+    $value = json_decode($value);
+    
     if (count($value))
     {
       if (array_diff($value, array_unique($value)))

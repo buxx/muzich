@@ -12,6 +12,14 @@ use Muzich\CoreBundle\Managers\GroupManager;
 class DefaultController extends Controller
 {
   
+  protected function getGroupForm($group)
+  {
+    return $this->createForm(
+      new GroupForm(), 
+      $group
+    );
+  }
+  
   /**
    * Page listant les groupes possédés par l'utilisateur. Comporte egallement
    * un formulaire pour ajouter un groupe.
@@ -25,15 +33,12 @@ class DefaultController extends Controller
     )));
     
     $new_group = new Group();
-    $form_new = $this->createForm(
-      new GroupForm(), 
-      $new_group,
-      array('tags' => $this->getTagsArray())
-    );
+    $form_new = $this->getGroupForm($new_group);
     
     return array(
-      'groups'   => $user->getGroupsOwned(),
-      'form_new' => $form_new->createView()
+      'groups'        => $user->getGroupsOwned(),
+      'form_new'      => $form_new->createView(),
+      'form_new_name' => $form_new->getName()
     );
   }
   
@@ -63,11 +68,7 @@ class DefaultController extends Controller
     
     $new_group = new Group();
     $new_group->setOwner($user);
-    $form_new = $this->createForm(
-      new GroupForm(), 
-      $new_group,
-      array('tags' => $this->getTagsArray())
-    );
+    $form_new = $this->getGroupForm($new_group);
     
     $form_new->bindRequest($request);
     
@@ -93,8 +94,9 @@ class DefaultController extends Controller
       return $this->render(
         'MuzichGroupBundle:Default:myList.html.twig', 
          array(
-           'groups'   => $user->getGroupsOwned(),
-           'form_new' => $form_new->createView()
+           'groups'        => $user->getGroupsOwned(),
+           'form_new'      => $form_new->createView(),
+           'form_new_name' => $form_new->getName()
          )
       );
     }
@@ -130,16 +132,12 @@ class DefaultController extends Controller
     }
     
     $group->setTagsToIds();
-    
-    $form = $this->createForm(
-      new GroupForm(), 
-      $group,
-      array('tags' => $this->getTagsArray())
-    );
+    $form = $this->getGroupForm($group);
     
     return array(
-      'group' => $group,
-      'form'  => $form->createView()        
+      'group'     => $group,
+      'form'      => $form->createView()  ,
+      'form_name' => $form->getName()      
     );
   }
   
@@ -156,12 +154,7 @@ class DefaultController extends Controller
     // Pour être compatible avec le formulaire, la collection de tags dois être
     // une collection d'id
     $group->setTagsToIds();
-    
-    $form = $this->createForm(
-      new GroupForm(), 
-      $group,
-      array('tags' => $this->getTagsArray())
-    );
+    $form = $this->getGroupForm($group);
     
     $form->bindRequest($request);
     
@@ -183,7 +176,8 @@ class DefaultController extends Controller
       return $this->render(
         'GroupBundle:Default:edit.html.twig', 
          array(
-           'form_new' => $form->createView()
+           'form_new'      => $form->createView(),
+           'form_new_name' => $form_new->getName()
          )
       );
     }

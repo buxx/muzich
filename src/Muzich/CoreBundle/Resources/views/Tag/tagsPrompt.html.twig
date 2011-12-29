@@ -6,22 +6,15 @@
 </div>
 
 <script language="javascript" type="text/javascript">
-
-  if (typeof(taglist) == 'undefined')
-  {
-    taglist = new Array({{ tags|length }});
-    {% for i, tag in tags %}taglist[{{ i }}] = "{{ tag }}"; {% endfor %}
-  }
   
   var taginit = new Array();
   {% if search_tags is defined %}
-    {% for tid in search_tags %}
-      taginit[{{ tid }}] = {{ tid }};
+    {% for tid, tname in search_tags %}
+      taginit[{{ loop.index0 }}] = {"id":"{{ tid }}", "name":"{{ tname }}"};
     {% endfor %}
   {% endif %}
   
   var options = new Array();
-  options.tag_values = taglist;
   options.form_name  = "{{ form_name }}";
   options.tag_init   = taginit;
   
@@ -45,13 +38,23 @@
   // The autocomplete for the last tagbox
   $("#tags_prompt_{{ form_name }} ul.tagbox li.input input").autocomplete({
       source: function(req, responseFn) {
-          var sstr = $.trim(req.term);
-          var re = $.ui.autocomplete.escapeRegex(sstr);
-          var matcher = new RegExp(re, "i" );
-          var a = $.grep( taglist, function(item,index){
-              return matcher.test(item);
-          });
-          responseFn( a );
+        
+        // ici il faut faire une ajax q pour obtenir la liste
+        // ou a est un tableau de strings
+        
+        $.getJSON('/app_dev.php/fr/search/tag/'+req.term, function(data) {
+          responseFn( data );
+        });
+        
+          //var sstr = $.trim(req.term);
+          //var re = $.ui.autocomplete.escapeRegex(sstr);
+          //var matcher = new RegExp(re, "i" );
+          //var a = $.grep( taglist, function(item,index){
+          //    return matcher.test(item);
+          //});
+          //console.debug(a);
+          
+          //responseFn( a );
       },
       minLength: 2,
       select: function(e, ui) {

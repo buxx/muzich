@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints\Collection;
 class UserController extends Controller
 {
   
-  protected $tags_favorites = array();
+  protected $tags_favorites = null;
   
   protected function getChangeEmailForm()
   {
@@ -32,13 +32,28 @@ class UserController extends Controller
   
   protected function getTagsFavoritesForm($user)
   {
+    $ids = array();
+    foreach ($this->getTagsFavorites() as $id => $name)
+    {
+      $ids[] = $id;
+    }
+    
     return $this->createForm(
       new TagFavoritesForm(), 
-      array('tags' => $this->tags_favorites = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-        ->getTagIdsFavorites($user->getId())
-      ),
-      array('tags' => $this->getTagsArray())
+      array('tags' => json_encode($ids))
     );
+  }
+  
+  protected function getTagsFavorites($force = false)
+  {
+    if ($this->tags_favorites === null || $force)
+    {
+      $this->tags_favorites = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+        ->getTagsFavorites($this->getUser()->getId())
+      ;
+    }
+    
+    return $this->tags_favorites;
   }
   
   /**
@@ -54,12 +69,11 @@ class UserController extends Controller
     $change_email_form = $this->getChangeEmailForm();
     
     return array(
-      'tags'                     => $this->getTagsArray(),
       'user'                     => $user,
       'form_password'            => $form_password->createView(),
       'form_tags_favorites'      => $form_tags_favorites->createView(),
       'form_tags_favorites_name' => $form_tags_favorites->getName(),
-      'favorite_tags_id'         => $this->tags_favorites,
+      'favorite_tags_id'         => $this->getTagsFavorites(),
       'change_email_form'        => $change_email_form->createView()
     );
   }
@@ -223,13 +237,12 @@ class UserController extends Controller
       return $this->container->get('templating')->renderResponse(
         'MuzichUserBundle:User:account.html.twig',
         array(
-          'tags'                     => $this->getTagsArray(),
           'form_password'            => $form->createView(),
           'errors_pers'              => $errors,
           'user'                     => $user,
           'form_tags_favorites'      => $form_tags_favorites->createView(),
           'form_tags_favorites_name' => $form_tags_favorites->getName(),
-          'favorite_tags_id'         => $this->tags_favorites,
+          'favorite_tags_id'         => $this->getTagsFavorites(),
           'change_email_form'        => $change_email_form->createView()
         )
       );
@@ -250,8 +263,7 @@ class UserController extends Controller
     $form_tags_favorites = $this->getTagsFavoritesForm($user);
     
     return array(
-      'tags'                     => $this->getTagsArray(),
-      'favorite_tags_id'         => $this->tags_favorites,
+      'favorite_tags_id'         => $this->getTagsFavorites(),
       'form_tags_favorites'      => $form_tags_favorites->createView(),
       'form_tags_favorites_name' => $form_tags_favorites->getName(),
     );
@@ -278,13 +290,7 @@ class UserController extends Controller
       )->getSingleResult();
     }
     
-    $form = $this->createForm(
-      new TagFavoritesForm(), 
-      array('tags' => $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-        ->getTagIdsFavorites($user->getId())
-      ),
-      array('tags' => $this->getTagsArray())
-    );
+    $form = $this->getTagsFavoritesForm($user);
     
     if ($request->getMethod() == 'POST')
     {
@@ -411,12 +417,11 @@ class UserController extends Controller
     return $this->container->get('templating')->renderResponse(
       'MuzichUserBundle:User:account.html.twig',
       array(
-        'tags'                     => $this->getTagsArray(),
         'user'                     => $user,
         'form_password'            => $form_password->createView(),
         'form_tags_favorites'      => $form_tags_favorites->createView(),
         'form_tags_favorites_name' => $form_tags_favorites->getName(),
-        'favorite_tags_id'         => $this->tags_favorites,
+        'favorite_tags_id'         => $this->getTagsFavorites(),
         'change_email_form'        => $change_email_form->createView()
       )
     );

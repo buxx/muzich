@@ -41,5 +41,23 @@ class TagRepository extends EntityRepository
     ")->setParameter('tids', $ids);
   }
   
+  public function getTagsForElementSearch($ids)
+  {
+    $tags = array();
+    foreach ($this->getEntityManager()
+      ->createQuery('
+        SELECT t.id, t.name FROM MuzichCoreBundle:Tag t
+        WHERE t.id IN (:ids)
+        ORDER BY t.name ASC'
+      )
+      ->setParameter('ids', $ids)
+      ->getArrayResult() as $tag)
+    {
+      $tags[$tag['id']] = $tag['name'];
+    }
+    
+    return $tags;
+  }
+  
 }
   

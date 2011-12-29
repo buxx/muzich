@@ -79,7 +79,6 @@ class ElementManager
   {
     $this->element->setOwner($owner);
     $this->element->setTagsWithIds($this->em, $this->element->getTags());
-    //$this->setGroup();
     $this->determineType();
     $this->proceedExtraFields();
   }

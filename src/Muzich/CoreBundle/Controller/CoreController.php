@@ -155,16 +155,7 @@ class CoreController extends Controller
     }
     
     $element = new Element();
-    $form = $this->createForm(
-      new ElementAddForm(),
-      $element,
-      array(
-       'tags'   => $this->getTagsArray(),
-        // Ligne non obligatoire (cf. verif du contenu du form -> ticket)
-       //'groups' => $this->getGroupsArray()
-      )
-    );
-    
+    $form = $this->getAddForm($element);
     
     $form->bindRequest($this->getRequest());
     if ($form->isValid())
@@ -224,7 +215,6 @@ class CoreController extends Controller
         $add_form = $this->getAddForm();
 
         return $this->render('MuzichHomeBundle:Home:index.html.twig', array(
-          'tags'             => $this->getTagsArray(),
           'search_tags_id'   => $search_object->getTags(),
           'user'             => $this->getUser(),
           'add_form'         => $add_form->createView(),

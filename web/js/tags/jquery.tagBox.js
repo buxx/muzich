@@ -35,8 +35,6 @@
             self.delimit_key = 32 
             self.delimit_expr = /\s+/
         }
-
-        var values = options.tag_values;
  
         var val = input.val();
         var tags = []
@@ -57,12 +55,23 @@
             }
         });
         
-        self.tagInput.bind("selectTag", function() {
-            if(!$(this).val()) {
-                return;
+        self.tagInput.bind("selectTag", function(event) {
+          if(!$(this).val()) {
+              return;
+          }
+          
+          input = $(this);
+
+          // Ici il faut faire un ajax q pour connaitre l'id, on a que le string
+          $.getJSON('/app_dev.php/fr/search/tagid/'+$(this).val(), function(data) {
+            if (isInteger(data))
+            {
+              self.addTag(input.val(), data, options.form_name, false);
+              input.val("");
             }
-            self.addTag($(this).val(), findKeyWithValue(values, $(this).val()), options.form_name);
-            $(this).val("");
+          });
+
+          
         });
         
         self.tagbox = $('<ul>', {
@@ -81,14 +90,17 @@
         self.inputHolder.append(self.tagInput);
         self.tagInput.autoGrowInput();
         
-        for(tag in tags) {
-            self.addTag(tags[tag], findKeyWithValue(values, tags[tag]), options.form_name);
-        }
+        // On désactive l'ajout de tags basé sur le contenu du input
+        // ona notre propre système (taginit)
+        //for(tag in tags) {
+        //    self.addTag(tags[tag], findKeyWithValue(values, tags[tag]), options.form_name, true);
+        //}
         
         if (options.tag_init.length)
         {
-          for(tagid in options.tag_init) {
-              self.addTag(values[tagid], tagid, options.form_name);
+          for(i in options.tag_init) {
+            tag = options.tag_init[i];
+            self.addTag(tag.name, tag.id, options.form_name, true);
           }
         }
         
@@ -96,47 +108,70 @@
     
     TagBox.prototype = {
         
-        addTag : function(label, id, form_name) {
-            
-            // Nos conditions pour ajouter le tag:
-            // * N'a pas déjà été ajouté a ce champ
-            // * Est dans la liste des tags existants
-            if (id && !findKeyWithValue(tagsAddeds[form_name], id))
+        addTag : function(label, id, form_name, force) {
+          
+          // On n'ajoute pas deux fois le même tag
+          if (id && !findKeyWithValue(tagsAddeds[form_name], id))
+          {
+            var self = this;
+            var tag = $('<li class="tag">' + $('<div>').text(label).remove().html() + '</li>');
+
+            this.tags.push(label);
+
+            tag.append($('<a>', {
+                "href" : "#",
+                "class": "close",
+                "text": "close",
+                click: function(e) {
+                    e.preventDefault();
+                    var index = self.tagbox.find("li").index($(this).parent());
+                    self.removeTag(index, id, form_name);
+                }
+            }));
+
+            // si on force, on ne touche pas l'inpu (il contient déjà ces valeurs)
+            if (!force)
             {
-              var self = this;
-              var tag = $('<li class="tag">' + $('<div>').text(label).remove().html() + '</li>');
-
-              this.tags.push(label);
-
-              tag.append($('<a>', {
-                  "href" : "#",
-                  "class": "close",
-                  "text": "close",
-                  click: function(e) {
-                      e.preventDefault();
-                      var index = self.tagbox.find("li").index($(this).parent());
-                      self.removeTag(index);
-                  }
-              })).append($('<input>', {
-                'type'   : 'checkbox',
-                'style'  : 'display: none;',
-                'value'  : id,
-                'name'   : form_name+'[tags]['+id+']',
-                'id'     : form_name+'_tags_'+id,
-                'checked': 'checked'
-              }));
-              
-              tagsAddeds[form_name][id] = id;
-              self.inputHolder.before(tag);
-              self.updateInput();
+              var input_tags = $('input#'+form_name+'_tags');
+              if (input_tags.length)
+              {
+                // array des ids de tags
+                var input_values = json_to_array(input_tags.val());
+                if (!inArray(input_values, id))
+                {
+                  input_values[input_values.length] = parseInt(id);
+                  $('input#'+form_name+'_tags').val(array2json(input_values));
+                }
+              }
             }
-            
+            //
+
+            tagsAddeds[form_name][id] = id;
+            self.inputHolder.before(tag);
+            self.updateInput();
+             
+          }
         },
-        removeTag : function(index) {
+        removeTag : function(index, id, form_name) {
             
             this.tagbox.find("li").eq(index).remove();
             this.tags.splice(index, 1);
             this.updateInput();
+            
+            input_tags = $('input#'+form_name+'_tags');
+            if (input_tags.length)
+            {
+              // array des ids de tags
+              input_values = json_to_array(input_tags.val());
+              for(var i = 0; i < input_values.length; i++)
+              {
+                if (input_values[i] == id)
+                {
+                  delete input_values[i];
+                }
+              }
+              $('input#'+form_name+'_tags').val(array2json(input_values));
+            }
         },
         updateInput : function() {
             

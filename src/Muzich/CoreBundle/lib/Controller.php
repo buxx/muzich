@@ -54,7 +54,7 @@ class Controller extends BaseController
       $this->ElementSearcher = new ElementSearcher();
       $this->ElementSearcher->init(array(
         'tags' => $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-          ->getTagIdsFavorites(
+          ->getTagsFavorites(
             $this->getUserId(),
             $this->container->getParameter('search_default_favorites_tags_count')
           ),
@@ -157,6 +157,8 @@ class Controller extends BaseController
    */
   protected function getTagsArray($force_refresh = false)
   {
+    throw new \Exception("Cette méthode ne doit plus être utilisé.");
+    
     if (!count(self::$tags) || $force_refresh)
     {
       return self::$tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->getTagsArray();
@@ -242,21 +244,17 @@ class Controller extends BaseController
   {
     return $this->createForm(
       new ElementSearchForm(), 
-      $search_object->getParams(),
-      array(
-        'tags' => $this->getTagsArray()
-      )
+      $search_object->getParams(true),
+      array()
     );
   }
   
-  protected function getAddForm()
+  protected function getAddForm($element = array())
   {
     return $this->createForm(
       new ElementAddForm(),
-      array(),
-      array(
-        'tags' => $this->getTagsArray()
-      )
+      $element,
+      array()
     );
   }
   

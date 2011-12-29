@@ -18,17 +18,7 @@ class ElementSearchForm extends AbstractType
       'required' => true,
     ));
         
-    $builder->add('tags', 'choice', array(
-      'choices'           => $options['tags'],
-      'expanded'          => true,
-      'multiple'          => true
-    ));
-        
-//    $builder->add('groups', 'choice', array(
-//      'choices'           => $options['groups'],
-//      'expanded'          => true,
-//      'multiple'          => true
-//    ));
+    $builder->add('tags', 'hidden');
   }
 
   public function getName()
@@ -39,8 +29,7 @@ class ElementSearchForm extends AbstractType
   public function getDefaultOptions(array $options)
   {
     return array(
-      'tags' => array(),
-//      'groups' => array(),
+      'tags' => ''
     );
   }
 }
