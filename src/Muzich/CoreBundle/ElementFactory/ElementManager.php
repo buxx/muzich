@@ -78,7 +78,7 @@ class ElementManager
   public function proceedFill(User $owner)
   {
     $this->element->setOwner($owner);
-    $this->element->setTagsWithIds($this->em, $this->element->getTags());
+    $this->element->setTagsWithIds($this->em, json_decode($this->element->getTags()));
     $this->determineType();
     $this->proceedExtraFields();
   }

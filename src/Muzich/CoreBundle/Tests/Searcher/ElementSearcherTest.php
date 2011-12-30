@@ -12,7 +12,7 @@ class ElementSearcherTest extends UnitTest
     $es = new ElementSearcher();
     $es->init($ia = array(
         'network'   => ElementSearcher::NETWORK_PERSONAL, 
-        'tags'      => array(1, 2, 6), 
+        'tags'      => array(1 => '', 2 => '', 6 => ''), 
         'count'     => 20, 
         'user_id'   => 185, 
         'group_id'  => null, 
@@ -27,7 +27,7 @@ class ElementSearcherTest extends UnitTest
     $es = new ElementSearcher();
     $es->init($ia = array(
         'network'   => ElementSearcher::NETWORK_PERSONAL, 
-        'tags'      => array(1, 2, 6), 
+        'tags'      => array(1 => '', 2 => '', 6 => ''), 
         'count'     => 20, 
         'user_id'   => 185, 
         'group_id'  => null, 
@@ -35,7 +35,7 @@ class ElementSearcherTest extends UnitTest
     ));
     $es->init($ua = array(
         'network'   => ElementSearcher::NETWORK_PUBLIC, 
-        'tags'      => array(5, 8, 123), 
+        'tags'      => array(5 => '', 8 => '', 123 => ''), 
         'count'     => 21, 
         'user_id'   => 115, 
         'group_id'  => null, 
@@ -78,7 +78,11 @@ class ElementSearcherTest extends UnitTest
     $es = new ElementSearcher();
     $es->init(array(
       'network'   => ElementSearcher::NETWORK_PUBLIC,
-      'tags'      => array($hardtek->getId(), $tribe->getId(), $electro->getId()),
+      'tags'      => array(
+        $hardtek->getId() => 'Hardtek', 
+        $tribe->getId()   => 'Tribe', 
+        $electro->getId() => 'Electro'
+      ),
       'count'     => 5
     ));
     
@@ -116,7 +120,11 @@ class ElementSearcherTest extends UnitTest
     $es = new ElementSearcher();
     $es->init(array(
       'network'   => ElementSearcher::NETWORK_PERSONAL,
-      'tags'      => array($hardtek->getId(), $tribe->getId(), $electro->getId()),
+      'tags'      => array(
+        $hardtek->getId() => 'Hardtek', 
+        $tribe->getId()   => 'Tribe', 
+        $electro->getId() => 'Electro'
+      ),
       'count'     => 5
     ));
     
