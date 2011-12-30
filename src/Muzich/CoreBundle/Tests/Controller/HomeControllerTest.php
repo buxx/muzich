@@ -32,17 +32,10 @@ class HomeControllerTest extends FunctionalTest
     
     // On récupére le formulaire de filtrage
     $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
-    
-    // On décoche les tags
-    foreach ($this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findAll() as $tag)
-    {
-      $form['element_search_form[tags]['.$tag->getId().']']->untick();
-    }
-    
+        
     // On met ce que l'on veut dans le form
     $form['element_search_form[network]'] = ElementSearcher::NETWORK_PUBLIC;
-    $form['element_search_form[tags]['.$hardtek_id.']'] = $hardtek_id;
-    $form['element_search_form[tags]['.$tribe_id.']'] = $tribe_id;
+    $form['element_search_form[tags]'] = json_encode(array($hardtek_id, $tribe_id));
     $this->submit($form);
     
     $this->client->submit($form);
@@ -55,7 +48,8 @@ class HomeControllerTest extends FunctionalTest
     $this->assertEquals(array(
         'network'   => ElementSearcher::NETWORK_PUBLIC,
         'tags'      => array(
-          $hardtek_id, $tribe_id
+          $hardtek_id => 'Hardtek', 
+          $tribe_id   => 'Tribe'
         ),
         'count'     => $this->getContainer()->getParameter('search_default_count'),
         'user_id'   => null,

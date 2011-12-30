@@ -39,8 +39,7 @@ class GroupControllerTest extends FunctionalTest
     $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
     $form['group[name]'] = 'HardtekMania';
     $form['group[description]'] = 'Des bass, des bpm, des gros caissons !';
-    $form['group[tags]['.$hardtek_id.']'] = $hardtek_id;
-    $form['group[tags]['.$tribe_id.']'] = $tribe_id;
+    $form['group[tags]'] = json_encode(array($hardtek_id,$tribe_id));
     $this->submit($form);
     
     $this->isResponseRedirection();
@@ -129,9 +128,7 @@ class GroupControllerTest extends FunctionalTest
     $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
     $form['group[name]'] = 'Les Fans de Psytrance';
     $form['group[description]'] = 'Ca va swiguer !';
-    $form['group[tags]['.$psytrance_id.']'] = $psytrance_id;
-    // On rajoute le lien vers le tag electro
-    $form['group[tags]['.$electro_id.']'] = $electro_id;
+    $form['group[tags]'] = json_encode(array($psytrance_id,$electro_id));
     $this->submit($form);
     
     $this->isResponseRedirection();

@@ -48,8 +48,22 @@ class UserController extends Controller
   {
     if ($this->tags_favorites === null || $force)
     {
+      $user = $this->getUser();
+      
+      /**
+       * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
+       * Docrine le voit si on faire une requete directe.
+       */
+      if ($this->container->getParameter('env') == 'test')
+      {
+        $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+          $this->container->get('security.context')->getToken()->getUser()->getId(),
+          array()
+        )->getSingleResult();
+      }
+      
       $this->tags_favorites = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-        ->getTagsFavorites($this->getUser()->getId())
+        ->getTagsFavorites($user->getId())
       ;
     }
     

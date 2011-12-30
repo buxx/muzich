@@ -40,8 +40,7 @@ class UserControllerTest extends FunctionalTest
     $this->exist('form[action="'.($url = $this->generateUrl('update_tag_favorites')).'"]');
     
     $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
-    $form['tag_favorites_form[tags]['.$hardtek_id.']'] = $hardtek_id;
-    $form['tag_favorites_form[tags]['.$tribe_id.']'] = $tribe_id;
+    $form['tag_favorites_form[tags]'] = json_encode(array($hardtek_id,$tribe_id));
     $this->submit($form);
     
     $this->isResponseRedirection();
@@ -136,8 +135,7 @@ class UserControllerTest extends FunctionalTest
     $this->exist('form[action="'.$url.'"] input[type="submit"]');
     
     $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
-    $form['tag_favorites_form[tags]['.$hardtek_id.']'] = $hardtek_id;
-    $form['tag_favorites_form[tags]['.$tribe_id.']'] = $tribe_id;
+    $form['tag_favorites_form[tags]'] = json_encode(array($hardtek_id,$tribe_id));
     $this->submit($form);
     
     $this->isResponseRedirection();

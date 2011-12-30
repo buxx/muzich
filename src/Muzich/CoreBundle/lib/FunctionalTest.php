@@ -188,10 +188,7 @@ class FunctionalTest extends WebTestCase
     $form = $this->selectForm('form[action="'.$form_url.'"] input[type="submit"]');
     $form['element_add[name]'] = $name;
     $form['element_add[url]'] = $url;
-    foreach ($tags as $tag_id)
-    {
-      $form['element_add[tags]['.$tag_id.']'] = $tag_id;
-    }
+    $form['element_add[tags]'] = json_encode($tags);
     
     $this->submit($form);
   }

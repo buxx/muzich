@@ -161,7 +161,7 @@ class DefaultController extends Controller
     if ($form->isValid())
     {
       $factory = new GroupManager($group, $em, $this->container);
-      $factory->proceedTags($group->getTags());
+      $factory->proceedTags(json_decode($group->getTags()));
       
       $em->persist($group);
       $em->flush();
