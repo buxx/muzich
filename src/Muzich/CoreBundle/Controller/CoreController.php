@@ -210,20 +210,49 @@ class CoreController extends Controller
       else
       {
 
-        $search_object = $this->getElementSearcher();
-        $search_form = $this->getSearchForm($search_object);
-        $add_form = $this->getAddForm();
+        if (!$group_slug)
+        {
+          $search_object = $this->getElementSearcher();
+          $search_form = $this->getSearchForm($search_object);
+          $add_form = $form;
 
-        return $this->render('MuzichHomeBundle:Home:index.html.twig', array(
-          'search_tags_id'   => $search_object->getTags(),
-          'user'             => $this->getUser(),
-          'add_form'         => $add_form->createView(),
-          'add_form_name'    => $add_form->getName(),
-          'search_form'      => $search_form->createView(),
-          'search_form_name' => $search_form->getName(),
-          'elements'         => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
-          'more_count'       => $this->container->getParameter('search_default_count')*2
-        ));
+          return $this->render('MuzichHomeBundle:Home:index.html.twig', array(
+            'search_tags_id'   => $search_object->getTags(),
+            'user'             => $this->getUser(),
+            'add_form'         => $add_form->createView(),
+            'add_form_name'    => $add_form->getName(),
+            'search_form'      => $search_form->createView(),
+            'search_form_name' => $search_form->getName(),
+            'elements'         => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
+            'more_count'       => $this->container->getParameter('search_default_count')*2
+          ));
+        }
+        else
+        {
+          $group = $this->findGroupWithSlug($group_slug);
+        
+          $search_object = $this->createSearchObject(array(
+            'group_id'  => $group->getId()
+          ));
+
+          ($group->getOwner()->getId() == $this->getUserId()) ? $his = true : $his = false;
+          if ($his || $group->getOpen())
+          {      
+            $add_form = $form;
+          }
+
+          return $this->render('MuzichHomeBundle:Show:showGroup.html.twig', array(
+            'group'         => $group,
+            'his_group'     => ($group->getOwner()->getId() == $this->getUserId()) ? true : false,
+            'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
+            'following'     => $this->getUser()->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()),
+            'user'          => $this->getUser(),
+            'add_form'      => (isset($add_form)) ? $add_form->createView() : null,
+            'add_form_name' => (isset($add_form)) ? $add_form->getName() : null,
+            'more_count'    => null,
+            'more_route'    => 'show_group_more'
+          ));
+        }
 
       }
 
