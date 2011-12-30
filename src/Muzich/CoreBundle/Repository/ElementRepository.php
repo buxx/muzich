@@ -18,8 +18,7 @@ class ElementRepository extends EntityRepository
   {
     return $this->getEntityManager()
       ->createQuery('
-        SELECT e, t FROM MuzichCoreBundle:Element e 
-        JOIN e.type t
+        SELECT e FROM MuzichCoreBundle:Element e 
         ORDER BY e.name ASC'
       )
       ->getResult()
@@ -165,10 +164,9 @@ class ElementRepository extends EntityRepository
       }
 
       // C'est la requête qui récupérera les données element avec ses jointures.
-      $query_select = "SELECT e, ty, t, o, g, fav
+      $query_select = "SELECT e, t, o, g, fav
         FROM MuzichCoreBundle:Element e 
         LEFT JOIN e.group g 
-        LEFT JOIN e.type ty 
         LEFT JOIN e.tags t 
         LEFT JOIN e.elements_favorites fav WITH fav.user = :uid
         JOIN e.owner o

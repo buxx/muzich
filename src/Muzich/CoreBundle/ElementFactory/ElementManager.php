@@ -7,11 +7,10 @@ use Muzich\CoreBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 
-use Muzich\CoreBundle\ElementFactory\Site\YoutubeFactory;
-use Muzich\CoreBundle\ElementFactory\Site\DailymotionFactory;
-use Muzich\CoreBundle\ElementFactory\Site\Son2TeufFactory;
-use Muzich\CoreBundle\ElementFactory\Site\JamendoFactory;
-use Muzich\CoreBundle\ElementFactory\Site\SoundCloudFactory;
+use Muzich\CoreBundle\ElementFactory\Site\YoutubecomFactory;
+use Muzich\CoreBundle\ElementFactory\Site\DailymotioncomFactory;
+use Muzich\CoreBundle\ElementFactory\Site\JamendocomFactory;
+use Muzich\CoreBundle\ElementFactory\Site\SoundcloudcomFactory;
 
 /**
  * 
@@ -19,19 +18,11 @@ use Muzich\CoreBundle\ElementFactory\Site\SoundCloudFactory;
  * @author bux
  */
 class ElementManager
-{
-  
-  protected $types = array(
-    'youtube.com', 
-    'soundcloud.com', 
-    'son2teuf.org', 
-    'jamendo.com',
-    'dailymotion.com'
-  );
-  
+{  
   protected $em;
   protected $element;
   protected $container;
+  protected $factories;
   
   /**
    * Procédure chargé de retourner des information destiné au 
@@ -60,7 +51,8 @@ class ElementManager
     $this->element = $element;
     $this->em = $em;
     $this->container = $container;
-    
+    $this->factories = $this->container->getParameter('factories');
+        
     $evm = new \Doctrine\Common\EventManager();
     $timestampableListener = new \Gedmo\Timestampable\TimestampableListener();
     $evm->addEventSubscriber($timestampableListener);
@@ -106,17 +98,16 @@ class ElementManager
     
     preg_match("/^(http:\/\/)?([^\/]+)/i", $url, $chaines);
     
+    $type = 'unknow';
     if (array_key_exists(2, $chaines))
     {
       $host = $chaines[2];
       // Repérer les derniers segments
       preg_match("/[^\.\/]+\.[^\.\/]+$/",$host,$chaines);
 
-      $type = null;
-
-      if (in_array($chaines[0], $this->types))
+      if (array_key_exists(0, $chaines))
       {
-        $type = $this->em->getRepository('MuzichCoreBundle:ElementType')->find($chaines[0]);
+        $type = $chaines[0];
       }
     }
     
@@ -134,7 +125,7 @@ class ElementManager
     // Instanciation d'un objet factory correspondant au type, par exemple
     // YoutubeFactory, qui répondant a une implementation retournera ces infos.
   
-    if ($this->element->getType())
+    if (in_array($this->element->getType(), $this->factories))
     {
       $site_factory = $this->getFactory();
       $this->element->setEmbed($site_factory->getEmbedCode());
@@ -144,27 +135,28 @@ class ElementManager
   
   protected function getFactory()
   { 
-    switch ($this->element->getType()->getId())
+//    $factory_name = ucfirst(str_replace('.', '', $this->element->getType())).'Factory';
+//    return new $factory_name($this->element, $this->container);
+    
+    switch ($this->element->getType())
     {
       case 'youtube.com':
-        return new YoutubeFactory($this->element, $this->container);
+        return new YoutubecomFactory($this->element, $this->container);
       break;
       case 'soundcloud.com':
-        return new SoundCloudFactory($this->element, $this->container);
-      break;
-      case 'son2teuf.org':
-        return new Son2TeufFactory($this->element, $this->container);
+        return new SoundcloudcomFactory($this->element, $this->container);
       break;
       case 'jamendo.com':
-        return new JamendoFactory($this->element, $this->container);
+        return new JamendocomFactory($this->element, $this->container);
       break;
       case 'dailymotion.com':
-        return new DailymotionFactory($this->element, $this->container);
+        return new DailymotioncomFactory($this->element, $this->container);
       break;
       default:
-        throw new Exception("La Factory n'est pas connu pour ce type.");
+        throw new Exception("La Factory n'est pas prise en charge pour ce type.");
       break;
     }
+    
   }
     
 }

@@ -9,7 +9,7 @@ use Muzich\CoreBundle\ElementFactory\Site\base\BaseFactory;
  *
  * @author bux
  */
-class JamendoFactory extends BaseFactory
+class JamendocomFactory extends BaseFactory
 {
   public function getEmbedCode()
   {

@@ -9,7 +9,7 @@ use Muzich\CoreBundle\ElementFactory\Site\base\VideoSiteFactory;
  *
  * @author bux
  */
-class DailymotionFactory extends VideoSiteFactory
+class YoutubecomFactory extends VideoSiteFactory
 {
   
 }

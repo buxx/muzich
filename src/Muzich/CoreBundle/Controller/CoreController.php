@@ -155,9 +155,10 @@ class CoreController extends Controller
     }
     
     $element = new Element();
+    $element->setType('none');
     $form = $this->getAddForm($element);
-    
     $form->bindRequest($this->getRequest());
+    
     if ($form->isValid())
     {
 

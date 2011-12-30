@@ -32,8 +32,9 @@ class Element
   /**
    * Cet attribut stocke le type d'élément.
    * 
-   * @ORM\ManyToOne(targetEntity="ElementType", inversedBy="elements")
-   * @ORM\JoinColumn(name="element_type_id", referencedColumnName="id")
+   * @ORM\Column(type="string", length=64)
+   * @Assert\NotBlank()
+   * @Assert\MaxLength(1024)
    */
   protected $type;
   
@@ -171,9 +172,9 @@ class Element
   /**
    * Set type
    *
-   * @param ElementType $type
+   * @param string $type
    */
-  public function setType(ElementType $type = null)
+  public function setType($type)
   {
     $this->type = $type;
   }
@@ -181,7 +182,7 @@ class Element
   /**
    * Get type
    *
-   * @return ElementType 
+   * @return string 
    */
   public function getType()
   {

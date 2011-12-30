@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Container;
  *
  * @author bux
  */
-class SoundCloudFactory extends BaseFactory
+class SoundcloudcomFactory extends BaseFactory
 {
   public function getEmbedCode()
   {
