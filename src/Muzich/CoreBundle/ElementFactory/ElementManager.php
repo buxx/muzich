@@ -11,6 +11,7 @@ use Muzich\CoreBundle\ElementFactory\Site\YoutubecomFactory;
 use Muzich\CoreBundle\ElementFactory\Site\DailymotioncomFactory;
 use Muzich\CoreBundle\ElementFactory\Site\JamendocomFactory;
 use Muzich\CoreBundle\ElementFactory\Site\SoundcloudcomFactory;
+use Muzich\CoreBundle\ElementFactory\Site\DeezercomFactory;
 
 /**
  * 
@@ -152,8 +153,11 @@ class ElementManager
       case 'dailymotion.com':
         return new DailymotioncomFactory($this->element, $this->container);
       break;
+      case 'deezer.com':
+        return new DeezercomFactory($this->element, $this->container);
+      break;
       default:
-        throw new Exception("La Factory n'est pas prise en charge pour ce type.");
+        throw new \Exception("La Factory n'est pas prise en charge pour ce type.");
       break;
     }
     
