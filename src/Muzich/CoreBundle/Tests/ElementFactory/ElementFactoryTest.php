@@ -29,7 +29,7 @@ class ElementFactoryTest extends UnitTest
         
     $element = new Element();
     $element->setName('Mon bel element');
-    $element->setTags(array($hardtek->getId(), $tribe->getId()));
+    $element->setTags(json_encode(array($hardtek->getId(), $tribe->getId())));
     $element->setUrl('http://www.youtube.com/watch?v=WC8qb_of04E');
     
     $factory = new ElementManager($element, $r->getEntityManager(), $this->_container);
