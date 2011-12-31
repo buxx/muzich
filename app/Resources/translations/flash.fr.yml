@@ -5,7 +5,7 @@ group.flash.created: Le groupe a été créé.
 group.flash.deleted: Le groupe a été supprimé.
 profile.flash.updated: Le profil a été mis à jour.
 change_password.flash.success: Le mot de passe a été modifié.
-registration.flash.user_created: L'utilisateur a été créé avec succès.
+registration.flash.user_created: Un email a été envoyé a l'adresse email saisie.
 resetting.flash.success: Le mot de passe a été réinitialisé avec succès.
 
 # muzich

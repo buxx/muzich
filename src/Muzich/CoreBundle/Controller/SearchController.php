@@ -63,11 +63,28 @@ class SearchController extends Controller
   {
     if ($this->getRequest()->isXmlHttpRequest())
     {
+      $words = explode(' ', $string_search);
+      $where = '';
+      $params = array();
+      foreach ($words as $i => $word)
+      {
+        if ($where == '')
+        {
+          $where .= 'WHERE UPPER(t.name) LIKE :str'.$i;
+        }
+        else
+        {
+          $where .= ' OR UPPER(t.name) LIKE :str'.$i;
+        }
+        
+        $params['str'.$i] = '%'.strtoupper($word).'%';
+      }
+      
       $tags = $this->getDoctrine()->getEntityManager()->createQuery("
         SELECT t.name FROM MuzichCoreBundle:Tag t
-        WHERE UPPER(t.name) LIKE :str
+        $where
         ORDER BY t.name ASC"
-      )->setParameter('str', '%'.strtoupper($string_search).'%')
+      )->setParameters($params)
       ->getScalarResult()
       ;
       

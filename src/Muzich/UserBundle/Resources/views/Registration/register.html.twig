@@ -16,17 +16,29 @@
     </ul>
     {% endif %}
     
-    {{ form_errors(form.username) }}
-    {{ form_row(form.username) }}
+    <div class="field">
+      {{ form_errors(form.username) }}
+      {{ form_label(form.username, 'username'|trans({}, 'userform')) }}
+      {{ form_widget(form.username) }}
+    </div>   
+        
+    <div class="field">
+      {{ form_errors(form.email) }}
+      {{ form_label(form.email, 'email'|trans({}, 'userform')) }}
+      {{ form_widget(form.email) }}
+    </div> 
     
-    {{ form_errors(form.email) }}
-    {{ form_row(form.email) }}
+    <div class="field">
+      {{ form_errors(form.plainPassword.first) }}
+      {{ form_label(form.plainPassword.first, 'password.first'|trans({}, 'userform')) }}
+      {{ form_widget(form.plainPassword.first) }}
+    </div> 
     
-    {{ form_errors(form.plainPassword.first) }}
-    {{ form_row(form.plainPassword.first) }}
-    
-    {{ form_errors(form.plainPassword.second) }}
-    {{ form_row(form.plainPassword.second) }}
+    <div class="field">
+      {{ form_errors(form.plainPassword.second) }}
+      {{ form_label(form.plainPassword.second, 'password.second'|trans({}, 'userform')) }}
+      {{ form_widget(form.plainPassword.second) }}
+    </div> 
 
     {{ form_rest(form) }}
     

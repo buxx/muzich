@@ -1,4 +1,17 @@
 
+start:
+  title:       Inscription terminé
+  titleh2:     Bienvenue sur Muzich !
+  description: |
+                 Cette plate-forme vous permettra de découvrir et partager vos trouvailles musicales
+                 du web. A l'aide de tags représentant genres musaicaux, instruments de musique et autres
+                 vous pouvez classifier ce que vous partagez et filtrer vos recherches. Vous pourez
+                 egallement suivre des utilisateurs et des groupes afin de créer votre propre réseau.
+               
+  tags:
+    title:     Choisissez vos tags préférés
+    remind:    Vous pourrez egallement modifier vos tags préféré dans la partie 'mon compte'.
+
 my_account: 
   title:          Mon compte
   username:         Nom d'utilisateur
@@ -11,4 +24,10 @@ connexion:
   password_lost:    Mot de passe perdu ?
   
 more:    plus
-tags:    Tags
+tags:
+  help:  |
+           Tapez dans le cadre ci-dessous le mot que vous souhaitez utiliser. Une liste de tags disponibles 
+           apparaitra et vous pourrez choisir le tag voulu dans la liste. Vous pouvez choisir plueurs tags.
+           
+filter:
+  network: "Résultats de "

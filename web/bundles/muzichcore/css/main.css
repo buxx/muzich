@@ -400,3 +400,12 @@ ul.elements li.even
 
 
 /* FIN CSS pour elements */
+
+span.help
+{
+  font-size: 10px;
+  padding-left: 18px;
+  background-image: url(/bundles/muzichcore/img/1325329213_system-help.png);
+  background-repeat: no-repeat;
+  background-position: left top;
+}
