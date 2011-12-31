@@ -15,3 +15,7 @@ followed_by:          Vous êtes suivis par
 favorites:
   your_favorites:     Vos favoris
   user_favorites:     Favoris de %name%
+  
+nothing:    |
+              Votre réseau n'est pas encore constitué. Utilisez la recherche pour
+              trouvez des utilisateurs et des groupes !

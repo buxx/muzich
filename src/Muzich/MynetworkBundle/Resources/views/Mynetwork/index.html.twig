@@ -40,5 +40,17 @@
     {% endfor %}
     </ul>
   {% endif %}
+    
+  {% if followeds_users|length < 1  %}
+  {% if followeds_groups|length < 1 %}
+  {% if followers_users|length < 1 %}
+  
+    <br />
+    {{ 'nothing'|trans({}, 'network') }}
+    <br /><br />
+    
+  {% endif %}
+  {% endif %}
+  {% endif %}
 
 {% endblock %}
