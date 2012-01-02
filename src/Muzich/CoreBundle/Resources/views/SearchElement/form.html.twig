@@ -13,5 +13,5 @@
   {{ form_row(search_form.tags) }}
   {{ form_row(search_form._token) }}
 
-  <input type="submit" />
+  <input type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
 </form>

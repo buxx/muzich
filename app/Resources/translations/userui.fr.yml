@@ -32,6 +32,7 @@ tags:
            
 filter:
   network: "Résultats de "
+  submit:  Filtrer
   
 element_add:
   url:
