@@ -26,8 +26,18 @@ connexion:
 more:    plus
 tags:
   help:  |
-           Tapez dans le cadre ci-dessous le mot que vous souhaitez utiliser. Une liste de tags disponibles 
-           apparaitra et vous pourrez choisir le tag voulu dans la liste. Vous pouvez choisir plueurs tags.
+           Tapez dans le cadre ci-dessous le mot que vous souhaitez utiliser. 
+           Une liste de tags disponibles apparaitra et vous pourrez choisir le 
+           tag voulu dans la liste. Vous pouvez choisir plueurs tags.
            
 filter:
   network: "Résultats de "
+  
+element_add:
+  url:
+    name:     Lien
+    help:     |
+              Copier ici le lien internet (http://) pointant sur la ressource 
+              que vous souhaitez partager.
+  name:
+    name:     Nom

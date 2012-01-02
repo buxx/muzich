@@ -2,16 +2,18 @@
 
 {{ form_errors(form) }}
 
-<div class="field">
-  {{ form_errors(form.name) }}
-  {{ form_label(form.name, 'name'|trans({}, 'elementform')) }}
-  {{ form_widget(form.name) }}
-</div>
+<span class="help">{{ 'element_add.url.help'|trans({}, 'userui') }}</span>
 
 <div class="field">
   {{ form_errors(form.url) }}
-  {{ form_label(form.url, 'url'|trans({}, 'elementform')) }}
+  {{ form_label(form.url, 'element_add.url.name'|trans({}, 'userui')) }}
   {{ form_widget(form.url) }}
+</div>
+
+<div class="field">
+  {{ form_errors(form.name) }}
+  {{ form_label(form.name, 'element_add.name.name'|trans({}, 'userui')) }}
+  {{ form_widget(form.name) }}
 </div>
 
   {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
