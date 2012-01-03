@@ -11,8 +11,6 @@
 
 namespace Symfony\Bundle\FrameworkBundle\EventListener;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -69,6 +67,7 @@ class TestSessionListener
 
         if ($session = $event->getRequest()->getSession()) {
             $session->save();
+            $session->close();
 
             $params = session_get_cookie_params();
 

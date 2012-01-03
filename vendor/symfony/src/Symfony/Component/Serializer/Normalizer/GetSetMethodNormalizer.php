@@ -2,7 +2,6 @@
 
 namespace Symfony\Component\Serializer\Normalizer;
 
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Exception\RuntimeException;
 
 /*
@@ -80,7 +79,7 @@ class GetSetMethodNormalizer extends SerializerAwareNormalizer
                     $params[] = $data[$paramName];
                     // don't run set for a parameter passed to the constructor
                     unset($data[$paramName]);
-                } else if (!$constructorParameter->isOptional()) {
+                } elseif (!$constructorParameter->isOptional()) {
                     throw new RuntimeException(
                         'Cannot create an instance of '.$class.
                         ' from serialized data because its constructor requires '.

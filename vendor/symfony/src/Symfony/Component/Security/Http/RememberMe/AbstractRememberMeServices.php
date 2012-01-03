@@ -10,8 +10,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\CookieTheftException;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -90,6 +88,7 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
      * cookie was set, decodes it, and hands it to subclasses for further processing.
      *
      * @param Request $request
+     *
      * @return TokenInterface
      */
     public final function autoLogin(Request $request)
@@ -145,6 +144,7 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
      * @param Request        $request
      * @param Response       $response
      * @param TokenInterface $token
+     *
      * @return void
      */
     public function logout(Request $request, Response $response, TokenInterface $token)
@@ -157,6 +157,7 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
      * an attempted authentication fails.
      *
      * @param Request $request
+     *
      * @return void
      */
     public final function loginFail(Request $request)
@@ -172,13 +173,14 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
      * @param Request        $request
      * @param Response       $response
      * @param TokenInterface $token    The token that resulted in a successful authentication
+     *
      * @return void
      */
     public final function loginSuccess(Request $request, Response $response, TokenInterface $token)
     {
         if (!$token->getUser() instanceof UserInterface) {
             if (null !== $this->logger) {
-                $this->logger->debug('Remember-me ignores token since it does not contain an UserInterface implementation.');
+                $this->logger->debug('Remember-me ignores token since it does not contain a UserInterface implementation.');
             }
 
             return;
@@ -205,6 +207,7 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
      *
      * @param array   $cookieParts
      * @param Request $request
+     *
      * @return TokenInterface
      */
     abstract protected function processAutoLoginCookie(array $cookieParts, Request $request);
@@ -221,6 +224,7 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
      * @param Request        $request
      * @param Response       $response
      * @param TokenInterface $token
+     *
      * @return void
      */
     abstract protected function onLoginSuccess(Request $request, Response $response, TokenInterface $token);
@@ -240,6 +244,7 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
      * Decodes the raw cookie value
      *
      * @param string $rawCookie
+     *
      * @return array
      */
     protected function decodeCookie($rawCookie)
@@ -251,6 +256,7 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
      * Encodes the cookie parts
      *
      * @param array $cookieParts
+     *
      * @return string
      */
     protected function encodeCookie(array $cookieParts)
@@ -262,6 +268,7 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
      * Deletes the remember-me cookie
      *
      * @param Request $request
+     *
      * @return void
      */
     protected function cancelCookie(Request $request)
@@ -277,6 +284,7 @@ abstract class AbstractRememberMeServices implements RememberMeServicesInterface
      * Checks whether remember-me capabilities where requested
      *
      * @param Request $request
+     *
      * @return Boolean
      */
     protected function isRememberMeRequested(Request $request)

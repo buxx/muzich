@@ -43,7 +43,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     $user->setUsername($username);
     $user->setEmail($email);
     $user->setSuperAdmin($superadmin);
-    $user->setAlgorithm('sha512');
+    //$user->setAlgorithm('sha512');
     
     $user->setPlainPassword($password_raw);
     $user->setEnabled($enabled);

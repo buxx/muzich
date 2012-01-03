@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-use Symfony\Component\HttpFoundation\SessionStorage\NativeSessionStorage;
-
 /**
  * Request represents an HTTP request.
  *
@@ -46,14 +44,14 @@ class Request
     public $query;
 
     /**
-     * @var \Symfony\Component\HttpFoundation\ParameterBag
+     * @var \Symfony\Component\HttpFoundation\ServerBag
      *
      * @api
      */
     public $server;
 
     /**
-     * @var \Symfony\Component\HttpFoundation\ParameterBag
+     * @var \Symfony\Component\HttpFoundation\FileBag
      *
      * @api
      */
@@ -284,15 +282,15 @@ class Request
             $dup->server = new ServerBag($server);
             $dup->headers = new HeaderBag($dup->server->getHeaders());
         }
-        $this->languages = null;
-        $this->charsets = null;
-        $this->acceptableContentTypes = null;
-        $this->pathInfo = null;
-        $this->requestUri = null;
-        $this->baseUrl = null;
-        $this->basePath = null;
-        $this->method = null;
-        $this->format = null;
+        $dup->languages = null;
+        $dup->charsets = null;
+        $dup->acceptableContentTypes = null;
+        $dup->pathInfo = null;
+        $dup->requestUri = null;
+        $dup->baseUrl = null;
+        $dup->basePath = null;
+        $dup->method = null;
+        $dup->format = null;
 
         return $dup;
     }
@@ -455,7 +453,9 @@ class Request
             if ($this->server->has('HTTP_CLIENT_IP')) {
                 return $this->server->get('HTTP_CLIENT_IP');
             } elseif (self::$trustProxy && $this->server->has('HTTP_X_FORWARDED_FOR')) {
-                return $this->server->get('HTTP_X_FORWARDED_FOR');
+                $clientIp = explode(',', $this->server->get('HTTP_X_FORWARDED_FOR'), 2);
+
+                return isset($clientIp[0]) ? trim($clientIp[0]) : '';
             }
         }
 
@@ -847,6 +847,24 @@ class Request
         $this->format = $format;
     }
 
+    public function setLocale($locale)
+    {
+        if (!$this->hasSession()) {
+            throw new \LogicException('Forward compatibility for Request::setLocale() requires the session to be set.');
+        }
+
+        $this->session->setLocale($locale);
+    }
+
+    public function getLocale()
+    {
+        if (!$this->hasSession()) {
+            throw new \LogicException('Forward compatibility for Request::getLocale() requires the session to be set.');
+        }
+
+        return $this->session->getLocale();
+    }
+
     /**
      * Checks whether the method is safe or not.
      *
@@ -1029,9 +1047,9 @@ class Request
         $values = array();
         foreach (array_filter(explode(',', $header)) as $value) {
             // Cut off any q-value that might come after a semi-colon
-            if ($pos = strpos($value, ';')) {
-                $q     = (float) trim(substr($value, strpos($value, '=') + 1));
-                $value = trim(substr($value, 0, $pos));
+            if (preg_match('/;\s*(q=.*$)/', $value, $match)) {
+                $q     = (float) substr(trim($match[1]), 2);
+                $value = trim(substr($value, 0, -strlen($match[0])));
             } else {
                 $q = 1;
             }
@@ -1059,7 +1077,7 @@ class Request
     {
         $requestUri = '';
 
-        if ($this->headers->has('X_REWRITE_URL')) {
+        if ($this->headers->has('X_REWRITE_URL') && false !== stripos(PHP_OS, 'WIN')) {
             // check this first so IIS will catch
             $requestUri = $this->headers->get('X_REWRITE_URL');
         } elseif ($this->server->get('IIS_WasUrlRewritten') == '1' && $this->server->get('UNENCODED_URL') != '') {
@@ -1190,7 +1208,7 @@ class Request
             $requestUri = substr($requestUri, 0, $pos);
         }
 
-        if ((null !== $baseUrl) && (false === ($pathInfo = substr($requestUri, strlen($baseUrl))))) {
+        if ((null !== $baseUrl) && (false === ($pathInfo = substr(urldecode($requestUri), strlen(urldecode($baseUrl)))))) {
             // If substr() returns false then PATH_INFO is set to an empty string
             return '/';
         } elseif (null === $baseUrl) {

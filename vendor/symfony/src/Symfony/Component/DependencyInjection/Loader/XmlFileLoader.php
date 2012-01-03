@@ -17,7 +17,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\SimpleXMLElement;
 use Symfony\Component\Config\Resource\FileResource;
 
@@ -77,6 +76,7 @@ class XmlFileLoader extends FileLoader
      *
      * @param SimpleXMLElement $xml
      * @param string $file
+     *
      * @return void
      */
     private function parseParameters(SimpleXMLElement $xml, $file)
@@ -93,6 +93,7 @@ class XmlFileLoader extends FileLoader
      *
      * @param SimpleXMLElement $xml
      * @param string $file
+     *
      * @return void
      */
     private function parseImports(SimpleXMLElement $xml, $file)
@@ -112,6 +113,7 @@ class XmlFileLoader extends FileLoader
      *
      * @param SimpleXMLElement $xml
      * @param string $file
+     *
      * @return void
      */
     private function parseDefinitions(SimpleXMLElement $xml, $file)
@@ -131,6 +133,7 @@ class XmlFileLoader extends FileLoader
      * @param string $id
      * @param SimpleXMLElement $service
      * @param string $file
+     *
      * @return void
      */
     private function parseDefinition($id, $service, $file)
@@ -203,13 +206,14 @@ class XmlFileLoader extends FileLoader
      * Parses a XML file.
      *
      * @param string $file Path to a file
+     *
      * @throws \InvalidArgumentException When loading of XML file returns error
      */
     private function parseFile($file)
     {
         $dom = new \DOMDocument();
         libxml_use_internal_errors(true);
-        if (!$dom->load($file, LIBXML_COMPACT)) {
+        if (!$dom->load($file, defined('LIBXML_COMPACT') ? LIBXML_COMPACT : 0)) {
             throw new \InvalidArgumentException(implode("\n", $this->getXmlErrors()));
         }
         $dom->validateOnParse = true;
@@ -225,6 +229,7 @@ class XmlFileLoader extends FileLoader
      *
      * @param SimpleXMLElement $xml
      * @param string $file
+     *
      * @return array An array of anonymous services
      */
     private function processAnonymousServices(SimpleXMLElement $xml, $file)
@@ -294,6 +299,7 @@ class XmlFileLoader extends FileLoader
      *
      * @param \DOMDocument $dom
      * @param string $file
+     *
      * @return void
      *
      * @throws \RuntimeException         When extension references a non-existent XSD file
@@ -326,10 +332,10 @@ class XmlFileLoader extends FileLoader
         $imports = '';
         foreach ($schemaLocations as $namespace => $location) {
             $parts = explode('/', $location);
-            if (preg_match('#^phar://#i', $location)) {
+            if (0 === stripos($location, 'phar://')) {
                 $tmpfile = tempnam(sys_get_temp_dir(), 'sf2');
                 if ($tmpfile) {
-                    file_put_contents($tmpfile, file_get_contents($location));
+                    copy($location, $tmpfile);
                     $tmpfiles[] = $tmpfile;
                     $parts = explode('/', str_replace('\\', '/', $tmpfile));
                 }
@@ -369,6 +375,7 @@ EOF
      *
      * @param \DOMDocument $dom
      * @param string $file
+     *
      * @return void
      *
      * @throws  \InvalidArgumentException When non valid tag are found or no extension are found
@@ -422,6 +429,7 @@ EOF
      * Loads from an extension.
      *
      * @param SimpleXMLElement $xml
+     *
      * @return void
      */
     private function loadFromExtensions(SimpleXMLElement $xml)

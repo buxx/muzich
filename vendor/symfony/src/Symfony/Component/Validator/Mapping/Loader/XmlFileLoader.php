@@ -80,14 +80,14 @@ class XmlFileLoader extends FileLoader
             if (count($node) > 0) {
                 if (count($node->value) > 0) {
                     $options = $this->parseValues($node->value);
-                } else if (count($node->constraint) > 0) {
+                } elseif (count($node->constraint) > 0) {
                     $options = $this->parseConstraints($node->constraint);
-                } else if (count($node->option) > 0) {
+                } elseif (count($node->option) > 0) {
                     $options = $this->parseOptions($node->option);
                 } else {
                     $options = array();
                 }
-            } else if (strlen((string) $node) > 0) {
+            } elseif (strlen((string) $node) > 0) {
                 $options = trim($node);
             } else {
                 $options = null;
@@ -114,7 +114,7 @@ class XmlFileLoader extends FileLoader
             if (count($node) > 0) {
                 if (count($node->value) > 0) {
                     $value = $this->parseValues($node->value);
-                } else if (count($node->constraint) > 0) {
+                } elseif (count($node->constraint) > 0) {
                     $value = $this->parseConstraints($node->constraint);
                 } else {
                     $value = array();
@@ -148,7 +148,7 @@ class XmlFileLoader extends FileLoader
             if (count($node) > 0) {
                 if (count($node->value) > 0) {
                     $value = $this->parseValues($node->value);
-                } else if (count($node->constraint) > 0) {
+                } elseif (count($node->constraint) > 0) {
                     $value = $this->parseConstraints($node->constraint);
                 } else {
                     $value = array();
@@ -176,7 +176,7 @@ class XmlFileLoader extends FileLoader
     {
         $dom = new \DOMDocument();
         libxml_use_internal_errors(true);
-        if (!$dom->load($file, LIBXML_COMPACT)) {
+        if (!$dom->load($file, defined('LIBXML_COMPACT') ? LIBXML_COMPACT : 0)) {
             throw new MappingException(implode("\n", $this->getXmlErrors()));
         }
         if (!$dom->schemaValidate(__DIR__.'/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd')) {

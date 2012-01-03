@@ -90,11 +90,11 @@ class TimeType extends AbstractType
             $builder->appendNormTransformer(new ReversedTransformer(
                 new DateTimeToStringTransformer($options['data_timezone'], $options['data_timezone'], $format)
             ));
-        } else if ($options['input'] === 'timestamp') {
+        } elseif ($options['input'] === 'timestamp') {
             $builder->appendNormTransformer(new ReversedTransformer(
                 new DateTimeToTimestampTransformer($options['data_timezone'], $options['data_timezone'])
             ));
-        } else if ($options['input'] === 'array') {
+        } elseif ($options['input'] === 'array') {
             $builder->appendNormTransformer(new ReversedTransformer(
                 new DateTimeToArrayTransformer($options['data_timezone'], $options['data_timezone'], $parts)
             ));
@@ -123,18 +123,19 @@ class TimeType extends AbstractType
     public function getDefaultOptions(array $options)
     {
         return array(
-            'hours'         => range(0, 23),
-            'minutes'       => range(0, 59),
-            'seconds'       => range(0, 59),
-            'widget'        => 'choice',
-            'input'         => 'datetime',
-            'with_seconds'  => false,
-            'data_timezone' => null,
-            'user_timezone' => null,
-            'empty_value'   => null,
+            'hours'          => range(0, 23),
+            'minutes'        => range(0, 59),
+            'seconds'        => range(0, 59),
+            'widget'         => 'choice',
+            'input'          => 'datetime',
+            'with_seconds'   => false,
+            'data_timezone'  => null,
+            'user_timezone'  => null,
+            'empty_value'    => null,
             // Don't modify \DateTime classes by reference, we treat
             // them like immutable value objects
-            'by_reference'  => false,
+            'by_reference'   => false,
+            'error_bubbling' => false,
         );
     }
 

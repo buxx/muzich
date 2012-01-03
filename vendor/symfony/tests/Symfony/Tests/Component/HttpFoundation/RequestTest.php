@@ -11,7 +11,6 @@
 
 namespace Symfony\Tests\Component\HttpFoundation;
 
-use Symfony\Component\HttpFoundation\HeaderBag;
 
 use Symfony\Component\HttpFoundation\SessionStorage\ArraySessionStorage;
 
@@ -526,6 +525,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             array('88.88.88.88', true, '127.0.0.1', null, '88.88.88.88'),
             array('::1', false, '::1', null, null),
             array('2620:0:1cfe:face:b00c::3', true, '::1', '2620:0:1cfe:face:b00c::3', null),
+            array('2620:0:1cfe:face:b00c::3', true, '::1', null, '2620:0:1cfe:face:b00c::3, ::1'),
+            array('88.88.88.88', true, '123.45.67.89', null, '88.88.88.88, 87.65.43.21, 127.0.0.1'),
         );
     }
 
@@ -689,6 +690,31 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $request->getBasePath());
     }
 
+    public function testGetPathInfo()
+    {
+        $request = new Request();
+        $this->assertEquals('/', $request->getPathInfo());
+
+        $server = array();
+        $server['REQUEST_URI'] = '/path/info';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+
+        $this->assertEquals('/path/info', $request->getPathInfo());
+
+        $server = array();
+        $server['REQUEST_URI'] = '/path test/info';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+
+        $this->assertEquals('/path test/info', $request->getPathInfo());
+
+        $server = array();
+        $server['REQUEST_URI'] = '/path%20test/info';
+        $request->initialize(array(), array(), array(), array(), array(), $server);
+
+        $this->assertEquals('/path test/info', $request->getPathInfo());
+
+    }
+
     public function testGetPreferredLanguage()
     {
         $request = new Request();
@@ -812,6 +838,30 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request->headers->set('Accept-language', 'zh, en-us; q=0.8, en; q=0.6');
 
         $this->assertContains('Accept-Language: zh, en-us; q=0.8, en; q=0.6', $request->__toString());
+    }
+
+    /**
+     * @dataProvider splitHttpAcceptHeaderData
+     */
+    public function testSplitHttpAcceptHeader($acceptHeader, $expected)
+    {
+        $request = new Request();
+
+        $this->assertEquals($expected, $request->splitHttpAcceptHeader($acceptHeader));
+    }
+
+    public function splitHttpAcceptHeaderData()
+    {
+        return array(
+            array(null, array()),
+            array('text/html;q=0.8', array('text/html' => 0.8)),
+            array('text/html;foo=bar;q=0.8 ', array('text/html;foo=bar' => 0.8)),
+            array('text/html;charset=utf-8; q=0.8', array('text/html;charset=utf-8' => 0.8)),
+            array('text/html,application/xml;q=0.9,*/*;charset=utf-8; q=0.8', array('text/html' => 1, 'application/xml' => 0.9, '*/*;charset=utf-8' => 0.8)),
+            array('text/html,application/xhtml+xml;q=0.9,*/*;q=0.8; foo=bar', array('text/html' => 1, 'application/xhtml+xml' => 0.9, '*/*' => 0.8)),
+            array('text/html,application/xhtml+xml;charset=utf-8;q=0.9; foo=bar,*/*', array('text/html' => 1, '*/*' => 1, 'application/xhtml+xml;charset=utf-8' => 0.9)),
+            array('text/html,application/xhtml+xml', array('application/xhtml+xml' => 1, 'text/html' => 1)),
+        );
     }
 }
 

@@ -13,11 +13,7 @@ namespace Symfony\Bundle\DoctrineBundle\Mapping;
 
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Doctrine\ORM\Tools\EntityRepositoryGenerator;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
-use Doctrine\ORM\ORMException;
 
 /**
  * This class provides methods to access Doctrine entity class metadata for a
@@ -81,12 +77,12 @@ class MetadataFactory
         if (class_exists($class)) {
             $r = $all[0]->getReflectionClass();
             $path = $this->getBasePathForClass($class, $r->getNamespacename(), dirname($r->getFilename()));
+            $metadata->setNamespace($r->getNamespacename());
         } elseif (!$path) {
             throw new \RuntimeException(sprintf('Unable to determine where to save the "%s" class (use the --path option).', $class));
         }
 
         $metadata->setPath($path);
-        $metadata->setNamespace($r->getNamespacename());
 
         return $metadata;
     }

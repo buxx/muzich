@@ -183,7 +183,6 @@ class IndexControllerTest extends FunctionalTest
     $this->isResponseRedirection();
     $this->followRedirection();
     $this->isResponseSuccess();
-    $this->exist('html:contains("'.$bux->getEmail().'")');
     
     // On se rend sur le lien envoyé dans le mail
     $this->crawler = $this->client->request('GET', $url);

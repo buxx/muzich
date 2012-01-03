@@ -13,9 +13,7 @@ namespace Symfony\Bundle\FrameworkBundle\DependencyInjection;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
-use Symfony\Component\DependencyInjection\Parameter;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Config\Resource\FileResource;
@@ -197,7 +195,7 @@ class FrameworkExtension extends Extension
             'sqlite' => 'Symfony\Component\HttpKernel\Profiler\SqliteProfilerStorage',
             'mysql'  => 'Symfony\Component\HttpKernel\Profiler\MysqlProfilerStorage',
         );
-        list($class, ) = explode(':', $config['dsn']);
+        list($class, ) = explode(':', $config['dsn'], 2);
         if (!isset($supported[$class])) {
             throw new \LogicException(sprintf('Driver "%s" is not supported for the profiler.', $class));
         }
@@ -341,6 +339,19 @@ class FrameworkExtension extends Extension
             new Reference('templating.asset.default_package'),
             $namedPackages,
         ));
+
+        // Apply request scope to assets helper if one or more packages are request-scoped
+        $requireRequestScope = array_reduce(
+            $namedPackages,
+            function($v, Reference $ref) use ($container) {
+                return $v || 'request' === $container->getDefinition($ref)->getScope();
+            },
+            'request' === $defaultPackage->getScope()
+        );
+
+        if ($requireRequestScope) {
+            $container->getDefinition('templating.helper.assets')->setScope('request');
+        }
 
         if (!empty($config['loaders'])) {
             $loaders = array_map(function($loader) { return new Reference($loader); }, $config['loaders']);
@@ -502,7 +513,7 @@ class FrameworkExtension extends Extension
                 })->in($dirs);
                 foreach ($finder as $file) {
                     // filename is domain.locale.format
-                    list($domain, $locale, $format) = explode('.', $file->getBasename());
+                    list($domain, $locale, $format) = explode('.', $file->getBasename(), 3);
 
                     $translator->addMethodCall('addResource', array($format, (string) $file, $locale, $domain));
                 }

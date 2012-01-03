@@ -55,6 +55,8 @@ class DateTimeType extends AbstractType
                 'days',
                 'empty_value',
                 'required',
+                'invalid_message',
+                'invalid_message_parameters'
             )));
             $timeOptions = array_intersect_key($options, array_flip(array(
                 'hours',
@@ -63,6 +65,8 @@ class DateTimeType extends AbstractType
                 'with_seconds',
                 'empty_value',
                 'required',
+                'invalid_message',
+                'invalid_message_parameters'
             )));
 
             // If `widget` is set, overwrite widget options from `date` and `time`
@@ -103,11 +107,11 @@ class DateTimeType extends AbstractType
             $builder->appendNormTransformer(new ReversedTransformer(
                 new DateTimeToStringTransformer($options['data_timezone'], $options['data_timezone'], $format)
             ));
-        } else if ($options['input'] === 'timestamp') {
+        } elseif ($options['input'] === 'timestamp') {
             $builder->appendNormTransformer(new ReversedTransformer(
                 new DateTimeToTimestampTransformer($options['data_timezone'], $options['data_timezone'])
             ));
-        } else if ($options['input'] === 'array') {
+        } elseif ($options['input'] === 'array') {
             $builder->appendNormTransformer(new ReversedTransformer(
                 new DateTimeToArrayTransformer($options['data_timezone'], $options['data_timezone'], $parts)
             ));

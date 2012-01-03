@@ -12,7 +12,6 @@
 namespace Symfony\Bundle\FrameworkBundle\Controller;
 
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 /**
  * ControllerNameParser converts controller from the short notation a:b:c
@@ -39,8 +38,6 @@ class ControllerNameParser
      * Converts a short notation a:b:c to a class::method.
      *
      * @param string $controller A short notation controller (a:b:c)
-     *
-     * @param string A controller (class::method)
      */
     public function parse($controller)
     {

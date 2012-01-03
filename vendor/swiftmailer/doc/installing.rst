@@ -4,6 +4,18 @@ Installing the Library
 Installing Swift Mailer is trivial. Usually it's just a case of uploading the
 extracted source files to your web server.
 
+Installing from PEAR
+--------------------
+
+If you want to install Swiftmailer globally on your machine, the easiest
+installation method is using the PEAR channel.
+
+To install the Swiftmailer PEAR package:
+
+* Run the command ``pear channel-discover pear.swiftmailer.org``.
+
+* Then, run the command ``pear install swift/swift``.
+
 Installing from a Package
 -------------------------
 
@@ -141,7 +153,7 @@ The following example shows show you can upload the files using
     You do not need to place the files inside your web root. They only need to be in a place
     where your PHP scripts can "include" them.
 
-    .. code-block: bash
+    .. code-block:: bash
 
         chrisbook:Swift-4.0.0-dev chris$ rsync -rvz lib d11wtq@swiftmailer.org:swiftmailer
         building file list ... done
@@ -165,3 +177,25 @@ The following example shows show you can upload the files using
         chrisbook:Swift-4.0.0-dev chris$
 
 .. _`github`: http://github.com/swiftmailer/swiftmailer
+
+Troubleshooting
+---------------
+
+Swiftmailer does not work when used with function overloading as implemented
+by ``mbstring`` (``mbstring.func_overload`` set to ``2``). A workaround is to
+temporarily change the internal encoding to ``ASCII`` when sending an email:
+
+.. code-block:: php
+
+    if (function_exists('mb_internal_encoding') && ((int) ini_get('mbstring.func_overload')) & 2)
+    {
+      $mbEncoding = mb_internal_encoding();
+      mb_internal_encoding('ASCII');
+    }
+
+    // Creation your message and send it with Swiftmailer
+
+    if (isset($mbEncoding))
+    {
+      mb_internal_encoding($mbEncoding);
+    }

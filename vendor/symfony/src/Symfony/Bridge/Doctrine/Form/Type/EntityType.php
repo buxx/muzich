@@ -12,7 +12,6 @@
 namespace Symfony\Bridge\Doctrine\Form\Type;
 
 use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bridge\Doctrine\Form\ChoiceList\EntityChoiceList;
 use Symfony\Bridge\Doctrine\Form\EventListener\MergeCollectionListener;
@@ -48,7 +47,7 @@ class EntityType extends AbstractType
             'class'             => null,
             'property'          => null,
             'query_builder'     => null,
-            'choices'           => array(),
+            'choices'           => null,
         );
 
         $options = array_replace($defaultOptions, $options);

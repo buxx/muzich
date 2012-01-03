@@ -20,6 +20,14 @@ To send a Message:
 
 * Send the message via the ``send()`` method on the Mailer object.
 
+.. caution::
+
+    The ``Swift_SmtpTransport`` and ``Swift_SendmailTransport`` transports use
+    ``proc_*`` PHP functions, which might not be available on your PHP
+    installation. You can easily check if that the case by running the
+    following PHP script: ``<?php echo function_exists('proc_open') ? "Yep,
+    that will work" : "Sorry, that won't work"; ``
+
 When using ``send()`` the message will be sent just like it would
 be sent if you used your mail client. An integer is returned which includes
 the number of successful recipients. If none of the recipients could be sent
@@ -206,7 +214,7 @@ Your username and password will be used to authenticate upon first connect
 when ``send()`` are first used on the Mailer.
 
 If authentication fails, an Exception of type
-``Swift_Transport_TransportException`` will be thrown.
+``Swift_TransportException`` will be thrown.
 
 .. note::
 
@@ -307,7 +315,7 @@ To use the Sendmail Transport:
 
 A sendmail process will be started upon the first call to ``send()``. If the
 process cannot be started successfully an Exception of type
-``Swift_Transport_TransportException`` will be thrown.
+``Swift_TransportException`` will be thrown.
 
 .. code-block:: php
 
@@ -409,7 +417,7 @@ Using the ``send()`` Method
 
 The ``send()`` method of the ``Swift_Mailer`` class
 sends a message using exactly the same logic as your Desktop mail client would
-use. Just pass it a Messgae and get a result.
+use. Just pass it a Message and get a result.
 
 To send a Message with ``send()``:
 
@@ -518,8 +526,13 @@ email address on the ``To:`` field.
 
         foreach ($to as $address => $name)
         {
-          $message->setTo(array($address => $name));
-          $numSent += $this->send($message, $failedRecipients);
+          if (is_int($address)) {
+            $message->setTo($name);
+          } else {
+            $message->setTo(array($address => $name));
+          }
+
+          $numSent += $mailer->send($message, $failedRecipients);
         }
 
         printf("Sent %d messages\n", $numSent);

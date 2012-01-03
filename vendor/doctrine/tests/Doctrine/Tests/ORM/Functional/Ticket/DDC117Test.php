@@ -209,8 +209,15 @@ class DDC117Test extends \Doctrine\Tests\OrmFunctionalTestCase
         $this->article1->addTranslation('en', 'Bar');
         $this->article1->addTranslation('en', 'Baz');
 
-        $this->setExpectedException('Exception');
-        $this->_em->flush();
+        $exceptionThrown = false;
+        try {
+            // exception depending on the underyling Database Driver
+            $this->_em->flush();
+        } catch(\Exception $e) {
+            $exceptionThrown = true;
+        }
+
+        $this->assertTrue($exceptionThrown, "The underlying database driver throws an exception.");
     }
 
     /**
@@ -409,5 +416,21 @@ class DDC117Test extends \Doctrine\Tests\OrmFunctionalTestCase
         $this->_em->clear();
 
         return $this->_em->find(get_class($editor), $editor->id);
+    }
+
+    /**
+     * @group DDC-1519
+     */
+    public function testMergeForeignKeyIdentifierEntity()
+    {
+        $idCriteria = array('source' => $this->article1->id(), 'target' => $this->article2->id());
+
+        $refRep = $this->_em->find("Doctrine\Tests\Models\DDC117\DDC117Reference", $idCriteria);
+
+        $this->_em->detach($refRep);
+        $refRep = $this->_em->merge($refRep);
+
+        $this->assertEquals($this->article1->id(), $refRep->source()->id());
+        $this->assertEquals($this->article2->id(), $refRep->target()->id());
     }
 }

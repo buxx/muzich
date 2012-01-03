@@ -479,7 +479,7 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->request('GET', '/');
         $this->assertHttpKernelIsNotCalled();
         $this->assertEquals(200, $this->response->getStatusCode());
-        $this->assertEquals($this->responses[0]->headers->get('Date'), $this->response->headers->get('Date'));
+        $this->assertTrue(strtotime($this->responses[0]->headers->get('Date')) - strtotime($this->response->headers->get('Date')) < 2);
         $this->assertTrue($this->response->headers->get('Age') > 0);
         $this->assertNotNull($this->response->headers->get('X-Content-Digest'));
         $this->assertTraceContains('fresh');
@@ -503,7 +503,7 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->request('GET', '/');
         $this->assertHttpKernelIsNotCalled();
         $this->assertEquals(200, $this->response->getStatusCode());
-        $this->assertEquals($this->responses[0]->headers->get('Date'), $this->response->headers->get('Date'));
+        $this->assertTrue(strtotime($this->responses[0]->headers->get('Date')) - strtotime($this->response->headers->get('Date')) < 2);
         $this->assertTrue($this->response->headers->get('Age') > 0);
         $this->assertNotNull($this->response->headers->get('X-Content-Digest'));
         $this->assertTraceContains('fresh');
@@ -527,7 +527,7 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->request('GET', '/');
         $this->assertHttpKernelIsNotCalled();
         $this->assertEquals(200, $this->response->getStatusCode());
-        $this->assertEquals($this->responses[0]->headers->get('Date'), $this->response->headers->get('Date'));
+        $this->assertTrue(strtotime($this->responses[0]->headers->get('Date')) - strtotime($this->response->headers->get('Date')) < 2);
         $this->assertTrue($this->response->headers->get('Age') > 0);
         $this->assertNotNull($this->response->headers->get('X-Content-Digest'));
         $this->assertTraceContains('fresh');
@@ -601,7 +601,7 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->request('GET', '/');
         $this->assertHttpKernelIsCalled();
         $this->assertEquals(200, $this->response->getStatusCode());
-        $this->assertEquals(0, $this->response->headers->get('Age'));
+        $this->assertTrue($this->response->headers->get('Age') <= 1);
         $this->assertNotNull($this->response->headers->get('X-Content-Digest'));
         $this->assertTraceContains('stale');
         $this->assertTraceNotContains('fresh');
@@ -640,7 +640,7 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->assertEquals(200, $this->response->getStatusCode());
         $this->assertNotNull($this->response->headers->get('Last-Modified'));
         $this->assertNotNull($this->response->headers->get('X-Content-Digest'));
-        $this->assertEquals(0, $this->response->headers->get('Age'));
+        $this->assertTrue($this->response->headers->get('Age') <= 1);
         $this->assertEquals('Hello World', $this->response->getContent());
         $this->assertTraceContains('stale');
         $this->assertTraceContains('valid');
@@ -676,7 +676,7 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->assertEquals(200, $this->response->getStatusCode());
         $this->assertNotNull($this->response->headers->get('ETag'));
         $this->assertNotNull($this->response->headers->get('X-Content-Digest'));
-        $this->assertEquals(0, $this->response->headers->get('Age'));
+        $this->assertTrue($this->response->headers->get('Age') <= 1);
         $this->assertEquals('Hello World', $this->response->getContent());
         $this->assertTraceContains('stale');
         $this->assertTraceContains('valid');
@@ -977,5 +977,31 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->assertTrue($this->response->mustRevalidate());
         $this->assertTrue($this->response->headers->hasCacheControlDirective('private'));
         $this->assertTrue($this->response->headers->hasCacheControlDirective('no-cache'));
+    }
+
+    public function testEsiRecalculateContentLengthHeader()
+    {
+        $responses = array(
+            array(
+                'status'  => 200,
+                'body'    => '<esi:include src="/foo" />',
+                'headers' => array(
+                    'Content-Length'    => 26,
+                    'Cache-Control'     => 's-maxage=300',
+                    'Surrogate-Control' => 'content="ESI/1.0"',
+                ),
+            ),
+            array(
+                'status'  => 200,
+                'body'    => 'Hello World!',
+                'headers' => array(),
+            ),
+        );
+
+        $this->setNextResponses($responses);
+
+        $this->request('GET', '/', array(), array(), true);
+        $this->assertEquals('Hello World!', $this->response->getContent());
+        $this->assertEquals(12, $this->response->headers->get('Content-Length'));
     }
 }
