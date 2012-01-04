@@ -107,6 +107,30 @@ class UserController extends Controller
     $form_values = $this->getRequest()->request->get($form->getName());
     $user = $form->getData();
     
+    /**
+     * Contrôle du token
+     */
+    
+    $r_token = $this->getDoctrine()->getRepository('MuzichCoreBundle:RegistrationToken')
+      ->findOneBy(array('token' => $form_values["token"], 'used' => false))
+    ;
+      
+    if (!$r_token)
+    {
+      $errors[] = $this->get('translator')->trans(
+        'registration.token.error', 
+        array(),
+        'validators'
+      );
+    }
+    else
+    {
+      $r_token->setUsed(true);
+      $em = $this->getDoctrine()->getEntityManager();
+      $em->persist($r_token);
+      $em->flush();
+    }
+    
     /*
      * Contrôle de la taille du pseudo
      * min: 3
@@ -176,11 +200,12 @@ class UserController extends Controller
     return $this->container->get('templating')->renderResponse(
       'MuzichIndexBundle:Index:index.html.twig',
       array(
-        'form' => $form->createView(),
-        'error' => null,
-        'registration_errors' => $form->getErrors(),
+        'form'                     => $form->createView(),
+        'error'                    => null,
+        'registration_errors'      => $form->getErrors(),
         'registration_errors_pers' => $errors,
-        'last_username' => null
+        'last_username'            => null,
+        'registration_page'        => true
       )
     );
   }

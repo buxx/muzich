@@ -6,7 +6,7 @@
     
   <div class="hello">
 
-    <div id="login_box">
+    <div id="login_box" style="{% if registration_page is defined %}display: none;{% endif %}">
       {% include "MuzichUserBundle:Security:login.html.twig" %}
         
       <a href="#" id="registration_link">
@@ -14,7 +14,7 @@
       </a>
     </div>
     
-    <div id="registration_box" style="display: none;">
+    <div id="registration_box" style="{% if registration_page is not defined %}display: none;{% endif %}">
       {% include "MuzichUserBundle:Registration:register.html.twig" %}
         
       <a href="#" id="login_link">

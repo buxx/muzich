@@ -24,3 +24,7 @@ error:
   changeemail:
     email:
       invalid:           L'email saisie n'est pas valide.
+      
+registration:
+  token:
+    error:               Le code saisie pour l'inscription n'est pas correct
