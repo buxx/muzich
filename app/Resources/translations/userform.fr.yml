@@ -8,3 +8,9 @@ email:     Email
 password:
   first:   Mot de passe
   second:  Mot de passe (vérification)
+token:     Code d'inscription
+
+help:
+  token:   |
+            Rentrez ici le code qui vous à été fournis afin de vous inscrire 
+            a la version non publique.
