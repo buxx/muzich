@@ -37,7 +37,7 @@ class RegistrationToken
   
   /**
    * Si ce boolean est a vrai il n'est plus utilisable
-   * @ORM\Column(type="boolean")
+   * @ORM\Column(type="boolean", nullable=true)
    * @var type boolean
    */
   protected $used = false;
