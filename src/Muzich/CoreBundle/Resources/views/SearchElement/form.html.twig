@@ -1,5 +1,4 @@
-<form action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
-  
+
   {{ form_errors(search_form) }}
 
   <div class="field">
@@ -12,6 +11,3 @@
   
   {{ form_row(search_form.tags) }}
   {{ form_row(search_form._token) }}
-
-  <input type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
-</form>
