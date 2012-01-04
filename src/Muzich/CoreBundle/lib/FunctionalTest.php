@@ -77,17 +77,18 @@ class FunctionalTest extends WebTestCase
     $this->crawler = $this->client->request('GET', $this->generateUrl('fos_user_security_logout'));
   }
   
-  protected function validate_registrate_user_form($form, $username, $email, $pass1, $pass2)
+  protected function validate_registrate_user_form($form, $username, $email, $pass1, $pass2, $token)
   {
     $form['fos_user_registration_form[username]'] = $username;
     $form['fos_user_registration_form[email]'] = $email;
     $form['fos_user_registration_form[plainPassword][first]'] = $pass1;
     // Un des mots de passe est incorrect
     $form['fos_user_registration_form[plainPassword][second]'] = $pass2;
+    $form['fos_user_registration_form[token]'] = $token;
     $this->submit($form);
   }
   
-  protected function procedure_registration_success($username, $email, $pass1, $pass2)
+  protected function procedure_registration_success($username, $email, $pass1, $pass2, $token)
   {
     $this->crawler = $this->client->request('GET', $this->generateUrl('index'));
     $this->isResponseSuccess();
@@ -100,7 +101,8 @@ class FunctionalTest extends WebTestCase
       $username, 
       $email, 
       $pass1,
-      $pass2
+      $pass2,
+      $token
     );
     
     
@@ -127,7 +129,7 @@ class FunctionalTest extends WebTestCase
     }
   }
   
-  protected function procedure_registration_failure($username, $email, $pass1, $pass2)
+  protected function procedure_registration_failure($username, $email, $pass1, $pass2, $token)
   {
     $this->crawler = $this->client->request('GET', $this->generateUrl('index'));
     $this->isResponseSuccess();
@@ -140,7 +142,8 @@ class FunctionalTest extends WebTestCase
       $username, 
       $email, 
       $pass1,
-      $pass2
+      $pass2,
+      $token
     );
     
     $this->isResponseSuccess();

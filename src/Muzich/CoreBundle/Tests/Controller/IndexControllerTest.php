@@ -3,6 +3,7 @@
 namespace Muzich\CoreBundle\Tests\Controller;
 
 use Muzich\CoreBundle\lib\FunctionalTest;
+use Muzich\CoreBundle\Entity\RegistrationToken;
 
 class IndexControllerTest extends FunctionalTest
 {
@@ -77,6 +78,13 @@ class IndexControllerTest extends FunctionalTest
 
     $this->assertEquals('anon.', $this->getUser());
     
+    // On a besoin d'un token pour le moment
+    $token = new RegistrationToken();
+    $token->setToken('4vcsdv54svqcc3q1v54sdv6qs');
+    $em = $this->getDoctrine()->getEntityManager();
+    $em->persist($token);
+    $em->flush();
+    
     $this->exist('div.register');
     $this->exist('form[action="'.($url = $this->generateUrl('register')).'"]');
     $this->exist('form[action="'.$url.'"] input[id="fos_user_registration_form_username"]');
@@ -89,7 +97,8 @@ class IndexControllerTest extends FunctionalTest
       'raoula', 
       'raoula.def4v65sds@gmail.com', 
       'toor', 
-      'toor'
+      'toor',
+      '4vcsdv54svqcc3q1v54sdv6qs'
     );
   }
   
@@ -101,12 +110,20 @@ class IndexControllerTest extends FunctionalTest
      */
     $this->client = self::createClient();
 
+    // On a besoin d'un token pour le moment
+    $token = new RegistrationToken();
+    $token->setToken('45gf645jgf6xqz4dc');
+    $em = $this->getDoctrine()->getEntityManager();
+    $em->persist($token);
+    $em->flush();
+    
     // Mots de passe différents
     $this->procedure_registration_failure(
       'raoulb', 
       'raoulb.def4v65sds@gmail.com', 
       'toor', 
-      'toorr'
+      'toorr',
+      '45gf645jgf6xqz4dc'
     );
 
     // Pseudo trop court
@@ -114,7 +131,8 @@ class IndexControllerTest extends FunctionalTest
       'ra', 
       'raoulb.def4v65sds@gmail.com', 
       'toor', 
-      'toor'
+      'toor',
+      '45gf645jgf6xqz4dc'
     );
     
     // Pseudo trop long
@@ -124,7 +142,8 @@ class IndexControllerTest extends FunctionalTest
          .'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuul', 
       'raoulb.def4v65sds@gmail.com', 
       'toor', 
-      'toor'
+      'toor',
+      '45gf645jgf6xqz4dc'
     );
 
     // Email invalide
@@ -132,7 +151,8 @@ class IndexControllerTest extends FunctionalTest
       'raoulc', 
       'raoulb.def4v65sds@gmail', 
       'toor', 
-      'toor'
+      'toor',
+      '45gf645jgf6xqz4dc'
     );
   }
   
