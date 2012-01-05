@@ -3,6 +3,7 @@
 namespace Muzich\CoreBundle\Tests\Controller;
 
 use Muzich\CoreBundle\lib\FunctionalTest;
+use Muzich\CoreBundle\Entity\RegistrationToken;
 
 class UserControllerTest extends FunctionalTest
 {
@@ -20,11 +21,19 @@ class UserControllerTest extends FunctionalTest
     $this->crawler = $this->client->request('GET', $this->generateUrl('index'));
     $this->isResponseSuccess();
 
+    // On a besoin d'un token pour le moment
+    $token = new RegistrationToken();
+    $token->setToken('hekt78yl789dzafdfz');
+    $em = $this->getDoctrine()->getEntityManager();
+    $em->persist($token);
+    $em->flush();
+    
     $this->procedure_registration_success(
       'raoulc', 
       'raoulc.def4v65sds@gmail.com', 
       'toor', 
-      'toor'
+      'toor',
+      'hekt78yl789dzafdfz'
     );
     
     // Il ne doit y avoir aucun enregistrements de tags favoris
