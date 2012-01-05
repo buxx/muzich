@@ -29,7 +29,12 @@ MuzichHomeBundle:
   resource: "@MuzichHomeBundle/Resources/config/routing.yml"
   prefix: /{_locale}/
   defaults:
-    _locale: en|fr
+    _locale: fr
+    
+# On doit rajouter une route au cas ou la langue n'est pas précisé.
+home_bis:
+  pattern:  /
+  defaults: { _controller: MuzichHomeBundle:Home:index }
 
 MuzichUserBundle:
   resource: "@MuzichUserBundle/Resources/config/routing.yml"
