@@ -38,15 +38,17 @@ security:
         
     ## La en tant qu'exemple, exploiter ça (http://j-place.developpez.com/tutoriels/php/ameliorez-vos-applications-developpees-avec-symfony2/#LVI-A-3)
     access_control:
+      
+        # PAGES ACCESSIBLES AUX ADMINISTRATEURS
+        - { path: ^/admin, role: ROLE_ADMIN }
+      
+        # AUTRES
         - { path: "^/hello", roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "^/hello/(?:fr|en)", roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "^/(?:fr|en)/resetting", roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "^/change-language/(?:fr|en)", roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        
-        # PAGES ACCESSIBLES AUX ADMINISTRATEURS
-        - { path: ^/admin, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        
+                
         - { path: ^/_wdt/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/_profiler/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         
@@ -58,6 +60,7 @@ security:
         - { path: ^/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         
         - { path: ^/, roles: ROLE_USER }
+        
 #        # Liste des pages accessibles à tous les utilisateurs (ne pas toucher)
 #        - { path: ^/register$, role: IS_AUTHENTICATED_ANONYMOUSLY }
 #        
