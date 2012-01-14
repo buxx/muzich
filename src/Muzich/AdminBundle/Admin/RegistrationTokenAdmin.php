@@ -15,6 +15,7 @@ class RegistrationTokenAdmin extends Admin
     $listMapper
       ->addIdentifier('id')
       ->addIdentifier('token')
+      ->add('used')
       ->add('_action', 'actions', array(
         'actions' => array(
           'view' => array(),
