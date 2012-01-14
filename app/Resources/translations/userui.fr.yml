@@ -33,6 +33,8 @@ tags:
 filter:
   network: "Résultats de "
   submit:  Filtrer
+  clear:   Aucun filtre
+  mytags:  Tous mes tags
   
 element_add:
   url:

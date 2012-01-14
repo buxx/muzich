@@ -172,6 +172,12 @@
               }
               $('input#'+form_name+'_tags').val(array2json(input_values));
             }
+            
+            // Suppression tu tableau js
+            if (inArray(tagsAddeds[form_name], id))
+            {
+              delete tagsAddeds[form_name][id];
+            }
         },
         updateInput : function() {
             

@@ -115,20 +115,31 @@ if(typeof(String.prototype.trim) === "undefined")
 
 $(document).ready(function(){
   
- // Affichage un/des embed
- $('a.element_embed_open_link').click(function(){
-   $(this).parent('li.element').find('a.element_embed_open_link').hide();
-   $(this).parent('li.element').find('a.element_embed_close_link').show();
-   $(this).parent('li.element').find('div.element_embed').show();
-   return false;
- });
+   // Affichage un/des embed
+   $('a.element_embed_open_link').click(function(){
+     $(this).parent('li.element').find('a.element_embed_open_link').hide();
+     $(this).parent('li.element').find('a.element_embed_close_link').show();
+     $(this).parent('li.element').find('div.element_embed').show();
+     return false;
+   });
 
- // Fermeture du embed si demandé
- $('a.element_embed_close_link').click(function(){
-   $(this).parent('li.element').find('a.element_embed_open_link').show();
-   $(this).parent('li.element').find('a.element_embed_close_link').hide();
-   $(this).parent('li.element').find('div.element_embed').hide();
-   return false;
+   // Fermeture du embed si demandé
+   $('a.element_embed_close_link').click(function(){
+     $(this).parent('li.element').find('a.element_embed_open_link').show();
+     $(this).parent('li.element').find('a.element_embed_close_link').hide();
+     $(this).parent('li.element').find('div.element_embed').hide();
+     return false;
+   });
+   
+   // Bouton de personalisation du filtre
+   // pour le moment ce ne sotn que des redirection vers des actions
+   $('.tags_prompt input.clear').click(function(){
+     $(location).attr('href', $('input.filter_clear_url').val());
+   });
+   $('.tags_prompt input.mytags').click(function(){
+     $(location).attr('href', $('input.filter_mytags_url').val());
+   });
+   
  });
-
- });
+ 
+ 

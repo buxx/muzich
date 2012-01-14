@@ -437,3 +437,13 @@ span.sinfo
   font-size: 85%;
   text-align: center;
 }
+
+input.main
+{
+  font-weight: bold;
+}
+
+input.clear, input.mytags
+{
+  font-size: 80%;
+}

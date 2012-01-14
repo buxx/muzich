@@ -263,4 +263,18 @@ class CoreController extends Controller
     
   }
   
+  public function filterClearAction()
+  {
+    $es = $this->getElementSearcher();
+    $es->update(array('tags' => array()));
+    $this->setElementSearcherParams($es->getParams());
+    return $this->redirect($this->container->get('request')->headers->get('referer'));
+  }
+  
+  public function filterMytagsAction()
+  {
+    $this->getElementSearcher(null, true);
+    return $this->redirect($this->container->get('request')->headers->get('referer'));
+  }
+  
 }

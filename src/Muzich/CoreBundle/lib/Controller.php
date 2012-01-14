@@ -43,11 +43,11 @@ class Controller extends BaseController
    * 
    * @return  ElementSearcher
    */
-  protected function getElementSearcher($count = null)
+  protected function getElementSearcher($count = null, $force_new = false)
   {
     $session = $this->get("session");
     // Si l'objet n'existe pas encore, a t-on déjà des paramètres de recherche
-    if (!$session->has('user.element_search.params'))
+    if (!$session->has('user.element_search.params') || $force_new)
     {
       // Il nous faut instancier notre premier objet recherche
       // Premièrement on récupère les tags favoris de l'utilisateur

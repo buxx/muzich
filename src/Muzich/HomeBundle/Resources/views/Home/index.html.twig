@@ -28,13 +28,12 @@
   <form action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
 
     {% include "MuzichCoreBundle:SearchElement:form.html.twig" with { 
-      'form_name'      : search_form_name,
-      'search_tags'    : search_tags_id
+      'form_name'               : search_form_name,
+      'search_tags'             : search_tags_id,
+      'display_specials_buttons': true
     } %}
-
-    <span class="help">{{ 'tags_filter.help'|trans({}, 'userui') }}</span>
-    <br />
-    <input type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
+    
+    <input class="main" type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
   </form>
 
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}

@@ -6,7 +6,7 @@
     {{ form_label(search_form.network, 'filter.network'|trans({}, 'userui')) }}
     {{ form_widget(search_form.network) }}
   </div>
-
+  
   {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
   
   {{ form_row(search_form.tags) }}

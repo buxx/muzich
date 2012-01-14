@@ -20,6 +20,14 @@ search_tag_ig_by_name:
   pattern: /search/tagid/{string_search}
   defaults: { _controller: MuzichCoreBundle:Search:searchTagId, string_search: null }
 
+filter_clear:
+  pattern: /filter/clear
+  defaults: { _controller: MuzichCoreBundle:Core:filterClear }
+
+filter_mytags:
+  pattern: /filter/my-tags
+  defaults: { _controller: MuzichCoreBundle:Core:filterMytags }
+
 ####
 
 info_about:
