@@ -45,3 +45,7 @@ element_add:
     
 tags_filter:
   help:       Pour ne pas filtrer avec des tags, supprimez les tous de la liste.
+  
+index:
+  beta:
+    warning:  L'accès au service est privé pendant le développement de l'application

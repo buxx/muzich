@@ -19,3 +19,13 @@ search_tag:
 search_tag_ig_by_name:
   pattern: /search/tagid/{string_search}
   defaults: { _controller: MuzichCoreBundle:Search:searchTagId, string_search: null }
+
+####
+
+info_about:
+  pattern: /info/about
+  defaults: { _controller: MuzichCoreBundle:Info:about }
+  
+info_development:
+  pattern: /info/development
+  defaults: { _controller: MuzichCoreBundle:Info:development }

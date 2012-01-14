@@ -15,6 +15,9 @@
     </div>
     
     <div id="registration_box" style="{% if registration_page is not defined %}display: none;{% endif %}">
+      
+      <span class="sinfo">{{ 'index.beta.warning'|trans({}, 'userui') }}</span>
+
       {% include "MuzichUserBundle:Registration:register.html.twig" %}
         
       <a href="#" id="login_link">

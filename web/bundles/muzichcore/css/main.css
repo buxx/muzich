@@ -1,6 +1,11 @@
 
 #container
 {
+  position: relative;
+  min-height: 100%;
+  padding-bottom: 30px;
+  
+  
   width: 640px;
   margin-top: 45px;
   margin-left: auto;
@@ -39,7 +44,7 @@
   
 }
 
-#container a 
+#container a
 {
   text-decoration: none;
   color: #00d0de;
@@ -408,4 +413,27 @@ span.help
   background-image: url(/bundles/muzichcore/img/1325329213_system-help.png);
   background-repeat: no-repeat;
   background-position: left top;
+}
+
+span.sinfo
+{
+  font-size: 10px;
+  padding-left: 18px;
+  background-image: url(/bundles/muzichcore/img/1326549580_info.png);
+  background-repeat: no-repeat;
+  background-position: left top;
+}
+
+#bottomContainer a
+{
+  text-decoration: none;
+  color: black;
+}
+
+#bottomContainer
+{
+  padding: 2px;
+  
+  font-size: 85%;
+  text-align: center;
 }
