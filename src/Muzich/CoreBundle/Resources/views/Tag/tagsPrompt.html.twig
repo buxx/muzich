@@ -2,7 +2,7 @@
 
 <div class="tags_prompt" id="tags_prompt_{{ form_name }}">
   <span class="help">{{ 'tags.help'|trans({}, 'userui') }}</span>
-  
+    
   {% if display_specials_buttons is defined %}
     {% if display_specials_buttons == true %}
       <br />
@@ -13,6 +13,7 @@
     {% endif %}
   {% endif %}
   
+   <img id="tag_loader_{{ form_name }}" class="tag_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
    <input class="tags_prompt_list" id="tags_prompt_list_{{ form_name }}" name="tags" value=""> 
 </div>
 
@@ -53,9 +54,10 @@
         
         // ici il faut faire une ajax q pour obtenir la liste
         // ou a est un tableau de strings
-        
+        $('#tag_loader_{{ form_name }}').css('display', 'block');
         $.getJSON('/app_dev.php/fr/search/tag/'+req.term, function(data) {
           responseFn( data );
+          $('#tag_loader_{{ form_name }}').css('display', 'none');
         });
       },
       minLength: 2,

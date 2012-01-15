@@ -24,7 +24,7 @@
 
   <h2>Ajouter un groupe</h2>
 
-  <form action="{{ path('group_add') }}" method="post" {{ form_enctype(form_new) }}>
+  <form name="{{ form_new_name }}" action="{{ path('group_add') }}" method="post" {{ form_enctype(form_new) }}>
     
     {% include "MuzichGroupBundle:Form:form.html.twig" with { 'form': form_new, 'form_name': form_new_name } %}
 

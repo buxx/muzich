@@ -10,7 +10,7 @@
       {{ 'home.add_element_box.close'|trans({}, 'navigationui') }} >>
     </a>
     
-    <form action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}>
+    <form name="{{ add_form_name }}" action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}>
 
       {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
         'form'          : add_form, 
@@ -25,7 +25,7 @@
     {{ 'home.add_element'|trans({}, 'navigationui') }} >>
   </a>
 
-  <form action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
+  <form name="{{ search_form_name }}" action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
 
     {% include "MuzichCoreBundle:SearchElement:form.html.twig" with { 
       'form_name'               : search_form_name,

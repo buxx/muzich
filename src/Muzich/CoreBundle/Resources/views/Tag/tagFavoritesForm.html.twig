@@ -1,4 +1,4 @@
-<form action="{{ path('update_tag_favorites', { 'redirect' : redirect }) }}" method="post" {{ form_enctype(form) }}>
+<form name="{{ form_name }}" action="{{ path('update_tag_favorites', { 'redirect' : redirect }) }}" method="post" {{ form_enctype(form) }}>
   
   {{ form_errors(form) }}
 

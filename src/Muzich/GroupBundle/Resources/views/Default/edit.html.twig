@@ -6,7 +6,7 @@
 
   <h2>Edition du groupe {{ group.name }}</h2>
 
-  <form action="{{ path('group_update', { 'slug': group.slug }) }}" method="post" {{ form_enctype(form) }}>
+  <form name="{{ form_name }}" action="{{ path('group_update', { 'slug': group.slug }) }}" method="post" {{ form_enctype(form) }}>
     
     {% include "MuzichGroupBundle:Form:form.html.twig" %}
 

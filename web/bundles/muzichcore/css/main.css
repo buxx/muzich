@@ -323,7 +323,6 @@ cursor: text;
 border: 1px solid #ccc;
 overflow: hidden;
 padding: 0 0 1px 3px;
-min-height:48px;
 }
 ul.tagbox li {
 margin:0;
@@ -480,4 +479,11 @@ ul.tagbox input[type="text"]:FOCUS
     color-stop(0.49, rgb(168,238,255)),
     color-stop(1, rgb(189,241,254))
   );
+}
+
+.tag_loader
+{
+  float: right;
+  margin-top: 36px;
+  margin-left: 5px;
 }
