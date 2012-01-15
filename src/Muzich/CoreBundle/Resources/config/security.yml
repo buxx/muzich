@@ -22,6 +22,11 @@ security:
                 path:   /logout
                 target: /hello
             anonymous:  ~
+            remember_me:
+              key:      sfdg45m14ez4g5f69ez8s1n
+              lifetime: 1209600
+              path:     /
+              domain:   ~
             
     #role_hierarchy:
       # Attention, pas sur de ces lignes là !
