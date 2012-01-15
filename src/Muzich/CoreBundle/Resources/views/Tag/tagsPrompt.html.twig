@@ -71,21 +71,7 @@
   });  
   
   $('#tags_prompt_{{ form_name }} input[type="text"]').val(tag_text_help);
-  $('#tags_prompt_{{ form_name }} input[type="text"]').focus(function(){
-    if ($(this).val() == tag_text_help)
-    {
-      $(this).val('');
-      //$(this).addClass('focuson');
-      //$(this).removeClass('focusout');
-    }
-  });
-  $('#tags_prompt_{{ form_name }} input[type="text"]').focusout(function(){
-    if (!$(this).val())
-    {
-      $(this).val(tag_text_help);
-      //$(this).removeClass('focuson');
-      //$(this).addClass('focusout');
-    }
-  });
+  $('#tags_prompt_{{ form_name }} input[type="text"]').formDefaults();
+  
     
 </script>
