@@ -3,47 +3,66 @@
   <ul class="elements">
     {% for element in elements %} 
       <li class="element {% if loop.index0 is even %}even{% else %}odd{% endif %}" id="element_{{ element.id }}">
-        
-        {% if element.embed %}
-          <img src="{{ asset('bundles/muzichcore/img/1324917083_player.png') }}" alt="player" />
+             
+        {% if element.getCountFavorite %}
+          <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': user.personalHash }) }}" >
+            <img src="{{ asset('bundles/muzichcore/img/favorite.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
+          </a>
         {% else %}
-          <img src="{{ asset('bundles/muzichcore/img/1324917097_link.png') }}" alt="link" />
+          <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': user.personalHash }) }}" >
+            <img src="{{ asset('bundles/muzichcore/img/favorite_bw.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
+          </a>
         {% endif %}
         
-        {% if element.group %}
-          <b class="element_group">
-            (<a href="{{ path('show_group', {'slug': element.group.slug}) }}">{{ element.group.name }}</a>)
-          </b>
-        {% endif %}
-          
         <span class="element_name">
           {{ element.name }}
         </span> 
         
-        <span class="element_author">
-          (<a href="{{ path('show_user', {'slug': element.owner.slug}) }}">{{ element.owner.name }}</a>)
-        </span>
+        {% autoescape false %}
+          {% if element.group %}
+            {{ 'element.name.whoandgroup'|trans({
+              '%owner_url%'  : path('show_user', {'slug': element.owner.slug}),
+              '%owner_name%' : element.owner.name,
+              '%group_url%'  : path('show_group', {'slug': element.group.slug}),
+              '%group_name%' : element.group.name
+            }, 'elements') }}
+          {% else %}
+            {{ 'element.name.who'|trans({
+              '%owner_url%'  : path('show_user', {'slug': element.owner.slug}),
+              '%owner_name%' : element.owner.name
+            }, 'elements') }}
+          {% endif %}
+        {% endautoescape %}
         
-        <a class="element_link" href="{{ element.url }}" target="_blank">link</a>
-                  
-          {% if element.getCountFavorite %}
-            | <a href="{{ path('favorite_remove', { 'id': element.id, 'token': user.personalHash }) }}" >
-              <img src="{{ asset('bundles/muzichcore/img/favorite.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
+        
+        <a title="{{ 'element.link'|trans({}, 'elements') }}" class="element_link" href="{{ element.url }}" target="_blank">
+          <img src="{{ asset('bundles/muzichcore/img/1324917097_link.png') }}" alt="link" />
+        </a>
+          
+        {% if element.embed %}
+          {% autoescape false %}
+            <div id="embed_{{ element.id }}" class="element_embed" style="display: none;">
+              {{ element.embed }}
+            </div>
+          {% endautoescape %}
+        {% endif %}
+        
+        <div>
+
+          {% if element.embed %}
+            <a href="#" class="element_open element_embed_close_link" style="display: none;">
+              {{ 'element.show.close_embed'|trans({}, 'elements') }}
+            </a>
+            <a href="#" class="element_open element_embed_open_link">
+              {{ 'element.show.open_embed'|trans({}, 'elements') }}
             </a>
           {% else %}
-            | <a href="{{ path('favorite_add', { 'id': element.id, 'token': user.personalHash }) }}" >
-              <img src="{{ asset('bundles/muzichcore/img/favorite_bw.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
+            <a href="{{ element.url }}" class="element_open" target="_blank">
+              {{ 'element.show.open_link'|trans({}, 'elements') }}
             </a>
           {% endif %}
-          
-          {% if element.embed %}
-            {% autoescape false %}
-              <div id="embed_{{ element.id }}" class="element_embed" style="display: none;">
-                {{ element.embed }}
-              </div>
-            {% endautoescape %}
-          {% endif %}
-          
+        
+          {% if element.tags|length %}
           <ul class="element_tags">
             {% for tag in element.tags %} 
               <li class="element_tag">
@@ -51,15 +70,11 @@
               </li>
             {% endfor %} 
           </ul>
-            
-          {% if element.embed %}
-          <a href="#" class="element_embed_close_link" style="display: none;">
-            {{ 'element.show.close_embed'|trans({}, 'elements') }}
-          </a>
-          <a href="#" class="element_embed_open_link">
-            {{ 'element.show.open_embed'|trans({}, 'elements') }}
-          </a>
+          {% else %}
+          <br />
           {% endif %}
+          
+        </div>
 
       </li>
     {% endfor %} 

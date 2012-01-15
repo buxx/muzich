@@ -12,3 +12,8 @@ element:
   show:
     close_embed:        Cacher le lecteur
     open_embed:         Afficher le lecteur
+    open_link:          Ouvrir la page
+  name:
+    who:                (envoyé par <a href="%owner_url%">%owner_name%</a>)
+    whoandgroup:        (envoyé par <a href="%owner_url%">%owner_name%</a> dans le groupe <a href="%group_url%">%group_name%</a>)
+  link:                 Ouvrir la page d'origine

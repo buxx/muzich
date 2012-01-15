@@ -384,6 +384,23 @@ li.element
 {
   margin-top: 5px;
   margin-bottom: 5px;
+  padding: 5px;
+}
+
+li.element a.favorite_link
+{
+  float: right;
+}
+
+li.element a.element_open
+{
+  float: right;
+  font-weight: bold;
+}
+
+li.element div.element_embed
+{
+  text-align: center;
 }
 
 ul.elements li.even
@@ -486,4 +503,9 @@ ul.tagbox input[type="text"]:FOCUS
   float: right;
   margin-top: 36px;
   margin-left: 5px;
+}
+
+.element_name
+{
+  font-weight: bold;
 }

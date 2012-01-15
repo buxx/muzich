@@ -117,17 +117,17 @@ $(document).ready(function(){
   
    // Affichage un/des embed
    $('a.element_embed_open_link').click(function(){
-     $(this).parent('li.element').find('a.element_embed_open_link').hide();
-     $(this).parent('li.element').find('a.element_embed_close_link').show();
-     $(this).parent('li.element').find('div.element_embed').show();
+     $(this).parent().parent('li.element').find('a.element_embed_open_link').hide();
+     $(this).parent().parent('li.element').find('a.element_embed_close_link').show();
+     $(this).parent().parent('li.element').find('div.element_embed').show();
      return false;
    });
 
    // Fermeture du embed si demandé
    $('a.element_embed_close_link').click(function(){
-     $(this).parent('li.element').find('a.element_embed_open_link').show();
-     $(this).parent('li.element').find('a.element_embed_close_link').hide();
-     $(this).parent('li.element').find('div.element_embed').hide();
+     $(this).parent().parent('li.element').find('a.element_embed_open_link').show();
+     $(this).parent().parent('li.element').find('a.element_embed_close_link').hide();
+     $(this).parent().parent('li.element').find('div.element_embed').hide();
      return false;
    });
    
