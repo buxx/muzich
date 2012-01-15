@@ -59,7 +59,7 @@ class SearchController extends Controller
    *
    * @param string $string_search 
    */
-  public function searchTagAction($string_search)
+  public function searchTagAction($string_search, $timestamp)
   {
     if ($this->getRequest()->isXmlHttpRequest())
     {
@@ -94,7 +94,12 @@ class SearchController extends Controller
         $tags_response[] = $tag['name'];
       }
       
-      $response = new Response(json_encode($tags_response));
+      $return_array = array(
+        'timestamp' => $timestamp,
+        'data'      => $tags_response
+      );
+      
+      $response = new Response(json_encode($return_array));
       $response->headers->set('Content-Type', 'application/json; charset=utf-8');
       return $response;
     }

@@ -13,7 +13,7 @@ element_add:
   defaults: { _controller: MuzichCoreBundle:Core:elementAdd, group_slug: null }
 
 search_tag:
-  pattern: /search/tag/{string_search}
+  pattern: /search/tag/{string_search}/{timestamp}
   defaults: { _controller: MuzichCoreBundle:Search:searchTag, string_search: null }
   
 search_tag_ig_by_name:

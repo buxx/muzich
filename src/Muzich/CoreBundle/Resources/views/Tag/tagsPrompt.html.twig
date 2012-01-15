@@ -31,6 +31,8 @@
   options.form_name  = "{{ form_name }}";
   options.tag_init   = taginit;
   
+  ajax_query_timestamp = null;
+  
   $("#tags_prompt_list_{{ form_name }}").tagBox(options);
   
   // On détruit la variable taginit
@@ -55,9 +57,16 @@
         // ici il faut faire une ajax q pour obtenir la liste
         // ou a est un tableau de strings
         $('#tag_loader_{{ form_name }}').css('display', 'block');
-        $.getJSON('/app_dev.php/fr/search/tag/'+req.term, function(data) {
-          responseFn( data );
-          $('#tag_loader_{{ form_name }}').css('display', 'none');
+        ajax_query_timestamp = new Date().getTime();
+        $.getJSON('/app_dev.php/fr/search/tag/'+req.term+'/'+ajax_query_timestamp, function(data) {
+          
+          // Ce contrôle permet de ne pas continuer si une requete
+          // ajax a été faite depuis.
+          if (data.timestamp == ajax_query_timestamp)
+          {
+            responseFn( data.data );
+            $('#tag_loader_{{ form_name }}').css('display', 'none');
+          }
         });
       },
       minLength: 2,
