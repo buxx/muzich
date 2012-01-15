@@ -28,7 +28,7 @@ tags:
   help:  |
            Tapez dans le cadre ci-dessous le mot que vous souhaitez utiliser. 
            Une liste de tags disponibles apparaitra et vous pourrez choisir le 
-           tag voulu dans la liste. Vous pouvez choisir plueurs tags.
+           tag voulu dans la liste. Vous pouvez choisir plusieurs tags.
   inputtext:
     help:      Tapez votre tag ici
            
