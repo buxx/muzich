@@ -420,9 +420,10 @@ class User extends BaseUser
     
     if (count($ids_to_add))
     {
+      $ids_to_add = array_merge($ids_to_add);
       $tag_favorite_position_max = $this->getTagFavoritePositionMax();
       $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($ids_to_add)->execute();
-
+      
       // Pour les nouveaux ids restants
       foreach ($tags as $tag)
       {      
