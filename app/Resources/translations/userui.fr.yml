@@ -11,7 +11,7 @@ start:
   tags:
     title:     Choisissez vos tags préférés
     remind:    Vous pourrez egallement modifier vos tags préféré dans la partie 'mon compte'.
-
+    
 my_account: 
   title:          Mon compte
   username:         Nom d'utilisateur
@@ -29,6 +29,8 @@ tags:
            Tapez dans le cadre ci-dessous le mot que vous souhaitez utiliser. 
            Une liste de tags disponibles apparaitra et vous pourrez choisir le 
            tag voulu dans la liste. Vous pouvez choisir plueurs tags.
+  inputtext:
+    help:      Tapez votre tag ici
            
 filter:
   network: "Résultats de "

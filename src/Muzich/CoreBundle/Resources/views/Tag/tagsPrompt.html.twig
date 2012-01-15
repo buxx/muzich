@@ -25,6 +25,7 @@
     {% endfor %}
   {% endif %}
   
+  tag_text_help = "{{ 'tags.inputtext.help'|trans({}, 'userui') }}";
   var options = new Array();
   options.form_name  = "{{ form_name }}";
   options.tag_init   = taginit;
@@ -56,16 +57,6 @@
         $.getJSON('/app_dev.php/fr/search/tag/'+req.term, function(data) {
           responseFn( data );
         });
-        
-          //var sstr = $.trim(req.term);
-          //var re = $.ui.autocomplete.escapeRegex(sstr);
-          //var matcher = new RegExp(re, "i" );
-          //var a = $.grep( taglist, function(item,index){
-          //    return matcher.test(item);
-          //});
-          //console.debug(a);
-          
-          //responseFn( a );
       },
       minLength: 2,
       select: function(e, ui) {
@@ -76,5 +67,23 @@
           }
       }
   });  
+  
+  $('#tags_prompt_{{ form_name }} input[type="text"]').val(tag_text_help);
+  $('#tags_prompt_{{ form_name }} input[type="text"]').focus(function(){
+    if ($(this).val() == tag_text_help)
+    {
+      $(this).val('');
+      //$(this).addClass('focuson');
+      //$(this).removeClass('focusout');
+    }
+  });
+  $('#tags_prompt_{{ form_name }} input[type="text"]').focusout(function(){
+    if (!$(this).val())
+    {
+      $(this).val(tag_text_help);
+      //$(this).removeClass('focuson');
+      //$(this).addClass('focusout');
+    }
+  });
     
 </script>

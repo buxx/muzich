@@ -307,8 +307,10 @@ background:#fff;
 list-style:none;
 position: absolute;
 cursor: default;
+list-style-type: none;
+width: 300px;
 }
-.ui-autocomplete li {margin:0;}
+.ui-autocomplete li {margin-right:8px; float: left;}
 .ui-autocomplete li a {display:block; padding:4px;}
 .ui-autocomplete li a.ui-state-hover,
 .ui-autocomplete li a:hover {background:#eee;} 
@@ -446,4 +448,36 @@ input.main
 input.clear, input.mytags
 {
   font-size: 80%;
+}
+
+ul.tagbox, ul.tagbox input[type="text"]
+{
+  background-color: #bdf1fe;
+}
+
+ul.tagbox input[type="text"]
+{
+  height: 14px;
+  margin-top: 3px;
+  width: 150px;
+  color: #676767;
+  font-weight: bold;
+}
+
+ul.tagbox input[type="text"]:FOCUS
+{
+  background-image: linear-gradient(left , rgb(137,232,253) 10%, rgb(168,238,255) 49%, rgb(189,241,254) 100%);
+  background-image: -o-linear-gradient(left , rgb(137,232,253) 10%, rgb(168,238,255) 49%, rgb(189,241,254) 100%);
+  background-image: -moz-linear-gradient(left , rgb(137,232,253) 10%, rgb(168,238,255) 49%, rgb(189,241,254) 100%);
+  background-image: -webkit-linear-gradient(left , rgb(137,232,253) 10%, rgb(168,238,255) 49%, rgb(189,241,254) 100%);
+  background-image: -ms-linear-gradient(left , rgb(137,232,253) 10%, rgb(168,238,255) 49%, rgb(189,241,254) 100%);
+
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    right bottom,
+    color-stop(0.1, rgb(137,232,253)),
+    color-stop(0.49, rgb(168,238,255)),
+    color-stop(1, rgb(189,241,254))
+  );
 }
