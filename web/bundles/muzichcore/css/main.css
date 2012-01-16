@@ -509,3 +509,9 @@ ul.tagbox input[type="text"]:FOCUS
 {
   font-weight: bold;
 }
+
+div.no_elements
+{
+  text-align: center;
+  background-color: #d9f7ff;
+}

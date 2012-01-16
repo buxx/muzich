@@ -133,7 +133,7 @@ $(document).ready(function(){
    
    // Bouton de personalisation du filtre
    // pour le moment ce ne sotn que des redirection vers des actions
-   $('.tags_prompt input.clear').click(function(){
+   $('.tags_prompt input.clear, .filter_clear_url').click(function(){
      $(location).attr('href', $('input.filter_clear_url').val());
    });
    $('.tags_prompt input.mytags').click(function(){

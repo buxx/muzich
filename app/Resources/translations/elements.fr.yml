@@ -1,6 +1,11 @@
 
 noelements:
-  sentence:             Aucun element a afficher
+  sentence:             Aucun élément a afficher
+  sentence_filter:      |
+                         Aucun élément a afficher, ceci est peut-être du a un
+                         filtre trop restrictif.
+                         <a class="filter_clear_url" href="#" >%link_string%</a> ?
+  sentence_filter_link_string: Vider le filtre
   
 element:
   favorite:

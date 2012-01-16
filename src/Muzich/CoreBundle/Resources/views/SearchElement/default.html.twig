@@ -82,6 +82,18 @@
 
 {% else %}
 
-  <p class="no-elements">{{ 'noelements.sentence'|trans({}, 'elements') }}</p>
+  <div class="no_elements">
+    {% if noelements_filter is defined %}
+      <p class="no-elements">
+        {% autoescape false %}
+          {{ 'noelements.sentence_filter'|trans({
+            '%link_string%': 'noelements.sentence_filter_link_string'|trans({}, 'elements')
+          }, 'elements') }}
+        {% endautoescape %}
+      </p>
+    {% else %}
+      <p class="no-elements">{{ 'noelements.sentence'|trans({}, 'elements') }}</p>
+    {% endif %}
+  </div>
 
 {% endif %}

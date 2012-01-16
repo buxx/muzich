@@ -23,7 +23,7 @@ my_account:
 connexion:
   password_lost:    Mot de passe perdu ?
   
-more:    plus
+more:    Afficher plus de résultats
 tags:
   help:  |
            Tapez dans le cadre ci-dessous le mot que vous souhaitez utiliser. 
