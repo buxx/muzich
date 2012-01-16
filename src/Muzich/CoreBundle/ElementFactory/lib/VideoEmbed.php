@@ -235,9 +235,11 @@ class VideoEmbed {
         if (($this->_type)) {
             $regexp = $this->_video_embed_conf['services'][$this->_type]['extractPattern'];
             preg_match($regexp, $this->_embedSource , $match);
-
-            if ($match[count($match)-1]) $this->_id = $match[count($match)-1];
-            return $this->_id;
+            if (count($match))
+            {
+              if ($match[count($match)-1]) $this->_id = $match[count($match)-1];
+              return $this->_id;
+            }
         }
         return false;
     }
