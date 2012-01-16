@@ -3,7 +3,7 @@
   <div id="top_bar">
 
     <a href="{{ path('my_account') }}" >
-      {{ 'top_bar.my_account'|trans({'%name%' : user.name}, 'navigationui') }}
+      {{ 'top_bar.my_account'|trans({'%name%' : app.user.name}, 'navigationui') }}
     </a>
 
     <a href="{{ path('fos_user_security_logout') }}" >
