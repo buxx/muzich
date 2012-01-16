@@ -1,0 +1,12 @@
+
+#container #group_add_link, #container #group_add_close_link
+{
+  font-size: 120%;
+  float: right;
+}
+
+#container #group_add_box
+{
+  background-color: #e3f6fd;
+  padding: 20px;
+}

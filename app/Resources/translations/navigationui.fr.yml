@@ -22,6 +22,17 @@ home:
   add_element_box:
     close:              Fermer
   
+group:
+  add_element:          Ajouter un élément dans ce groupe
+  add_group:            Ajouter un groupe
+  add_element_box:
+    close:              Fermer
+  add_group_box:
+    close:              Fermer
+  
+my_groups:
+  title:                Mes groupes
+  
 title:
   hello:                Découvrez et partagez la musique !
   

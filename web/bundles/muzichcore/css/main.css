@@ -50,6 +50,11 @@
   color: #00d0de;
 }
 
+#container a:hover
+{
+  text-decoration: underline;
+}
+
 #container #top-tabs, .top-tabs-right
 {
   float: left;

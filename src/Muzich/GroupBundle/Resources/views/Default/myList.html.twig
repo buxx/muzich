@@ -1,8 +1,12 @@
 {% extends "MuzichGroupBundle::layout.html.twig" %}
 
-{% block title %}Mes groupes{% endblock %}
+{% block title %}{{ 'my_groups.title'|trans({}, 'navigationui') }}{% endblock %}
 
 {% block content %}
+
+  <a href="#" id="group_add_link">
+    {{ 'group.add_group'|trans({}, 'navigationui') }} >>
+  </a>
 
   {% if groups|length %}
 
@@ -22,13 +26,21 @@
 
   {% endif %}
 
-  <h2>Ajouter un groupe</h2>
+  <div id="group_add_box" style="display: none;">
 
-  <form name="{{ form_new_name }}" action="{{ path('group_add') }}" method="post" {{ form_enctype(form_new) }}>
+    <a href="#" id="group_add_close_link">
+      << {{ 'group.add_group_box.close'|trans({}, 'navigationui') }}
+    </a>
     
-    {% include "MuzichGroupBundle:Form:form.html.twig" with { 'form': form_new, 'form_name': form_new_name } %}
+    <h2>{{ 'group.add_group'|trans({}, 'navigationui') }}</h2>
 
-    <input type="submit" />
-  </form>
+    <form name="{{ form_new_name }}" action="{{ path('group_add') }}" method="post" {{ form_enctype(form_new) }}>
+
+      {% include "MuzichGroupBundle:Form:form.html.twig" with { 'form': form_new, 'form_name': form_new_name } %}
+
+      <input type="submit" />
+    </form>
+  
+  </div>
 
 {% endblock %}

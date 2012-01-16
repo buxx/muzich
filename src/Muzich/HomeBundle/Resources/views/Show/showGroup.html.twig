@@ -27,21 +27,29 @@
   
   {% if his_group or group.open %}
   
-    <form name="{{ add_form_name }}" action="{{ path('element_add', {'group_slug' : group.slug}) }}" method="post" {{ form_enctype(add_form) }}>
+    <div id="element_add_box" style="display: none;">
+  
+      <a href="#" id="element_add_close_link">
+        << {{ 'group.add_element_box.close'|trans({}, 'navigationui') }}
+      </a>
+      
+      <form name="{{ add_form_name }}" action="{{ path('element_add', {'group_slug' : group.slug}) }}" method="post" {{ form_enctype(add_form) }}>
 
-      {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 'form': add_form, 'form_name': add_form_name } %}
+        {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 'form': add_form, 'form_name': add_form_name } %}
 
-      <p>
-        <i>
-          {{ 'element.add.group.will_be_in'|trans({}, 'elements') }}
-        </i>
-      </p>
-      <input type="submit" />
-    </form>
+        <input type="submit" />
+      </form>
+      
+    </div>
+  
+    <a href="#" id="element_add_link">
+      {{ 'group.add_element'|trans({}, 'navigationui') }} >>
+    </a>
+    <br />
   
   {% endif %}
   
-  {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
+  {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {'no_group_name' : true} %}
     
   {% if more_count is defined %} 
   {% if elements|length %}

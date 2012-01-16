@@ -145,7 +145,8 @@ class HomeControllerTest extends FunctionalTest
     $this->procedure_add_element(
       'Mon bel element', 
       'http://www.youtube.com/watch?v=WC8qb_of04E', 
-      array($hardtek->getId(), $tribe->getId())
+      array($hardtek->getId(), $tribe->getId()),
+            null, true
     );
     
     $this->isResponseRedirection();

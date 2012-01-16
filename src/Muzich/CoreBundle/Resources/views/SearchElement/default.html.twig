@@ -19,7 +19,7 @@
         </span> 
         
         {% autoescape false %}
-          {% if element.group %}
+          {% if element.group and no_group_name is not defined%}
             {{ 'element.name.whoandgroup'|trans({
               '%owner_url%'  : path('show_user', {'slug': element.owner.slug}),
               '%owner_name%' : element.owner.name,
