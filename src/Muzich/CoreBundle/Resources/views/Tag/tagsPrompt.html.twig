@@ -16,7 +16,9 @@
    <input class="tags_prompt_list" id="tags_prompt_list_{{ form_name }}" name="tags" value=""> 
    <div id="search_tag_{{ form_name }}" class="search_tag_list" style="display: none;">
      <span class="info"></span>
-     <img id="tag_loader_{{ form_name }}" class="tag_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
+     <div class="tag_loader_div">
+       <img id="tag_loader_{{ form_name }}" class="tag_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
+     </div>
      <ul class="search_tag_list"></ul>
      <a class="more" href="#" style="display: none;">Afficher les autres tags correspondant a la recherche</a>
    </div>
