@@ -7,7 +7,7 @@
   <div id="element_add_box" style="display: none;">
     
     <a href="#" id="element_add_close_link">
-      << {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
+      &lt;&lt; {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
     </a>
     
     <form name="{{ add_form_name }}" action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}>
@@ -22,7 +22,7 @@
   </div>
 
   <a href="#" id="element_add_link">
-    {{ 'home.add_element'|trans({}, 'navigationui') }} >>
+    {{ 'home.add_element'|trans({}, 'navigationui') }} &gt;&gt;
   </a>
 
   <form name="{{ search_form_name }}" action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>

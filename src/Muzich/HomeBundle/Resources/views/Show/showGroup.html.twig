@@ -30,7 +30,7 @@
     <div id="element_add_box" style="display: none;">
   
       <a href="#" id="element_add_close_link">
-        << {{ 'group.add_element_box.close'|trans({}, 'navigationui') }}
+        &lt;&lt; {{ 'group.add_element_box.close'|trans({}, 'navigationui') }}
       </a>
       
       <form name="{{ add_form_name }}" action="{{ path('element_add', {'group_slug' : group.slug}) }}" method="post" {{ form_enctype(add_form) }}>
@@ -43,7 +43,7 @@
     </div>
   
     <a href="#" id="element_add_link">
-      {{ 'group.add_element'|trans({}, 'navigationui') }} >>
+      {{ 'group.add_element'|trans({}, 'navigationui') }} &gt;&gt;
     </a>
     <br />
   

@@ -5,7 +5,7 @@
 {% block content %}
 
   <a href="#" id="group_add_link">
-    {{ 'group.add_group'|trans({}, 'navigationui') }} >>
+    {{ 'group.add_group'|trans({}, 'navigationui') }} &gt;&gt;
   </a>
 
   {% if groups|length %}
@@ -29,7 +29,7 @@
   <div id="group_add_box" style="display: none;">
 
     <a href="#" id="group_add_close_link">
-      << {{ 'group.add_group_box.close'|trans({}, 'navigationui') }}
+      &lt;&lt; {{ 'group.add_group_box.close'|trans({}, 'navigationui') }}
     </a>
     
     <h2>{{ 'group.add_group'|trans({}, 'navigationui') }}</h2>
