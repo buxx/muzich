@@ -13,8 +13,13 @@
     {% endif %}
   {% endif %}
   
-   <img id="tag_loader_{{ form_name }}" class="tag_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
    <input class="tags_prompt_list" id="tags_prompt_list_{{ form_name }}" name="tags" value=""> 
+   <div id="search_tag_{{ form_name }}" class="search_tag_list" style="display: none;">
+     <img id="tag_loader_{{ form_name }}" class="tag_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
+     <span class="info"></span>
+     <ul class="search_tag_list"></ul>
+     <a class="more" href="#" style="display: none;">Afficher les autres tags correspondant a la recherche</a>
+   </div>
 </div>
 
 <script language="javascript" type="text/javascript">
@@ -50,34 +55,202 @@
           .appendTo( ul );
   };
   
-  // The autocomplete for the last tagbox
-  $("#tags_prompt_{{ form_name }} ul.tagbox li.input input").autocomplete({
-      source: function(req, responseFn) {
-        
-        // ici il faut faire une ajax q pour obtenir la liste
-        // ou a est un tableau de strings
-        $('#tag_loader_{{ form_name }}').css('display', 'block');
-        ajax_query_timestamp = new Date().getTime();
-        $.getJSON('/app_dev.php/fr/search/tag/'+req.term+'/'+ajax_query_timestamp, function(data) {
-          
-          // Ce contrôle permet de ne pas continuer si une requete
-          // ajax a été faite depuis.
-          if (data.timestamp == ajax_query_timestamp)
-          {
-            responseFn( data.data );
-            $('#tag_loader_{{ form_name }}').css('display', 'none');
-          }
-        });
-      },
-      minLength: 2,
-      select: function(e, ui) {
-          e.preventDefault();
-          if(e.keyCode != 13) {
-              $(this).val(ui.item.value);
-              $(this).trigger("selectTag");
-          }
+  ////////////////////////
+    
+  // Les deux clicks ci-dessous permettent de faire disparaitre
+  // la div de tags lorsque l'on clique ailleurs
+  $('html').click(function() {
+    if ($("#search_tag_{{ form_name }}").is(':visible'))
+    {
+      $("#search_tag_{{ form_name }}").hide();
+    }
+  });
+  
+  $("#search_tag_{{ form_name }}").click(function(event){
+    event.stopPropagation();
+  });
+  
+  function autocomplete_tag(input, form_name)
+  {
+    // Il doit y avoir au moin un caractère
+    if (input.val().length > 0) 
+    {
+
+      // on met en variable l'input
+      inputTag = input;
+
+      // On récupére la div de tags
+      divtags = $("#search_tag_"+form_name);
+
+      // Si la fenêtre de tags est caché
+      if (!divtags.is(':visible'))
+      {
+        // On la replace
+        position = input.position();
+        divtags.css('left', Math.round(position.left) + 5);
+        divtags.css('top', Math.round(position.top) + 28);
+        // Et on l'affiche
+        divtags.show();
       }
-  });  
+      // On affiche le loader
+      $('#tag_loader_'+form_name).show();
+      // On cache la liste de tags
+      search_tag_list = divtags.find('ul.search_tag_list');
+      search_tag_list.hide();
+      // Et on affiche une info
+      span_info = divtags.find('span.info');
+      span_info.show();
+      span_info.text("Recherche des tags correspondants à \""+input.val()+"\" ...");
+
+      // C'est en fonction du nb de resultats qu'il sera affiché
+      divtags.find('a.more').hide();
+
+      // On récupère le timestamp pour reconnaitre la dernière requête effectué
+      ajax_query_timestamp = new Date().getTime();
+
+      // Récupération des tags correspondants
+      $.getJSON('/app_dev.php/fr/search/tag/'+input.val()+'/'+ajax_query_timestamp, function(data) {
+        // Ce contrôle permet de ne pas continuer si une requete
+        // ajax a été faite depuis.
+        if (data.timestamp == ajax_query_timestamp)
+        {
+          status = data.status;
+          tags   = data.data;
+
+          // Si on spécifie une erreur
+          if (status == 'error')
+          {
+            // On l'affiche a l'utilisateur
+            span_info.text(data.error);
+          }
+          // Si c'est un succés
+          else if (status == 'success')
+          {
+            if (tags.length > 1)
+            {
+              more = false;
+              // Pour chaque tags retournés
+              for (i in tags)
+              {
+                // On construit un li
+                li_tag = 
+                  $('<li>').append(
+                    $('<a>').attr('href','#'+tags[i])
+                    // qui réagit quand on clique dessus
+                    .click(function(e){
+                      // On récupère le nom du tag
+                      inputTag.val($(this).attr('href').substr(1,$(this).attr('href').length));
+                      // Et on execute l'évènement selectTag de l'input
+                      inputTag.trigger("selectTag");
+                      // On cache la liste puisque le choix vient d'être fait
+                      divtags.hide();
+                      return false;
+                    })
+                    .append(tags[i])
+                );
+
+                // Si on depasse les 30 tags
+                if (i > 30)
+                {
+                  more = true;
+                  // On le cache
+                  li_tag.hide();
+                }
+
+                // On ajout ce li a la liste
+                search_tag_list.append(li_tag);
+              } 
+
+              if (more)
+              {
+                divtags.find('a.more').show();
+              }
+
+              // On cache l'info
+              span_info.hide();
+              // Et on affiche la liste
+              search_tag_list.show();
+            }
+            else
+            {
+              span_info.text("Aucun tag de trouvé pour \""+inputTag.val()+"\"");
+            }
+            
+          }
+
+          // On cache le loader
+          $('#tag_loader_'+form_name).hide();
+        }
+      });
+      
+    }
+  }
+  
+  
+
+  last_keypress = 0;
+  
+  function check_timelaps_and_search(input, form_name, time_id, timed, info)
+  {
+    if (!timed)
+    {
+      // C'est une nouvelle touche (pas redirigé) on lui donne un id
+      // et on met a jour l'id de la dernière pressé
+      last_keypress = new Date().getTime(); 
+      var this_time_id = last_keypress;
+    }
+    else
+    {
+      // Si elle a été redirigé, on met son id dans cette variable
+      var this_time_id = time_id;
+    }
+    
+    // C'est une touche redirigé dans le temps qui a été suivit d'une autre touche
+    if (time_id != last_keypress && timed)
+    {
+      // elle disparait
+    }
+    else
+    {
+      //
+      if ((new Date().getTime() - last_keypress) < 600 || timed == false)
+      {
+        // Si elle vient d'être tapé (timed == false) elle doit attendre (au cas ou une autre touche soit tapé)
+        // Si c'est une redirigé qui n'a pas été remplacé par une nouvelle lettre
+        // elle doit attendre au cas ou soit pressé.
+        setTimeout(function(){check_timelaps_and_search(input, form_name, this_time_id, true, info)}, 700);
+      }
+      else
+      {
+        // il n'y a plus a attendre, on envoie la demande de tag.
+        autocomplete_tag(input, '{{ form_name }}');
+      }
+    }
+  }
+
+  // Autocompletion de tags
+  $("#tags_prompt_{{ form_name }} ul.tagbox li.input input").keypress(function(e){
+    
+    var code = (e.keyCode ? e.keyCode : e.which);
+
+    if ((e.which !== 0 && e.charCode !== 0) || (code == 8 || code == 46))
+    {
+      check_timelaps_and_search($(this), '{{ form_name }}', new Date().getTime(), false, $(this).val());
+    }
+     
+  });
+  
+  // Un click sur ce lien affiche tout les tags cachés de la liste
+  $('div.search_tag_list a.more').click(function(){
+    jQuery.each( $(this).parent('div').find('ul.search_tag_list li') , function(){
+      $(this).show();
+    });
+    return false;
+  });
+  
+  /////////////////////////////////
+  
+
   
   $('#tags_prompt_{{ form_name }} input[type="text"]').val(tag_text_help);
   $('#tags_prompt_{{ form_name }} input[type="text"]').formDefaults();

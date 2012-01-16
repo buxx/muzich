@@ -520,3 +520,11 @@ div.no_elements
   text-align: center;
   background-color: #d9f7ff;
 }
+
+/*  Recherche de tags dynamique  */
+
+div.search_tag_list
+{
+  position: absolute;  
+  background-color: red;
+}

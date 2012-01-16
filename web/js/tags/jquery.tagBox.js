@@ -61,7 +61,7 @@
           }
           
           input = $(this);
-
+          
           // Ici il faut faire un ajax q pour connaitre l'id, on a que le string
           // ajax loader gif
           $('#tag_loader_'+options.form_name).css('display', 'block');

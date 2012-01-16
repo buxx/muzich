@@ -63,39 +63,53 @@ class SearchController extends Controller
   {
     if ($this->getRequest()->isXmlHttpRequest())
     {
-      $words = explode(' ', $string_search);
-      $where = '';
-      $params = array();
-      foreach ($words as $i => $word)
+      if (strlen($string_search) > 1)
       {
-        if ($where == '')
+        $words = explode(' ', $string_search);
+        $where = '';
+        $params = array();
+        foreach ($words as $i => $word)
         {
-          $where .= 'WHERE UPPER(t.name) LIKE :str'.$i;
+          if ($where == '')
+          {
+            $where .= 'WHERE UPPER(t.name) LIKE :str'.$i;
+          }
+          else
+          {
+            $where .= ' OR UPPER(t.name) LIKE :str'.$i;
+          }
+
+          $params['str'.$i] = '%'.strtoupper($word).'%';
         }
-        else
+
+        $tags = $this->getDoctrine()->getEntityManager()->createQuery("
+          SELECT t.name FROM MuzichCoreBundle:Tag t
+          $where
+          ORDER BY t.name ASC"
+        )->setParameters($params)
+        ->getScalarResult()
+        ;
+
+        $tags_response = array();
+        foreach ($tags as $tag)
         {
-          $where .= ' OR UPPER(t.name) LIKE :str'.$i;
+          $tags_response[] = $tag['name'];
         }
         
-        $params['str'.$i] = '%'.strtoupper($word).'%';
+        $status = 'success';
+        $error  = '';
       }
-      
-      $tags = $this->getDoctrine()->getEntityManager()->createQuery("
-        SELECT t.name FROM MuzichCoreBundle:Tag t
-        $where
-        ORDER BY t.name ASC"
-      )->setParameters($params)
-      ->getScalarResult()
-      ;
-      
-      $tags_response = array();
-      foreach ($tags as $tag)
+      else
       {
-        $tags_response[] = $tag['name'];
+        $status = 'error';
+        $tags_response = array();
+        $error = 'Vous devez saisir au moins deux caractères';
       }
       
       $return_array = array(
+        'status'    => $status,
         'timestamp' => $timestamp,
+        'error'     => $error,
         'data'      => $tags_response
       );
       
