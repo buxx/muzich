@@ -5,7 +5,7 @@ container_menu:
   my_favorites:         Mes favoris
   
 top_bar:
-  my_account:           Mon compte
+  my_account:           Mon compte (%name%)
   logout:               Déconnexion
   
 network:
