@@ -135,6 +135,10 @@
               for (i in tags)
               {                
                 // On construit un li
+                var sstr = $.trim(input.val());
+                var re = new RegExp(sstr, "i") ;
+                var t_string = tags[i].replace(re,"<strong>" + sstr + "</strong>");
+                
                 li_tag = 
                   $('<li>').append(
                     $('<a>').attr('href','#'+tags[i])
@@ -148,7 +152,7 @@
                       divtags.hide();
                       return false;
                     })
-                    .append(tags[i])
+                    .append(t_string)
                 );
 
                 // Si on depasse les 30 tags

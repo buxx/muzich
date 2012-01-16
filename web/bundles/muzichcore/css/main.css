@@ -526,5 +526,18 @@ div.no_elements
 div.search_tag_list
 {
   position: absolute;  
-  background-color: red;
+  background-color: white;
+  
+}
+
+div.search_tag_list ul.search_tag_list
+{
+  
+  
+}
+
+div.search_tag_list ul.search_tag_list li
+{
+  
+  
 }
