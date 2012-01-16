@@ -15,8 +15,8 @@
   
    <input class="tags_prompt_list" id="tags_prompt_list_{{ form_name }}" name="tags" value=""> 
    <div id="search_tag_{{ form_name }}" class="search_tag_list" style="display: none;">
-     <img id="tag_loader_{{ form_name }}" class="tag_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
      <span class="info"></span>
+     <img id="tag_loader_{{ form_name }}" class="tag_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
      <ul class="search_tag_list"></ul>
      <a class="more" href="#" style="display: none;">Afficher les autres tags correspondant a la recherche</a>
    </div>
@@ -96,6 +96,8 @@
       $('#tag_loader_'+form_name).show();
       // On cache la liste de tags
       search_tag_list = divtags.find('ul.search_tag_list');
+      // On supprime les anciens li
+      search_tag_list.find('li').remove();
       search_tag_list.hide();
       // Et on affiche une info
       span_info = divtags.find('span.info');
@@ -126,12 +128,12 @@
           // Si c'est un succés
           else if (status == 'success')
           {
-            if (tags.length > 1)
+            if (tags.length > 0)
             {
               more = false;
               // Pour chaque tags retournés
               for (i in tags)
-              {
+              {                
                 // On construit un li
                 li_tag = 
                   $('<li>').append(
