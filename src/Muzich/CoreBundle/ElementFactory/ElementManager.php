@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 
 use Muzich\CoreBundle\ElementFactory\Site\YoutubecomFactory;
+use Muzich\CoreBundle\ElementFactory\Site\YoutubeFactory;
 use Muzich\CoreBundle\ElementFactory\Site\DailymotioncomFactory;
 use Muzich\CoreBundle\ElementFactory\Site\JamendocomFactory;
 use Muzich\CoreBundle\ElementFactory\Site\SoundcloudcomFactory;
@@ -143,6 +144,9 @@ class ElementManager
     {
       case 'youtube.com':
         return new YoutubecomFactory($this->element, $this->container);
+      break;
+      case 'youtu.be':
+        return new YoutubeFactory($this->element, $this->container);
       break;
       case 'soundcloud.com':
         return new SoundcloudcomFactory($this->element, $this->container);

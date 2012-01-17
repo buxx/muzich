@@ -9,22 +9,18 @@ use Muzich\CoreBundle\ElementFactory\Site\base\BaseFactory;
  *
  * @author bux
  */
-class YoutubecomFactory extends BaseFactory
+class YoutubeFactory extends BaseFactory
 {
   public function getEmbedCode()
   {
     $url = $this->getCleanedUrl();
     
-    // '/watch?v=kOLQIV22JAs&feature=feedrec_grec_index'
-    if (preg_match("#(v\/|watch\?v=)([\w\-]+)#", $url, $chaines))
+    // http://youtu.be/9hQVA2sloGc
+    if (preg_match("#\/([a-zA-Z0-9]+)#", $url, $chaines))
     {
-      $embed_url = 'http://www.youtube.com/embed/'.$chaines[2];
+      $embed_url = 'http://www.youtube.com/embed/'.$chaines[1];
     }
-    else if (preg_match("#(v=|watch\?v=)([\w\-]+)#", $url, $chaines))
-    {
-      $embed_url = 'http://www.youtube.com/embed/'.$chaines[2];
-    }
-    
+        
     if ($embed_url)
     {
       $width = $this->container->getParameter('youtube_player_width');

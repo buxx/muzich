@@ -32,6 +32,17 @@ class BaseFactory implements FactoryInterface
     return null;
   }
   
+  /**
+   * Retourne l'url relative dans le site
+   * 
+   * @return string
+   */
+  protected function getCleanedUrl()
+  {
+    $url = str_replace('www.', '', $this->element->getUrl());
+    return str_replace('http://'.$this->element->getType(), '', $url);
+  }
+  
 }
 
 ?>
