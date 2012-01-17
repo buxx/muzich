@@ -121,7 +121,7 @@ class ElementManager
    * 
    * 
    */
-  protected function proceedExtraFields()
+  public function proceedExtraFields()
   {
    
     // Instanciation d'un objet factory correspondant au type, par exemple
