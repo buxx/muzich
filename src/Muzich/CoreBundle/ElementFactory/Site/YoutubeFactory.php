@@ -14,6 +14,7 @@ class YoutubeFactory extends BaseFactory
   public function getEmbedCode()
   {
     $url = $this->getCleanedUrl();
+    $embed_url = null;
     
     // http://youtu.be/9hQVA2sloGc
     if (preg_match("#\/([a-zA-Z0-9]+)#", $url, $chaines))

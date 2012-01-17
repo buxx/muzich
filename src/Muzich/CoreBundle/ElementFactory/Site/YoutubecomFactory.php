@@ -14,6 +14,7 @@ class YoutubecomFactory extends BaseFactory
   public function getEmbedCode()
   {
     $url = $this->getCleanedUrl();
+    $embed_url = null;
     
     // '/watch?v=kOLQIV22JAs&feature=feedrec_grec_index'
     if (preg_match("#(v\/|watch\?v=)([\w\-]+)#", $url, $chaines))

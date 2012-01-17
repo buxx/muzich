@@ -14,6 +14,7 @@ class DailymotioncomFactory extends BaseFactory
   public function getEmbedCode()
   {
     $url = $this->getCleanedUrl();
+    $embed_url = null;
     
     // /video/xnqcwx_le-nazisme-dans-le-couple_fun#hp-v-v2
     if (preg_match("#(video\/)([a-zA-Z0-9]+)([a-zA-Z0-9_-]*)#", $url, $chaines))
