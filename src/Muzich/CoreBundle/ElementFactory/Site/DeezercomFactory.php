@@ -40,7 +40,7 @@ class DeezercomFactory extends BaseFactory
       $heigth = $this->container->getParameter('deezer_player_height');
       $embed = '<iframe scrolling="no" frameborder="0" allowTransparency="true" '
         .'src="http://www.deezer.com/fr/plugins/player?autoplay=false&playlist=true'
-        .'&width='.$width.'&height='.$heigth.'&cover=true&btn_popup=true&type='.$type.'&id='.$chaines[1].'&title=" '
+        .'&width='.$width.'&height='.$heigth.'&cover=true&btn_popup=true&type='.$type.'&id='.$element_id.'&title=" '
         .'width="'.$width.'" height="'.$heigth.'"></iframe>'
       ;
     }

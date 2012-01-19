@@ -42,12 +42,13 @@ class SoundcloudcomFactory extends BaseFactory
     {
       // l'url est valide pour l'api javascript que l'on utilise
       
+      $id = md5($url);
       $height = $this->container->getParameter('soundcloud_player_height');
       $embed = 
-        '<object height="'.$height.'" width="100%" id="embed_'.$this->element->getId().'" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
-          <param name="movie" value="http://player.soundcloud.com/player.swf?url='.$embed_url.'&amp;enable_api=true&amp;object_id=embed_'.$this->element->getId().'"></param>
+        '<object height="'.$height.'" width="100%" id="embed_'.$id.'" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+          <param name="movie" value="http://player.soundcloud.com/player.swf?url='.$embed_url.'&amp;enable_api=true&amp;object_id=embed_'.$id.'"></param>
           <param name="allowscriptaccess" value="always"></param>
-          <embed allowscriptaccess="always" height="'.$height.'" src="http://player.soundcloud.com/player.swf?url='.$embed_url.'&amp;enable_api=true&amp;object_id=embed_'.$this->element->getId().'" type="application/x-shockwave-flash" width="100%" name="embed_'.$this->element->getId().'"></embed>
+          <embed allowscriptaccess="always" height="'.$height.'" src="http://player.soundcloud.com/player.swf?url='.$embed_url.'&amp;enable_api=true&amp;object_id=embed_'.$id.'" type="application/x-shockwave-flash" width="100%" name="embed_'.$id.'"></embed>
         </object>
         ';
       
