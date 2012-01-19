@@ -27,7 +27,7 @@ class DailymotioncomFactory extends BaseFactory
       $width = $this->container->getParameter('dailymotion_player_width');
       $height = $this->container->getParameter('dailymotion_player_height');
       return '<iframe frameborder="0" width="'.$width.'" height="'.$height.'" '
-        .'src="http://www.dailymotion.com/embed/video/xnqcwx"></iframe>';
+        .'src="'.$embed_url.'"></iframe>';
     }
     
     return null;
