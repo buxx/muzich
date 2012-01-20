@@ -1,8 +1,26 @@
 
 {% if elements|length %}
-  <ul class="elements">
+  {% if not app.request.isXmlHttpRequest %}<ul class="elements">{% endif %}
     {% for element in elements %} 
-      <li class="element {% if loop.index0 is even %}even{% else %}odd{% endif %}" id="element_{{ element.id }}">
+      <li class="element 
+
+{% if loop.index0 is even %}
+  {% if invertcolor is not defined %}
+    even
+  {% elseif invertcolor %}
+    odd
+  {% else %}
+    even
+  {% endif %}
+{% else %}
+  {% if invertcolor is not defined %}
+    odd
+  {% elseif invertcolor %}
+    even
+  {% else %}
+    odd
+  {% endif %}
+{% endif %}" id="element_{{ element.id }}">
              
         {% if element.getCountFavorite %}
           <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': user.personalHash }) }}" >
@@ -78,7 +96,7 @@
 
       </li>
     {% endfor %} 
-  </ul>
+  {% if not app.request.isXmlHttpRequest %}</ul>{% endif %}
 
 {% else %}
 

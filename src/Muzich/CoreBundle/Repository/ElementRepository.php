@@ -81,6 +81,7 @@ class ElementRepository extends EntityRepository
       . " LEFT JOIN g_.followers gf_"
       ;
       $where_network = ($is_where) ? ' AND' : ' WHERE';
+      $is_where = true;
       // Le filtre applique: Soit le proprio fait partis des followeds de l'utilisateur
       // soit l'element est ajouté dans un groupe que l'utilisateur follow.
       $where_network .= ' (f_.follower = :userid OR gf_.follower = :useridg)';
@@ -95,6 +96,7 @@ class ElementRepository extends EntityRepository
     if (($search_user_id = $searcher->getUserId()) && !$searcher->isFavorite())
     {
       $where_user = ($is_where) ? ' AND' : ' WHERE';
+      $is_where = true;
       $where_user .= ' e_.owner = :suid';
       $params_ids['suid'] = $search_user_id;
     }
@@ -106,6 +108,7 @@ class ElementRepository extends EntityRepository
     if (($search_group_id = $searcher->getGroupId()) && !$searcher->isFavorite())
     {
       $where_group = ($is_where) ? ' AND' : ' WHERE';
+      $is_where = true;
       $where_group .= ' e_.group = :sgid';
       $params_ids['sgid'] = $search_group_id;
     }
@@ -116,6 +119,7 @@ class ElementRepository extends EntityRepository
     if ($searcher->isFavorite())
     {
       $where_favorite = ($is_where) ? ' AND' : ' WHERE';
+      $is_where = true;
       if (($favorite_user_id = $searcher->getUserId()) && !$searcher->getGroupId())
       {
         // Pas de LEFT JOIN car on ne veut que les elements mis en favoris
@@ -134,6 +138,16 @@ class ElementRepository extends EntityRepository
       }
     }
     
+    // Si id_limit est précisé c'est que l'on demande "la suite"
+    $where_id_limit = '';
+    if (($id_limit = $searcher->getIdLimit()))
+    {
+      $where_favorite = ($is_where) ? ' AND' : ' WHERE';
+      $is_where = true;
+      $where_favorite .= " e_.id < :id_limit";
+      $params_ids['id_limit'] = $id_limit;
+    }
+    
     // Requête qui selectionnera les ids en fonction des critéres
     $r_ids = $this->getEntityManager()
       ->createQuery(
@@ -147,6 +161,7 @@ class ElementRepository extends EntityRepository
         $where_user
         $where_group
         $where_favorite
+        $where_id_limit
         GROUP BY e_.id
         ORDER BY e_.created DESC, e_.id DESC")
      ->setParameters($params_ids)

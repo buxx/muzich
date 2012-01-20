@@ -3,6 +3,32 @@
 search_elements:
   pattern:  /search-elements
   defaults: { _controller: MuzichCoreBundle:Search:searchElements }
+  
+search_elements_more:
+  pattern:  /search-elements/{id_limit}/{invertcolors}
+  defaults: { _controller: MuzichCoreBundle:Search:searchElements }
+   
+#search_elements_show_more_empty:
+#  pattern:  /search-elements/show/{type}/{object_id}
+#  defaults: 
+#    - _controller: MuzichCoreBundle:Search:searchElementsShow
+#    - type:        group|user
+#    - object_id:   int+
+#    
+#search_elements_show_more:
+#  pattern:  /search-elements/show/{type}/{object_id}/{id_limit}/{invertcolors}
+#  defaults: 
+#    - _controller: MuzichCoreBundle:Search:searchElementsShow
+#    - type:        group|user
+#    - object_id:   int+
+   
+search_elements_show_more_empty:
+  pattern:  /search-elements/show/{type}/{object_id}
+  defaults: { _controller: MuzichCoreBundle:Search:searchElementsShow }
+    
+search_elements_show_more:
+  pattern:  /search-elements/show/{type}/{object_id}/{id_limit}/{invertcolors}
+  defaults: { _controller: MuzichCoreBundle:Search:searchElementsShow }
    
 follow:
   pattern:  /follow/{type}/{id}/{token}

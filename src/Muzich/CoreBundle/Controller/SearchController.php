@@ -12,12 +12,40 @@ use Symfony\Component\HttpFoundation\Response;
 class SearchController extends Controller
 {
   
+  protected function searchElementsMore($elements, $invertcolors)
+  {
+    
+    $end = (($count = count($elements)) < $this->container->getParameter('search_ajax_more'));
+    $html = '';
+    $message = '';
+    if ($count)
+    {
+      $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
+        'user'        => $this->getUser(),
+        'elements'    => $elements,
+        'invertcolor' => $invertcolors
+      ))->getContent();
+    }
+    
+    if (!$count || $end)
+    {
+      $message = $this->trans('elements.ajax.more.noelements', array(), 'elements');
+    }
+    
+    return $this->jsonResponse(array(
+      'count'   => $count,
+      'message' => $message,
+      'html'    => $html,
+      'end'     => $end
+    ));
+  }
+  
   /**
    * Procédure de recherche, qui met a jour l'objet de recherche (ainsi
    * que les paramétres en session). 
    * 
    */
-  public function searchElementsAction()
+  public function searchElementsAction($id_limit = null, $invertcolors = false)
   {
     $request = $this->getRequest();
     $search_object = $this->getElementSearcher();
@@ -48,11 +76,61 @@ class SearchController extends Controller
     if ($this->getRequest()->isXmlHttpRequest())
     {
       // template qui apelle doSearchElementsAction 
+      $search = $this->getElementSearcher();
+      $search->update(array(
+        'count'    => $this->container->getParameter('search_ajax_more'),
+        'id_limit' => $id_limit
+      ));
+      $elements = $search->getElements($this->getDoctrine(), $this->getUserId());
+      
+      return $this->searchElementsMore($elements, $invertcolors);
     }
     else
     {
       return $this->redirect($this->generateUrl('home'));
     }
+  }
+  
+  public function searchElementsShowAction($type, $object_id, $id_limit, $invertcolors)
+  {
+    if ($this->getRequest()->isXmlHttpRequest())
+    {
+      $object = null;
+      $param_id =  '';
+      if ($type == 'user')
+      {
+        $object = $this->getDoctrine()
+          ->getRepository('MuzichCoreBundle:User')
+          ->findOneBy(array('id' => $object_id))
+        ;
+        $param_id = 'user_id';
+      }
+      elseif ($type == 'group')
+      {
+        $object = $this->getDoctrine()
+          ->getRepository('MuzichCoreBundle:Group')
+          ->findOneById($object_id)
+        ;
+        $param_id = 'group_id';
+      }
+
+      if (!$object)
+      { 
+        throw new \Exception('Object Unknow');
+      }
+
+      $search = $this->createSearchObject(array(
+        $param_id  => $object->getId(),
+        'count'    => $this->container->getParameter('search_ajax_more'),
+        'id_limit' => $id_limit
+      ));
+
+      $elements = $search->getElements($this->getDoctrine(), $this->getUserId());
+      
+      return $this->searchElementsMore($elements, $invertcolors);
+    }
+    
+    throw new \Exception('XmlHttpRequest only for this action');
   }
   
   /**

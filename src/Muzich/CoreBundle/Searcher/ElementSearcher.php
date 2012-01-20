@@ -141,6 +141,11 @@ class ElementSearcher extends Searcher implements SearcherInterface
     return $this->user_id;
   }
   
+  public function getIdLimit()
+  {
+    return $this->id_limit;
+  }
+  
   public function getGroupId()
   {
     return $this->group_id;
