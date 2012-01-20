@@ -140,6 +140,18 @@ $(document).ready(function(){
      $(location).attr('href', $('input.filter_mytags_url').val());
    });
    
+   // Mise en favoris
+   $('a.favorite_link').click(function(){
+     link = $(this);
+     $.getJSON($(this).attr('href'), function(response) {
+       img = link.find('img');
+       link.attr('href', response.link_new_url);
+       img.attr('src', response.img_new_src);
+       img.attr('title', response.img_new_title);
+     });
+     return false;
+   });
+   
  });
  
  

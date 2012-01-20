@@ -7,6 +7,7 @@ use Muzich\CoreBundle\Searcher\ElementSearcher;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Muzich\CoreBundle\Form\Search\ElementSearchForm;
 use Muzich\CoreBundle\Form\Element\ElementAddForm;
+use Symfony\Component\HttpFoundation\Response;
 
 class Controller extends BaseController
 {
@@ -256,6 +257,29 @@ class Controller extends BaseController
       $element,
       array()
     );
+  }
+  
+  /**
+   * Retourne une réponse contenant du json
+   * 
+   * @param array $content
+   * @return Response 
+   */
+  protected function jsonResponse($content)
+  {
+    $response = new Response(json_encode($content));
+    $response->headers->set('Content-Type', 'application/json; charset=utf-8');
+    return $response;
+  }
+  
+  protected function getAssetUrl($path, $packageName = null)
+  {
+    return $this->container->get('templating.helper.assets')->getUrl($path, $packageName);
+  }
+  
+  protected function trans($string, $params = array(), $package = null)
+  {
+    return $this->get('translator')->trans($string, $params, $package);
   }
   
 }

@@ -62,7 +62,15 @@ class FavoriteController extends Controller
     
     if ($this->getRequest()->isXmlHttpRequest())
     {
-      
+      return $this->jsonResponse(array(
+        'favorite'      => true,
+        'link_new_url'  => $this->generateUrl('favorite_remove', array(
+            'id'    => $id,
+            'token' => $token
+        )),
+        'img_new_src'   => $this->getAssetUrl('bundles/muzichcore/img/favorite.png'),
+        'img_new_title' => $this->trans('element.favorite.remove', array(), 'elements')
+      ));
     }
     else
     {
@@ -101,7 +109,15 @@ class FavoriteController extends Controller
     
     if ($this->getRequest()->isXmlHttpRequest())
     {
-      
+      return $this->jsonResponse(array(
+        'favorite'      => true,
+        'link_new_url'  => $this->generateUrl('favorite_add', array(
+            'id'    => $id,
+            'token' => $token
+        )),
+        'img_new_src'   => $this->getAssetUrl('bundles/muzichcore/img/favorite_bw.png'),
+        'img_new_title' => $this->trans('element.favorite.add', array(), 'elements')
+      ));
     }
     else
     {
