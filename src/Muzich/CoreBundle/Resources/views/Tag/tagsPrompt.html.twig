@@ -1,11 +1,9 @@
 
 
 <div class="tags_prompt" id="tags_prompt_{{ form_name }}">
-  <span class="help">{{ 'tags.help'|trans({}, 'userui') }}</span>
     
   {% if display_specials_buttons is defined %}
     {% if display_specials_buttons == true %}
-      <br />
       <input class="clear" type="button" value="{{ 'filter.clear'|trans({}, 'userui') }}" />
       <input type="hidden" class="filter_clear_url" value="{{ path('filter_clear') }}" />
       <input class="mytags" type="button" value="{{ 'filter.mytags'|trans({}, 'userui') }}" />

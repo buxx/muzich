@@ -26,11 +26,11 @@ connexion:
 more:    Afficher plus de résultats
 tags:
   help:  |
-           Tapez dans le cadre ci-dessous le mot que vous souhaitez utiliser. 
-           Une liste de tags disponibles apparaitra et vous pourrez choisir le 
-           tag voulu dans la liste. Vous pouvez choisir plusieurs tags.
+           Saisissez <strong>une liste de tags</strong> ci-dessous: Entrez 
+           <strong>un tag a la fois</strong> et choisissez les a l'aide de 
+           la liste.
   inputtext:
-    help:      Tapez votre tag ici
+    help:      Saisissez vos tags ici (un par un)
            
 filter:
   network: "Résultats de "
