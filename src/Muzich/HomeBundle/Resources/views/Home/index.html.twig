@@ -38,6 +38,9 @@
 
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {'noelements_filter' : true }%}
     
+  <div class="elements_loader_div">
+    <img class="elements_more_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
+  </div>
   
   {% if more_count is defined %} 
   {% if elements|length %}
@@ -46,7 +49,6 @@
          {{ 'more'|trans({}, 'userui') }}
        </a>
      </span>
-     <img class="elements_more_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
   {% endif %}
   {% endif %}
   

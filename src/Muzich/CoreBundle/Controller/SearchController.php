@@ -12,12 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 class SearchController extends Controller
 {
   
-  protected function searchElementsMore($elements, $invertcolors)
+  protected function searchElementsMore($elements, $invertcolors, $message)
   {
     
     $end = (($count = count($elements)) < $this->container->getParameter('search_ajax_more'));
     $html = '';
-    $message = '';
     if ($count)
     {
       $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
@@ -25,11 +24,6 @@ class SearchController extends Controller
         'elements'    => $elements,
         'invertcolor' => $invertcolors
       ))->getContent();
-    }
-    
-    if (!$count || $end)
-    {
-      $message = $this->trans('elements.ajax.more.noelements', array(), 'elements');
     }
     
     return $this->jsonResponse(array(
@@ -52,8 +46,10 @@ class SearchController extends Controller
     
     $search_form = $this->getSearchForm($search_object);
     
+    $form_submited = false;
     if ($request->getMethod() == 'POST')
     {
+      $form_submited = true;
       $search_form->bindRequest($request);
       // Si le formulaire est valide
       if ($search_form->isValid())
@@ -75,6 +71,27 @@ class SearchController extends Controller
     
     if ($this->getRequest()->isXmlHttpRequest())
     {
+      if ($form_submited)
+      {
+        $message = $this->trans(
+          'noelements.sentence_filter',
+          array('%link_string%' => $this->trans(
+            'noelements.sentence_filter_link_string',
+            array(),
+            'elements'
+          )),
+          'elements'
+        );
+      }
+      else
+      {
+        $message = $this->trans(
+          'elements.ajax.more.noelements', 
+          array(), 
+          'elements'
+        );
+      }
+      
       // template qui apelle doSearchElementsAction 
       $search = $this->getElementSearcher();
       $search->update(array(
@@ -83,7 +100,7 @@ class SearchController extends Controller
       ));
       $elements = $search->getElements($this->getDoctrine(), $this->getUserId());
       
-      return $this->searchElementsMore($elements, $invertcolors);
+      return $this->searchElementsMore($elements, $invertcolors, $message);      
     }
     else
     {
@@ -127,7 +144,13 @@ class SearchController extends Controller
 
       $elements = $search->getElements($this->getDoctrine(), $this->getUserId());
       
-      return $this->searchElementsMore($elements, $invertcolors);
+      return $this->searchElementsMore($elements, $invertcolors,
+        $this->trans(
+          'elements.ajax.more.noelements', 
+          array(), 
+          'elements'
+        )
+      );
     }
     
     throw new \Exception('XmlHttpRequest only for this action');

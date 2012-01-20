@@ -580,3 +580,13 @@ div.search_tag_list ul.search_tag_list li:hover
   color: black;
 }
  
+.elements_loader_div
+{
+  text-align: center;
+}
+ 
+.elements_loader_div img
+{
+  margin-left: auto;
+  margin-right: auto;
+}

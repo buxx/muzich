@@ -206,7 +206,7 @@ class CoreController extends Controller
     {
       if ($this->getRequest()->isXmlHttpRequest())
       {
-
+        return $this->jsonResponse(array(true));
       }
       else
       {

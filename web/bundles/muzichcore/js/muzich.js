@@ -161,53 +161,45 @@ function str_replace (search, replace, subject, count) {
 }
 
 $(document).ready(function(){
+    
   
   // Bouton de personalisation du filtre
   // pour le moment ce ne sotn que des redirection vers des actions
-  $('.tags_prompt input.clear, .filter_clear_url').click(function(){
+  $('.tags_prompt input.clear, a.filter_clear_url').live("click", function(){
     $(location).attr('href', $('input.filter_clear_url').val());
   });
-  $('.tags_prompt input.mytags').click(function(){
+  $('.tags_prompt input.mytags').live("click", function(){
     $(location).attr('href', $('input.filter_mytags_url').val());
   });
-  
-  // On met les listeners lié aux éléments de façon a pouvoir écouter
-  // les événenements des éléments chargés en ajax en appelelant
-  // cette fonction après un ptit coup d'ajax
-  function init_elements()
-  {
-  
-    // Affichage un/des embed
-    $('a.element_embed_open_link').click(function(){
-       $(this).parent().parent('li.element').find('a.element_embed_open_link').hide();
-       $(this).parent().parent('li.element').find('a.element_embed_close_link').show();
-       $(this).parent().parent('li.element').find('div.element_embed').show();
-       return false;
-    });
 
-    // Fermeture du embed si demandé
-    $('a.element_embed_close_link').click(function(){
-       $(this).parent().parent('li.element').find('a.element_embed_open_link').show();
-       $(this).parent().parent('li.element').find('a.element_embed_close_link').hide();
-       $(this).parent().parent('li.element').find('div.element_embed').hide();
-       return false;
-    });
+  // Affichage un/des embed
+  $('a.element_embed_open_link').live("click", function(){
+     $(this).parent().parent('li.element').find('a.element_embed_open_link').hide();
+     $(this).parent().parent('li.element').find('a.element_embed_close_link').show();
+     $(this).parent().parent('li.element').find('div.element_embed').show();
+     return false;
+  });
 
-    // Mise en favoris
-    $('a.favorite_link').click(function(){
-       link = $(this);
-       $.getJSON($(this).attr('href'), function(response) {
-         img = link.find('img');
-         link.attr('href', response.link_new_url);
-         img.attr('src', response.img_new_src);
-         img.attr('title', response.img_new_title);
-       });
-       return false;
-    });
+  // Fermeture du embed si demandé
+  $('a.element_embed_close_link').live("click", function(){
+     $(this).parent().parent('li.element').find('a.element_embed_open_link').show();
+     $(this).parent().parent('li.element').find('a.element_embed_close_link').hide();
+     $(this).parent().parent('li.element').find('div.element_embed').hide();
+     return false;
+  });
+
+  // Mise en favoris
+  $('a.favorite_link').live("click", function(){
+     link = $(this);
+     $.getJSON($(this).attr('href'), function(response) {
+       img = link.find('img');
+       link.attr('href', response.link_new_url);
+       img.attr('src', response.img_new_src);
+       img.attr('title', response.img_new_title);
+     });
+     return false;
+  });
    
-  }
-  
-  init_elements();
    
    // Plus d'éléments
    last_id = null;
@@ -226,7 +218,6 @@ $(document).ready(function(){
        {
          $('ul.elements').append(response.html);
          $('img.elements_more_loader').hide();
-         init_elements();
        }
        
        if (response.end || response.count < 1)
@@ -239,6 +230,39 @@ $(document).ready(function(){
      });
      return false;
    });
+   
+  tag_box_input_value = $('ul.tagbox input[type="text"]').val();
+   
+  // Filtre et affichage éléments ajax
+  $('form[name="element_search_form"] input[type="submit"]').click(function(){
+    $('ul.elements').html('');
+    $('div.no_elements').hide();
+    $('img.elements_more_loader').show();
+  });
+  
+  $('form[name="element_search_form"]').ajaxForm(function(response) { 
+    
+    $('ul.elements').html(response.html);
+    
+    if (response.count)
+     {
+       $('img.elements_more_loader').hide();
+       $('span.elements_more').show();
+       $('a.elements_more').show();
+     }
+
+     if (response.count < 1)
+     {
+       $('img.elements_more_loader').hide();
+       $('ul.elements').after('<div class="no_elements"><p class="no-elements">'+
+         response.message+'</p></div>');
+         $('a.elements_more').hide()
+       ;
+     }
+     
+     $('ul.tagbox input[type="text"]').val(tag_box_input_value);
+    
+  }); 
    
  });
  
