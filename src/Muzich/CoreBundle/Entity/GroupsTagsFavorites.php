@@ -33,7 +33,7 @@ class GroupsTagsFavorites
   /**
    * Cet attribut contient l'objet Tag lié
    * 
-   * @ORM\ManyToOne(targetEntity="Tag", inversedBy="groups")
+   * @ORM\ManyToOne(targetEntity="Tag", inversedBy="groups_favorites")
    * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
    */
   protected $tag;

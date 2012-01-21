@@ -25,7 +25,7 @@ class UsersElementsFavorites
   /**
    * Cet attribut contient l'objet User lié
    * 
-   * @ORM\ManyToOne(targetEntity="User", inversedBy="tags")
+   * @ORM\ManyToOne(targetEntity="User", inversedBy="elements_favorites")
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
    */
   protected $user;
@@ -33,7 +33,7 @@ class UsersElementsFavorites
   /**
    * Cet attribut contient l'objet Element lié
    * 
-   * @ORM\ManyToOne(targetEntity="Element", inversedBy="users")
+   * @ORM\ManyToOne(targetEntity="Element", inversedBy="elements_favorites")
    * @ORM\JoinColumn(name="element_id", referencedColumnName="id", onDelete="CASCADE")
    */
   protected $element;
