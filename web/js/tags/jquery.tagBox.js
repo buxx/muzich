@@ -56,28 +56,30 @@
         });
         
         self.tagInput.bind("selectTag", function(event) {
+          
           if(!$(this).val()) {
               return;
           }
           
           input = $(this);
+          inputId = $('input#tags_selected_tag_'+options.form_name);
           
           // Ici il faut faire un ajax q pour connaitre l'id, on a que le string
           // ajax loader gif
-          $('#tag_loader_'+options.form_name).css('display', 'block');
+          //$('#tag_loader_'+options.form_name).css('display', 'block');
           // On bloque le submit le temps de la validation du tag
-          $('form[name="'+options.form_name+'"] input[type="submit"]').attr('disabled', 'disabled');
-          $.getJSON('/app_dev.php/fr/search/tagid/'+$(this).val(), function(data) {
-            if (isInteger(data))
-            {
-              self.addTag(input.val(), data, options.form_name, false);
-              input.val("");
-              $('#tag_loader_'+options.form_name).css('display', 'none');
-              $('form[name="'+options.form_name+'"] input[type="submit"]').removeAttr('disabled');
-            }
-          });
+          //$('form[name="'+options.form_name+'"] input[type="submit"]').attr('disabled', 'disabled');
+//          $.getJSON('/app_dev.php/fr/search/tagid/'+$(this).val(), function(data) {
+//            if (isInteger(data))
+//            {
+//              self.addTag(input.val(), data, options.form_name, false);
+//              input.val("");
+//              $('#tag_loader_'+options.form_name).css('display', 'none');
+//              $('form[name="'+options.form_name+'"] input[type="submit"]').removeAttr('disabled');
+//            }
+//          });
 
-          
+          self.addTag(input.val(), inputId.val(), options.form_name, false);
         });
         
         self.tagbox = $('<ul>', {

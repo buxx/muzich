@@ -12,6 +12,7 @@
   {% endif %}
   
    <input class="tags_prompt_list" id="tags_prompt_list_{{ form_name }}" name="tags" value=""> 
+   <input id="tags_selected_tag_{{ form_name }}" type="hidden" value="" />
    <div id="search_tag_{{ form_name }}" class="search_tag_list" style="display: none;">
      <span class="info"></span>
      <div class="tag_loader_div">
@@ -133,23 +134,34 @@
               more = false;
               // Pour chaque tags retournés
               for (i in tags)
-              {                
+              {
+                var tag_name = tags[i]['name'];
+                var tag_id = tags[i]['id'];
                 // On construit un li
                 var sstr = $.trim(input.val());
                 var re = new RegExp(sstr, "i") ;
-                var t_string = tags[i].replace(re,"<strong>" + sstr + "</strong>");
+                var t_string = tag_name.replace(re,"<strong>" + sstr + "</strong>");
                 
                 li_tag = 
                   $('<li>').append(
-                    $('<a>').attr('href','#'+tags[i])
+                    $('<a>').attr('href','#'+tag_id+'#'+tag_name)
                     // qui réagit quand on clique dessus
                     .click(function(e){
                       // On récupère le nom du tag
-                      inputTag.val($(this).attr('href').substr(1,$(this).attr('href').length));
+                      name = $(this).attr('href').substr(1,$(this).attr('href').length);
+                      name = name.substr(strpos(name, '#')+1, name.length);
+                                            
+                      id = $(this).attr('href').substr(1,$(this).attr('href').length);
+                      id = str_replace(name, '', id);
+                      id = str_replace('#', '', id);
+                                            
+                      $('input#tags_selected_tag_'+form_name).val(id);
+                      inputTag.val(name);
                       // Et on execute l'évènement selectTag de l'input
                       inputTag.trigger("selectTag");
                       // On cache la liste puisque le choix vient d'être fait
                       divtags.hide();
+                      inputTag.val(tag_text_help); 
                       return false;
                     })
                     .append(t_string)

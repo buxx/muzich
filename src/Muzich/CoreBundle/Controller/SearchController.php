@@ -163,7 +163,7 @@ class SearchController extends Controller
     foreach ($tags as $i => $tag)
     {
       // Pas plus de trois caractères en plus de la recherche
-      if (strlen(str_replace(strtoupper($search), '', strtoupper($tag))) < 4)
+      if (strlen(str_replace(strtoupper($search), '', strtoupper($tag['name']))) < 4)
       {
         unset($tag_sorted[$i]);
         $tag_sorted = array_merge(array($tag), $tag_sorted);
@@ -175,7 +175,7 @@ class SearchController extends Controller
     foreach ($tags as $i => $tag)
     {
       // Pas plus de trois caractères en plus de la recherche
-      if (strtoupper($search) == strtoupper($tag))
+      if (strtoupper($search) == strtoupper($tag['name']))
       {
         unset($tag_sorted[$i]);
         $tag_sorted = array_merge(array($tag), $tag_sorted);
@@ -213,7 +213,7 @@ class SearchController extends Controller
         }
 
         $tags = $this->getDoctrine()->getEntityManager()->createQuery("
-          SELECT t.name FROM MuzichCoreBundle:Tag t
+          SELECT t.name, t.id FROM MuzichCoreBundle:Tag t
           $where
           ORDER BY t.name ASC"
         )->setParameters($params)
@@ -223,7 +223,7 @@ class SearchController extends Controller
         $tags_response = array();
         foreach ($tags as $tag)
         {
-          $tags_response[] = $tag['name'];
+          $tags_response[] = array('name' => $tag['name'], 'id' => $tag['id']);
         }
         
         $tags_response = $this->sort_search_tags($tags_response, $string_search);
