@@ -8,13 +8,15 @@ use Symfony\Component\Form\FormBuilder;
 class ElementAddForm extends AbstractType
 {
   public function buildForm(FormBuilder $builder, array $options)
-  {
+  {    
     $builder->add('name', 'text', array(
       'required' => true,
+      'error_bubbling' => true
     ));
     
     $builder->add('url', 'text', array(
       'required' => true,
+      'error_bubbling' => true
     ));
         
     $builder->add('tags', 'hidden');    

@@ -7,7 +7,9 @@
     {{ form_widget(search_form.network) }}
   </div>
   
-  {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
+  {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
+    'form_name'     : form_name
+  } %}
   
-  {{ form_row(search_form.tags) }}
+  {{ form_widget(search_form.tags, { 'attr': {'class': 'tagBox_tags_ids'} }) }}
   {{ form_row(search_form._token) }}

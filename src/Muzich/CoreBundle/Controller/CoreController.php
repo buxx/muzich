@@ -221,9 +221,9 @@ class CoreController extends Controller
             'search_tags_id'   => $search_object->getTags(),
             'user'             => $this->getUser(),
             'add_form'         => $add_form->createView(),
-            'add_form_name'    => $add_form->getName(),
+            'add_form_name'    => 'add',
             'search_form'      => $search_form->createView(),
-            'search_form_name' => $search_form->getName(),
+            'search_form_name' => 'search',
             'elements'         => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
             'more_count'       => $this->container->getParameter('search_default_count')*2
           ));
@@ -249,7 +249,7 @@ class CoreController extends Controller
             'following'     => $this->getUser()->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()),
             'user'          => $this->getUser(),
             'add_form'      => (isset($add_form)) ? $add_form->createView() : null,
-            'add_form_name' => (isset($add_form)) ? $add_form->getName() : null,
+            'add_form_name' => (isset($add_form)) ? 'add' : null,
             'more_count'    => null,
             'more_route'    => 'show_group_more'
           ));

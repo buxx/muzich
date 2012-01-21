@@ -221,6 +221,16 @@ class Element
     return $this->tags;
   }
   
+  public function getTagsIdsJson()
+  {
+    $ids = array();
+    foreach ($this->getTags() as $tag)
+    {
+      $ids[] = $tag->getId();
+    }
+    return json_encode($ids);
+  }
+  
   public function setTags($tags)
   {
     $this->tags = $tags;

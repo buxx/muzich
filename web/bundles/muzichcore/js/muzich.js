@@ -227,16 +227,6 @@ $(document).ready(function(){
       }
     }
   );
-
- // Ouverture du formulaire de modification
- $('a.element_edit_link').live('click', function(){
-   link = $(this);
-   $.getJSON($(this).attr('href'), function(response) {
-     li = link.parent('li.element');
-     li.html(response.html);
-   });
-   return false;
- });
    
    // Plus d'éléments
    last_id = null;
@@ -271,13 +261,13 @@ $(document).ready(function(){
   tag_box_input_value = $('ul.tagbox input[type="text"]').val();
    
   // Filtre et affichage éléments ajax
-  $('form[name="element_search_form"] input[type="submit"]').click(function(){
+  $('form[name="search"] input[type="submit"]').click(function(){
     $('ul.elements').html('');
     $('div.no_elements').hide();
     $('img.elements_more_loader').show();
   });
   
-  $('form[name="element_search_form"]').ajaxForm(function(response) { 
+  $('form[name="search"]').ajaxForm(function(response) { 
     
     $('ul.elements').html(response.html);
     
@@ -300,7 +290,280 @@ $(document).ready(function(){
      $('ul.tagbox input[type="text"]').val(tag_box_input_value);
     
   }); 
+  
+  
+
+ // Ouverture du formulaire de modification
+  $('a.element_edit_link').live('click', function(){
+    
+    link = $(this);
+    li = link.parent('li.element');
+    div_loader = li.find('div.loader');
+    li.html(div_loader);
+    li.find('img.element_loader').show();
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      
+      // On prépare le tagBox
+      li.html(response.html);
+     
+      var options = new Array();
+      options.form_name  = response.form_name;
+      options.tag_init   = response.tags;
+
+      ajax_query_timestamp = null;
+      
+      $("#tags_prompt_list_"+response.form_name).tagBox(options);
+      
+      // On rend ce formulaire ajaxFormable
+      $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){
+        li.prepend(div_loader);
+        li.find('img.element_loader').show();
+      });
+      $('form[name="'+response.form_name+'"]').ajaxForm(function(response){
+        
+        if (response.status == 'success')
+        {
+          li.html(response.html);
+        }
+        else if (response.status == 'error')
+        {
+          li.find('img.element_loader').hide();
+          li.find('ul.error_list').remove();
+          ul_errors = $('<ul>').addClass('error_list');
+          
+          for (i in response.errors)
+          {
+            ul_errors.append($('<li>').append(response.errors[i]));
+          }
+          
+          li.prepend(ul_errors);
+        }
+      });
+      
+    });
+    return false;
+  });
+ 
+  ////////////////// TAG PROMPT ///////////////
+ 
+  ajax_query_timestamp = null;
+  tag_text_help = $('input.tag_text_help').val();
+ 
+  // Les deux clicks ci-dessous permettent de faire disparaitre
+  // la div de tags lorsque l'on clique ailleurs
+  $('html').click(function() {
+    if ($("div.search_tag_list").is(':visible'))
+    {
+      $("div.search_tag_list").hide();
+    }
+  });
+
+  $("div.search_tag_list").live('click', function(event){
+    event.stopPropagation();
+  });
+
+  function autocomplete_tag(input, form_name)
+  {
+    // Il doit y avoir au moin un caractère
+    if (input.val().length > 0) 
+    {
+
+      // on met en variable l'input
+      inputTag = input;
+      
+      // On récupére la div de tags
+      divtags = $("#search_tag_"+form_name);
+
+      // Si la fenêtre de tags est caché
+      if (!divtags.is(':visible'))
+      {
+        // On la replace
+        position = input.position();
+        divtags.css('left', Math.round(position.left) + 5);
+        divtags.css('top', Math.round(position.top) + 28);
+        // Et on l'affiche
+        divtags.show();
+      }
+      // On affiche le loader
+      $('#tag_loader_'+form_name).show();
+      // On cache la liste de tags
+      search_tag_list = divtags.find('ul.search_tag_list');
+      // On supprime les anciens li
+      search_tag_list.find('li').remove();
+      search_tag_list.hide();
+      // Et on affiche une info
+      span_info = divtags.find('span.info');
+      span_info.show();
+      span_info.text("Recherche des tags correspondants à \""+input.val()+"\" ...");
+
+      // C'est en fonction du nb de resultats qu'il sera affiché
+      divtags.find('a.more').hide();
+
+      // On récupère le timestamp pour reconnaitre la dernière requête effectué
+      ajax_query_timestamp = new Date().getTime();
+
+      // Récupération des tags correspondants
+      $.getJSON('/app_dev.php/fr/search/tag/'+input.val()+'/'+ajax_query_timestamp, function(data) {
+        // Ce contrôle permet de ne pas continuer si une requete
+        // ajax a été faite depuis.
+        if (data.timestamp == ajax_query_timestamp)
+        {
+          status = data.status;
+          tags   = data.data;
+
+          // Si on spécifie une erreur
+          if (status == 'error')
+          {
+            // On l'affiche a l'utilisateur
+            span_info.text(data.error);
+          }
+          // Si c'est un succés
+          else if (status == 'success')
+          {
+            if (tags.length > 0)
+            {
+              more = false;
+              // Pour chaque tags retournés
+              for (i in tags)
+              {
+                var tag_name = tags[i]['name'];
+                var tag_id = tags[i]['id'];
+                // On construit un li
+                var sstr = $.trim(input.val());
+                var re = new RegExp(sstr, "i") ;
+                var t_string = tag_name.replace(re,"<strong>" + sstr + "</strong>");
+                
+                li_tag = 
+                  $('<li>').append(
+                    $('<a>').attr('href','#'+tag_id+'#'+tag_name)
+                    // qui réagit quand on clique dessus
+                    .click(function(e){
+                      // On récupère le nom du tag
+                      name = $(this).attr('href').substr(1,$(this).attr('href').length);
+                      name = name.substr(strpos(name, '#')+1, name.length);
+                                            
+                      id = $(this).attr('href').substr(1,$(this).attr('href').length);
+                      id = str_replace(name, '', id);
+                      id = str_replace('#', '', id);
+                                            
+                      $('input#tags_selected_tag_'+form_name).val(id);
+                      inputTag.val(name);
+                      // Et on execute l'évènement selectTag de l'input
+                      inputTag.trigger("selectTag");
+                      // On cache la liste puisque le choix vient d'être fait
+                      divtags.hide();
+                      inputTag.val(tag_text_help); 
+                      return false;
+                    })
+                    .append(t_string)
+                );
+
+                // Si on depasse les 30 tags
+                if (i > 30)
+                {
+                  more = true;
+                  // On le cache
+                  li_tag.hide();
+                }
+
+                // On ajout ce li a la liste
+                search_tag_list.append(li_tag);
+              } 
+
+              if (more)
+              {
+                divtags.find('a.more').show();
+              }
+
+              // On cache l'info
+              span_info.hide();
+              // Et on affiche la liste
+              search_tag_list.show();
+            }
+            else
+            {
+              span_info.text("Aucun tag de trouvé pour \""+inputTag.val()+"\"");
+            }
+            
+          }
+
+          // On cache le loader
+          $('#tag_loader_'+form_name).hide();
+        }
+      });
+      
+    }
+  }
+ 
+ 
+  last_keypress = 0;
+  
+  function check_timelaps_and_search(input, form_name, time_id, timed, info)
+  {
+    if (!timed)
+    {
+      // C'est une nouvelle touche (pas redirigé) on lui donne un id
+      // et on met a jour l'id de la dernière pressé
+      last_keypress = new Date().getTime(); 
+      var this_time_id = last_keypress;
+    }
+    else
+    {
+      // Si elle a été redirigé, on met son id dans cette variable
+      var this_time_id = time_id;
+    }
+    
+    // C'est une touche redirigé dans le temps qui a été suivit d'une autre touche
+    if (time_id != last_keypress && timed)
+    {
+      // elle disparait
+    }
+    else
+    {
+      //
+      if ((new Date().getTime() - last_keypress) < 600 || timed == false)
+      {
+        // Si elle vient d'être tapé (timed == false) elle doit attendre (au cas ou une autre touche soit tapé)
+        // Si c'est une redirigé qui n'a pas été remplacé par une nouvelle lettre
+        // elle doit attendre au cas ou soit pressé.
+        setTimeout(function(){check_timelaps_and_search(input, form_name, this_time_id, true, info)}, 700);
+      }
+      else
+      {
+        // il n'y a plus a attendre, on envoie la demande de tag.
+        autocomplete_tag(input, form_name);
+      }
+    }
+  }
+  
+  // Autocompletion de tags
+  $("div.tags_prompt ul.tagbox li.input input").live('keypress', function(e){
+    
+    var form_name = $(this).parent('li').parent('ul.tagbox')
+      .parent('div.tags_prompt').parent('form').attr('name')
+    ;
+    var code = (e.keyCode ? e.keyCode : e.which);
+
+    if ((e.which !== 0 && e.charCode !== 0) || (code == 8 || code == 46))
+    {
+      check_timelaps_and_search($(this), form_name, new Date().getTime(), false, $(this).val());
+    }
+     
+  });
+  
+  // Un click sur ce lien affiche tout les tags cachés de la liste
+  $('div.search_tag_list a.more').live('click', function(){
+    jQuery.each( $(this).parent('div').find('ul.search_tag_list li') , function(){
+      $(this).show();
+    });
+    return false;
+  });
+  
+  $('ul.tagbox li.input input[type="text"]').val(tag_text_help);
+  $('ul.tagbox li.input input[type="text"]').formDefaults();
+ 
+  ////////////////// FIN TAG PROMPT ///////////////
+
    
  });
- 
- 

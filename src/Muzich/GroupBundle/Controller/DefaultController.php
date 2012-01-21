@@ -137,7 +137,7 @@ class DefaultController extends Controller
     return array(
       'group'     => $group,
       'form'      => $form->createView()  ,
-      'form_name' => $form->getName()      
+      'form_name' => 'group'      
     );
   }
   

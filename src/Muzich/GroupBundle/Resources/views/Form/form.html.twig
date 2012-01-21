@@ -22,8 +22,10 @@
   {{ form_widget(form.open) }}
 </div>
 
-{% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
+{% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
+  'form_name'     : form_name
+} %}
 
-{{ form_row(form.tags) }}
+{{ fform_widget(form.tags, { 'attr': {'class': 'tagBox_tags_ids'} }) }}
 
 {{ form_rest(form) }}

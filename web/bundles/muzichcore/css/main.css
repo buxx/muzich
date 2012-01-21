@@ -503,12 +503,12 @@ ul.tagbox input[type="text"]:FOCUS
   );
 }
 
-div.tag_loader_div
+div.tag_loader_div, div.loader
 {
   text-align: center;
 }
 
-.tag_loader
+.tag_loader, element_loader
 {
   margin-left: auto;
   marin-right: auto;

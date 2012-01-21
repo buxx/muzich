@@ -52,6 +52,8 @@ element_edit:
     name:     Lien
   name:
     name:     Nom
+  submit:
+    value:    Mettre à jour
     
 tags_filter:
   help:       Pour ne pas filtrer avec des tags, supprimez les tous de la liste.

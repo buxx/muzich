@@ -63,7 +63,7 @@ class ShowController extends Controller
       'following'     => $this->getUser()->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()),
       'user'          => $this->getUser(),
       'add_form'      => (isset($add_form)) ? $add_form->createView() : null,
-      'add_form_name' => (isset($add_form)) ? $add_form->getName() : null,
+      'add_form_name' => (isset($add_form)) ? 'add' : null,
       'more_count'    => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
       'more_route'    => 'show_group_more'
     );

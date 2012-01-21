@@ -64,21 +64,6 @@
           input = $(this);
           inputId = $('input#tags_selected_tag_'+options.form_name);
           
-          // Ici il faut faire un ajax q pour connaitre l'id, on a que le string
-          // ajax loader gif
-          //$('#tag_loader_'+options.form_name).css('display', 'block');
-          // On bloque le submit le temps de la validation du tag
-          //$('form[name="'+options.form_name+'"] input[type="submit"]').attr('disabled', 'disabled');
-//          $.getJSON('/app_dev.php/fr/search/tagid/'+$(this).val(), function(data) {
-//            if (isInteger(data))
-//            {
-//              self.addTag(input.val(), data, options.form_name, false);
-//              input.val("");
-//              $('#tag_loader_'+options.form_name).css('display', 'none');
-//              $('form[name="'+options.form_name+'"] input[type="submit"]').removeAttr('disabled');
-//            }
-//          });
-
           self.addTag(input.val(), inputId.val(), options.form_name, false);
         });
         
@@ -97,13 +82,7 @@
         self.tagbox.append(self.inputHolder);
         self.inputHolder.append(self.tagInput);
         self.tagInput.autoGrowInput();
-        
-        // On désactive l'ajout de tags basé sur le contenu du input
-        // ona notre propre système (taginit)
-        //for(tag in tags) {
-        //    self.addTag(tags[tag], findKeyWithValue(values, tags[tag]), options.form_name, true);
-        //}
-        
+                
         if (options.tag_init.length)
         {
           for(i in options.tag_init) {
@@ -140,7 +119,7 @@
             // si on force, on ne touche pas l'inpu (il contient déjà ces valeurs)
             if (!force)
             {
-              var input_tags = $('input#'+form_name+'_tags');
+              var input_tags = $('form[name="'+form_name+'"] input.tagBox_tags_ids');
               if (input_tags.length)
               {
                 // array des ids de tags
@@ -148,7 +127,7 @@
                 if (!inArray(input_values, id))
                 {
                   input_values[input_values.length] = parseInt(id);
-                  $('input#'+form_name+'_tags').val(array2json(input_values));
+                  input_tags.val(array2json(input_values));
                 }
               }
             }
@@ -166,7 +145,7 @@
             this.tags.splice(index, 1);
             this.updateInput();
             
-            input_tags = $('input#'+form_name+'_tags');
+            input_tags = $('form[name="'+form_name+'"] input.tagBox_tags_ids');
             if (input_tags.length)
             {
               // array des ids de tags
@@ -178,7 +157,7 @@
                   delete input_values[i];
                 }
               }
-              $('input#'+form_name+'_tags').val(array2json(input_values));
+              input_tags.val(array2json(input_values));
             }
             
             // Suppression tu tableau js
