@@ -35,6 +35,8 @@ my_groups:
   
 title:
   hello:                Découvrez et partagez la musique !
+  element:
+    edit:               Modification d'un élément
   
   
 bottom_menu:

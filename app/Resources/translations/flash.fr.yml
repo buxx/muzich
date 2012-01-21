@@ -20,6 +20,9 @@ group:
 element:
   add:
     error:        Une erreur est survenus lors de l'ajout.
+  remove:
+    success:      Element supprimé avec succés.
+    error:        Une errur est survenue durant la suppression de l'élément.
     
 user:
   changeemail:
@@ -27,3 +30,4 @@ user:
     token_invalid: Le lien pour mettre a jour votre email est périmé, veuillez relancer la procédure.
     success:       Votre email a correctement été mis a jour.
     wait:          Vous devez attendre avant de pouvoir faire une nouvelle demande de changement d'email.
+    

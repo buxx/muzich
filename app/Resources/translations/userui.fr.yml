@@ -61,3 +61,10 @@ tags_filter:
 index:
   beta:
     warning:  L'accès au service est privé pendant le développement de l'application
+    
+system:
+  infos:
+    normally_js:   |
+                    Vous avez ouvert cette page dans un nouvel onglet/nouvelle page
+                    Sachez qu'avez le clic gauche de votre souris la modification
+                    de l'élément est intégré dans la page.

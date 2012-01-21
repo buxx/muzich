@@ -224,9 +224,12 @@ class Element
   public function getTagsIdsJson()
   {
     $ids = array();
-    foreach ($this->getTags() as $tag)
+    if (count($this->getTags()))
     {
-      $ids[] = $tag->getId();
+      foreach ($this->getTags() as $tag)
+      {
+        $ids[] = $tag->getId();
+      }
     }
     return json_encode($ids);
   }
