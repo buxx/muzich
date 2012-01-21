@@ -24,6 +24,8 @@ element:
   link:                 Ouvrir la page d'origine
   edit:
     link:               Modifier
+  remove:
+    link:               Supprimer
   
 elements:
   ajax:

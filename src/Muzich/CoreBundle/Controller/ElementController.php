@@ -17,18 +17,18 @@ class ElementController extends Controller
   {
     if (!$this->getRequest()->isXmlHttpRequest())
     {
-      $this->createNotFoundException();
+      throw $this->createNotFoundException('Not allowed');
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
       ->findOneById($element_id)))
     {
-      $this->createNotFoundException();
+      throw $this->createNotFoundException('Not found');
     }
     
     if ($element->getOwner()->getId() != $this->getUserId())
     {
-      $this->createNotFoundException();
+      throw $this->createNotFoundException('Not found');
     }
     
     return $element;
@@ -114,6 +114,22 @@ class ElementController extends Controller
       'html'    => $html,
       'errors'  => $errors
     ));
+  }
+  
+  public function removeAction($element_id)
+  {
+    try {
+      $element = $this->checkExistingAndOwned($element_id);
+      $em = $this->getDoctrine()->getEntityManager();
+      $em->remove($element);
+      $em->flush();
+      
+      return $this->jsonResponse(array('status' => 'success'));
+    } 
+    catch(Exception $e)
+    {
+      return $this->jsonResponse(array('status' => 'error'));
+    }
   }
   
 }

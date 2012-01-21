@@ -213,21 +213,29 @@ $(document).ready(function(){
      return false;
   });
     
-  // Affichage du bouton Modifier
+  // Affichage du bouton Modifier et Supprimer
   $('ul.elements li.element').live({
     mouseenter:
       function()
       {
         $(this).find('a.element_edit_link').show();
+        $(this).find('a.element_remove_link').show();
       },
     mouseleave:
       function()
       {
-        $(this).find('a.element_edit_link').hide();
+        if (!$(this).find('a.element_edit_link').hasClass('mustBeDisplayed'))
+        {
+          $(this).find('a.element_edit_link').hide();
+        }
+        if (!$(this).find('a.element_remove_link').hasClass('mustBeDisplayed'))
+        {
+          $(this).find('a.element_remove_link').hide();
+        }
       }
     }
   );
-   
+    
    // Plus d'éléments
    last_id = null;
    $('a.elements_more').click(function(){
@@ -291,7 +299,41 @@ $(document).ready(function(){
     
   }); 
   
-  
+ // Suppression d'un element
+  $('a.element_remove_link').jConfirmAction({
+    question : "Vraiment supprimer ?", 
+    yesAnswer : "Oui", 
+    cancelAnswer : "Non",
+    onYes: function(link){
+      
+      li = link.parent('li.element');
+      li.find('img.element_loader').show();
+      $.getJSON(link.attr('href'), function(response){
+        if (response.status == 'success')
+        {
+          li.remove();
+        }
+        else
+        {
+          li.find('img.element_loader').hide();
+        }
+      });
+
+      return false;
+    },
+    onOpen: function(link){
+      li = link.parent('li.element');
+      li.find('a.element_edit_link').addClass('mustBeDisplayed');
+      li.find('a.element_remove_link').addClass('mustBeDisplayed');
+    },
+    onClose: function(link){
+      li = link.parent('li.element');
+      li.find('a.element_edit_link').removeClass('mustBeDisplayed');
+      li.find('a.element_remove_link').removeClass('mustBeDisplayed');
+      li.find('a.element_edit_link').hide();
+      li.find('a.element_remove_link').hide();
+    }
+  });
 
  // Ouverture du formulaire de modification
   $('a.element_edit_link').live('click', function(){

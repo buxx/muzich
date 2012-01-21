@@ -59,3 +59,8 @@ element_edit:
 element_update:
   pattern: /element/{element_id}/update
   defaults: { _controller: MuzichCoreBundle:Element:update }
+  
+element_remove:
+  pattern: /element/{element_id}/remove
+  defaults: { _controller: MuzichCoreBundle:Element:remove }
+  
