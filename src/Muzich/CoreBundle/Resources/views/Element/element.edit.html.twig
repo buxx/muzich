@@ -1,0 +1,9 @@
+<form name="{{ form_name }}" action="{{ path('element_update', {'element_id': element_id}) }}" method="post" {{ form_enctype(form) }}>
+
+  {% include "MuzichCoreBundle:Element:form.edit.html.twig" with { 
+    'form'          : form, 
+    'form_name'     : form_name
+  } %}
+
+  <input type="submit" />
+</form>

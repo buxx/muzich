@@ -22,6 +22,8 @@ element:
     who:                (envoyé par <a href="%owner_url%">%owner_name%</a>)
     whoandgroup:        (envoyé par <a href="%owner_url%">%owner_name%</a> dans le groupe <a href="%group_url%">%group_name%</a>)
   link:                 Ouvrir la page d'origine
+  edit:
+    link:               Modifier
   
 elements:
   ajax:

@@ -46,6 +46,12 @@ element_add:
               que vous souhaitez partager.
   name:
     name:     Nom
+  
+element_edit:
+  url:
+    name:     Lien
+  name:
+    name:     Nom
     
 tags_filter:
   help:       Pour ne pas filtrer avec des tags, supprimez les tous de la liste.

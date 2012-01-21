@@ -8,20 +8,6 @@ search_elements_more:
   pattern:  /search-elements/{id_limit}/{invertcolors}
   defaults: { _controller: MuzichCoreBundle:Search:searchElements }
    
-#search_elements_show_more_empty:
-#  pattern:  /search-elements/show/{type}/{object_id}
-#  defaults: 
-#    - _controller: MuzichCoreBundle:Search:searchElementsShow
-#    - type:        group|user
-#    - object_id:   int+
-#    
-#search_elements_show_more:
-#  pattern:  /search-elements/show/{type}/{object_id}/{id_limit}/{invertcolors}
-#  defaults: 
-#    - _controller: MuzichCoreBundle:Search:searchElementsShow
-#    - type:        group|user
-#    - object_id:   int+
-   
 search_elements_show_more_empty:
   pattern:  /search-elements/show/{type}/{object_id}
   defaults: { _controller: MuzichCoreBundle:Search:searchElementsShow }
@@ -63,3 +49,13 @@ info_about:
 info_development:
   pattern: /info/development
   defaults: { _controller: MuzichCoreBundle:Info:development }
+  
+####
+
+element_edit:
+  pattern: /element/{element_id}/edit
+  defaults: { _controller: MuzichCoreBundle:Element:edit }
+
+element_update:
+  pattern: /element/{element_id}/update
+  defaults: { _controller: MuzichCoreBundle:Element:update }

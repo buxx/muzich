@@ -212,7 +212,31 @@ $(document).ready(function(){
      });
      return false;
   });
-   
+    
+  // Affichage du bouton Modifier
+  $('ul.elements li.element').live({
+    mouseenter:
+      function()
+      {
+        $(this).find('a.element_edit_link').show();
+      },
+    mouseleave:
+      function()
+      {
+        $(this).find('a.element_edit_link').hide();
+      }
+    }
+  );
+
+ // Ouverture du formulaire de modification
+ $('a.element_edit_link').live('click', function(){
+   link = $(this);
+   $.getJSON($(this).attr('href'), function(response) {
+     li = link.parent('li.element');
+     li.html(response.html);
+   });
+   return false;
+ });
    
    // Plus d'éléments
    last_id = null;

@@ -1,0 +1,21 @@
+{% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
+
+{{ form_errors(form) }}
+
+<div class="field">
+  {{ form_errors(form.url) }}
+  {{ form_label(form.url, 'element_edit.url.name'|trans({}, 'userui')) }}
+  {{ form_widget(form.url) }}
+</div>
+
+<div class="field">
+  {{ form_errors(form.name) }}
+  {{ form_label(form.name, 'element_edit.name.name'|trans({}, 'userui')) }}
+  {{ form_widget(form.name) }}
+</div>
+
+  {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 'form_name': form_name } %}
+
+  {{ form_row(form.tags) }}
+
+{{ form_row(form._token) }}
