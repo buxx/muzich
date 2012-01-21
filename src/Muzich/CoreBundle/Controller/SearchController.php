@@ -156,6 +156,35 @@ class SearchController extends Controller
     throw new \Exception('XmlHttpRequest only for this action');
   }
   
+  protected function sort_search_tags($tags, $search)
+  {
+    $tag_sorted = $tags;
+    
+    foreach ($tags as $i => $tag)
+    {
+      // Pas plus de trois caractères en plus de la recherche
+      if (strlen(str_replace(strtoupper($search), '', strtoupper($tag))) < 4)
+      {
+        unset($tag_sorted[$i]);
+        $tag_sorted = array_merge(array($tag), $tag_sorted);
+      }
+    }
+    
+    $tags = $tag_sorted;
+    
+    foreach ($tags as $i => $tag)
+    {
+      // Pas plus de trois caractères en plus de la recherche
+      if (strtoupper($search) == strtoupper($tag))
+      {
+        unset($tag_sorted[$i]);
+        $tag_sorted = array_merge(array($tag), $tag_sorted);
+      }
+    }
+    
+    return $tag_sorted;
+  }
+  
   /**
    *
    * @param string $string_search 
@@ -197,6 +226,7 @@ class SearchController extends Controller
           $tags_response[] = $tag['name'];
         }
         
+        $tags_response = $this->sort_search_tags($tags_response, $string_search);
         $status = 'success';
         $error  = '';
       }
