@@ -1,10 +1,11 @@
 
-<form name="{{ form_name }}" action="{{ path('element_update', {'element_id': element_id}) }}" method="post" {{ form_enctype(form) }}>
+<form class="edit_element" name="{{ form_name }}" action="{{ path('element_update', {'element_id': element_id}) }}" method="post" {{ form_enctype(form) }}>
 
   {% include "MuzichCoreBundle:Element:form.edit.html.twig" with { 
     'form'          : form, 
     'form_name'     : form_name
   } %}
 
+  <input type="button" value="{{ 'element_edit.cancel.value'|trans({}, 'userui') }}" class="cancel_edit" />
   <input type="submit" value="{{ 'element_edit.submit.value'|trans({}, 'userui') }}" />
 </form>

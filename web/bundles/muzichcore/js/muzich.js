@@ -335,11 +335,14 @@ $(document).ready(function(){
     }
   });
 
+ elements_edited = new Array();
  // Ouverture du formulaire de modification
   $('a.element_edit_link').live('click', function(){
     
     link = $(this);
     li = link.parent('li.element');
+    // On garde en mémoire l'élément édité en cas d'annulation
+    elements_edited[li.attr('id')] = li.html();
     div_loader = li.find('div.loader');
     li.html(div_loader);
     li.find('img.element_loader').show();
@@ -367,6 +370,7 @@ $(document).ready(function(){
         if (response.status == 'success')
         {
           li.html(response.html);
+          delete(elements_edited[li.attr('id')]);
         }
         else if (response.status == 'error')
         {
@@ -385,6 +389,13 @@ $(document).ready(function(){
       
     });
     return false;
+  });
+  
+  // Annulation d'un formulaire de modification d'élément
+  $('form.edit_element input.cancel_edit').live('click', function(){
+    var li = $(this).parent('form').parent('li');
+    li.html(elements_edited[li.attr('id')]);
+    delete(elements_edited[li.attr('id')]);
   });
  
   ////////////////// TAG PROMPT ///////////////
