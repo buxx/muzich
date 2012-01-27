@@ -34,7 +34,7 @@ class FollowGroup
    * Groupe suivis
    * 
    * @ORM\ManyToOne(targetEntity="Group", inversedBy="followers")
-   * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+   * @ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="CASCADE")
    */
   protected $group;
   

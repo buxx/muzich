@@ -617,6 +617,18 @@ $(document).ready(function(){
   $('ul.tagbox li.input input[type="text"]').formDefaults();
  
   ////////////////// FIN TAG PROMPT ///////////////
-
+ 
+  // Suppression d'un element
+  $('a.group_remove_link').jConfirmAction({
+    question : "Supprimer ce groupe ?", 
+    yesAnswer : "Oui", 
+    cancelAnswer : "Non",
+    onYes: function(link){
+      window.location = link.attr('href');
+      return false;
+    },
+    onOpen: function(){},
+    onClose: function(){}
+  });
    
  });

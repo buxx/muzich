@@ -15,7 +15,15 @@
     <ul class="inline">
     {% for group in groups %} 
       <li>
+        
         <a href="{{ path('show_group', { 'slug': group.slug }) }}">{{ group.name }}</a>
+        
+        <a title="{{ 'group.remove.link'|trans({}, 'groups') }}" class="group_remove_link" 
+          href="{{ path('group_delete', {'group_id' : group.id, 'token': app.user.personalHash})  }}"
+        >
+          <img src="{{ asset('bundles/muzichcore/img/1327168960_fileclose.png') }}" alt="delete" />
+        </a>
+        
       </li>
     {% endfor %}
     </ul>

@@ -241,6 +241,24 @@ class Controller extends BaseController
     }
   }
   
+  /**
+   * Retourne un Group en fonction du id passé
+   * 
+   * @param string $slug
+   * @return Group 
+   */
+  protected function findGroupWithId($id)
+  {
+    try {
+      return $this->getDoctrine()
+        ->getRepository('MuzichCoreBundle:Group')
+        ->findOneById($id)
+      ;      
+    } catch (\Doctrine\ORM\NoResultException $e) {
+        throw $this->createNotFoundException('Groupe introuvable.');
+    }
+  }
+  
   protected function getSearchForm($search_object)
   {
     return $this->createForm(

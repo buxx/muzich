@@ -14,3 +14,7 @@ group_edit:
 group_update:
   pattern:   /group/{slug}/update
   defaults: { _controller: MuzichGroupBundle:Default:update }
+
+group_delete:
+  pattern:   /group/{group_id}/delete/{token}
+  defaults: { _controller: MuzichGroupBundle:Default:delete }

@@ -183,4 +183,38 @@ class DefaultController extends Controller
     }
   }
   
+  public function deleteAction($group_id, $token)
+  {
+    $user = $this->getUser();
+    if ($user->getPersonalHash() != $token)
+    {
+      throw $this->createNotFoundException('Accès non autorisé.');
+    }
+    
+    $group = $this->findGroupWithId($group_id);
+    
+    if ($user->getId() != $group->getOwner()->getId())
+    {
+      throw $this->createNotFoundException('Accès non autorisé.');
+    }
+    
+    $em = $this->getDoctrine()->getEntityManager();
+    
+    // Il faudra le faire avec doctrine:
+    $elements = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findBy(array('group' => $group->getId()))
+    ;
+    
+    foreach ($elements as $element)
+    {
+      $element->setGroup(null);
+      $em->persist($element);
+    }
+      
+    $em->remove($group);
+    $em->flush();
+    
+    return $this->redirect($this->container->get('request')->headers->get('referer'));
+  }
+  
 }
