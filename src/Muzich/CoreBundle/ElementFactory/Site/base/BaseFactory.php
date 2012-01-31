@@ -43,6 +43,11 @@ class BaseFactory implements FactoryInterface
     return str_replace('http://'.$this->element->getType(), '', $url);
   }
   
+  public function getThumbnailUrl()
+  {
+    return null;
+  }
+  
 }
 
 ?>

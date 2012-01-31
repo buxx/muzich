@@ -118,6 +118,12 @@ class Element
    */
   private $updated;
   
+  /**
+   * @var string $thumbnail_url
+   *
+   * @ORM\Column(type="string", length=512, nullable=true)
+   */
+  protected $thumbnail_url;
 
   /**
    * Get id
@@ -357,6 +363,26 @@ class Element
   public function getUpdated()
   {
       return $this->updated;
+  }
+
+  /**
+   * Set thumbnail url
+   *
+   * @param string $thumbnail_url
+   */
+  public function setThumbnailUrl($thumbnail_url)
+  {
+      $this->thumbnail_url = $thumbnail_url;
+  }
+
+  /**
+   * Get thumbnail url
+   *
+   * @return datetime 
+   */
+  public function getThumbnailUrl()
+  {
+      return $this->thumbnail_url;
   }
   
   /**

@@ -36,6 +36,24 @@ class YoutubecomFactory extends BaseFactory
     
     return null;
   }
+  
+  public function getThumbnailUrl()
+  {
+    $url_object = $this->getCleanedUrl();
+    $url = null;
+    
+    // '/watch?v=kOLQIV22JAs&feature=feedrec_grec_index'
+    if (preg_match("#(v\/|watch\?v=)([\w\-]+)#", $url_object, $chaines))
+    {
+      $url = 'http://img.youtube.com/vi/'.$chaines[2].'/default.jpg';
+    }
+    else if (preg_match("#(v=|watch\?v=)([\w\-]+)#", $url_object, $chaines))
+    {
+      $url = 'http://img.youtube.com/vi/'.$chaines[2].'/default.jpg';
+    }
+    
+    return $url;
+  }
 }
 
 ?>

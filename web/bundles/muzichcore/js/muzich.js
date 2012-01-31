@@ -187,17 +187,36 @@ $(document).ready(function(){
 
   // Affichage un/des embed
   $('a.element_embed_open_link').live("click", function(){
-     $(this).parent().parent('li.element').find('a.element_embed_open_link').hide();
-     $(this).parent().parent('li.element').find('a.element_embed_close_link').show();
-     $(this).parent().parent('li.element').find('div.element_embed').show();
+    
+     li = $(this).parent('td').parent('tr').parent().parent().parent('li.element');
+     
+     li.find('a.element_embed_close_link').show();
+     li.find('a.element_embed_open_link_text').hide();
+     li.find('div.element_embed').show();
+     
+     return false;
+  });
+  
+  $('a.element_name_embed_open_link').live("click", function(){
+    
+     li = $(this).parent('span').parent('td').parent('tr').parent().parent().parent('li.element');
+     
+     li.find('a.element_embed_close_link').show();
+     li.find('a.element_embed_open_link_text').hide();
+     li.find('div.element_embed').show();
+     
      return false;
   });
 
   // Fermeture du embed si demandé
   $('a.element_embed_close_link').live("click", function(){
-     $(this).parent().parent('li.element').find('a.element_embed_open_link').show();
-     $(this).parent().parent('li.element').find('a.element_embed_close_link').hide();
-     $(this).parent().parent('li.element').find('div.element_embed').hide();
+    
+     li = $(this).parent('td').parent('tr').parent().parent().parent('li.element');
+    
+     li.find('div.element_embed').hide();
+     li.find('a.element_embed_open_link_text').show();
+     $(this).hide();
+     
      return false;
   });
 
@@ -306,7 +325,7 @@ $(document).ready(function(){
     cancelAnswer : "Non",
     onYes: function(link){
       
-      li = link.parent('li.element');
+      li = link.parent('td').parent('tr').parent().parent().parent('li.element');
       li.find('img.element_loader').show();
       $.getJSON(link.attr('href'), function(response){
         if (response.status == 'success')
@@ -322,12 +341,12 @@ $(document).ready(function(){
       return false;
     },
     onOpen: function(link){
-      li = link.parent('li.element');
+      li = link.parent('td').parent('tr').parent().parent().parent('li.element');
       li.find('a.element_edit_link').addClass('mustBeDisplayed');
       li.find('a.element_remove_link').addClass('mustBeDisplayed');
     },
     onClose: function(link){
-      li = link.parent('li.element');
+      li = link.parent('td').parent('tr').parent().parent().parent('li.element');
       li.find('a.element_edit_link').removeClass('mustBeDisplayed');
       li.find('a.element_remove_link').removeClass('mustBeDisplayed');
       li.find('a.element_edit_link').hide();
@@ -340,7 +359,7 @@ $(document).ready(function(){
   $('a.element_edit_link').live('click', function(){
     
     link = $(this);
-    li = link.parent('li.element');
+    li = link.parent('td').parent('tr').parent().parent().parent('li.element');
     // On garde en mémoire l'élément édité en cas d'annulation
     elements_edited[li.attr('id')] = li.html();
     div_loader = li.find('div.loader');

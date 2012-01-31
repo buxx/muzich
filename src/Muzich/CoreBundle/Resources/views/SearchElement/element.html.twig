@@ -1,56 +1,117 @@
-{% if element.getCountFavorite %}
-  <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash }) }}" >
-    <img src="{{ asset('bundles/muzichcore/img/favorite.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
-  </a>
-{% else %}
-  <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': app.user.personalHash }) }}" >
-    <img src="{{ asset('bundles/muzichcore/img/favorite_bw.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
-  </a>
-{% endif %}
+<table>
+  <tr>
+    <td class="element_thumbnail">
+      {% if element.embed %}
+        <a href="#" class="element_open element_embed_open_link">
+          <img 
+            {% if element.thumbnailUrl %}
+              src="{{ element.thumbnailUrl }}" 
+            {% else %}
+              src="{{ asset('bundles/muzichcore/img/nothumb.png') }}" 
+            {% endif %}
+            title="{{ 'element.show.open_embed'|trans({}, 'elements') }}" 
+            alt="open"
+          />
+        </a>
+      {% else %}
+        <a href="{{ element.url }}" class="element_open" target="_blank">
+          <img 
+            {% if element.thumbnailUrl %}
+              src="{{ element.thumbnailUrl }}" 
+            {% else %}
+              src="{{ asset('bundles/muzichcore/img/nothumb.png') }}" 
+            {% endif %}
+            title="{{ 'element.show.open_embed'|trans({}, 'elements') }}" 
+            alt="open"
+          />
+        </a>
+      {% endif %}
+    </td>
+    <td class="element_content">
+      
+      {% if element.getCountFavorite %}
+        <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash }) }}" >
+          <img src="{{ asset('bundles/muzichcore/img/favorite.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
+        </a>
+      {% else %}
+        <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': app.user.personalHash }) }}" >
+          <img src="{{ asset('bundles/muzichcore/img/favorite_bw.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
+        </a>
+      {% endif %}
+      
+      <span class="element_name">
+        {% if element.embed %}
+          <a href="#" class="element_open element_name_embed_open_link">
+            {{ element.name }}
+          </a>
+        {% else %}
+          <a href="{{ element.url }}" class="element_open" target="_blank">
+            {{ element.name }}
+          </a>
+        {% endif %}
+      </span> 
+      
+      <a title="{{ 'element.link'|trans({}, 'elements') }}" class="element_link" href="{{ element.url }}" target="_blank">
+        <img src="{{ asset('bundles/muzichcore/img/1324917097_link.png') }}" alt="link" />
+      </a>
+      
+      {% if app.user.id == element.owner.id %}
+        <a title="{{ 'element.edit.link'|trans({}, 'elements') }}" class="element_edit_link" 
+           href="{{ path('element_edit', {'element_id' : element.id})  }}" style="display: none;"
+        >
+          <img src="{{ asset('bundles/muzichcore/img/1327151338_desktop.png') }}" alt="edit" />
+        </a>
 
-<span class="element_name">
-  {{ element.name }}
-</span> 
+        <a title="{{ 'element.remove.link'|trans({}, 'elements') }}" class="element_remove_link" 
+           href="{{ path('element_remove', {'element_id' : element.id})  }}" style="display: none;"
+        >
+          <img src="{{ asset('bundles/muzichcore/img/1327168960_fileclose.png') }}" alt="delete" />
+        </a>
+      {% endif %}
+      
+      <br />
+      {% autoescape false %}
+        {% if element.group and no_group_name is not defined%}
+          {{ 'element.name.whoandgroup'|trans({
+            '%owner_url%'  : path('show_user', {'slug': element.owner.slug}),
+            '%owner_name%' : element.owner.name,
+            '%group_url%'  : path('show_group', {'slug': element.group.slug}),
+            '%group_name%' : element.group.name
+          }, 'elements') }}
+        {% else %}
+          {{ 'element.name.who'|trans({
+            '%owner_url%'  : path('show_user', {'slug': element.owner.slug}),
+            '%owner_name%' : element.owner.name
+          }, 'elements') }}
+        {% endif %}
+      {% endautoescape %}
+      
+      <div class="loader">
+        <img class="element_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
+      </div>
+      
+      {% if element.tags|length %}
+      <ul class="element_tags">
+        {% for tag in element.tags %} 
+          <li class="element_tag">
+            {{ tag.name }}
+          </li>
+        {% endfor %} 
+      </ul>
+      {% endif %}
+      
+      <br />
+      <a href="#" class="element_open element_embed_open_link element_embed_open_link_text">
+        {{ 'element.show.open_embed'|trans({}, 'elements') }}
+      </a>
+      <a href="#" class="element_open element_embed_close_link" style="display: none;">
+        {{ 'element.show.close_embed'|trans({}, 'elements') }}
+      </a>
+      
+    </td>
+  </tr>
+</table>
 
-{% autoescape false %}
-  {% if element.group and no_group_name is not defined%}
-    {{ 'element.name.whoandgroup'|trans({
-      '%owner_url%'  : path('show_user', {'slug': element.owner.slug}),
-      '%owner_name%' : element.owner.name,
-      '%group_url%'  : path('show_group', {'slug': element.group.slug}),
-      '%group_name%' : element.group.name
-    }, 'elements') }}
-  {% else %}
-    {{ 'element.name.who'|trans({
-      '%owner_url%'  : path('show_user', {'slug': element.owner.slug}),
-      '%owner_name%' : element.owner.name
-    }, 'elements') }}
-  {% endif %}
-{% endautoescape %}
-
-
-<a title="{{ 'element.link'|trans({}, 'elements') }}" class="element_link" href="{{ element.url }}" target="_blank">
-  <img src="{{ asset('bundles/muzichcore/img/1324917097_link.png') }}" alt="link" />
-</a>
-
-{% if app.user.id == element.owner.id %}
-  <a title="{{ 'element.edit.link'|trans({}, 'elements') }}" class="element_edit_link" 
-     href="{{ path('element_edit', {'element_id' : element.id})  }}" style="display: none;"
-  >
-    <img src="{{ asset('bundles/muzichcore/img/1327151338_desktop.png') }}" alt="edit" />
-  </a>
-
-  <a title="{{ 'element.remove.link'|trans({}, 'elements') }}" class="element_remove_link" 
-     href="{{ path('element_remove', {'element_id' : element.id})  }}" style="display: none;"
-  >
-    <img src="{{ asset('bundles/muzichcore/img/1327168960_fileclose.png') }}" alt="delete" />
-  </a>
-{% endif %}
-
-<div class="loader">
-  <img class="element_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
-</div>
-  
 {% if element.embed %}
   {% autoescape false %}
     <div id="embed_{{ element.id }}" class="element_embed" style="display: none;">
@@ -58,32 +119,3 @@
     </div>
   {% endautoescape %}
 {% endif %}
-
-<div>
-
-  {% if element.embed %}
-    <a href="#" class="element_open element_embed_close_link" style="display: none;">
-      {{ 'element.show.close_embed'|trans({}, 'elements') }}
-    </a>
-    <a href="#" class="element_open element_embed_open_link">
-      {{ 'element.show.open_embed'|trans({}, 'elements') }}
-    </a>
-  {% else %}
-    <a href="{{ element.url }}" class="element_open" target="_blank">
-      {{ 'element.show.open_link'|trans({}, 'elements') }}
-    </a>
-  {% endif %}
-
-  {% if element.tags|length %}
-  <ul class="element_tags">
-    {% for tag in element.tags %} 
-      <li class="element_tag">
-        {{ tag.name }}
-      </li>
-    {% endfor %} 
-  </ul>
-  {% else %}
-  <br />
-  {% endif %}
-
-</div>

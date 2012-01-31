@@ -32,6 +32,20 @@ class YoutubeFactory extends BaseFactory
     
     return null;
   }
+  
+  public function getThumbnailUrl()
+  {
+    $url_object = $this->getCleanedUrl();
+    $url = null;
+    
+    // http://youtu.be/9hQVA2sloGc
+    if (preg_match("#\/([a-zA-Z0-9]+)#", $url_object, $chaines))
+    {
+      $url = 'http://img.youtube.com/vi/'.$chaines[1].'/default.jpg';
+    }
+    
+    return $url;
+  }
 }
 
 ?>

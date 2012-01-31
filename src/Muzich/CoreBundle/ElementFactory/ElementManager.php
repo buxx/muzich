@@ -131,6 +131,7 @@ class ElementManager
     {
       $site_factory = $this->getFactory();
       $this->element->setEmbed($site_factory->getEmbedCode());
+      $this->element->setThumbnailUrl($site_factory->getThumbnailUrl());
     }
     
   }

@@ -387,6 +387,7 @@ background-position: 7px;
 
 li.element
 {
+  list-style: none outside none;
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 5px;
@@ -394,18 +395,35 @@ li.element
 
 li.element a.favorite_link
 {
-  float: right;
+  position: relative;
+  top: 0px;
+  left: 455px;
 }
 
 li.element a.element_open
 {
-  float: right;
   font-weight: bold;
 }
 
 li.element div.element_embed
 {
   text-align: center;
+}
+
+li.element td.element_content
+{
+  vertical-align: top;
+  padding-left: 5px;
+}
+
+li.element span.element_name
+{
+  margin-left: -20px;
+}
+
+#container li.element span.element_name a
+{
+  color: black;
 }
 
 ul.elements li.even
