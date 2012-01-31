@@ -43,6 +43,16 @@
       <a class="message-close" href="#" title="fermer"><img alt="close" src="{{ asset('bundles/muzichcore/img/1317386146_cancel.png') }}" /></a>
       <h3>{{ flash|trans({}, 'flash') }}</h3>
     </div>
+  
+    {% if key == 'success' %}
+    <script type="text/javascript" >
+      $(document).ready(function(){
+        window.setTimeout(function(){
+          $('div.success').slideUp();
+        }, 3000);
+      });
+    </script>
+    {% endif %}
   {% endfor %}
   
   {% include "MuzichCoreBundle:Info:container.html.twig" %}
