@@ -49,6 +49,10 @@ info_about:
 info_development:
   pattern: /info/development
   defaults: { _controller: MuzichCoreBundle:Info:development }
+
+info_sites:
+  pattern: /info/sites
+  defaults: { _controller: MuzichCoreBundle:Info:sites }
   
 ####
 

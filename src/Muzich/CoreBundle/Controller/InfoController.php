@@ -27,4 +27,13 @@ class InfoController extends Controller
     return array();
   }
   
+  /**
+   *
+   * @Template() 
+   */
+  public function sitesAction()
+  {
+    return array();
+  }
+  
 }
