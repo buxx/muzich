@@ -52,6 +52,66 @@ class JamendocomFactory extends BaseFactory
     
     return null;
   }
+  
+  public function getThumbnailUrl()
+  {
+    $url_object = $this->getCleanedUrl();
+    $url = null;
+    
+    // http://www.jamendo.com/fr/album/30661
+    if (preg_match("#^\/[a-zA-Z0-9_-]+\/album\/([0-9]+)#", $url_object, $chaines))
+    {
+      $id_album = $chaines[1];
+      $get_url = "http://api.jamendo.com/get2/image/album/json/?id=".$id_album;
+    }
+    // http://www.jamendo.com/fr/track/207079
+    else if (preg_match("#^\/[a-zA-Z0-9_-]+\/track\/([0-9]+)#", $url_object, $chaines))
+    {
+      $id_track = $chaines[1];
+      $get_url = "http://api.jamendo.com/get2/image/track/json/?id=".$id_track;
+    }
+    
+    if ($get_url)
+    {
+      $ch = curl_init($get_url);
+      $options = array(
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => array('Content-type: application/json')
+      );
+      curl_setopt_array( $ch, $options );
+      $result = json_decode(curl_exec($ch));
+      
+      if (count($result))
+      {
+        $url = $result[0];
+      }
+    }
+    
+      
+    
+
+    
+    
+//    if (isset($result->errors))
+//    {
+//      if (count($result->errors))
+//      {
+//        return null;
+//      }
+//    }
+//    
+//    $getjsonurl = $result->location;
+//    $ch = curl_init($getjsonurl);
+//    curl_setopt_array($ch, $options);
+//    $result = json_decode(curl_exec($ch));
+//    
+//    $url = $result->artwork_url;
+    
+    
+    return $url;
+  }
+  
+  //http://api.jamendo.com/get2/name+url/album/json/?id=116
 }
 
 ?>
