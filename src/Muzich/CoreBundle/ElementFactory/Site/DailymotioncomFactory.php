@@ -32,6 +32,35 @@ class DailymotioncomFactory extends BaseFactory
     
     return null;
   }
+  
+  /*
+   * http://www.dailymotion.com/doc/api/obj-video.html
+   */
+  public function getThumbnailUrl()
+  {
+    // https://api.dailymotion.com/video/xmi3i1&fields=thumbnail_medium_url
+    $url_object = $this->getCleanedUrl();
+    $url = null;
+    
+    if (preg_match("#(video\/)([a-zA-Z0-9]+)([a-zA-Z0-9_-]*)#", $url_object, $chaines))
+    {
+      $ch = curl_init('https://api.dailymotion.com/video/'.$chaines[2].'&fields=thumbnail_medium_url');
+      
+      $options = array(
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => array('Content-type: application/json')
+      );
+      
+      curl_setopt_array( $ch, $options );
+      $result = json_decode(curl_exec($ch));
+      
+      $url = $result->thumbnail_medium_url;
+      ;
+    }
+    
+    return $url;
+  }
+  
 }
 
 ?>
