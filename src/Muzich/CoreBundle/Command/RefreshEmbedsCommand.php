@@ -42,6 +42,7 @@ class RefreshEmbedsCommand extends ContainerAwareCommand
     
     foreach ($elements as $element)
     {
+      $output->writeln('<info>Prise en charge de "'.$element->getUrl().'" ...</info>');
       $factory = new ElementManager($element, $em, $this->getContainer());
       $factory->proceedExtraFields();
       $em->persist($element);
