@@ -57,6 +57,40 @@ class SoundcloudcomFactory extends BaseFactory
     
     return null;
   }
+  
+  public function getThumbnailUrl()
+  {
+    
+    
+    $url_object = $this->element->getUrl();
+    $url = null;
+    
+    $ch = curl_init('http://api.soundcloud.com/resolve.json?url='.$url_object.'&client_id=39946ea18e3d78d64c0ac95a025794e1');
+      
+    $options = array(
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_HTTPHEADER => array('Content-type: application/json')
+    );
+
+    curl_setopt_array( $ch, $options );
+    $result = json_decode(curl_exec($ch));
+    
+    if (isset($result->errors))
+    {
+      if (count($result->errors))
+      {
+        return null;
+      }
+    }
+    
+    $getjsonurl = $result->location;
+    $ch = curl_init($getjsonurl);
+    curl_setopt_array($ch, $options);
+    $result = json_decode(curl_exec($ch));
+    
+    $url = $result->artwork_url;
+    return $url;
+  }
 }
 
 ?>
