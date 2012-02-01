@@ -54,8 +54,11 @@ class DailymotioncomFactory extends BaseFactory
       curl_setopt_array( $ch, $options );
       $result = json_decode(curl_exec($ch));
       
-      $url = $result->thumbnail_medium_url;
-      ;
+      if (isset($result->thumbnail_medium_url))
+      {
+        $url = $result->thumbnail_medium_url;
+      }
+      
     }
     
     return $url;
