@@ -421,6 +421,12 @@ li.element span.element_name
   margin-left: -20px;
 }
 
+li.element img.element_thumbnail
+{
+  width: 120px;
+  height: 90px;
+}
+
 #container li.element span.element_name a
 {
   color: black;

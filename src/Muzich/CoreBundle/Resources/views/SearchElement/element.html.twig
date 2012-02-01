@@ -4,6 +4,7 @@
       {% if element.embed %}
         <a href="#" class="element_open element_embed_open_link">
           <img 
+            class="element_thumbnail"
             {% if element.thumbnailUrl %}
               src="{{ element.thumbnailUrl }}" 
             {% else %}
@@ -16,6 +17,7 @@
       {% else %}
         <a href="{{ element.url }}" class="element_open" target="_blank">
           <img 
+            class="element_thumbnail"
             {% if element.thumbnailUrl %}
               src="{{ element.thumbnailUrl }}" 
             {% else %}
