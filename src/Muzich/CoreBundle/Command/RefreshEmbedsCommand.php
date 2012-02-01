@@ -20,7 +20,8 @@ class RefreshEmbedsCommand extends ContainerAwareCommand
       // Dans l'avenir on pourra préciser:
       // - le type
       // - l'élément
-//      ->addArgument('name', InputArgument::OPTIONAL, 'Who do you want to greet?')
+      ->addOption('sites', null, InputOption::VALUE_REQUIRED, 'Liste exhaustive des site a traiter')
+//      ->addArgument('sites', InputArgument::OPTIONAL, 'Liste exhaustive des site a traiter')
 //      ->addOption('yell', null, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters')
     ;
   }
@@ -33,9 +34,32 @@ class RefreshEmbedsCommand extends ContainerAwareCommand
     $output->writeln('#');
     $output->writeln('## Script de mise a jour des code embeds ##');
     $output->writeln('#');
+
+    $filter_sites = array();
+    if (($sites = $input->getOption('sites')))
+    {
+      foreach (explode(',', $sites) as $site)
+      {
+        $filter_sites[] = trim($site);
+      }
+    }
     
-    // On récupère tout les éléments
-    $elements = $em->getRepository('MuzichCoreBundle:Element')->findAll();
+    
+    // On récupère les éléments
+    if (count($filter_sites))
+    {
+      $elements = $em->createQuery(
+        "SELECT e FROM MuzichCoreBundle:Element e "
+        . " WHERE e.type IN (:types)"
+      )->setParameter('types', $filter_sites)
+       ->getResult()      
+      ;
+      $output->writeln('<comment>Utilisation de filtre par site ('.$input->getOption('sites').')</comment>');
+    }
+    else
+    {
+      $elements = $em->getRepository('MuzichCoreBundle:Element')->findAll();
+    }
     
     $output->writeln('<info>Nombre d\'éléments a traiter: '.count($elements).'</info>');
     $output->writeln('<info>Début du traitement ...</info>');
