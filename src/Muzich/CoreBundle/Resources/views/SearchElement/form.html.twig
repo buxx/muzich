@@ -1,10 +1,18 @@
 
   {{ form_errors(search_form) }}
 
-  <div class="field">
-    {{ form_errors(search_form.network) }}
-    {{ form_label(search_form.network, 'filter.network'|trans({}, 'userui')) }}
-    {{ form_widget(search_form.network) }}
+  <div class="select_network">
+    <div class="field">
+      {{ form_errors(search_form.network) }}
+      {{ form_widget(search_form.network, { 'attr': {'style': 'display: none;'} }) }}
+    </div>
+    
+    <a href="#" class="button all_network {% if network_public %}active{% endif %}">
+      {{ 'filter.network_all'|trans({}, 'userui') }}
+    </a>
+    <a href="#" class="button my_network {% if not network_public %}active{% endif %}">
+      {{ 'filter.network_my'|trans({}, 'userui') }}
+    </a>
   </div>
   
   {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 

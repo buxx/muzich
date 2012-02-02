@@ -649,5 +649,22 @@ $(document).ready(function(){
     onOpen: function(){},
     onClose: function(){}
   });
+  
+  // Selection Réseau global / Mon réseau
+  $('div.select_network a').live('click', function(){
+    divSelect = $(this).parent('div');
+    if ($(this).hasClass('all_network'))
+    {
+      divSelect.find('a.all_network').addClass('active');
+      divSelect.find('a.my_network').removeClass('active');
+      divSelect.find('select').val('network_public');
+    }
+    else
+    {
+      divSelect.find('a.my_network').addClass('active');
+      divSelect.find('a.all_network').removeClass('active');
+      divSelect.find('select').val('network_personal');
+    }
+  });
    
  });

@@ -116,6 +116,24 @@ class ElementSearcher extends Searcher implements SearcherInterface
     return $this->network;
   }
   
+  public function isNetworkPublic()
+  {
+    if ($this->network == self::NETWORK_PUBLIC)
+    {
+      return true;
+    }
+    return false;
+  }
+  
+  public function isNetworkPersonal()
+  {
+    if ($this->network == self::NETWORK_PERSONAL)
+    {
+      return true;
+    }
+    return false;
+  }
+  
   public function getTags($tags_string = false)
   {
     if (!$tags_string)

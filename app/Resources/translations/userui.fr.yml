@@ -37,6 +37,8 @@ filter:
   submit:  Filtrer
   clear:   Aucun filtre
   mytags:  Tous mes tags
+  network_all:   Réseau global
+  network_my:    Mon réseau
   
 element_add:
   url:

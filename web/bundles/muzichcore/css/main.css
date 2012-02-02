@@ -62,8 +62,7 @@ input.button, button.button {
 }
 
 .button:active {
-  padding: 3px 6px;
-  border: 1px solid #165c6d;
+  background-color: #39c9cc;
 }
 
 #container a

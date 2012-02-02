@@ -18,3 +18,34 @@
   background-color: #e3f6fd;
   padding: 20px;
 }
+
+#container div.select_network a
+{
+  color: white;
+}
+
+div.select_network a.all_network
+{
+  padding-left: 20px;
+  background-image: url(/bundles/muzichcore/img/1328191242_keyboard_layout.png);
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
+}
+
+div.select_network a.my_network
+{
+  padding-left: 20px;
+  background-image: url(/bundles/muzichcore/img/1328191129_edit_group.png);
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
+}
+
+div.select_network a.active
+{
+  background-color: #39c9cc
+}
+
+div.tags_prompt
+{
+  margin-top: 5px;
+}

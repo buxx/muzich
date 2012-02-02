@@ -35,6 +35,7 @@ class HomeController extends Controller
       'add_form_name'    => 'add',
       'search_form'      => $search_form->createView(),
       'search_form_name' => 'search',
+      'network_public'   => $search_object->isNetworkPublic(),
       'elements'         => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
       'more_count'       => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2
     );
