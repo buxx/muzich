@@ -456,6 +456,7 @@ li.element span.element_name
 
 li.element td.element_thumbnail
 {
+  background-image: url(/bundles/muzichcore/img/nothumb.png);
   width: 120px;
   height: 90px;
 }
