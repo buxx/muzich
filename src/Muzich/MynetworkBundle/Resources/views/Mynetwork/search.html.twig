@@ -18,7 +18,7 @@
     <div class="field">
       {{ form_errors(search_form.string) }}
       {{ form_widget(search_form.string) }}
-      <input type="submit" value="{{ 'search.form.submit_value'|trans({}, 'network') }}" />
+      <input type="submit" class="button" value="{{ 'search.form.submit_value'|trans({}, 'network') }}" />
     </div>
 
     {{ form_rest(search_form) }}

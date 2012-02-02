@@ -8,6 +8,7 @@
 
 #container #element_add_link, #container #element_add_close_link
 {
+  color: white;
   font-size: 120%;
   float: right;
 }

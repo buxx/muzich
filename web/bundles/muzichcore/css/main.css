@@ -44,6 +44,28 @@
   
 }
 
+.button {
+	display: inline-block;
+	line-height: 1;
+	padding: 4px 7px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #fff;
+	background-color: #39c;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+}
+input.button, button.button {
+	border: 0px none;
+}
+
+.button:active {
+  padding: 3px 6px;
+  border: 1px solid #165c6d;
+}
+
 #container a
 {
   text-decoration: none;

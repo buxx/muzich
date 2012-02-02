@@ -6,7 +6,7 @@
 
   <div id="element_add_box" style="display: none;">
     
-    <a href="#" id="element_add_close_link">
+    <a href="#" id="element_add_close_link" class="button">
       &lt;&lt; {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
     </a>
     
@@ -17,11 +17,11 @@
         'form_name'     : add_form_name
       } %}
 
-      <input type="submit" />
+      <input type="submit" class="button" />
     </form>
   </div>
 
-  <a href="#" id="element_add_link">
+  <a href="#" id="element_add_link" class="button">
     {{ 'home.add_element'|trans({}, 'navigationui') }} &gt;&gt;
   </a>
 
@@ -33,7 +33,7 @@
       'display_specials_buttons': true
     } %}
     
-    <input class="main" type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
+    <input class="main button" type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
   </form>
 
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {'noelements_filter' : true }%}
