@@ -29,11 +29,11 @@
   
     <div id="element_add_box" style="display: none;">
   
-      <a href="#" id="element_add_close_link">
+      <a href="#" id="element_add_close_link" class="button">
         &lt;&lt; {{ 'group.add_element_box.close'|trans({}, 'navigationui') }}
       </a>
       
-      <form name="{{ add_form_name }}" action="{{ path('element_add', {'group_slug' : group.slug}) }}" method="post" {{ form_enctype(add_form) }}>
+      <form novalidate name="{{ add_form_name }}" action="{{ path('element_add', {'group_slug' : group.slug}) }}" method="post" {{ form_enctype(add_form) }}>
 
         {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 'form': add_form, 'form_name': add_form_name } %}
 
@@ -42,7 +42,7 @@
       
     </div>
   
-    <a href="#" id="element_add_link">
+    <a href="#" id="element_add_link" class="button">
       {{ 'group.add_element'|trans({}, 'navigationui') }} &gt;&gt;
     </a>
     <br />

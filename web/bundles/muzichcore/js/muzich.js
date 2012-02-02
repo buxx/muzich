@@ -666,5 +666,41 @@ $(document).ready(function(){
       divSelect.find('select').val('network_personal');
     }
   });
+
+  // Ajout d'un element
+  
+  
+  $('form[name="add"] input[type="submit"]').live('click', function(){
+    $('form[name="add"]').find('img.tag_loader').show();
+  });
+  $('form[name="add"]').ajaxForm(function(response) {
+    $('form[name="add"] img.tag_loader').hide();
+    if (response.status == 'success')
+    {
+      $('form[name="add"]').find('ul.error_list').remove();
+      $('ul.elements').prepend(response.html);
+      $('form[name="add"] input[type="text"]').val('');
+      $('div#element_add_box').slideUp();
+      $('a#element_add_link').show();
+      if ($('form[name="search"]').length)
+      {
+        $('form[name="search"]').slideDown();
+      }
+    }
+    else if (response.status == 'error')
+    {
+      $('form[name="add"]').find('ul.error_list').remove();
+      ul_errors = $('<ul>').addClass('error_list');
+      
+      for (i in response.errors)
+      {
+        ul_errors.append($('<li>').append(response.errors[i]));
+      }
+      
+      $('form[name="add"]').prepend(ul_errors);
+    }
+    
+    return false;
+  });
    
  });

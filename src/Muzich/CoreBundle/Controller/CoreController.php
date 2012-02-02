@@ -200,7 +200,16 @@ class CoreController extends Controller
 
       if ($this->getRequest()->isXmlHttpRequest())
       {
-
+        // Récupération du li
+        $html = $this->render('MuzichCoreBundle:SearchElement:li.element.html.twig', array(
+          'element'     => $element,
+          'class_color' => 'odd'
+        ))->getContent();
+        
+        return $this->jsonResponse(array(
+          'status' => 'success',
+          'html'   => $html
+        ));
       }
       else
       {
@@ -212,7 +221,19 @@ class CoreController extends Controller
     {
       if ($this->getRequest()->isXmlHttpRequest())
       {
-        return $this->jsonResponse(array(true));
+        // Récupération des erreurs
+        $validator = $this->container->get('validator');
+        $errorList = $validator->validate($form);
+
+        foreach ($errorList as $error)
+        {
+          $errors[] = $error->getMessage();
+        }
+        
+        return $this->jsonResponse(array(
+          'status' => 'error',
+          'errors' => $errors
+        ));
       }
       else
       {
