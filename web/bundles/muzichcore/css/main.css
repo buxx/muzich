@@ -442,6 +442,12 @@ li.element span.element_name
   margin-left: -20px;
 }
 
+li.element td.element_thumbnail
+{
+  width: 120px;
+  height: 90px;
+}
+
 li.element img.element_thumbnail
 {
   width: 120px;
