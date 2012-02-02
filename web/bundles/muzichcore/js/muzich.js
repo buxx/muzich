@@ -314,7 +314,7 @@ $(document).ready(function(){
        ;
      }
      
-     $('ul.tagbox input[type="text"]').val(tag_box_input_value);
+     $('ul.tagbox input[type="text"]').val($('ul.tagbox input[type="text"]').val());
     
   }); 
   
