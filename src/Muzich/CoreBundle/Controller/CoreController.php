@@ -12,6 +12,7 @@ use Muzich\CoreBundle\ElementFactory\ElementManager;
 use Muzich\CoreBundle\Entity\Element;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Muzich\CoreBundle\Form\Search\ElementSearchForm;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class CoreController extends Controller
 {
@@ -37,7 +38,12 @@ class CoreController extends Controller
       $url_referer
     );
     
-    $params = $this->get('router')->match($url_referer);
+    try {
+      $params = $this->get('router')->match($url_referer.'552');
+    } catch (ResourceNotFoundException $exc) {
+      return $this->redirect($this->generateUrl('home', array('_locale' => $language)));
+    }
+
     $params['_locale'] = $language;
     $route = $params['_route'];
     unset($params['_route'], $params['_controller']);
