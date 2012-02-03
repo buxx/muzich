@@ -8,6 +8,7 @@ havegroups:
 group:
   edit:                         Modifier ce groupe
   follow:                       Suivre
+  following:                    Suivi
   notfollow:                    Ne plus suivre
   remove:
     link:                       Supprimer le groupe

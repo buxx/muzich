@@ -4,24 +4,24 @@
 
 {% block content %}
 
-  <span class="follow_link following">
-  
+  <div class="show_options">
+    
     {% if his_group %}
       <a href="{{ path('group_edit', { 'slug': group.slug }) }}" >
         {{ 'group.edit'|trans({}, 'groups') }}
       </a> |
     {% endif %}
-
+      
     <a href="{{ path('follow', { 'type': 'group', 'id': group.id, 'token': user.personalHash }) }}" 
-       class="{% if following %}following{% else %}notfollowing{% endif %}">
+       class="follow_link button {% if following %}following{% else %}notfollowing{% endif %}">
       {% if following %}
-        {{ 'group.notfollow'|trans({}, 'groups') }}
+        {{ 'group.following'|trans({}, 'groups') }}
       {% else %}
         {{ 'group.follow'|trans({}, 'groups') }}
       {% endif %}
     </a>
     
-  </span>
+  </div>
     
   <h2>{{ group.name }}</h2>
   
