@@ -100,6 +100,7 @@ class CoreController extends Controller
       // L'utilisateur suis déjà, on doit détruire l'entité
       $em->remove($Follow);
       $em->flush();
+      $following = false;
     }
     // Sinon, c'est qu'il veut le suivre
     else
@@ -121,11 +122,15 @@ class CoreController extends Controller
       
       $em->persist($Follow);
       $em->flush();
+      $following = true;
     }
     
     if ($this->getRequest()->isXmlHttpRequest())
     {
-      
+      return $this->jsonResponse(array(
+        'status'    => 'success',
+        'following' => $following
+      ));
     }
     else
     {

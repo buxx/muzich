@@ -32,6 +32,7 @@
 {
   margin-top: 5px;
   margin-bottom: 5px;
+  font-size: 1.7em;
   
   text-shadow: 1px 1px 2px #666;
 }
@@ -56,6 +57,7 @@
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
+  border: 1px solid #2b82ad;
 }
 input.button, button.button {
 	border: 0px none;
@@ -69,6 +71,11 @@ input.button, button.button {
 {
   text-decoration: none;
   color: #00d0de;
+}
+
+#container a.button
+{
+  color: white;
 }
 
 #container a:hover
@@ -548,6 +555,7 @@ ul.tagbox input[type="text"]
 	-khtml-border-radius: 5px;
 	border-radius: 5px;
   background-color: #bdf1fe;
+  padding-left: 3px;
 }
 
 ul.tagbox li.input

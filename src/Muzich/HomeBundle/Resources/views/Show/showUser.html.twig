@@ -4,24 +4,36 @@
 
 {% block content %}
 
-  <span class="follow_link following">
+  <!--<span class="follow_link following">
     
     <a href="{{ path('favorite_user_list', {'slug' : viewed_user.slug}) }}" >
       {{ 'user.view_favorites'|trans({}, 'users') }}
     </a>
     | 
+        
+    
+  </span>-->
+
+  <div class="show_options">
+    
+    <a class="button" href="{{ path('favorite_user_list', {'slug' : viewed_user.slug}) }}" >
+      {{ 'user.view_favorites'|trans({}, 'users') }}
+    </a>
+    
     <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash }) }}" 
-       class="follow_link {% if following %}following{% else %}notfollowing{% endif %}" >
+       class="follow_link button {% if following %}following{% else %}notfollowing{% endif %}" >
       {% if following %}
-        {{ 'user.notfollow'|trans({}, 'users') }}
+        {{ 'user.following'|trans({}, 'users') }}
       {% else %}
         {{ 'user.follow'|trans({}, 'users') }}
       {% endif %}
     </a>
     
-  </span>
+  </div>
+  
 
-  <h2>{{ viewed_user.name }}</h2>
+  <h2>{{ 'user.show.title'|trans({'%name%' : viewed_user.name}, 'users') }}</h2>
+  
   
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
     

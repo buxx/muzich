@@ -1,5 +1,9 @@
 
 user:
   follow:                       Suivre
+  following:                    Suivi
   notfollow:                    Ne plus suivre
   view_favorites:               Voir les favoris
+  stop_follow:                  Ne plus suivre
+  show:
+    title:                      Diffusions de %name%
