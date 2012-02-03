@@ -444,6 +444,7 @@ li.element a.favorite_link
 li.element a.element_open
 {
   font-weight: bold;
+  margin-top: 7px;
 }
 
 li.element div.element_embed
@@ -478,6 +479,12 @@ li.element img.element_thumbnail
 #container li.element span.element_name a
 {
   color: black;
+}
+
+li.element img.play, li.element img.open
+{
+  position: absolute;
+  
 }
 
 ul.elements

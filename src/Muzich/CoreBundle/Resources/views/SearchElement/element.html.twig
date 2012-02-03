@@ -1,8 +1,10 @@
 <table>
   <tr>
     <td class="element_thumbnail">
+      
       {% if element.embed %}
-        <a href="#" class="element_open element_embed_open_link">
+        <a href="#" class="a_thumbnail element_open element_embed_open_link {% if element.embed %}embed{% else %}noembed{% endif %}">
+          <img class="play" style="display: none;" src="{{ asset('bundles/muzichcore/img/1328283150_media-playback-start.png') }}" alt="" />
           <img 
             class="element_thumbnail"
             {% if element.thumbnailUrl %}
@@ -15,7 +17,8 @@
           />
         </a>
       {% else %}
-        <a href="{{ element.url }}" class="element_open" target="_blank">
+        <a href="{{ element.url }}" class="a_thumbnail element_open {% if element.embed %}embed{% else %}noembed{% endif %}" target="_blank">
+          <img class="open" style="display: none;" src="{{ asset('bundles/muzichcore/img/1328283201_emblem-symbolic-link.png') }}" alt="" />
           <img 
             class="element_thumbnail"
             {% if element.thumbnailUrl %}
@@ -28,6 +31,7 @@
           />
         </a>
       {% endif %}
+      
     </td>
     <td class="element_content">
       
@@ -102,11 +106,7 @@
       </ul>
       {% endif %}
       
-      <br />
-      <a href="#" class="element_open element_embed_open_link element_embed_open_link_text">
-        {{ 'element.show.open_embed'|trans({}, 'elements') }}
-      </a>
-      <a href="#" class="element_open element_embed_close_link" style="display: none;">
+      <a href="#" class="button element_open element_embed_close_link" style="display: none;">
         {{ 'element.show.close_embed'|trans({}, 'elements') }}
       </a>
       

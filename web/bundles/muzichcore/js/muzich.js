@@ -203,6 +203,8 @@ $(document).ready(function(){
   });
 
   // Affichage un/des embed
+  // 1328283150_media-playback-start.png
+  // 1328283201_emblem-symbolic-link.png
   $('a.element_embed_open_link').live("click", function(){
     
      li = $(this).parent('td').parent('tr').parent().parent().parent('li.element');
@@ -236,6 +238,39 @@ $(document).ready(function(){
      
      return false;
   });
+  
+  // Affichage du "play" ou du "open" (image png)
+  $('li.element a.a_thumbnail, li.element img.open, li.element img.play').live({
+    mouseenter:
+      function()
+      {
+        td = $(this).parent('td');
+        a = td.find('a.a_thumbnail');
+        if (a.hasClass('embed'))
+        {
+          td.find('img.play').show();
+        }
+        else
+        {
+          td.find('img.open').show();
+        }
+      },
+    mouseleave:
+      function()
+      {
+        td = $(this).parent('td');
+        a = td.find('a.a_thumbnail');
+        if (a.hasClass('embed'))
+        {
+          td.find('img.play').hide();
+        }
+        else
+        {
+          td.find('img.open').hide();
+        }
+      }
+    }
+  );
 
   // Mise en favoris
   $('a.favorite_link').live("click", function(){
@@ -721,6 +756,6 @@ $(document).ready(function(){
   // Check périodique 
   // TODO.
 
-
+ 
    
  });
