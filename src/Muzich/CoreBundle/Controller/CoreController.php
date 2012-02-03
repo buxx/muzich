@@ -39,7 +39,7 @@ class CoreController extends Controller
     );
     
     try {
-      $params = $this->get('router')->match($url_referer.'552');
+      $params = $this->get('router')->match($url_referer);
     } catch (ResourceNotFoundException $exc) {
       return $this->redirect($this->generateUrl('home', array('_locale' => $language)));
     }

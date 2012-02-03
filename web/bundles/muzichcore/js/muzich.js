@@ -1,11 +1,28 @@
 /*
  * Scripts de Muzi.ch
- * Rédigé et propriété de Sevajol Bastien (http://www.bux.fr)
+ * Rédigé et propriété de Sevajol Bastien (http://www.bux.fr) sauf si mention
+ * contraire sur la fonction.
  * 
  */
 
-// Messages flashs
+// Controle du focus sur la page
+function onBlur() {
+  document.body.className = 'blurred';
+}
 
+function onFocus(){
+    document.body.className = 'focused';
+}
+
+if (/*@cc_on!@*/false) { // check for Internet Explorer
+    document.onfocusin = onFocus;
+    document.onfocusout = onBlur;
+} else {
+    window.onfocus = onFocus;
+    window.onblur = onBlur;
+}
+
+// Messages flashs
 var myMessages = ['info','warning','error','success']; // define the messages types	
 
 function hideAllMessages()
@@ -668,8 +685,6 @@ $(document).ready(function(){
   });
 
   // Ajout d'un element
-  
-  
   $('form[name="add"] input[type="submit"]').live('click', function(){
     $('form[name="add"]').find('img.tag_loader').show();
   });
@@ -702,5 +717,10 @@ $(document).ready(function(){
     
     return false;
   });
+  
+  // Check périodique 
+  // TODO.
+
+
    
  });
