@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * 
  * @ORM\Entity
  * @ORM\Table(name="users_elements_favorites")
+ * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\UsersElementsFavoritesRepository")
  */
 class UsersElementsFavorites
 {

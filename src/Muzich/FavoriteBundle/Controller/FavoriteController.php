@@ -134,12 +134,25 @@ class FavoriteController extends Controller
   {
     $search_object = $this->createSearchObject(array(
       'user_id'  => $this->getUserId(),
-      'favorite' => true
+      'favorite' => true,
+      'count'    => $this->container->getParameter('search_default_count')
     ));
     
+    $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->getTags($this->getUserId())      
+    ;
+    
+    $tags_id = array();
+    foreach ($tags as $tag)
+    {
+      $tags_id[] = $tag->getId();
+    }
+    
     return array(
-      'user'     => $this->getUser(),
-      'elements' => $search_object->getElements($this->getDoctrine(), $this->getUserId())
+      'tags'          => $tags,
+      'tags_id_json'  => json_encode($tags_id),
+      'user'          => $this->getUser(),
+      'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId())
     );
   }
   
@@ -155,7 +168,8 @@ class FavoriteController extends Controller
     
     $search_object = $this->createSearchObject(array(
       'user_id'  => $viewed_user->getId(),
-      'favorite' => true
+      'favorite' => true,
+      'count'    => $this->container->getParameter('search_default_count')
     ));
     
     return array(
@@ -163,6 +177,50 @@ class FavoriteController extends Controller
       'viewed_user' => $viewed_user,
       'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId())
     );
+  }
+  
+  public function getElementsAction($user_id, $tags_ids_json, $id_limit = null, $invert = false)
+  {
+    $tag_ids = json_decode($tags_ids_json);
+    $search_object = new ElementSearcher();
+    
+    $tags = array();
+    foreach ($tag_ids as $id)
+    {
+      $tags[$id] = $id;
+    }
+    
+    $search_object->init(array(
+      'tags'     => $tags,
+      'user_id'  => $user_id,
+      'favorite' => true,
+      'count'    => $this->container->getParameter('search_default_count'),
+      'id_limit' => $id_limit
+    ));
+    
+    $message = $this->trans(
+      'elements.ajax.more.noelements', 
+      array(), 
+      'elements'
+    );
+    
+    $elements = $search_object->getElements($this->getDoctrine(), $user_id);
+    $count = count($elements);
+    $html = '';
+    if ($count)
+    {
+      $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
+        'user'        => $this->getUser(),
+        'elements'    => $elements,
+        'invertcolor' => $invert
+      ))->getContent();
+    }
+    
+    return $this->jsonResponse(array(
+      'count'   => $count,
+      'message' => $message,
+      'html'    => $html
+    ));
   }
   
 }

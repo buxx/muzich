@@ -142,9 +142,9 @@ class ElementRepository extends EntityRepository
     $where_id_limit = '';
     if (($id_limit = $searcher->getIdLimit()))
     {
-      $where_favorite = ($is_where) ? ' AND' : ' WHERE';
+      $where_id_limit = ($is_where) ? ' AND' : ' WHERE';
       $is_where = true;
-      $where_favorite .= " e_.id < :id_limit";
+      $where_id_limit .= " e_.id < :id_limit";
       $params_ids['id_limit'] = $id_limit;
     }
     

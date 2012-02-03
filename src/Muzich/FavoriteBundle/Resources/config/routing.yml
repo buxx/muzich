@@ -14,3 +14,8 @@ favorites_my_list:
 favorite_user_list:
   pattern:   /user/{slug}/favorites
   defaults: { _controller: MuzichFavoriteBundle:Favorite:userList }
+
+# post
+favorite_get:
+  pattern:   /favorites/{user_id}/getElements/{tags_ids_json}/{id_limit}/{invert}
+  defaults: { _controller: MuzichFavoriteBundle:Favorite:getElements, id_limit: null, invert: false }

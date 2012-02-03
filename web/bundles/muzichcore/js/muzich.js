@@ -598,7 +598,7 @@ $(document).ready(function(){
                 for (n in string_exploded)
                 {
                   r_string = string_exploded[n];
-                  var re = new RegExp(r_string, "i") ;
+                  var re = new RegExp(r_string, "i");
                   t_string = t_string.replace(re,"<strong>" + r_string + "</strong>");
                 }
                                 
