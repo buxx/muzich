@@ -346,9 +346,10 @@ width: 300px;
 ul.tagbox {
 background: #fff;
 cursor: text;
-border: 1px solid #ccc;
+border: none;
 overflow: hidden;
 padding: 0 0 1px 3px;
+margin-left: 0px;
 }
 ul.tagbox li {
 margin:0;
@@ -430,7 +431,7 @@ li.element a.favorite_link
 {
   position: relative;
   top: 0px;
-  left: 455px;
+  left: 483px;
 }
 
 li.element a.element_open
@@ -470,6 +471,11 @@ li.element img.element_thumbnail
 #container li.element span.element_name a
 {
   color: black;
+}
+
+ul.elements
+{
+  margin-left: 0px;
 }
 
 ul.elements li.even
@@ -535,9 +541,18 @@ input.clear, input.mytags
   font-size: 80%;
 }
 
-ul.tagbox, ul.tagbox input[type="text"]
+ul.tagbox input[type="text"]
 {
+  -moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
   background-color: #bdf1fe;
+}
+
+ul.tagbox li.input
+{
+  padding-top: 2px;
 }
 
 ul.tagbox input[type="text"]
