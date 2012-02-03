@@ -20,14 +20,16 @@
       {{ 'user.view_favorites'|trans({}, 'users') }}
     </a>
     
-    <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash }) }}" 
-       class="follow_link button {% if following %}following{% else %}notfollowing{% endif %}" >
-      {% if following %}
-        {{ 'user.following'|trans({}, 'users') }}
-      {% else %}
-        {{ 'user.follow'|trans({}, 'users') }}
-      {% endif %}
-    </a>
+    {% if app.user.id != viewed_user.id %}
+      <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash }) }}" 
+         class="follow_link button {% if following %}following{% else %}notfollowing{% endif %}" >
+        {% if following %}
+          {{ 'user.following'|trans({}, 'users') }}
+        {% else %}
+          {{ 'user.follow'|trans({}, 'users') }}
+        {% endif %}
+      </a>
+    {% endif %}
     
   </div>
   
