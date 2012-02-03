@@ -636,6 +636,8 @@ div.search_tag_list
   -webkit-box-shadow: #666 0px 2px 3px;
   -moz-box-shadow: #666 0px 2px 3px;
   box-shadow: #666 0px 2px 3px;
+  
+  z-index: 1;
 }
 
 div.search_tag_list span.info

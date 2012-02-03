@@ -190,6 +190,44 @@ function str_replace (search, replace, subject, count) {
     return sa ? s : s[0];
 }
 
+function explode (delimiter, string, limit) {
+    // Splits a string on string separator and return array of components. If limit is positive only limit number of components is returned. If limit is negative all components except the last abs(limit) are returned.  
+    // 
+    // version: 1109.2015
+    // discuss at: http://phpjs.org/functions/explode    // +     original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +     improved by: kenneth
+    // +     improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +     improved by: d3x
+    // +     bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)    // *     example 1: explode(' ', 'Kevin van Zonneveld');
+    // *     returns 1: {0: 'Kevin', 1: 'van', 2: 'Zonneveld'}
+    // *     example 2: explode('=', 'a=bc=d', 2);
+    // *     returns 2: ['a', 'bc=d']
+    var emptyArray = {        0: ''
+    };
+ 
+    // third argument is not required
+    if (arguments.length < 2 || typeof arguments[0] == 'undefined' || typeof arguments[1] == 'undefined') {        return null;
+    }
+ 
+    if (delimiter === '' || delimiter === false || delimiter === null) {
+        return false;    }
+ 
+    if (typeof delimiter == 'function' || typeof delimiter == 'object' || typeof string == 'function' || typeof string == 'object') {
+        return emptyArray;
+    } 
+    if (delimiter === true) {
+        delimiter = '1';
+    }
+     if (!limit) {
+        return string.toString().split(delimiter.toString());
+    }
+    // support for limit argument
+    var splitted = string.toString().split(delimiter.toString());    var partA = splitted.splice(0, limit - 1);
+    var partB = splitted.join(delimiter.toString());
+    partA.push(partB);
+    return partA;
+}
+
 $(document).ready(function(){
     
   
@@ -553,11 +591,17 @@ $(document).ready(function(){
               {
                 var tag_name = tags[i]['name'];
                 var tag_id = tags[i]['id'];
+                var t_string = tag_name
                 // On construit un li
-                var sstr = $.trim(input.val());
-                var re = new RegExp(sstr, "i") ;
-                var t_string = tag_name.replace(re,"<strong>" + sstr + "</strong>");
                 
+                string_exploded = explode(' ', $.trim(input.val()));
+                for (n in string_exploded)
+                {
+                  r_string = string_exploded[n];
+                  var re = new RegExp(r_string, "i") ;
+                  t_string = t_string.replace(re,"<strong>" + r_string + "</strong>");
+                }
+                                
                 li_tag = 
                   $('<li>').append(
                     $('<a>').attr('href','#'+tag_id+'#'+tag_name)
