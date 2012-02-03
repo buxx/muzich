@@ -163,23 +163,32 @@ class SearchController extends Controller
     foreach ($tags as $i => $tag)
     {
       // Pas plus de trois caractères en plus de la recherche
-      if (strlen(str_replace(strtoupper($search), '', strtoupper($tag['name']))) < 4)
+      foreach (explode(' ', $search) as $word)
       {
-        unset($tag_sorted[$i]);
-        $tag_sorted = array_merge(array($tag), $tag_sorted);
+        if (strlen(str_replace(strtoupper($word), '', strtoupper($tag['name']))) < 4)
+        {
+          unset($tag_sorted[$i]);
+          $tag_sorted = array_merge(array($tag), $tag_sorted);
+        }
       }
+      
     }
     
     $tags = $tag_sorted;
     
     foreach ($tags as $i => $tag)
     {
-      // Pas plus de trois caractères en plus de la recherche
-      if (strtoupper($search) == strtoupper($tag['name']))
+      // Chaine de caractère identique
+      foreach (explode(' ', $search) as $word)
       {
-        unset($tag_sorted[$i]);
-        $tag_sorted = array_merge(array($tag), $tag_sorted);
+        if (strtoupper($word) == strtoupper($tag['name']))
+        {
+          unset($tag_sorted[$i]);
+          $tag_sorted = array_merge(array($tag), $tag_sorted);
+        }
       }
+      
+      
     }
     
     return $tag_sorted;
