@@ -12,20 +12,10 @@
 
   <h2>{{ 'favorites.your_favorites'|trans({}, 'network') }}</h2>
 
-  {% if tags|length %}
-    <input type="hidden" id="get_elements_url" value="{{ path('favorite_get', {'user_id': app.user.id, 'tags_ids_json' : ''}) }}" />
-    <ul id="favorite_tags">
-      {% for tag in tags %}
-        <li>
-          <a href="#{{ tag.id }}" class="button tag">
-            {{ tag.name }}
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-    <div class="clearboth" ></div>
-  {% endif %}
-
+  {% include "MuzichCoreBundle:Tag:tagsList.html.twig" with {
+    'user_id' : app.user.id
+  } %}
+  
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
     
   <div class="elements_loader_div">

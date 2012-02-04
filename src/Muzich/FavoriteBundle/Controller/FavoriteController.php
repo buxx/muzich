@@ -172,10 +172,22 @@ class FavoriteController extends Controller
       'count'    => $this->container->getParameter('search_default_count')
     ));
     
+    $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->getTags($viewed_user->getId())      
+    ;
+    
+    $tags_id = array();
+    foreach ($tags as $tag)
+    {
+      $tags_id[] = $tag->getId();
+    }
+    
     return array(
-      'user'        => $this->getUser(),
-      'viewed_user' => $viewed_user,
-      'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId())
+      'tags'          => $tags,
+      'tags_id_json'  => json_encode($tags_id),
+      'user'          => $this->getUser(),
+      'viewed_user'   => $viewed_user,
+      'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId())
     );
   }
   
