@@ -595,7 +595,7 @@ $(document).ready(function(){
       ajax_query_timestamp = new Date().getTime();
 
       // Récupération des tags correspondants
-      $.getJSON('/app_dev.php/fr/search/tag/'+input.val()+'/'+ajax_query_timestamp, function(data) {
+      $.getJSON(url_search_tag+'/'+input.val()+'/'+ajax_query_timestamp, function(data) {
         if (data.status == 'mustbeconnected')
         {
           $(location).attr('href', url_index);

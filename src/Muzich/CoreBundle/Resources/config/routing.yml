@@ -26,7 +26,7 @@ element_add:
 
 search_tag:
   pattern: /search/tag/{string_search}/{timestamp}
-  defaults: { _controller: MuzichCoreBundle:Search:searchTag, string_search: null }
+  defaults: { _controller: MuzichCoreBundle:Search:searchTag, string_search: null, timestamp: null }
   
 search_tag_ig_by_name:
   pattern: /search/tagid/{string_search}
