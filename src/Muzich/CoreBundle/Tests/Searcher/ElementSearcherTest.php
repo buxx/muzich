@@ -51,7 +51,7 @@ class ElementSearcherTest extends UnitTest
     $array_names_es = array();
     foreach ($es_results as $element)
     {
-      $array_names_es[] = $element->getName();
+      $array_names_es[] = (string)$element->getName();
     }
     
     $this->assertEquals($array_names, $array_names_es);
@@ -91,9 +91,9 @@ class ElementSearcherTest extends UnitTest
       array(
         'Ed Cox - La fanfare des teuffeurs (Hardcordian)',
         'CardioT3K - Juggernaut Trap',
-        'Acrotek Hardtek G01',
-        'KoinkOin - H5N1',
-        'Antropod - Polakatek'
+        'RE-FUCK (ReVeRB_FBC) mix.',
+        'All Is Full Of Pain',
+        'Acrotek Hardtek G01'
       )
     );
     
@@ -132,9 +132,9 @@ class ElementSearcherTest extends UnitTest
       $es->getElements($r, $bux->getId()), 
       array(
         'CardioT3K - Juggernaut Trap',
-        'Acrotek Hardtek G01',
         'RE-FUCK (ReVeRB_FBC) mix.',
         'All Is Full Of Pain',
+        'Acrotek Hardtek G01',
         'Dj antoine'
       )
     );
@@ -164,11 +164,11 @@ class ElementSearcherTest extends UnitTest
     $this->checkElementSearchResults(
       $es->getElements($r, $bux->getId()), 
       array(
-        'DUDELDRUM',
         'Ed Cox - La fanfare des teuffeurs (Hardcordian)',
         'Babylon Pression - Des Tasers et des Pauvres',
+        'AZYD AZYLUM Live au Café Provisoire',
         'SOULFLY - Prophecy',
-        'CardioT3K - Juggernaut Trap'
+        'Dubstep Beatbox'
       )
     );
     
@@ -197,11 +197,11 @@ class ElementSearcherTest extends UnitTest
     $this->checkElementSearchResults(
       $es->getElements($r, $bux->getId()), 
       array(
+        'Infected mushroom - Muse Breaks',
+        'Infected Mushroom - Psycho',
         'DUDELDRUM',
         'CardioT3K - Juggernaut Trap',
-        'Acrotek Hardtek G01',
-        'Infected Mushroom - Psycho',
-        'Infected mushroom - Muse Breaks'
+        'RE-FUCK (ReVeRB_FBC) mix.'
       )
     );
     
@@ -252,8 +252,8 @@ class ElementSearcherTest extends UnitTest
     $this->checkElementSearchResults(
       $es->getElements($r, $bux->getId()), 
       array(
-        'CardioT3K - Juggernaut Trap',
         'Infected Mushroom - Psycho',
+        'CardioT3K - Juggernaut Trap',
         'RE-FUCK (ReVeRB_FBC) mix.',
         'All Is Full Of Pain'
       )
@@ -289,8 +289,8 @@ class ElementSearcherTest extends UnitTest
     $this->checkElementSearchResults(
       $es->getElements($r, $bux->getId()), 
       array(
-        'Heretik System Popof - Resistance',
-        'All Is Full Of Pain'
+        'All Is Full Of Pain',
+        'Heretik System Popof - Resistance'
       )
     );
     
@@ -322,8 +322,8 @@ class ElementSearcherTest extends UnitTest
     $this->checkElementSearchResults(
       $es->getElements($r, $bux->getId()), 
       array(
-        'Infected Mushroom - Psycho',
-        'Infected mushroom - Muse Breaks'
+        'Infected mushroom - Muse Breaks',
+        'Infected Mushroom - Psycho'
       )
     );
     
