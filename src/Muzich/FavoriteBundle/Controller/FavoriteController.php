@@ -22,6 +22,20 @@ class FavoriteController extends Controller
    */
   public function addAction($id, $token)
   {
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
     $user = $this->getUser();
     
     /**
@@ -86,6 +100,20 @@ class FavoriteController extends Controller
    */
   public function removeAction($id, $token)
   {
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
     $user = $this->getUser();
     $em = $this->getDoctrine()->getEntityManager();
     
@@ -193,6 +221,20 @@ class FavoriteController extends Controller
   
   public function getElementsAction($user_id, $tags_ids_json, $id_limit = null, $invert = false)
   {
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
     $tag_ids = json_decode($tags_ids_json);
     $search_object = new ElementSearcher();
     

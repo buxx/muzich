@@ -142,7 +142,21 @@ class CoreController extends Controller
    *  Procédure d'ajout d'un element
    */
   public function elementAddAction($group_slug)
-  {    
+  {   
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
     if ($this->getRequest()->getMethod() != 'POST')
     {
       throw $this->createNotFoundException('Cette ressource n\'est pas accessible');

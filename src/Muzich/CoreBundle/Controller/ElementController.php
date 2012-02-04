@@ -34,6 +34,20 @@ class ElementController extends Controller
    */
   public function editAction($element_id)
   {    
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
     $element = $this->checkExistingAndOwned($element_id);
     
     $element_tags = $element->getTags();
@@ -77,6 +91,20 @@ class ElementController extends Controller
    */
   public function updateAction($element_id)
   {
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
     $element = $this->checkExistingAndOwned($element_id);
     // Si il y a un groupe on le retire pour le bind
     $group = $element->getGroup();
@@ -145,6 +173,20 @@ class ElementController extends Controller
   
   public function removeAction($element_id)
   {
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
     try {
       $element = $this->checkExistingAndOwned($element_id);
       $em = $this->getDoctrine()->getEntityManager();

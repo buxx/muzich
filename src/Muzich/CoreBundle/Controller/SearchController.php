@@ -41,6 +41,20 @@ class SearchController extends Controller
    */
   public function searchElementsAction($id_limit = null, $invertcolors = false)
   {
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
     $request = $this->getRequest();
     $search_object = $this->getElementSearcher();
     
@@ -200,6 +214,20 @@ class SearchController extends Controller
    */
   public function searchTagAction($string_search, $timestamp)
   {
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
     if ($this->getRequest()->isXmlHttpRequest())
     {
       if (strlen($string_search) > 1)

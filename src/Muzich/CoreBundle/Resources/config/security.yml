@@ -65,6 +65,17 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         
+        ## Ouvert pour l'ajax (et le message de redirection en cas de déco)
+        - { path: ^/(?:fr|en)/search-elements, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/element, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/favorite/add, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/favorite/remove, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/element/add, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/search/tag, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/show/user/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/show/group/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/favoritesajax, role: IS_AUTHENTICATED_ANONYMOUSLY }
+                                
         - { path: ^/, roles: ROLE_USER }
         
 #        # Liste des pages accessibles à tous les utilisateurs (ne pas toucher)

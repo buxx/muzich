@@ -5,23 +5,6 @@
  * 
  */
 
-// Controle du focus sur la page
-function onBlur() {
-  document.body.className = 'blurred';
-}
-
-function onFocus(){
-    document.body.className = 'focused';
-}
-
-if (/*@cc_on!@*/false) { // check for Internet Explorer
-    document.onfocusin = onFocus;
-    document.onfocusout = onBlur;
-} else {
-    window.onfocus = onFocus;
-    window.onblur = onBlur;
-}
-
 // Messages flashs
 var myMessages = ['info','warning','error','success']; // define the messages types	
 
@@ -230,6 +213,22 @@ function explode (delimiter, string, limit) {
 
 $(document).ready(function(){
     
+  // Controle du focus sur la page
+  function onBlur() {
+    document.body.className = 'blurred';
+  }
+
+  function onFocus(){
+      document.body.className = 'focused';
+  }
+
+  if (/*@cc_on!@*/false) { // check for Internet Explorer
+      document.onfocusin = onFocus;
+      document.onfocusout = onBlur;
+  } else {
+      window.onfocus = onFocus;
+      window.onblur = onBlur;
+  }
   
   // Bouton de personalisation du filtre
   // pour le moment ce ne sotn que des redirection vers des actions
@@ -312,14 +311,19 @@ $(document).ready(function(){
 
   // Mise en favoris
   $('a.favorite_link').live("click", function(){
-     link = $(this);
-     $.getJSON($(this).attr('href'), function(response) {
-       img = link.find('img');
-       link.attr('href', response.link_new_url);
-       img.attr('src', response.img_new_src);
-       img.attr('title', response.img_new_title);
-     });
-     return false;
+    link = $(this);
+    $.getJSON($(this).attr('href'), function(response) {
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      img = link.find('img');
+      link.attr('href', response.link_new_url);
+      img.attr('src', response.img_new_src);
+      img.attr('title', response.img_new_title);
+    });
+    return false;
   });
     
   // Affichage du bouton Modifier et Supprimer
@@ -358,6 +362,11 @@ $(document).ready(function(){
      }
      $('img.elements_more_loader').show();
      $.getJSON(link.attr('href')+'/'+id_last+'/'+invertcolor, function(response) {
+       if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+       
        if (response.count)
        {
          $('ul.elements').append(response.html);
@@ -385,6 +394,11 @@ $(document).ready(function(){
   });
   
   $('form[name="search"]').ajaxForm(function(response) { 
+    
+    if (response.status == 'mustbeconnected')
+    {
+      $(location).attr('href', url_index);
+    }
     
     $('ul.elements').html(response.html);
     
@@ -418,6 +432,11 @@ $(document).ready(function(){
       li = link.parent('td').parent('tr').parent().parent().parent('li.element');
       li.find('img.element_loader').show();
       $.getJSON(link.attr('href'), function(response){
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+        
         if (response.status == 'success')
         {
           li.remove();
@@ -458,6 +477,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
       // On prépare le tagBox
       li.html(response.html);
      
@@ -475,6 +499,11 @@ $(document).ready(function(){
         li.find('img.element_loader').show();
       });
       $('form[name="'+response.form_name+'"]').ajaxForm(function(response){
+        
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
         
         if (response.status == 'success')
         {
@@ -567,6 +596,11 @@ $(document).ready(function(){
 
       // Récupération des tags correspondants
       $.getJSON('/app_dev.php/fr/search/tag/'+input.val()+'/'+ajax_query_timestamp, function(data) {
+        if (data.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+        
         // Ce contrôle permet de ne pas continuer si une requete
         // ajax a été faite depuis.
         if (data.timestamp == ajax_query_timestamp)
@@ -768,6 +802,11 @@ $(document).ready(function(){
     $('form[name="add"]').find('img.tag_loader').show();
   });
   $('form[name="add"]').ajaxForm(function(response) {
+    if (response.status == 'mustbeconnected')
+    {
+      $(location).attr('href', url_index);
+    }
+    
     $('form[name="add"] img.tag_loader').hide();
     if (response.status == 'success')
     {
@@ -811,6 +850,11 @@ $(document).ready(function(){
     $('div.no_elements').hide();
     $('img.elements_more_loader').show();
     $.getJSON($('input#get_elements_url').val()+'/'+array2json(tags_ids), function(response){
+      
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
       
       $('ul.elements').html(response.html);
       

@@ -96,6 +96,20 @@ class ShowController extends Controller
   
   public function getElementsAction($type, $object_id, $tags_ids_json, $id_limit = null, $invert = false)
   {
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
     $object_id = null;
     if ($type != 'user' && $type != 'group')
     {
