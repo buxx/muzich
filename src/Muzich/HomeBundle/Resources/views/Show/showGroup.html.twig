@@ -24,6 +24,11 @@
   </div>
     
   <h2>{{ group.name }}</h2>
+
+  {% include "MuzichCoreBundle:Tag:tagsList.show.html.twig" with {
+    'object_id'   : group.id,
+    'object_type' : 'group'
+  } %}
   
   {% if his_group or group.open %}
   
@@ -58,10 +63,16 @@
   {% if more_count is defined %} 
   {% if elements|length %}
    <span class="elements_more">
-     <a href="{{ path('search_elements_show_more_empty', {
-       'type'     : 'group', 
-       'object_id': group.id
-     }) }}" class="elements_more" >
+     <input type="hidden" id="more_elements_url" value="{{ path('show_elements_get', {
+        'type'          : 'group',
+        'object_id'     : group.id, 
+        'tags_ids_json' : ''
+      }) }}" />
+     <a href="{{ path('show_elements_get', {
+        'type'          : 'group',
+        'object_id'     : group.id, 
+        'tags_ids_json' : tags_id_json
+      }) }}" class="elements_more button" >
        {{ 'more'|trans({}, 'userui') }}
      </a>
    </span>

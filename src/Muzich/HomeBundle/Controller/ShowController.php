@@ -6,6 +6,7 @@ use Muzich\CoreBundle\lib\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Muzich\CoreBundle\Form\Element\ElementAddForm;
 use Muzich\CoreBundle\Entity\Element;
+use Muzich\CoreBundle\Searcher\ElementSearcher;
 
 class ShowController extends Controller
 {
@@ -25,13 +26,25 @@ class ShowController extends Controller
       'count'    => ($count)?$count:$this->container->getParameter('search_default_count')
     ));
     
+    $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+      ->getElementsTags($viewed_user->getId())      
+    ;
+    
+    $tags_id = array();
+    foreach ($tags as $tag)
+    {
+      $tags_id[] = $tag->getId();
+    }
+    
     return array(
-      'viewed_user' => $viewed_user,
-      'elements'    => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
-      'following'   => $this->getUser()->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
-      'user'        => $this->getUser(),
-      'more_count'  => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
-      'more_route'  => 'show_user_more'
+      'tags'          => $tags,
+      'tags_id_json'  => json_encode($tags_id),
+      'viewed_user'   => $viewed_user,
+      'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
+      'following'     => $this->getUser()->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
+      'user'          => $this->getUser(),
+      'more_count'    => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
+      'more_route'    => 'show_user_more'
     );
   }
   
@@ -56,7 +69,19 @@ class ShowController extends Controller
       $add_form = $this->getAddForm();
     }
     
+    $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
+      ->getElementsTags($group->getId())      
+    ;
+    
+    $tags_id = array();
+    foreach ($tags as $tag)
+    {
+      $tags_id[] = $tag->getId();
+    }
+    
     return array(
+      'tags'          => $tags,
+      'tags_id_json'  => json_encode($tags_id),
       'group'         => $group,
       'his_group'     => ($group->getOwner()->getId() == $this->getUserId()) ? true : false,
       'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
@@ -67,6 +92,55 @@ class ShowController extends Controller
       'more_count'    => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
       'more_route'    => 'show_group_more'
     );
+  }
+  
+  public function getElementsAction($type, $object_id, $tags_ids_json, $id_limit = null, $invert = false)
+  {
+    $object_id = null;
+    if ($type != 'user' && $type != 'group')
+    {
+      throw new \Exception("Wrong Type.");
+    }
+    
+    $tag_ids = json_decode($tags_ids_json);
+    $search_object = new ElementSearcher();
+    
+    $tags = array();
+    foreach ($tag_ids as $id)
+    {
+      $tags[$id] = $id;
+    }
+    
+    $search_object->init(array(
+      'tags'       => $tags,
+      $type.'_id'  => $object_id,
+      'count'      => $this->container->getParameter('search_default_count'),
+      'id_limit'   => $id_limit
+    ));
+    
+    $message = $this->trans(
+      'elements.ajax.more.noelements', 
+      array(), 
+      'elements'
+    );
+    
+    $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+    $count = count($elements);
+    $html = '';
+    if ($count)
+    {
+      $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
+        'user'        => $this->getUser(),
+        'elements'    => $elements,
+        'invertcolor' => $invert
+      ))->getContent();
+    }
+    
+    return $this->jsonResponse(array(
+      'count'   => $count,
+      'message' => $message,
+      'html'    => $html
+    ));
   }
   
 }

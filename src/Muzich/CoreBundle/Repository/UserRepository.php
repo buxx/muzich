@@ -180,5 +180,24 @@ class UserRepository extends EntityRepository
     return $result[1];
   }
   
+  /**
+   * Retourne tous les tags des elements postés
+   * 
+   * @return doctrine_collection
+   */
+  public function getElementsTags($user_id)
+  {
+    return $this->getEntityManager()
+      ->createQuery('
+        SELECT t FROM MuzichCoreBundle:Tag t
+        LEFT JOIN t.elements e
+        WHERE e.owner = :uid
+        ORDER BY t.name ASC'
+      )
+      ->setParameter('uid', $user_id)
+      ->getResult()
+    ;
+  }
+  
 }
   

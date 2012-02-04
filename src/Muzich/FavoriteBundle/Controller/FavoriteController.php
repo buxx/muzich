@@ -216,7 +216,7 @@ class FavoriteController extends Controller
       'elements'
     );
     
-    $elements = $search_object->getElements($this->getDoctrine(), $user_id);
+    $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
     $count = count($elements);
     $html = '';
     if ($count)

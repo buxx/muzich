@@ -24,4 +24,8 @@ show_group_more:
   pattern: /group/{slug}/more/{count}
   defaults: { _controller: MuzichHomeBundle:Show:showGroup, count: null }
 
+show_elements_get:
+  pattern:   /show/{type}/{object_id}/getElements/{tags_ids_json}/{id_limit}/{invert}
+  defaults: { _controller: MuzichHomeBundle:Show:getElements, id_limit: null, invert: false }
+
   

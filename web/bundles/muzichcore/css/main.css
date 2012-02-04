@@ -734,3 +734,20 @@ div.question .title {
 	font-style: italic;
 	text-shadow: 0px 2px 0px #fff;
 }
+
+/* Liste de tags */
+
+ul#favorite_tags
+{
+  padding:0;
+  margin:0;
+  list-style-type:none;
+}
+
+ul#favorite_tags li
+{
+  display: inline;
+  margin-left: 2px;
+  margin-top: 2px;
+  float:left; /*pour IE*/
+}

@@ -1,5 +1,9 @@
 {% if tags|length %}
-  <input type="hidden" id="get_elements_url" value="{{ path('favorite_get', {'user_id': user_id, 'tags_ids_json' : ''}) }}" />
+  <input type="hidden" id="get_elements_url" value="{{ path('show_elements_get', {
+    'type'          : object_type,
+    'object_id'     : object_id, 
+    'tags_ids_json' : ''
+  }) }}" />
   <ul id="favorite_tags">
     {% for tag in tags %}
       <li>

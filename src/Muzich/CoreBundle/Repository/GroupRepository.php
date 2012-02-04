@@ -71,5 +71,24 @@ class GroupRepository extends EntityRepository
     return $group_array;
   }
   
+  /**
+   * Retourne tous les tags des elements postés
+   * 
+   * @return doctrine_collection
+   */
+  public function getElementsTags($group_id)
+  {
+    return $this->getEntityManager()
+      ->createQuery('
+        SELECT t FROM MuzichCoreBundle:Tag t
+        LEFT JOIN t.elements e
+        WHERE e.group = :gid
+        ORDER BY t.name ASC'
+      )
+      ->setParameter('gid', $group_id)
+      ->getResult()
+    ;
+  }
+  
 }
   

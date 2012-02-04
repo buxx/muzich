@@ -12,7 +12,7 @@
 
   <h2>{{ 'favorites.your_favorites'|trans({}, 'network') }}</h2>
 
-  {% include "MuzichCoreBundle:Tag:tagsList.html.twig" with {
+  {% include "MuzichCoreBundle:Tag:tagsList.favorite.html.twig" with {
     'user_id' : app.user.id
   } %}
   
