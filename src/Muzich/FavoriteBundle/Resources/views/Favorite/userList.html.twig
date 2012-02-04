@@ -4,11 +4,7 @@
 
 {% block content %}
 
-  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with { 
-    'active': '', 
-    'mygroups': false, 
-    'myfavorites': true 
-  } %}
+  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with {'active': ''} %}
 
   <h2>{{ 'favorites.user_favorites'|trans({'%name%' : viewed_user.name}, 'network') }}</h2>
 

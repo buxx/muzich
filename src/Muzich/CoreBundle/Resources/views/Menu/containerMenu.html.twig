@@ -12,26 +12,15 @@
   </li>
 </ul>
 
-{% if mygroups %}
-
-  <ul class="top-tabs-right {% if active == 'mygroups' %}active{% endif %}" id="top-tabs-my-groups" {% if active == 'mygroups' %} class="active" {% endif %}>
-    <li>
-      <a href="{{ path('groups_own_list') }}" >
-        {{ 'network.mygroups'|trans({}, 'navigationui') }}
-      </a>
-    </li>
-  </ul>
-
-{% endif %}
-
-{% if myfavorites %}
-
-  <ul class="top-tabs-right {% if active == 'myfavorites' %}active{% endif %}" id="top-tabs-my-favorites" {% if active == 'myfavorites' %} class="active" {% endif %}>
-    <li>
-      <a href="{{ path('favorites_my_list') }}" >
-        {{ 'container_menu.my_favorites'|trans({}, 'navigationui') }}
-      </a>
-    </li>
-  </ul>
-
-{% endif %}
+<ul class="top-tabs-right">
+  <li class="{% if active == 'mygroups' %}active{% endif %}">
+    <a href="{{ path('groups_own_list') }}" >
+      {{ 'network.mygroups'|trans({}, 'navigationui') }}
+    </a>
+  </li>
+  <li class="{% if active == 'myfavorites' %}active{% endif %}">
+    <a href="{{ path('favorites_my_list') }}" >
+      {{ 'container_menu.my_favorites'|trans({}, 'navigationui') }}
+    </a>
+  </li>
+</ul>
