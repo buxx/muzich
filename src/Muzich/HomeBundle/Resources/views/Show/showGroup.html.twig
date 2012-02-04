@@ -24,6 +24,10 @@
   </div>
     
   <h2>{{ group.name }}</h2>
+  
+  <p class="group_description">
+    {{ group.description }}
+  </p>
 
   {% include "MuzichCoreBundle:Tag:tagsList.show.html.twig" with {
     'object_id'   : group.id,

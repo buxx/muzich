@@ -85,3 +85,9 @@ div.tags_prompt
 {
   margin-top: 5px;
 }
+
+p.group_description
+{
+  font-size: 90%;
+  text-indent: 15px;
+}
