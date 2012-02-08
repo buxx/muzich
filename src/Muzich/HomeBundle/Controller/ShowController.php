@@ -110,7 +110,6 @@ class ShowController extends Controller
       }
     }
     
-    $object_id = null;
     if ($type != 'user' && $type != 'group')
     {
       throw new \Exception("Wrong Type.");
