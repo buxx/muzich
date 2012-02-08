@@ -37,14 +37,15 @@ class ShowController extends Controller
     }
     
     return array(
-      'tags'          => $tags,
-      'tags_id_json'  => json_encode($tags_id),
-      'viewed_user'   => $viewed_user,
-      'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
-      'following'     => $this->getUser()->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
-      'user'          => $this->getUser(),
-      'more_count'    => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
-      'more_route'    => 'show_user_more'
+      'tags'           => $tags,
+      'tags_id_json'   => json_encode($tags_id),
+      'viewed_user'    => $viewed_user,
+      'elements'       => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
+      'following'      => $this->getUser()->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
+      'user'           => $this->getUser(),
+      'more_count'     => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
+      'more_route'     => 'show_user_more',
+      'topmenu_active' => ($viewed_user->getId() == $this->getUserId()) ? 'myfeeds' : 'public'
     );
   }
   

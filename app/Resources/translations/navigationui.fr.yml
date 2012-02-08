@@ -3,6 +3,7 @@ container_menu:
   the_network:          Le réseau
   my_network:           Mon réseau
   my_favorites:         Mes favoris
+  my_feeds:             Mes diffusions
   
 top_bar:
   my_account:           Mon compte (%name%)

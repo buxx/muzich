@@ -10,6 +10,11 @@
       {{ 'container_menu.my_network'|trans({}, 'navigationui') }}
     </a>
   </li>
+  <li {% if active == 'myfeeds' %} class="active" {% endif %}>
+    <a href="{{ path('show_user', {'slug': app.user.slug}) }}">
+      {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
+    </a>
+  </li>
 </ul>
 
 <ul class="top-tabs-right">

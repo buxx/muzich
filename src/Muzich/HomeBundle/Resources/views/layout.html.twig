@@ -9,7 +9,11 @@
 
 {% block main_content %}
   
-    {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with { 'active': 'public' } %}
+    {% if topmenu_active is not defined %}
+      {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with { 'active': 'public' } %}
+    {% else %}
+      {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with { 'active': topmenu_active } %}
+    {% endif %}
   
     {% block content %}{% endblock %}
   
