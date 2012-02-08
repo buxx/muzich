@@ -211,6 +211,14 @@ function explode (delimiter, string, limit) {
     return partA;
 }
 
+// fonction de nettoyage des tags
+function remove_tags(form_name)
+{
+  tagsAddeds[form_name] = new Array();
+  $('form[name="'+form_name+'"] ul.tagbox li.tag').remove();
+  $('form[name="'+form_name+'"] input.tagBox_tags_ids').val('');
+}
+
 $(document).ready(function(){
     
   // Controle du focus sur la page
@@ -819,6 +827,7 @@ $(document).ready(function(){
       {
         $('form[name="search"]').slideDown();
       }
+      remove_tags('add');
     }
     else if (response.status == 'error')
     {
