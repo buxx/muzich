@@ -217,6 +217,9 @@ function remove_tags(form_name)
   tagsAddeds[form_name] = new Array();
   $('form[name="'+form_name+'"] ul.tagbox li.tag').remove();
   $('form[name="'+form_name+'"] input.tagBox_tags_ids').val('');
+  $('div#tags_prompt_'+form_name+' ul.tagbox li.input input[type="text"]')
+    .val(string_tag_prompt_input_help)
+  ;
 }
 
 $(document).ready(function(){

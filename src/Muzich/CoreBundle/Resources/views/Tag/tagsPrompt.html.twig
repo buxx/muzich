@@ -40,6 +40,14 @@
   // tags_prompt_list_
   $("div#tags_prompt_{{ form_name }} input.tags_prompt_list").tagBox(options);
   
+  // text help en cas de rafraichissement de la page (nav. comme firefox 
+  // garde la valeur de l'input)
+  $(document).ready(function(){
+    $('div#tags_prompt_{{ form_name }} ul.tagbox li.input input[type="text"]')
+      .val(string_tag_prompt_input_help)
+    ;
+  });
+  
   // On détruit la variable taginit
   delete taginit;
     
