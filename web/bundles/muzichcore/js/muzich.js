@@ -382,6 +382,18 @@ $(document).ready(function(){
   // Mise en favoris
   $('a.favorite_link').live("click", function(){
     link = $(this);
+    
+    // Pour ne pas attendre la fin du chargement ajax:
+    img = link.find('img');
+    if (img.attr('src') == '/bundles/muzichcore/img/favorite_bw.png')
+    {
+      img.attr('src', '/bundles/muzichcore/img/favorite.png');
+    }
+    else
+    {
+        img.attr('src', '/bundles/muzichcore/img/favorite_bw.png');
+    }
+    
     $.getJSON($(this).attr('href'), function(response) {
       if (response.status == 'mustbeconnected')
       {
