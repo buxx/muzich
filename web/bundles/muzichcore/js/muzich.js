@@ -385,14 +385,19 @@ $(document).ready(function(){
     
     // Pour ne pas attendre la fin du chargement ajax:
     img = link.find('img');
-    if (img.attr('src') == '/bundles/muzichcore/img/favorite_bw.png')
+    if (!link.hasClass('loading'))
     {
-      img.attr('src', '/bundles/muzichcore/img/favorite.png');
+      if (img.attr('src') == '/bundles/muzichcore/img/favorite_bw.png')
+      {
+        img.attr('src', '/bundles/muzichcore/img/favorite.png');
+      }
+      else
+      {
+        img.attr('src', '/bundles/muzichcore/img/favorite_bw.png');
+      }
     }
-    else
-    {
-      img.attr('src', '/bundles/muzichcore/img/favorite_bw.png');
-    }
+    
+    link.addClass('loading');
     
     $.getJSON($(this).attr('href'), function(response) {
       if (response.status == 'mustbeconnected')
@@ -404,6 +409,7 @@ $(document).ready(function(){
       link.attr('href', response.link_new_url);
       img.attr('src', response.img_new_src);
       img.attr('title', response.img_new_title);
+      link.removeClass('loading');
     });
     return false;
   });
