@@ -55,7 +55,7 @@ class MyTwigExtension extends \Twig_Extension {
     {
       return $this->translator->transChoice(
         'il y a une minute|Il y a %count% minutes',
-        1,
+        $iMinutes,
         array('%count%' => $iMinutes)
       );
     }
@@ -63,7 +63,7 @@ class MyTwigExtension extends \Twig_Extension {
     {
       return $this->translator->transChoice(
         'il y a une heure|Il y a %count% heures',
-        1,
+        $iHours,
         array('%count%' => $iHours)
       );
     }
@@ -71,7 +71,7 @@ class MyTwigExtension extends \Twig_Extension {
     {
       return $this->translator->transChoice(
         'il y a un jour|Il y a %count% jours',
-        1,
+        $iDays,
         array('%count%' => $iDays)
       );
     }
@@ -79,7 +79,7 @@ class MyTwigExtension extends \Twig_Extension {
     {
       return $this->translator->transChoice(
         'il y a une semaine|Il y a %count% semaines',
-        1,
+        $iWeeks,
         array('%count%' => $iWeeks)
       );
     }
@@ -87,7 +87,7 @@ class MyTwigExtension extends \Twig_Extension {
     {
       return $this->translator->transChoice(
         'il y a un mois|Il y a %count% mois',
-        1,
+        $iMonths,
         array('%count%' => $iMonths)
       );
     }
@@ -95,7 +95,7 @@ class MyTwigExtension extends \Twig_Extension {
     {
       return $this->translator->transChoice(
         'il y a un an|Il y a %count% ans',
-        1,
+        $iYears,
         array('%count%' => $iYears)
       );
     }
