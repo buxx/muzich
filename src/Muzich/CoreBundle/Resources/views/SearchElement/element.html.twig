@@ -100,7 +100,7 @@
       <ul class="element_tags">
         {% for tag in element.tags %} 
           <li class="element_tag">
-            {{ tag.name }}
+            <a href="#{{ tag.id }}" class="element_tag button">{{ tag.name }}</a>
           </li>
         {% endfor %} 
       </ul>

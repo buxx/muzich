@@ -537,15 +537,20 @@ ul.elements li.even
 
 .elements ul.element_tags
 {
-  margin-left: 10px;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 3px;
+  margin-left: 0px;
 }
   
 .elements ul.element_tags li
 {
   display: inline;
   font-size: 90%;
+}
+
+ul.element_tags .button
+{
+  padding: 2px 4px 2px 4px;
+  font-size: 95%;
 }
 
 

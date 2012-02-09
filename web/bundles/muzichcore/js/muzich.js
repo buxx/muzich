@@ -242,6 +242,7 @@ $(document).ready(function(){
   }
   
   // Bouton de personalisation du filtre
+  // Aucun tags
   $('.tags_prompt input.clear, a.filter_clear_url').live("click", function(){
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
@@ -249,6 +250,8 @@ $(document).ready(function(){
     remove_tags(form.attr('name'));
     form.submit();
   });
+  
+  // tags préférés
   $('.tags_prompt input.mytags').live("click", function(){
     
     $('img.elements_more_loader').show();
@@ -279,6 +282,31 @@ $(document).ready(function(){
       //}
       
     });
+  });
+  
+  // Tag cliqué dans la liste d'éléments
+  $('ul.element_tags li a.element_tag').live('click', function(){
+    // Si il y a une liste de tags (comme sur la page favoris, profil)
+    if ($('ul#favorite_tags').length)
+    {
+      id = str_replace('#', '', $(this).attr('href'));
+      link = $('ul#favorite_tags li a[href="#'+id+'"]');
+      list_tag_clicked(link, true);
+    }
+    
+    if ($('form[name="search"]').length)
+    {
+      $('img.elements_more_loader').show();
+      $('ul.elements').html('');
+      form = $('form[name="search"]');
+      id = str_replace('#', '', $(this).attr('href'));
+      remove_tags('search');
+      inputTag = $("div#tags_prompt_search input.form-default-value-processed");
+      $('input#tags_selected_tag_search').val(id);
+      inputTag.val($(this).html());
+      inputTag.trigger("selectTag");
+      form.submit();
+    }
   });
 
   // Affichage un/des embed
@@ -911,22 +939,28 @@ $(document).ready(function(){
     
     return false;
   }
-   
-  $('ul#favorite_tags a.tag').click(function(){
-    // Ensuite on l'active ou le désactive'
-    if ($(this).hasClass('active'))
+  
+  function list_tag_clicked(link, erease)
+  {
+    if (erease)
     {
-      $(this).removeClass('active');
+      $('ul#favorite_tags a.tag').removeClass('active');
+    }
+    
+    // Ensuite on l'active ou le désactive
+    if (link.hasClass('active'))
+    {
+      link.removeClass('active');
     }
     else
     {
-      $(this).addClass('active');
+      link.addClass('active');
     }
     
     // On construit notre liste de tags
     tags_ids = new Array();
     $('ul#favorite_tags a.tag.active').each(function(index){
-      id = str_replace('#', '', $(this).attr('href'));
+      id = str_replace('#', '', link.attr('href'));
       tags_ids[id] = id;
     });
     
@@ -934,7 +968,11 @@ $(document).ready(function(){
     a_more = $('a.elements_more');
     a_more.attr('href', $('input#more_elements_url').val()+'/'+array2json(tags_ids));
     
-    return check_timelaps_and_find_with_tags($(this), new Date().getTime(), false);
+    return check_timelaps_and_find_with_tags(link, new Date().getTime(), false);
+  }
+   
+  $('ul#favorite_tags a.tag').click(function(){
+    list_tag_clicked();
   });
   
   last_keypress = 0;
