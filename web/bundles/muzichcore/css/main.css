@@ -504,8 +504,10 @@ li.element span.element_name
 li.element td.element_thumbnail
 {
   background-image: url(/bundles/muzichcore/img/nothumb.png);
+  background-repeat: no-repeat;
   width: 120px;
   height: 90px;
+  vertical-align: top;
 }
 
 li.element img.element_thumbnail
