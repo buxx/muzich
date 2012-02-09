@@ -75,6 +75,7 @@ security:
         - { path: ^/(?:fr|en)/show/user/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/show/group/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/favoritesajax, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/ajax, role: IS_AUTHENTICATED_ANONYMOUSLY }
                                 
         - { path: ^/, roles: ROLE_USER }
         

@@ -40,6 +40,10 @@ filter_mytags:
   pattern: /filter/my-tags
   defaults: { _controller: MuzichCoreBundle:Core:filterMytags }
 
+ajax_get_favorites_tags:
+  pattern: /ajax/my-favorites-tags
+  defaults: { _controller: MuzichCoreBundle:Core:getFavoriteTags }
+
 ####
 
 info_about:
@@ -67,4 +71,5 @@ element_update:
 element_remove:
   pattern: /element/{element_id}/remove
   defaults: { _controller: MuzichCoreBundle:Element:remove }
+  
   

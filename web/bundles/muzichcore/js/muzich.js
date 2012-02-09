@@ -185,15 +185,15 @@ function explode (delimiter, string, limit) {
     // *     returns 1: {0: 'Kevin', 1: 'van', 2: 'Zonneveld'}
     // *     example 2: explode('=', 'a=bc=d', 2);
     // *     returns 2: ['a', 'bc=d']
-    var emptyArray = {        0: ''
+    var emptyArray = {0: ''
     };
  
     // third argument is not required
-    if (arguments.length < 2 || typeof arguments[0] == 'undefined' || typeof arguments[1] == 'undefined') {        return null;
+    if (arguments.length < 2 || typeof arguments[0] == 'undefined' || typeof arguments[1] == 'undefined') {return null;
     }
  
     if (delimiter === '' || delimiter === false || delimiter === null) {
-        return false;    }
+        return false;}
  
     if (typeof delimiter == 'function' || typeof delimiter == 'object' || typeof string == 'function' || typeof string == 'object') {
         return emptyArray;
@@ -205,7 +205,7 @@ function explode (delimiter, string, limit) {
         return string.toString().split(delimiter.toString());
     }
     // support for limit argument
-    var splitted = string.toString().split(delimiter.toString());    var partA = splitted.splice(0, limit - 1);
+    var splitted = string.toString().split(delimiter.toString());var partA = splitted.splice(0, limit - 1);
     var partB = splitted.join(delimiter.toString());
     partA.push(partB);
     return partA;
@@ -242,12 +242,43 @@ $(document).ready(function(){
   }
   
   // Bouton de personalisation du filtre
-  // pour le moment ce ne sotn que des redirection vers des actions
   $('.tags_prompt input.clear, a.filter_clear_url').live("click", function(){
-    $(location).attr('href', $('input.filter_clear_url').val());
+    $('img.elements_more_loader').show();
+    $('ul.elements').html('');
+    form = $(this).parent('div').parent('form');
+    remove_tags(form.attr('name'));
+    form.submit();
   });
   $('.tags_prompt input.mytags').live("click", function(){
-    $(location).attr('href', $('input.filter_mytags_url').val());
+    
+    $('img.elements_more_loader').show();
+    $('ul.elements').html('');
+    
+    form = $(this).parent('div').parent('form');
+    
+    $.getJSON(url_get_favorites_tags, function(response) {
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      remove_tags(form.attr('name'));
+//      if (tags.length)
+//      {
+        inputTag = $("div#tags_prompt_"+form.attr('name')+" input.form-default-value-processed");
+        for (i in response.tags)
+        {
+          $('input#tags_selected_tag_'+form.attr('name')).val(i);
+          inputTag.val(response.tags[i]);
+                                        
+          // Et on execute l'évènement selectTag de l'input
+          inputTag.trigger("selectTag");
+        }
+        
+        form.submit();
+      //}
+      
+    });
   });
 
   // Affichage un/des embed
@@ -659,7 +690,7 @@ $(document).ready(function(){
                       id = $(this).attr('href').substr(1,$(this).attr('href').length);
                       id = str_replace(name, '', id);
                       id = str_replace('#', '', id);
-                                            
+                                     
                       $('input#tags_selected_tag_'+form_name).val(id);
                       inputTag.val(name);
                       // Et on execute l'évènement selectTag de l'input

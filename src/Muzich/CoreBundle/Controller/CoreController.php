@@ -324,4 +324,29 @@ class CoreController extends Controller
     return $this->redirect($this->container->get('request')->headers->get('referer'));
   }
   
+  public function getFavoriteTagsAction()
+  {
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
+    // On construit l'element searcher avec les tags favoris
+    $es = $this->getElementSearcher(null, true);
+    // Et on retourne les tags
+    return $this->jsonResponse(array(
+      'response' => 'success',
+      'tags'     => $es->getTags()
+    ));
+  }
+  
 }

@@ -56,7 +56,7 @@
         });
         
         self.tagInput.bind("selectTag", function(event) {
-          
+                    
           if(!$(this).val()) {
               return;
           }
