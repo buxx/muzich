@@ -91,6 +91,7 @@
           }, 'elements') }}
         {% endif %}
       {% endautoescape %}
+      {{ element.created.date|date_or_relative_date }}
       
       <div class="loader">
         <img class="element_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>

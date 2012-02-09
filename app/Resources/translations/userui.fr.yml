@@ -72,3 +72,8 @@ system:
                     Vous avez ouvert cette page dans un nouvel onglet/nouvelle page
                     Sachez qu'avez le clic gauche de votre souris la modification
                     de l'élément est intégré dans la page.
+                    
+date:
+  instant:               a l'instant
+  less_than_minute:      il y a moins d'une minute
+ 
