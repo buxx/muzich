@@ -479,6 +479,11 @@ li.element a.favorite_link
   left: 483px;
 }
 
+#container li.element a.favorite_link:hover
+{
+  text-decoration: none;
+}
+
 li.element a.element_open
 {
   font-weight: bold;

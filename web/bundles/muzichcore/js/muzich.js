@@ -391,7 +391,7 @@ $(document).ready(function(){
     }
     else
     {
-        img.attr('src', '/bundles/muzichcore/img/favorite_bw.png');
+      img.attr('src', '/bundles/muzichcore/img/favorite_bw.png');
     }
     
     $.getJSON($(this).attr('href'), function(response) {
