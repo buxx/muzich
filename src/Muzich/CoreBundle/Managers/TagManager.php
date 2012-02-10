@@ -5,6 +5,7 @@ namespace Muzich\CoreBundle\Managers;
 use Muzich\CoreBundle\Entity\Tag;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
+use FOS\UserBundle\Util\CanonicalizerInterface;
 
 /**
  * 
@@ -14,29 +15,16 @@ use Symfony\Component\DependencyInjection\Container;
 class TagManager
 {
   
-  protected $em;
+  protected $nameCanonicalizer;
   
-  public function __construct(EntityManager $em)
+  public function __construct(CanonicalizerInterface $nameCanonicalizer)
   {
-    $this->em = $em;
-    
-    // Slug stuff
-    $evm = new \Doctrine\Common\EventManager();
-    // ORM and ODM
-    $sluggableListener = new \Gedmo\Sluggable\SluggableListener();
-    $evm->addEventSubscriber($sluggableListener);
-    // now this event manager should be passed to entity manager constructor
-    $this->em->getEventManager()->addEventSubscriber($sluggableListener);
+    $this->nameCanonicalizer = $nameCanonicalizer;
   }
   
-  public function flush()
+  public function updateSlug(Tag $tag)
   {
-    $this->em->flush();
-  }
-  
-  public function persist(Tag $tag)
-  {
-    $this->em->persist($tag);
+    $tag->setSlug($this->nameCanonicalizer->canonicalize($tag->getName()));
   }
   
 }
