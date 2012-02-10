@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
 use Muzich\CoreBundle\Form\Search\ElementSearchForm;
 use Symfony\Component\HttpFoundation\Response;
+use Muzich\CoreBundle\Util\StrictCanonicalizer;
 
 class SearchController extends Controller
 {
@@ -172,6 +173,7 @@ class SearchController extends Controller
   
   protected function sort_search_tags($tags, $search)
   {
+    $canonicalizer = new StrictCanonicalizer();
     $tag_sorted = $tags;
     
     foreach ($tags as $i => $tag)
@@ -179,7 +181,7 @@ class SearchController extends Controller
       // Pas plus de trois caractères en plus de la recherche
       foreach (explode(' ', $search) as $word)
       {
-        if (strlen(str_replace(strtoupper($word), '', strtoupper($tag['name']))) < 4)
+        if (strlen(str_replace(strtoupper($canonicalizer->canonicalize($word)), '', strtoupper($tag['slug']))) < 4)
         {
           unset($tag_sorted[$i]);
           $tag_sorted = array_merge(array($tag), $tag_sorted);
@@ -195,7 +197,7 @@ class SearchController extends Controller
       // Chaine de caractère identique
       foreach (explode(' ', $search) as $word)
       {
-        if (strtoupper($word) == strtoupper($tag['name']))
+        if (strtoupper($canonicalizer->canonicalize($word)) == strtoupper($tag['slug']))
         {
           unset($tag_sorted[$i]);
           $tag_sorted = array_merge(array($tag), $tag_sorted);
@@ -229,6 +231,7 @@ class SearchController extends Controller
     }
    
     $string_search = trim($string_search);
+    $canonicalizer = new StrictCanonicalizer();
     
     if ($this->getRequest()->isXmlHttpRequest())
     {
@@ -239,20 +242,21 @@ class SearchController extends Controller
         $params = array();
         foreach ($words as $i => $word)
         {
+          $word = $canonicalizer->canonicalize($word);
           if ($where == '')
           {
-            $where .= 'WHERE UPPER(t.name) LIKE :str'.$i;
+            $where .= 'WHERE UPPER(t.slug) LIKE :str'.$i;
           }
           else
           {
-            $where .= ' OR UPPER(t.name) LIKE :str'.$i;
+            $where .= ' OR UPPER(t.slug) LIKE :str'.$i;
           }
 
           $params['str'.$i] = '%'.strtoupper($word).'%';
         }
 
         $tags = $this->getDoctrine()->getEntityManager()->createQuery("
-          SELECT t.name, t.id FROM MuzichCoreBundle:Tag t
+          SELECT t.name, t.slug, t.id FROM MuzichCoreBundle:Tag t
           $where
           ORDER BY t.name ASC"
         )->setParameters($params)
@@ -262,7 +266,11 @@ class SearchController extends Controller
         $tags_response = array();
         foreach ($tags as $tag)
         {
-          $tags_response[] = array('name' => $tag['name'], 'id' => $tag['id']);
+          $tags_response[] = array(
+            'name' => $tag['name'], 
+            'id'   => $tag['id'],
+            'slug' => $tag['slug']
+          );
         }
         
         $tags_response = $this->sort_search_tags($tags_response, $string_search);
