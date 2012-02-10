@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Cet entité représente le Tag.
@@ -11,6 +12,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\TagRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Tag
 {
@@ -53,6 +55,12 @@ class Tag
    * @var type string
    */
   protected $name;
+  
+  /**
+   * @Gedmo\Slug(fields={"name"})
+   * @ORM\Column(length=64, nullable=true)
+   */
+  protected $slug;
   
   /**
    * Compteur total d'utilisation. Utilisé pour faire ressortir les 
@@ -105,6 +113,16 @@ class Tag
   public function getName()
   {
       return $this->name;
+  }
+  
+  public function getSlug()
+  {
+    return $this->slug;
+  }
+  
+  public function setSlug($slug)
+  {
+    $this->slug = $slug;
   }
 
   /**
