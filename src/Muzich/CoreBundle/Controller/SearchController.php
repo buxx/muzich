@@ -227,6 +227,8 @@ class SearchController extends Controller
         return $this->redirect($this->generateUrl('index'));
       }
     }
+   
+    $string_search = trim($string_search);
     
     if ($this->getRequest()->isXmlHttpRequest())
     {
