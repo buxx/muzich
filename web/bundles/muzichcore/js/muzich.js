@@ -572,6 +572,8 @@ $(document).ready(function(){
       
       // On prépare le tagBox
       li.html(response.html);
+      // Pour le click sur l'input de saisie de tag
+      li.find('ul.tagbox li.input input[type="text"]').formDefaults();
      
       var options = new Array();
       options.form_name  = response.form_name;
