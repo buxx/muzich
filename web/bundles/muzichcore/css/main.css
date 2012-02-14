@@ -791,3 +791,8 @@ ul#favorite_tags li
   margin-top: 2px;
   float:left; /*pour IE*/
 }
+
+a.more
+{
+  margin-top: 5px;
+}

@@ -640,8 +640,9 @@ $(document).ready(function(){
     }
   });
 
-  $("div.search_tag_list").live('click', function(event){
+  $("div.search_tag_list, div.search_tag_list a.more").live('click', function(event){
     event.stopPropagation();
+    $("div.search_tag_list").show();
   });
 
   function autocomplete_tag(input, form_name)
@@ -846,6 +847,7 @@ $(document).ready(function(){
     jQuery.each( $(this).parent('div').find('ul.search_tag_list li') , function(){
       $(this).show();
     });
+    $(this).hide();
     return false;
   });
   

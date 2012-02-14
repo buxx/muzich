@@ -236,6 +236,7 @@ class SearchController extends Controller
    */
   private function sort_search_tags($tags, $search)
   {
+    $same_found = false;
     $canonicalizer = new StrictCanonicalizer();
     $tag_sorted = array();
     
@@ -273,6 +274,7 @@ class SearchController extends Controller
         {
           if (strtoupper($canonicalizer->canonicalize($word)) == strtoupper($tag['slug']))
           {
+            $same_found = true;
             $tag_sorted = $this->sort_addtop_if_isnt_in($tag_sorted, $tag);
           }
         }
@@ -284,7 +286,10 @@ class SearchController extends Controller
       $tag_sorted = $this->sort_addbottom_if_isnt_in($tag_sorted, $tag);
     }
     
-    return $tag_sorted;
+    return array(
+      'tags'       => $tag_sorted,
+      'same_found' => $same_found
+    );
   }
   
   /**
@@ -353,22 +358,24 @@ class SearchController extends Controller
           );
         }
         
-        $tags_response = $this->sort_search_tags($tags_response, $string_search);
+        $sort_response = $this->sort_search_tags($tags_response, $string_search);
         $status = 'success';
         $error  = '';
       }
       else
       {
         $status = 'error';
-        $tags_response = array();
+        $sort_response = array('tags' => array(), 'same_found' => false);
         $error = 'Vous devez saisir au moins deux caractères';
       }
       
       $return_array = array(
-        'status'    => $status,
-        'timestamp' => $timestamp,
-        'error'     => $error,
-        'data'      => $tags_response
+        'status'     => $status,
+        'timestamp'  => $timestamp,
+        'error'      => $error,
+        'same_found' => $sort_response['same_found'],
+        'data'       => $sort_response['tags']
+        
       );
       
       $response = new Response(json_encode($return_array));
