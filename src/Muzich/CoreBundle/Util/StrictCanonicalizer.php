@@ -24,7 +24,7 @@ class StrictCanonicalizer implements CanonicalizerInterface
             'ô', 'ö', 'ò', 'ó', 'õ', 'ø', 
             'ù', 'û', 'ü', 'ú', 
             'é', 'è', 'ê', 'ë', 
-            'ç', 'ÿ', 'ñ', 
+            'ç', 'ÿ', 'ñ', '\'', '"'
         ),
         array(
             'a', 'a', 'a', 'a', 'a', 'a', 
@@ -32,7 +32,7 @@ class StrictCanonicalizer implements CanonicalizerInterface
             'o', 'o', 'o', 'o', 'o', 'o', 
             'u', 'u', 'u', 'u', 
             'e', 'e', 'e', 'e', 
-            'c', 'y', 'n', 
+            'c', 'y', 'n', '', ''
         ),
         $texte
     );

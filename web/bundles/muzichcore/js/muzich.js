@@ -647,7 +647,7 @@ $(document).ready(function(){
   function autocomplete_tag(input, form_name)
   {
     // Il doit y avoir au moin un caractère
-    if (input.val().length > 0) 
+    if ((input.val().length > 0) && (input.val() != string_tag_prompt_input_help)) 
     {
 
       // on met en variable l'input
@@ -718,13 +718,10 @@ $(document).ready(function(){
                 var t_string = tag_name
                 // On construit un li
                 
-                string_exploded = explode(' ', $.trim(input.val()));
-                for (n in string_exploded)
-                {
-                  r_string = string_exploded[n];
-                  var re = new RegExp(r_string, "i");
-                  t_string = t_string.replace(re,"<strong>" + r_string + "</strong>");
-                }
+                r_string = $.trim(input.val());
+                var re = new RegExp(r_string, "i");
+                t_string = t_string.replace(re,"<strong>" + r_string + "</strong>");
+                
                                 
                 li_tag = 
                   $('<li>').append(

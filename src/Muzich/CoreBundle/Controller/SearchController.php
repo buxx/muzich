@@ -171,40 +171,117 @@ class SearchController extends Controller
     throw new \Exception('XmlHttpRequest only for this action');
   }
   
-  protected function sort_search_tags($tags, $search)
+  /**
+   * Ajoute le tag au début du tableau passé en paramètre si celui-ci
+   * n'est pas a l'intérieur.
+   * 
+   * @param array $array
+   * @param Tag $tag
+   * @return array 
+   */
+  private function sort_addtop_if_isnt_in($array, $tag)
+  {
+    $in = false;
+    for ($x=0;$x<=sizeof($array)-1;$x++)
+    {
+      if ($array[$x]['id'] == $tag['id'])
+      {
+        $in = true;
+        break;
+      }
+    }
+    
+    if (!$in)
+    {
+      array_unshift($array, $tag);
+      return $array;
+    }
+    return $array;
+  }
+  
+  /**
+   * Ajoute le tag a al fin du tableau passé en paramètre si celui-ci
+   * n'est pas a l'intérieur.
+   * 
+   * @param array $array
+   * @param Tag $tag
+   * @return array 
+   */
+  private function sort_addbottom_if_isnt_in($array, $tag)
+  {
+    $in = false;
+    for ($x=0;$x<=sizeof($array)-1;$x++)
+    {
+      if ($array[$x]['id'] == $tag['id'])
+      {
+        $in = true;
+        break;
+      }
+    }
+    
+    if (!$in)
+    {
+      $array[] = $tag;
+      return $array;
+    }
+    return $array;
+  }
+  
+  /**
+   * Organise le trie des tags de manière plus friendly user.
+   *
+   * @param array $tags
+   * @param string $search
+   * @return array 
+   */
+  private function sort_search_tags($tags, $search)
   {
     $canonicalizer = new StrictCanonicalizer();
-    $tag_sorted = $tags;
+    $tag_sorted = array();
     
     foreach ($tags as $i => $tag)
     {
       // Pas plus de trois caractères en plus de la recherche
-      foreach (explode(' ', $search) as $word)
+      $terms = array_merge(array($search), explode(' ', $search));
+      foreach ($terms as $word)
       {
-        if (strlen(str_replace(strtoupper($canonicalizer->canonicalize($word)), '', strtoupper($tag['slug']))) < 4)
+        if (strlen($word) > 1)
         {
-          unset($tag_sorted[$i]);
-          $tag_sorted = array_merge(array($tag), $tag_sorted);
+          if (strlen(str_replace(strtoupper($canonicalizer->canonicalize($word)), '', strtoupper($tag['slug']))) < 4)
+          {
+            $tag_sorted = $this->sort_addtop_if_isnt_in($tag_sorted, $tag);
+          }
         }
       }
       
     }
     
-    $tags = $tag_sorted;
-    
     foreach ($tags as $i => $tag)
     {
       // Chaine de caractère identique
-      foreach (explode(' ', $search) as $word)
+      $terms = array_merge(
+        array($search), 
+        explode(' ', $search), 
+        explode('-', $search),
+        array(str_replace(' ', '-', $search)),
+        array(str_replace('-', ' ', $search))
+      );
+      
+      foreach ($terms as $word)
       {
-        if (strtoupper($canonicalizer->canonicalize($word)) == strtoupper($tag['slug']))
+        if (strlen($word) > 1)
         {
-          unset($tag_sorted[$i]);
-          $tag_sorted = array_merge(array($tag), $tag_sorted);
+          if (strtoupper($canonicalizer->canonicalize($word)) == strtoupper($tag['slug']))
+          {
+            $tag_sorted = $this->sort_addtop_if_isnt_in($tag_sorted, $tag);
+          }
         }
       }
-      
-      
+    }
+    
+    foreach ($tags as $i => $tag)
+    {
+      $tag_sorted = $this->sort_addbottom_if_isnt_in($tag_sorted, $tag);
     }
     
     return $tag_sorted;
@@ -242,17 +319,20 @@ class SearchController extends Controller
         $params = array();
         foreach ($words as $i => $word)
         {
-          $word = $canonicalizer->canonicalize($word);
-          if ($where == '')
+          if (strlen($word) > 1)
           {
-            $where .= 'WHERE UPPER(t.slug) LIKE :str'.$i;
-          }
-          else
-          {
-            $where .= ' OR UPPER(t.slug) LIKE :str'.$i;
-          }
+            $word = $canonicalizer->canonicalize($word);
+            if ($where == '')
+            {
+              $where .= 'WHERE UPPER(t.slug) LIKE :str'.$i;
+            }
+            else
+            {
+              $where .= ' OR UPPER(t.slug) LIKE :str'.$i;
+            }
 
-          $params['str'.$i] = '%'.strtoupper($word).'%';
+            $params['str'.$i] = '%'.strtoupper($word).'%';
+          }
         }
 
         $tags = $this->getDoctrine()->getEntityManager()->createQuery("
