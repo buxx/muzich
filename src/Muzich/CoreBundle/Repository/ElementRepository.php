@@ -182,7 +182,7 @@ class ElementRepository extends EntityRepository
       $query_select = "SELECT e, t, o, g, fav
         FROM MuzichCoreBundle:Element e 
         LEFT JOIN e.group g 
-        LEFT JOIN e.tags t WITH (t.tomoderate = '0'
+        LEFT JOIN e.tags t WITH (t.tomoderate = 'FALSE' OR t.tomoderate IS NULL
           OR t.privateids LIKE :uidt)
         LEFT JOIN e.elements_favorites fav WITH fav.user = :uid
         JOIN e.owner o
