@@ -182,7 +182,8 @@ class ElementRepository extends EntityRepository
       $query_select = "SELECT e, t, o, g, fav
         FROM MuzichCoreBundle:Element e 
         LEFT JOIN e.group g 
-        LEFT JOIN e.tags t 
+        LEFT JOIN e.tags t WITH (t.tomoderate = '0'
+          OR t.privateids LIKE :uidt)
         LEFT JOIN e.elements_favorites fav WITH fav.user = :uid
         JOIN e.owner o
         WHERE e.id IN (:ids)
@@ -190,6 +191,7 @@ class ElementRepository extends EntityRepository
       ;
 
       $params_select['ids'] = $ids;
+      $params_select['uidt'] = '%"'.$user_id.'"%';
       $query = $this->getEntityManager()
         ->createQuery($query_select)
         ->setParameters($params_select)

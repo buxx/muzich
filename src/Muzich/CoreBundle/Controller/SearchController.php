@@ -400,14 +400,19 @@ class SearchController extends Controller
           }
         }
 
+        $params['uid'] = '%"'.$this->getUserId().'"%';
         $tags = $this->getDoctrine()->getEntityManager()->createQuery("
           SELECT t.name, t.slug, t.id FROM MuzichCoreBundle:Tag t
           $where
+          
+          AND (t.tomoderate = '0'
+          OR t.privateids LIKE :uid)
+          
           ORDER BY t.name ASC"
         )->setParameters($params)
         ->getScalarResult()
         ;
-
+        
         $tags_response = array();
         foreach ($tags as $tag)
         {
