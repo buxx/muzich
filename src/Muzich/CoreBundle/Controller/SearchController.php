@@ -257,6 +257,40 @@ class SearchController extends Controller
       
     }
     
+    // Uniquement dans le cas de présence d'un espace/separateur ou plus
+    // on cherche les mot composé comme lui
+    $terms = array_merge(
+      explode(' ', $search), 
+      explode('-', $search)
+    );
+    $tags_counteds = array();
+    foreach ($tags as $i => $tag)
+    {
+      foreach ($terms as $word)
+      {
+        if (strpos(strtoupper($tag['slug']), strtoupper($word)) !== false)
+        {
+          $count = 1;
+          if (array_key_exists($tag['id'], $tags_counteds))
+          {
+            $count = ($tags_counteds[$tag['id']]['count'])+1;
+          }
+          $tags_counteds[$tag['id']] = array(
+            'count' => $count,
+            'tag'   => $tag
+          );
+        }
+      }
+    }
+    
+    foreach ($tags_counteds as $id => $counted)
+    {
+      if ($counted['count'] > 1)
+      {
+        $tag_sorted = $this->sort_addtop_if_isnt_in($tag_sorted, $counted['tag']);
+      }
+    }
+    
     foreach ($tags as $i => $tag)
     {
       // Chaine de caractère identique
