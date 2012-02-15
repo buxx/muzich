@@ -72,6 +72,23 @@ class Tag
   protected $count = 0;
   
   /**
+   * Booléen permettant de savoir si le tag est à modérer
+   * 
+   * @ORM\Column(type="boolean", nullable=true)
+   * @var type string
+   */
+  protected $tomoderate = false;
+  
+  /**
+   * Lorsque le tag est a modérer on stocke ici les ids d'utilisateurs (json)
+   * qui ont voulu l'utiliser. Afin qu'il n'y est que eux a le voir.
+   * 
+   * @ORM\Column(type="text", nullable=true)
+   * @var type string
+   */
+  protected $privateids = "";
+  
+  /**
    * 
    */
   public function __construct()
@@ -183,5 +200,25 @@ class Tag
   public function getGroupsFavorites()
   {
     return $this->groups_favorites;
+  }
+  
+  public function setTomoderate($tomoderate)
+  {
+    $this->tomoderate = $tomoderate;
+  }
+  
+  public function getTomoderate()
+  {
+    return $this->tomoderate;
+  }
+  
+  public function setPrivateids($privateids)
+  {
+    $this->privateids = $privateids;
+  }
+  
+  public function getPrivateids()
+  {
+    return $this->privateids;
   }
 }

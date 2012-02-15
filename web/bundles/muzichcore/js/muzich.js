@@ -677,6 +677,7 @@ $(document).ready(function(){
       // Et on affiche une info
       span_info = divtags.find('span.info');
       span_info.show();
+      // TODO: multilingue !
       span_info.text("Recherche des tags correspondants à \""+input.val()+"\" ...");
 
       // C'est en fonction du nb de resultats qu'il sera affiché
@@ -765,15 +766,66 @@ $(document).ready(function(){
               {
                 divtags.find('a.more').show();
               }
-
-              // On cache l'info
-              span_info.hide();
+              
+              span_info.show();
+              span_info.text(data.message);
               // Et on affiche la liste
               search_tag_list.show();
             }
             else
             {
-              span_info.text("Aucun tag de trouvé pour \""+inputTag.val()+"\"");
+              span_info.show();
+              span_info.text(data.message);
+              search_tag_list.show();
+              
+              // Dans ce cas ou aucun tag n'a été trouvé, la proposition 
+              // d'ajout s'affichecf en dessous
+              
+              //span_info.text("Aucun tag de trouvé pour \""+inputTag.val()+"\"");
+            }
+            
+            // Si le tag ne semble pas connu en base
+            if (!data.same_found)
+            {
+              li_tag = 
+                $('<li>').addClass('new').append(
+                  $('<a>').attr('href','#new#'+$.trim(input.val()))
+                  // qui réagit quand on clique dessus
+                  .click(function(e){
+                    // On récupère le nom du tag
+                    name = $(this).attr('href').substr(1,$(this).attr('href').length);
+                    name = name.substr(strpos(name, '#')+1, name.length);
+                    
+                    $(this).parent('li').parent('ul').parent('div').find('img.tag_loader').show();
+
+                    // La on fait l'ajout en base en tant que nouveau tag
+                    $.getJSON(url_add_tag+'/'+name, function(response){
+      
+                      if (response.status == 'mustbeconnected')
+                      {
+                        $(location).attr('href', url_index);
+                      }
+                      
+                      tag_id   = response.tag_id;
+                      tag_name = response.tag_name;
+                      
+                      $('input#tags_selected_tag_'+form_name).val(tag_id);
+                      inputTag.val(tag_name);
+                      // Et on execute l'évènement selectTag de l'input
+                      inputTag.trigger("selectTag");
+                      // On cache la liste puisque le choix vient d'être fait
+                      divtags.hide();
+                      inputTag.val(tag_text_help); 
+                      
+                      $(this).parent('li').parent('ul').parent('div').find('img.tag_loader').hide();
+                    });
+
+                    
+                    return false;
+                  })
+                  .append($.trim(input.val()))
+              );
+              search_tag_list.prepend(li_tag);
             }
             
           }

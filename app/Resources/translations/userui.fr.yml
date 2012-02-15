@@ -31,6 +31,9 @@ tags:
            la liste.
   inputtext:
     help:      Saisissez vos tags ici (un par un)
+  search:
+    message_found:  "Tags correspondant à \"%string%\":"
+    display_more:   Afficher les autres résultats
            
 filter:
   network: "Résultats de "

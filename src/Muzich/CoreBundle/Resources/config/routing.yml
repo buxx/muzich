@@ -44,6 +44,11 @@ ajax_get_favorites_tags:
   pattern: /ajax/my-favorites-tags
   defaults: { _controller: MuzichCoreBundle:Core:getFavoriteTags }
 
+ajax_add_tag:
+  pattern: /ajax/add-tag/{name}
+  defaults: { _controller: MuzichCoreBundle:Core:addTag, name: null }
+  
+
 ####
 
 info_about:

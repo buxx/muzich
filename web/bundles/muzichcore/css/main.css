@@ -676,7 +676,7 @@ div.search_tag_list
   position: absolute;  
   background-color: white;
   width: 400px;
-  padding: 2px;
+  padding: 5px;
   
   border: 0px solid #d5d5d5;
   border-radius: 7px;
@@ -712,18 +712,45 @@ div.search_tag_list ul.search_tag_list li
   margin-left: 4px;
   margin-top: 2px;
   margin-bottom: 2px;
-  padding: 2px;
+  padding: 2px 4px 2px 4px;
   background-color: #d9f7ff;
+  
+  
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  
+  -webkit-box-shadow: #666 0px 2px 3px;
+  -moz-box-shadow: #666 0px 2px 3px;
+  box-shadow: #666 0px 2px 3px;
 }
+
+div.search_tag_list ul.search_tag_list li.new
+{
+  font-weight: bold;
+  background-color: #e0e0e0;
+}
+  
 
 div.search_tag_list ul.search_tag_list li:hover
 {
   background-color: #74dffe;
 }
 
+div.search_tag_list span.info
+{
+  text-shadow: 1px 1px 1px #666;
+  font-weight: bold;
+}
+
 #container ul.search_tag_list li a
 {
   color: black;
+}
+
+#container ul.search_tag_list li a:hover
+{
+  text-decoration: none;
 }
  
 .elements_loader_div

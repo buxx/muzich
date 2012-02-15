@@ -287,6 +287,25 @@ class SearchController extends Controller
     {
       if ($counted['count'] > 1)
       {
+        // Ci-dessous on va chercher a voir si le tag et la recherche on le 
+        // même nombre de mots, si c'est le cas on pourra considérer cette 
+        // recherche comme lié a un tag connu.
+        
+        $words_search = array_merge(
+          explode(' ', $search), 
+          explode('-', $search)
+        );
+        
+        $words_tag = array_merge(
+          explode(' ', $tag['slug']), 
+          explode('-', $tag['slug'])
+        );
+        
+        if ($words_search == $words_tag)
+        {
+          $same_found = true;
+        }
+        
         $tag_sorted = $this->sort_addtop_if_isnt_in($tag_sorted, $counted['tag']);
       }
     }
@@ -308,7 +327,14 @@ class SearchController extends Controller
         {
           if (strtoupper($canonicalizer->canonicalize($word)) == strtoupper($tag['slug']))
           {
-            $same_found = true;
+            // Ci-dessous on déduit si le mot étant identique au tag représente bien
+            // le terme de recherche. De façon a si c'est le cas pouvoir dire:
+            // oui le terme recherché est connu.
+            (in_array($word, array(
+              $search,
+              str_replace(' ', '-', $search),
+              str_replace('-', ' ', $search)
+            ))) ? $same_found = true : 
             $tag_sorted = $this->sort_addtop_if_isnt_in($tag_sorted, $tag);
           }
         }
@@ -395,18 +421,25 @@ class SearchController extends Controller
         $sort_response = $this->sort_search_tags($tags_response, $string_search);
         $status = 'success';
         $error  = '';
+        $message = $this->trans(
+          'tags.search.message_found', 
+          array('%string%' => $string_search), 
+          'userui'
+        );
       }
       else
       {
         $status = 'error';
         $sort_response = array('tags' => array(), 'same_found' => false);
         $error = 'Vous devez saisir au moins deux caractères';
+        $message  = '';
       }
       
       $return_array = array(
         'status'     => $status,
         'timestamp'  => $timestamp,
         'error'      => $error,
+        'message'    => $message,
         'same_found' => $sort_response['same_found'],
         'data'       => $sort_response['tags']
         

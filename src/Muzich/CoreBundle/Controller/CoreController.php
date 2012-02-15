@@ -13,6 +13,8 @@ use Muzich\CoreBundle\Entity\Element;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Muzich\CoreBundle\Form\Search\ElementSearchForm;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Muzich\CoreBundle\Util\StrictCanonicalizer;
+use Muzich\CoreBundle\Entity\Tag;
 
 class CoreController extends Controller
 {
@@ -347,6 +349,88 @@ class CoreController extends Controller
       'response' => 'success',
       'tags'     => $es->getTags()
     ));
+  }
+  
+  /**
+   * Ajout d'un tag en base.
+   */
+  public function addTagAction($name)
+  {
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
+    $canonicalizer = new StrictCanonicalizer();
+    $name_canonicalized = $canonicalizer->canonicalize($name);
+    
+    // Check avant de commencer: On regarde si ce tag n'existe pas déjà en tag
+    // public (en cas de gruge)
+    if (($tag = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneBy(array(
+        'slug'       => $name_canonicalized,
+        'tomoderate' => false
+      ))))
+    {
+      // Si il existe déjà pas besoin de l'ajouter on retourne l'id et ne nom
+      return $this->jsonResponse(array(
+        'status'   => 'success',
+        'tag_id'   => $tag->getId(),
+        'tag_name' => $tag->getName()
+      ));
+    }
+    
+    // Première étape, on regarde en base si quelqu'un a pas déjà ajouté ce tag
+    if (($tag = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneBy(array(
+        'slug'       => $name_canonicalized,
+        'tomoderate' => true
+      ))))
+    {
+      // Si il existe déjà pas besoin de l'ajouter on retourne l'id et ne nom
+      // après avoir ajouté cet utilisateurs a la liste de ceux pouvant le voir
+      $privatesids = json_decode($tag->getPrivateids());
+      if (!in_array($this->getUserId(), $privatesids))
+      {
+        $privatesids[] = (string)$this->getUserId();
+      }
+      $tag->setPrivateids(json_encode($privatesids));
+      
+      $this->getDoctrine()->getEntityManager()->persist($tag);
+      $this->getDoctrine()->getEntityManager()->flush();
+      
+      return $this->jsonResponse(array(
+        'status'   => 'success',
+        'tag_id'   => $tag->getId(),
+        'tag_name' => $tag->getName()
+      ));
+    }
+    else
+    {
+      // Sinon on l'ajoute en base
+      $tag = new Tag();
+      $tag->setName(ucfirst(strtolower($name)));
+      $tag->setTomoderate(true);
+      $tag->setPrivateids(json_encode(array((string)$this->getUserId())));
+      
+      $this->getDoctrine()->getEntityManager()->persist($tag);
+      $this->getDoctrine()->getEntityManager()->flush();
+      
+      return $this->jsonResponse(array(
+        'status'   => 'success',
+        'tag_id'   => $tag->getId(),
+        'tag_name' => $tag->getName()
+      ));
+    }
   }
   
 }
