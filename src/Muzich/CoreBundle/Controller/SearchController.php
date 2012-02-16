@@ -309,10 +309,10 @@ class SearchController extends Controller
         );
         
         $words_tag = array_merge(
-          explode(' ', $tag['slug']), 
-          explode('-', $tag['slug'])
+          explode(' ', $counted['tag']['slug']), 
+          explode('-', $counted['tag']['slug'])
         );
-                
+        
         if (count($words_search) == count($words_tag))
         {
           $same_found = true;
