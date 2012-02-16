@@ -243,9 +243,14 @@ class SearchController extends Controller
     foreach ($tags as $i => $tag)
     {
       // Pas plus de trois caractères en plus de la recherche
-      $terms = array_merge(array($search), explode(' ', $search));
+      $terms = array_merge(
+        explode(' ', $search), 
+        explode('-', $search), 
+        explode(',', $search)
+      );
       foreach ($terms as $word)
       {
+        $word = trim($word);
         if (strlen($word) > 1)
         {
           if (
@@ -264,7 +269,8 @@ class SearchController extends Controller
     // on cherche les mot composé comme lui
     $terms = array_merge(
       explode(' ', $search), 
-      explode('-', $search)
+      explode('-', $search), 
+      explode(',', $search)
     );
     
     $tags_counteds = array();
@@ -272,14 +278,16 @@ class SearchController extends Controller
     {
       $terms_search = array_merge(
         explode(' ', $tag['slug']), 
-        explode('-', $tag['slug'])
+        explode('-', $tag['slug']), 
+        explode(',', $tag['slug'])
       );
       
       foreach ($terms as $word)
       {
+        $word = trim($word);
         if (
           strpos(strtoupper($tag['slug']), strtoupper($word)) !== false
-          && count($terms_search) > 2
+          && count($terms_search) > 3
         )
         {
           $count = 1;
@@ -295,6 +303,7 @@ class SearchController extends Controller
       }
     }
     
+    
     foreach ($tags_counteds as $id => $counted)
     {
       if ($counted['count'] > 1)
@@ -305,14 +314,17 @@ class SearchController extends Controller
         
         $words_search = array_merge(
           explode(' ', $search), 
-          explode('-', $search)
+          explode('-', $search), 
+          explode(',', $search)
         );
+        $words_search = array_unique($words_search);
         
         $words_tag = array_merge(
           explode(' ', $counted['tag']['slug']), 
           explode('-', $counted['tag']['slug'])
         );
-        
+        $words_tag = array_unique($words_tag);
+            
         if (count($words_search) == count($words_tag))
         {
           $same_found = true;
@@ -333,23 +345,29 @@ class SearchController extends Controller
         array($search), 
         explode(' ', $search), 
         explode('-', $search),
+        explode(',', $search),
         array(str_replace(' ', '-', $search)),
         array(str_replace('-', ' ', $search))
       );
       
       foreach ($terms as $word)
       {
+        $word = trim($word);
         if (strlen($word) > 1)
         {
           if (strtoupper($canonicalizer->canonicalize($word)) == strtoupper($tag['slug']))
           {
-            // Ci-dessous on déduit si le mot étant identique au tag représente bien
-            // le terme de recherche. De façon a si c'est le cas pouvoir dire:
+            // Ci-dessous on déduit si le mot est identique au tag . 
+            // De façon a ce que si c'est le cas, pouvoir dire:
             // oui le terme recherché est connu.
             if (in_array($word, array(
               $search,
               str_replace(' ', '-', $search),
-              str_replace('-', ' ', $search)
+              str_replace('-', ' ', $search),
+              str_replace(',', ' ', $search),
+              str_replace(', ', '-', $search),
+              str_replace(',', ' ', $search),
+              str_replace(', ', '-', $search)
             ))) 
             { 
               $same_found = true;

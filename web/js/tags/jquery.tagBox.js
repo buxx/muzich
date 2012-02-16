@@ -45,8 +45,14 @@
         self.tagInput = $('<input>', {
             'type' : 'text',
             'keydown' : function(e) {
-                if(e.keyCode == 13 || e.keyCode == self.delimit_key ) {
-                    $(this).trigger("selectTag");
+                //if(e.keyCode == 13 || e.keyCode == self.delimit_key ) {
+                if(
+                  e.keyCode == 13 
+                  || e.keyCode == self.delimit_key
+                  || e.keyCode == 59
+                  || e.keyCode == 190
+                ) {
+                    //$(this).trigger("selectTag");
                     e.preventDefault();
                 }
             },
