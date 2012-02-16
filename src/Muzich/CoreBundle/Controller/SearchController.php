@@ -379,7 +379,12 @@ class SearchController extends Controller
     {
       if (strlen($string_search) > 1)
       {
-        $words = explode(' ', $string_search);
+        $words = array_merge(
+          explode(' ', $string_search),
+          explode('-', $string_search),
+          explode(',', $string_search),
+          explode(', ', $string_search)
+        );
         $where = '';
         $params = array();
         foreach ($words as $i => $word)
