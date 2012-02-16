@@ -248,7 +248,10 @@ class SearchController extends Controller
       {
         if (strlen($word) > 1)
         {
-          if (strlen(str_replace(strtoupper($canonicalizer->canonicalize($word)), '', strtoupper($tag['slug']))) < 4)
+          if (
+            strlen(str_replace(strtoupper($canonicalizer->canonicalize($word)), '', strtoupper($tag['slug']))) < 4
+            && $word != $search
+          )
           {
             $tag_sorted = $this->sort_addtop_if_isnt_in($tag_sorted, $tag);
           }
@@ -263,12 +266,21 @@ class SearchController extends Controller
       explode(' ', $search), 
       explode('-', $search)
     );
+    
     $tags_counteds = array();
     foreach ($tags as $i => $tag)
     {
+      $terms_search = array_merge(
+        explode(' ', $tag['slug']), 
+        explode('-', $tag['slug'])
+      );
+      
       foreach ($terms as $word)
       {
-        if (strpos(strtoupper($tag['slug']), strtoupper($word)) !== false)
+        if (
+          strpos(strtoupper($tag['slug']), strtoupper($word)) !== false
+          && count($terms_search) > 2
+        )
         {
           $count = 1;
           if (array_key_exists($tag['id'], $tags_counteds))
@@ -300,13 +312,17 @@ class SearchController extends Controller
           explode(' ', $tag['slug']), 
           explode('-', $tag['slug'])
         );
-        
-        if ($words_search == $words_tag)
+                
+        if (count($words_search) == count($words_tag))
         {
           $same_found = true;
         }
         
+        // Cette verif permet de ne pas ajouter les tags qui n'ont qu'un mot
+        // Si on ajouté ce tag maintenant il ne serais pas ajouté au controle en dessous
+        // (nom identique) et donc pas au dessus.
         $tag_sorted = $this->sort_addtop_if_isnt_in($tag_sorted, $counted['tag']);
+        
       }
     }
     
@@ -330,11 +346,14 @@ class SearchController extends Controller
             // Ci-dessous on déduit si le mot étant identique au tag représente bien
             // le terme de recherche. De façon a si c'est le cas pouvoir dire:
             // oui le terme recherché est connu.
-            (in_array($word, array(
+            if (in_array($word, array(
               $search,
               str_replace(' ', '-', $search),
               str_replace('-', ' ', $search)
-            ))) ? $same_found = true : 
+            ))) 
+            { 
+              $same_found = true;
+            }
             $tag_sorted = $this->sort_addtop_if_isnt_in($tag_sorted, $tag);
           }
         }
