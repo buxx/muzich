@@ -788,7 +788,7 @@ $(document).ready(function(){
             if (!data.same_found)
             {
               li_tag = 
-                $('<li>').addClass('new').append(
+                $('<li>').append(
                   $('<a>').attr('href','#new#'+$.trim(input.val()))
                   // qui réagit quand on clique dessus
                   .click(function(e){
