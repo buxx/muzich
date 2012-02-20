@@ -6,3 +6,15 @@ MuzichAdminBundle_moderate_tags:
   pattern:  /admin/moderate/tags
   defaults: { _controller: MuzichAdminBundle:Moderate:tags }
   
+MuzichAdminBundle_moderate_tags_accept_tag:
+  pattern:  /admin/moderate/tags/{tag_id}/accept
+  defaults: { _controller: MuzichAdminBundle:Moderate:tagAccept }
+  
+MuzichAdminBundle_moderate_tags_refuse_tag:
+  pattern:  /admin/moderate/tags/{tag_id}/refuse
+  defaults: { _controller: MuzichAdminBundle:Moderate:tagRefuse }
+  
+MuzichAdminBundle_moderate_tags_replace_tag:
+  pattern:  /admin/moderate/tags/{tag_id}/replace/{tag_new_id}
+  defaults: { _controller: MuzichAdminBundle:Moderate:tagReplace, tag_new_id: null }
+  

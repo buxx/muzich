@@ -1,0 +1,10 @@
+
+ul#moderate_tags li.tag
+{
+  font-size: 115%;
+}
+
+ul#moderate_tags li.tag span.name
+{
+  width: 350px;
+}

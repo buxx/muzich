@@ -34,7 +34,7 @@ class UsersTagsFavorites
    * Cet attribut contient l'objet Tag lié
    * 
    * @ORM\ManyToOne(targetEntity="Tag", inversedBy="users_favorites")
-   * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
+   * @ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="CASCADE")
    */
   protected $tag;
   
