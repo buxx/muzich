@@ -825,7 +825,7 @@ $(document).ready(function(){
                   })
                   .append($.trim(input.val()))
               );
-              search_tag_list.prepend(li_tag);
+              search_tag_list.append(li_tag);
             }
             
           }

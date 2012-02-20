@@ -1,3 +1,8 @@
-MuzichAdminBundle_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: MuzichAdminBundle:Default:index }
+MuzichAdminBundle_moderate_index:
+  pattern:  /admin/moderate
+  defaults: { _controller: MuzichAdminBundle:Moderate:index }
+
+MuzichAdminBundle_moderate_tags:
+  pattern:  /admin/moderate/tags
+  defaults: { _controller: MuzichAdminBundle:Moderate:tags }
+  

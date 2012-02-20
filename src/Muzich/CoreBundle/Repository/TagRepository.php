@@ -62,5 +62,25 @@ class TagRepository extends EntityRepository
     return $tags;
   }
   
+  public function countToModerate()
+  {
+    return $this->getEntityManager()
+      ->createQuery("
+        SELECT COUNT(t.id) FROM MuzichCoreBundle:Tag t
+        WHERE t.tomoderate  = '1'"
+      )->getSingleScalarResult()
+    ;
+  }
+  
+  public function getToModerate()
+  {
+    return $this->getEntityManager()
+      ->createQuery("
+        SELECT t FROM MuzichCoreBundle:Tag t
+        WHERE t.tomoderate  = '1'"
+      )->getResult()
+    ;
+  }
+  
 }
   

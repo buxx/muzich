@@ -1,0 +1,19 @@
+{% extends "MuzichAdminBundle:Moderate:layout.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+  <h2>{{ 'moderate.title'|trans({}, 'adminui') }}</h2>
+  
+  <h3>{{ 'moderate.tags.title'|trans({}, 'adminui') }}</h3>
+  
+  <ul>
+    <li>
+      <a href="{{ path('MuzichAdminBundle_moderate_tags') }}">
+        {{ 'moderate.tags.to_moderate'|trans({'%count%' : count_moderate}, 'adminui') }}
+      </a>
+    </li>
+  </ul>
+
+{% endblock %}

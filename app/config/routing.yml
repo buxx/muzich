@@ -12,6 +12,11 @@ _sonata_admin:
     type: sonata_admin
     prefix: /admin
   
+MuzichAdminBundle:
+  resource: "@MuzichAdminBundle/Resources/config/routing.yml"
+  prefix: /{_locale}/
+  defaults: { _locale: fr }
+  
 MuzichIndexBundle:
   resource: "@MuzichIndexBundle/Resources/config/routing.yml"
   prefix: /

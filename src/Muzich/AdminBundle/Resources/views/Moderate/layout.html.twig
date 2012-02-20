@@ -1,0 +1,16 @@
+{% extends 'MuzichCoreBundle::layout.html.twig' %}
+
+{% block css %}
+	
+{% endblock %}
+{% block js %}
+  
+{% endblock %}
+
+{% block main_content %}
+  
+  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with { 'active': null } %}
+  
+  {% block content %}{% endblock %}
+  
+{% endblock %}

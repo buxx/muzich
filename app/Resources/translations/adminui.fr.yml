@@ -1,0 +1,6 @@
+
+moderate:
+  title:            Modération
+  tags:
+    title:          Tags
+    to_moderate:      %count% a modérer
