@@ -310,7 +310,14 @@ class Group
    */
   public function setTagsWithIds(EntityManager $em, $ids)
   {
-    $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($ids)->execute();
+    // bug fix: il arrive que ce soit un stdClass qui soit transmis
+    $nids = array();
+    foreach ($ids as $id)
+    {
+      $nids[] = $id;
+    }
+    
+    $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($nids)->execute();
 
     // Pour les nouveaux ids restants
     foreach ($tags as $tag)

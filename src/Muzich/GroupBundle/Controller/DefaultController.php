@@ -117,27 +117,35 @@ class DefaultController extends Controller
     try {
       
       $group = $this->getDoctrine()
-        ->getRepository('MuzichCoreBundle:Group')
-        ->findOneBySlug($slug)
+        ->getEntityManager()->createQuery('SELECT g, t FROM MuzichCoreBundle:Group g
+        LEFT JOIN g.tags t WHERE g.slug = :gslug')
+        ->setParameter('gslug', $slug)
         ->getSingleResult()
       ;
       
     } catch (\Doctrine\ORM\NoResultException $e) {
-        throw $this->createNotFoundException('Groupe introuvable.');
+        return $this->createNotFoundException();
     }
     
     if ($group->getOwner()->getId() != $user->getId())
     {
-      throw $this->createNotFoundException('Vous n\'ête pas le créateur de ce groupe.');
+      return $this->createNotFoundException();
+    }
+    
+    $prompt_tags = array();
+    foreach ($group->getTags() as $tag)
+    {
+      $prompt_tags[$tag->getTag()->getId()] = $tag->getTag()->getName();
     }
     
     $group->setTagsToIds();
     $form = $this->getGroupForm($group);
     
     return array(
-      'group'     => $group,
-      'form'      => $form->createView()  ,
-      'form_name' => 'group'      
+      'group'       => $group,
+      'form'        => $form->createView(),
+      'form_name'   => 'group',
+      'search_tags' => $prompt_tags
     );
   }
   
