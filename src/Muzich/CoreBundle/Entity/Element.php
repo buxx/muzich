@@ -8,6 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Constraints as Assert;
 use Muzich\CoreBundle\Validator as MuzichAssert;
+use Muzich\CoreBundle\Entity\Tag;
 
 /**
  * L'Element est l'Element central de l'application. C'est cet
@@ -413,6 +414,23 @@ class Element
   public function setGroupToId()
   {
     $this->group = $this->group->getId();
+  }
+  
+//  public function deleteTag(Tag $tag)
+//  {
+//    $this->tags->removeElement($tag);
+//  }
+  
+  public function hasTag(Tag $tag_t)
+  {
+    foreach ($this->getTags() as $tag)
+    {
+      if ($tag_t->getId() == $tag->getId())
+      {
+        return true;
+      }
+    }
+    return false;
   }
   
 }

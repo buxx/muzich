@@ -5,6 +5,8 @@ namespace Muzich\AdminBundle\Controller;
 use Muzich\CoreBundle\lib\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 //use Muzich\CoreBundle\Util\TagLike;
+use Muzich\CoreBundle\Entity\UsersTagsFavorites;
+use Muzich\CoreBundle\Entity\GroupsTagsFavorites;
 
 class ModerateController extends Controller
 {
@@ -168,33 +170,74 @@ class ModerateController extends Controller
      */
     $em = $this->getDoctrine()->getEntityManager();
     
-    $netags = array();
+    // Sur un élément
     foreach ($elements = $this->getDoctrine()->getEntityManager()->createQuery("
       SELECT e, t FROM MuzichCoreBundle:Element e
       JOIN e.tags t
       WHERE t.id  = :tid
     ")
-      ->setParameter('tid', $tag_new_id)
+      ->setParameter('tid', $tag_id)
       ->getResult() as $element)
     {
-      
-      // TODO: a faire ...
-//      foreach ($element->getTags() as $etag)
-//      {
-//        if ($etag->getId() != $tag->getId())
-//        {
-//          $netags[] = $etag;
-//        }
-//      }
-//      $netags[] = $new_tag;
-//      
-//      $element->setTags(array());
-//      $em->persist($element);
-//      $em->flush();
-//      
-//      $element->setTags($netags);
-//      $em->persist($element);
-//      $em->flush();
+      // Pour chaque elements lié a ce tag
+      // On ajoute un lien vers le nouveau tag si il n'en n'a pas déjà
+      if (!$element->hasTag($new_tag))
+      {
+        $element->addTag($new_tag);
+        $em->persist($element);
+      }
+    }
+    
+    // Tag favoris
+    foreach ($favorites = $this->getDoctrine()->getEntityManager()->createQuery("
+      SELECT f FROM MuzichCoreBundle:UsersTagsFavorites f
+      WHERE f.tag  = :tid
+    ")
+      ->setParameter('tid', $tag_id)
+      ->getResult() as $fav)
+    {
+      // Pour chaque favoris utilisant ce tag on regarde si l'utilisateur
+      // n'a pas déjà le nouveau tag en favoris.
+      if (!$this->getDoctrine()->getEntityManager()->createQuery("
+        SELECT COUNT(f.id) FROM MuzichCoreBundle:UsersTagsFavorites f
+        WHERE f.tag  = :tid AND f.user = :uid
+      ")
+      ->setParameters(array('tid' => $tag_new_id, 'uid' => $fav->getUser()->getId()))
+      ->getSingleScalarResult())
+      {
+        $new_fav = new UsersTagsFavorites();
+        $new_fav->setTag($new_tag);
+        $new_fav->setUser($fav->getUser());
+        $new_fav->setPosition($fav->getPosition());
+        $em->persist($new_fav);
+      }
+      $em->remove($fav);
+    }
+    
+    // groupe
+    foreach ($this->getDoctrine()->getEntityManager()->createQuery("
+      SELECT f FROM MuzichCoreBundle:GroupsTagsFavorites f
+      WHERE f.tag  = :tid
+    ")
+      ->setParameter('tid', $tag_id)
+      ->getResult() as $fav)
+    {
+      // Pour chaque favoris utilisant ce tag on regarde si le groupe
+      // n'a pas déjà le nouveau tag en favoris.
+      if (!$this->getDoctrine()->getEntityManager()->createQuery("
+        SELECT COUNT(f.id) FROM MuzichCoreBundle:GroupsTagsFavorites f
+        WHERE f.tag  = :tid AND f.group = :gid
+      ")
+      ->setParameters(array('tid' => $tag_new_id, 'gid' => $fav->getGroup()->getId()))
+      ->getSingleScalarResult())
+      {
+        $new_fav = new GroupsTagsFavorites();
+        $new_fav->setTag($new_tag);
+        $new_fav->setGroup($fav->getGroup());
+        $new_fav->setPosition($fav->getPosition());
+        $em->persist($new_fav);
+      }
+      $em->remove($fav);
     }
     
     $em->remove($tag);
