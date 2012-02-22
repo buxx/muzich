@@ -787,41 +787,109 @@ $(document).ready(function(){
             // Si le tag ne semble pas connu en base
             if (!data.same_found)
             {
+              // Cette variable nous permettra de stocker le lien nouveau tag
+              link_add_tag = null;
+              
               li_tag = 
-                $('<li>').append(
+                $('<li>').addClass('new').append(
                   $('<a>').attr('href','#new#'+$.trim(input.val()))
                   // qui réagit quand on clique dessus
                   .click(function(e){
-                    // On récupère le nom du tag
-                    name = $(this).attr('href').substr(1,$(this).attr('href').length);
-                    name = name.substr(strpos(name, '#')+1, name.length);
                     
-                    $(this).parent('li').parent('ul').parent('div').find('img.tag_loader').show();
+                    // Effet fade-in du fond opaque
+                    $('body').append($('<div>').attr('id', 'fade')); 
+                    //Apparition du fond - .css({'filter' : 'alpha(opacity=80)'}) pour corriger les bogues de IE
+                    $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn();
+                    
+                    // On met le lien cliqué dans la variabke prévu
+                    link_add_tag = $(this);
+                    
+                    // En premier lieux on fait apparaître la fenêtre de confirmation
+                    popup = $('<div>')
+                    .attr('id', 'add_tag')
+                    .addClass('popin_block')
+                    .css('width', '400px')
+                      //.append($('<h2>').append(string_tag_add_title))
+                      .append($('<div>').addClass('tag')
+                        .append($('<ul>')
+                          .append($('<li>').addClass('button')
+                            .append($(this).text()))))
+                      .append($('<p>').append(string_tag_add_text))
+                      .append($('<p>').append(string_tag_add_argument))
+                      .append($('<textarea>').attr('name', 'argument'))
+                      .append($('<div>').addClass('inputs')
+                        .append($('<input>')
+                          .attr('type', 'button')
+                          .attr('value', string_tag_add_inputs_cancel)
+                          .addClass('button')
+                          .click(function(){
+                            $('#fade').fadeOut(1000, function(){$('#fade').remove();});
+                            $('#add_tag').remove();
+                            
+                            return false;
+                          })
+                        )
+                        .append($('<input>')
+                          .attr('type', 'button')
+                          .attr('value', string_tag_add_inputs_submit)
+                          .addClass('button')
+                          .click(function(){
+                            
+                            var arguments = $('#add_tag textarea').val();
+                            
+                            $('#fade').fadeOut(400, function(){$('#fade').remove();});
+                            $('#add_tag').remove();
+                            
+                            // On récupère le nom du tag
+                            name = link_add_tag.attr('href').substr(1,link_add_tag.attr('href').length);
+                            name = name.substr(strpos(name, '#')+1, name.length);
 
-                    // La on fait l'ajout en base en tant que nouveau tag
-                    $.getJSON(url_add_tag+'/'+name, function(response){
-      
-                      if (response.status == 'mustbeconnected')
-                      {
-                        $(location).attr('href', url_index);
-                      }
-                      
-                      tag_id   = response.tag_id;
-                      tag_name = response.tag_name;
-                      
-                      $('input#tags_selected_tag_'+form_name).val(tag_id);
-                      inputTag.val(tag_name);
-                      // Et on execute l'évènement selectTag de l'input
-                      inputTag.trigger("selectTag");
-                      // On cache la liste puisque le choix vient d'être fait
-                      divtags.hide();
-                      inputTag.val(tag_text_help); 
-                      
-                      $(this).parent('li').parent('ul').parent('div').find('img.tag_loader').hide();
+                            link_add_tag.parent('li').parent('ul').parent('div').find('img.tag_loader').show();
+
+                            // La on fait l'ajout en base en tant que nouveau tag
+                            $.getJSON(url_add_tag+'/'+name+'/'+arguments, function(response){
+
+                              if (response.status == 'mustbeconnected')
+                              {
+                                $(location).attr('href', url_index);
+                              }
+
+                              tag_id   = response.tag_id;
+                              tag_name = response.tag_name;
+
+                              $('input#tags_selected_tag_'+form_name).val(tag_id);
+                              inputTag.val(tag_name);
+                              // Et on execute l'évènement selectTag de l'input
+                              inputTag.trigger("selectTag");
+                              // On cache la liste puisque le choix vient d'être fait
+                              divtags.hide();
+                              inputTag.val(tag_text_help); 
+
+                              link_add_tag.parent('li').parent('ul').parent('div').find('img.tag_loader').hide();
+                            });
+                            
+                            return false;
+                          })
+                        )
+                      )
+                    ;
+                    
+                    // Il faut ajouter le popup au dom avant de le positionner en css
+                    // Sinon la valeur height n'est pas encore calculable
+                    $('body').prepend(popup);
+                    
+                    //Récupération du margin, qui permettra de centrer la fenêtre - on ajuste de 80px en conformité avec le CSS
+                    var popMargTop = (popup.height() + 50) / 2;
+                    var popMargLeft = (popup.width() + 50) / 2;
+                    
+                    //On affecte le margin
+                    $(popup).css({
+                      'margin-top' : -popMargTop,
+                      'margin-left' : -popMargLeft
                     });
-
                     
                     return false;
+                    
                   })
                   .append($.trim(input.val()))
               );

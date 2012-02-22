@@ -34,6 +34,13 @@ tags:
   search:
     message_found:  "Tags correspondant à \"%string%\":"
     display_more:   Afficher les autres résultats
+  add:
+    title:          Ajouter un nouveau tag
+    text:           Ce tag n'est pas encore connu de Muzi.ch, mais vous pouvez proposer son ajout. Cependant sa validation sera soumise a l'équipe de modération du site.
+    argument:       "Vous pouvez argumenter votre demande:"
+    inputs:
+      cancel:       Annuler
+      submit:       Faire la demande
            
 filter:
   network: "Résultats de "

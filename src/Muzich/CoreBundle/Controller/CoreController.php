@@ -354,7 +354,7 @@ class CoreController extends Controller
   /**
    * Ajout d'un tag en base.
    */
-  public function addTagAction($name)
+  public function addTagAction($name, $arguments = null)
   {
     if ($this->getUser() == 'anon.')
     {
@@ -404,6 +404,7 @@ class CoreController extends Controller
         $privatesids[] = (string)$this->getUserId();
       }
       $tag->setPrivateids(json_encode($privatesids));
+      $tag->setArguments($tag->getArguments(). " ****" . $this->getUser()->getName()."****: " .$arguments);
       
       $this->getDoctrine()->getEntityManager()->persist($tag);
       $this->getDoctrine()->getEntityManager()->flush();
@@ -421,6 +422,7 @@ class CoreController extends Controller
       $tag->setName(ucfirst(strtolower($name)));
       $tag->setTomoderate(true);
       $tag->setPrivateids(json_encode(array((string)$this->getUserId())));
+      $tag->setArguments(" ****" . $this->getUser()->getName()."****: " .$arguments);
       
       $this->getDoctrine()->getEntityManager()->persist($tag);
       $this->getDoctrine()->getEntityManager()->flush();

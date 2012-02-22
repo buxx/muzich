@@ -86,7 +86,16 @@ class Tag
    * @ORM\Column(type="text", nullable=true)
    * @var type string
    */
-  protected $privateids = "";
+  protected $privateids;
+  
+  /**
+   * Lorsque le tag est a modérer on stocke ici les argumentations pour 
+   * l'ajout du tag.
+   * 
+   * @ORM\Column(type="text", nullable=true)
+   * @var type string
+   */
+  protected $arguments;
   
   /**
    * 
@@ -221,4 +230,15 @@ class Tag
   {
     return $this->privateids;
   }
+  
+  public function getArguments()
+  {
+    return $this->arguments;
+  }
+  
+  public function setArguments($arguments)
+  {
+    $this->arguments = $arguments;
+  }
+  
 }

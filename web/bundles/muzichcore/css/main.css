@@ -823,3 +823,88 @@ a.more
 {
   margin-top: 5px;
 }
+
+
+
+/*  POPIN BLOCK  */
+
+
+#fade { /*--Masque opaque noir de fond--*/
+	display: none; /*--masqué par défaut--*/
+	background: #000;
+	position: fixed; left: 0; top: 0;
+	width: 100%; height: 100%;
+	opacity: .80;
+	z-index: 9999;
+}
+.popin_block{
+	background: #fff;
+	padding: 10px;
+	border: 10px solid #ddd;
+	float: left;
+	font-size: 1.2em;
+	position: fixed;
+	top: 50%; left: 50%;
+	z-index: 99999;
+	/*--Les différentes définitions de Box Shadow en CSS3--*/
+	-webkit-box-shadow: 0px 0px 20px #000;
+	-moz-box-shadow: 0px 0px 20px #000;
+	box-shadow: 0px 0px 20px #000;
+	/*--Coins arrondis en CSS3--*/
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.popin_block h2
+{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.popin_block p
+{
+  margin-top: 5px;
+  margin-bottom: 2px;
+}
+
+.popin_block div.tag
+{
+  text-align: center;
+}
+
+.popin_block div.inputs
+{
+  text-align: center;
+}
+
+.popin_block div.tag ul
+{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.popin_block div.inputs input
+{
+  margin: 3px;
+}
+
+.popin_block textarea
+{
+  width: 100%;
+  height: 60px;
+}
+
+img.btn_close {
+	float: right;
+	margin: -55px -55px 0 0;
+}
+/*--Gérer la position fixed pour IE6--*/
+* html #fade {
+position: absolute;
+}
+* html .popup_block {
+position: absolute;
+}
