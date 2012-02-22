@@ -908,3 +908,10 @@ position: absolute;
 * html .popup_block {
 position: absolute;
 }
+
+/* END POPIN BLOCK */
+
+#container a.element_edit_link
+{
+  text-decoration: none;
+}
