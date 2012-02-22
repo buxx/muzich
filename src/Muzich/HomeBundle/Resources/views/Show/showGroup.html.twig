@@ -7,9 +7,9 @@
   <div class="show_options">
     
     {% if his_group %}
-      <a href="{{ path('group_edit', { 'slug': group.slug }) }}" >
+      <a class="button" href="{{ path('group_edit', { 'slug': group.slug }) }}" >
         {{ 'group.edit'|trans({}, 'groups') }}
-      </a> |
+      </a>
     {% endif %}
       
     <a href="{{ path('follow', { 'type': 'group', 'id': group.id, 'token': user.personalHash }) }}" 
