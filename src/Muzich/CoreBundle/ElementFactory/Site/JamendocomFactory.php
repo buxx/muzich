@@ -57,6 +57,7 @@ class JamendocomFactory extends BaseFactory
   {
     $url_object = $this->getCleanedUrl();
     $get_url = null;
+    $url = null;
     
     // http://www.jamendo.com/fr/album/30661
     if (preg_match("#^\/[a-zA-Z0-9_-]+\/album\/([0-9]+)#", $url_object, $chaines))

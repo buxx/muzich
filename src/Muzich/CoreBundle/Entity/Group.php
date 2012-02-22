@@ -274,7 +274,9 @@ class Group
     $GroupsTagsFavorites->setTag($tag);
     $GroupsTagsFavorites->setPosition(0);
     $GroupsTagsFavorites->setGroup($this);
+    $em->persist($this);
     $em->persist($GroupsTagsFavorites);
+    $em->persist($tag);
     $this->tags[] = $GroupsTagsFavorites;
   }
   
