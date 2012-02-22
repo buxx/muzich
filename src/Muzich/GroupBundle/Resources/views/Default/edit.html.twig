@@ -10,6 +10,8 @@
     
     {% include "MuzichGroupBundle:Form:form.html.twig" %}
 
+    {{ form_widget(form.tags, { 'attr': {'class': 'tagBox_tags_ids'} }) }}
+    
     <input type="submit" class="button" />
   </form>
 

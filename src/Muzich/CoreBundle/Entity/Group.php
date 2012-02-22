@@ -303,6 +303,20 @@ class Group
       return $this->elements;
   }
   
+  public function getTagsIdsJson()
+  {
+    $ids = array();
+    if (count($this->getTags()))
+    {
+      foreach ($this->getTags() as $tag)
+      {
+        $ids[] = $tag->getTag()->getId();
+      }
+    }
+    return json_encode($ids);
+  }
+
+
   /**
    * Definis les relation vers des tags.
    * 
@@ -310,19 +324,22 @@ class Group
    */
   public function setTagsWithIds(EntityManager $em, $ids)
   {
-    // bug fix: il arrive que ce soit un stdClass qui soit transmis
-    $nids = array();
-    foreach ($ids as $id)
+    if (count($ids))
     {
-      $nids[] = $id;
-    }
-    
-    $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($nids)->execute();
+      // bug fix: il arrive que ce soit un stdClass qui soit transmis
+      $nids = array();
+      foreach ($ids as $id)
+      {
+        $nids[] = $id;
+      }
+      
+      $tags = $em->getRepository('MuzichCoreBundle:Tag')->findByIds($nids)->execute();
 
-    // Pour les nouveaux ids restants
-    foreach ($tags as $tag)
-    {
-      $this->addTag($tag, $em);
+      // Pour les nouveaux ids restants
+      foreach ($tags as $tag)
+      {
+        $this->addTag($tag, $em);
+      }
     }
   }
   
