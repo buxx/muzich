@@ -77,9 +77,9 @@ class Element
    * L'url est l'url du media. 
    * 
    * @ORM\Column(type="string", length=1024)
-   * @Assert\NotBlank()
-   * @Assert\MaxLength(1024)
-   * @Assert\Url()
+   * @Assert\NotBlank(message = "error.element.url.notblank")
+   * @Assert\MaxLength(limit = 1024, message = "error.element.url.tolong")
+   * @Assert\Url(message = "error.element.url.invalid")
    * @var type string
    */
   protected $url;
@@ -87,10 +87,10 @@ class Element
   /**
    * Libellé du media
    * 
-   * @ORM\Column(type="string", length=128)
-   * @Assert\NotBlank()
-   * @Assert\MinLength(limit=3)
-   * @Assert\MaxLength(64)
+   * @ORM\Column(type = "string", length = 128)
+   * @Assert\NotBlank(message = "error.element.name.notblank")
+   * @Assert\MinLength(limit = 3, message = "error.element.name.toshort")
+   * @Assert\MaxLength(limit = 64, message = "error.element.name.tolong")
    * @var type string
    */
   protected $name;

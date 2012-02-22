@@ -248,7 +248,7 @@ class CoreController extends Controller
 
         foreach ($errorList as $error)
         {
-          $errors[] = $error->getMessage();
+          $errors[] = $this->trans($error->getMessage(), array(), 'validators');
         }
         
         return $this->jsonResponse(array(

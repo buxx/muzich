@@ -34,7 +34,7 @@
 
   {% endif %}
 
-  <div id="group_add_box" style="display: none;">
+  <div id="group_add_box" style="{% if not open_add_group %}display: none;{% endif %}">
 
     <a href="#" id="group_add_close_link" class="button">
       &lt;&lt; {{ 'group.add_group_box.close'|trans({}, 'navigationui') }}

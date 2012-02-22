@@ -51,8 +51,10 @@ class GroupManager
     {
       $this->em->remove($group_tag);
     }
+    $this->em->flush();
     // Pour etablir les nouveaux liens
     $this->group->setTagsWithIds($this->em, $tags_ids);
+    $this->em->flush();
   }
   
 }

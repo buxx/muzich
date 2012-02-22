@@ -1,0 +1,5 @@
+
+error:
+  element:
+    name:
+      notblank:          Choose a name please

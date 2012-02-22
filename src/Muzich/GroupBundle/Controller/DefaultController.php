@@ -36,9 +36,10 @@ class DefaultController extends Controller
     $form_new = $this->getGroupForm($new_group);
     
     return array(
-      'groups'        => $user->getGroupsOwned(),
-      'form_new'      => $form_new->createView(),
-      'form_new_name' => $form_new->getName()
+      'groups'         => $user->getGroupsOwned(),
+      'form_new'       => $form_new->createView(),
+      'form_new_name'  => $form_new->getName(),
+      'open_add_group' => false
     );
   }
   
@@ -94,9 +95,10 @@ class DefaultController extends Controller
       return $this->render(
         'MuzichGroupBundle:Default:myList.html.twig', 
          array(
-           'groups'        => $user->getGroupsOwned(),
-           'form_new'      => $form_new->createView(),
-           'form_new_name' => $form_new->getName()
+           'groups'         => $user->getGroupsOwned(),
+           'form_new'       => $form_new->createView(),
+           'form_new_name'  => $form_new->getName(),
+           'open_add_group' => true
          )
       );
     }
@@ -138,7 +140,7 @@ class DefaultController extends Controller
       $prompt_tags[$tag->getTag()->getId()] = $tag->getTag()->getName();
     }
     
-    $group->setTagsToIds();
+    $group->setTags($group->getTagsIdsJson());
     $form = $this->getGroupForm($group);
     
     return array(
@@ -159,9 +161,14 @@ class DefaultController extends Controller
       throw $this->createNotFoundException('Vous n\'ête pas le créateur de ce groupe.');
     }
 
-    // Pour être compatible avec le formulaire, la collection de tags dois être
-    // une collection d'id
-    $group->setTagsToIds();
+    $prompt_tags = array();
+    foreach ($group->getTags() as $tag)
+    {
+      $prompt_tags[$tag->getTag()->getId()] = $tag->getTag()->getName();
+    }
+    
+    // Pour être compatible avec le formulaire
+    $group->setTags($group->getTagsIdsJson());
     $form = $this->getGroupForm($group);
     
     $form->bindRequest($request);
@@ -178,14 +185,14 @@ class DefaultController extends Controller
       return $this->redirect($this->generateUrl('show_group', array('slug' => $group->getSlug())));
     }
     else
-    {
-      $this->setFlash('error', 'group.update.failure');
-      
+    {      
       return $this->render(
-        'GroupBundle:Default:edit.html.twig', 
+        'MuzichGroupBundle:Default:edit.html.twig', 
          array(
-           'form_new'      => $form->createView(),
-           'form_new_name' => $form_new->getName()
+          'group'       => $group,
+          'form'        => $form->createView(),
+          'form_name'   => 'group',
+          'search_tags' => $prompt_tags
          )
       );
     }

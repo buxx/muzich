@@ -24,6 +24,15 @@ error:
   changeemail:
     email:
       invalid:           L'email saisie n'est pas valide.
+  element:
+    url:
+      notblank:          Vous devez saisir une url (adresse http://)
+      tolong:            L'url (adresse http://) est trop longue
+      invalid:           L'url (adresse http://) n'est pas correcte
+    name:
+      notblank:          Vous devez saisir un nom
+      toshort:           Le nom est trop court
+      tolong:            Le nom est trop long
       
 registration:
   token:

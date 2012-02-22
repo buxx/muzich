@@ -295,6 +295,13 @@ class Controller extends BaseController
     return $this->container->get('templating.helper.assets')->getUrl($path, $packageName);
   }
   
+  /**
+   *
+   * @param strin $string
+   * @param array $params
+   * @param string $package
+   * @return string 
+   */
   protected function trans($string, $params = array(), $package = null)
   {
     return $this->get('translator')->trans($string, $params, $package);
