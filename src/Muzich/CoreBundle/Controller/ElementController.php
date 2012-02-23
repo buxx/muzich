@@ -211,4 +211,168 @@ class ElementController extends Controller
     }
   }
   
+  protected function getcountNewMessage($count)
+  {
+    if ($count == 1)
+    {
+      $transid = 'tags.new.has_news_one';
+      $transidlink = 'tags.new.has_news_link_one';
+    }
+    else if ($count == 0)
+    {
+      return '';
+    }
+    else 
+    {
+      $transid = 'tags.new.has_news';
+      $transidlink = 'tags.new.has_news_link';
+    }
+    
+    
+    if ($count > ($limit = $this->container->getParameter('search_default_count')))
+    {
+      $link = $this->trans(
+        'tags.new.has_news_link_more_x', 
+        array(
+          '%x%' => $limit
+        ), 
+        'userui'
+      );
+    }
+    else
+    {
+      $link = $this->trans(
+        $transidlink, 
+        array(), 
+        'userui'
+      );
+    }
+    
+    $link = '<a href="#" class="show_new_elements" >'.$link.'</a>';
+    
+    return $this->trans(
+      $transid, 
+      array(
+        '%count%' => $count,
+        '%link%'  => $link
+      ), 
+      'userui'
+    );
+  }
+  
+  /**
+   * Retourne le nombre de nouveaux éléments possible
+   *
+   * @param int $refid 
+   */
+  public function countNewsAction($refid)
+  {
+    if (!$this->getRequest()->isXmlHttpRequest())
+    { 
+      return $this->redirect($this->generateUrl('index'));
+    }
+    
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
+    $es = $this->getElementSearcher();
+    $es->update(array(
+      // On veux de nouveaux éléments
+      'searchnew' => true,
+      // Notre id de référence
+      'id_limit'  => $refid
+    ));
+    
+    $count = $es->getElements($this->getDoctrine(), $this->getUserId(), 'count');
+    
+    return $this->jsonResponse(array(
+      'status'   => 'success',
+      'count'    => $count,
+      'message'  => $this->getcountNewMessage($count)
+    ));
+  }
+  
+  /**
+   * Cette action, utilisé en ajax seulement, retourne les x nouveaux éléments
+   * depuis le refid transmis. Tout en respectant le filtre en cours.
+   * 
+   * @param int $refid identifiant de l'élément de référence
+   * 
+   * @return jsonResponse
+   */
+  public function getNewsAction($refid)
+  {
+    if (!$this->getRequest()->isXmlHttpRequest())
+    { 
+      return $this->redirect($this->generateUrl('index'));
+    }
+    
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+    
+    $es = $this->getElementSearcher();
+    $es->update(array(
+      // On veux de nouveaux éléments
+      'searchnew' => true,
+      // Notre id de référence
+      'id_limit'  => $refid,
+      // On en veut qu'un certain nombres
+      'count'     => $this->container->getParameter('search_default_count')
+    ));
+    
+    // Récupération de ces nouveaux élméents
+    $elements = $es->getElements($this->getDoctrine(), $this->getUserId());
+    
+    // On en fait un rendu graphique
+    $html_elements = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
+      'user'        => $this->getUser(),
+      'elements'    => $elements,
+      'invertcolor' => false
+    ))->getContent();
+    
+    // On calcule le nouveau compte de nouveaux
+    $count = 0;
+    if (count($elements))
+    {      
+      $es->update(array(
+        // On veux de nouveaux éléments
+        'searchnew' => true,
+        // Notre id de référence
+        'id_limit'  => $elements[0]->getId(),
+        // On n'en récupère que x
+        'count'     => $this->container->getParameter('search_default_count')
+      ));
+      $count = $es->getElements($this->getDoctrine(), $this->getUserId(), 'count');
+    }
+    
+    return $this->jsonResponse(array(
+      'status'  => 'success',
+      'html'    => $html_elements,
+      'count'   => $count,
+      'message' => $this->getcountNewMessage($count)
+    ));
+  }
+  
 }

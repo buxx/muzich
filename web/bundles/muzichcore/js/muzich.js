@@ -1029,6 +1029,7 @@ $(document).ready(function(){
         $('form[name="search"]').slideDown();
       }
       remove_tags('add');
+      recolorize_element_list();
     }
     else if (response.status == 'error')
     {
@@ -1153,6 +1154,88 @@ $(document).ready(function(){
     }
     
     return null;
+  }
+  
+  ////////////////////////////////////////
+  /// Gestion de nouveaux éléments
+  
+  function check_new_elements()
+  {
+    var url = url_element_new_count
+      +'/'
+      +str_replace('element_', '', $('ul.elements li:first').attr('id'))
+    ;
+    $.getJSON(url, function(response){
+      
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      if (response.status == 'success' && response.count)
+      {
+        $('div.display_more_elements').show();
+        $('div.display_more_elements span').html(response.message);
+      }
+      
+      setTimeout(check_new_elements, 300000);
+    });
+  }
+  
+  if ($('div.display_more_elements').length)
+  {
+    setTimeout(check_new_elements, 300000);
+  }
+  
+  $('a.show_new_elements').live('click', function(){
+    var url = url_element_new_get
+      +'/'
+      +str_replace('element_', '', $('ul.elements li:first').attr('id'))
+    ;
+    $('img.elements_new_loader').show();
+    $.getJSON(url, function(response){
+      
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      if (response.status == 'success')
+      {
+        if (response.count)
+        {
+          $('div.display_more_elements').show();
+          $('div.display_more_elements span').html(response.message);
+        }
+        else
+        {
+          $('div.display_more_elements').hide();
+        }
+        
+        $('ul.elements').prepend(response.html);
+        recolorize_element_list();
+      }
+      
+      $('img.elements_new_loader').hide();
+    });
+  });
+
+  function recolorize_element_list()
+  {
+    $('ul.elements li.element').each(function(index){
+      if ((index & 1) == 1)
+      {
+        $(this).removeClass('even');
+        $(this).removeClass('odd');
+        $(this).addClass('odd');
+      }
+      else
+      {
+        $(this).removeClass('odd');
+        $(this).removeClass('even');
+        $(this).addClass('even');
+      }
+    });
   }
    
  });

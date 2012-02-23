@@ -41,6 +41,12 @@ tags:
     inputs:
       cancel:       Annuler
       submit:       Faire la demande
+  new:
+    has_news:       %count% éléments viennent d'être ajoutés, %link%
+    has_news_one:   %count% élément vient d'être ajouté, %link%
+    has_news_link:  cliquez ici pour les afficher
+    has_news_link_one:  cliquez ici pour l'afficher
+    has_news_link_more_x:  cliquez ici pour en afficher %x%
            
 filter:
   network: "Résultats de "

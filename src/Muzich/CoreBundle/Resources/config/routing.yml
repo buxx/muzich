@@ -81,4 +81,11 @@ element_remove:
   pattern: /element/{element_id}/remove
   defaults: { _controller: MuzichCoreBundle:Element:remove }
   
+element_new_count:
+  pattern: /ajax/element/new/count/{refid}
+  defaults: { _controller: MuzichCoreBundle:Element:countNews, refid: null }
+  
+element_new_get:
+  pattern: /ajax/element/new/get/{refid}
+  defaults: { _controller: MuzichCoreBundle:Element:getNews, refid: null }
   

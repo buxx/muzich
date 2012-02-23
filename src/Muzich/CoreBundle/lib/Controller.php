@@ -40,7 +40,12 @@ class Controller extends BaseController
   }
   
   /**
-   * Retourn l'objet ElementSearcher en cours.
+   * @desc Retourn l'objet ElementSearcher en cours.
+   * 
+   * @param int $count Si renseigné impact le nombre d'éléments qui seront 
+   * récupérés
+   * @param boolean $force_new Si a vrai la méthode procéède comme si on 
+   * demandé un nouveau objet de recherche (basé sur les tags favoris donc).
    * 
    * @return  ElementSearcher
    */

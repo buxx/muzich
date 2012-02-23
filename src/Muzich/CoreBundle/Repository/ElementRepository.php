@@ -30,12 +30,13 @@ class ElementRepository extends EntityRepository
    * @param ElementSearcher $searcher
    * @return Doctrine\ORM\Query
    */
-  public function findBySearch(ElementSearcher $searcher, $user_id)
-  {    
+  public function findBySearch(ElementSearcher $searcher, $user_id, $exec_type = 'execute')
+  {
     // Tableaux des paramétres
     $params_ids = array();
     $params_select = array();
     $params_select['uid'] = $user_id;
+    $order_by = "ORDER BY e_.created DESC, e_.id DESC";
     
     // Booléen nous permettant de savoir si un where a déjà été écrit
     $is_where = false;
@@ -138,18 +139,28 @@ class ElementRepository extends EntityRepository
       }
     }
     
-    // Si id_limit est précisé c'est que l'on demande "la suite"
+    // Si id_limit est précisé c'est que l'on demande "la suite" ou "les nouveaux"
     $where_id_limit = '';
-    if (($id_limit = $searcher->getIdLimit()))
+    if (($id_limit = $searcher->getIdLimit()) && !$searcher->isSearchingNew())
     {
       $where_id_limit = ($is_where) ? ' AND' : ' WHERE';
       $is_where = true;
       $where_id_limit .= " e_.id < :id_limit";
       $params_ids['id_limit'] = $id_limit;
     }
+    elseif ($id_limit && $searcher->isSearchingNew())
+    {
+      $where_id_limit = ($is_where) ? ' AND' : ' WHERE';
+      $is_where = true;
+      $where_id_limit .= " e_.id > :id_limit";
+      $params_ids['id_limit'] = $id_limit;
+      // Pour pouvoir charger les x nouveaux on doit organiser la liste 
+      // de manière croissante
+      $order_by = "ORDER BY e_.created ASC, e_.id ASC";
+    }
     
     // Requête qui selectionnera les ids en fonction des critéres
-    $r_ids = $this->getEntityManager()
+    $id_query = $this->getEntityManager()
       ->createQuery(
         "SELECT e_.id
         FROM MuzichCoreBundle:Element e_
@@ -163,11 +174,24 @@ class ElementRepository extends EntityRepository
         $where_favorite
         $where_id_limit
         GROUP BY e_.id
-        ORDER BY e_.created DESC, e_.id DESC")
+        $order_by")
      ->setParameters($params_ids)
-     ->setMaxResults($searcher->getCount())
-     ->getArrayResult()
     ;
+    
+    // Si on a précisé que l'on voulait un count, pas de limite
+    if ($exec_type != 'count')
+    {
+      $id_query->setMaxResults($searcher->getCount());
+    }
+    
+    // si l'on a demandé un count
+    if ($exec_type == 'count')
+    {
+      // On retourne cette query
+      return $id_query;
+    }
+    
+    $r_ids = $id_query->getArrayResult();
     
     $ids = array();
     

@@ -37,6 +37,14 @@
     <input class="main button" type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
   </form>
 
+  <div class="display_more_elements" style="display: none;">
+    <span></span>
+  </div>
+
+  <div class="elements_loader_div">
+    <img class="elements_new_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
+  </div>
+
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {'noelements_filter' : true }%}
     
   <div class="elements_loader_div">

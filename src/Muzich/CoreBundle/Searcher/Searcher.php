@@ -49,7 +49,7 @@ abstract class Searcher
     $this->query = $query;
   }
 
-  public function getQuery(Registry $doctrine, $user_id)
+  public function getQuery(Registry $doctrine, $user_id, $exec_type)
   {
     return $this->query;
   }

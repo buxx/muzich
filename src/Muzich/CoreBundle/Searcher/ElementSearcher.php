@@ -59,10 +59,19 @@ class ElementSearcher extends Searcher implements SearcherInterface
   /**
    * Si id_limit est renseigné c'est que l'on veut trouver les elements
    * plus vieux (ont utilise l'id comme référence) que l'id_limi passé.
+   * EDIT: Ou les éléments plus récents si $searchnew est a vrai
    * 
    * @var type int
    */
   protected $id_limit = null;
+  
+  /**
+   * Si searchnew est a vrai, c'est que l'on recherche les nouveau éléments 
+   * depuis id_limit.
+   * 
+   * @var type boolean
+   */
+  protected $searchnew = false;
   
   /**
    * @see SearcherInterface
@@ -77,7 +86,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
     
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit'
+      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew'
     ), $params);
     
   }
@@ -90,7 +99,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
   {
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit'
+      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew'
     ), $params);
   }
   
@@ -178,13 +187,16 @@ class ElementSearcher extends Searcher implements SearcherInterface
    * Construction de l'objet Query
    *
    * @param Registry $doctrine
+   * @param int $user_id
+   * @param string $exec_type
+   * 
    * @return collection
    */
-  protected function constructQueryObject(Registry $doctrine, $user_id)
+  protected function constructQueryObject(Registry $doctrine, $user_id, $exec_type = 'execute')
   {
     $this->setQuery($doctrine
       ->getRepository('MuzichCoreBundle:Element')
-      ->findBySearch($this, $user_id))
+      ->findBySearch($this, $user_id, $exec_type))
     ;
   }
   
@@ -192,14 +204,14 @@ class ElementSearcher extends Searcher implements SearcherInterface
    * Retourne l'objet Query
    * 
    * @param Registry $doctrine
+   * @param int $user_id
+   * @param string $exec_type
+   * 
    * @return collection
    */
-  public function getQuery(Registry $doctrine, $user_id)
+  public function getQuery(Registry $doctrine, $user_id, $exec_type = 'execute')
   {
-    if (!$this->query)
-    {
-      $this->constructQueryObject($doctrine, $user_id);
-    }
+    $this->constructQueryObject($doctrine, $user_id, $exec_type);
     return $this->query;
   }
 
@@ -209,11 +221,13 @@ class ElementSearcher extends Searcher implements SearcherInterface
    * 
    * @param Registry $doctrine
    * @param int $user_id
+   * @param string $exec_type Type d'execution
+   * 
    * @return collection
    */
   public function getElements(Registry $doctrine, $user_id, $exec_type = 'execute')
   {
-    $query = $this->getQuery($doctrine, $user_id);
+    $query = $this->getQuery($doctrine, $user_id, $exec_type);
     
     switch ($exec_type)
     {
@@ -221,10 +235,19 @@ class ElementSearcher extends Searcher implements SearcherInterface
         return $query->execute();
       break;
     
+      case 'count':
+        return count($query->getArrayResult());
+      break;
+    
       default :
         throw new \Exception('Mode de récupération des Elements non supporté.');
       break;
     }
+  }
+  
+  public function isSearchingNew()
+  {
+    return $this->searchnew;
   }
   
 }
