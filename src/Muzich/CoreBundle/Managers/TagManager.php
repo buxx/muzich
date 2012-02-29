@@ -81,6 +81,7 @@ class TagManager
       // Sinon on l'ajoute en base
       $tag = new Tag();
       $tag->setName(ucfirst(strtolower($name)));
+      $tag->setSlug($name_canonicalized);
       $tag->setTomoderate(true);
       $tag->setPrivateids(json_encode(array((string)$user->getId())));
       $tag->setArguments(" ****" . $user->getName()."****: " .$arguments);
