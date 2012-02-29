@@ -20,9 +20,11 @@ class UsersElementsFavoritesRepository extends EntityRepository
         LEFT JOIN t.elements e
         LEFT JOIN e.elements_favorites f
         WHERE f.user = :uid
+        AND (t.tomoderate = \'FALSE\' OR t.tomoderate IS NULL
+          OR t.privateids LIKE :uidt)
         ORDER BY t.name ASC'
       )
-      ->setParameter('uid', $user_id)
+      ->setParameters(array('uid' => $user_id, 'uidt' => '%"'.$user_id.'"%'))
       ->getResult()
     ;
   }
