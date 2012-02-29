@@ -36,7 +36,7 @@ class TagManager
     $tag->setSlug($this->nameCanonicalizer->canonicalize($tag->getName()));
   }
   
-  public function addTag(Registry $doctrine, $name, $user, $arguments)
+  public function addTag(Registry $doctrine, $name, $user, $arguments = null)
   {
     $name_canonicalized = $this->nameCanonicalizer->canonicalize(trim($name));
     
