@@ -17,6 +17,7 @@ class TagWriteTest extends UnitTest
   
   public function testAddTag()
   {
+    $this->clean();
     $bux = $this->getUser('bux');
     $paul = $this->getUser('paul');
     
@@ -76,10 +77,12 @@ class TagWriteTest extends UnitTest
       ))
     ;
     $this->assertTrue(!is_null($tag_database));
+    $this->clean();
   }
   
   public function testModerateTag()
   {
+    $this->clean();
     $bux = $this->getUser('bux');
     
     // Ajout de tags
@@ -308,6 +311,27 @@ class TagWriteTest extends UnitTest
       ))
     ;
     $this->assertTrue(!is_null($fav));
+    
+    $this->getDoctrine()->getEntityManager()->persist($tag_3);
+    $this->clean();
+  }
+  
+  protected function clean()
+  {
+    $tag1 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneByName('Nouveau 1');
+    $tag2 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneByName('Nouveau 2');
+    $tag3 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneByName('Nouveau 3');
+    $tag4 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneByName('Xvlsd aoj 12');
+    
+    ($tag1) ? $this->getDoctrine()->getEntityManager()->remove($tag1) : '';
+    ($tag2) ? $this->getDoctrine()->getEntityManager()->remove($tag2) : '';
+    ($tag3) ? $this->getDoctrine()->getEntityManager()->remove($tag3) : '';
+    ($tag4) ? $this->getDoctrine()->getEntityManager()->remove($tag4) : '';
+    $this->getDoctrine()->getEntityManager()->flush();
   }
   
 }

@@ -148,7 +148,7 @@ class TagReadTest extends UnitTest
     $paul = $this->getUser('paul');
     
     ////////////////////////////////
-    $rtags = array('Electro', 'Hardcore', 'Hardtek', 'Metal', 'Tribe');
+    $rtags = array('Electro', 'Hardcore', 'Hardtek', 'Metal');
     
     $tags = $this->getTagsNamesForQuery($this->getDoctrine()->getRepository('MuzichCoreBundle:User')
       ->getElementsTags($bux->getId())      
