@@ -1112,7 +1112,7 @@ $(document).ready(function(){
   }
    
   $('ul#favorite_tags a.tag').click(function(){
-    list_tag_clicked();
+    list_tag_clicked($(this));
   });
   
   last_keypress = 0;
