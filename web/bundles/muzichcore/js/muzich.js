@@ -846,8 +846,18 @@ $(document).ready(function(){
 
                             link_add_tag.parent('li').parent('ul').parent('div').find('img.tag_loader').show();
 
+                            var url;
+                            if (arguments)
+                            {
+                              url = url_add_tag+'/'+name+'/'+arguments;
+                            }
+                            else
+                            {
+                              url = url_add_tag+'/'+name;
+                            }
+
                             // La on fait l'ajout en base en tant que nouveau tag
-                            $.getJSON(url_add_tag+'/'+name+'/'+arguments, function(response){
+                            $.getJSON(url, function(response){
 
                               if (response.status == 'mustbeconnected')
                               {
