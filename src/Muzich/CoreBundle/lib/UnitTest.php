@@ -68,4 +68,11 @@ class UnitTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals($element->getEmbed(), $final_embed);
   }
   
+  protected function getUser($username)
+  {
+    return $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername($username)
+    ;
+  }
+  
 }
