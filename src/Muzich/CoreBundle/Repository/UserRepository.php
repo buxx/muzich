@@ -192,9 +192,11 @@ class UserRepository extends EntityRepository
         SELECT t FROM MuzichCoreBundle:Tag t
         LEFT JOIN t.elements e
         WHERE e.owner = :uid
+        AND (t.tomoderate = \'FALSE\' OR t.tomoderate IS NULL
+          OR t.privateids LIKE :uidt)
         ORDER BY t.name ASC'
       )
-      ->setParameter('uid', $user_id)
+      ->setParameters(array('uid' => $user_id, 'uidt' => '%"'.$user_id.'"%'))
       ->getResult()
     ;
   }
