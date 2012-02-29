@@ -172,7 +172,7 @@ class FunctionalTest extends WebTestCase
    * @param string $name
    * @param string $url
    * @param array $tags
-   * @param int $group_id 
+   * @param string $group_slug 
    */
   protected function procedure_add_element($name, $url, $tags, $group_slug = null)
   {
