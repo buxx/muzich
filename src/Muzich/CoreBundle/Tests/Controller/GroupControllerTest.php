@@ -10,7 +10,7 @@ class GroupControllerTest extends FunctionalTest
   /**
    * Test de création d'un groupe
    */
-  public function testGroupAdd()
+  public function testGroupAddAndDelete()
   {
     $this->client = self::createClient();
     $this->connectUser('bob', 'toor');
@@ -78,6 +78,67 @@ class GroupControllerTest extends FunctionalTest
       $this->assertEquals(1, count($group_tags));      
     }
     
+    // Maintenant on va supprimer le groupe fans de psytrance
+    $this->crawler = $this->client->request('GET', $this->generateUrl('groups_own_list'));
+    // test du lien de suppression
+            
+    $this->exist('a[href="'.($url = $this->generateUrl('group_delete', array(
+      'group_id'  => $Fans_de_psytrance->getId(),
+      'token'     => $this->getUser()->getPersonalHash()
+    ))).'"]');
+    
+    $this->crawler = $this->client->request('GET', $url);
+        
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    
+    $fangrp = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Fans de psytrance');
+    
+    $this->assertTrue(is_null($fangrp));
+  }
+  
+  public function testGroupAddFail()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bob', 'toor');
+    
+    $Fans_de_psytrance = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Fans de psytrance');
+    $hardtek_id = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek')->getId();
+    $tribe_id   = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe')->getId();
+    
+    $this->crawler = $this->client->request('GET', $this->generateUrl('groups_own_list'));
+    
+    // Le groupe que nous voulons créer n'existe pas dans la base
+    $group = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
+      ->findOneByName('Ha')
+    ;
+    
+    $this->assertTrue(is_null($group));
+    
+    // bob administre le groupe Fan de psytrance
+    $this->exist('a[href="'.$this->generateUrl('show_group', array('slug' => $Fans_de_psytrance->getSlug())).'"]');
+    // On a le formulaire de création sur la page
+    $this->exist('form[action="'.($url = $this->generateUrl('group_add')).'"]');
+    $this->exist('form[action="'.$url.'"] input[id="group_name"]');
+    $this->exist('form[action="'.$url.'"] textarea[id="group_description"]');
+    $this->exist('form[action="'.$url.'"] input[type="submit"]');
+    
+    $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+    $form['group[name]'] = 'Ha';
+    $form['group[description]'] = '';
+    $form['group[tags]'] = json_encode(array($hardtek_id,$tribe_id));
+    $this->submit($form);
+    
+    // Pas de redirection, la création a échoué (nom trop court)
+    $this->outputDebug();
+    $this->isResponseSuccess();
+    
+    // Le groupe que créé existe bien dans la base
+    $group = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
+      ->findOneByName('Ha');
+    
+    $this->assertTrue(is_null($group));
   }
   
   /**

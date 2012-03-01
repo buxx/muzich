@@ -14,7 +14,7 @@ class GroupForm extends AbstractType
     ));
     
     $builder->add('description', 'textarea', array(
-      'required' => true,
+      'required' => false,
     ));
     
     $builder->add('open', 'checkbox', array(

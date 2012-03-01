@@ -53,7 +53,7 @@ class Group
   /**
    * Description
    * 
-   * @ORM\Column(type="text")
+   * @ORM\Column(type="text", nullable=true)
    * @Assert\MaxLength(2048)
    * @var type string
    */
