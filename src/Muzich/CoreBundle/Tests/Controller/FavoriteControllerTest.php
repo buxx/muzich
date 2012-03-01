@@ -166,4 +166,57 @@ class FavoriteControllerTest extends FunctionalTest
     $this->assertTrue(is_null($favorite));
   }
   
+  public function testAjax()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bux', 'toor');
+    
+    $bux = $this->getUser();
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    // Ajout d'un élément en favoris
+    // Il ajoute cet élément en favoris
+    $url = $this->generateUrl('favorite_add', array(
+      'id'    => $element->getId(),
+      'token' => $bux->getPersonalHash()
+    ));
+    
+    $crawler = $this->client->request('GET', $url, array(), array(), array(
+        'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    
+    $this->isResponseSuccess();
+    
+    // On contrôle la présence du favoris
+    $fav = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->findOneBy(array(
+        'user'    => $bux->getId(),
+        'element' => $element->getId()
+      ));
+    
+    $this->assertTrue(!is_null($fav));
+    
+    // On enlève des favoris
+    $url = $this->generateUrl('favorite_remove', array(
+      'id'    => $element->getId(),
+      'token' => $bux->getPersonalHash()
+    ));
+    
+    $crawler = $this->client->request('GET', $url, array(), array(), array(
+        'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    
+    // On contrôle l'absence du favoris
+    $fav = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->findOneBy(array(
+        'user'    => $bux->getId(),
+        'element' => $element->getId()
+      ));
+    
+    $this->assertTrue(is_null($fav));
+  }
+  
 }
