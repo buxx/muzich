@@ -228,14 +228,7 @@ class FavoriteControllerTest extends FunctionalTest
     $this->connectUser('paul', 'toor');
     
     $paul = $this->getUser();
-    
-    $element_a = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneByName('All Is Full Of Pain')
-    ;
-    $element_b = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneByName('Heretik System Popof - Resistance')
-    ;
-    
+        
     $hardtek_id = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek')->getId();
     $tribe_id   = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe')->getId();
     

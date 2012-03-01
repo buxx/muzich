@@ -391,4 +391,150 @@ class HomeControllerTest extends FunctionalTest
     $this->isResponseNotFound();
   }
   
+  /**
+   * Test de la fonction ajax de récupération de plus d'éléments sur la page
+   * de profil
+   */
+  public function testFilterUserElements()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('paul', 'toor');
+    
+    $paul = $this->getUser();
+    $bux  = $this->getUser('bux');
+     
+    $hardtek_id = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneByName('Hardtek')->getId();
+    $hardcore_id   = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneByName('Hardcore')->getId();
+    $electro_id   = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneByName('Electro')->getId();
+    $metal_id   = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneByName('Metal')->getId();
+    
+    
+    // Ouverture de la page favoris
+    $this->crawler = $this->client->request('GET', $this->generateUrl('show_user', array('slug' => $bux->getSlug())));
+    
+    // On doit voir deux elements pour paul
+    $this->exist('span.element_name:contains("Ed Cox - La fanfare des teuffeurs (Hardcordian)")');
+    $this->exist('span.element_name:contains("Babylon Pression - Des Tasers et des Pauvres")');
+    $this->exist('span.element_name:contains("AZYD AZYLUM Live au Café Provisoire")');
+    $this->exist('span.element_name:contains("SOULFLY - Prophecy")');
+    $this->exist('span.element_name:contains("KoinkOin - H5N1")');
+    $this->exist('span.element_name:contains("Antropod - Polakatek")');
+    $this->exist('span.element_name:contains("Dtc che passdrop")');
+    $this->exist('span.element_name:contains("Heretik System Popof - Resistance")');
+    
+    // Récupération de la liste avec la kekete ajax pour Tribe
+    $url = $this->generateUrl('show_elements_get', array(
+      'type'          => 'user',
+      'object_id'     => $bux->getId(),
+      'tags_ids_json' => json_encode(array($hardtek_id))
+    ));
+    $this->crawler = $this->client->request('GET', $url, array(), array(), array(
+      'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    
+    $response_content = json_decode($this->client->getResponse()->getContent(), true);
+    $html = $response_content['html'];
+    
+    $this->assertTrue(strpos($html, 'Ed Cox - La fanfare des teuffeurs (Hardcordian)') === false);
+    $this->assertTrue(strpos($html, 'Babylon Pression - Des Tasers et des Pauvres') === false);
+    $this->assertTrue(strpos($html, 'AZYD AZYLUM Live au Café Provisoire') === false);
+    $this->assertTrue(strpos($html, 'SOULFLY - Prophecy') === false);
+    $this->assertTrue(strpos($html, 'KoinkOin - H5N1') !== false);
+    $this->assertTrue(strpos($html, 'Antropod - Polakatek') !== false);
+    $this->assertTrue(strpos($html, 'Dtc che passdrop') !== false);
+    $this->assertTrue(strpos($html, 'Heretik System Popof - Resistance') !== false);
+    
+    // Récupération de la liste avec la kekete ajax pour Hardtek
+    $url = $this->generateUrl('show_elements_get', array(
+      'type'          => 'user',
+      'object_id'     => $bux->getId(),
+      'tags_ids_json' => json_encode(array($metal_id))
+    ));
+    
+    $this->crawler = $this->client->request('GET', $url, array(), array(), array(
+      'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    
+    $this->isResponseSuccess();
+    
+    $response_content = json_decode($this->client->getResponse()->getContent(), true);
+    $html = $response_content['html'];
+    
+    $this->assertTrue(strpos($html, 'Ed Cox - La fanfare des teuffeurs (Hardcordian)') === false);
+    $this->assertTrue(strpos($html, 'Babylon Pression - Des Tasers et des Pauvres') !== false);
+    $this->assertTrue(strpos($html, 'AZYD AZYLUM Live au Café Provisoire') !== false);
+    $this->assertTrue(strpos($html, 'SOULFLY - Prophecy') !== false);
+    $this->assertTrue(strpos($html, 'KoinkOin - H5N1') === false);
+    $this->assertTrue(strpos($html, 'Antropod - Polakatek') === false);
+    $this->assertTrue(strpos($html, 'Dtc che passdrop') === false);
+    $this->assertTrue(strpos($html, 'Heretik System Popof - Resistance') === false);
+    
+    // Récupération de la liste avec la kekete ajax pour Tribe + Hardtek
+    $url = $this->generateUrl('show_elements_get', array(
+      'type'          => 'user',
+      'object_id'     => $bux->getId(),
+      'tags_ids_json' => json_encode(array($hardtek_id, $hardcore_id, $electro_id, $metal_id))
+    ));
+    
+    $this->crawler = $this->client->request('GET', $url, array(), array(), array(
+      'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    
+    $this->isResponseSuccess();
+    
+    $response_content = json_decode($this->client->getResponse()->getContent(), true);
+    $html = $response_content['html'];
+    
+    $this->assertTrue(strpos($html, 'Ed Cox - La fanfare des teuffeurs (Hardcordian)') !== false);
+    $this->assertTrue(strpos($html, 'Babylon Pression - Des Tasers et des Pauvres') !== false);
+    $this->assertTrue(strpos($html, 'AZYD AZYLUM Live au Café Provisoire') !== false);
+    $this->assertTrue(strpos($html, 'SOULFLY - Prophecy') !== false);
+    $this->assertTrue(strpos($html, 'KoinkOin - H5N1') !== false);
+    $this->assertTrue(strpos($html, 'Antropod - Polakatek') !== false);
+    $this->assertTrue(strpos($html, 'Dtc che passdrop') !== false);
+    $this->assertTrue(strpos($html, 'Heretik System Popof - Resistance') !== false);
+  }
+  
+  /**
+   * Test de la fonction ajax de récupération de plus d'éléments sur la page
+   * de profil
+   */
+  public function testFilterGroupElements()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('paul', 'toor');
+    
+    $paul = $this->getUser();
+    $group  = $this->getGroup('dudeldrum');
+     
+    $medieval_id = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneByName('Medieval')->getId();
+    
+    // Ouverture de la page favoris
+    $this->crawler = $this->client->request('GET', $this->generateUrl('show_group', array('slug' => $group->getSlug())));
+    
+    // On doit voir deux elements pour paul
+    $this->exist('span.element_name:contains("DUDELDRUM")');
+    
+    // Récupération de la liste avec la kekete ajax pour Tribe
+    $url = $this->generateUrl('show_elements_get', array(
+      'type'          => 'group',
+      'object_id'     => $group->getId(),
+      'tags_ids_json' => json_encode(array($medieval_id))
+    ));
+    $this->crawler = $this->client->request('GET', $url, array(), array(), array(
+      'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    
+    $response_content = json_decode($this->client->getResponse()->getContent(), true);
+    $html = $response_content['html'];
+    
+    $this->assertTrue(strpos($html, 'DUDELDRUM') !== false);
+    
+  }
+  
 }

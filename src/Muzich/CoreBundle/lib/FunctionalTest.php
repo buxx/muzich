@@ -20,11 +20,18 @@ class FunctionalTest extends WebTestCase
    */
   protected $crawler;
   
-  protected function outputDebug()
+  protected function outputDebug($content = null)
   {
     unlink('/home/bux/.debug/out.html');
     $monfichier = fopen('/home/bux/.debug/out.html', 'a+');
-    fwrite($monfichier, $this->client->getResponse()->getContent());
+    if (!$content)
+    {
+      fwrite($monfichier, $this->client->getResponse()->getContent());
+    }
+    else
+    {
+      fwrite($monfichier, $content);
+    }
   }
   
   /**
@@ -32,9 +39,28 @@ class FunctionalTest extends WebTestCase
    * 
    * @return \Muzich\CoreBundle\Entity\User 
    */
-  protected function getUser()
+  protected function getUser($username = null)
   {
-    return $this->client->getContainer()->get('security.context')->getToken()->getUser();
+    if (!$username)
+    {
+      return $this->client->getContainer()->get('security.context')->getToken()->getUser();
+    }
+    else
+    {
+      return $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+        ->findOneByUsername($username)
+      ;
+    }
+  }
+  
+  /**
+   * @return \Muzich\CoreBundle\Entity\Group
+   */
+  protected function getGroup($slug)
+  {
+    return $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
+      ->findOneBySlug($slug)->getSingleResult()
+    ;
   }
   
   protected function connectUser($login, $password)
