@@ -1110,7 +1110,7 @@ $(document).ready(function(){
     // On construit notre liste de tags
     tags_ids = new Array();
     $('ul#favorite_tags a.tag.active').each(function(index){
-      id = str_replace('#', '', link.attr('href'));
+      id = str_replace('#', '', $(this).attr('href'));
       tags_ids[id] = id;
     });
     
