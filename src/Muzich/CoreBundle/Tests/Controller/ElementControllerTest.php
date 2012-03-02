@@ -214,4 +214,114 @@ class ElementControllerTest extends FunctionalTest
     
   }
   
+  public function testUpdateElement()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bux', 'toor');
+    
+    $bux = $this->getUser();
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    // On est sur la page home, on peut voir le lien de modification de l'élément
+    $this->exist('a[href="'.($url = $this->generateUrl('element_edit', array('element_id' => $element->getId()))).'"]');
+  
+    // On effectue la demande ajax d'edition
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['form_name'], 'element_'.$element->getId());
+    $this->assertTrue(strpos($response['html'], '<form novalidate class="edit_element"') !== false);
+    
+    // Il faut que l'on récupère le token
+    preg_match("#name=\"element_add\[_token\]\" value=\"([a-zA-Z0-9]+)\" />#", $response['html'], $chaines);
+    $csrf = $chaines[1];
+    
+    // On effectue la modification en ajax
+    $url = $this->generateUrl('element_update', array('element_id' => $element->getId()));
+    
+    $crawler = $this->client->request(
+      'POST', 
+      $url, 
+      array(
+          'element_add' => array(
+              '_token' => $csrf,
+              'name'   => $element->getName().'555',
+              'url'    => $element->getUrl(),
+              'tags'   => $element->getTagsIdsJson()
+          )
+        
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->outputDebug();
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertTrue(strpos($response['html'], $element->getName().'555') !== false);
+    
+    $this->crawler = $this->client->request('GET', $this->generateUrl('home'));
+    $this->exist('span.element_name:contains("'.$element->getName().'555'.'")');
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName($element->getName().'555')
+    ;
+    $this->assertTrue(!is_null($element));
+  }
+  
+  public function testDeleteElement()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bux', 'toor');
+    
+    $bux = $this->getUser();
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    // On est sur la page home, on peut voir le lien de suppression l'élément
+    $this->exist('a[href="'.($url = $this->generateUrl('element_remove', array(
+        'element_id' => $element->getId()
+    ))).'"]');
+  
+    // Suppression de l'élément
+ 
+    // On effectue la demande ajax d'edition
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    $this->crawler = $this->client->request('GET', $this->generateUrl('home'));
+    $this->notExist('span.element_name:contains("'.$element->getName().'")');
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    $this->assertTrue(is_null($element));
+  }
+  
 }
