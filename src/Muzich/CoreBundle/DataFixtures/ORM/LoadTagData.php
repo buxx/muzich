@@ -2,6 +2,7 @@
 
 namespace Muzich\UserBundle\DataFixtures\ORM;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -35,7 +36,7 @@ class LoadTagData  extends AbstractFixture implements OrderedFixtureInterface, C
     $this->addReference('tag_'.strtolower(str_replace(' ', '-', $name)), $tag);
   }
   
-  public function load($entity_manager)
+  public function load(ObjectManager $entity_manager)
   {
     $this->entity_manager = $entity_manager;
 

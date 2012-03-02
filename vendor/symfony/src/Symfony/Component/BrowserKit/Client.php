@@ -214,6 +214,8 @@ abstract class Client
      * @param Form  $form   A Form instance
      * @param array $values An array of form field values
      *
+     * @return Crawler
+     *
      * @api
      */
     public function submit(Form $form, array $values = array())
@@ -439,7 +441,7 @@ abstract class Client
     protected function getAbsoluteUri($uri)
     {
         // already absolute?
-        if ('http' === substr($uri, 0, 4)) {
+        if (0 === strpos($uri, 'http')) {
             return $uri;
         }
 

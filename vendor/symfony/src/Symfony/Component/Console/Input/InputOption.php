@@ -46,7 +46,7 @@ class InputOption
      */
     public function __construct($name, $shortcut = null, $mode = null, $description = '', $default = null)
     {
-        if ('--' === substr($name, 0, 2)) {
+        if (0 === strpos($name, '--')) {
             $name = substr($name, 2);
         }
 
@@ -79,7 +79,7 @@ class InputOption
     }
 
     /**
-     * Returns the shortcut.
+     * Returns the option shortcut.
      *
      * @return string The shortcut
      */
@@ -89,7 +89,7 @@ class InputOption
     }
 
     /**
-     * Returns the name.
+     * Returns the option name.
      *
      * @return string The name
      */
@@ -142,6 +142,8 @@ class InputOption
      * Sets the default value.
      *
      * @param mixed $default The default value
+     *
+     * @throws \LogicException When incorrect default value is given
      */
     public function setDefault($default = null)
     {

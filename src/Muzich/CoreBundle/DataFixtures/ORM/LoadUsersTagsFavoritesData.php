@@ -2,6 +2,7 @@
 
 namespace Muzich\UserBundle\DataFixtures\ORM;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -37,7 +38,7 @@ class LoadUsersTagsFavoritesData  extends AbstractFixture implements OrderedFixt
     //$this->addReference('user_tag_'.$user->getId().'_'.$tag->getId(), $userTag);
   }
   
-  public function load($entity_manager)
+  public function load(ObjectManager $entity_manager)
   {
     $this->entity_manager = $entity_manager;
 

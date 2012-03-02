@@ -562,7 +562,11 @@ class Request
      */
     public function getPort()
     {
-        return $this->headers->get('X-Forwarded-Port') ?: $this->server->get('SERVER_PORT');
+        if (self::$trustProxy && $this->headers->has('X-Forwarded-Port')) {
+            return $this->headers->get('X-Forwarded-Port');
+        } else {
+            return $this->server->get('SERVER_PORT');
+        }
     }
 
     /**
@@ -641,7 +645,7 @@ class Request
      * It builds a normalized query string, where keys/value pairs are alphabetized
      * and have consistent escaping.
      *
-     * @return string A normalized query string for the Request
+     * @return string|null A normalized query string for the Request
      *
      * @api
      */
@@ -923,7 +927,7 @@ class Request
      *
      * @param  array  $locales  An array of ordered available locales
      *
-     * @return string The preferred locale
+     * @return string|null The preferred locale
      *
      * @api
      */
@@ -931,7 +935,7 @@ class Request
     {
         $preferredLanguages = $this->getLanguages();
 
-        if (null === $locales) {
+        if (empty($locales)) {
             return isset($preferredLanguages[0]) ? $preferredLanguages[0] : null;
         }
 
@@ -1037,6 +1041,8 @@ class Request
      * Splits an Accept-* HTTP header.
      *
      * @param string $header  Header to split
+     *
+     * @return array Array indexed by the values of the Accept-* header in preferred order
      */
     public function splitHttpAcceptHeader($header)
     {

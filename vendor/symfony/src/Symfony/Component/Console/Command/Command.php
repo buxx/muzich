@@ -68,6 +68,16 @@ class Command
     }
 
     /**
+     * Ignores validation errors.
+     *
+     * This is mainly useful for the help command.
+     */
+    public function ignoreValidationErrors()
+    {
+        $this->ignoreValidationErrors = true;
+    }
+
+    /**
      * Sets the application instance for this command.
      *
      * @param Application $application An Application instance
@@ -314,7 +324,7 @@ class Command
      * @param string  $shortcut    The shortcut (can be null)
      * @param integer $mode        The option mode: One of the InputOption::VALUE_* constants
      * @param string  $description A description text
-     * @param mixed   $default     The default value (must be null for InputOption::VALUE_REQUIRED or self::VALUE_NONE)
+     * @param mixed   $default     The default value (must be null for InputOption::VALUE_REQUIRED or InputOption::VALUE_NONE)
      *
      * @return Command The current instance
      *

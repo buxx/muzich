@@ -7,11 +7,13 @@ Filters
     date
     format
     replace
+    number_format
     url_encode
     json_encode
     convert_encoding
     title
     capitalize
+    nl2br
     upper
     lower
     striptags
@@ -24,3 +26,4 @@ Filters
     escape
     raw
     merge
+    slice
