@@ -1177,18 +1177,15 @@ $(document).ready(function(){
   {
     if ($('ul.elements li').length)
     {
-      console.log('?');
       // Si l'utilisateur a quitté la page on reporte le check
       if ($('body.blurred').length)
       {
         // on passe la variable a vrai de façon a ce que lorsque la page
         // et ré affiché on lance le check
         do_check_new_elements = true;
-        console.log('on repassera');
       }
       else
       {
-        console.log('on fait');
         var url = url_element_new_count
           +'/'
           +str_replace('element_', '', $('ul.elements li:first').attr('id'))
