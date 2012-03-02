@@ -183,11 +183,12 @@ class CoreController extends Controller
         throw  $this->createNotFoundException('Vous ne pouvez pas ajouter d\'éléments a ce groupe');
       }
     }
-    
+        
     $element = new Element();
     $element->setType('none');
     $form = $this->getAddForm($element);
     $form->bindRequest($this->getRequest());
+    
     
     if ($form->isValid())
     {
@@ -271,7 +272,10 @@ class CoreController extends Controller
         }
         foreach ($form->getErrors() as $error)
         {
-          $errors[] = $this->trans($error->getMessageTemplate(), array(), 'validators');
+          if (!in_array($err = $this->trans($error->getMessageTemplate(), array(), 'validators'), $errors))
+          {
+            $errors[] = $err;
+          }
         }
         
         return $this->jsonResponse(array(
