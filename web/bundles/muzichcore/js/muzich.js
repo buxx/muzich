@@ -231,6 +231,7 @@ $(document).ready(function(){
 
   function onFocus(){
       document.body.className = 'focused';
+      do_action_body_focused();
   }
 
   if (/*@cc_on!@*/false) { // check for Internet Explorer
@@ -1170,35 +1171,51 @@ $(document).ready(function(){
   ////////////////////////////////////////
   /// Gestion de nouveaux éléments
   
+  do_check_new_elements = false;
+  
   function check_new_elements()
   {
     if ($('ul.elements li').length)
     {
-      var url = url_element_new_count
-        +'/'
-        +str_replace('element_', '', $('ul.elements li:first').attr('id'))
-      ;
-      $.getJSON(url, function(response){
+      console.log('?');
+      // Si l'utilisateur a quitté la page on reporte le check
+      if ($('body.blurred').length)
+      {
+        // on passe la variable a vrai de façon a ce que lorsque la page
+        // et ré affiché on lance le check
+        do_check_new_elements = true;
+        console.log('on repassera');
+      }
+      else
+      {
+        console.log('on fait');
+        var url = url_element_new_count
+          +'/'
+          +str_replace('element_', '', $('ul.elements li:first').attr('id'))
+        ;
+        $.getJSON(url, function(response){
 
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+          if (response.status == 'mustbeconnected')
+          {
+            $(location).attr('href', url_index);
+          }
 
-        if (response.status == 'success' && response.count)
-        {
-          $('div.display_more_elements').show();
-          $('div.display_more_elements span').html(response.message);
-        }
+          if (response.status == 'success' && response.count)
+          {
+            $('div.display_more_elements').show();
+            $('div.display_more_elements span').html(response.message);
+          }
 
-        setTimeout(check_new_elements, 300000);
-      });
+          setTimeout(check_new_elements, 150000);
+        });
+      }
+      
     }
   }
   
   if ($('div.display_more_elements').length)
   {
-    setTimeout(check_new_elements, 300000);
+    setTimeout(check_new_elements, 150000);
   }
   
   $('a.show_new_elements').live('click', function(){
@@ -1250,6 +1267,17 @@ $(document).ready(function(){
         $(this).addClass('even');
       }
     });
+  }
+  
+  /*
+   * Action a effectuer lorsque l'utilisateur met le focus sur la page
+   */
+  function do_action_body_focused()
+  {
+    if (do_check_new_elements)
+    {
+      check_new_elements();
+    }
   }
    
  });
