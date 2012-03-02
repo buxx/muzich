@@ -145,6 +145,9 @@ class CoreController extends Controller
    */
   public function elementAddAction($group_slug)
   {   
+    
+    //die(var_dump($this->getRequest()->getParameter()));
+    
     if ($this->getUser() == 'anon.')
     {
       if ($this->getRequest()->isXmlHttpRequest())
@@ -246,9 +249,14 @@ class CoreController extends Controller
         $validator = $this->container->get('validator');
         $errorList = $validator->validate($form);
 
+        $errors = array();
         foreach ($errorList as $error)
         {
           $errors[] = $this->trans($error->getMessage(), array(), 'validators');
+        }
+        foreach ($form->getErrors() as $error)
+        {
+          $errors[] = $this->trans($error->getMessageTemplate(), array(), 'validators');
         }
         
         return $this->jsonResponse(array(
