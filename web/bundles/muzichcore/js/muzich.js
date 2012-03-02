@@ -1171,25 +1171,28 @@ $(document).ready(function(){
   
   function check_new_elements()
   {
-    var url = url_element_new_count
-      +'/'
-      +str_replace('element_', '', $('ul.elements li:first').attr('id'))
-    ;
-    $.getJSON(url, function(response){
-      
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
-      
-      if (response.status == 'success' && response.count)
-      {
-        $('div.display_more_elements').show();
-        $('div.display_more_elements span').html(response.message);
-      }
-      
-      setTimeout(check_new_elements, 300000);
-    });
+    if ($('ul.elements li').length)
+    {
+      var url = url_element_new_count
+        +'/'
+        +str_replace('element_', '', $('ul.elements li:first').attr('id'))
+      ;
+      $.getJSON(url, function(response){
+
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+
+        if (response.status == 'success' && response.count)
+        {
+          $('div.display_more_elements').show();
+          $('div.display_more_elements span').html(response.message);
+        }
+
+        setTimeout(check_new_elements, 300000);
+      });
+    }
   }
   
   if ($('div.display_more_elements').length)
