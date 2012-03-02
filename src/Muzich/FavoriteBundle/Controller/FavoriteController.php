@@ -22,18 +22,9 @@ class FavoriteController extends Controller
    */
   public function addAction($id, $token)
   {
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     $user = $this->getUser();
@@ -100,18 +91,9 @@ class FavoriteController extends Controller
    */
   public function removeAction($id, $token)
   {
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     $user = $this->getUser();
@@ -221,18 +203,9 @@ class FavoriteController extends Controller
   
   public function getElementsAction($user_id, $tags_ids_json, $id_limit = null, $invert = false)
   {
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     $tag_ids = json_decode($tags_ids_json);

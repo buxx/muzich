@@ -145,21 +145,9 @@ class CoreController extends Controller
    */
   public function elementAddAction($group_slug)
   {   
-    
-    //die(var_dump($this->getRequest()->getParameter()));
-    
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     if ($this->getRequest()->getMethod() != 'POST')
@@ -355,18 +343,9 @@ class CoreController extends Controller
   
   public function getFavoriteTagsAction()
   {
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     // On construit l'element searcher avec les tags favoris
@@ -383,18 +362,9 @@ class CoreController extends Controller
    */
   public function addTagAction($name, $arguments = null)
   {
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     $tagManager = new TagManager();

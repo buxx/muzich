@@ -312,4 +312,25 @@ class Controller extends BaseController
     return $this->get('translator')->trans($string, $params, $package);
   }
   
+  /**
+   *
+   * @return Response
+   */
+  protected function mustBeConnected()
+  {
+    if ($this->getUser() == 'anon.')
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'mustbeconnected'
+        ));
+      }
+      else
+      {
+        return $this->redirect($this->generateUrl('index'));
+      }
+    }
+  }
+  
 }

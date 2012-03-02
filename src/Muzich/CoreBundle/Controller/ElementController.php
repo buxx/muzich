@@ -34,18 +34,9 @@ class ElementController extends Controller
    */
   public function editAction($element_id)
   {    
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     $element = $this->checkExistingAndOwned($element_id);
@@ -91,18 +82,9 @@ class ElementController extends Controller
    */
   public function updateAction($element_id)
   {
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     /**
@@ -186,18 +168,9 @@ class ElementController extends Controller
   
   public function removeAction($element_id)
   {
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     try {
@@ -285,18 +258,9 @@ class ElementController extends Controller
       return $this->redirect($this->generateUrl('index'));
     }
     
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     $es = $this->getElementSearcher();
@@ -331,18 +295,9 @@ class ElementController extends Controller
       return $this->redirect($this->generateUrl('index'));
     }
     
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     $es = $this->getElementSearcher();

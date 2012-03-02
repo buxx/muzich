@@ -45,18 +45,9 @@ class ModerateController extends Controller
   
   public function tagAcceptAction($tag_id)
   {
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     $tagManager = new TagManager();
@@ -75,18 +66,9 @@ class ModerateController extends Controller
   
   public function tagRefuseAction($tag_id)
   {
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     $tagManager = new TagManager();
@@ -113,18 +95,9 @@ class ModerateController extends Controller
    */
   public function tagReplaceAction($tag_id, $tag_new_id)
   {
-    if ($this->getUser() == 'anon.')
+    if (($response = $this->mustBeConnected()))
     {
-      if ($this->getRequest()->isXmlHttpRequest())
-      {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
-      }
-      else
-      {
-        return $this->redirect($this->generateUrl('index'));
-      }
+      return $response;
     }
     
     $tag_array = json_decode($tag_new_id);
