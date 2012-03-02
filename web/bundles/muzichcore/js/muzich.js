@@ -246,7 +246,8 @@ $(document).ready(function(){
   $('.tags_prompt input.clear, a.filter_clear_url').live("click", function(){
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
-    form = $(this).parent('div').parent('form');
+    
+    form = $('form[name="search"]');
     remove_tags(form.attr('name'));
     form.submit();
   });
