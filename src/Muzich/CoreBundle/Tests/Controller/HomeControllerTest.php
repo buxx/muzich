@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Tests\Controller;
 
 use Muzich\CoreBundle\lib\FunctionalTest;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
+use Muzich\CoreBundle\Entity\Element;
 
 class HomeControllerTest extends FunctionalTest
 {
@@ -536,5 +537,202 @@ class HomeControllerTest extends FunctionalTest
     $this->assertTrue(strpos($html, 'DUDELDRUM') !== false);
     
   }
+  
+  /**
+   * Test de la récupération de nouveaux éléments
+   * 
+   */
+  public function testSeeNew()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bux', 'toor');
+    
+    $bux = $this->getUser();
+    $bob = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername('bob')
+    ;
+    $hardtek_id = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek')->getId();
+    $tribe_id   = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe')->getId();
+
+    // On récupère l'id du dernier element affiché
+    $extract = $this->crawler->filter('ul.elements li.element')
+       ->extract(array('id'));
+    
+    $first_id = (int)str_replace('element_', '', $extract[0]);
+    
+    $url = $this->generateUrl('element_new_count', array('refid' => $first_id));
+    // On effectue la kekete ajax
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['count'], '0');
+    $this->assertEquals($response['message'], '');
+    
+    $this->addElementAjax('NewElement One', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+    $this->addElementAjax('NewElement Two', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+    
+    // On refait la même demande, deux éléments sont nouveaux
+    $url = $this->generateUrl('element_new_count', array('refid' => $first_id));
+    // On effectue la kekete ajax
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['count'], '2');
+    
+    // Si on demande la récupération des nouveaux éléments on doit les obtenirs
+    $url = $this->generateUrl('element_new_get', array('refid' => $first_id));
+    // On effectue la kekete ajax
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['count'], '0');
+    $this->assertTrue(!is_null($response['html']));
+    $this->assertTrue(strpos($response['html'], 'NewElement One') !== false);
+    $this->assertTrue(strpos($response['html'], 'NewElement Two') !== false);
+    
+    // On ajoute 10 autres éléments (NOTE: le 10 est hardcodé dans ce test
+    // , c'est la limite d'affichage d'éléments)
+    $this->addElementAjax('NewElement 3', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+    $this->addElementAjax('NewElement 4', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+    $this->addElementAjax('NewElement 5', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+    $this->addElementAjax('NewElement 6', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+    $this->addElementAjax('NewElement 7', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+    $this->addElementAjax('NewElement 8', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+    $this->addElementAjax('NewElement 9', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+    $this->addElementAjax('NewElement 10', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+    $this->addElementAjax('NewElement 11', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+    $this->addElementAjax('NewElement 12', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
+  
+    // On va refaire un count des nouveaux éléments
+    // Ca devrat nous répondree 12 puisque on utilise l'id de référence du début
+    
+    // On refait la même demande, deux éléments sont nouveaux
+    $url = $this->generateUrl('element_new_count', array('refid' => $first_id));
+    // On effectue la kekete ajax
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['count'], '12');
+    
+    // Si on demande la récupération des nouveaux éléments on doit en obtenir 10
+    // et en rester 2
+    $url = $this->generateUrl('element_new_get', array('refid' => $first_id));
+    // On effectue la kekete ajax
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['count'], '2');
+    $this->assertTrue(!is_null($response['html']));
+    $this->assertTrue(strpos($response['html'], 'NewElement One') !== false);
+    $this->assertTrue(strpos($response['html'], 'NewElement Two') !== false);
+    $this->assertTrue(strpos($response['html'], 'NewElement 3') !== false);
+    $this->assertTrue(strpos($response['html'], 'NewElement 4') !== false);
+    $this->assertTrue(strpos($response['html'], 'NewElement 5') !== false);
+    $this->assertTrue(strpos($response['html'], 'NewElement 6') !== false);
+    $this->assertTrue(strpos($response['html'], 'NewElement 7') !== false);
+    $this->assertTrue(strpos($response['html'], 'NewElement 8') !== false);
+    $this->assertTrue(strpos($response['html'], 'NewElement 9') !== false);
+    $this->assertTrue(strpos($response['html'], 'NewElement 10') !== false);
+    $this->assertTrue(strpos($response['html'], 'NewElement 11') === false);
+    $this->assertTrue(strpos($response['html'], 'NewElement 12') === false);
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('NewElement 10')
+    ;
+    // notre nouvel id référent en celui de NewElement 10
+    // On renouvelle la demande, il ne doit y avoir que 2 élément nouveau a afficher
+    $url = $this->generateUrl('element_new_count', array('refid' => $element->getId()));
+    // On effectue la kekete ajax
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['count'], '2');
+    
+  }
+  
+  public function testMoreElements()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bux', 'toor');
+    
+    $bux = $this->getUser();
+    
+    // On récupère l'id du dernier element affiché
+    $extract = $this->crawler->filter('ul.elements li.element')
+       ->extract(array('id'));
+    
+    // !!!!!! NOTE !!!!! : 9 est hardcodé ici: la config est de 10 éléments en affichage
+    $id_limit = (int)str_replace('element_', '', $extract[9]);
+    
+    $url = $this->generateUrl('search_elements_more', array(
+      'id_limit'  => $id_limit,
+      'invertcolors' => 0
+    ));
+    
+    // We want mooooore
+    // On effectue la kekete ajax
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['count'], '4');  // HARDCODE fixtures
+    $this->assertEquals($response['end'], true);  // HARDCODE fixtures
+    
+  }
+  
   
 }

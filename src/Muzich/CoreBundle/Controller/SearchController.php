@@ -28,6 +28,7 @@ class SearchController extends Controller
     }
     
     return $this->jsonResponse(array(
+      'status'  => 'success',
       'count'   => $count,
       'message' => $message,
       'html'    => $html,

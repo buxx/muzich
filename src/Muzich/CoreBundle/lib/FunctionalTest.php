@@ -63,9 +63,14 @@ class FunctionalTest extends WebTestCase
     ;
   }
   
-  protected function connectUser($login, $password)
+  protected function connectUser($login, $password, $client = null)
   {
-    $this->crawler = $this->client->request('GET', $this->generateUrl('index'));
+    if (!$client)
+    {
+      $client = $this->client;
+    }
+    
+    $this->crawler = $client->request('GET', $this->generateUrl('index'));
     $this->isResponseSuccess();
 
     $this->assertEquals('anon.', $this->getUser());
@@ -392,5 +397,47 @@ class FunctionalTest extends WebTestCase
   protected function isResponseNotFound()
   {
     $this->assertTrue($this->client->getResponse()->isNotFound());
+  }
+  
+  
+  
+  protected function addElementAjax($name, $url, $tags = '', $group_slug = null)
+  {
+    $this->crawler = $this->client->request('GET', $this->generateUrl('home'));
+    
+    $extract = $this->crawler->filter('input[name="element_add[_token]"]')
+      ->extract(array('value'));
+    $csrf = $extract[0];
+    
+    $url_ajax = $this->generateUrl('element_add');
+    if ($group_slug)
+    {
+      $url_ajax = $this->generateUrl('element_add', array('group_slug' => $group_slug));
+    }
+    
+    $this->crawler = $this->client->request(
+      'POST', 
+      $url_ajax, 
+      array(
+          'element_add' => array(
+              '_token' => $csrf,
+              'name'   => $name,
+              'url'    => $url,
+              'tags'   => $tags
+          )
+        
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName($name)
+    ;
+    $this->assertTrue(!is_null($element));
   }
 }
