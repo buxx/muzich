@@ -1,31 +1,45 @@
 
-<ul id="top-tabs">
-  <li {% if active == 'public' %} class="active" {% endif %}>
-    <a href="{{ path('home') }}">
-      {{ 'container_menu.the_network'|trans({}, 'navigationui') }}
-    </a>
-  </li>
-  <li {% if active == 'private' %} class="active" {% endif %}>
-    <a href="{{ path('mynetwork_index') }}">
-      {{ 'container_menu.my_network'|trans({}, 'navigationui') }}
-    </a>
-  </li>
-  <li {% if active == 'myfeeds' %} class="active" {% endif %}>
-    <a href="{{ path('show_user', {'slug': app.user.slug}) }}">
-      {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
-    </a>
-  </li>
-</ul>
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 
-<ul class="top-tabs-right">
-  <li class="{% if active == 'mygroups' %}active{% endif %}">
-    <a href="{{ path('groups_own_list') }}" >
-      {{ 'network.mygroups'|trans({}, 'navigationui') }}
-    </a>
-  </li>
-  <li class="{% if active == 'myfavorites' %}active{% endif %}">
-    <a href="{{ path('favorites_my_list') }}" >
-      {{ 'container_menu.my_favorites'|trans({}, 'navigationui') }}
-    </a>
-  </li>
-</ul>
+  <ul id="top-tabs">
+    <li {% if active == 'public' %} class="active" {% endif %}>
+      <a href="{{ path('home') }}">
+        {{ 'container_menu.the_network'|trans({}, 'navigationui') }}
+      </a>
+    </li>
+    <li {% if active == 'private' %} class="active" {% endif %}>
+      <a href="{{ path('mynetwork_index') }}">
+        {{ 'container_menu.my_network'|trans({}, 'navigationui') }}
+      </a>
+    </li>
+    <li {% if active == 'myfeeds' %} class="active" {% endif %}>
+      <a href="{{ path('show_user', {'slug': app.user.slug}) }}">
+        {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
+      </a>
+    </li>
+  </ul>
+
+  <ul class="top-tabs-right">
+    <li class="{% if active == 'mygroups' %}active{% endif %}">
+      <a href="{{ path('groups_own_list') }}" >
+        {{ 'network.mygroups'|trans({}, 'navigationui') }}
+      </a>
+    </li>
+    <li class="{% if active == 'myfavorites' %}active{% endif %}">
+      <a href="{{ path('favorites_my_list') }}" >
+        {{ 'container_menu.my_favorites'|trans({}, 'navigationui') }}
+      </a>
+    </li>
+  </ul>
+
+{% else %}
+
+  <ul id="top-tabs" >
+    <li class="active">
+      <a href="{{ path('index') }}">
+        {{ 'container_menu.return'|trans({}, 'navigationui') }}
+      </a>
+    </li>
+  </ul>
+
+{% endif %}

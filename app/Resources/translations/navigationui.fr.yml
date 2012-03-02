@@ -4,6 +4,7 @@ container_menu:
   my_network:           Mon réseau
   my_favorites:         Mes favoris
   my_feeds:             Mes diffusions
+  return:               Retour
   
 top_bar:
   my_account:           Mon compte (%name%)

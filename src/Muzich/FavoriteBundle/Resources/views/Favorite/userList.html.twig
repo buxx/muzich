@@ -6,6 +6,14 @@
 
   {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with {'active': ''} %}
 
+  <div class="show_options">
+    
+    <a class="button" href="{{ path('show_user', {'slug' : viewed_user.slug}) }}" >
+      {{ 'user.view_profile'|trans({}, 'users') }}
+    </a>
+    
+  </div>
+
   <h2>{{ 'favorites.user_favorites'|trans({'%name%' : viewed_user.name}, 'network') }}</h2>
 
   {% include "MuzichCoreBundle:Tag:tagsList.favorite.html.twig" with {

@@ -4,6 +4,7 @@ user:
   following:                    Suivi
   notfollow:                    Ne plus suivre
   view_favorites:               Voir les favoris
+  view_profile:                 Voir le profil
   stop_follow:                  Ne plus suivre
   show:
     title:                      Diffusions de %name%
