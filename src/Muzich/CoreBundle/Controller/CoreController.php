@@ -225,10 +225,25 @@ class CoreController extends Controller
       if ($this->getRequest()->isXmlHttpRequest())
       {
         // Récupération du li
-        $html = $this->render('MuzichCoreBundle:SearchElement:li.element.html.twig', array(
-          'element'     => $element,
-          'class_color' => 'odd'
-        ))->getContent();
+        if (!$group)
+        {
+          $html = $this->render('MuzichCoreBundle:SearchElement:li.element.html.twig', array(
+            'element'     => $element,
+            'class_color' => 'odd'
+          ))->getContent();
+        }
+         else 
+        {
+          $html = $this->render('MuzichCoreBundle:SearchElement:li.element.html.twig', array(
+            'element'     => $element,
+            'class_color' => 'odd',
+            'no_group_name' => true
+          ))->getContent();
+        }
+
+        
+        
+        
         
         return $this->jsonResponse(array(
           'status' => 'success',
