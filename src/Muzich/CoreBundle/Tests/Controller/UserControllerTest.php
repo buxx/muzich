@@ -282,7 +282,6 @@ class UserControllerTest extends FunctionalTest
     $this->followRedirection();
     $this->isResponseSuccess();
     
-    $this->outputDebug();
     $this->notExist('div.error');
     
     // Et les champs ont bougés

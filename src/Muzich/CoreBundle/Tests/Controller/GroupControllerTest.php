@@ -130,8 +130,7 @@ class GroupControllerTest extends FunctionalTest
     $form['group[tags]'] = json_encode(array($hardtek_id,$tribe_id));
     $this->submit($form);
     
-    // Pas de redirection, la création a échoué (nom trop court)
-    $this->outputDebug();
+    // Pas de redirection, la création a échoué (nom trop court)    $this->outputDebug();
     $this->isResponseSuccess();
     
     // Le groupe que créé existe bien dans la base

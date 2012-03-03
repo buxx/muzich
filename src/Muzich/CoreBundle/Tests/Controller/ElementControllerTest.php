@@ -94,7 +94,7 @@ class ElementControllerTest extends FunctionalTest
       array(), 
       array('HTTP_X-Requested-With' => 'XMLHttpRequest')
     );
-    $this->outputDebug($this->client->getResponse()->getContent());
+    
     $this->isResponseSuccess();
     
     $response = json_decode($this->client->getResponse()->getContent(), true);
@@ -267,7 +267,6 @@ class ElementControllerTest extends FunctionalTest
       array('HTTP_X-Requested-With' => 'XMLHttpRequest')
     );
     
-    $this->outputDebug();
     $this->isResponseSuccess();
     
     $response = json_decode($this->client->getResponse()->getContent(), true);
