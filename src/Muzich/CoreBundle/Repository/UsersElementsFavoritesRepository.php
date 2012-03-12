@@ -12,7 +12,7 @@ class UsersElementsFavoritesRepository extends EntityRepository
    * 
    * @return doctrine_collection
    */
-  public function getTags($user_id)
+  public function getTags($user_id, $current_user_id)
   {
     return $this->getEntityManager()
       ->createQuery('
@@ -24,7 +24,7 @@ class UsersElementsFavoritesRepository extends EntityRepository
           OR t.privateids LIKE :uidt)
         ORDER BY t.name ASC'
       )
-      ->setParameters(array('uid' => $user_id, 'uidt' => '%"'.$user_id.'"%'))
+      ->setParameters(array('uid' => $user_id, 'uidt' => '%"'.$current_user_id.'"%'))
       ->getResult()
     ;
   }

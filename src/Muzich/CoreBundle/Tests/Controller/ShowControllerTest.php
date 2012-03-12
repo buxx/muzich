@@ -46,7 +46,7 @@ class ShowControllerTest extends FunctionalTest
       ->findOneByName('Antropod - Polakatek')
     ;
     $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-      ->getElementsTags($bux->getId())      
+      ->getElementsTags($bux->getId(), $bux->getId())      
     ;
     
     $ids = array();
@@ -123,7 +123,7 @@ class ShowControllerTest extends FunctionalTest
       ->findOneByName('PsyElement 1')
     ;
     $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
-      ->getElementsTags($fan_de_psy->getId())      
+      ->getElementsTags($fan_de_psy->getId(), $bux->getId())      
     ;
     
     $ids = array();

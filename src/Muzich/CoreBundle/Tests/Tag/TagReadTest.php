@@ -151,7 +151,7 @@ class TagReadTest extends UnitTest
     $rtags = array('Electro', 'Hardcore', 'Hardtek', 'Metal');
     
     $tags = $this->getTagsNamesForQuery($this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-      ->getElementsTags($bux->getId())      
+      ->getElementsTags($bux->getId(), $bux->getId())      
     );
     
     $this->assertEquals($rtags, $tags);
@@ -160,7 +160,7 @@ class TagReadTest extends UnitTest
     $rtags = array('Beatbox', 'Chanteuse', 'Dubstep', 'Medieval');
     
     $tags = $this->getTagsNamesForQuery($this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-      ->getElementsTags($joelle->getId())      
+      ->getElementsTags($joelle->getId(), $joelle->getId())      
     );
     
     $this->assertEquals($rtags, $tags);
@@ -169,7 +169,7 @@ class TagReadTest extends UnitTest
     $rtags = array('Hardtek', 'Psytrance', 'Tribe');
     
     $tags = $this->getTagsNamesForQuery($this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-      ->getElementsTags($paul->getId())      
+      ->getElementsTags($paul->getId(), $paul->getId())      
     );
     
     $this->assertEquals($rtags, $tags);
@@ -186,7 +186,7 @@ class TagReadTest extends UnitTest
     $rtags = array('Hardtek');
     
     $tags = $this->getTagsNamesForQuery($this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
-      ->getTags($bux->getId())          
+      ->getTags($bux->getId(), $bux->getId())          
     );
     
     $this->assertEquals($rtags, $tags);
@@ -195,7 +195,7 @@ class TagReadTest extends UnitTest
     $rtags = null;
     
     $tags = $this->getTagsNamesForQuery($this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
-      ->getTags($joelle->getId())           
+      ->getTags($joelle->getId(), $joelle->getId())           
     );
     
     $this->assertEquals($rtags, $tags);
@@ -204,7 +204,7 @@ class TagReadTest extends UnitTest
     $rtags = array('Hardtek', 'Tribe');
     
     $tags = $this->getTagsNamesForQuery($this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
-      ->getTags($paul->getId())          
+      ->getTags($paul->getId(), $paul->getId())
     );
     
     $this->assertEquals($rtags, $tags);

@@ -27,7 +27,7 @@ class ShowController extends Controller
     ));
     
     $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-      ->getElementsTags($viewed_user->getId())      
+      ->getElementsTags($viewed_user->getId(), $this->getUserId())      
     ;
     
     $tags_id = array();
@@ -71,7 +71,7 @@ class ShowController extends Controller
     }
     
     $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
-      ->getElementsTags($group->getId())      
+      ->getElementsTags($group->getId(), $this->getUserId())      
     ;
     
     $tags_id = array();

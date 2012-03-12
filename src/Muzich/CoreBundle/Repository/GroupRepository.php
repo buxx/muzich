@@ -76,16 +76,18 @@ class GroupRepository extends EntityRepository
    * 
    * @return doctrine_collection
    */
-  public function getElementsTags($group_id)
+  public function getElementsTags($group_id, $current_user_id)
   {
     return $this->getEntityManager()
       ->createQuery('
         SELECT t FROM MuzichCoreBundle:Tag t
         LEFT JOIN t.elements e
         WHERE e.group = :gid
+        AND (t.tomoderate = \'FALSE\' OR t.tomoderate IS NULL
+          OR t.privateids LIKE :uidt)
         ORDER BY t.name ASC'
       )
-      ->setParameter('gid', $group_id)
+      ->setParameters(array('gid' => $group_id, 'uidt' => '%"'.$current_user_id.'"%'))
       ->getResult()
     ;
   }

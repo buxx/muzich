@@ -149,7 +149,7 @@ class FavoriteController extends Controller
     ));
     
     $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
-      ->getTags($this->getUserId())      
+      ->getTags($this->getUserId(), $this->getUserId())      
     ;
     
     $tags_id = array();
@@ -183,7 +183,7 @@ class FavoriteController extends Controller
     ));
     
     $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
-      ->getTags($viewed_user->getId())      
+      ->getTags($viewed_user->getId(), $this->getUserId())      
     ;
     
     $tags_id = array();
