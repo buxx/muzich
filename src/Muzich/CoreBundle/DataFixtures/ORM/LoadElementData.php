@@ -200,7 +200,7 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     
     $cm = new CommentsManager();
     $cm->add($joelle, "J'aime bien quand ça tape. Ca rapelle ".
-      "le grincement sinistre des volets de vieilles".
+      "le grincement sinistre des volets de vieilles ".
       "maisons. D'ailleur j'ai repeint mon mur des shiots !", $this->dateD(180));
     
     $this->createElement('azyd_azylum_1', 'AZYD AZYLUM Live au Café Provisoire', 

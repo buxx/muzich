@@ -32,6 +32,10 @@ element:
     thereare:           Afficher les <strong>%count%</strong> commentaires
     hideis:             Cacher le commentaire
     hideare:            Cacher les commentaires
+    add_submit:         Commenter
+    add_cancel:         Annuler
+    add_error:
+      min:              Le commentaire doit être de %limit% caractéres minimum
   
 elements:
   ajax:

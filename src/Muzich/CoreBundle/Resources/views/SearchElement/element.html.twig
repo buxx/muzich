@@ -116,17 +116,17 @@
         {% if element.comments|length > 1 %}
           <a href="#hide_comments_{{ element.id }}" class="hide_comments" style="display: none;">
             {{ 'element.comments.hideare'|trans({}, 'elements') }}
-          </a>   
+          </a>  
           <a href="#comments_{{ element.id }}" class="display_comments">
             {{ 'element.comments.thereare'|trans({'%count%':element.comments|length}, 'elements') }}
-          </a> -
+          </a>
         {% elseif element.comments|length == 1 %}
           <a href="#hide_comments_{{ element.id }}" class="hide_comments" style="display: none;">
             {{ 'element.comments.hideis'|trans({}, 'elements') }}
-          </a>
+          </a> 
           <a href="#comments_{{ element.id }}" class="display_comments">
             {{ 'element.comments.thereis'|trans({}, 'elements') }}
-          </a> -
+          </a>
         {%endif %}
       {% endautoescape %}
                 
@@ -146,23 +146,44 @@
   {% endautoescape %}
 {% endif %}
 
-{% if element.comments|length %}
   <div class="comments" style="display: none;">
     <ul class="comments">
+    {% if element.comments|length %}
       {% for comment in element.comments %}
-        <li class="comment">
-          <a href="{{ path('show_user', {'slug': comment.u.s}) }}" >{{ comment.u.n }}</a>: 
-          {{ comment.c }}
-          <span class="datesince">({{ comment.d|date_or_relative_date }})</span>
-        </li>
+        {% include "MuzichCommentBundle:Comment:comment.html.twig" %}
       {% endfor %}
+    {% endif %}
     </ul>
       
-    
+    <div class="comments_loader">
+      <img class="comments_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
+    </div>
+      
+    <form 
+      action="{{ path('ajax_add_comment', {'element_id':element.id}) }}" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      <textarea name="comment"></textarea>
+      <div class="buttons">
+        <input 
+          type="submit" 
+          value="{{ 'element.comments.add_submit'|trans({}, 'elements') }}" 
+          class="button"
+        />
+        <br />
+        <input 
+          type="button" 
+          value="{{ 'element.comments.add_cancel'|trans({}, 'elements') }}" 
+          class="button cancel"
+        />
+      </div>
+    </form>
       
     <a href="#add_comment_{{ element.id }}" class="add_comment">
       {{ 'element.comments.add'|trans({}, 'elements') }}
     </a>
       
   </div>
-{% endif %}

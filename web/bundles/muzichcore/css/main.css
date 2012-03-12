@@ -782,7 +782,7 @@ div.question {
 	opacity: 0;
 }
 
-div.question .yes, .cancel {
+div.question .yes, div.question .cancel {
 	margin-top: .5em;
 	margin-right: .5em;
 	cursor: pointer;
@@ -958,6 +958,29 @@ li.comment
 li.comment span.datesince
 {
   color: #868686;
+}
+
+div.comments form.add_comment textarea
+{
+  width: 80%;
+  height: 48px;
+}
+
+div.comments form.add_comment div.buttons
+{
+  float: right;
+  text-align: center;
+}
+
+div.comments form.add_comment div.buttons input
+{
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+div.comments_loader
+{
+  text-align: center;
 }
 
 /* END commentaires */

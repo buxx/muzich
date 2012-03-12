@@ -1,0 +1,4 @@
+
+ajax_add_comment:
+  pattern: /ajax/comment/add/{element_id}
+  defaults: { _controller: MuzichCommentBundle:Comment:add }

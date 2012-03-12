@@ -64,3 +64,9 @@ MuzichFavoriteBundle:
   prefix:   /{_locale}/
   defaults:
     _locale: en|fr
+  
+MuzichCommentBundle:
+  resource: "@MuzichCommentBundle/Resources/config/routing.yml"
+  prefix:   /{_locale}/
+  defaults:
+    _locale: en|fr

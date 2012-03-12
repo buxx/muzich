@@ -1305,7 +1305,7 @@ $(document).ready(function(){
       li_element.find('a.hide_comments').show();
     }
   
-    function hide_comments(li)
+    function hide_comments(li_element)
     {
       li_element.find('div.comments').slideUp();
       li_element.find('a.display_comments').show();
@@ -1319,10 +1319,58 @@ $(document).ready(function(){
       ));
     });
     
+    $('form.add_comment input[type="submit"]').live('click', function(){
+      $(this).parent('div').parent('form').parent('div.comments').find('img.comments_loader').show();
+    });
+        
     function display_add_comment(li_element)
     {
+      display_comments(li_element);
       li_element.find('a.add_comment').hide();
+      li_element.find('form.add_comment').show();
       
+      li_element.find('form.add_comment').ajaxForm(function(response) {
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+
+        li_element.find('img.comments_loader').hide();
+        
+        if (response.status == 'success')
+        {
+          li_element.find('form.add_comment').find('ul.error_list').remove();
+          li_element.find('div.comments ul.comments').append(response.html);
+          hide_add_comment(li_element);
+        }
+        else if (response.status == 'error')
+        {
+          li_element.find('form.add_comment').find('ul.error_list').remove();
+          ul_errors = $('<ul>').addClass('error_list');
+
+          for (i in response.errors)
+          {
+            ul_errors.append($('<li>').append(response.errors[i]));
+          }
+
+          li_element.find('form.add_comment').prepend(ul_errors);
+        }
+
+        return false;
+      });
+      
+    }
+    
+    $('form.add_comment input.cancel').live('click', function(){
+      li_element = $(this).parent('div').parent('form').parent('div.comments').parent('li.element');
+      hide_add_comment(li_element);
+    });
+    
+    function hide_add_comment(li_element)
+    {
+      li_element.find('a.add_comment').show();
+      li_element.find('form.add_comment').hide();
+      li_element.find('form.add_comment textarea').val('');
     }
    
  });

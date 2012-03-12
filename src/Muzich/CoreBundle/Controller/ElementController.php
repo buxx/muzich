@@ -33,7 +33,7 @@ class ElementController extends Controller
    * 
    */
   public function editAction($element_id)
-  {    
+  {
     if (($response = $this->mustBeConnected()))
     {
       return $response;

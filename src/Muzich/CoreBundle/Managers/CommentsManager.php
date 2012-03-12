@@ -40,12 +40,27 @@ class CommentsManager
   }
   
   /**
+   * Retourne le dernier enregistrement commentaire
+   * 
+   * @return array
+   */
+  public function getLast()
+  {
+    return $this->get(count($this->comments)-1);
+  }
+  
+  /**
    *
    * @return array
    */
-  public function get()
+  public function get($index = null)
   {
-    return $this->comments;
+    if ($index === null)
+    {
+      return $this->comments;
+    }
+    
+    return $this->comments[$index];
   }
   
 }

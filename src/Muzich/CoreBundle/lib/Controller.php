@@ -316,8 +316,13 @@ class Controller extends BaseController
    *
    * @return Response
    */
-  protected function mustBeConnected()
+  protected function mustBeConnected($and_ajax = false)
   {
+    if ($and_ajax && !$this->getRequest()->isXmlHttpRequest())
+    {
+      throw $this->createNotFoundException('Ressource ajax uniquement.');
+    }
+    
     if ($this->getUser() == 'anon.')
     {
       if ($this->getRequest()->isXmlHttpRequest())
