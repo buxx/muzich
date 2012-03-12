@@ -85,8 +85,10 @@ class TagsTest extends FunctionalTest
     $this->client->request('GET', $this->generateUrl('favorites_my_list'));
     $this->isResponseSuccess();
     
+    $this->outputDebug();
     $this->exist('li.element_tag');
     $this->exist('li.element_tag:contains("Mon beau tag")');
+    $this->exist('body:contains("Mon beau tag")');
     
     // Lors d'une recherche de tag
     $url = $this->generateUrl('search_tag', array(
@@ -103,6 +105,7 @@ class TagsTest extends FunctionalTest
     $this->assertTrue($this->findTagNameInResponse($response, 'Mon beau tag', 'data'));
     
     // En revanche, bux ne pourra pas les voirs lui.
+    // Sur la page home, sur la page des favoris de paul, et sur le profil de paul
     $this->disconnectUser();
     $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
@@ -115,12 +118,21 @@ class TagsTest extends FunctionalTest
     $this->exist('li.element_tag');
     $this->notExist('li.element_tag:contains("Mon beau tag")');
     
-    // sur ma page de favoris de paul
+    // sur la page de favoris de paul
     $this->client->request('GET', $this->generateUrl('favorite_user_list', array('slug' => $paul->getSlug())));
     $this->isResponseSuccess();
     
     $this->exist('li.element_tag');
     $this->notExist('li.element_tag:contains("Mon beau tag")');
+    $this->notExist('body:contains("Mon beau tag")');
+    
+    // sur la page de profil de paul
+    $this->client->request('GET', $this->generateUrl('show_user', array('slug' => $paul->getSlug())));
+    $this->isResponseSuccess();
+    
+    $this->exist('li.element_tag');
+    $this->notExist('li.element_tag:contains("Mon beau tag")');
+    $this->notExist('body:contains("Mon beau tag")');
     
     // Lors d'une recherche de tag
     $url = $this->generateUrl('search_tag', array(
@@ -154,5 +166,5 @@ class TagsTest extends FunctionalTest
       }
     }
   }
-  
+    
 }
