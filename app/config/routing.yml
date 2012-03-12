@@ -14,8 +14,8 @@ _sonata_admin:
   
 MuzichAdminBundle:
   resource: "@MuzichAdminBundle/Resources/config/routing.yml"
-  prefix: /{_locale}/
-  defaults: { _locale: fr }
+#  prefix: /{_locale}/
+#  defaults: { _locale: fr }
   
 MuzichIndexBundle:
   resource: "@MuzichIndexBundle/Resources/config/routing.yml"

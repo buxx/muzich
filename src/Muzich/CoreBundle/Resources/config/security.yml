@@ -46,7 +46,6 @@ security:
       
         # PAGES ACCESSIBLES AUX ADMINISTRATEURS
         - { path: ^/admin, role: ROLE_ADMIN }
-        - { path: "^/(?:fr|en)/admin", roles: ROLE_ADMIN }
       
         # AUTRES
         - { path: "^/hello", roles: IS_AUTHENTICATED_ANONYMOUSLY }
