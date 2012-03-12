@@ -125,6 +125,27 @@ class Element
    * @ORM\Column(type="string", length=512, nullable=true)
    */
   protected $thumbnail_url;
+  
+  /**
+   * Commentaires stocké au format json
+   * 
+   * array(
+   *   array(
+   *     "u" => array(              // Des infos sur l'utilisateur auteur du commentaire
+   *       "i" => "IdDuUser",       // l'id
+   *       "s" => "LeSlugDuUser",   // le slug
+   *       "n" => "NameDuUser"      // le name
+   *     ),
+   *     "d" => "LaDate",        // Date au format Y-m-d H:i:s
+   *     "c" => "Comment"           // Le commentaire
+   *   ),
+   *   [...]
+   * );
+   * 
+   * @ORM\Column(type="text", nullable=true)
+   * @var type string
+   */
+  protected $comments;
 
   /**
    * Get id
@@ -384,6 +405,24 @@ class Element
   public function getThumbnailUrl()
   {
       return $this->thumbnail_url;
+  }
+  
+  /**
+   *
+   * @return type array
+   */
+  public function getComments()
+  {
+    return json_decode($this->comments, true);
+  }
+  
+  /**
+   *
+   * @param array $comments 
+   */
+  public function setComments($comments)
+  {
+    $this->comments = json_encode($comments);
   }
   
   /**

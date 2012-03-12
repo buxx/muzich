@@ -26,6 +26,12 @@ element:
     link:               Modifier
   remove:
     link:               Supprimer
+  comments: 
+    add:                Ajouter un commentaire
+    thereis:            Afficher le commentaire
+    thereare:           Afficher les <strong>%count%</strong> commentaires
+    hideis:             Cacher le commentaire
+    hideare:            Cacher les commentaires
   
 elements:
   ajax:

@@ -8,6 +8,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Muzich\CoreBundle\Entity\Element;
+use Muzich\CoreBundle\Managers\CommentsManager;
 
 class LoadElementData  extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
@@ -38,7 +39,7 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
   /**
    *  
    */
-  protected function createElement($reference_id, $name, $url, $tags, $type, $owner, $group = null, $date = null)
+  protected function createElement($reference_id, $name, $url, $tags, $type, $owner, $group = null, $date = null, $comments = null)
   {    
     $element = new Element();
     $element->setName(ucfirst($name));
@@ -59,6 +60,8 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     {
       $element->addTag($tag);
     }
+    
+    $element->setComments($comments);
     
     $this->entity_manager->persist($element);
   }
@@ -195,22 +198,49 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
       'youtube.com', $bux, null, $this->dateD(183)
     );
     
+    $cm = new CommentsManager();
+    $cm->add($joelle, "J'aime bien quand ça tape. Ca rapelle ".
+      "le grincement sinistre des volets de vieilles".
+      "maisons. D'ailleur j'ai repeint mon mur des shiots !", $this->dateD(180));
+    
     $this->createElement('azyd_azylum_1', 'AZYD AZYLUM Live au Café Provisoire', 
       'http://www.youtube.com/watch?v=8AXhRXAt2E4', 
       $this->getArrayOfTag(array('metal')),
-      'youtube.com', $bux, null, $this->dateD(182)
+      'youtube.com', $bux, null, $this->dateD(182),
+      $cm->get()
     );
+    
+    $cm = new CommentsManager();
+    $cm->add($bux, "Je commenteuuh nanana 1", $this->dateD(180));
+    $cm->add($paul, "Je répond 2", $this->dateD(180));
+    $cm->add($bux, "Je répond 3", $this->dateD(179));
+    $cm->add($paul, "Je répond 4", $this->dateD(178));
+    $cm->add($bux, "Je répond 5", $this->dateD(177));
+    $cm->add($paul, "Je répond 6", $this->dateD(176));
+    $cm->add($bux, "Je répond 7", $this->dateD(175));
+    $cm->add($paul, "Je répond 8", $this->dateD(174));
+    $cm->add($bux, "Je répond 9", $this->dateD(173));
+    $cm->add($paul, "Je répond 10", $this->dateD(172));
+    $cm->add($bux, "Je répond 11", $this->dateD(161));
+    $cm->add($paul, "Je répond 12", $this->dateD(150));
+    $cm->add($bux, "Je répond 13", $this->dateD(140));
     
     $this->createElement('babylon_pression_1', 'Babylon Pression - Des Tasers et des Pauvres', 
       'http://www.youtube.com/watch?v=XWkbaHxRvds&feature=related', 
       $this->getArrayOfTag(array('metal', 'hardcore')),
-      'youtube.com', $bux, null, $this->dateD(181)
+      'youtube.com', $bux, null, $this->dateD(181),
+      $cm->get()
     );
     
+    $cm = new CommentsManager();
+    $cm->add($bux, "C'est trop bon hein ?", $this->dateD(180));
+    $cm->add($paul, "C'est pas mal en effet", $this->dateD(180));
+        
     $this->createElement('ed_cox_1', 'Ed Cox - La fanfare des teuffeurs (Hardcordian)', 
       'http://www.youtube.com/watch?v=Lk1gnh-JCDs&feature=related', 
       $this->getArrayOfTag(array('electro')),
-      'youtube.com', $bux, null, $this->dateD(180)
+      'youtube.com', $bux, null, $this->dateD(180),
+      $cm->get()
     );
     
 

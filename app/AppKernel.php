@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new Muzich\AdminBundle\MuzichAdminBundle(),
             new Muzich\GroupBundle\MuzichGroupBundle(),
             new Muzich\FavoriteBundle\MuzichFavoriteBundle(),
+            new Muzich\CommentBundle\MuzichCommentBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

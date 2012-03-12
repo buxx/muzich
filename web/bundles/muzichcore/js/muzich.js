@@ -1276,5 +1276,53 @@ $(document).ready(function(){
       check_new_elements();
     }
   }
+  
+  /*
+   * Commentaires d'élément
+   */
+  
+  // Afficher les commentaires
+    $('td.element_content a.display_comments').live('click', function(){
+      display_comments(
+        $('li#element_'+
+          str_replace('#comments_', '', $(this).attr('href'))
+        )
+      );
+    });
+    
+    $('td.element_content a.hide_comments').live('click', function(){
+      hide_comments(
+        $('li#element_'+
+          str_replace('#hide_comments_', '', $(this).attr('href'))
+        )
+      );
+    });
+  
+    function display_comments(li_element)
+    {
+      li_element.find('div.comments').slideDown();
+      li_element.find('a.display_comments').hide();
+      li_element.find('a.hide_comments').show();
+    }
+  
+    function hide_comments(li)
+    {
+      li_element.find('div.comments').slideUp();
+      li_element.find('a.display_comments').show();
+      li_element.find('a.hide_comments').hide();
+    }
+    
+  // Ajouter un commentaire
+    $('li.element a.add_comment').live('click', function(){
+      display_add_comment($('li#element_'+
+        str_replace('#add_comment_', '', $(this).attr('href'))
+      ));
+    });
+    
+    function display_add_comment(li_element)
+    {
+      li_element.find('a.add_comment').hide();
+      
+    }
    
  });
