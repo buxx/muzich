@@ -31,8 +31,25 @@ class MyTwigExtension extends \Twig_Extension {
 
     return $timestamp;
   }
+  
+  protected function translate_date_relative($tr, $type, $x)
+  {
+    if ($x != 1)
+    {
+      return $this->translator->trans(
+        $tr.'x_'.$type, 
+        array('%x%' => $x), 
+        'messages'
+      );
+    }
+    return $this->translator->trans(
+      $tr.'one_'.$type, 
+      array(), 
+      'messages'
+    );
+  }
 
-  public function date_or_relative_date($sentence, $expr = null)
+  public function date_or_relative_date($sentence, $context = "default")
   {
     $iTimeDifference = time() - $this->datetime2timestamp($sentence);
     if( $iTimeDifference<0 ) 
@@ -47,57 +64,35 @@ class MyTwigExtension extends \Twig_Extension {
     $iMonths   	= round( $iTimeDifference/2419200 );
     $iYears   	= round( $iTimeDifference/29030400 );
         
+    $tr = 'date_since.'.$context.'.';
+    
     if( $iSeconds<60 )
     {
-      return $this->translator->trans('date.less_than_minute', array(), 'userui');
+      return $this->translator->trans('date_since.'.$context.'.less_min', array(), 'messages');
     }
     elseif( $iMinutes<60 )
     {
-      return $this->translator->transChoice(
-        'il y a une minute|Il y a %count% minutes',
-        $iMinutes,
-        array('%count%' => $iMinutes)
-      );
+      return $this->translate_date_relative($tr, 'min', $iMinutes);
     }
     elseif( $iHours<24 )
     {
-      return $this->translator->transChoice(
-        'il y a une heure|Il y a %count% heures',
-        $iHours,
-        array('%count%' => $iHours)
-      );
+      return $this->translate_date_relative($tr, 'hour', $iHours);
     }
     elseif( $iDays<7 )
     {
-      return $this->translator->transChoice(
-        'il y a un jour|Il y a %count% jours',
-        $iDays,
-        array('%count%' => $iDays)
-      );
+      return $this->translate_date_relative($tr, 'day', $iDays);
     }
     elseif( $iWeeks <4 )
     {
-      return $this->translator->transChoice(
-        'il y a une semaine|Il y a %count% semaines',
-        $iWeeks,
-        array('%count%' => $iWeeks)
-      );
+      return $this->translate_date_relative($tr, 'week', $iWeeks);
     }
     elseif( $iMonths<12 )
     {
-      return $this->translator->transChoice(
-        'il y a un mois|Il y a %count% mois',
-        $iMonths,
-        array('%count%' => $iMonths)
-      );
+      return $this->translate_date_relative($tr, 'month', $iMonths);
     }
     else
     {
-      return $this->translator->transChoice(
-        'il y a un an|Il y a %count% ans',
-        $iYears,
-        array('%count%' => $iYears)
-      );
+      return $this->translate_date_relative($tr, 'year', $iYears);
     }
   }
 

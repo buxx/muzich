@@ -1,2 +1,47 @@
 
 Username:     Nom d'utilisateur
+
+date_since:
+  default:
+    less_min:      Il y a moins d'une minute
+    one_min:       Il y a une minute
+    one_hour:      Il y a une heure
+    one_day:       Il y a un jour
+    one_week:       Il y a une semaine
+    one_month:       Il y a un mois
+    one_year:       Il y a un an
+    x_min:         Il y a %x% minutes
+    x_hour:        Il y a %x% heures
+    x_day:         Il y a %x% jours
+    x_week:         Il y a %x% semaines
+    x_month:         Il y a %x% mois
+    x_year:         Il y a %x% ans
+  comment:
+    created:
+      less_min:      Il y a moins d'une minute
+      one_min:       Il y a une minute
+      one_hour:      Il y a une heure
+      one_day:       Il y a un jour
+      one_week:       Il y a une semaine
+      one_month:       Il y a un mois
+      one_year:       Il y a un an
+      x_min:         Il y a %x% minutes
+      x_hour:        Il y a %x% heures
+      x_day:         Il y a %x% jours
+      x_week:         Il y a %x% semaines
+      x_month:         Il y a %x% mois
+      x_year:         Il y a %x% ans
+    edited:
+      less_min:      et modifié il y a moins d'une minute
+      one_min:       et modifié il y a une minute
+      one_hour:      et modifié il y a une heure
+      one_day:       et modifié il y a un jour
+      one_week:       et modifié il y a une semaine
+      one_month:       et modifié il y a un mois
+      one_year:       et modifié il y a un an
+      x_min:         et modifié il y a %x% minutes
+      x_hour:        et modifié il y a %x% heures
+      x_day:         et modifié il y a %x% jours
+      x_week:         et modifié il y a %x% semaines
+      x_month:         et modifié il y a %x% mois
+      x_year:         et modifié il y a %x% ans
