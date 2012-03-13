@@ -1,5 +1,11 @@
 
-<form novalidate class="edit_element" name="{{ form_name }}" action="{{ path('element_update', {'element_id': element_id}) }}" method="post" {{ form_enctype(form) }}>
+<form 
+  novalidate
+  class="edit_element" 
+  name="{{ form_name }}" 
+  action="{{ path('element_update', {'element_id': element_id, 'dom_id': 'element_' ~ element_id}) }}" 
+  method="post" {{ form_enctype(form) }}
+>
 
   {% include "MuzichCoreBundle:Element:form.edit.html.twig" with { 
     'form'          : form, 
