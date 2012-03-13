@@ -1208,6 +1208,7 @@ $(document).ready(function(){
 
           setTimeout(check_new_elements, 150000);
         });
+        do_check_new_elements = false;
       }
       
     }
