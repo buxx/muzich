@@ -514,9 +514,9 @@ $(document).ready(function(){
   
  // Suppression d'un element
   $('a.element_remove_link').jConfirmAction({
-    question : "Vraiment supprimer ?", 
-    yesAnswer : "Oui", 
-    cancelAnswer : "Non",
+    question : string_element_delete_confirm_sentence, 
+    yesAnswer : string_element_delete_confirm_yes, 
+    cancelAnswer : string_element_delete_confirm_no,
     onYes: function(link){
       
       li = link.parent('td').parent('tr').parent().parent().parent('li.element');
@@ -1402,9 +1402,9 @@ $(document).ready(function(){
       
     // Supprimer
     $('a.comment_remove_link').jConfirmAction({
-    question : "Vraiment supprimer ?", 
-    yesAnswer : "Oui", 
-    cancelAnswer : "Non",
+    question : string_comment_delete_confirm_sentence, 
+    yesAnswer : string_comment_delete_confirm_yes, 
+    cancelAnswer : string_comment_delete_confirm_no,
     onYes: function(link){
       
       li = link.parent('li.comment');

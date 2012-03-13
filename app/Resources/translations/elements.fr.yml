@@ -26,6 +26,10 @@ element:
     link:               Modifier
   remove:
     link:               Supprimer
+    confirm:
+      sentence:         Vraiment supprimer ?
+      yes:              Oui
+      no:               Non
   comments: 
     add:                Ajouter un commentaire
     thereis:            Afficher le commentaire
@@ -46,6 +50,10 @@ comment:
     link:               Modifier votre commentaire
   remove:
     link:               Supprimer votre commentaire
+    confirm:
+      sentence:         Vraiment supprimer ?
+      yes:              Oui
+      no:               Non
   
 elements:
   ajax:
