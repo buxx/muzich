@@ -587,6 +587,7 @@ $(document).ready(function(){
       
       // On rend ce formulaire ajaxFormable
       $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){
+        li = $(this).parent('form').parent('li');
         li.prepend(div_loader);
         li.find('img.element_loader').show();
       });
@@ -596,6 +597,8 @@ $(document).ready(function(){
         {
           $(location).attr('href', url_index);
         }
+        
+        li = $('li#'+response.dom_id);
         
         if (response.status == 'success')
         {

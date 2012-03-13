@@ -80,7 +80,7 @@ class ElementController extends Controller
   /**
    *
    */
-  public function updateAction($element_id)
+  public function updateAction($element_id, $dom_id)
   {
     if (($response = $this->mustBeConnected()))
     {
@@ -142,6 +142,7 @@ class ElementController extends Controller
     {
       return $this->jsonResponse(array(
         'status'  => $status,
+        'dom_id'  => $dom_id,
         'html'    => $html,
         'errors'  => $errors
       ));
