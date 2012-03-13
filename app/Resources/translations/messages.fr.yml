@@ -45,3 +45,8 @@ date_since:
       x_week:         et modifié il y a %x% semaines
       x_month:         et modifié il y a %x% mois
       x_year:         et modifié il y a %x% ans
+
+noscript:
+  message:           Javascript est nécéssaire pour l'utilisation du site ! 
+  link_text:         En savoir plus
+  link_search:       https://duckduckgo.com/?q=activer+javascript

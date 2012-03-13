@@ -121,6 +121,28 @@ input.button, button.button {
   -webkit-border-radius: 5px 5px 0px 0px;
 }
 
+/* Noscript */
+div#noscript_warning
+{
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  background-color: #fe4b4b;
+  color: black;
+  font-weight: bold;
+  font-size: 110%;
+  padding: 5px;
+  z-index: 999;
+  
+  border-top: 1px solid #d5d5d5;
+  border-left: 1px solid #d5d5d5;
+  border-right: 1px solid #d5d5d5;
+  -moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	border-radius: 5px;
+}
+
 .top-tabs-right
 {
   list-style: none outside none;

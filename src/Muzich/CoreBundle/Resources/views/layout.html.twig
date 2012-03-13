@@ -57,6 +57,17 @@
   
   {% include "MuzichUserBundle:Account:topBar.html.twig" %}
   
+  <noscript>
+    <div id="noscript_warning">
+      <p>
+        {{ 'noscript.message'|trans({}, 'messages') }}
+        <a href="{{ 'noscript.link_search'|trans({}, 'messages') }}" target="_blank">
+          {{ 'noscript.link_text'|trans({}, 'messages') }}
+        </a>
+      </p>
+    </div>
+  </noscript>
+  
   <div id="container">
     {% block main_content %}{% endblock %}
     {% block fos_user_content %}{% endblock %}
