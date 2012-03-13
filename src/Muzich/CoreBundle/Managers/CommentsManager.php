@@ -62,7 +62,7 @@ class CommentsManager
             "s" => $user->getSlug(),
             "n" => $user->getName()
           ),
-          "u" => date('Y-m-d H:i:s u'),
+          "e" => date('Y-m-d H:i:s u'),
           "d" => $date,
           "c" => $comment_c
         );

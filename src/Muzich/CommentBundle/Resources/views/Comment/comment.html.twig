@@ -1,6 +1,9 @@
 <a href="{{ path('show_user', {'slug': comment.u.s}) }}" >{{ comment.u.n }}</a>: 
 {{ comment.c }}
-<span class="datesince">({{ comment.d|date_or_relative_date }})</span>
+<span class="datesince">
+  ({{ date_or_relative_date(comment.d, 'comment.created') }}{% if comment.e is defined %}
+   {{ date_or_relative_date(comment.e, 'comment.edited') }}{% endif %})
+</span>
 
 {% if app.user.id == comment.u.i %}
   <a title="{{ 'comment.edit.link'|trans({}, 'elements') }}" class="comment_edit_link" 

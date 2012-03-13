@@ -22,6 +22,12 @@ class MyTwigExtension extends \Twig_Extension {
     );
   }
   
+  public function getFunctions() {
+    return array(
+      'date_or_relative_date'  => new \Twig_Filter_Method($this, 'date_or_relative_date')
+    );
+  }
+  
   protected function datetime2timestamp($string)
   {
     list($date, $time) = explode(' ', $string);
