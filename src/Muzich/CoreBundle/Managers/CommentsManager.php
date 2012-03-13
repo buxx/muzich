@@ -72,11 +72,19 @@ class CommentsManager
         $comments[] = $comment;
       }
     }
+    
     $this->comments = $comments;
   }
   
+  /**
+   *
+   * @param int $user_id
+   * @param string $date
+   * @return boolean 
+   */
   public function delete($user_id, $date)
   {
+    $found = false;
     $comments = array();
     foreach ($this->comments as $comment)
     {
@@ -84,8 +92,13 @@ class CommentsManager
       {
         $comments[] = $comment;
       }
+      else
+      {
+        $found = true;
+      }
     }
     $this->comments = $comments;
+    return $found;
   }
   
   public function getIndex($user_id, $date)

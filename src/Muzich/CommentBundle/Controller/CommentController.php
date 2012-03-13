@@ -32,7 +32,7 @@ class CommentController extends Controller
       return $this->jsonResponse(array(
         'status' => 'error',
         'errors' => array($this->trans(
-          'element.comments.add_error.min', 
+          'element.comments.errors.min', 
           array(
             '%limit%' => $this->container->getParameter('comment_add_min_length')
           ), 
@@ -45,7 +45,7 @@ class CommentController extends Controller
       return $this->jsonResponse(array(
         'status' => 'error',
         'errors' => array($this->trans(
-          'element.comments.add_error.max', 
+          'element.comments.errors.max', 
           array(
             '%limit%' => $this->container->getParameter('comment_add_max_length')
           ), 
@@ -94,7 +94,20 @@ class CommentController extends Controller
     
     // On met a jour les commentaires
     $cm = new CommentsManager($element->getComments());
-    $cm->delete($this->getUserId(), $date);
+    
+    
+    if (!$cm->delete($this->getUserId(), $date))
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array($this->trans(
+          'element.comments.errors.unknow', 
+          array(), 
+          'elements'
+        )
+      )));
+    }
+    
     $element->setComments($cm->get());
       
     $this->getDoctrine()->getEntityManager()->persist($element);
@@ -162,7 +175,7 @@ class CommentController extends Controller
         'status' => 'error',
         'dom_id' => $dom_id,
         'errors' => array($this->trans(
-          'element.comments.add_error.min', 
+          'element.comments.errors.min', 
           array(
             '%limit%' => $this->container->getParameter('comment_add_min_length')
           ), 
@@ -176,7 +189,7 @@ class CommentController extends Controller
         'status' => 'error',
         'dom_id' => $dom_id,
         'errors' => array($this->trans(
-          'element.comments.add_error.max', 
+          'element.comments.errors.max', 
           array(
             '%limit%' => $this->container->getParameter('comment_add_max_length')
           ), 
@@ -192,13 +205,26 @@ class CommentController extends Controller
 
     $this->getDoctrine()->getEntityManager()->persist($element);
     $this->getDoctrine()->getEntityManager()->flush();
-
+    
+    if (!($comment_index = $cm->getIndex($this->getUserId(), $date)))
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'dom_id' => $dom_id,
+        'errors' => array($this->trans(
+          'element.comments.errors.unknow', 
+          array(), 
+          'elements'
+        )
+      )));
+    }
+    
     // On récupère le html du li avec le comment pour la réponse
     $html = $this->render('MuzichCommentBundle:Comment:comment.html.twig', array(
-      'comment'     => $cm->get($cm->getIndex($this->getUserId(), $date)),
+      'comment'     => $cm->get($comment_index),
       'element_id'  => $element->getId()
     ))->getContent();
-
+    
     return $this->jsonResponse(array(
       'status' => 'success',
       'dom_id' => $dom_id,
