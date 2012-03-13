@@ -242,14 +242,17 @@ class ElementControllerTest extends FunctionalTest
     $response = json_decode($this->client->getResponse()->getContent(), true);
     $this->assertEquals($response['status'], 'success');
     $this->assertEquals($response['form_name'], 'element_'.$element->getId());
-    $this->assertTrue(strpos($response['html'], '<form novalidate class="edit_element"') !== false);
+    $this->assertTrue(strpos($response['html'], 'class="edit_element"') !== false);
     
     // Il faut que l'on récupère le token
     preg_match("#name=\"element_add\[_token\]\" value=\"([a-zA-Z0-9]+)\" />#", $response['html'], $chaines);
     $csrf = $chaines[1];
     
     // On effectue la modification en ajax
-    $url = $this->generateUrl('element_update', array('element_id' => $element->getId()));
+    $url = $this->generateUrl('element_update', array(
+      'element_id' => $element->getId(),
+      'dom_id'     => 'element_'.$element->getId()
+    ));
     
     $crawler = $this->client->request(
       'POST', 
