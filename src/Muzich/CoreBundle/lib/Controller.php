@@ -325,6 +325,8 @@ class Controller extends BaseController
     
     if ($this->getUser() == 'anon.')
     {
+      $this->setFlash('info', 'user.session_expired');
+      
       if ($this->getRequest()->isXmlHttpRequest())
       {
         return $this->jsonResponse(array(

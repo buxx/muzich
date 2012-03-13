@@ -30,4 +30,4 @@ user:
     token_invalid: Le lien pour mettre a jour votre email est périmé, veuillez relancer la procédure.
     success:       Votre email a correctement été mis a jour.
     wait:          Vous devez attendre avant de pouvoir faire une nouvelle demande de changement d'email.
-    
+  session_expired: Vous avez été déconnecté, veuillez vous ré-identifier
