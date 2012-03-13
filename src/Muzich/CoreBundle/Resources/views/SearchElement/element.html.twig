@@ -150,7 +150,7 @@
     <ul class="comments">
     {% if element.comments|length %}
       {% for comment in element.comments %}
-        {% include "MuzichCommentBundle:Comment:comment.html.twig" %}
+        {% include "MuzichCommentBundle:Comment:li.comment.html.twig" with {'element_id' : element.id} %}
       {% endfor %}
     {% endif %}
     </ul>
@@ -160,26 +160,16 @@
     </div>
       
     <form 
-      action="{{ path('ajax_add_comment', {'element_id':element.id}) }}" 
+      action="{{ path('ajax_add_comment', {'element_id':element.id, 'token':app.user.getPersonalHash}) }}" 
       method="post" 
       name="add_comment"
       style="display: none;"
       class="add_comment"
     >
-      <textarea name="comment"></textarea>
-      <div class="buttons">
-        <input 
-          type="submit" 
-          value="{{ 'element.comments.add_submit'|trans({}, 'elements') }}" 
-          class="button"
-        />
-        <br />
-        <input 
-          type="button" 
-          value="{{ 'element.comments.add_cancel'|trans({}, 'elements') }}" 
-          class="button cancel"
-        />
-      </div>
+      {% include "MuzichCommentBundle:Comment:form.html.twig" with {
+        'submit_value' : 'element.comments.add_submit'|trans({}, 'elements'),
+        'cancel_value' : 'element.comments.add_cancel'|trans({}, 'elements')
+      } %}
     </form>
       
     <a href="#add_comment_{{ element.id }}" class="add_comment">

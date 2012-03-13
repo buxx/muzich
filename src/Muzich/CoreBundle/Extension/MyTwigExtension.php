@@ -17,7 +17,8 @@ class MyTwigExtension extends \Twig_Extension {
   {
     return array(
       'var_dump'               => new \Twig_Filter_Function('var_dump'),
-      'date_or_relative_date'  => new \Twig_Filter_Method($this, 'date_or_relative_date')
+      'date_or_relative_date'  => new \Twig_Filter_Method($this, 'date_or_relative_date'),
+      'date_epurate'            => new \Twig_Filter_Method($this, 'date_epurate')
     );
   }
   
@@ -104,6 +105,14 @@ class MyTwigExtension extends \Twig_Extension {
   public function getName()
   {
     return 'my_twig_extension';
+  }
+  
+  public function date_epurate($date)
+  {
+    $date = str_replace(' ', '', $date);
+    $date = str_replace('-', '', $date);
+    $date = str_replace(':', '', $date);
+    return $date;
   }
 
 }

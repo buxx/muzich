@@ -34,8 +34,17 @@ element:
     hideare:            Cacher les commentaires
     add_submit:         Commenter
     add_cancel:         Annuler
+    edit_submit:        Envoyer
+    edit_cancel:        Annuler
     add_error:
       min:              Le commentaire doit être de %limit% caractéres minimum
+      max:              Le commentaire doit être de %limit% caractéres maximum
+  
+comment:
+  edit:
+    link:               Modifier votre commentaire
+  remove:
+    link:               Supprimer votre commentaire
   
 elements:
   ajax:

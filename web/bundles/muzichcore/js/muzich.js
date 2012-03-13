@@ -1373,4 +1373,138 @@ $(document).ready(function(){
       li_element.find('form.add_comment textarea').val('');
     }
    
+   // Modifier et supprimer
+   // Affichage du bouton Modifier et Supprimer
+    $('ul.comments li.comment').live({
+      mouseenter:
+        function()
+        {
+          $(this).find('a.comment_edit_link').show();
+          $(this).find('a.comment_remove_link').show();
+        },
+      mouseleave:
+        function()
+        {
+          if (!$(this).find('a.comment_edit_link').hasClass('mustBeDisplayed'))
+          {
+            $(this).find('a.comment_edit_link').hide();
+          }
+          if (!$(this).find('a.comment_remove_link').hasClass('mustBeDisplayed'))
+          {
+            $(this).find('a.comment_remove_link').hide();
+          }
+        }
+      }
+    );
+      
+    // Supprimer
+    $('a.comment_remove_link').jConfirmAction({
+    question : "Vraiment supprimer ?", 
+    yesAnswer : "Oui", 
+    cancelAnswer : "Non",
+    onYes: function(link){
+      
+      li = link.parent('li.comment');
+      li.find('img.comment_loader').show();
+      
+      $.getJSON(link.attr('href'), function(response){
+        
+        li.find('img.comment_loader').hide();
+        
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+        
+        if (response.status == 'success')
+        {
+          li.remove();
+        }
+      });
+
+      return false;
+    },
+    onOpen: function(link){
+      li = link.parent('li.comment');
+      li.find('a.comment_edit_link').addClass('mustBeDisplayed');
+      li.find('a.comment_remove_link').addClass('mustBeDisplayed');
+    },
+    onClose: function(link){
+      li = link.parent('li.comment');
+      li.find('a.comment_edit_link').removeClass('mustBeDisplayed');
+      li.find('a.comment_remove_link').removeClass('mustBeDisplayed');
+      li.find('a.comment_edit_link').hide();
+      li.find('a.comment_remove_link').hide();
+    }
+  });
+  
+  comments_edited = new Array();
+  
+  // Modification
+  // Ouverture du formulaire de modification
+  $('a.comment_edit_link').live('click', function(){
+    
+    link = $(this);
+    li = link.parent('li.comment');
+    // On garde en mémoire l'élément édité en cas d'annulation
+    comments_edited[li.attr('id')] = li.html();
+    loader = li.find('img.comment_loader');
+    li.html(loader);
+    li.find('img.comment_loader').show();
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      li.html(response.html);
+      // On rend ce formulaire ajaxFormable
+      $('li#'+li.attr('id')+' form.edit_comment input[type="submit"]').live('click', function(){
+        li_current = $(this).parent('div').parent('form').parent('li');
+        li_current.prepend(loader);
+        li_current.find('img.comment_loader').show();
+      });
+      
+      li.find('form.edit_comment').ajaxForm(function(response){
+        
+        li = $('li#'+response.dom_id);
+        li.find('img.comment_loader').hide();
+        
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+        
+        if (response.status == 'success')
+        {
+          li.html(response.html);
+          delete(comments_edited[li.attr('id')]);
+        }
+        else if (response.status == 'error')
+        {
+          li.find('ul.error_list').remove();
+          ul_errors = $('<ul>').addClass('error_list');
+          
+          for (i in response.errors)
+          {
+            ul_errors.append($('<li>').append(response.errors[i]));
+          }
+          
+          li.prepend(ul_errors);
+        }
+      });
+      
+    });
+    return false;
+  });
+  
+  // Annulation d'un formulaire de modification d'un comment
+  $('form.edit_comment input.cancel').live('click', function(){
+    var li = $(this).parent('div').parent('form').parent('li');
+    li.html(comments_edited[li.attr('id')]);
+    delete(comments_edited[li.attr('id')]);
+  });
+   
  });

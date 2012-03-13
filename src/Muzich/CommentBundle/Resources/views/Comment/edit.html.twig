@@ -1,0 +1,18 @@
+<form 
+  id="edit_{{ comment.u.i }}_{{ comment.d|date_epurate }}"
+  action="{{ path('ajax_update_comment', {
+    'element_id':element_id, 
+    'date': date, 
+    'token':app.user.getPersonalHash,
+    'dom_id': comment.u.i~'_'~(comment.d|date_epurate)
+  }) }}" 
+  method="post" 
+  name="edit_comment"
+  class="edit_comment"
+>
+  {% include "MuzichCommentBundle:Comment:form.html.twig" with {
+    'submit_value' : 'element.comments.edit_submit'|trans({}, 'elements'),
+    'cancel_value' : 'element.comments.edit_cancel'|trans({}, 'elements'),
+    'comment_value' : comment.c
+  } %}
+</form>

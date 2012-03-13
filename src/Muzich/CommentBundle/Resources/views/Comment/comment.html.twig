@@ -1,5 +1,24 @@
-<li class="comment">
-  <a href="{{ path('show_user', {'slug': comment.u.s}) }}" >{{ comment.u.n }}</a>: 
-  {{ comment.c }}
-  <span class="datesince">({{ comment.d|date_or_relative_date }})</span>
-</li>
+<a href="{{ path('show_user', {'slug': comment.u.s}) }}" >{{ comment.u.n }}</a>: 
+{{ comment.c }}
+<span class="datesince">({{ comment.d|date_or_relative_date }})</span>
+
+{% if app.user.id == comment.u.i %}
+  <a title="{{ 'comment.edit.link'|trans({}, 'elements') }}" class="comment_edit_link" 
+     href="{{ path('ajax_edit_comment', {'element_id': element_id, 'date':comment.d, 'token':app.user.getPersonalHash})  }}" style="display: none;"
+  >
+    <img src="{{ asset('bundles/muzichcore/img/1327151338_desktop.png') }}" alt="edit" />
+  </a>
+
+  <a title="{{ 'comment.remove.link'|trans({}, 'elements') }}" class="comment_remove_link" 
+     href="{{ path('ajax_delete_comment', {'element_id': element_id, 'date':comment.d, 'token':app.user.getPersonalHash})  }}" style="display: none;"
+  >
+    <img src="{{ asset('bundles/muzichcore/img/1327168960_fileclose.png') }}" alt="delete" />
+  </a>
+
+  <img 
+    class="comment_loader" 
+    style="display: none;" 
+    src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" 
+    alt="loading"
+  />
+{% endif %}

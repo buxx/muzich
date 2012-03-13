@@ -66,8 +66,12 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     $this->entity_manager->persist($element);
   }
   
-  protected function dateD($ecal)
+  protected function dateD($ecal, $micro = false)
   {
+    if ($micro)
+    {
+      return date('Y-m-d H:i:s u', time() - 60 * 60 *24 * $ecal);
+    }
     return date('Y-m-d H:i:s', time() - 60 * 60 *24 * $ecal);
   }
   

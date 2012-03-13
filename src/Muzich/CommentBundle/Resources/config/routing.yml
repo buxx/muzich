@@ -1,4 +1,16 @@
 
 ajax_add_comment:
-  pattern: /ajax/comment/add/{element_id}
+  pattern: /ajax/comment/add/{element_id}/{token}
   defaults: { _controller: MuzichCommentBundle:Comment:add }
+  
+ajax_edit_comment:
+  pattern: /ajax/comment/edit/{element_id}/{date}/{token}
+  defaults: { _controller: MuzichCommentBundle:Comment:edit }
+  
+ajax_update_comment:
+  pattern: /ajax/comment/update/{element_id}/{date}/{token}/{dom_id}
+  defaults: { _controller: MuzichCommentBundle:Comment:update }
+  
+ajax_delete_comment:
+  pattern: /ajax/comment/delete/{element_id}/{date}/{token}
+  defaults: { _controller: MuzichCommentBundle:Comment:delete }

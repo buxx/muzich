@@ -1,0 +1,14 @@
+<textarea name="comment">{% if comment_value is defined %}{{ comment_value }}{% endif %}</textarea>
+<div class="buttons">
+  <input 
+    type="submit" 
+    value="{{ submit_value }}" 
+    class="button"
+  />
+  <br />
+  <input 
+    type="button" 
+    value="{{ cancel_value }}" 
+    class="button cancel"
+  />
+</div>

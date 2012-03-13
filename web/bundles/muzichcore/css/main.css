@@ -960,19 +960,19 @@ li.comment span.datesince
   color: #868686;
 }
 
-div.comments form.add_comment textarea
+div.comments form.add_comment textarea, div.comments form.edit_comment textarea
 {
   width: 80%;
   height: 48px;
 }
 
-div.comments form.add_comment div.buttons
+div.comments form.add_comment div.buttons, div.comments form.edit_comment div.buttons
 {
   float: right;
   text-align: center;
 }
 
-div.comments form.add_comment div.buttons input
+div.comments form.add_comment div.buttons input, div.comments form.edit_comment div.buttons input
 {
   margin-top: 1px;
   margin-bottom: 1px;

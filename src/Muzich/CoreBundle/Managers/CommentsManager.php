@@ -25,7 +25,7 @@ class CommentsManager
   {
     if (!$date)
     {
-      $date = date('Y-m-d H:i:s');
+      $date = date('Y-m-d H:i:s u');
     }
     
     $this->comments[] = array(
@@ -47,6 +47,57 @@ class CommentsManager
   public function getLast()
   {
     return $this->get(count($this->comments)-1);
+  }
+  
+  public function update($user, $date, $comment_c)
+  {
+    $comments = array();
+    foreach ($this->comments as $comment)
+    {
+      if ($comment['u']['i'] == $user->getId() && $comment['d'] == $date)
+      {
+        $comments[] = array(
+          "u" => array(
+            "i" => $user->getId(),
+            "s" => $user->getSlug(),
+            "n" => $user->getName()
+          ),
+          "u" => date('Y-m-d H:i:s u'),
+          "d" => $date,
+          "c" => $comment_c
+        );
+      }
+      else
+      {
+        $comments[] = $comment;
+      }
+    }
+    $this->comments = $comments;
+  }
+  
+  public function delete($user_id, $date)
+  {
+    $comments = array();
+    foreach ($this->comments as $comment)
+    {
+      if ($comment['u']['i'] != $user_id || $comment['d'] != $date)
+      {
+        $comments[] = $comment;
+      }
+    }
+    $this->comments = $comments;
+  }
+  
+  public function getIndex($user_id, $date)
+  {
+    foreach ($this->comments as $i => $comment)
+    {
+      if ($comment['u']['i'] == $user_id && $comment['d'] == $date)
+      {
+        return $i;
+      }
+    }
+    return null;
   }
   
   /**
