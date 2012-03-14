@@ -15,6 +15,7 @@ use Muzich\CoreBundle\Form\Search\ElementSearchForm;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Muzich\CoreBundle\Entity\Tag;
 use Muzich\CoreBundle\Managers\TagManager;
+use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 
 class CoreController extends Controller
 {
@@ -379,6 +380,41 @@ class CoreController extends Controller
       'status'   => 'success',
       'tag_id'   => $tag->getId(),
       'tag_name' => $tag->getName()
+    ));
+  }
+  
+  public function addTagToFavoritesAction($tag_id, $token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($tag = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneById($tag_id)) || $this->getUser()->getPersonalHash() != $token)
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    if (!$this->getDoctrine()->getRepository('MuzichCoreBundle:UsersTagsFavorites')
+      ->findOneBy(array(
+        'user' => $this->getUserId(),
+        'tag'  => $tag->getId()
+      )))
+    {
+      $fav = new UsersTagsFavorites();
+      $fav->setTag($tag);
+      $fav->setUser($this->getUser());
+      $fav->setPosition(0);
+      $this->getDoctrine()->getEntityManager()->persist($fav);
+      $this->getDoctrine()->getEntityManager()->flush();
+    }
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
     ));
   }
   

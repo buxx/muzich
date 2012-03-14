@@ -102,6 +102,17 @@
         {% for tag in element.tags %} 
           <li class="element_tag">
             <a href="#{{ tag.id }}" class="element_tag button">{{ tag.name }}</a>
+            <a 
+              href="{{ path('ajax_tag_add_to_favorites', {
+                'tag_id' : tag.id,
+                'token'  : app.user.getPersonalHash
+              }) }}" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="{{ 'element.tag.addtofav.title'|trans({}, 'elements') }}"   
+            >
+              <img src="{{ asset('/bundles/muzichcore/img/1331734087_emblem-favorite.png') }}" alt="add-to-favorites"/>
+            </a>
           </li>
         {% endfor %} 
       </ul>

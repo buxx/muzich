@@ -1510,5 +1510,57 @@ $(document).ready(function(){
     li.html(comments_edited[li.attr('id')]);
     delete(comments_edited[li.attr('id')]);
   });
+  
+  /*
+   * Ajout d'un tag en favoris a partir d'un élément
+   */
+  
+  $('li.element_tag').live({
+      mouseenter:
+        function()
+        {
+          $(this).find('a.tag_to_favorites').show();
+          $(this).find('a.element_tag').addClass('element_tag_large_for_fav');
+        },
+      mouseleave:
+        function()
+        {
+          if (!$(this).find('a.tag_to_favorites').hasClass('mustBeDisplayed'))
+          {
+            $(this).find('a.tag_to_favorites').hide();
+            $(this).find('a.element_tag').removeClass('element_tag_large_for_fav');
+          }
+        }
+      }
+    );
+      
+  $('a.tag_to_favorites').jConfirmAction({
+    question : string_tag_addtofav_confirm_sentence, 
+    yesAnswer : string_tag_addtofav_confirm_yes, 
+    cancelAnswer : string_tag_addtofav_confirm_no,
+    onYes: function(link){
+      
+      $.getJSON(link.attr('href'), function(response){
+        
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+      });
+      
+      $('div.question').fadeOut();
+      return false;
+    },
+    onOpen: function(link){
+      li = link.parent('li.element_tag');
+      li.find('a.tag_to_favorites').addClass('mustBeDisplayed');
+    },
+    onClose: function(link){
+      li = link.parent('li.element_tag');
+      li.find('a.tag_to_favorites').removeClass('mustBeDisplayed');
+      li.find('a.element_tag').removeClass('element_tag_large_for_fav');
+      li.find('a.tag_to_favorites').hide();
+    }
+  });
    
  });

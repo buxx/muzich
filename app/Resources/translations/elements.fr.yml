@@ -30,6 +30,13 @@ element:
       sentence:         Vraiment supprimer ?
       yes:              Oui
       no:               Non
+  tag:
+    addtofav:
+      title:            Ajouter a vos tags favoris
+      confirm:
+        sentence:       Ajouter aux favoris ?
+        yes:            Oui
+        no:             Non
   comments: 
     add:                Ajouter un commentaire
     thereis:            Afficher le commentaire
