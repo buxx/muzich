@@ -734,5 +734,122 @@ class HomeControllerTest extends FunctionalTest
     
   }
   
+  public function testAddedElementToGroup()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bob', 'toor');
+    // bob administre le groupe fans de psytrance
+    $bob = $this->getUser();
+    
+    $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
+    $tribe = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+    $psytrance = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Psytrance');
+    
+    $fan_de_psy = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Fans de psytrance');
+    
+    // On envoie d'abord un élément sans tags associé
+    // On ne devra pas avoir de proposition de groupe
+    $url = $this->generateUrl('element_add');
+   
+    $extract = $this->crawler->filter('input[name="element_add[_token]"]')
+      ->extract(array('value'));
+    $csrf = $extract[0];
+    
+    $crawler = $this->client->request(
+      'POST', 
+      $url, 
+      array(
+          'element_add' => array(
+              '_token' => $csrf,
+              'name'   => 'Musique 1976824673',
+              'url'    => 'http://www.youtube.com/watch?v=WC8qb_of04E',
+              'tags'   => json_encode(array($hardtek->getId(), $tribe->getId()))
+          )
+        
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['groups'], array());
+    
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Musique 1976824673')
+    ;
+    $this->assertTrue(!is_null($element));
+    
+    // Maintenant on ajout un élément qui a comme tag psytrance
+    $url = $this->generateUrl('element_add');
+   
+    $extract = $this->crawler->filter('input[name="element_add[_token]"]')
+      ->extract(array('value'));
+    $csrf = $extract[0];
+    
+    $crawler = $this->client->request(
+      'POST', 
+      $url, 
+      array(
+          'element_add' => array(
+              '_token' => $csrf,
+              'name'   => 'Musique 4gbz65g4afa',
+              'url'    => 'http://www.youtube.com/watch?v=WC8qb_of04E',
+              'tags'   => json_encode(array($psytrance->getId()))
+          )
+        
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Musique 4gbz65g4afa')
+    ;
+    $this->assertTrue(!is_null($element));
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['groups'], array(
+      array(
+        'name' => $fan_de_psy->getName(),
+        'id'   => $fan_de_psy->getId(),
+        'url'  => $this->generateUrl('ajax_set_element_group', array(
+          'token'      => $this->getUser()->getPersonalHash(),
+          'element_id' => $element->getId(),
+          'group_id'   => $fan_de_psy->getId()
+        ))
+      )
+    ));
+    
+    // Du coup on effectue la diffusion de l'élément dans le groupe
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_set_element_group', array(
+        'element_id' => $element->getId(),
+        'group_id'   => $fan_de_psy->getId(),
+        'token'      => $this->getUser()->getPersonalHash()
+      )), 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneBy(array(
+        'name'  => 'Musique 4gbz65g4afa',
+        'group' => $fan_de_psy->getId()
+      ))
+    ;
+    $this->assertTrue(!is_null($element));
+    
+  }
+  
   
 }
