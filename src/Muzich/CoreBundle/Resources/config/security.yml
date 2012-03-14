@@ -68,6 +68,7 @@ security:
         ## Ouvert pour l'ajax (et le message de redirection en cas de déco)
         - { path: ^/(?:fr|en)/search-elements, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/element, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/follow/user, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/favorite/add, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/favorite/remove, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/element/add, role: IS_AUTHENTICATED_ANONYMOUSLY }
