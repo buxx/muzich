@@ -25,7 +25,27 @@
   
 
   <h2>{{ 'user.show.title'|trans({'%name%' : viewed_user.name}, 'users') }}</h2>
-
+  
+  <p class="show_info">
+    {% if count_owned != 0 %}
+    {{ 'show.user.elements.count'|trans({
+      '%count_owned%' : count_owned,
+      '%count_favorited%': count_favorited,
+      '%count_favorited_users%': count_favorited_users
+    }, 'elements') }}
+    {% else %}
+      {{ 'show.user.elements.no_count'|trans({}, 'elements') }}
+    {% endif %}
+    <br />
+    {% if count_followers > 1 %}
+      {{ 'show.user.followers.x_count'|trans({'%count%':count_followers, '%name%':viewed_user.name }, 'elements') }}
+    {% elseif count_followers == 0 %}
+      {{ 'show.user.followers.zero_count'|trans({'%name%':viewed_user.name }, 'elements') }}
+    {% else %}
+      {{ 'show.user.followers.one_count'|trans({'%count%':count_followers, '%name%':viewed_user.name }, 'elements') }}
+    {% endif %}
+  </p>
+    
   {% include "MuzichCoreBundle:Tag:tagsList.show.html.twig" with {
     'object_id'   : viewed_user.id,
     'object_type' : 'user'

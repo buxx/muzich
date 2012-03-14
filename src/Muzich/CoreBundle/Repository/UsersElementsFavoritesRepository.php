@@ -29,5 +29,61 @@ class UsersElementsFavoritesRepository extends EntityRepository
     ;
   }
   
+  public function countFavoritedForUserElements($user_id, $ids)
+  {
+    if (count($ids))
+    {
+      if ($user_id)
+      {
+        return count($this->getEntityManager()
+          ->createQuery('SELECT COUNT(f.id) FROM MuzichCoreBundle:UsersElementsFavorites f
+            WHERE f.user != :uid AND f.element IN (:eids)
+            GROUP BY f.element')
+          ->setParameters(array('uid'=> $user_id, 'eids' => $ids))
+          ->getScalarResult())
+        ;
+      }
+      else
+      {
+        return count($this->getEntityManager()
+          ->createQuery('SELECT COUNT(f.id) FROM MuzichCoreBundle:UsersElementsFavorites f
+            WHERE f.element IN (:eids)
+            GROUP BY f.element')
+          ->setParameter('eids', $ids)
+          ->getScalarResult())
+        ;
+      }
+    }
+    return array();
+  }
+  
+  public function countFavoritedUsersForUserElements($user_id, $ids)
+  {
+    if (count($ids))
+    {
+      if ($user_id)
+      {
+        return count($this->getEntityManager()
+          ->createQuery('SELECT COUNT(f.id) FROM MuzichCoreBundle:UsersElementsFavorites f
+            WHERE f.user != :uid AND f.element IN (:eids)
+            GROUP BY f.user')
+          ->setParameters(array('uid'=> $user_id, 'eids' => $ids))
+          ->getScalarResult())
+        ;
+      }
+      else
+      {
+        return count($this->getEntityManager()
+          ->createQuery('SELECT COUNT(f.id) FROM MuzichCoreBundle:UsersElementsFavorites f
+            WHERE f.element IN (:eids)
+            GROUP BY f.user')
+          ->setParameter('eids', $ids)
+          ->getScalarResult())
+        ;
+      }
+    }
+    return null;
+  }
+  
 }
   

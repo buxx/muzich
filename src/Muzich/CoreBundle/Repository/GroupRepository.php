@@ -91,6 +91,40 @@ class GroupRepository extends EntityRepository
       ->getResult()
     ;
   }
+ 
+  public function getElementIdsOwned($group_id)
+  {
+    $ids = array();
+    foreach ($this->getEntityManager()
+      ->createQuery('SELECT e.id FROM MuzichCoreBundle:Element e
+        WHERE e.group = :gid')
+      ->setParameter('gid', $group_id)
+      ->getScalarResult() as $row)
+    {
+      $ids[] = $row['id'];
+    }
+    return $ids;
+  }
+  
+  public function countFollowers($group_id)
+  {
+    $data = $this->getEntityManager()
+      ->createQuery('SELECT COUNT(f) FROM MuzichCoreBundle:FollowGroup f
+        WHERE f.group = :gid')
+      ->setParameter('gid', $group_id)
+      ->getScalarResult()
+    ;
+    
+    if (count($data))
+    {
+      if (count($data[0]))
+      {
+        return $data[0][1];
+      }
+    }
+    
+    return 0;
+  }
   
 }
   

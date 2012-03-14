@@ -59,3 +59,13 @@ elements:
   ajax:
     more:
       noelements:       Pas d'autres éléments
+      
+show:
+  user:
+    followers:
+      zero_count:       Personne ne suit %name%
+      one_count:        %count% personne suit %name%
+      x_count:          %count% personnes suivent %name%
+    elements:
+      no_count:         Aucun partage
+      count:            %count_owned% partages (dont %count_favorited% mis en favoris par %count_favorited_users% utilisateurs)

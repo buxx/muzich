@@ -36,16 +36,36 @@ class ShowController extends Controller
       $tags_id[] = $tag->getId();
     }
     
+    $element_ids_owned = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+      ->getElementIdsOwned($viewed_user->getId())      
+    ;
+    
+    $count_favorited = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->countFavoritedForUserElements($viewed_user->getId(), $element_ids_owned)      
+    ;
+    
+    $count_favorited_users = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->countFavoritedUsersForUserElements($viewed_user->getId(), $element_ids_owned)      
+    ;
+    
+    $count_followers = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+      ->countFollowers($viewed_user->getId())      
+    ;
+    
     return array(
-      'tags'           => $tags,
-      'tags_id_json'   => json_encode($tags_id),
-      'viewed_user'    => $viewed_user,
-      'elements'       => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
-      'following'      => $this->getUser()->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
-      'user'           => $this->getUser(),
-      'more_count'     => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
-      'more_route'     => 'show_user_more',
-      'topmenu_active' => ($viewed_user->getId() == $this->getUserId()) ? 'myfeeds' : 'public'
+      'tags'            => $tags,
+      'tags_id_json'    => json_encode($tags_id),
+      'viewed_user'     => $viewed_user,
+      'elements'        => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
+      'following'       => $this->getUser()->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
+      'user'            => $this->getUser(),
+      'more_count'      => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
+      'more_route'      => 'show_user_more',
+      'topmenu_active'  => ($viewed_user->getId() == $this->getUserId()) ? 'myfeeds' : 'public',
+      'count_owned'     => count($element_ids_owned),
+      'count_favorited' => $count_favorited,
+      'count_favorited_users' => $count_favorited_users,
+      'count_followers' => $count_followers
     );
   }
   
@@ -80,6 +100,22 @@ class ShowController extends Controller
       $tags_id[] = $tag->getId();
     }
     
+    $element_ids_owned = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
+      ->getElementIdsOwned($group->getId())      
+    ;
+    
+    $count_favorited = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->countFavoritedForUserElements(null, $element_ids_owned)      
+    ;
+    
+    $count_favorited_users = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->countFavoritedUsersForUserElements(null, $element_ids_owned)      
+    ;
+    
+    $count_followers = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
+      ->countFollowers($group->getId())      
+    ;
+    
     return array(
       'tags'          => $tags,
       'tags_id_json'  => json_encode($tags_id),
@@ -91,7 +127,11 @@ class ShowController extends Controller
       'add_form'      => (isset($add_form)) ? $add_form->createView() : null,
       'add_form_name' => (isset($add_form)) ? 'add' : null,
       'more_count'    => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
-      'more_route'    => 'show_group_more'
+      'more_route'    => 'show_group_more',
+      'count_owned'     => count($element_ids_owned),
+      'count_favorited' => $count_favorited,
+      'count_favorited_users' => $count_favorited_users,
+      'count_followers' => $count_followers
     );
   }
   
