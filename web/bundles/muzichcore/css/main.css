@@ -1021,3 +1021,11 @@ li.element a.element_tag_large_for_fav
 }
 
 /* END Ajouter tag d'élément a ses tags favoris */
+
+div#added_element_to_group
+{
+  background-color: #E3F6FD;
+  padding: 20px;
+  font-size: 115%;
+  font-weight: bold;
+}

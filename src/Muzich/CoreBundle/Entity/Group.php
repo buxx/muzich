@@ -375,4 +375,16 @@ class Group
     
     return false;
   }
+  
+  public function hasThisTag($tag_id)
+  {
+    foreach ($this->tags as $tag)
+    {
+      if ($tag_id == $tag->getTag()->getId())
+      {
+        return true;
+      }
+    }
+    return false;
+  }
 }

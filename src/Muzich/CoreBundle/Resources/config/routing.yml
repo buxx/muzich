@@ -94,3 +94,8 @@ element_new_get:
 ajax_tag_add_to_favorites:
   pattern: /ajax/tag/add-to-favorites/{tag_id}/{token}
   defaults: { _controller: MuzichCoreBundle:Core:addTagToFavorites }
+
+ajax_set_element_group:
+  pattern: /ajax/element/set-group/{element_id}/{group_id}/{token}
+  defaults: { _controller: MuzichCoreBundle:Core:setElementGroup }
+  

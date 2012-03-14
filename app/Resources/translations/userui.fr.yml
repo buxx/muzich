@@ -64,6 +64,14 @@ element_add:
               que vous souhaitez partager.
   name:
     name:     Nom
+    
+  added_to_group:
+    sentence:       |
+                     L'élément que vous venez d'ajouter semble correspondre
+                     a un des groupes que vous gérez. Cliquez sur le nom d'un groupe
+                     pour diffuser cet élément dans le groupe.
+                     
+    nothanks:       Non, ne pas diffuser cet élément dans un de mes groupes
   
 element_edit:
   url:

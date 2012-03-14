@@ -1021,7 +1021,7 @@ $(document).ready(function(){
     }
   });
 
-  // Ajout d'un element
+  // Ajout d'un element #ajouter
   $('form[name="add"] input[type="submit"]').live('click', function(){
     $('form[name="add"]').find('img.tag_loader').show();
   });
@@ -1037,14 +1037,40 @@ $(document).ready(function(){
       $('form[name="add"]').find('ul.error_list').remove();
       $('ul.elements').prepend(response.html);
       $('form[name="add"] input[type="text"]').val('');
-      $('div#element_add_box').slideUp();
-      $('a#element_add_link').show();
+      
       if ($('form[name="search"]').length)
       {
         $('form[name="search"]').slideDown();
       }
       remove_tags('add');
       recolorize_element_list();
+      
+      $('div#element_add_box').slideUp();
+      
+      if (response.groups.length)
+      {
+        // Des groupes sont proposés pour diffuser cet élément
+        $('div#added_element_to_group').slideDown();
+        for (i in response.groups)
+        {
+          var group = response.groups[i];
+          $('ul#groups_to_add_element').html('');
+          $('ul#groups_to_add_element')
+            .append($('<li>')
+              .append($('<a>')
+                .addClass('added_element_add_to_group')
+                .attr('href', group.url)
+                .append(group.name)
+              )
+            )
+          ;
+        }
+      }
+      else
+      {
+        $('a#element_add_link').show();
+      }
+      
     }
     else if (response.status == 'error')
     {
@@ -1561,6 +1587,42 @@ $(document).ready(function(){
       li.find('a.element_tag').removeClass('element_tag_large_for_fav');
       li.find('a.tag_to_favorites').hide();
     }
+  });
+  
+  /*
+   * Ajout dans un groupe de l'élément envoyé 
+   */
+  
+  $('a.added_element_add_to_group').live('click', function(){
+    
+    div = $(this).parent('li').parent('ul').parent('div');
+    div.find('img.loader').show();
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      
+      div.find('img.loader').hide();
+    
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      if (response.status == 'success')
+      {
+        $('li#'+response.dom_id).html(response.html);
+      }
+      
+      $('div#added_element_to_group').slideUp();
+      $('a#element_add_link').show();
+      
+    });
+    return false;
+  });
+  
+  $('div#added_element_to_group a.cancel').live('click', function(){
+    $('div#added_element_to_group').slideUp();
+    $('a#element_add_link').show();
+    return false;
   });
    
  });

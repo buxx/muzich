@@ -161,7 +161,7 @@ class CoreController extends Controller
       throw $this->createNotFoundException('Cette ressource n\'est pas accessible');
     }
     
-    $user = $this->getUser();
+    $user = $this->getUser(true, array('join' => array('groups_owned_groups_tags')));
     $em = $this->getDoctrine()->getEntityManager();
     
     /*
@@ -235,14 +235,11 @@ class CoreController extends Controller
             'no_group_name' => true
           ))->getContent();
         }
-
-        
-        
-        
         
         return $this->jsonResponse(array(
           'status' => 'success',
-          'html'   => $html
+          'html'   => $html,
+          'groups' => (!$group)?$this->isAddedElementCanBeInGroup($element):array()
         ));
       }
       else
@@ -331,6 +328,40 @@ class CoreController extends Controller
       
     
     
+  }
+  
+  /**
+   * Cette méthode vérifie si l'élément qui vient d'être envoyé pourrais être
+   * associé a un groupe de l'utilisateur.
+   * 
+   * @param Element $element
+   * @return array
+   */
+  protected function isAddedElementCanBeInGroup(Element $element)
+  {
+    $element_tags = $element->getTags();
+    $groups = array();
+    foreach ($this->getUser()->getGroupsOwned() as $group)
+    {
+      foreach ($element_tags as $element_tag)
+      {
+        if ($group->hasThisTag($element_tag->getId()))
+        {
+          $groups[] = array(
+            'name' => $group->getName(),
+            'id'   => $group->getId(),
+            'url'  => $this->generateUrl('ajax_set_element_group', array(
+              'token'      => $this->getUser()->getPersonalHash(),
+              'element_id' => $element->getId(),
+              'group_id'   => $group->getId()
+            ))
+          );
+        }
+    
+      }
+    }
+    
+    return $groups;
   }
   
   public function filterClearAction()
@@ -428,6 +459,52 @@ class CoreController extends Controller
     
     return $this->jsonResponse(array(
       'status' => 'success'
+    ));
+  }
+  
+  public function setElementGroupAction($element_id, $group_id, $token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)) 
+      || !($group = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
+      ->findOneById($group_id)) 
+      || $this->getUser()->getPersonalHash() != $token)
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    if ($element->getOwner()->getId() != $this->getUserId()
+      || $group->getOwner()->getId() != $this->getUserId()
+    )
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotAllowed')
+      ));
+    }
+    
+    // a partir d'ici on a tout ce qu'il faut
+    $element->setGroup($group);
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    // On récupère le nouveau dom de l'élément
+    $html = $this->render('MuzichCoreBundle:SearchElement:element.html.twig', array(
+      'element'     => $element
+    ))->getContent();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'html'   => $html,
+      'dom_id' => 'element_'.$element->getId()
     ));
   }
   

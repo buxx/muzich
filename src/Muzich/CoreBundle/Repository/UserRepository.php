@@ -52,6 +52,12 @@ class UserRepository extends EntityRepository
       $join   .= ' LEFT JOIN u.groups_owned og';
     }
     
+    if (in_array('groups_owned_groups_tags', $join_list))
+    {
+      $select .= ', og, ogt';
+      $join   .= ' LEFT JOIN u.groups_owned og LEFT JOIN og.tags ogt';
+    }
+    
     return $this->getEntityManager()
       ->createQuery("
         SELECT $select FROM MuzichCoreBundle:User u
