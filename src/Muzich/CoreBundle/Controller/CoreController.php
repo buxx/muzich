@@ -64,6 +64,11 @@ class CoreController extends Controller
    */
   public function followAction($type, $id, $token)
   {
+    if (($response = $this->mustBeConnected()))
+    {
+      return $response;
+    }
+    
     $user = $this->getUser();
     
     /**

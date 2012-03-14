@@ -34,6 +34,12 @@ $(document).ready(function(){
   $('div.show_options a.follow_link').live('click', function(){
     link = $(this);
     $.getJSON(link.attr('href'), function(response) {
+      
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
        if (response.status == 'success')
        {
          if (response.following)
