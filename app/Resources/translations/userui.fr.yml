@@ -101,3 +101,10 @@ date:
   instant:               a l'instant
   less_than_minute:      il y a moins d'une minute
  
+element:
+  report:
+    link_title:        Signaler cet élément
+    confirm: 
+      sentence:          Signaler ce contenu comme inapproprié ?
+      yes:               Oui
+      no:                Non

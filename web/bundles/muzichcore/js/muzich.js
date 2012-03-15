@@ -1625,4 +1625,33 @@ $(document).ready(function(){
     return false;
   });
    
+   /*
+    * Report / signalement d'un élément
+    */
+   
+   $('a.element_report').jConfirmAction({
+    question : string_elementreport_confirm_sentence, 
+    yesAnswer : string_elementreport_confirm_yes, 
+    cancelAnswer : string_elementreport_confirm_no,
+    onYes: function(link){
+      
+      $.getJSON(link.attr('href'), function(response){
+        
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+      });
+      
+      $('div.question').fadeOut();
+      return false;
+    },
+    onOpen: function(link){
+      
+    },
+    onClose: function(link){
+      
+    }
+  });
+   
  });

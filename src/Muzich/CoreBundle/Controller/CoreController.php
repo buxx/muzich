@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Muzich\CoreBundle\Entity\Tag;
 use Muzich\CoreBundle\Managers\TagManager;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
+use Muzich\CoreBundle\Managers\ElementReportManager;
 
 class CoreController extends Controller
 {
@@ -506,6 +507,35 @@ class CoreController extends Controller
       'html'   => $html,
       'dom_id' => 'element_'.$element->getId()
     ));
+  }
+  
+  public function reportElementAction($element_id, $token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)) 
+      || $this->getUser()->getPersonalHash() != $token)
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    $erm = new ElementReportManager($element);
+    $erm->add($this->getUser());
+    
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
+    ));
+    
   }
   
 }

@@ -97,6 +97,14 @@ class User extends BaseUser
    * @ORM\OneToMany(targetEntity="Group", mappedBy="owner")
    */
   protected $groups_owned;
+  
+  /**
+   * Compteur de signalements inutiles
+   * 
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int 
+   */
+  protected $bad_report_count;
 
   /**
    * 
@@ -307,6 +315,21 @@ class User extends BaseUser
   public function setEmailRequested($email_requested)
   {
     $this->email_requested = $email_requested;
+  }
+  
+  public function getBadReportCount()
+  {
+    return $this->bad_report_count;
+  }
+  
+  public function setBadReportCount($count)
+  {
+    $this->bad_report_count = $count;
+  }
+  
+  public function addBadReport()
+  {
+    $this->setBadReportCount($this->getBadReportCount()+1);
   }
   
   /*

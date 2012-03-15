@@ -146,6 +146,22 @@ class Element
    * @var type string
    */
   protected $comments;
+  
+  /**
+   * Compteur de signalements
+   * 
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int 
+   */
+  protected $count_report;
+  
+  /**
+   * array json des id users ayant reporté l'élément
+   * 
+   * @ORM\Column(type="text", nullable=true)
+   * @var string 
+   */
+  protected $report_ids;
 
   /**
    * Get id
@@ -414,6 +430,26 @@ class Element
   public function getComments()
   {
     return json_decode($this->comments, true);
+  }
+  
+  public function getCountReport()
+  {
+    return $this->count_report;
+  }
+  
+  public function setCountReport($count)
+  {
+    $this->count_report = $count;
+  }
+  
+  public function getReportIds()
+  {
+    return json_decode($this->report_ids, true);
+  }
+  
+  public function setReportIds($report_ids)
+  {
+    $this->report_ids = json_encode($report_ids);
   }
   
   /**
