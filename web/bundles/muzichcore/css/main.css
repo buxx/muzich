@@ -793,11 +793,21 @@ div.question {
 	display: inline;
 	text-align: center;
 	width: 174px;
-	height: 78px;
+  
 	font-size: 13px;
 	line-height: 1.5em;
-	background: url('/js/jConfirmAction/images/bubble.png') left top no-repeat;
-	padding: 10px 0 0 0;
+  
+	background-color: #e6e6e6;
+  
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  
+  -webkit-box-shadow: #666 0px 2px 3px;
+  -moz-box-shadow: #666 0px 2px 3px;
+  box-shadow: #666 0px 2px 3px;
+  
+	padding: 10px 10px 10px 10px;
 	text-shadow: 0px 1px 0px #fff;
 	margin-left: -7em;
 	margin-top: -6em;
