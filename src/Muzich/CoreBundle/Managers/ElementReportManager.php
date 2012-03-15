@@ -30,6 +30,7 @@ class ElementReportManager
     {
       $ids[] = (string)$user->getId();
     }
+    $this->element->setCountReport(count($ids));
     $this->element->setReportIds($ids);
   }
   
