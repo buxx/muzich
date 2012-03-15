@@ -8,3 +8,22 @@ ul#moderate_tags li.tag span.name
 {
   width: 350px;
 }
+
+ul#moderate_elements
+{
+  margin-left: 0px;
+}
+
+ul#moderate_elements li.element
+{
+  list-style: none;
+  background-color: #f0f0f0;
+  margin-top: 25px;
+}
+
+ul#moderate_elements div.controls
+{
+  text-align: center;
+  font-size: 110%;
+  font-weight: bold;
+}

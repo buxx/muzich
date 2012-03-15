@@ -2,6 +2,8 @@ MuzichAdminBundle_moderate_index:
   pattern:  /admin/moderate
   defaults: { _controller: MuzichAdminBundle:Moderate:index }
 
+##
+
 MuzichAdminBundle_moderate_tags:
   pattern:  /admin/moderate/tags
   defaults: { _controller: MuzichAdminBundle:Moderate:tags }
@@ -18,3 +20,16 @@ MuzichAdminBundle_moderate_tags_replace_tag:
   pattern:  /admin/moderate/tags/{tag_id}/replace/{tag_new_id}
   defaults: { _controller: MuzichAdminBundle:Moderate:tagReplace, tag_new_id: null }
   
+##
+
+moderate_elements_index:
+  pattern:  /admin/moderate/elements
+  defaults: { _controller: MuzichAdminBundle:Moderate:elements }
+  
+moderate_element_delete:
+  pattern:  /admin/moderate/element/delete/{element_id}
+  defaults: { _controller: MuzichAdminBundle:Moderate:deleteElement }
+  
+moderate_element_clean:
+  pattern:  /admin/moderate/element/clean/{element_id}
+  defaults: { _controller: MuzichAdminBundle:Moderate:cleanElement }

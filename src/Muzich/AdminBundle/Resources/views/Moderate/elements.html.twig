@@ -1,0 +1,41 @@
+{% extends "MuzichAdminBundle:Moderate:layout.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+  <h2>{{ 'moderate.elements.title'|trans({}, 'adminui') }}</h2>
+    
+  <ul id="moderate_elements">
+    {% for element in elements %}
+      <li class="element" id="mod_element_{{ element.id }}">
+        
+        <div class="controls">
+          <a class="delete" href="{{ path('moderate_element_delete', {'element_id':element.id}) }}" >
+            {{ 'moderate.elements.action.delete'|trans({}, 'adminui') }}
+          </a>
+            -
+          <a class="clean" href="{{ path('moderate_element_clean', {'element_id':element.id}) }}" >
+             {{ 'moderate.elements.action.clean'|trans({}, 'adminui') }}
+          </a>
+        </div>
+        
+        <div class="element">
+          <ul>
+            <li><strong>Name</strong>: {{ element.name }}</li>
+            <li><strong>url</strong>: <a href="{{ element.url }}" target="_blank">{{ element.url }}</a></li>
+            {% if element.embed %}
+              {% autoescape false %}
+                <li>
+                  {{ element.embed }}
+                </li>
+              {% endautoescape %}
+            {% endif %}
+          </ul>
+        </div>
+        
+      </li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}

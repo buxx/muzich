@@ -277,4 +277,23 @@ class ElementRepository extends EntityRepository
       ->setMaxResults($limit)
     ;
   }  
+  
+  public function countToModerate()
+  {
+    return $this->getEntityManager()
+      ->createQuery("SELECT COUNT(e.id) FROM MuzichCoreBundle:Element e
+        WHERE e.count_report IS NOT NULL"
+      )->getSingleScalarResult()
+    ;
+  }
+  
+  public function getToModerate()
+  {
+    return $this->getEntityManager()
+      ->createQuery("SELECT e FROM MuzichCoreBundle:Element e
+        WHERE e.count_report  IS NOT NULL"
+      )->getResult()
+    ;
+  }  
+  
 }

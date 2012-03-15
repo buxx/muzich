@@ -4,3 +4,9 @@ moderate:
   tags:
     title:          Tags
     to_moderate:      %count% a modérer
+  elements:
+    to_moderate:      %count% a modérer
+    title:          Elements
+    action:
+      delete:       Supprimer
+      clean:         Tout est ok

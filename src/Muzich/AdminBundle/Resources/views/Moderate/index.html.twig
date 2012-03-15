@@ -11,9 +11,19 @@
   <ul>
     <li>
       <a href="{{ path('MuzichAdminBundle_moderate_tags') }}">
-        {{ 'moderate.tags.to_moderate'|trans({'%count%' : count_moderate}, 'adminui') }}
+        {{ 'moderate.tags.to_moderate'|trans({'%count%' : count_tags}, 'adminui') }}
       </a>
     </li>
   </ul>
-
+  
+  <h3>{{ 'moderate.elements.title'|trans({}, 'adminui') }}</h3>
+  
+  <ul>
+    <li>
+      <a href="{{ path('moderate_elements_index') }}">
+        {{ 'moderate.elements.to_moderate'|trans({'%count%' : count_elements}, 'adminui') }}
+      </a>
+    </li>
+  </ul>
+  
 {% endblock %}

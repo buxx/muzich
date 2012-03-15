@@ -26,6 +26,9 @@ class ElementReportManager
   public function add(User $user)
   {
     $ids = $this->element->getReportIds();
+    
+    if ($ids === null){$ids = array();}
+    
     if (!in_array($user->getId(), $ids))
     {
       $ids[] = (string)$user->getId();

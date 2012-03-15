@@ -18,11 +18,14 @@ class ModerateController extends Controller
    */
   public function indexAction()
   {
-    $count_moderate = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+    $count_tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->countToModerate();
+    $count_elements = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
       ->countToModerate();
     
     return array(
-      'count_moderate' => $count_moderate
+      'count_tags' => $count_tags,
+      'count_elements' => $count_elements
     );
   }
     
@@ -123,6 +126,93 @@ class ModerateController extends Controller
       'status' => 'success'
     ));
     
+  }
+  
+  /**
+   *
+   * @Template()
+   */
+  public function elementsAction()
+  {
+    // Récupération des elements
+    $elements = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->getToModerate();
+    
+    return array(
+      'elements' => $elements
+    );
+  }
+  
+  /**
+   * 
+   */
+  public function deleteElementAction($element_id)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id))
+    )
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    $this->getDoctrine()->getEntityManager()->remove($element);
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
+    ));
+  }
+  
+  public function cleanElementAction($element_id)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id))
+    )
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    $user_ids = $element->getReportIds();
+    $element->setReportIds(null);
+    $element->setCountReport(null);
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    
+    $users = $this->getDoctrine()->getEntityManager()
+      ->createQuery('
+        SELECT u FROM MuzichCoreBundle:User u
+        WHERE u.id IN (:uids)'
+      )
+      ->setParameter('uids', $user_ids)
+      ->getResult()
+    ;
+    
+    foreach ($users as $user)
+    {
+      $user->addBadReport();
+      $this->getDoctrine()->getEntityManager()->persist($user);
+    }
+    
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
+    ));
   }
   
 }
