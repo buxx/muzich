@@ -107,6 +107,18 @@ class User extends BaseUser
   protected $bad_report_count;
 
   /**
+   * @ORM\Column(type="text", nullable=true)
+   * @ORM\Column(length=256)
+   */
+  protected $town;
+
+  /**
+   * @ORM\Column(type="text", nullable=true)
+   * @ORM\Column(length=128)
+   */
+  protected $country;
+  
+  /**
    * 
    */
   public function __construct()
@@ -332,6 +344,26 @@ class User extends BaseUser
     $this->setBadReportCount($this->getBadReportCount()+1);
   }
   
+  public function getTown()
+  {
+    return $this->town;
+  }
+  
+  public function setTown($town)
+  {
+    $this->town = $town;
+  }
+  
+  public function getCountry()
+  {
+    return $this->country;
+  }
+  
+  public function setCountry($country)
+  {
+    $this->country = $country;
+  }
+  
   /*
    * 
    * 
@@ -341,6 +373,34 @@ class User extends BaseUser
   {
     return $this->getUsername();
   }
+  
+//  public function getLocalisationExploded()
+//  {
+//    $town = null;
+//    $country = null;
+//    if ($this->localisation)
+//    {
+//      if (($explode = explode(', ', $this->localisation)))
+//      {
+//        $town = $explode[0];
+//        $country = $explode[1];
+//      }
+//    }
+//    return array(
+//      'town'    => $town,
+//      'country' => $country
+//    );
+//  }
+//  
+//  public function setLocalisationExploded($town, $country)
+//  {
+//    $town = str_replace(', ', '', $town);
+//    $town = str_replace(',', '', $town);
+//    $country = str_replace(', ', '', $country);
+//    $country = str_replace(',', '', $country);
+//    
+//    $this->localisation = $town. ', ' .$country;
+//  }
   
 //  /**
 //  * @ORM\prePersist

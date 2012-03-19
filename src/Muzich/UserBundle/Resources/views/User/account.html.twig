@@ -45,5 +45,20 @@
 
     <input type="submit" class="button" />
   </form>
+  
+  <h3>{{ 'my_account.address.title'|trans({}, 'userui') }}</h3>
+  
+  <p>{{ 'my_account.address.description'|trans({}, 'userui') }}</p>
+  
+  <form id="address_update" action="{{ path('update_address', {"token":app.user.getPersonalHash}) }}" method="post">
+    <p>
+      {{ 'my_account.address.form.ilivenear'|trans({}, 'userui') }}
+      <input type="text" name="town" class="intext" value="{{ app.user.town }}" />
+      {{ 'my_account.address.form.in'|trans({}, 'userui') }}
+      <input type="text" name="country" class="intext" value="{{ app.user.country }}" />
+      <input type="submit" value="{{ 'my_account.address.form.submit'|trans({}, 'userui') }}" class="button address_submit" />
+      <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
+    </p>
+  </form>
     
 {% endblock %}

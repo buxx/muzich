@@ -446,4 +446,88 @@ class UserControllerTest extends FunctionalTest
     
   }
   
+  public function testUpdateAddress()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('paul', 'toor');
+    
+    $paul = $this->getUser();
+    
+    // D'après les fixtures, pas d'adresse pour paul
+    $this->assertEquals($paul->getTown(), null);
+    $this->assertEquals($paul->getCountry(), null);
+    
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('update_address', array('token' => $this->getUser()->getPersonalHash())), 
+      array(
+          'town' => '',
+          'country' => ''
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    
+    $this->assertEquals($response['status'], 'error');
+    $this->assertEquals(count($response['errors']), '2');
+    $this->assertEquals($response['errors'], array(
+      $this->getContainer()->get('translator')->trans('my_account.address.form.errors.notown', array(), 'userui'),
+      $this->getContainer()->get('translator')->trans('my_account.address.form.errors.nocountry', array(), 'userui')
+    ));
+    $paul = $this->getUser();
+    $this->assertEquals($paul->getTown(), null);
+    $this->assertEquals($paul->getCountry(), null);
+    
+    /////
+    
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('update_address', array('token' => $this->getUser()->getPersonalHash())), 
+      array(
+          'town' => 'peyruis',
+          'country' => ''
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    
+    $this->assertEquals($response['status'], 'error');
+    $this->assertEquals(count($response['errors']), '1');
+    $this->assertEquals($response['errors'], array(
+      $this->getContainer()->get('translator')->trans('my_account.address.form.errors.nocountry', array(), 'userui')
+    ));
+    $paul = $this->getUser();
+    $this->assertEquals($paul->getTown(), null);
+    $this->assertEquals($paul->getCountry(), null);
+    
+    /////
+    
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('update_address', array('token' => $this->getUser()->getPersonalHash())), 
+      array(
+          'town' => 'peyruis',
+          'country' => 'france'
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->outputDebug();
+    $this->isResponseSuccess();
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    
+    $paul = $this->getUser();
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($paul->getTown(), 'peyruis');
+    $this->assertEquals($paul->getCountry(), 'france');
+    
+  }
+  
 }

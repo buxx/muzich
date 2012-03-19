@@ -506,5 +506,65 @@ class UserController extends Controller
     $this->setFlash('success', 'user.changeemail.success');
     return new RedirectResponse($this->generateUrl('my_account'));
   }
+  
+  /**
+   *
+   * @param string $town
+   * @param string $country
+   * @param string $token
+   * @return Response 
+   */
+  public function updateAddressAction($token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    /**
+     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
+     * Docrine le voit si on faire une requete directe.
+     */
+    $user = $this->getUser();
+    if ($this->container->getParameter('env') == 'test')
+    {
+      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+        $this->container->get('security.context')->getToken()->getUser()->getId(),
+        array()
+      )->getSingleResult();
+    }
+    
+    $errors = array();
+    if ($user->getPersonalHash() != $token)
+    {
+      $errors[] = 'NotAllowed';
+    }
+    
+    if (!trim($this->getRequest()->request->get('town')))
+    {
+      $errors[] = $this->trans('my_account.address.form.errors.notown', array(), 'userui');
+    }
+    if (!trim($this->getRequest()->request->get('country')))
+    {
+      $errors[] = $this->trans('my_account.address.form.errors.nocountry', array(), 'userui');
+    }
+    
+    if (count($errors))
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => $errors
+      ));
+    }
+    
+    $user->setTown(trim($this->getRequest()->request->get('town')));
+    $user->setCountry(trim($this->getRequest()->request->get('country')));
+    $this->getDoctrine()->getEntityManager()->persist($user);
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
+    ));
+  }
     
 }
