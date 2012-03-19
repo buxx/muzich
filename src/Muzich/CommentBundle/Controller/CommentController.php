@@ -205,8 +205,8 @@ class CommentController extends Controller
 
     $this->getDoctrine()->getEntityManager()->persist($element);
     $this->getDoctrine()->getEntityManager()->flush();
-    
-    if (!($comment_index = $cm->getIndex($this->getUserId(), $date)))
+        
+    if (null === ($comment_index = $cm->getIndex($this->getUserId(), $date)))
     {
       return $this->jsonResponse(array(
         'status' => 'error',
