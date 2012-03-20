@@ -39,7 +39,7 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
   /**
    *  
    */
-  protected function createElement($reference_id, $name, $url, $tags, $type, $owner, $group = null, $date = null, $comments = null)
+  protected function createElement($reference_id, $name, $url, $tags, $type, $owner, $group = null, $date = null, $comments = null, $vote_ids = array())
   {    
     $element = new Element();
     $element->setName(ucfirst($name));
@@ -59,6 +59,14 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     foreach ($tags as $tag)
     {
       $element->addTag($tag);
+    }
+    
+    if (count($vote_ids))
+    {
+      foreach ($vote_ids as $id)
+      {
+        $element->addVoteGood($id);
+      }
     }
     
     $element->setComments($comments);
@@ -193,13 +201,17 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     $this->createElement('beatbox_1', 'Dubstep Beatbox', 
       'http://www.dailymotion.com/video/xm5omz_dubstep-beatbox_creation', 
       $this->getArrayOfTag(array('dubstep', 'beatbox')),
-      'dailymotion.com', $joelle, null, $this->dateD(184)
+      'dailymotion.com', $joelle, null, $this->dateD(184),
+      null,
+      array($bux->getId(), $jean->getId(), $bux->getId())
     );
     
     $this->createElement('soulfly_1', 'SOULFLY - Prophecy', 
       'http://www.youtube.com/watch?v=zCc_jLctZkA', 
       $this->getArrayOfTag(array('metal')),
-      'youtube.com', $bux, null, $this->dateD(183)
+      'youtube.com', $bux, null, $this->dateD(183),
+      null,
+      array($paul->getId())
     );
     
     $cm = new CommentsManager();
@@ -211,7 +223,8 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
       'http://www.youtube.com/watch?v=8AXhRXAt2E4', 
       $this->getArrayOfTag(array('metal')),
       'youtube.com', $bux, null, $this->dateD(182),
-      $cm->get()
+      $cm->get(),
+      array($bob->getId(), $jean->getId(), $joelle->getId())
     );
     
     $cm = new CommentsManager();
@@ -233,7 +246,8 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
       'http://www.youtube.com/watch?v=XWkbaHxRvds&feature=related', 
       $this->getArrayOfTag(array('metal', 'hardcore')),
       'youtube.com', $bux, null, $this->dateD(181),
-      $cm->get()
+      $cm->get(),
+      array($bob->getId())
     );
     
     $cm = new CommentsManager();
@@ -244,7 +258,8 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
       'http://www.youtube.com/watch?v=Lk1gnh-JCDs&feature=related', 
       $this->getArrayOfTag(array('electro')),
       'youtube.com', $bux, null, $this->dateD(180),
-      $cm->get()
+      $cm->get(),
+      array($joelle->getId(), $jean->getId())
     );
     
 

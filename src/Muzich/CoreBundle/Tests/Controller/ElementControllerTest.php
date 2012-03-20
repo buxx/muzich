@@ -459,4 +459,136 @@ class ElementControllerTest extends FunctionalTest
     
   }
   
+  /**
+   * Procédure de vote
+   */
+  public function testVote()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('paul', 'toor');
+    
+    $paul = $this->getUser();
+    $joelle = $this->getUser('joelle');
+    $jean = $this->getUser('jean');
+    
+    // D'après les fixtures, un des élément porte le vote de paul
+    $element_soul = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('SOULFLY - Prophecy')
+    ;
+    
+    // On peut donc voir le lien pour "dé-voter"
+    $url_unvote_soul = $this->generateUrl('ajax_element_remove_vote_good', array(
+      'element_id' => $element_soul->getId(),
+      'token' => $paul->getPersonalHash()
+    ));
+    $this->exist('a.vote[href="'.$url_unvote_soul.'"]');
+    
+    // On contrôle le contenu pour cet element
+    $this->assertEquals($element_soul->getPoints(), 1);
+    
+    // Et son id est la
+    $this->assertEquals($element_soul->getVoteGoodIds(), array(
+      (string)$paul->getId()
+    ));
+    
+    // On va voter pour un element a bux
+    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    // Actuellement (fixtures) son score est de 2
+    $this->assertEquals($element_ed->getPoints(), 2);
+    
+    // Et ce sont (fixtures) ces deux user qui ont voté
+    $this->assertEquals($element_ed->getVoteGoodIds(), array((string)$joelle->getId(), (string)$jean->getId()));
+    
+    // paul va voter egallement
+    $crawler = $this->client->request(
+      'GET', 
+      $this->generateUrl('ajax_element_add_vote_good', array(
+        'element_id' => $element_ed->getId(),
+        'token' => $paul->getPersonalHash()
+      )), 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On recontrôle l'élément voir si tout a été enregistré
+    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    // Son score est mainteannt de 3
+    $this->assertEquals($element_ed->getPoints(), 3);
+    
+    // Et son id est la
+    $this->assertEquals($element_ed->getVoteGoodIds(), array(
+      (string)$joelle->getId(), 
+      (string)$jean->getId(),
+      (string)$paul->getId()
+    ));
+    
+    // Pau retire son vote de soulfy
+    $crawler = $this->client->request(
+      'GET', 
+      $url_unvote_soul, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $element_soul = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('SOULFLY - Prophecy')
+    ;
+    // On contrôle le contenu pour cet element
+    $this->assertEquals($element_soul->getPoints(), 0);
+    
+    // Et son id est la
+    $this->assertEquals($element_soul->getVoteGoodIds(), array());
+    
+    // On déconnecte paul, pour faire voter bob sur le partage ed cox
+    $this->disconnectUser();
+    $this->connectUser('bob', 'toor');
+    
+    $bob = $this->getUser();
+    // bob va donc votre pour le partage d'ed cox
+    $crawler = $this->client->request(
+      'GET', 
+      $this->generateUrl('ajax_element_add_vote_good', array(
+        'element_id' => $element_ed->getId(),
+        'token' => $bob->getPersonalHash()
+      )), 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On recontrôle l'élément voir si tout a été enregistré
+    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    // Son score est mainteannt de 3
+    $this->assertEquals($element_ed->getPoints(), 4);
+    
+    // Et son id est la
+    $this->assertEquals($element_ed->getVoteGoodIds(), array(
+      (string)$joelle->getId(), 
+      (string)$jean->getId(),
+      (string)$paul->getId(),
+      (string)$bob->getId()
+    ));
+  }
+  
 }
