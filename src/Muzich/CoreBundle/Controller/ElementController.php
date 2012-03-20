@@ -344,4 +344,98 @@ class ElementController extends Controller
     ));
   }
   
+  public function addVoteGoodAction($element_id, $token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    if ($element->getOwner()->getId() == $this->getUserId())
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotAllowed')
+      ));
+    }
+    
+    $element->addVoteGood($this->getUser()->getId());
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'data'   => array(
+        'a' => array(
+          'href' => $this->generateUrl('ajax_element_remove_vote_good', array(
+            'element_id' => $element->getId(),
+            'token'      => $this->getUser()->getPersonalHash()
+          ))
+        ),
+        'img' => array(
+          'src'  => $this->getAssetUrl('bundles/muzichcore/img/up_b.png')
+        ),
+        'element' => array(
+          'points' => $element->getPoints()
+        )
+      )
+    ));
+  }
+  
+  public function removeVoteGoodAction($element_id, $token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    if ($element->getOwner()->getId() == $this->getUserId())
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotAllowed')
+      ));
+    }
+    
+    $element->removeVoteGood($this->getUser()->getId());
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'data'   => array(
+        'a' => array(
+          'href' => $this->generateUrl('ajax_element_add_vote_good', array(
+            'element_id' => $element->getId(),
+            'token'      => $this->getUser()->getPersonalHash()
+          ))
+        ),
+        'img' => array(
+          'src'  => $this->getAssetUrl('bundles/muzichcore/img/up_bw.png')
+        ),
+        'element' => array(
+          'points' => $element->getPoints()
+        )
+      )
+    ));
+  }
+  
 }

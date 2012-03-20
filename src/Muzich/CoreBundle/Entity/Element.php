@@ -162,6 +162,22 @@ class Element
    * @var string 
    */
   protected $report_ids;
+  
+  /**
+   * array json des id users ayant voté +1
+   * 
+   * @ORM\Column(type="text", nullable=true)
+   * @var string 
+   */
+  protected $vote_good_ids;
+  
+  /**
+   * Compteur de points
+   * 
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int 
+   */
+  protected $points;
 
   /**
    * Get id
@@ -503,6 +519,80 @@ class Element
       if ($tag_t->getId() == $tag->getId())
       {
         return true;
+      }
+    }
+    return false;
+  }
+  
+  public function getPoints()
+  {
+    if ($this->points === null)
+    {
+      return '0';
+    }
+    
+    return $this->points;
+  }
+  
+  public function setPoints($points)
+  {
+    $this->points = $points;
+  }
+  
+  public function getVoteGoodIds()
+  {
+    return json_decode($this->vote_good_ids, true);
+  }
+  
+  public function setVoteGoodIds($votes_ids)
+  {
+    $this->vote_good_ids = json_encode($votes_ids);
+  }
+  
+  public function addVoteGood($user_id)
+  {
+    $votes = $this->getVoteGoodIds();
+    if (!count($votes))
+    {
+      $votes = array();
+    }
+    
+    if (!$this->hasVoteGood($user_id))
+    {
+      $votes[] = (string)$user_id;
+    }
+    $this->setPoints($this->getPoints()+1);
+    $this->setVoteGoodIds($votes);
+  }
+  
+  public function removeVoteGood($user_id)
+  {
+    if (count($votes = $this->getVoteGoodIds()))
+    {
+      $votes_n = array();
+      foreach ($votes as $id)
+      {
+        if ($id != $user_id)
+        {
+          $votes_n[] = (string)$id;
+        }
+      }
+      
+      $this->setPoints($this->getPoints()-1);
+      $this->setVoteGoodIds($votes_n);
+    }
+  }
+  
+  public function hasVoteGood($user_id)
+  {
+    if (count($votes = $this->getVoteGoodIds()))
+    {
+      foreach ($votes as $id)
+      {
+        if ($id == $user_id)
+        {
+          return true;
+        }
       }
     }
     return false;

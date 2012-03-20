@@ -494,12 +494,12 @@ li.element
   padding: 5px;
 }
 
-li.element a.favorite_link
+/*li.element a.favorite_link
 {
   position: relative;
   top: 0px;
   left: 483px;
-}
+}*/
 
 #container li.element a.favorite_link:hover
 {
@@ -521,11 +521,12 @@ li.element td.element_content
 {
   vertical-align: top;
   padding-left: 5px;
+  width: 468px;
 }
 
 li.element span.element_name
 {
-  margin-left: -20px;
+  
 }
 
 li.element td.element_thumbnail
@@ -1050,5 +1051,38 @@ input.intext
   text-align: center;
   margin-left: 15px;
   margin-right: 15px;
+  font-weight: bold;
+}
+
+li.element table
+{
+  width: 100%;
+}
+
+li.element td.right
+{
+  text-align: center;
+  vertical-align: top;
+}
+
+li.element td.right ul, li.element td.right ul li
+{
+  margin: 0px;
+  padding: 0px;
+}
+
+li.element td.right ul li
+{
+  list-style-type: none;
+}
+
+li.element td.right ul li.vote
+{
+  height: 25px;
+}
+
+li.element td.right span.score
+{
+  font-size: 20px;
   font-weight: bold;
 }

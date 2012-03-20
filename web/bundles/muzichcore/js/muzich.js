@@ -1653,5 +1653,35 @@ $(document).ready(function(){
       
     }
   });
-   
- });
+
+  /*
+   * Vote sur element
+   */
+  
+  $('li.element a.vote').live('click', function(){
+    
+    img = $(this).find('img');
+    link = $(this);
+    img.attr('src', url_img_ajax_loader);
+    
+    $.getJSON(link.attr('href'), function(response){
+        
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      if (response.status == 'success')
+      {
+        link.attr('href', response.data.a.href);
+        img.attr('src', response.data.img.src);
+        link.parent('li').parent('ul').find('li.score span.score').html(response.data.element.points);
+      }
+      
+    });
+    
+    return false;
+  });
+  
+
+});

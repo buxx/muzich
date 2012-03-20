@@ -35,16 +35,6 @@
     </td>
     <td class="element_content">
       
-      {% if element.getCountFavorite %}
-        <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash }) }}" >
-          <img src="{{ asset('bundles/muzichcore/img/favorite.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
-        </a>
-      {% else %}
-        <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': app.user.personalHash }) }}" >
-          <img src="{{ asset('bundles/muzichcore/img/favorite_bw.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
-        </a>
-      {% endif %}
-      
       <span class="element_name">
         {% if element.embed %}
           <a href="#" class="element_open element_name_embed_open_link">
@@ -151,6 +141,51 @@
         {{ 'element.comments.add'|trans({}, 'elements') }}
       </a>
       
+      
+    </td>
+    <td class="right">
+      
+      <ul>
+        {% if element.owner.id != app.user.id %}
+          <li class="vote">
+            {% if element.hasVoteGood(app.user.id) %}
+              <a class="vote" href="{{ path('ajax_element_remove_vote_good', {
+                'element_id' : element.id,
+                'token'      : app.user.getPersonalHash
+              }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
+                <img src="{{ asset('/bundles/muzichcore/img/up_b.png') }}" alt="vote" />
+              </a>
+            {% else %}
+              <a class="vote" href="{{ path('ajax_element_add_vote_good', {
+                'element_id' : element.id,
+                'token'      : app.user.getPersonalHash
+              }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
+                <img src="{{ asset('/bundles/muzichcore/img/up_bw.png') }}" alt="vote" />
+              </a>
+            {% endif %}
+          </li>
+      {% endif %}
+      <li class="score">
+
+        <span class="score">
+          {{ element.points }}
+        </span>
+
+      </li>
+      <li>
+
+      {% if element.getCountFavorite %}
+        <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash }) }}" >
+          <img src="{{ asset('bundles/muzichcore/img/favorite.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
+        </a>
+      {% else %}
+        <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': app.user.personalHash }) }}" >
+          <img src="{{ asset('bundles/muzichcore/img/favorite_bw.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
+        </a>
+      {% endif %}
+
+        </li>
+      </ul>
     </td>
   </tr>
 </table>
