@@ -127,6 +127,13 @@ class User extends BaseUser
   protected $reputation;
   
   /**
+   * Liste des Events appartenant a cet utilisateur.
+   * 
+   * @ORM\OneToMany(targetEntity="Event", mappedBy="user")
+   */
+  protected $events;
+  
+  /**
    * 
    */
   public function __construct()
@@ -384,6 +391,16 @@ class User extends BaseUser
       return 0;
     }
     return $this->reputation;
+  }
+  
+  public function getEvents()
+  {
+    return $this->events;
+  }
+  
+  public function setEvents($events)
+  {
+    $this->events = $events;
   }
   
   /*

@@ -4,6 +4,7 @@ namespace Muzich\CommentBundle\Controller;
 
 use Muzich\CoreBundle\lib\Controller;
 use Muzich\CoreBundle\Managers\CommentsManager;
+use Muzich\CoreBundle\Propagator\EventElementComment;
 
 class CommentController extends Controller
 {
@@ -54,11 +55,17 @@ class CommentController extends Controller
       )));
     }
     
-    
     // On met a jour les commentaires
     $cm = new CommentsManager($element->getComments());
     $cm->add($this->getUser(), $comment);
     $element->setComments($cm->get());
+    $event = new EventElementComment($this->container);
+    
+    // Event pour user d'un nouveau comment
+    if ($this->getUserId() != $element->getOwner()->getId())
+    {
+      $event->commentAdded($element);
+    }
 
     $this->getDoctrine()->getEntityManager()->persist($element);
     $this->getDoctrine()->getEntityManager()->flush();
