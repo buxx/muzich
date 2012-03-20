@@ -119,6 +119,14 @@ class User extends BaseUser
   protected $country;
   
   /**
+   * Reputation
+   * 
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int 
+   */
+  protected $reputation;
+  
+  /**
    * 
    */
   public function __construct()
@@ -362,6 +370,20 @@ class User extends BaseUser
   public function setCountry($country)
   {
     $this->country = $country;
+  }
+  
+  public function setReputation($reputation)
+  {
+    $this->reputation = $reputation;
+  }
+  
+  public function getReputation()
+  {
+    if ($this->reputation === null)
+    {
+      return 0;
+    }
+    return $this->reputation;
   }
   
   /*

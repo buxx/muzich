@@ -54,7 +54,7 @@ class CommentController extends Controller
       )));
     }
     
-      
+    
     // On met a jour les commentaires
     $cm = new CommentsManager($element->getComments());
     $cm->add($this->getUser(), $comment);

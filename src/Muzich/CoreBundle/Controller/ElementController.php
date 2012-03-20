@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Controller;
 
 use Muzich\CoreBundle\lib\Controller;
 use Muzich\CoreBundle\ElementFactory\ElementManager;
+use Muzich\CoreBundle\Propagator\EventElementScore;
 
 class ElementController extends Controller
 {
@@ -369,6 +370,9 @@ class ElementController extends Controller
     }
     
     $element->addVoteGood($this->getUser()->getId());
+    $event = new EventElementScore($this->container);
+    $event->onePointAdded($element);
+    
     $this->getDoctrine()->getEntityManager()->persist($element);
     $this->getDoctrine()->getEntityManager()->flush();
     
@@ -416,6 +420,9 @@ class ElementController extends Controller
     }
     
     $element->removeVoteGood($this->getUser()->getId());
+    $event = new EventElementScore($this->container);
+    $event->onePointRemoved($element);
+    
     $this->getDoctrine()->getEntityManager()->persist($element);
     $this->getDoctrine()->getEntityManager()->flush();
     
