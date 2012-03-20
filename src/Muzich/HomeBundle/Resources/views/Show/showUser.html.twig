@@ -26,6 +26,12 @@
 
   <h2>{{ 'user.show.title'|trans({'%name%' : viewed_user.name}, 'users') }}</h2>
   
+  <div class="reputation">
+    {{ 'user.reputation.name'|trans({}, 'users') }}: 
+    <span class="score">{{ viewed_user.reputation }}</span>
+    {{ 'user.reputation.txt'|trans({}, 'users') }}
+  </div>
+  
   <p class="show_info">
     {% if count_owned != 0 %}
     {{ 'show.user.elements.count'|trans({

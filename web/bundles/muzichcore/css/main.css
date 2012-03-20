@@ -1086,3 +1086,15 @@ li.element td.right span.score
   font-size: 20px;
   font-weight: bold;
 }
+
+div.reputation
+{
+  padding-left: 15px;
+  font-size: 110%;
+}
+
+div.reputation span.score
+{
+  font-size: 125%;
+  font-weight: bold;
+}

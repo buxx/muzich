@@ -8,3 +8,6 @@ user:
   stop_follow:                  Ne plus suivre
   show:
     title:                      Diffusions de %name%
+  reputation:
+    name:                       Reputation
+    txt:                        points
