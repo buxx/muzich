@@ -75,13 +75,17 @@
       </p>
     </div>
   </noscript>
-  
+      
   <div id="container">
+    
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+      {% render "MuzichUserBundle:User:infoBar" %}
+    {% endif %}
+    
     {% block main_content %}{% endblock %}
     {% block fos_user_content %}{% endblock %}
   </div>
-  
-  
+    
   {% for key, flash in app.session.getFlashes() %}
     <div class="{{ key }} message">
       <a class="message-close" href="#" title="fermer"><img alt="close" src="{{ asset('bundles/muzichcore/img/1317386146_cancel.png') }}" /></a>

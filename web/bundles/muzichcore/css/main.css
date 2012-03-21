@@ -1098,3 +1098,48 @@ div.reputation span.score
   font-size: 125%;
   font-weight: bold;
 }
+
+div#events
+{
+  width: 62px;
+  position: absolute;
+  margin-top: 50px;
+  margin-left: 650px;
+  background-color: white;
+  padding: 4px;
+  
+  border-top: 0px solid #d5d5d5;
+  border-right: 0px solid #d5d5d5;
+  border-bottom: 0px solid #d5d5d5;
+  border-left: none;
+  border-radius: 0px 5px 5px 0px;
+  -moz-border-radius: 0px 5px 5px 0px;
+  -webkit-border-radius: 0px 5px 5px 0px;
+  
+  -webkit-box-shadow: 2px 2px 2px #666;
+  -moz-box-shadow: 2px 2px 2px #666 ;
+  box-shadow: 2px 2px 2px #666;
+}
+
+div#events div.score img
+{
+  margin-bottom: -5px;
+}
+
+div#events div.score span
+{
+  font-weight: bold;
+  padding-bottom: 2px;
+}
+
+div#events div.comments img
+{
+  margin-left: 3px;
+  margin-bottom: -4px;
+}
+
+div#events div.comments span
+{
+  font-weight: bold;
+  margin-left: 5px;
+}

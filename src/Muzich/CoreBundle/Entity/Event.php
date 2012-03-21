@@ -18,7 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Event
 {
   
-  const TYPE_COMMENT_ADDED_OWNED_ELEMENT = "com.add.ow.e";
+  const TYPE_COMMENT_ADDED_ELEMENT = "com.adde.ele";
   
   /**
    * @ORM\Id

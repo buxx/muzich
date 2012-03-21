@@ -24,7 +24,8 @@ class MyTwigExtension extends \Twig_Extension {
   
   public function getFunctions() {
     return array(
-      'date_or_relative_date'  => new \Twig_Filter_Method($this, 'date_or_relative_date')
+      'date_or_relative_date'  => new \Twig_Filter_Method($this, 'date_or_relative_date'),
+      'event_const'  => new \Twig_Filter_Method($this, 'event_const')
     );
   }
   
@@ -114,6 +115,17 @@ class MyTwigExtension extends \Twig_Extension {
     $date = str_replace('-', '', $date);
     $date = str_replace(':', '', $date);
     return $date;
+  }
+  
+  public function event_const($const_name)
+  {
+    switch ($const_name)
+    {
+      case 'TYPE_COMMENT_ADDED_ELEMENT':
+        return \Muzich\CoreBundle\Entity\Event::TYPE_COMMENT_ADDED_ELEMENT;
+      break;
+    }
+    return null;
   }
 
 }

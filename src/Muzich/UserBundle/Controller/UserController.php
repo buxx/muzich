@@ -566,5 +566,16 @@ class UserController extends Controller
       'status' => 'success'
     ));
   }
+  
+  public function infoBarAction()
+  {
+    $events = $this->getDoctrine()->getRepository('MuzichCoreBundle:Event')
+      ->getNotViewEvents($this->getUserId())
+    ;
+    
+    return $this->render('MuzichUserBundle:Info:bar.html.twig', array(
+      'events' => $events
+    ));
+  }
     
 }

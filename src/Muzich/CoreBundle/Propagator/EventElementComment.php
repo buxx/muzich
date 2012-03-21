@@ -27,7 +27,7 @@ class EventElementComment extends EventPropagator
           (e.view = \'FALSE\' OR e.view = \'0\')'
       )->setParameters(array(
         'uid' => $element->getOwner()->getId(),
-        'type' => Event::TYPE_COMMENT_ADDED_OWNED_ELEMENT
+        'type' => Event::TYPE_COMMENT_ADDED_ELEMENT
       ))->getSingleResult()
       ;
       $new = false;
@@ -42,7 +42,7 @@ class EventElementComment extends EventPropagator
     if ($new)
     {
       $uea->createEvent(
-        Event::TYPE_COMMENT_ADDED_OWNED_ELEMENT,
+        Event::TYPE_COMMENT_ADDED_ELEMENT,
         $element->getId()
       );
     }
