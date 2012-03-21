@@ -293,7 +293,8 @@ class CoreController extends Controller
             'search_form_name' => 'search',
             'network_public'   => $search_object->isNetworkPublic(),
             'elements'         => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
-            'more_count'       => $this->container->getParameter('search_default_count')*2
+            'more_count'       => $this->container->getParameter('search_default_count')*2,
+            'display_comments' => false
           ));
         }
         else
@@ -319,7 +320,8 @@ class CoreController extends Controller
             'add_form'      => (isset($add_form)) ? $add_form->createView() : null,
             'add_form_name' => (isset($add_form)) ? 'add' : null,
             'more_count'    => null,
-            'more_route'    => 'show_group_more'
+            'more_route'    => 'show_group_more',
+            'display_comments' => false
           ));
         }
 

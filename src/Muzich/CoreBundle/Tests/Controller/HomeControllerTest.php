@@ -55,7 +55,8 @@ class HomeControllerTest extends FunctionalTest
         'count'     => $this->getContainer()->getParameter('search_default_count'),
         'user_id'   => null,
         'group_id'  => null,
-        'favorite' => false
+        'favorite' => false,
+        'ids'       => null,
     ), $this->getSession()->get('user.element_search.params'));
     
     // On fabrique l'ElementSearcher correspondant
@@ -184,6 +185,7 @@ class HomeControllerTest extends FunctionalTest
       array($hardtek->getId(), $tribe->getId())
     );
     
+    $this->outputDebug();
     $this->isResponseSuccess();
         
     $this->notExist('li:contains("Mon bel element a4er563a1r")');
