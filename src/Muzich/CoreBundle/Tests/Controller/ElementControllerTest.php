@@ -502,7 +502,11 @@ class ElementControllerTest extends FunctionalTest
     // Et ce sont (fixtures) ces deux user qui ont voté
     $this->assertEquals($element_ed->getVoteGoodIds(), array((string)$joelle->getId(), (string)$jean->getId()));
     
-    // paul va voter egallement
+    // On peut d'ailleur constater que la reputation de bux est de 7 (fixtures)
+    $bux = $this->getUser('bux');
+    $this->assertEquals($bux->getReputation(), 7);
+    
+    // paul va voter 
     $crawler = $this->client->request(
       'GET', 
       $this->generateUrl('ajax_element_add_vote_good', array(
@@ -534,6 +538,10 @@ class ElementControllerTest extends FunctionalTest
       (string)$paul->getId()
     ));
     
+    // On peut d'ailleur constater que la reputation de bux est maintenant de 8
+    $bux = $this->getUser('bux');
+    $this->assertEquals($bux->getReputation(), 8);
+    
     // Pau retire son vote de soulfy
     $crawler = $this->client->request(
       'GET', 
@@ -551,6 +559,10 @@ class ElementControllerTest extends FunctionalTest
     
     // Et son id est la
     $this->assertEquals($element_soul->getVoteGoodIds(), array());
+    
+    // On peut d'ailleur constater que la reputation de bux est maintenant de 7
+    $bux = $this->getUser('bux');
+    $this->assertEquals($bux->getReputation(), 7);
     
     // On déconnecte paul, pour faire voter bob sur le partage ed cox
     $this->disconnectUser();
@@ -589,6 +601,10 @@ class ElementControllerTest extends FunctionalTest
       (string)$paul->getId(),
       (string)$bob->getId()
     ));
+    
+    // On peut d'ailleur constater que la reputation de bux est maintenant de 8
+    $bux = $this->getUser('bux');
+    $this->assertEquals($bux->getReputation(), 8);
   }
   
 }
