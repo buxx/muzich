@@ -15,11 +15,11 @@
             class="view_elements_event"
           >
             <img src="{{ asset('bundles/muzichcore/img/1332286007_comments_reply.png') }}" alt="comments" />
-            <span>{{ events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count }}</span>
+            <span class="new_comments">{{ events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count }}</span>
           </a>
         {% else %}
           <img title="{{ 'events.new_comments.no'|trans({}, 'users') }}" src="{{ asset('bundles/muzichcore/img/1332286007_comments_reply.png') }}" alt="comments" />
-          <span>0</span>
+          <span class="new_comments">0</span>
         {% endif %}
     </div>
   
