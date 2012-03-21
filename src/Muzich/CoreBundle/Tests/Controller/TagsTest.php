@@ -85,7 +85,6 @@ class TagsTest extends FunctionalTest
     $this->client->request('GET', $this->generateUrl('favorites_my_list'));
     $this->isResponseSuccess();
     
-    $this->outputDebug();
     $this->exist('li.element_tag');
     $this->exist('li.element_tag:contains("Mon beau tag")');
     $this->exist('body:contains("Mon beau tag")');
