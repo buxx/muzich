@@ -11,3 +11,13 @@ user:
   reputation:
     name:                       Reputation
     txt:                        points
+    
+events:
+  new_comments:
+    no:                         Pas de nouveaux commentaires sur vos partages
+    one:                        %count% nouveaux commentaire sur un de vos partages
+    yes:                        %count% nouveaux commentaires sur vos partages
+    
+reputation:
+  bar:
+    title:                      Votre réputation

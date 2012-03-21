@@ -1,7 +1,8 @@
 <div id="events">
     
     <div class="score">
-      <img src="{{ asset('bundles/muzichcore/img/1332286466_stock_scores.png') }}" alt="score" />
+      <img title="{{ 'reputation.bar.title'|trans({}, 'users') }}"
+        src="{{ asset('bundles/muzichcore/img/1332286466_stock_scores.png') }}" alt="score" />
       <span>{{ app.user.reputation }}</span>
     </div>
     
@@ -10,14 +11,14 @@
         {% if events[event_const('TYPE_COMMENT_ADDED_ELEMENT')] is defined %}
           <a 
             href="{{ path('event_view_elements', {'event_id':events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].id}) }}" 
-            title="BLLLLLLLLL"
+            title="{%if events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count == 1 %}{{ 'events.new_comments.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_comments.yes'|trans({'%count%':events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count}, 'users') }}{% endif %}"
             class="view_elements_event"
           >
             <img src="{{ asset('bundles/muzichcore/img/1332286007_comments_reply.png') }}" alt="comments" />
             <span>{{ events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count }}</span>
           </a>
         {% else %}
-          <img src="{{ asset('bundles/muzichcore/img/1332286007_comments_reply.png') }}" alt="comments" />
+          <img title="{{ 'events.new_comments.no'|trans({}, 'users') }}" src="{{ asset('bundles/muzichcore/img/1332286007_comments_reply.png') }}" alt="comments" />
           <span>0</span>
         {% endif %}
     </div>
