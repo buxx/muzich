@@ -38,6 +38,27 @@ class ElementRepository extends EntityRepository
     $params_select['uid'] = $user_id;
     $order_by = "ORDER BY e_.created DESC, e_.id DESC";
     
+    // Première chose, si on impose les element_ids on a pas besoin de faire 
+    // le filtrage
+    if ($searcher->hasIds())
+    {
+      // Dans ce cas ou les ids sont déjà donné, on ne peut pas avoir de nouveaux
+      // éléments
+      if ($searcher->isSearchingNew())
+      {
+        return $query = $this->getEntityManager()
+          ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
+        ;
+      }
+      
+      if (($id_limit = $searcher->getIdLimit()))
+      {
+        return $this->getSelectElementForSearchQuery($params_select, $user_id, $searcher->getIds(), $id_limit, $searcher->getCount());
+      }
+      return $this->getSelectElementForSearchQuery($params_select, $user_id, $searcher->getIds());
+    }
+    
+    
     // Booléen nous permettant de savoir si un where a déjà été écrit
     $is_where = false;
     
@@ -202,32 +223,49 @@ class ElementRepository extends EntityRepository
         $ids[] = $r_id['id'];
       }
 
-      // C'est la requête qui récupérera les données element avec ses jointures.
-      $query_select = "SELECT e, t, o, g, fav
-        FROM MuzichCoreBundle:Element e 
-        LEFT JOIN e.group g 
-        LEFT JOIN e.tags t WITH (t.tomoderate = 'FALSE' OR t.tomoderate IS NULL
-          OR t.privateids LIKE :uidt)
-        LEFT JOIN e.elements_favorites fav WITH fav.user = :uid
-        JOIN e.owner o
-        WHERE e.id IN (:ids)
-        ORDER BY e.created DESC, e.id DESC"
-      ;
-
-      $params_select['ids'] = $ids;
-      $params_select['uidt'] = '%"'.$user_id.'"%';
-      $query = $this->getEntityManager()
-        ->createQuery($query_select)
-        ->setParameters($params_select)
-      ;
-
-      return $query;
+      return $this->getSelectElementForSearchQuery($params_select, $user_id, $ids);
     }
     
     // Il faut retourner une Query
     return $query = $this->getEntityManager()
       ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
     ;
+  }
+  
+  protected function getSelectElementForSearchQuery($params_select, $user_id, $ids, $id_limit = null, $count_limit = null)
+  {    
+    $where = "";
+    if ($id_limit)
+    {
+      $where = "AND e.id < :id_limit";
+      $params_select['id_limit'] = $id_limit;
+    }
+      
+    // C'est la requête qui récupérera les données element avec ses jointures.
+    $query_select = "SELECT e, t, o, g, fav
+      FROM MuzichCoreBundle:Element e 
+      LEFT JOIN e.group g 
+      LEFT JOIN e.tags t WITH (t.tomoderate = 'FALSE' OR t.tomoderate IS NULL
+        OR t.privateids LIKE :uidt)
+      LEFT JOIN e.elements_favorites fav WITH fav.user = :uid
+      JOIN e.owner o
+      WHERE e.id IN (:ids) $where
+      ORDER BY e.created DESC, e.id DESC"
+    ;
+
+    $params_select['ids'] = $ids;
+    $params_select['uidt'] = '%"'.$user_id.'"%';
+    $query = $this->getEntityManager()
+      ->createQuery($query_select)
+      ->setParameters($params_select)
+    ;
+    
+    if ($count_limit)
+    {
+      $query->setMaxResults($count_limit);
+    }
+
+    return $query;
   }
   
   /**

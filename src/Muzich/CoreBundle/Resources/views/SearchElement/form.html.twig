@@ -7,11 +7,19 @@
       {{ form_widget(search_form.network, { 'attr': {'style': 'display: none;'} }) }}
     </div>
     
-    <a href="#" class="button all_network {% if network_public %}active{% endif %}">
+    <a href="#" class="button all_network {% if network_public and not display_comments %}active{% endif %}">
       {{ 'filter.network_all'|trans({}, 'userui') }}
     </a>
-    <a href="#" class="button my_network {% if not network_public %}active{% endif %}">
+    <a href="#" class="button my_network {% if not network_public and not display_comments %}active{% endif %}">
       {{ 'filter.network_my'|trans({}, 'userui') }}
+    </a>
+      
+  </div>
+
+  <div class="more_filters">
+    <a href="{{ path('ajax_filter_remove_ids') }}" class="button active new_comments" style="{% if not display_comments %}display: none;{% endif %}">
+      {{ 'filter.new_comments'|trans({}, 'userui') }}
+      <img src="{{ asset('bundles/muzichcore/img/1328276855_list-remove.png') }}" alt="remove" />
     </a>
   </div>
   

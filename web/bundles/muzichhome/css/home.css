@@ -76,6 +76,20 @@ div.select_network a.my_network
   background-position: 2px 3px;
 }
 
+div.more_filters a.new_comments
+{
+  margin-top: 5px;
+  padding-left: 20px;
+  background-image: url(/bundles/muzichcore/img/1332286007_comments_reply.png);
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
+}
+
+div.more_filters a.new_comments img
+{
+  margin-bottom: -3px;
+}
+
 div.select_network a.active
 {
   background-color: #39c9cc

@@ -65,6 +65,7 @@ filter:
   mytags:  Tous mes tags
   network_all:   Réseau global
   network_my:    Mon réseau
+  new_comments:   Nvx commentaires
   
 element_add:
   url:

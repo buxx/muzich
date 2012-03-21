@@ -538,4 +538,27 @@ class CoreController extends Controller
     
   }
   
+  public function filterRemoveIdsAction()
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    $es = $this->getElementSearcher();
+    $es->setIds(null);
+    $this->setElementSearcherParams($es->getParams());
+    
+    $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
+      'user'        => $this->getUser(),
+      'elements'    => $es->getElements($this->getDoctrine(), $this->getUserId()),
+      'invertcolor' => false
+    ))->getContent();
+
+    return $this->jsonResponse(array(
+      'status'  => 'success',
+      'html'    => $html
+    ));
+  }
+  
 }

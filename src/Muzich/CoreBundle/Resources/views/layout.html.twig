@@ -79,7 +79,7 @@
   <div id="container">
     
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-      {% render "MuzichUserBundle:User:infoBar" %}
+      {% render "MuzichUserBundle:Event:infoBar" %}
     {% endif %}
     
     {% block main_content %}{% endblock %}

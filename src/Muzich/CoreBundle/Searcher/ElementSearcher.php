@@ -74,6 +74,15 @@ class ElementSearcher extends Searcher implements SearcherInterface
   protected $searchnew = false;
   
   /**
+   * Ce tableaux peut conteni des ids. Si ces ids sont renseignés tout les 
+   * autres paramétres ne sont plus pris en compte.
+   * Ces ids servent a filtrer directement la liste d'élément a afficher.
+   * 
+   * @var array
+   */
+  protected $ids;
+  
+  /**
    * @see SearcherInterface
    * @param array $params 
    */
@@ -86,7 +95,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
     
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew'
+      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew', 'ids'
     ), $params);
     
   }
@@ -99,7 +108,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
   {
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew'
+      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew', 'ids'
     ), $params);
   }
   
@@ -116,7 +125,8 @@ class ElementSearcher extends Searcher implements SearcherInterface
       'count'    => $this->getCount(),
       'user_id'  => $this->getUserId(),
       'group_id' => $this->getGroupId(),
-      'favorite' => $this->isFavorite()
+      'favorite' => $this->isFavorite(),
+      'ids'      => $this->getIds()
     );
   }
   
@@ -181,6 +191,25 @@ class ElementSearcher extends Searcher implements SearcherInterface
   public function isFavorite()
   {
     return $this->favorite;
+  }
+  
+  public function setIds($ids)
+  {
+    $this->ids = $ids;
+  }
+  
+  public function getIds()
+  {
+    return $this->ids;
+  }
+  
+  public function hasIds()
+  {
+    if (count($this->ids))
+    {
+      return true;
+    }
+    return false;
   }
 
   /**

@@ -60,6 +60,10 @@ ajax_element_remove_vote_good:
   pattern: /ajax/element/vote/remove/good/{element_id}/{token}
   defaults: { _controller: MuzichCoreBundle:Element:removeVoteGood }
 
+ajax_filter_remove_ids:
+  pattern: /ajax/filter/remove/ids
+  defaults: { _controller: MuzichCoreBundle:Core:filterRemoveIds }
+
 ####
 
 info_about:

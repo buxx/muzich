@@ -1683,5 +1683,30 @@ $(document).ready(function(){
     return false;
   });
   
+  
+  // Enlever les ids du ElementSearch
+  $('div.more_filters a.new_comments').live('click', function(){
+    
+    $('img.elements_more_loader').show();
+    $('ul.elements').html('');
+    link = $(this);
+    
+    $.getJSON(link.attr('href'), function(response){
+        
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      if (response.status == 'success')
+      {
+        $('form[name="search"]').submit();
+        $('div.more_filters a.new_comments').hide();
+      }
+      
+    });
+    
+    return false;
+  });
 
 });

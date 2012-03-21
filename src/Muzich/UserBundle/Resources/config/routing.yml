@@ -33,3 +33,8 @@ change_email_confirm:
 update_address:
   pattern: /ajax/update-address/{token}
   defaults: { _controller: MuzichUserBundle:User:updateAddress }
+  
+event_view_elements:
+  pattern: /event/view/elements/{event_id}
+  defaults: { _controller: MuzichUserBundle:Event:viewElements }
+  

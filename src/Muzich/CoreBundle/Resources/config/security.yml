@@ -77,7 +77,8 @@ security:
         - { path: ^/(?:fr|en)/show/group/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/favoritesajax, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/ajax, role: IS_AUTHENTICATED_ANONYMOUSLY }
-                                
+        - { path: ^/(?:fr|en)/event/view/elements, role: IS_AUTHENTICATED_ANONYMOUSLY }
+                                        
         - { path: ^/, roles: ROLE_USER }
         
 #        # Liste des pages accessibles à tous les utilisateurs (ne pas toucher)

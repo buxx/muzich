@@ -30,6 +30,7 @@ class HomeController extends Controller
     
     return array(
       'search_tags_id'   => $search_object->getTags(),
+      'display_comments' => $search_object->hasIds(),
       'user'             => $this->getUser(),
       'add_form'         => $add_form->createView(),
       'add_form_name'    => 'add',

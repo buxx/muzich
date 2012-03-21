@@ -1,17 +1,25 @@
 <div id="events">
     
     <div class="score">
-      <img src="{{ asset('bundles/muzichcore/img/1332286466_stock_scores.png') }}" alt="" />
+      <img src="{{ asset('bundles/muzichcore/img/1332286466_stock_scores.png') }}" alt="score" />
       <span>{{ app.user.reputation }}</span>
     </div>
     
     <div class="comments">
-      <img src="{{ asset('bundles/muzichcore/img/1332286007_comments_reply.png') }}" alt="" />
-      {% if events[event_const('TYPE_COMMENT_ADDED_ELEMENT')] is defined %}
-        <span>{{ events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count }}</span>
-      {% else %}
-        <span>0</span>
-      {% endif %}
+      
+        {% if events[event_const('TYPE_COMMENT_ADDED_ELEMENT')] is defined %}
+          <a 
+            href="{{ path('event_view_elements', {'event_id':events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].id}) }}" 
+            title="BLLLLLLLLL"
+            class="view_elements_event"
+          >
+            <img src="{{ asset('bundles/muzichcore/img/1332286007_comments_reply.png') }}" alt="comments" />
+            <span>{{ events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count }}</span>
+          </a>
+        {% else %}
+          <img src="{{ asset('bundles/muzichcore/img/1332286007_comments_reply.png') }}" alt="comments" />
+          <span>0</span>
+        {% endif %}
     </div>
   
   </div>
