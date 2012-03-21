@@ -146,31 +146,11 @@ class Event
     if (!$this->hasId($id))
     {
       $ids[] = (string)$id;
-      $this->setCount($this->getCount()+1);
+      $this->setCount(count($ids));
     }
     $this->setIds($ids);
   }
-  
-  public function removeVoteGood($id_remove)
-  {
-    if (count($ids = $this->getIds()))
-    {
-      $ids_n = array();
-      foreach ($ids as $id)
-      {
-        if ($id != $id_remove)
-        {
-          $ids_n[] = (string)$id;
-        }
-        else
-        {
-          $this->setCount($this->getCount()-1);
-        }
-      }
-      $this->setIds($ids_n);
-    }
-  }
-  
+    
   public function hasId($id_check)
   {
     if (count($ids = $this->getIds()))

@@ -560,8 +560,8 @@ class Element
     if (!$this->hasVoteGood($user_id))
     {
       $votes[] = (string)$user_id;
+      $this->setPoints(count($votes));
     }
-    $this->setPoints($this->getPoints()+1);
     $this->setVoteGoodIds($votes);
   }
   
@@ -578,7 +578,7 @@ class Element
         }
       }
       
-      $this->setPoints($this->getPoints()-1);
+      $this->setPoints(count($votes_n));
       $this->setVoteGoodIds($votes_n);
     }
   }
