@@ -7,14 +7,12 @@ use Doctrine\ORM\EntityRepository;
 class EventRepository extends EntityRepository
 {
   
-  public function getNotViewEvents($user_id)
+  public function getEvents($user_id)
   {
     $events = array();
     $result = $this->getEntityManager()
-      ->createQuery('
-        SELECT e FROM MuzichCoreBundle:Event e
-        WHERE e.user = :uid AND 
-        (e.view = \'FALSE\' OR e.view = \'0\')'
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
       )
       ->setParameter('uid', $user_id)
       ->getArrayResult()

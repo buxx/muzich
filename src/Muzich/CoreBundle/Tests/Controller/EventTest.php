@@ -22,10 +22,8 @@ class EventTest extends FunctionalTest
     
     // Actuellement il n'y a aucun event d'ouvert pour bux (fixtures)
     $result = $this->getDoctrine()->getEntityManager()
-      ->createQuery('
-        SELECT e FROM MuzichCoreBundle:Event e
-        WHERE e.user = :uid AND 
-        (e.view = \'FALSE\' OR e.view = \'0\')'
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
       )
       ->setParameter('uid', $bux->getId())
       ->getArrayResult()
@@ -59,8 +57,7 @@ class EventTest extends FunctionalTest
     $result = $this->getDoctrine()->getEntityManager()
       ->createQuery('
         SELECT e FROM MuzichCoreBundle:Event e
-        WHERE e.user = :uid AND 
-        (e.view = \'FALSE\' OR e.view = \'0\')'
+        WHERE e.user = :uid'
       )
       ->setParameter('uid', $bux->getId())
       ->getArrayResult()
@@ -97,8 +94,7 @@ class EventTest extends FunctionalTest
     $result = $this->getDoctrine()->getEntityManager()
       ->createQuery('
         SELECT e FROM MuzichCoreBundle:Event e
-        WHERE e.user = :uid AND 
-        (e.view = \'FALSE\' OR e.view = \'0\')'
+        WHERE e.user = :uid'
       )
       ->setParameter('uid', $bux->getId())
       ->getArrayResult()
@@ -131,10 +127,8 @@ class EventTest extends FunctionalTest
     
     // bux a toujours 1 seul event en base
     $result = $this->getDoctrine()->getEntityManager()
-      ->createQuery('
-        SELECT e FROM MuzichCoreBundle:Event e
-        WHERE e.user = :uid AND 
-        (e.view = \'FALSE\' OR e.view = \'0\')'
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
       )
       ->setParameter('uid', $bux->getId())
       ->getArrayResult()
@@ -172,6 +166,16 @@ class EventTest extends FunctionalTest
     // /!\ la je ne teste pas si il est affiché ou caché /!\
     $url = $this->generateUrl('ajax_filter_remove_ids');
     $this->exist('div.more_filters a[href="'.$url.'"]');
+    
+    // L'objet Event ne doit plus être en base maintenant qu'il a été vu
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $bux->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 0);
     
     // Du coup on clique dessus pour revenir a un etat normal
     $this->crawler = $this->client->request(

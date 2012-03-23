@@ -60,15 +60,6 @@ class Event
    */
   protected $user;
   
-  /**
-   * Si $view est a vrai, cela se traduit par le fait que l'user a vue l'événement
-   * ou qu'il l'a supprimé.
-   * 
-   * @ORM\Column(type="boolean")
-   * @var type string
-   */
-  protected $view;
-  
   /*
    * 
    * getters / setters
@@ -118,16 +109,6 @@ class Event
   public function setUser($user)
   {
     $this->user = $user;
-  }
-  
-  public function getView()
-  {
-    return $this->view;
-  }
-  
-  public function setView($view)
-  {
-    $this->view = $view;
   }
   
   /*

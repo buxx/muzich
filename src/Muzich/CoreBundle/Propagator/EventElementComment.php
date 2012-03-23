@@ -23,8 +23,7 @@ class EventElementComment extends EventPropagator
     {
       $event = $em->createQuery(
         'SELECT e FROM MuzichCoreBundle:Event e
-        WHERE e.user = :uid AND e.type = :type AND 
-          (e.view = \'FALSE\' OR e.view = \'0\')'
+        WHERE e.user = :uid AND e.type = :type'
       )->setParameters(array(
         'uid' => $element->getOwner()->getId(),
         'type' => Event::TYPE_COMMENT_ADDED_ELEMENT

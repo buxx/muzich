@@ -10,7 +10,7 @@ class EventController extends Controller
   public function infoBarAction()
   {
     $events = $this->getDoctrine()->getRepository('MuzichCoreBundle:Event')
-      ->getNotViewEvents($this->getUserId())
+      ->getEvents($this->getUserId())
     ;
     
     return $this->render('MuzichUserBundle:Info:bar.html.twig', array(
@@ -56,8 +56,7 @@ class EventController extends Controller
     $es = $this->getElementSearcher();
     $es->setIds($event->getIds());
     $this->setElementSearcherParams($es->getParams());
-    $event->setView(true);
-    $this->getDoctrine()->getEntityManager()->persist($event);
+    $this->getDoctrine()->getEntityManager()->remove($event);
     $this->getDoctrine()->getEntityManager()->flush();
     
     // Si ajax

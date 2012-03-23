@@ -35,7 +35,6 @@ class Event
   {
     $this->event->addId($element_id);
     $this->event->setType($type);
-    $this->event->setView(false);
     $this->event->setUser($this->user);
   }
 }
