@@ -10,8 +10,11 @@ class ElementController extends Controller
 {
   
   /**
-   *
-   * @param type $element_id
+   * Cette méthode est utilisé pour récupérer un objet Element tout en levant
+   * une erreur si il n'existe pas ou si il n'appartient pas a l'utilisateur en 
+   * cours.
+   * 
+   * @param int $element_id
    * @return Muzich\CoreBundle\Entity\Element 
    */
   protected function checkExistingAndOwned($element_id)
@@ -31,7 +34,10 @@ class ElementController extends Controller
   }
   
   /**
+   * Action d'ouverture du formulaire de modification d'un élément.
    * 
+   * @param int $element_id
+   * @return Response
    */
   public function editAction($element_id)
   {
@@ -42,6 +48,9 @@ class ElementController extends Controller
     
     $element = $this->checkExistingAndOwned($element_id);
     
+    // On doit faire un chmilblik avec les tags pour
+    // utiliser le javascript de tags (tagPrompt)
+    // sur le formulaire
     $element_tags = $element->getTags();
     $element->setTags($element->getTagsIdsJson());
     $form = $this->getAddForm($element);
@@ -79,7 +88,11 @@ class ElementController extends Controller
   }
   
   /**
-   *
+   * Mise a jour des données d'un élément.
+   * 
+   * @param int $element_id
+   * @param string $dom_id
+   * @return Response 
    */
   public function updateAction($element_id, $dom_id)
   {
@@ -114,6 +127,7 @@ class ElementController extends Controller
     {
       $status = 'success';
       $em = $this->getDoctrine()->getEntityManager();
+      // On utilise le manager d'élément
       $factory = new ElementManager($element, $em, $this->container);
       $factory->proceedFill($user);
       // Si il y avais un groupe on le remet
@@ -168,6 +182,12 @@ class ElementController extends Controller
     ));
   }
   
+  /**
+   * Suppression d'un élément. 
+   * 
+   * @param int $element_id
+   * @return Response 
+   */
   public function removeAction($element_id)
   {
     if (($response = $this->mustBeConnected()))
@@ -199,6 +219,13 @@ class ElementController extends Controller
     }
   }
   
+  /**
+   * Cette procédure retourne le lien a afficher sur la page home permettant
+   * d'afficher des élément apparus entre temps.
+   * 
+   * @param int $count
+   * @return type 
+   */
   protected function getcountNewMessage($count)
   {
     if ($count == 1)
@@ -345,6 +372,13 @@ class ElementController extends Controller
     ));
   }
   
+  /**
+   * Action (ajax) ajoutant son vote "good" sur un élément
+   * 
+   * @param int $element_id
+   * @param string $token
+   * @return Response 
+   */
   public function addVoteGoodAction($element_id, $token)
   {
     if (($response = $this->mustBeConnected(true)))
@@ -369,7 +403,9 @@ class ElementController extends Controller
       ));
     }
     
+    // On ajoute un vote a l'élément
     $element->addVoteGood($this->getUser()->getId());
+    // Puis on lance les actions propagés par ce vote
     $event = new EventElementScore($this->container);
     $event->onePointAdded($element);
     
@@ -395,6 +431,13 @@ class ElementController extends Controller
     ));
   }
   
+  /**
+   * Action (ajax) de retrait de son vote good
+   * 
+   * @param int $element_id
+   * @param string $token
+   * @return Response 
+   */
   public function removeVoteGoodAction($element_id, $token)
   {
     if (($response = $this->mustBeConnected(true)))
@@ -419,7 +462,9 @@ class ElementController extends Controller
       ));
     }
     
+    // Retrait du vote good
     $element->removeVoteGood($this->getUser()->getId());
+    // Puis on lance les actions propagés par retrait de vote
     $event = new EventElementScore($this->container);
     $event->onePointRemoved($element);
     

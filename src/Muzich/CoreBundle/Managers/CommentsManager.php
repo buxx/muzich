@@ -3,6 +3,11 @@
 namespace Muzich\CoreBundle\Managers;
 
 /**
+ * Gestionnaire de commentaires.
+ * Les commentaires sont stocké en base sous forme de tableau json afin d'économiser
+ * relations entre tables. Ce menager per de gérer le tableau de commentaire
+ * plus facilement.
+ * 
  * @author bux
  */
 class CommentsManager
@@ -16,7 +21,8 @@ class CommentsManager
   }
   
   /**
-   *
+   * Ajouter un commentaire au tableau.
+   * 
    * @param \Muzich\CoreBundle\Entity\User $user
    * @param String $comment
    * @param String $date 
@@ -49,6 +55,14 @@ class CommentsManager
     return $this->get(count($this->comments)-1);
   }
   
+  /**
+   * Mise a jour d'un commentaire parmis le tableau. On l'identifie ici par son
+   * auteur et sa date de publication.
+   * 
+   * @param \Muzich\CoreBundle\Entity\User $user
+   * @param date $date (Y-m-d H:i:s u)
+   * @param string $comment_c 
+   */
   public function update($user, $date, $comment_c)
   {
     $comments = array();
@@ -77,9 +91,10 @@ class CommentsManager
   }
   
   /**
-   *
+   * Suppression d'un commentaire. Si il a été trouvé on retourne vrai.
+   * 
    * @param int $user_id
-   * @param string $date
+   * @param string $date (Y-m-d H:i:s u)
    * @return boolean 
    */
   public function delete($user_id, $date)
@@ -101,6 +116,14 @@ class CommentsManager
     return $found;
   }
   
+  /**
+   * Permet de récupérer l'index d'un commentaire dans le tableau de commentaires.
+   * Si le commentaire n'est pas trouvé on retourne null.
+   * 
+   * @param int $user_id
+   * @param  string $date (Y-m-d H:i:s u)
+   * @return int 
+   */
   public function getIndex($user_id, $date)
   {
     foreach ($this->comments as $i => $comment)
@@ -114,7 +137,8 @@ class CommentsManager
   }
   
   /**
-   *
+   * Retourne un commentaire en fonction de son index dans le tableau.
+   * 
    * @return array
    */
   public function get($index = null)

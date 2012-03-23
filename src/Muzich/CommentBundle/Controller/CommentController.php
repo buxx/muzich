@@ -9,6 +9,13 @@ use Muzich\CoreBundle\Propagator\EventElementComment;
 class CommentController extends Controller
 {
   
+  /**
+   * Action d'ajouter un commentaire.
+   * 
+   * @param int $element_id
+   * @param string $token
+   * @return \Symfony\Component\HttpFoundation\Response 
+   */
   public function addAction($element_id, $token)
   {
     if (($response = $this->mustBeConnected(true)))
@@ -83,6 +90,14 @@ class CommentController extends Controller
          
   }
   
+  /**
+   * Suppression d'un commentaire
+   *
+   * @param type $element_id
+   * @param type $date
+   * @param type $token
+   * @return \Symfony\Component\HttpFoundation\Response 
+   */
   public function deleteAction($element_id, $date, $token)
   {
     if (($response = $this->mustBeConnected(true)))
@@ -102,9 +117,10 @@ class CommentController extends Controller
     // On met a jour les commentaires
     $cm = new CommentsManager($element->getComments());
     
-    
+    // On utilise le comment manager pour supprimer le commentaire de la liste
     if (!$cm->delete($this->getUserId(), $date))
     {
+      // Si il n'a pas été trouvé on répond une erreur
       return $this->jsonResponse(array(
         'status' => 'error',
         'errors' => array($this->trans(
@@ -115,6 +131,7 @@ class CommentController extends Controller
       )));
     }
     
+    // Si tout c'est bien passé on met a jour l'attribut de l'élément
     $element->setComments($cm->get());
       
     $this->getDoctrine()->getEntityManager()->persist($element);
@@ -125,6 +142,14 @@ class CommentController extends Controller
     ));
   }
   
+  /**
+   * Modification d'un commentaire, ouverture du formulaire 
+   * 
+   * @param int $element_id
+   * @param string $date (Y-m-d H:i:s u)
+   * @param string $token
+   * @return Response 
+   */
   public function editAction($element_id, $date, $token)
   {
     if (($response = $this->mustBeConnected(true)))
@@ -141,21 +166,33 @@ class CommentController extends Controller
       ));
     }
     
+    // On utilise le gestionnaire de commentaire
     $cm = new CommentsManager($element->getComments());
+    // On récupére le commentaire visé
     $comment = $cm->get($cm->getIndex($this->getUserId(), $date));
-    
+    // On rpépare la réponse html (formulaire)
     $html = $this->render('MuzichCommentBundle:Comment:edit.html.twig', array(
       'comment'     => $comment,
       'element_id'  => $element->getId(),
       'date'        => $date
     ))->getContent();
-    
+    // On retourne le tout
     return $this->jsonResponse(array(
       'status' => 'success',
       'html'   => $html
     ));
   }
   
+  /**
+   * Mise a jour du commentaire. On précise dom_id pour retrouver facilement le 
+   * commentaire dans le dom lorsque js récupére la réponse.
+   * 
+   * @param int $element_id
+   * @param string $date (Y-m-d H:i:s u)
+   * @param string $token
+   * @param string $dom_id
+   * @return type 
+   */
   public function updateAction($element_id, $date, $token, $dom_id)
   {
     if (($response = $this->mustBeConnected(true)))

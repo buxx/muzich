@@ -5,6 +5,8 @@ use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Entity\User;
 
 /**
+ * Manager de rapport sur elements
+ * 
  * @author bux
  */
 class ElementReportManager
@@ -18,7 +20,8 @@ class ElementReportManager
   }
   
   /**
-   *
+   * Ajouter un rapport
+   * 
    * @param \Muzich\CoreBundle\Entity\User $user
    * @param String $comment
    * @param String $date 

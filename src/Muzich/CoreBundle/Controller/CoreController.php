@@ -367,6 +367,11 @@ class CoreController extends Controller
     return $groups;
   }
   
+  /**
+   * Action non ajax nettoyant la liste de tags du chercheur d'éléments
+   * 
+   * @return RedirectResponse 
+   */
   public function filterClearAction()
   {
     $es = $this->getElementSearcher();
@@ -375,12 +380,22 @@ class CoreController extends Controller
     return $this->redirect($this->container->get('request')->headers->get('referer'));
   }
   
+  /**
+   * Action non ajax de selection de ses tags favoris pour le chercheur d'élément
+   * 
+   * @return RedirectResponse 
+   */
   public function filterMytagsAction()
   {
     $this->getElementSearcher(null, true);
     return $this->redirect($this->container->get('request')->headers->get('referer'));
   }
   
+  /**
+   * Action de récupération ajax de l'id des tags favoris de son profil
+   * 
+   * @return Response 
+   */
   public function getFavoriteTagsAction()
   {
     if (($response = $this->mustBeConnected()))
@@ -417,6 +432,14 @@ class CoreController extends Controller
     ));
   }
   
+  /**
+   * Action ajax qui ajoute le tags précisé en paramétre aux tags favoris de
+   * l'utilisateur.
+   * 
+   * @param int $tag_id
+   * @param string $token
+   * @return Response 
+   */
   public function addTagToFavoritesAction($tag_id, $token)
   {
     if (($response = $this->mustBeConnected(true)))
@@ -446,12 +469,15 @@ class CoreController extends Controller
       )->getSingleResult();
     }
     
+    // On contrôle au préalable que le tag ne fait pas déjà partie des favoris de 
+    // l'utilisateur
     if (!$this->getDoctrine()->getRepository('MuzichCoreBundle:UsersTagsFavorites')
       ->findOneBy(array(
         'user' => $this->getUserId(),
         'tag'  => $tag->getId()
       )))
     {
+      // Si il ne l'est pas, on créer ce nouvel objet de relation
       $fav = new UsersTagsFavorites();
       $fav->setTag($tag);
       $fav->setUser($user);
@@ -465,6 +491,15 @@ class CoreController extends Controller
     ));
   }
   
+  /**
+   * Cette action (ajax) configure l'appartenance d'un élément a un groupe.
+   * Le groupe et l'élément doivent appartenir a l'utilisateur en cours.
+   * 
+   * @param int $element_id
+   * @param int $group_id
+   * @param string $token
+   * @return Response 
+   */
   public function setElementGroupAction($element_id, $group_id, $token)
   {
     if (($response = $this->mustBeConnected(true)))
@@ -511,6 +546,13 @@ class CoreController extends Controller
     ));
   }
   
+  /**
+   * Action (ajax) permettant de signaler un élément comme contenu non approprié.
+   * 
+   * @param int $element_id
+   * @param string $token
+   * @return Response 
+   */
   public function reportElementAction($element_id, $token)
   {
     if (($response = $this->mustBeConnected(true)))
@@ -528,6 +570,7 @@ class CoreController extends Controller
       ));
     }
     
+    // On utilise le manager de rapport
     $erm = new ElementReportManager($element);
     $erm->add($this->getUser());
     
@@ -540,6 +583,14 @@ class CoreController extends Controller
     
   }
   
+  /**
+   * Il arrive que l'on configure le chercheur d'élément de façon a ce qu'il
+   * affiche une liste d'élément précis (collection d'id). Cette action
+   * supprime cette configuration de façon a ce que le chercheur fonctionne 
+   * normalement.
+   * 
+   * @return type 
+   */
   public function filterRemoveIdsAction()
   {
     if (($response = $this->mustBeConnected(true)))

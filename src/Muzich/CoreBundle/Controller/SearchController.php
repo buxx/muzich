@@ -13,6 +13,15 @@ use Muzich\CoreBundle\Util\TagLike;
 class SearchController extends Controller
 {
   
+  /**
+   * Procédure qui construit un réponse json contenant le html
+   * par defalt de la liste d'élément.
+   * 
+   * @param Collection $elements
+   * @param boolean $invertcolors
+   * @param sring $message
+   * @return Response 
+   */
   protected function searchElementsMore($elements, $invertcolors, $message)
   {
     
@@ -115,6 +124,16 @@ class SearchController extends Controller
     }
   }
   
+  /**
+   * Action (ajax) de récupération d'éléments en plus
+   * [a check pour être sur] N'EST PLUS UTILISE
+   *
+   * @param string $type
+   * @param string $object_id
+   * @param int $id_limit
+   * @param boolean $invertcolors
+   * @return Response 
+   */
   public function searchElementsShowAction($type, $object_id, $id_limit, $invertcolors)
   {
     if ($this->getRequest()->isXmlHttpRequest())
@@ -164,8 +183,12 @@ class SearchController extends Controller
   }
     
   /**
-   *
-   * @param string $string_search 
+   * Procédure (ajax) de recherche de tags. Essentielement utilisé dans 
+   * le tagPrompt.
+   * 
+   * @param string $string_search
+   * @param int $timestamp
+   * @return Response 
    */
   public function searchTagAction($string_search, $timestamp)
   {
@@ -178,7 +201,9 @@ class SearchController extends Controller
     {
       if (strlen(trim($string_search)) > 1)
       {
+        // On utilise l'objet TagLike
         $TagLike = new TagLike($this->getDoctrine());
+        // Pour trier nos tags d'une manière plus humaine
         $sort_response = $TagLike->getSimilarTags($string_search, $this->getUserId());
       
         $status = 'success';
@@ -216,7 +241,9 @@ class SearchController extends Controller
   }
   
   /**
-   *
+   * Récupére l'id d'un tag (ajax)
+   * [A check] mais ne doit et n'est plus utilisé.
+   * 
    * @param type $string_search
    * @return Response 
    */

@@ -8,13 +8,21 @@ use Muzich\CoreBundle\Actions\User\Event as UserEventAction;
 use Muzich\CoreBundle\Entity\Event;
 
 /**
- * Description of EventElementScore
+ * Propagateur d'événement concernant les Commentaires d'éléments
  *
  * @author bux
  */
 class EventElementComment extends EventPropagator
 {  
   
+  /**
+   * Cette procédure doit être appelé après l'ajout d'un commentaire sur un 
+   * événement. Actuellement il:
+   * * Met a jour ou créer un objet événement (nouveau commentaire) pour le
+   *   propriétaire de l'élément.
+   * 
+   * @param Element $element 
+   */
   public function commentAdded(Element $element)
   {    
     $em = $this->container->get('doctrine')->getEntityManager();

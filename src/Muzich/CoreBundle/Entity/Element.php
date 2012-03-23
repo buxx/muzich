@@ -497,6 +497,11 @@ class Element
     }
   }
   
+  /**
+   * Retourne le nombre de fois que cet élément a été msi en favoris 
+   * 
+   * @return int
+   */
   public function getCountFavorite()
   {
     return count($this->elements_favorites);
@@ -512,6 +517,12 @@ class Element
 //    $this->tags->removeElement($tag);
 //  }
   
+  /**
+   * Répond vrai si le tag transmis fait partis des tags de l'élément
+   * 
+   * @param Tag $tag_t
+   * @return boolean 
+   */
   public function hasTag(Tag $tag_t)
   {
     foreach ($this->getTags() as $tag)
@@ -549,6 +560,11 @@ class Element
     $this->vote_good_ids = json_encode($votes_ids);
   }
   
+  /**
+   * ajoute le vote de l'user_id aux votes good
+   * 
+   * @param int $user_id 
+   */
   public function addVoteGood($user_id)
   {
     $votes = $this->getVoteGoodIds();
@@ -565,6 +581,11 @@ class Element
     $this->setVoteGoodIds($votes);
   }
   
+  /**
+   * Retire le vote_good de l'user_id
+   * 
+   * @param int $user_id 
+   */
   public function removeVoteGood($user_id)
   {
     if (count($votes = $this->getVoteGoodIds()))
@@ -583,6 +604,12 @@ class Element
     }
   }
   
+  /**
+   * Répond vrai si l'user_id a déjà voté good.
+   * 
+   * @param int $user_id
+   * @return boolean 
+   */
   public function hasVoteGood($user_id)
   {
     if (count($votes = $this->getVoteGoodIds()))

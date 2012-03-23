@@ -7,7 +7,7 @@ use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Actions\User\Reputation as UserReputation;
 
 /**
- * Description of EventElementScore
+ * Propagateur d'événement liés aux score des éléments
  *
  * @author bux
  */

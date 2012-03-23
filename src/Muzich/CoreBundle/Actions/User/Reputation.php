@@ -5,7 +5,7 @@ namespace Muzich\CoreBundle\Actions\User;
 use Muzich\CoreBundle\Entity\User;
 
 /**
- * Description of Reputation
+ * Refactorisation d'actions lié a la réputation de l'utilisateur
  *
  * @author bux
  */
@@ -23,11 +23,21 @@ class Reputation
     $this->user = $user;
   }
   
+  /**
+   * Ajoute des points a l'objet User
+   * 
+   * @param int $points 
+   */
   public function addPoints($points)
   {
     $this->user->setReputation($this->user->getReputation()+$points);
   }
   
+  /**
+   * Retirer des points a l'objet User
+   * 
+   * @param int $points 
+   */
   public function removePoints($points)
   {
     $this->user->setReputation($this->user->getReputation()-$points);

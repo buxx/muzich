@@ -116,6 +116,11 @@ class Event
    * 
    */
   
+  /**
+   * Ajoute l'identifiant a la liste d'identifiant
+   * 
+   * @param int $id 
+   */
   public function addId($id)
   {
     $ids = $this->getIds();
@@ -132,6 +137,12 @@ class Event
     $this->setIds($ids);
   }
     
+  /**
+   * Répond vrai si l'id transmis fait partis des ids
+   * 
+   * @param int $id_check
+   * @return boolean 
+   */
   public function hasId($id_check)
   {
     if (count($ids = $this->getIds()))

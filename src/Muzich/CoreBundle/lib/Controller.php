@@ -87,10 +87,19 @@ class Controller extends BaseController
   }
   
   /**
-   * Retourne l'objet User.
+   * Retourne l'objet User. Il est possible de préciser de quel manière récupérer 
+   * l'utilisateur:
    * 
+   * $user = $this->getUser(true, array('join' => array(
+   *   'groups_owned'
+   * )));
+   * 
+   * ou de forcer sa (re)récupération en base (sinon c'est l'objet static qui est renvoyé)
+   * 
+   * @param boolean $personal_query
    * @param array $params
-   * @return User
+   * @param boolean $force_refresh
+   * @return type 
    */
   protected function getUser($personal_query = false, $params = array(), $force_refresh = false)
   {
@@ -264,6 +273,12 @@ class Controller extends BaseController
     }
   }
   
+  /**
+   * Retourne le formulaire de recherche
+   * 
+   * @param \Muzich\CoreBundle\Searcher\Searcher $search_object
+   * @return \Symfony\Component\Form\Form
+   */
   protected function getSearchForm($search_object)
   {
     return $this->createForm(
@@ -273,6 +288,12 @@ class Controller extends BaseController
     );
   }
   
+  /**
+   * Retourne le formulaire d'ajout d'élément
+   * 
+   * @param \Muzich\CoreBundle\Searcher\Searcher $search_object
+   * @return \Symfony\Component\Form\Form
+   */
   protected function getAddForm($element = array())
   {
     return $this->createForm(
@@ -283,7 +304,7 @@ class Controller extends BaseController
   }
   
   /**
-   * Retourne une réponse contenant du json
+   * Retourne une réponse contenant et de type json
    * 
    * @param array $content
    * @return Response 
@@ -295,14 +316,23 @@ class Controller extends BaseController
     return $response;
   }
   
+  /**
+   * Permet d'utiliser la méthode Assert que l'on utilise dans les templates
+   * afin d'avoir une url correcte vers une ressource web (img, js, ...)
+   * 
+   * @param string $path
+   * @param string $packageName
+   * @return string 
+   */
   protected function getAssetUrl($path, $packageName = null)
   {
     return $this->container->get('templating.helper.assets')->getUrl($path, $packageName);
   }
   
   /**
-   *
-   * @param strin $string
+   * Retourne une traduction effectué par le translator
+   * 
+   * @param string $string
    * @param array $params
    * @param string $package
    * @return string 
@@ -313,7 +343,10 @@ class Controller extends BaseController
   }
   
   /**
-   *
+   * Permet de récupérer un objet réponse si l'utilisateur doit être connecté
+   * pour accéder a cette ressource. On peux préciser $and_ajax pour que
+   * la requete de type ajax soit une nécéssité.
+   * 
    * @return Response
    */
   protected function mustBeConnected($and_ajax = false)
