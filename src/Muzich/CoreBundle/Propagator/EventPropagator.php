@@ -18,5 +18,3 @@ class EventPropagator
     $this->container = $container;
   }
 }
-
-?>

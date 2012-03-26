@@ -17,6 +17,7 @@ use Muzich\CoreBundle\Entity\Tag;
 use Muzich\CoreBundle\Managers\TagManager;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 use Muzich\CoreBundle\Managers\ElementReportManager;
+use Muzich\CoreBundle\Propagator\EventUser;
 
 class CoreController extends Controller
 {
@@ -86,7 +87,11 @@ class CoreController extends Controller
     }
     
     // Vérifications préléminaires
-    if ($user->getPersonalHash() != $token || !in_array($type, array('user', 'group')) || !is_numeric($id))
+    if ($user->getPersonalHash() != $token 
+            || !in_array($type, array('user', 'group')) 
+            || !is_numeric($id)
+            || $user->getId() == $id
+    )
     {
       throw $this->createNotFoundException();
     }
@@ -107,6 +112,10 @@ class CoreController extends Controller
     if ($Follow)
     {
       // L'utilisateur suis déjà, on doit détruire l'entité
+      $event = new EventUser($this->container);
+      $event->removeFromFollow($Follow->getFollowed());
+      $em->persist($Follow->getFollowed());
+      
       $em->remove($Follow);
       $em->flush();
       $following = false;
@@ -125,9 +134,15 @@ class CoreController extends Controller
       if ($type == 'user') { $Follow = new FollowUser(); }
       else { $Follow = new FollowGroup(); }
       $Follow->setFollower($user);
-      if ($type == 'user') { $Follow->setFollowed($followed); }
+      if ($type == 'user')
+      { 
+        $Follow->setFollowed($followed); 
+        
+        $event = new EventUser($this->container);
+        $event->addToFollow($followed);
+        $em->persist($followed);
+      }
       else { $Follow->setGroup($followed); }
-      
       
       $em->persist($Follow);
       $em->flush();

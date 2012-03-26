@@ -6,6 +6,7 @@ use Muzich\CoreBundle\lib\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Muzich\CoreBundle\Entity\UsersElementsFavorites;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
+use Muzich\CoreBundle\Propagator\EventElement;
 //use Muzich\CoreBundle\Entity\Group;
 //use Muzich\CoreBundle\Form\Group\GroupForm;
 //use Symfony\Component\HttpFoundation\Request;
@@ -61,6 +62,15 @@ class FavoriteController extends Controller
       $favorite = new UsersElementsFavorites();
       $favorite->setUser($user);
       $favorite->setElement($element);
+      
+      if ($user->getId() != $element->getOwner()->getId())
+      {
+        // On déclenche les événements liés a cette action
+        $event = new EventElement($this->container);
+        $event->addedToFavorites($element);
+        $em->persist($user);
+      }
+      
       $em->persist($favorite);
       $em->flush();
     }
@@ -113,6 +123,14 @@ class FavoriteController extends Controller
         'element' => $id
       ))))
     {
+      if ($user->getId() != $element->getOwner()->getId())
+      {
+        // On déclenche les événements liés a cette action
+        $event = new EventElement($this->container);
+        $event->removedFromFavorites($element);
+      }
+      
+      $em->persist($element->getOwner());
       $em->remove($fav);
       $em->flush();
     }

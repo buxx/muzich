@@ -78,12 +78,53 @@ class RecalculateReputationCommand extends ContainerAwareCommand
         $element_points += $element->getPoints();
       }
       
-      $user->setReputation($element_points * $coef_element_point);
+      // On calcule pour les favoris
+      $coef_element_fav = $this->getContainer()->getParameter('reputation_element_favorite_value');
+      $count_favs = 0;
+      $fav = $em->createQuery(
+        "SELECT COUNT(f) FROM MuzichCoreBundle:UsersElementsFavorites f"
+        . " JOIN f.element e"
+        . " WHERE e.owner = :uid AND f.user != :uid"
+      )->setParameter('uid', $user->getId())
+       ->getScalarResult()      
+      ;
+      
+      if (count($fav))
+      {
+        if (count($fav[0]))
+        {
+          $count_favs = $fav[0][1];
+        }
+      }
+      
+      // Calcul pour les utilisateurs suivis
+      $coef_follow = $this->getContainer()->getParameter('reputation_element_follow_value');
+      $count_follow = 0;
+      $fol = $em->createQuery(
+        "SELECT COUNT(f) FROM MuzichCoreBundle:FollowUser f"
+        . " WHERE f.followed = :uid"
+      )->setParameter('uid', $user->getId())
+       ->getScalarResult()      
+      ;
+      
+      if (count($fol))
+      {
+        if (count($fol[0]))
+        {
+          $count_follow = $fol[0][1];
+        }
+      }
+      
+      $points = ($element_points * $coef_element_point)
+        + ($count_favs * $coef_element_fav)
+        + ($count_follow * $coef_follow)
+      ;
+      
+      $user->setReputation($points);
       $em->persist($user);
+      $em->flush();
     }
     
-    $output->writeln('<info>Enregistrement en base ...</info>');
-    $em->flush();
     $output->writeln('<info>Terminé !</info>');
   }
 }
