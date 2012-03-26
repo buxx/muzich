@@ -504,7 +504,7 @@ class ElementControllerTest extends FunctionalTest
     
     // On peut d'ailleur constater que la reputation de bux est de 7 (fixtures)
     $bux = $this->getUser('bux');
-    $this->assertEquals($bux->getReputation(), 7);
+    $this->assertEquals($bux->getReputation(), 22);
     
     // paul va voter 
     $crawler = $this->client->request(
@@ -540,7 +540,7 @@ class ElementControllerTest extends FunctionalTest
     
     // On peut d'ailleur constater que la reputation de bux est maintenant de 8
     $bux = $this->getUser('bux');
-    $this->assertEquals($bux->getReputation(), 8);
+    $this->assertEquals($bux->getReputation(), 23);
     
     // Pau retire son vote de soulfy
     $crawler = $this->client->request(
@@ -562,7 +562,7 @@ class ElementControllerTest extends FunctionalTest
     
     // On peut d'ailleur constater que la reputation de bux est maintenant de 7
     $bux = $this->getUser('bux');
-    $this->assertEquals($bux->getReputation(), 7);
+    $this->assertEquals($bux->getReputation(), 22);
     
     // On déconnecte paul, pour faire voter bob sur le partage ed cox
     $this->disconnectUser();
@@ -604,7 +604,7 @@ class ElementControllerTest extends FunctionalTest
     
     // On peut d'ailleur constater que la reputation de bux est maintenant de 8
     $bux = $this->getUser('bux');
-    $this->assertEquals($bux->getReputation(), 8);
+    $this->assertEquals($bux->getReputation(), 23);
   }
   
 }

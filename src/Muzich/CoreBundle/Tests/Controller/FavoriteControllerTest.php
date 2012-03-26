@@ -110,6 +110,10 @@ class FavoriteControllerTest extends FunctionalTest
     
     $this->isResponseSuccess();
     
+    // Controle de l'évolution du score de joelle
+    $joelle = $this->getUser('joelle');
+    $this->assertEquals($joelle->getReputation(), 2);
+    
     // L'élément est présent sur la page
     $this->exist('li:contains("DUDELDRUM")');
     $this->exist('a[href="'.($url = $this->generateUrl('favorite_add', array(
@@ -141,6 +145,10 @@ class FavoriteControllerTest extends FunctionalTest
     
     $this->assertTrue(!is_null($favorite));
     
+    // Controle de l'évolution du score de joelle
+    $joelle = $this->getUser('joelle');
+    $this->assertEquals($joelle->getReputation(), 7);
+    
     // On se rend sur la page de ses favoris
     $this->crawler = $this->client->request('GET', $this->generateUrl('favorites_my_list'));
     
@@ -164,6 +172,10 @@ class FavoriteControllerTest extends FunctionalTest
     ));
     
     $this->assertTrue(is_null($favorite));
+    
+    // Controle de l'évolution du score de joelle
+    $joelle = $this->getUser('joelle');
+    $this->assertEquals($joelle->getReputation(), 2);
   }
   
   public function testAjax()
@@ -176,6 +188,10 @@ class FavoriteControllerTest extends FunctionalTest
     $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
       ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
     ;
+    
+    // Controle de l'évolution du score de joelle
+    $bux = $this->getUser('bux');
+    $this->assertEquals($bux->getReputation(), 22);
     
     // Ajout d'un élément en favoris
     // Il ajoute cet élément en favoris
@@ -199,6 +215,10 @@ class FavoriteControllerTest extends FunctionalTest
     
     $this->assertTrue(!is_null($fav));
     
+    // Controle de l'évolution du score de joelle
+    $bux = $this->getUser('bux');
+    $this->assertEquals($bux->getReputation(), 22);
+    
     // On enlève des favoris
     $url = $this->generateUrl('favorite_remove', array(
       'id'    => $element->getId(),
@@ -217,6 +237,10 @@ class FavoriteControllerTest extends FunctionalTest
       ));
     
     $this->assertTrue(is_null($fav));
+    
+    // Controle de l'évolution du score de joelle
+    $bux = $this->getUser('bux');
+    $this->assertEquals($bux->getReputation(), 22);
   }
   
   /**

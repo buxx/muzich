@@ -105,6 +105,10 @@ class MynetworkControllerTest extends FunctionalTest
     $this->crawler = $this->client->request('GET', $this->generateUrl('show_user', array('slug' => $bux->getSlug())));
     $this->isResponseSuccess();
     
+    // Controle de l'évolution du score de bux
+    $bux = $this->getUser('bux');
+    $this->assertEquals($bux->getReputation(), 22);
+    
     $url_follow = $this->generateUrl('follow', array(
       'type' => 'user', 
       'id' => $bux->getId(),
@@ -133,6 +137,10 @@ class MynetworkControllerTest extends FunctionalTest
     // Celle-ci doit exister maintenant
     $this->assertTrue(!is_null($FollowUser));
     
+    // Controle de l'évolution du score de bux
+    $bux = $this->getUser('bux');
+    $this->assertEquals($bux->getReputation(), 32);
+    
     // On lance l'action de ne plus suivre
     $link = $this->selectLink('a[href="'.$url_follow.'"]');
     $this->clickOnLink($link);
@@ -153,6 +161,10 @@ class MynetworkControllerTest extends FunctionalTest
     
     // Celle-ci ne doit plus exister maintenant
     $this->assertTrue(is_null($FollowUser));
+    
+    // Controle de l'évolution du score de bux
+    $bux = $this->getUser('bux');
+    $this->assertEquals($bux->getReputation(), 22);
   }
   
   /**
