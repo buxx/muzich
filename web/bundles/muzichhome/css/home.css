@@ -85,7 +85,16 @@ div.more_filters a.new_comments
   background-position: 2px 3px;
 }
 
-div.more_filters a.new_comments img
+div.more_filters a.new_favorites
+{
+  margin-top: 5px;
+  padding-left: 20px;
+  background-image: url(/bundles/muzichcore/img/favorite.png);
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
+}
+
+div.more_filters a.new_comments img, div.more_filters a.new_favorites img
 {
   margin-bottom: -3px;
 }

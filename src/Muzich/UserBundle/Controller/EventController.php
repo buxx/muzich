@@ -55,6 +55,7 @@ class EventController extends Controller
     
     $es = $this->getElementSearcher();
     $es->setIds($event->getIds());
+    $es->setIdsDisplay($event->getType());
     $this->setElementSearcherParams($es->getParams());
     $this->getDoctrine()->getEntityManager()->remove($event);
     $this->getDoctrine()->getEntityManager()->flush();

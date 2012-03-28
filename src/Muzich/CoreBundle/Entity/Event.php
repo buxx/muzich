@@ -19,6 +19,7 @@ class Event
 {
   
   const TYPE_COMMENT_ADDED_ELEMENT = "com.adde.ele";
+  const TYPE_FAV_ADDED_ELEMENT     = "fav.adde.ele";
   
   /**
    * @ORM\Id

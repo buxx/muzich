@@ -124,6 +124,12 @@ class MyTwigExtension extends \Twig_Extension {
       case 'TYPE_COMMENT_ADDED_ELEMENT':
         return \Muzich\CoreBundle\Entity\Event::TYPE_COMMENT_ADDED_ELEMENT;
       break;
+      case 'TYPE_FAV_ADDED_ELEMENT':
+        return \Muzich\CoreBundle\Entity\Event::TYPE_FAV_ADDED_ELEMENT;
+      break;
+      default:
+        throw new \Exception('Constante non géré dans MyTwigExtension::event_const');
+      break;
     }
     return null;
   }

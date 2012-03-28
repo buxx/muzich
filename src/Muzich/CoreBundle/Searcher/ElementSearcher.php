@@ -83,6 +83,15 @@ class ElementSearcher extends Searcher implements SearcherInterface
   protected $ids;
   
   /**
+   * On stocke la dedans le bouton a afficher dans le gestionnaire de filtres
+   * correspondant aux ids filtrés. La valeur doit correspondre a une constante
+   * de l'Entité metier Event.
+   * 
+   * @var string 
+   */
+  protected $ids_display;
+  
+  /**
    * @see SearcherInterface
    * @param array $params 
    */
@@ -95,7 +104,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
     
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew', 'ids'
+      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display'
     ), $params);
     
   }
@@ -108,7 +117,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
   {
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew', 'ids'
+      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display'
     ), $params);
   }
   
@@ -120,13 +129,14 @@ class ElementSearcher extends Searcher implements SearcherInterface
   public function getParams($tags_string = false)
   {
     return array(
-      'network'  => $this->getNetwork(),
-      'tags'     => $this->getTags($tags_string),
-      'count'    => $this->getCount(),
-      'user_id'  => $this->getUserId(),
-      'group_id' => $this->getGroupId(),
-      'favorite' => $this->isFavorite(),
-      'ids'      => $this->getIds()
+      'network'     => $this->getNetwork(),
+      'tags'        => $this->getTags($tags_string),
+      'count'       => $this->getCount(),
+      'user_id'     => $this->getUserId(),
+      'group_id'    => $this->getGroupId(),
+      'favorite'    => $this->isFavorite(),
+      'ids'         => $this->getIds(),
+      'ids_display' => $this->getIdsDisplay()
     );
   }
   
@@ -210,6 +220,16 @@ class ElementSearcher extends Searcher implements SearcherInterface
       return true;
     }
     return false;
+  }
+  
+  public function setIdsDisplay($display)
+  {
+    $this->ids_display = $display;
+  }
+  
+  public function getIdsDisplay()
+  {
+    return $this->ids_display;
   }
 
   /**

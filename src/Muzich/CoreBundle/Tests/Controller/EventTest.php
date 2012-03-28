@@ -202,4 +202,101 @@ class EventTest extends FunctionalTest
     
   }
   
+  public function testFavoriteAdded()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('paul', 'toor');
+    
+    $paul = $this->getUser();
+    $bux = $this->getUser('bux');
+    
+    // Actuellement il n'y a aucun event d'ouvert pour bux (fixtures)
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $bux->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 0);
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+        
+    // Ajout d'un élément en favoris
+    // Il ajoute cet élément en favoris
+    $url = $this->generateUrl('favorite_add', array(
+      'id'    => $element->getId(),
+      'token' => $paul->getPersonalHash()
+    ));
+    
+    $crawler = $this->client->request('GET', $url, array(), array(), array(
+        'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    
+    $this->isResponseSuccess();
+    
+    // On contrôle la présence du favoris
+    $fav = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->findOneBy(array(
+        'user'    => $paul->getId(),
+        'element' => $element->getId()
+      ));
+    
+    $this->assertTrue(!is_null($fav));
+    
+    // bux a maintenant un event en base
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('
+        SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $bux->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 1);
+    $this->assertEquals($result[0]['type'], Event::TYPE_FAV_ADDED_ELEMENT);
+    $this->assertEquals($result[0]['count'], 1);
+    $this->assertEquals($result[0]['ids'], json_encode(array((string)$element->getId())));
+    
+    // On enlève des favoris
+    $url = $this->generateUrl('favorite_remove', array(
+      'id'    => $element->getId(),
+      'token' => $paul->getPersonalHash()
+    ));
+    
+    $crawler = $this->client->request('GET', $url, array(), array(), array(
+        'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    
+    // On contrôle l'absence du favoris
+    $fav = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->findOneBy(array(
+        'user'    => $paul->getId(),
+        'element' => $element->getId()
+      ));
+    
+    $this->assertTrue(is_null($fav));
+    
+    // bux a toujours qu'un event avec un seul element signalé.
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('
+        SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $bux->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 1);
+    $this->assertEquals($result[0]['type'], Event::TYPE_FAV_ADDED_ELEMENT);
+    $this->assertEquals($result[0]['count'], 1);
+    $this->assertEquals($result[0]['ids'], json_encode(array((string)$element->getId())));
+    
+    // Pour le moment pas de tests supplémentaire comme mettre de nouveaux favoris 
+    // ou consulter la liste des éléments concernés. Il faudrait coder ces test certe.
+    // Mais la refactorisation du code fait qu'il n'y a que le type (Event) de diféfrent.
+    // donc a coder (tests) mais pas urgent a l'isntant.
+  }
+  
 }

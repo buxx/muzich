@@ -1143,3 +1143,15 @@ div#events div.comments span
   font-weight: bold;
   margin-left: 5px;
 }
+
+div#events div.favorites img
+{
+  margin-left: 3px;
+  margin-bottom: -2px;
+}
+
+div#events div.favorites span
+{
+  font-weight: bold;
+  margin-left: 5px;
+}

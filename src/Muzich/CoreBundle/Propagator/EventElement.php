@@ -26,40 +26,9 @@ class EventElement extends EventPropagator
    */
   public function commentAdded(Element $element)
   {
-    $em = $this->container->get('doctrine')->getEntityManager();
-    
-    try
-    {
-      $event = $em->createQuery(
-        'SELECT e FROM MuzichCoreBundle:Event e
-        WHERE e.user = :uid AND e.type = :type'
-      )->setParameters(array(
-        'uid' => $element->getOwner()->getId(),
-        'type' => Event::TYPE_COMMENT_ADDED_ELEMENT
-      ))->getSingleResult()
-      ;
-      $new = false;
-    } 
-    catch (\Doctrine\ORM\NoResultException $e)
-    {
-      $event = new Event();
-      $new = true;
-    }
-    
-    $uea = new UserEventAction($element->getOwner(), $event);
-    if ($new)
-    {
-      $uea->createEvent(
-        Event::TYPE_COMMENT_ADDED_ELEMENT,
-        $element->getId()
-      );
-    }
-    else
-    {
-      $uea->updateEvent($element->getId());
-    }
-    
-    $em->persist($event);
+    $uea = new UserEventAction($element->getOwner(), $this->container);
+    $event = $uea->proceed(Event::TYPE_COMMENT_ADDED_ELEMENT, $element->getId());
+    $this->container->get('doctrine')->getEntityManager()->persist($event);
   }
   
   /**
@@ -103,6 +72,10 @@ class EventElement extends EventPropagator
     $ur->addPoints(
       $this->container->getParameter('reputation_element_favorite_value')
     );
+    
+    $uea = new UserEventAction($element->getOwner(), $this->container);
+    $event = $uea->proceed(Event::TYPE_FAV_ADDED_ELEMENT, $element->getId());
+    $this->container->get('doctrine')->getEntityManager()->persist($event);
   }
   
   /**

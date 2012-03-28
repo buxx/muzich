@@ -17,6 +17,10 @@ events:
     no:                         Pas de nouveaux commentaires sur vos partages
     one:                        %count% nouveaux commentaire sur un de vos partages
     yes:                        %count% nouveaux commentaires sur vos partages
+  new_favoriteds:
+    no:                         Pas de nouveaux partages mis en favoris
+    one:                        %count% de vos partage a été mis en favoris
+    yes:                        %count% de vos partages ont été mis en favoris
     
 reputation:
   bar:

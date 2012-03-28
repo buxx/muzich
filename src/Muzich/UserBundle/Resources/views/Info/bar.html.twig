@@ -21,6 +21,25 @@
           <img title="{{ 'events.new_comments.no'|trans({}, 'users') }}" src="{{ asset('bundles/muzichcore/img/1332286007_comments_reply.png') }}" alt="comments" />
           <span class="new_comments">0</span>
         {% endif %}
+          
+    </div>
+    
+    <div class="favorites">
+      
+        {% if events[event_const('TYPE_FAV_ADDED_ELEMENT')] is defined %}
+          <a 
+            href="{{ path('event_view_elements', {'event_id':events[event_const('TYPE_FAV_ADDED_ELEMENT')].id}) }}" 
+            title="{%if events[event_const('TYPE_FAV_ADDED_ELEMENT')].count == 1 %}{{ 'events.new_favoriteds.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_favoriteds.yes'|trans({'%count%':events[event_const('TYPE_FAV_ADDED_ELEMENT')].count}, 'users') }}{% endif %}"
+            class="view_elements_event"
+          >
+            <img src="{{ asset('bundles/muzichcore/img/favorite.png') }}" alt="favoriteds" />
+            <span class="new_comments">{{ events[event_const('TYPE_FAV_ADDED_ELEMENT')].count }}</span>
+          </a>
+        {% else %}
+          <img title="{{ 'events.new_favoriteds.no'|trans({}, 'users') }}" src="{{ asset('bundles/muzichcore/img/favorite_bw.png') }}" alt="favoriteds" />
+          <span class="new_comments">0</span>
+        {% endif %}
+          
     </div>
   
   </div>
