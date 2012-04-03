@@ -82,6 +82,15 @@ class Element
   protected $tags_propositions;
   
   /**
+   * Permet de savoir sans faire de gros calculs en base si il y a des 
+   * propositions de tags en cours sur cet élément.
+   * 
+   * @ORM\Column(type="boolean", nullable = true)
+   * @var type string
+   */
+  protected $has_tags_proposition = false;
+  
+  /**
    * L'url est l'url du media. 
    * 
    * @ORM\Column(type="string", length=1024)
@@ -483,6 +492,21 @@ class Element
   public function setComments($comments)
   {
     $this->comments = json_encode($comments);
+  }
+  
+  public function setHasTagProposition($has_prop)
+  {
+    $this->has_tags_proposition = $has_prop;
+  }
+  
+  public function hasTagProposition()
+  {
+    if ($this->has_tags_proposition === null)
+    {
+      return false;
+    }
+    
+    return $this->has_tags_proposition;
   }
   
   /**

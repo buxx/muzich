@@ -120,3 +120,5 @@ element:
       sentence:          Signaler ce contenu comme inapproprié ?
       yes:               Oui
       no:                Non
+  proposition_tags:
+    link_title:        Proposer des tags

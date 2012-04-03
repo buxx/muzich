@@ -113,3 +113,11 @@ ajax_set_element_group:
 ajax_report_element:
   pattern: /ajax/element/report/{element_id}/{token}
   defaults: { _controller: MuzichCoreBundle:Core:reportElement }
+  
+ajax_element_propose_tags_open:
+  pattern: /ajax/element/propose/tags/{element_id}
+  defaults: { _controller: MuzichCoreBundle:Element:proposeTagsOpen }
+  
+ajax_element_propose_tags_proceed:
+  pattern: /ajax/element/propose/tags/{element_id}/proceed/{token}
+  defaults: { _controller: MuzichCoreBundle:Element:proposeTagsProceed }

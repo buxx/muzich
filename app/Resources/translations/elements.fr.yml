@@ -55,6 +55,11 @@ element:
       label:            M'avertir en cas de nouveaux commentaires
   vote:
     good:               Ce partage mérite un point supplémentaire (cliquez a nouveau pour enlever)
+  tag_proposition:
+    form:
+      submit:           Proposer ces tags
+      cancel:           Annuler
+      description:      Proposez ci-dessous les tags que vous trouvez les plus appropriés pour ce partage
   
 comment:
   edit:

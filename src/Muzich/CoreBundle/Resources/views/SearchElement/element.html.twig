@@ -51,11 +51,21 @@
         <img src="{{ asset('bundles/muzichcore/img/1324917097_link.png') }}" alt="link" />
       </a>
       
-      <a title="{{ 'element.report.link_title'|trans({}, 'userui') }}" 
-        class="element_report" 
-        href="{{ path('ajax_report_element', {'element_id':element.id, 'token':app.user.getPersonalHash}) }}">
-        <img src="{{ asset('bundles/muzichcore/img/1331832708_comment_alert.png') }}" alt="report" />
-      </a>
+      {% if app.user.id != element.owner.id %}
+      
+        <a title="{{ 'element.proposition_tags.link_title'|trans({}, 'userui') }}" 
+          class="element_propose_tags" 
+          href="{{ path('ajax_element_propose_tags_open', {'element_id' : element.id}) }}">
+          <img src="{{ asset('bundles/muzichcore/img/1333484018_rss-tag.png') }}" alt="tags_proposition" />
+        </a>
+      
+        <a title="{{ 'element.report.link_title'|trans({}, 'userui') }}" 
+          class="element_report" 
+          href="{{ path('ajax_report_element', {'element_id':element.id, 'token':app.user.getPersonalHash}) }}">
+          <img src="{{ asset('bundles/muzichcore/img/1331832708_comment_alert.png') }}" alt="report" />
+        </a>
+      
+      {% endif %}
       
       {% if app.user.id == element.owner.id %}
         <a title="{{ 'element.edit.link'|trans({}, 'elements') }}" class="element_edit_link" 

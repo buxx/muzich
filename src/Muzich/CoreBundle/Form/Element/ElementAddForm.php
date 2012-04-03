@@ -7,6 +7,8 @@ use Symfony\Component\Form\FormBuilder;
 
 class ElementAddForm extends AbstractType
 {
+  private $name = null;
+  
   public function buildForm(FormBuilder $builder, array $options)
   {    
     $builder->add('name', 'text', array(
@@ -21,9 +23,18 @@ class ElementAddForm extends AbstractType
         
     $builder->add('tags', 'hidden');    
   }
+  
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
 
   public function getName()
   {
+    if ($this->name)
+    {
+      return $this->name;
+    }
     return 'element_add';
   }
   

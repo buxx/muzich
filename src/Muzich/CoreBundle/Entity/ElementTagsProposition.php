@@ -12,6 +12,7 @@ use Muzich\CoreBundle\Validator as MuzichAssert;
  * ne leurs appartenant pas.
  * 
  * @ORM\Entity
+ * @ORM\Table(name="element_tags_proposition")
  * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\ElementTagsProposition")
  * 
  */
@@ -51,21 +52,21 @@ class ElementTagsProposition
    */
   protected $tags;
   
-  /**
-   * @var datetime $created
-   *
-   * @Gedmo\Timestampable(on="create")
-   * @ORM\Column(type="datetime")
-   */
-  private $created;
-
-  /**
-   * @var datetime $updated
-   *
-   * @ORM\Column(type="datetime")
-   * @Gedmo\Timestampable(on="update")
-   */
-  private $updated;
+//  /**
+//   * @var datetime $created
+//   *
+//   * @Gedmo\Timestampable(on="create")
+//   * @ORM\Column(type="datetime")
+//   */
+//  private $created;
+//
+//  /**
+//   * @var datetime $updated
+//   *
+//   * @ORM\Column(type="datetime")
+//   * @Gedmo\Timestampable(on="update")
+//   */
+//  private $updated;
   
     
   /**
@@ -78,45 +79,45 @@ class ElementTagsProposition
     return $this->id;
   }
 
-  /**
-   * Set created
-   *
-   * @param datetime $created
-   */
-  public function setCreated($created)
-  {
-    $this->created = $created;
-  }
-
-  /**
-   * Get created
-   *
-   * @return datetime 
-   */
-  public function getCreated()
-  {
-    return $this->created;
-  }
-
-  /**
-   * Set updated
-   *
-   * @param datetime $updated
-   */
-  public function setUpdated($updated)
-  {
-    $this->updated = $updated;
-  }
-
-  /**
-   * Get updated
-   *
-   * @return datetime 
-   */
-  public function getUpdated()
-  {
-    return $this->updated;
-  }
+//  /**
+//   * Set created
+//   *
+//   * @param datetime $created
+//   */
+//  public function setCreated($created)
+//  {
+//    $this->created = $created;
+//  }
+//
+//  /**
+//   * Get created
+//   *
+//   * @return datetime 
+//   */
+//  public function getCreated()
+//  {
+//    return $this->created;
+//  }
+//
+//  /**
+//   * Set updated
+//   *
+//   * @param datetime $updated
+//   */
+//  public function setUpdated($updated)
+//  {
+//    $this->updated = $updated;
+//  }
+//
+//  /**
+//   * Get updated
+//   *
+//   * @return datetime 
+//   */
+//  public function getUpdated()
+//  {
+//    return $this->updated;
+//  }
 
   /**
    * Set user

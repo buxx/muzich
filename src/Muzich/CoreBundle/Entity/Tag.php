@@ -238,6 +238,18 @@ class Tag
     return $this->privateids;
   }
   
+  public function hasIdInPrivateIds($id)
+  {
+    foreach (json_decode($this->privateids) as $pid)
+    {
+      if ($pid == $id)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+  
   public function getArguments()
   {
     return $this->arguments;

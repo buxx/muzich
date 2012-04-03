@@ -1,0 +1,20 @@
+
+<div class="tag_proposition">
+  <form id="element_tag_proposition_{{ element_id }}" 
+    action="{{ path('ajax_element_propose_tags_proceed', {'element_id':element_id , 'token':app.user.getPersonalHash}) }}" name="element_tag_proposition_{{ element_id }}" method="post">
+
+    <p>
+      {{ 'element.tag_proposition.form.description'|trans({}, 'elements') }}
+    </p>
+
+  {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
+    'form_name'     : form_name
+  } %}
+
+  {{ form_widget(form.tags, { 'attr': {'class': 'tagBox_tags_ids'} }) }}
+
+    <input type="submit" value="{{ 'element.tag_proposition.form.submit'|trans({}, 'elements') }}" class="button" />
+    <input type="button" value="{{ 'element.tag_proposition.form.cancel'|trans({}, 'elements') }}" class="button cancel" />
+
+  </form>
+</div>

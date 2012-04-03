@@ -41,6 +41,11 @@ class TagRepository extends EntityRepository
     ")->setParameter('tids', $ids);
   }
   
+  public function getTagsWithIds($ids)
+  {
+    return $this->findByIds($ids)->getResult();
+  }
+  
   public function getTagsForElementSearch($ids)
   {
     $tags = array();

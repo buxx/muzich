@@ -294,10 +294,12 @@ class Controller extends BaseController
    * @param \Muzich\CoreBundle\Searcher\Searcher $search_object
    * @return \Symfony\Component\Form\Form
    */
-  protected function getAddForm($element = array())
+  protected function getAddForm($element = array(), $name = null)
   {
+    $form = new ElementAddForm();
+    $form->setName($name);
     return $this->createForm(
-      new ElementAddForm(),
+      $form,
       $element,
       array()
     );

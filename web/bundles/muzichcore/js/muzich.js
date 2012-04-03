@@ -1709,5 +1709,84 @@ $(document).ready(function(){
     
     return false;
   });
+  
+  /*
+   * 
+   * Proposition de tags sur un élément
+   * 
+   */
+  
+ // Ouverture du formulaire de modification
+  $('a.element_propose_tags').live('click', function(){
+    
+    link = $(this);
+    li = link.parent('td').parent('tr').parent().parent().parent('li.element');
+    
+    li.find('img.element_loader').show();
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      li.find('img.element_loader').hide();
+      
+      if (response.status == 'success')
+      {
+        
+        // On prépare le tagBox
+        table = li.find('table:first');
+        li.find('div.tag_proposition').remove();
+        table.after(response.html);
+
+        // Pour le click sur l'input de saisie de tag
+        li.find('ul.tagbox li.input input[type="text"]').formDefaults();
+
+        var options = new Array();
+        options.form_name  = response.form_name;
+        options.tag_init   = response.tags;
+
+        ajax_query_timestamp = null;
+
+        $("#tags_prompt_list_"+response.form_name).tagBox(options);
+      
+      // On rend ce formulaire ajaxFormable
+      $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){
+        li = $(this).parent('form').parent('div').parent('li');
+        li.find('img.element_loader').show();
+      });
+      $('form[name="'+response.form_name+'"]').ajaxForm(function(response){
+        
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+                
+        if (response.status == 'success')
+        {
+          li = $('li#'+response.dom_id);
+          li.find('img.element_loader').hide();
+          li.find('form')
+          li.find('div.tag_proposition').remove();
+        }
+      });
+      
+      }
+    });
+    return false;
+  });
+  
+  // Annulation d'un formulaire de modification d'élément
+  $('form.edit_element input.cancel_edit').live('click', function(){
+    var li = $(this).parent('form').parent('li');
+    li.html(elements_edited[li.attr('id')]);
+    delete(elements_edited[li.attr('id')]);
+  });
+  
+  /*
+   * Proposition de tag sur un élément FIN
+   */
 
 });

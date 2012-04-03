@@ -5,6 +5,7 @@ namespace Muzich\CoreBundle\Controller;
 use Muzich\CoreBundle\lib\Controller;
 use Muzich\CoreBundle\ElementFactory\ElementManager;
 use Muzich\CoreBundle\Propagator\EventElement;
+use Muzich\CoreBundle\Entity\ElementTagsProposition;
 
 class ElementController extends Controller
 {
@@ -487,6 +488,123 @@ class ElementController extends Controller
           'points' => $element->getPoints()
         )
       )
+    ));
+  }
+    
+  /**
+   * Retourne un json avec le form permettant a l'utilisateur de proposer des
+   * tags sur un élément.
+   * 
+   * @param int $element_id
+   * @return Response 
+   */
+  public function proposeTagsOpenAction($element_id)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)))
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    $search_tags = array();
+    foreach ($element->getTags() as $tag)
+    {
+      $search_tags[$tag->getId()] = $tag->getName();
+    }
+    
+    $element->setTags($element->getTagsIdsJson());
+    $form = $this->getAddForm($element, 'element_tag_proposition_'.$element->getId());
+    $response = $this->render('MuzichCoreBundle:Element:tag.proposition.html.twig', array(
+      'form'        => $form->createView(),
+      'form_name'   => 'element_tag_proposition_'.$element->getId(),
+      'element_id'  => $element->getId(),
+      'search_tags' => $search_tags
+    ));
+    
+    if ($this->getRequest()->isXmlHttpRequest())
+    {
+      return $this->jsonResponse(array(
+        'status'    => 'success',
+        'form_name' => 'element_tag_proposition_'.$element->getId(),
+        'tags'      => $search_tags,
+        'html'      => $response->getContent()
+      ));
+    }
+  }
+  
+  public function proposeTagsProceedAction($element_id, $token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)) || $token != $this->getUser()->getPersonalHash())
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    $values   = $this->getRequest()->request->get('element_tag_proposition_'.$element->getId());
+    $tags_ids = json_decode($values['tags'], true);
+    
+    // On récupère les tags en base
+    $tags = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:Tag')
+      ->getTagsWithIds($tags_ids)
+    ;
+    
+    if (!count($tags))
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    $proposition = new ElementTagsProposition();
+    $proposition->setElement($element);
+    $proposition->setUser($this->getUser());
+    
+    foreach ($tags as $tag)
+    {
+      // Si le tag est a modérer, il faut que le propriétaire de l'élément
+      // puisse voir ce tag, afin d'accepter en toute connaisance la proposition.
+      if ($tag->getTomoderate())
+      {
+        if (!$tag->hasIdInPrivateIds($element->getOwner()->getId()))
+        {
+          // Si son id n'y est pas on la rajoute afin que le proprio puisse voir 
+          // ces nouveau tags
+          $private_ids = json_decode($tag->getPrivateids(), true);
+          $private_ids[] = $element->getOwner()->getId();
+          $tag->setPrivateids(json_encode($private_ids));
+          $this->getDoctrine()->getEntityManager()->persist($tag);
+        }
+      }
+          
+      $proposition->addTag($tag);
+    }
+    
+    $element->setHasTagProposition(true);
+    
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getEntityManager()->persist($proposition);
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'dom_id' => 'element_'.$element->getId()
     ));
   }
   
