@@ -33,6 +33,13 @@ class Tag
   protected $elements;
   
   /**
+   * Cet attribu stocke la liste des propositions de tags liés a ce tag.
+   * 
+   * @ORM\ManyToMany(targetEntity="ElementTagsProposition", mappedBy="tags")
+   */
+  protected $propositions;
+  
+  /**
    * Cet attribu stocke les enregistrements UsersTagsFavorites liés
    * a ce Tag dans le cadre des Tags favoris de l'user.
    * 

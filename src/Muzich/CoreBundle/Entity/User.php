@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 use Symfony\Component\Validator\Constraints as Assert;
 use Muzich\CoreBundle\Validator as MuzichAssert;
+use Muzich\CoreBundle\Entity\ElementTagsProposition;
 
 /**
  * Cet entité est l'utilisateur ayant effectué la requête.
@@ -68,6 +69,13 @@ class User extends BaseUser
    * @ORM\OneToMany(targetEntity="Element", mappedBy="owner")
    */
   protected $elements;
+  
+  /**
+   * Liste des propositions de tags effectués par cet utilisateur
+   * 
+   * @ORM\OneToMany(targetEntity="ElementTagsProposition", mappedBy="user")
+   */
+  protected $element_tags_propositions;
   
   /**
    * Users que cet utilisateur suit.
@@ -229,6 +237,26 @@ class User extends BaseUser
   public function getElements()
   {
     return $this->elements;
+  }
+
+  /**
+   * Add elements
+   *
+   * @param Element $elements
+   */
+  public function addElementTagsProposition(ElementTagsProposition $proposition)
+  {
+    $this->element_tags_propositions[] = $proposition;
+  }
+
+  /**
+   * Get elements
+   *
+   * @return Doctrine\Common\Collections\Collection 
+   */
+  public function getElementTagsPropositions()
+  {
+    return $this->element_tags_propositions;
   }
 
   /**

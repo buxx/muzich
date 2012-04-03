@@ -75,6 +75,13 @@ class Element
   protected $elements_favorites;
   
   /**
+   * Propositions de tags
+   * 
+   * @ORM\OneToMany(targetEntity="ElementTagsProposition", mappedBy="element")
+   */
+  protected $tags_propositions;
+  
+  /**
    * L'url est l'url du media. 
    * 
    * @ORM\Column(type="string", length=1024)
