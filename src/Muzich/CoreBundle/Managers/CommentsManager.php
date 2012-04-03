@@ -17,6 +17,11 @@ class CommentsManager
   
   public function __construct($comments = array())
   {
+    if ($comments == null)
+    {
+      $comments = array();
+    }
+    
     $this->comments = $comments;
   }
   
@@ -24,10 +29,11 @@ class CommentsManager
    * Ajouter un commentaire au tableau.
    * 
    * @param \Muzich\CoreBundle\Entity\User $user
-   * @param String $comment
-   * @param String $date 
+   * @param String $comment Contenu du commentaire
+   * @param boolean $follow L'utilisateur désire être avertis des nouveaux commentaires
+   * @param String $date date de l'envoi
    */
-  public function add($user, $comment, $date = null)
+  public function add($user, $comment, $follow = false, $date = null)
   {
     if (!$date)
     {
@@ -40,9 +46,15 @@ class CommentsManager
         "s" => $user->getSlug(),
         "n" => $user->getName()
       ),
+      "f" => $follow,
       "d" => $date,
       "c" => $comment
     );
+    
+    if (!$follow)
+    {
+      $this->userSetFollowToFalse($user->getId());
+    }
   }
   
   /**
@@ -62,14 +74,17 @@ class CommentsManager
    * @param \Muzich\CoreBundle\Entity\User $user
    * @param date $date (Y-m-d H:i:s u)
    * @param string $comment_c 
+   * @param boolean $follow
    */
-  public function update($user, $date, $comment_c)
+  public function update($user, $date, $comment_c, $follow)
   {
     $comments = array();
+    $found = false;
     foreach ($this->comments as $comment)
     {
       if ($comment['u']['i'] == $user->getId() && $comment['d'] == $date)
       {
+        $found = true;
         $comments[] = array(
           "u" => array(
             "i" => $user->getId(),
@@ -77,6 +92,7 @@ class CommentsManager
             "n" => $user->getName()
           ),
           "e" => date('Y-m-d H:i:s u'),
+          "f" => $follow,
           "d" => $date,
           "c" => $comment_c
         );
@@ -88,6 +104,11 @@ class CommentsManager
     }
     
     $this->comments = $comments;
+    
+    if (!$follow && $found)
+    {
+      $this->userSetFollowToFalse($user->getId());
+    }
   }
   
   /**
@@ -149,6 +170,66 @@ class CommentsManager
     }
     
     return $this->comments[$index];
+  }
+  
+  /**
+   * Regarde si il existe un commentaire pour cet utilisateur où il demande
+   * a suivre les commentaires.
+   * 
+   * @param int $user_id
+   * @return boolean 
+   */
+  public function userFollow($user_id)
+  {
+    foreach ($this->comments as $i => $comment)
+    {
+      if ($comment['u']['i'] == $user_id && $comment['f'] == true)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  /**
+   * Passe tout les commentaire de cet utilisateur en follow = false
+   * 
+   * @param int $user_id 
+   */
+  private function userSetFollowToFalse($user_id)
+  {
+    $comments = array();
+    foreach ($this->comments as $comment)
+    {
+      if ($comment['u']['i'] == $user_id)
+      {
+        $comment['f'] = false;
+      }
+      $comments[] = $comment;
+    }
+    $this->comments = $comments;
+  }
+  
+  /**
+   *  Retourne les ids utilisateurs ayant demandé a être avertis des nouveaux
+   * commentaires.
+   * 
+   * @return array ids des utilisateurs
+   */
+  public function getFollowersIds()
+  {
+    $ids = array();
+    foreach ($this->comments as $comment)
+    {
+      if ($comment['f'] == true)
+      {
+        if (!in_array($comment['u']['i'], $ids))
+        {
+          $ids[] = $comment['u']['i'];
+        }
+      }
+    }
+    return $ids;
   }
   
 }

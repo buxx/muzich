@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Constraints as Assert;
 use Muzich\CoreBundle\Validator as MuzichAssert;
 use Muzich\CoreBundle\Entity\Tag;
+use Muzich\CoreBundle\Managers\CommentsManager;
 
 /**
  * L'Element est l'Element central de l'application. C'est cet
@@ -623,6 +624,18 @@ class Element
       }
     }
     return false;
+  }
+  
+  /**
+   * Retourne vrai si l'utilisateur a demandé qa suivre les commentaires
+   *  
+   * @param int $user_id identifiant de l'utilisateur
+   * @return boolean 
+   */
+  public function userFollowComments($user_id)
+  {
+    $cm = new CommentsManager($this->getComments());
+    return $cm->userFollow($user_id);
   }
   
 }

@@ -1,4 +1,5 @@
 <textarea name="comment">{% if comment_value is defined %}{{ comment_value }}{% endif %}</textarea>
+
 <div class="buttons">
   <input 
     type="submit" 
@@ -12,3 +13,9 @@
     class="button cancel"
   />
 </div>
+
+{% if not own %}
+  <br />
+  <input type="checkbox" name="follow" id="input_comment_follow" {% if following %}checked="checked"{% endif %} />
+  <label for="input_comment_follow">{{ 'element.comments.follow.label'|trans({}, 'elements') }}</label>
+{% endif %}

@@ -241,4 +241,20 @@ class UserRepository extends EntityRepository
     return 0;
   }
   
+  /**
+   * Retourne les objets utilisateurs correspondant aux ids transmis.
+   *
+   * @param array $ids
+   * @return Collection 
+   */
+  public function getUsersWithIds($ids)
+  {
+    return $this->getEntityManager()
+      ->createQuery('SELECT u FROM MuzichCoreBundle:User u'
+        .' WHERE u.id IN (:uids)')
+      ->setParameter('uids', $ids)
+      ->getResult()
+    ;
+  }
+  
 }  

@@ -62,17 +62,20 @@ class CommentController extends Controller
       )));
     }
     
+    $follow = false;
+    if ($this->getRequest()->request->get('follow') == true)
+    {
+      $follow = true;
+    }
+    
     // On met a jour les commentaires
     $cm = new CommentsManager($element->getComments());
-    $cm->add($this->getUser(), $comment);
+    $cm->add($this->getUser(), $comment, $follow);
     $element->setComments($cm->get());
     $event = new EventElement($this->container);
     
     // Event pour user d'un nouveau comment
-    if ($this->getUserId() != $element->getOwner()->getId())
-    {
-      $event->commentAdded($element);
-    }
+    $event->commentAdded($element, $this->getUser());
 
     $this->getDoctrine()->getEntityManager()->persist($element);
     $this->getDoctrine()->getEntityManager()->flush();
@@ -241,10 +244,16 @@ class CommentController extends Controller
         )
       )));
     }
+    
+    $follow = false;
+    if ($this->getRequest()->request->get('follow') == true)
+    {
+      $follow = true;
+    }
       
     // On met a jour les commentaires
     $cm = new CommentsManager($element->getComments());
-    $cm->update($this->getUser(), $date, $comment);
+    $cm->update($this->getUser(), $date, $comment, $follow);
     $element->setComments($cm->get());
 
     $this->getDoctrine()->getEntityManager()->persist($element);

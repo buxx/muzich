@@ -7,6 +7,8 @@ use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Actions\User\Event as UserEventAction;
 use Muzich\CoreBundle\Actions\User\Reputation as UserReputation;
 use Muzich\CoreBundle\Entity\Event;
+use Muzich\CoreBundle\Entity\User;
+use Muzich\CoreBundle\Managers\CommentsManager;
 
 /**
  * Propagateur d'événement concernant les éléments
@@ -21,14 +23,45 @@ class EventElement extends EventPropagator
    * événement. Actuellement il:
    * * Met a jour ou créer un objet événement (nouveau commentaire) pour le
    *   propriétaire de l'élément.
+   * * Met a jour ou créer un objet événement (nouveau commentaire) pour les
+   *   utilisateurs qui follow cet élément.
    * 
    * @param Element $element 
    */
-  public function commentAdded(Element $element)
+  public function commentAdded(Element $element, User $user)
   {
-    $uea = new UserEventAction($element->getOwner(), $this->container);
-    $event = $uea->proceed(Event::TYPE_COMMENT_ADDED_ELEMENT, $element->getId());
-    $this->container->get('doctrine')->getEntityManager()->persist($event);
+    // On avertis le propriétaire si ce n'est pas lui même qui vient de commenter
+    if ($user->getId() != $element->getOwner()->getId())
+    {
+      $uea = new UserEventAction($element->getOwner(), $this->container);
+      $event = $uea->proceed(Event::TYPE_COMMENT_ADDED_ELEMENT, $element->getId());
+      $this->container->get('doctrine')->getEntityManager()->persist($event);
+    }
+    
+    // Pour chaque utilisateur qui a demandé a être avertis d'un nouveau commentaire
+    $cm = new CommentsManager($element->getComments());
+    $uids = $cm->getFollowersIds();
+    
+    if (count($uids))
+    {
+      $users = $this->container->get('doctrine')->getEntityManager()
+        ->getRepository('MuzichCoreBundle:User')
+        ->getUsersWithIds($uids)
+      ;
+      if (count($users))
+      {
+        foreach ($users as $user_c)
+        {
+          // On n'avertis pas l'utilisateur de son propre commentaire
+          if ($user->getId() != $user_c->getId())
+          {
+            $uea = new UserEventAction($user_c, $this->container);
+            $event = $uea->proceed(Event::TYPE_COMMENT_ADDED_ELEMENT, $element->getId());
+            $this->container->get('doctrine')->getEntityManager()->persist($event);
+          }
+        }
+      }
+    }
   }
   
   /**
