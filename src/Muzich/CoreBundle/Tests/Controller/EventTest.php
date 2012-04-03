@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Tests\Controller;
 
 use Muzich\CoreBundle\lib\FunctionalTest;
 use Muzich\CoreBundle\Entity\Event;
+use Muzich\CoreBundle\Managers\CommentsManager;
 
 class EventTest extends FunctionalTest
 {
@@ -297,6 +298,362 @@ class EventTest extends FunctionalTest
     // ou consulter la liste des éléments concernés. Il faudrait coder ces test certe.
     // Mais la refactorisation du code fait qu'il n'y a que le type (Event) de diféfrent.
     // donc a coder (tests) mais pas urgent a l'isntant.
+  }
+  
+  /**
+   * Ce test teste le déclenchement d'événement qui s'effctue lorsque un 
+   * nouveau commentaire est écrit sur un élément que l'on a choisis de "suivre"
+   * 
+   */
+  public function testNewCommentEventOnOtherElement()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('paul', 'toor');
+    
+    $paul = $this->getUser();
+    
+    // Actuellement il n'y a aucun event d'ouvert pour paul (fixtures)
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $paul->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 0);
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    // paul écrit un commentaire sur un des elements a bux
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_add_comment', array(
+        'element_id' => $element->getId(),
+        'token'      => $paul->getPersonalHash()
+      )), 
+      array(
+          'comment' => "Je choisis en commentant de suivre l'élément",
+          'follow'  => true
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On vérifie que paul fait bien partis des suiveurs
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    $cm = new CommentsManager($element->getComments());
+    $this->assertTrue($cm->userFollow($paul->getId()));
+        
+    // joelle va egallement suivre cet élément
+    $this->disconnectUser();
+    
+    $this->connectUser('joelle', 'toor');
+    
+    $joelle = $this->getUser();
+    
+    // Actuellement il n'y a aucun event d'ouvert pour joelle (fixtures)
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $joelle->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 0);
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    // joelle écrit un commentaire sur un des elements a bux
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_add_comment', array(
+        'element_id' => $element->getId(),
+        'token'      => $joelle->getPersonalHash()
+      )), 
+      array(
+          'comment' => "Je choisis en commentant de suivre l'élément (joelle)",
+          'follow'  => true
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On vérifie que jioelle fait bien partis des suiveurs
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    $cm = new CommentsManager($element->getComments());
+    $this->assertTrue($cm->userFollow($joelle->getId()));
+    
+    // bux va aller commenter son élément
+    $this->disconnectUser();
+    
+    $this->connectUser('bux', 'toor');
+    
+    $bux = $this->getUser();
+    
+    // Actuellement il n'y a aucun event d'ouvert pour bux (fixtures)
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $joelle->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 0);
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    // bux écrit un commentaire sur un des elements a bux
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_add_comment', array(
+        'element_id' => $element->getId(),
+        'token'      => $bux->getPersonalHash()
+      )), 
+      array(
+          'comment' => "Voila le com qui declenche les événemetns chez paul et joelle"
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // Paul et Joelle on maintenant des events
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $paul->getId(),
+        'type' => Event::TYPE_COMMENT_ADDED_ELEMENT
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 1);
+    $this->assertEquals($result[0]['type'], Event::TYPE_COMMENT_ADDED_ELEMENT);
+    // 
+    $this->assertEquals($result[0]['count'], 1);
+    $this->assertEquals($result[0]['ids'], json_encode(array((string)$element->getId())));
+    
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $joelle->getId(),
+        'type' => Event::TYPE_COMMENT_ADDED_ELEMENT
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 1);
+    $this->assertEquals($result[0]['type'], Event::TYPE_COMMENT_ADDED_ELEMENT);
+    // 
+    $this->assertEquals($result[0]['count'], 1);
+    $this->assertEquals($result[0]['ids'], json_encode(array((string)$element->getId())));
+    
+    // bux va envoyer un deuxième commentaire
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_add_comment', array(
+        'element_id' => $element->getId(),
+        'token'      => $bux->getPersonalHash()
+      )), 
+      array(
+          'comment' => "un nouveau com"
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // Pas de mouvement coté événements
+    $result_paul = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $paul->getId(),
+        'type' => Event::TYPE_COMMENT_ADDED_ELEMENT
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 1);
+    $this->assertEquals($result[0]['type'], Event::TYPE_COMMENT_ADDED_ELEMENT);
+    // 
+    $this->assertEquals($result[0]['count'], 1);
+    $this->assertEquals($result[0]['ids'], json_encode(array((string)$element->getId())));
+    
+    $result_jo = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $joelle->getId(),
+        'type' => Event::TYPE_COMMENT_ADDED_ELEMENT
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 1);
+    $this->assertEquals($result[0]['type'], Event::TYPE_COMMENT_ADDED_ELEMENT);
+    // 
+    $this->assertEquals($result[0]['count'], 1);
+    $this->assertEquals($result[0]['ids'], json_encode(array((string)$element->getId())));
+    
+    // Paul va aller consulter son event
+    $this->disconnectUser();
+    $this->connectUser('paul', 'toor');
+    
+    $url = $this->generateUrl('event_view_elements', array('event_id' => $result_paul[0]['id']));
+    // il le consulte
+    $this->crawler = $this->client->request('GET', $url);
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+        
+    // L'objet Event ne doit plus être en base maintenant qu'il a été vu
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $paul->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 0);
+    
+    // paul désactive le fait qu'il veut être avertis
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_add_comment', array(
+        'element_id' => $element->getId(),
+        'token'      => $paul->getPersonalHash()
+      )), 
+      array(
+          'comment' => "ze veux plus",
+          'follow'  => false
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On vérifie que paul fait bien partis des suiveurs
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    $cm = new CommentsManager($element->getComments());
+    $this->assertFalse($cm->userFollow($paul->getId()));
+    
+    // au tour de joelle de consulter son event
+    $this->disconnectUser();
+    $this->connectUser('joelle', 'toor');
+    
+    $url = $this->generateUrl('event_view_elements', array('event_id' => $result_jo[0]['id']));
+    // il le consulte
+    $this->crawler = $this->client->request('GET', $url);
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+        
+    // L'objet Event ne doit plus être en base maintenant qu'il a été vu
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $joelle->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 0);
+    
+    // joelle garde son follow sur cet élément
+    
+    // bux va de nouveau metre un commentaire
+    $this->disconnectUser();
+    
+    $this->connectUser('bux', 'toor');
+    
+    $bux = $this->getUser();
+            
+    // bux écrit un commentaire sur un des elements a bux
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_add_comment', array(
+        'element_id' => $element->getId(),
+        'token'      => $bux->getPersonalHash()
+      )), 
+      array(
+          'comment' => "ce com va declencher un event chez joelle mais pas chez paul"
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // Paul et Joelle on maintenant des events
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $paul->getId(),
+        'type' => Event::TYPE_COMMENT_ADDED_ELEMENT
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 0);
+    
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $joelle->getId(),
+        'type' => Event::TYPE_COMMENT_ADDED_ELEMENT
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 1);
+    $this->assertEquals($result[0]['type'], Event::TYPE_COMMENT_ADDED_ELEMENT);
+    // 
+    $this->assertEquals($result[0]['count'], 1);
+    $this->assertEquals($result[0]['ids'], json_encode(array((string)$element->getId())));
   }
   
 }
