@@ -656,4 +656,91 @@ class EventTest extends FunctionalTest
     $this->assertEquals($result[0]['ids'], json_encode(array((string)$element->getId())));
   }
   
+  public function testFollowEvent()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bux', 'toor');
+    
+    $bux = $this->getUser();
+    $bob = $this->getUser('bob');
+    
+    // Actuellement il n'y a aucun event d'ouvert pour paul (fixtures)
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $bob->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 0);
+    
+    // On tente de récupérer l'entité FollowUser
+    $FollowUser = $this->getDoctrine()->getRepository('MuzichCoreBundle:FollowUser')
+      ->findOneBy(array(
+        'follower' => $bux->getId(),
+        'followed' => $bob->getId()
+      ))
+    ;
+    
+    // Mais celle-ci doit-être innexistante
+    $this->assertTrue(is_null($FollowUser));
+    
+    // On va suivre bob
+    $url_follow = $this->generateUrl('follow', array(
+      'type' => 'user', 
+      'id' => $bob->getId(),
+      'token' => $bux->getPersonalHash()
+    ));
+    
+    $this->crawler = $this->client->request('GET', $url_follow);
+    
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    
+    // Désormais bob doit avoir un event
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $bob->getId(),
+        'type' => Event::TYPE_USER_FOLLOW
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 1);
+    $this->assertEquals($result[0]['type'], Event::TYPE_USER_FOLLOW);
+    $this->assertEquals($result[0]['count'], 1);
+    $this->assertEquals($result[0]['ids'], json_encode(array((string)$bux->getId())));
+    
+    // On va se connecter avec bob
+    $this->disconnectUser();
+    $this->connectUser('bob', 'toor');
+    
+    // bob doit pouvoir voir dans la barre de droite l'event
+    $this->exist('div#events div.follows a span.new_follows:contains("1")');
+    
+    // Il y a d'ailleurs un lien pour les afficher
+    $url = $this->generateUrl('mynetwork_index', array('event_id' => $result[0]['id']));
+    $this->exist('div#events div.follows a[href="'.$url.'"]');
+    
+    // On se rend sur ce lien
+    $this->crawler = $this->client->request('GET', $url);
+    $this->isResponseSuccess();
+    
+    // On peux voir le lien vers bux en class 'new'
+    $this->exist('ul#followers_users li.new:contains(\'bux\')');
+    
+    // L'event n'existe d'ailleurs plus en base
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $bob->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 0);
+  }
+  
 }
