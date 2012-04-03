@@ -1155,3 +1155,23 @@ div#events div.favorites span
   font-weight: bold;
   margin-left: 5px;
 }
+
+div#events div.follows img
+{
+  margin-left: 3px;
+  margin-bottom: -2px;
+}
+
+div#events div.follows span
+{
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+/*
+* css mynetwork
+*/
+ul#followers_users li.new
+{
+  font-weight: bold;
+}

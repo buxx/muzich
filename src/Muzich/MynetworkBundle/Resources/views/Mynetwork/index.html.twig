@@ -34,7 +34,7 @@
     <b>{{ 'followed_by'|trans({}, 'network') }}</b>
     <ul id="followers_users" class="inline">
     {% for user in followers_users %} 
-      <li>
+      <li {% if user.hasLiveData('new', true) %}class="new"{% endif %}>
         <a href="{{ path('show_user', { 'slug': user.slug }) }}">{{ user.username }}</a>
       </li>
     {% endfor %}

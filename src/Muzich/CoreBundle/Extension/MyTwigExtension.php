@@ -3,6 +3,7 @@
 namespace Muzich\CoreBundle\Extension;
 
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Muzich\CoreBundle\Entity\Event;
 
 class MyTwigExtension extends \Twig_Extension {
 
@@ -122,10 +123,13 @@ class MyTwigExtension extends \Twig_Extension {
     switch ($const_name)
     {
       case 'TYPE_COMMENT_ADDED_ELEMENT':
-        return \Muzich\CoreBundle\Entity\Event::TYPE_COMMENT_ADDED_ELEMENT;
+        return Event::TYPE_COMMENT_ADDED_ELEMENT;
       break;
       case 'TYPE_FAV_ADDED_ELEMENT':
-        return \Muzich\CoreBundle\Entity\Event::TYPE_FAV_ADDED_ELEMENT;
+        return Event::TYPE_FAV_ADDED_ELEMENT;
+      break;
+      case 'TYPE_USER_FOLLOW':
+        return Event::TYPE_USER_FOLLOW;
       break;
       default:
         throw new \Exception('Constante non géré dans MyTwigExtension::event_const');

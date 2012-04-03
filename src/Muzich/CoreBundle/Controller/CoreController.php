@@ -139,7 +139,7 @@ class CoreController extends Controller
         $Follow->setFollowed($followed); 
         
         $event = new EventUser($this->container);
-        $event->addToFollow($followed);
+        $event->addToFollow($followed, $this->getUser());
         $em->persist($followed);
       }
       else { $Follow->setGroup($followed); }

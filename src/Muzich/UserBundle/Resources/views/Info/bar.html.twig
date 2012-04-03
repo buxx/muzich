@@ -41,5 +41,24 @@
         {% endif %}
           
     </div>
+    
+    <div class="follows">
+      
+        {% if events[event_const('TYPE_USER_FOLLOW')] is defined %}
+          <a 
+            href="{{ path('mynetwork_index', {'event_id':events[event_const('TYPE_USER_FOLLOW')].id}) }}" 
+            title="{%if events[event_const('TYPE_USER_FOLLOW')].count == 1 %}{{ 'events.new_follows.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_follows.yes'|trans({'%count%':events[event_const('TYPE_USER_FOLLOW')].count}, 'users') }}{% endif %}"
+            class="view_elements_event"
+          >
+            <img src="{{ asset('bundles/muzichcore/img/1333474994_people.png') }}" alt="favoriteds" />
+            <span class="new_comments">{{ events[event_const('TYPE_USER_FOLLOW')].count }}</span>
+          </a>
+        {% else %}
+          <img title="{{ 'events.new_follows.no'|trans({}, 'users') }}" src="{{ asset('bundles/muzichcore/img/1333474994_people.png') }}" alt="favoriteds" />
+          <span class="new_comments">0</span>
+        {% endif %}
+          
+    </div>
+  
   
   </div>

@@ -21,6 +21,10 @@ events:
     no:                         Pas de nouveaux partages mis en favoris
     one:                        %count% de vos partage a été mis en favoris
     yes:                        %count% de vos partages ont été mis en favoris
+  new_follows:
+    no:                         Pas de nouveaux utilisateurs qui vous suivent
+    one:                        %count% nouvel utilisateur vous suis
+    yes:                        %count% nouveaux utilisateurs vous suivent
     
 reputation:
   bar:

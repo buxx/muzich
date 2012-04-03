@@ -37,4 +37,3 @@ update_address:
 event_view_elements:
   pattern: /event/view/elements/{event_id}
   defaults: { _controller: MuzichUserBundle:Event:viewElements }
-  

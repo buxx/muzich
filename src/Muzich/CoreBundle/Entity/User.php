@@ -134,6 +134,13 @@ class User extends BaseUser
   protected $events;
   
   /**
+   * Contient des données pratique pour par exemple influencer l'affichange dans twig.
+   * 
+   * @var array 
+   */
+  protected $live_datas = array();
+  
+  /**
    * 
    */
   public function __construct()
@@ -614,6 +621,31 @@ class User extends BaseUser
   public function getEmailRequestedDatetime()
   {
     return $this->email_requested_datetime;
+  }
+  
+  public function addLiveData($id, $data)
+  {
+    $this->live_datas[$id] = $data;
+  }
+  
+  public function removeLiveData($id)
+  {
+    if (array_key_exists($id, $this->live_datas))
+    {
+      unset($this->live_datas[$id]);
+    }
+  }
+  
+  public function hasLiveData($id, $data = null)
+  {
+    if (array_key_exists($id, $this->live_datas))
+    {
+      if ($this->live_datas[$id] == $data)
+      {
+        return true;
+      }
+    }
+    return false;
   }
   
 }

@@ -21,12 +21,18 @@ class EventUser extends EventPropagator
    * 
    * @param User $user Utilisateur suivis
    */
-  public function addToFollow(User $user)
+  public function addToFollow(User $user, User $follower)
   {
+    // Points de réputation
     $ur = new UserReputation($user);
     $ur->addPoints(
       $this->container->getParameter('reputation_element_follow_value')
     );
+    
+    // Event de suivis
+    $uea = new UserEventAction($user, $this->container);
+    $event = $uea->proceed(Event::TYPE_USER_FOLLOW, $follower->getId());
+    $this->container->get('doctrine')->getEntityManager()->persist($event);
   }
   
   /**

@@ -1,7 +1,7 @@
 
 mynetwork_index:
-  pattern:  /my-network
-  defaults: { _controller: MuzichMynetworkBundle:Mynetwork:index }
+  pattern:  /my-network/{event_id}
+  defaults: { _controller: MuzichMynetworkBundle:Mynetwork:index, event_id: null }
   
 mynetwork_search:
   pattern:  /my-network/search
