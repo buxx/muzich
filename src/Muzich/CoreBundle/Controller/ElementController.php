@@ -199,6 +199,11 @@ class ElementController extends Controller
     try {
       $element = $this->checkExistingAndOwned($element_id);
       $em = $this->getDoctrine()->getEntityManager();
+      
+      $event = new EventElement($this->container);
+      $event->elementRemoved($element);
+      
+      $em->persist($element->getOwner());
       $em->remove($element);
       $em->flush();
       

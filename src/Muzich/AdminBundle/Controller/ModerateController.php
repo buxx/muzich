@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 use Muzich\CoreBundle\Entity\GroupsTagsFavorites;
 use Muzich\CoreBundle\Managers\TagManager;
+use Muzich\CoreBundle\Propagator\EventElement;
 
 class ModerateController extends Controller
 {
@@ -163,6 +164,10 @@ class ModerateController extends Controller
       ));
     }
     
+    $event = new EventElement($this->container);
+    $event->elementRemoved($element);
+
+    $this->getDoctrine()->getEntityManager()->persist($element->getOwner());
     $this->getDoctrine()->getEntityManager()->remove($element);
     $this->getDoctrine()->getEntityManager()->flush();
     
