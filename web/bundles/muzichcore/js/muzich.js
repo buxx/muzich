@@ -1772,6 +1772,20 @@ $(document).ready(function(){
           li.find('form')
           li.find('div.tag_proposition').remove();
         }
+        else if (response.status == 'error')
+        {
+          li.find('img.element_loader').hide();
+          li.find('ul.error_list').remove();
+          ul_errors = $('<ul>').addClass('error_list');
+          
+          for (i in response.errors)
+          {
+            ul_errors.append($('<li>').append(response.errors[i]));
+          }
+          
+          li.find('div.tag_proposition div.tags_prompt').prepend(ul_errors);
+        }
+        
       });
       
       }

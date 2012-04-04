@@ -60,6 +60,8 @@ element:
       submit:           Proposer ces tags
       cancel:           Annuler
       description:      Proposez ci-dessous les tags que vous trouvez les plus appropriés pour ce partage
+      error:
+        empty:          Veuillez saisir des tags pour effectuer une proposition
   view_propositions:
     link:               Voir les propositions de tags
     description_one:    Un utilisateur vous propose cette configuration de tags

@@ -565,16 +565,20 @@ class ElementController extends Controller
     $values   = $this->getRequest()->request->get('element_tag_proposition_'.$element->getId());
     $tags_ids = json_decode($values['tags'], true);
     
-    // On récupère les tags en base
-    $tags = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:Tag')
-      ->getTagsWithIds($tags_ids)
-    ;
+    $tags = array();
+    if (count($tags_ids))
+    {
+      // On récupère les tags en base
+      $tags = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:Tag')
+        ->getTagsWithIds($tags_ids)
+      ;
+    }
     
     if (!count($tags))
     {
       return $this->jsonResponse(array(
         'status' => 'error',
-        'errors' => array('NotFound')
+        'errors' => array($this->trans('element.tag_proposition.form.error.empty', array(), 'elements'))
       ));
     }
     
