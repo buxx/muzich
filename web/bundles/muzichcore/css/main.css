@@ -1175,3 +1175,26 @@ ul#followers_users li.new
 {
   font-weight: bold;
 }
+
+/*
+*  Proposition de tags
+*/ 
+
+li.tag_proposition span.button
+{
+  font-size: 95%;
+  padding: 2px 4px;
+}
+
+li.tag_proposition:hover
+{
+  background-color: #c0f2ff;
+}
+
+
+/* */
+
+.button_green
+{
+  background-color: #5ae959;
+}

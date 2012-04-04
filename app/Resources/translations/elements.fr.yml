@@ -60,6 +60,13 @@ element:
       submit:           Proposer ces tags
       cancel:           Annuler
       description:      Proposez ci-dessous les tags que vous trouvez les plus appropriés pour ce partage
+  view_propositions:
+    link:               Voir les propositions de tags
+    description_one:    Un utilisateur vous propose cette configuration de tags
+    description_x:      Des utilisateurs vous propose ces configurations de tags
+    link_accept:        Accepter cette proposition
+    link_refuse_one:    Refuser les propositions
+    link_refuse_x:      Refuser les propositions
   
 comment:
   edit:

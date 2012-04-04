@@ -13,7 +13,7 @@ use Muzich\CoreBundle\Validator as MuzichAssert;
  * 
  * @ORM\Entity
  * @ORM\Table(name="element_tags_proposition")
- * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\ElementTagsProposition")
+ * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\ElementTagsPropositionRepository")
  * 
  */
 class ElementTagsProposition

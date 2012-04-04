@@ -1,0 +1,40 @@
+<div class="tags_proposition_view">
+
+  <p>
+    {% if propositions|length > 1 %}
+      {{ 'element.view_propositions.description_x'|trans({}, 'elements') }}
+    {% else %}
+      {{ 'element.view_propositions.description_one'|trans({}, 'elements') }}
+    {% endif %}
+  </p>
+  
+  <ul class="tag_propositions">
+    {% for proposition in propositions %} 
+      <li class="tag_proposition">
+        <a href="{{ path('show_user', {'slug': proposition.user.slug}) }}" >
+          {{ proposition.user.name }}
+        </a>:
+        
+        {% for tag in proposition.tags %} 
+          <span class="button">{{ tag.name }}</span>
+        {% endfor %}
+          
+          <a class="accept_tag_propotision button button_green" href="{{ path('ajax_element_proposed_tags_accept', {'proposition_id':proposition.id,'token':app.user.getPersonalHash}) }}">
+            {{ 'element.view_propositions.link_accept'|trans({}, 'elements') }}
+          </a>
+          
+      </li>
+    {% endfor %}
+  </ul>
+  
+  {% if propositions|length > 1 %}
+    <a class="refuse_tag_propositions button" href="{{ path('ajax_element_proposed_tags_refuse', {'element_id':element_id,'token':app.user.getPersonalHash}) }}" >
+      {{ 'element.view_propositions.link_refuse_x'|trans({}, 'elements') }}
+    </a>
+  {% else %}
+    <a class="refuse_tag_propositions button" href="{{ path('ajax_element_proposed_tags_refuse', {'element_id':element_id,'token':app.user.getPersonalHash}) }}" >
+      {{ 'element.view_propositions.link_refuse_one'|trans({}, 'elements') }}
+    </a>
+  {% endif %}
+  
+</div>

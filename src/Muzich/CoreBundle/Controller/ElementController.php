@@ -529,15 +529,12 @@ class ElementController extends Controller
       'search_tags' => $search_tags
     ));
     
-    if ($this->getRequest()->isXmlHttpRequest())
-    {
-      return $this->jsonResponse(array(
-        'status'    => 'success',
-        'form_name' => 'element_tag_proposition_'.$element->getId(),
-        'tags'      => $search_tags,
-        'html'      => $response->getContent()
-      ));
-    }
+    return $this->jsonResponse(array(
+      'status'    => 'success',
+      'form_name' => 'element_tag_proposition_'.$element->getId(),
+      'tags'      => $search_tags,
+      'html'      => $response->getContent()
+    ));
   }
   
   public function proposeTagsProceedAction($element_id, $token)
@@ -605,6 +602,137 @@ class ElementController extends Controller
     return $this->jsonResponse(array(
       'status' => 'success',
       'dom_id' => 'element_'.$element->getId()
+    ));
+  }
+  
+  public function proposedTagsViewAction($element_id)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)))
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    if ($element->getOwner()->getId() != $this->getUserId())
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotAllowed')
+      ));
+    }
+    
+    // On récupére toute les propsotions pour cet élément
+    $propositions = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
+      ->findByElement($element->getId())
+    ;
+    
+    $response = $this->render('MuzichCoreBundle:Element:tag.propositions.html.twig', array(
+      'propositions' => $propositions,
+      'element_id'   => $element->getId()
+    ));
+    
+    return $this->jsonResponse(array(
+      'status'    => 'success',
+      'html'      => $response->getContent()
+    ));
+    
+  }
+  
+  public function proposedTagsAcceptAction($proposition_id, $token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($proposition = $this->getDoctrine()->getRepository('MuzichCoreBundle:ElementTagsProposition')
+      ->findOneById($proposition_id)) || $token != $this->getUser()->getPersonalHash())
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    // On commence par appliquer les nouveaux tags a l'élément
+    $element = $proposition->getElement();
+    $element->setTags(null);
+    foreach ($proposition->getTags() as $tag)
+    {
+      $element->addTag($tag);
+    }
+    $element->setHasTagProposition(false);
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    
+    $propositions = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
+      ->findByElement($element->getId())
+    ;
+    
+    /*
+     * TODO: ARCHIVAGE (c avant ou aprés event déjà ?) (cf doc), notifs (event)
+     */
+    
+    // On supprime les proposition liés a cet élement
+    foreach ($propositions as $proposition)
+    {
+      $this->getDoctrine()->getEntityManager()->remove($proposition);
+    }
+    
+    $this->getDoctrine()->getEntityManager()->flush();
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element->getId())
+    ;
+    
+    // On récupère l'html de l'élément
+    $html = $this->render('MuzichCoreBundle:SearchElement:element.html.twig', array(
+      'element'     => $element
+    ))->getContent();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'html'   => $html
+    ));
+  }
+  
+  public function proposedTagsRefuseAction($element_id, $token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)) || $token != $this->getUser()->getPersonalHash())
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    // On supprime les proposition liés a cet élement
+    $propositions = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
+      ->findByElement($element->getId())
+    ;
+    foreach ($propositions as $proposition)
+    {
+      $this->getDoctrine()->getEntityManager()->remove($proposition);
+    }
+    // On spécifie qu'il n'y as plus de proposition
+    $element->setHasTagProposition(false);
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
     ));
   }
   

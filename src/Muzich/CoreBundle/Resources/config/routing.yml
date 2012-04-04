@@ -121,3 +121,15 @@ ajax_element_propose_tags_open:
 ajax_element_propose_tags_proceed:
   pattern: /ajax/element/propose/tags/{element_id}/proceed/{token}
   defaults: { _controller: MuzichCoreBundle:Element:proposeTagsProceed }
+  
+ajax_element_proposed_tags_view:
+  pattern: /ajax/element/proposed/tags/{element_id}/view
+  defaults: { _controller: MuzichCoreBundle:Element:proposedTagsView }
+  
+ajax_element_proposed_tags_accept:
+  pattern: /ajax/element/proposed/tags/accept/{proposition_id}/{token}
+  defaults: { _controller: MuzichCoreBundle:Element:proposedTagsAccept }
+  
+ajax_element_proposed_tags_refuse:
+  pattern: /ajax/element/proposed/tags/refuses/{element_id}/{token}
+  defaults: { _controller: MuzichCoreBundle:Element:proposedTagsRefuse }

@@ -68,6 +68,15 @@
       {% endif %}
       
       {% if app.user.id == element.owner.id %}
+      
+        {% if element.hasTagProposition %}
+          <a title="{{ 'element.view_propositions.link'|trans({}, 'elements') }}" class="element_view_propositions_link" 
+             href="{{ path('ajax_element_proposed_tags_view', {'element_id' : element.id})  }}"
+          >
+            <img src="{{ asset('bundles/muzichcore/img/1333493527_tag_add.png') }}" alt="tags proposition" />
+          </a>
+        {% endif %}
+      
         <a title="{{ 'element.edit.link'|trans({}, 'elements') }}" class="element_edit_link" 
            href="{{ path('element_edit', {'element_id' : element.id})  }}" style="display: none;"
         >
