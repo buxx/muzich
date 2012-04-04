@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Muzich\CoreBundle\Entity\EventArchive;
 
 class RecalculateReputationCommand extends ContainerAwareCommand
 {
@@ -63,7 +64,9 @@ class RecalculateReputationCommand extends ContainerAwareCommand
     {
       $user_points = 0;
       
-      // On calcule pour les éléments
+      /*
+       * On calcule pour les éléments
+       */
       $elements = $em->createQuery(
         "SELECT e FROM MuzichCoreBundle:Element e"
         . " WHERE e.owner = :uid"
@@ -78,7 +81,9 @@ class RecalculateReputationCommand extends ContainerAwareCommand
         $element_points += $element->getPoints();
       }
       
-      // On calcule pour les favoris
+      /*
+       * On calcule pour les favoris
+       */
       $coef_element_fav = $this->getContainer()->getParameter('reputation_element_favorite_value');
       $count_favs = 0;
       $fav = $em->createQuery(
@@ -97,7 +102,9 @@ class RecalculateReputationCommand extends ContainerAwareCommand
         }
       }
       
-      // Calcul pour les utilisateurs suivis
+      /*
+       * Calcul pour les utilisateurs suivis
+       */
       $coef_follow = $this->getContainer()->getParameter('reputation_element_follow_value');
       $count_follow = 0;
       $fol = $em->createQuery(
@@ -115,9 +122,32 @@ class RecalculateReputationCommand extends ContainerAwareCommand
         }
       }
       
-      $points = ($element_points * $coef_element_point)
-        + ($count_favs * $coef_element_fav)
-        + ($count_follow * $coef_follow)
+      /*
+       *  Calcul pour les tags proposés sur des éléments
+       */
+      $coef_tag_prop = $this->getContainer()->getParameter('reputation_element_tags_element_prop_value');
+      
+      try {
+        
+        $count_tag_prop = $em->createQuery(
+          "SELECT a.count FROM MuzichCoreBundle:EventArchive a"
+          . " WHERE a.user = :uid AND a.type = :type"
+        )->setParameters(array(
+          'uid'  => $user->getId(),
+          'type' => EventArchive::PROP_TAGS_ELEMENT_ACCEPTED
+        ))
+         ->getSingleScalarResult()      
+        ;
+        
+      } catch (\Doctrine\ORM\NoResultException $exc) {
+        $count_tag_prop = 0;
+      }
+
+      $points = 
+          ($element_points * $coef_element_point)
+        + ($count_favs     * $coef_element_fav)
+        + ($count_follow   * $coef_follow)
+        + ($count_tag_prop * $coef_tag_prop)
       ;
       
       $user->setReputation($points);

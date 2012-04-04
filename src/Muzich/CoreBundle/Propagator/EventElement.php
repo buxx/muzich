@@ -9,6 +9,9 @@ use Muzich\CoreBundle\Actions\User\Reputation as UserReputation;
 use Muzich\CoreBundle\Entity\Event;
 use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\Managers\CommentsManager;
+use Muzich\CoreBundle\Entity\ElementTagsProposition;
+use Muzich\CoreBundle\Managers\EventArchiveManager;
+use Muzich\CoreBundle\Entity\EventArchive;
 
 /**
  * Propagateur d'événement concernant les éléments
@@ -134,6 +137,20 @@ class EventElement extends EventPropagator
     $uea = new UserEventAction($element->getOwner(), $this->container);
     $event = $uea->proceed(Event::TYPE_TAGS_PROPOSED, $element->getId());
     $this->container->get('doctrine')->getEntityManager()->persist($event);
+  }
+  
+  public function tagsAccepteds(ElementTagsProposition $proposition)
+  {
+    // On archive le fait que la proposition est été accepté
+    $eam = new EventArchiveManager($this->container->get('doctrine')->getEntityManager());
+    $eam->add($proposition->getUser(), EventArchive::PROP_TAGS_ELEMENT_ACCEPTED);
+    
+    // Et on donne des points a l'utilisateur
+    $ur = new UserReputation($proposition->getUser());
+    $ur->addPoints(
+      $this->container->getParameter('reputation_element_tags_element_prop_value')
+    );
+    $this->container->get('doctrine')->getEntityManager()->persist($proposition->getUser());
   }
   
 }
