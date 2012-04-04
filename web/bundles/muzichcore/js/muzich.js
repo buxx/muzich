@@ -1798,10 +1798,8 @@ $(document).ready(function(){
   //  TODO TODO TODO
   //    ca en dessous la: TODO neuu
   //
-  $('form.edit_element input.cancel_edit').live('click', function(){
-    var li = $(this).parent('form').parent('li');
-    li.html(elements_edited[li.attr('id')]);
-    delete(elements_edited[li.attr('id')]);
+  $('div.tag_proposition input.cancel').live('click', function(){
+    $(this).parent('form').parent('div').slideUp();
   });
   ///////
   
