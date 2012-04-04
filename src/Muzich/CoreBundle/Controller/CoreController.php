@@ -111,10 +111,13 @@ class CoreController extends Controller
     // Si il existe déjà c'est qu'il ne veut plus suivre
     if ($Follow)
     {
-      // L'utilisateur suis déjà, on doit détruire l'entité
-      $event = new EventUser($this->container);
-      $event->removeFromFollow($Follow->getFollowed());
-      $em->persist($Follow->getFollowed());
+      if ($type == 'user')
+      {
+        // L'utilisateur suis déjà, on doit détruire l'entité
+        $event = new EventUser($this->container);
+        $event->removeFromFollow($Follow->getFollowed());
+        $em->persist($Follow->getFollowed());
+      }
       
       $em->remove($Follow);
       $em->flush();

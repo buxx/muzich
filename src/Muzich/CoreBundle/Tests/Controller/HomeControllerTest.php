@@ -57,6 +57,7 @@ class HomeControllerTest extends FunctionalTest
         'group_id'  => null,
         'favorite' => false,
         'ids'       => null,
+        'ids_display' => null
     ), $this->getSession()->get('user.element_search.params'));
     
     // On fabrique l'ElementSearcher correspondant

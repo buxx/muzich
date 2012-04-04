@@ -87,4 +87,14 @@ class FollowGroup
   {
     return $this->group;
   }
+  
+  /**
+   * Retourne le groupe suivis
+   * 
+   * @return Group 
+   */
+  public function getFollowed()
+  {
+    return $this->group;
+  }
 }
