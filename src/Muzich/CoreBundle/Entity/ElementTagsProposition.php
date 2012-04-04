@@ -52,6 +52,12 @@ class ElementTagsProposition
    */
   protected $tags;
   
+  /**
+   * @var datetime $created
+   *
+   * @ORM\Column(type="datetime")
+   */
+  private $created;
 //  /**
 //   * @var datetime $created
 //   *
@@ -79,26 +85,26 @@ class ElementTagsProposition
     return $this->id;
   }
 
-//  /**
-//   * Set created
-//   *
-//   * @param datetime $created
-//   */
-//  public function setCreated($created)
-//  {
-//    $this->created = $created;
-//  }
-//
-//  /**
-//   * Get created
-//   *
-//   * @return datetime 
-//   */
-//  public function getCreated()
-//  {
-//    return $this->created;
-//  }
-//
+  /**
+   * Set created
+   *
+   * @param datetime $created
+   */
+  public function setCreated($created)
+  {
+    $this->created = $created;
+  }
+
+  /**
+   * Get created
+   *
+   * @return datetime 
+   */
+  public function getCreated()
+  {
+    return $this->created;
+  }
+
 //  /**
 //   * Set updated
 //   *

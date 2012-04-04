@@ -585,6 +585,8 @@ class ElementController extends Controller
     $proposition = new ElementTagsProposition();
     $proposition->setElement($element);
     $proposition->setUser($this->getUser());
+    $date = new \DateTime(date('Y-m-d H:i:s'));
+    $proposition->setCreated($date);
     
     foreach ($tags as $tag)
     {
