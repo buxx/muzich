@@ -607,4 +607,724 @@ class ElementControllerTest extends FunctionalTest
     $this->assertEquals($bux->getReputation(), 23);
   }
   
+  /**
+   * Test des procédure concernants al proposition de tags sur un élément
+   * 
+   * On test ici: 
+   * * Proposition de tags
+   * * La consultation de ces propositions
+   * * L'acceptation
+   */
+  public function testTagsPropositionAccept()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('paul', 'toor');
+    
+    $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
+    $tribe   = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+    $tsouzoumi = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tsouzoumi');
+    $soug = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Soug');
+    $metal = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Metal');
+    
+    $paul = $this->getUser();
+    $bux = $this->getUser('bux');
+    $joelle = $this->getUser('joelle');
+    
+    $points_pour_tags_add = $this->getContainer()->getParameter('reputation_element_tags_element_prop_value');
+    $points_joelle = $joelle->getReputation();
+    $points_bux    = $bux->getReputation();
+    $points_paul  = $paul->getReputation();
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('AZYD AZYLUM Live au Café Provisoire')
+    ;
+    
+    // Pas de proposition en base pur cet élément
+    $propositions = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
+      ->findOneByElement($element->getId())
+    ;
+    
+    $this->assertEquals(0, count($propositions));
+    
+    // Pas d'événement pour bux
+    $events = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $bux->getId(),
+        'type' => \Muzich\CoreBundle\Entity\Event::TYPE_TAGS_PROPOSED
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($events), 0);
+    
+    // On teste la récupération du formulaire au moin une fois
+    $crawler = $this->client->request(
+      'GET',
+      $this->generateUrl('ajax_element_propose_tags_open', 
+        array('element_id' => $element->getId())
+      ), 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['form_name'], 'element_tag_proposition_'.$element->getId());
+    $this->assertTrue(strpos($response['html'], 'class="tag_proposition"') !== false);
+    
+    // paul propose une serie de tags
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_element_propose_tags_proceed', 
+        array('element_id' => $element->getId(), 'token' => $paul->getPersonalHash())
+      ), 
+      array(
+        'element_tag_proposition_'.$element->getId() => array(
+          'tags' => json_encode(array($hardtek->getId(), $tribe->getId()))
+        )
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On a maintenant la proposition en base
+    $propositions = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
+        .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
+      ->setParameters(array(
+        'eid' => $element->getId(),
+        'uid'    => $paul->getId()
+      ))
+      ->getResult()
+    ;
+    
+    $this->assertEquals(1, count($propositions));
+    $proposition_paul = $propositions[0];
+    
+    // Les tags sont aussi en base
+    foreach ($propositions[0]->getTags() as $tag)
+    {
+      if (in_array($tag->getId(), array($hardtek->getId(), $tribe->getId())))
+      {
+        $this->assertTrue(true);
+      }
+      else
+      {
+        $this->assertTrue(false);
+      }
+    }
+    
+    // Il y a maintenant un event pour bux
+    $events = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $bux->getId(),
+        'type' => \Muzich\CoreBundle\Entity\Event::TYPE_TAGS_PROPOSED
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($events), 1);
+    $this->assertEquals($events[0]['type'], \Muzich\CoreBundle\Entity\Event::TYPE_TAGS_PROPOSED);
+    // 
+    $this->assertEquals($events[0]['count'], 1);
+    $this->assertEquals($events[0]['ids'], json_encode(array((string)$element->getId())));
+    
+    // si il propose un liste vide de tags, c'est refusé bien entendu
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_element_propose_tags_proceed', 
+        array('element_id' => $element->getId(), 'token' => $paul->getPersonalHash())
+      ), 
+      array(
+        'element_tag_proposition_'.$element->getId() => array(
+          'tags' => json_encode(array())
+        )
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'error');
+    
+    /*
+     *  joelle va aussi proposer des tags sur cet élément
+     */
+    $this->disconnectUser();
+    $this->connectUser('joelle', 'toor');
+    
+    $joelle = $this->getUser();
+    
+    // joelle propose une serie de tags
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_element_propose_tags_proceed', 
+        array('element_id' => $element->getId(), 'token' => $joelle->getPersonalHash())
+      ), 
+      array(
+        'element_tag_proposition_'.$element->getId() => array(
+          'tags' => json_encode(array($tsouzoumi->getId(), $soug->getId(), $metal->getId()))
+        )
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On a maintenant la proposition en base
+    $propositions = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
+        .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
+      ->setParameters(array(
+        'eid' => $element->getId(),
+        'uid'    => $joelle->getId()
+      ))
+      ->getResult()
+    ;
+    
+    $this->assertEquals(1, count($propositions));
+    $proposition_joelle = $propositions[0];
+    
+    // Les tags sont aussi en base
+    foreach ($propositions[0]->getTags() as $tag)
+    {
+      if (in_array($tag->getId(), array($tsouzoumi->getId(), $soug->getId(), $metal->getId())))
+      {
+        $this->assertTrue(true);
+      }
+      else
+      {
+        $this->assertTrue(false);
+      }
+    }
+    
+    // avec la propsoition de joelle le nombre d'event n'a pas bougé (le compteur compte les éléments)
+    $events = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $bux->getId(),
+        'type' => \Muzich\CoreBundle\Entity\Event::TYPE_TAGS_PROPOSED
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($events), 1);
+    $this->assertEquals($events[0]['type'], \Muzich\CoreBundle\Entity\Event::TYPE_TAGS_PROPOSED);
+    // 
+    $this->assertEquals($events[0]['count'], 1);
+    $this->assertEquals($events[0]['ids'], json_encode(array((string)$element->getId())));
+    
+    /*
+     *  C'est au tour de bux d'aller voir ces proposition
+     */
+    
+    $this->disconnectUser();
+    $this->connectUser('bux', 'toor');
+    
+    $bux = $this->getUser();
+    
+    // Il peut voir le lien vers l'ouverture des propositions
+    $url = $this->generateUrl('ajax_element_proposed_tags_view', array('element_id' => $element->getId()));
+    $this->exist('a[href="'.$url.'"]');
+    
+    // On récupére ces propositions
+    $crawler = $this->client->request(
+      'GET',
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    $url_accept_paul = $this->generateUrl('ajax_element_proposed_tags_accept', array(
+      'proposition_id' => $proposition_paul->getId(),
+      'token'          => $bux->getPersonalHash()
+    ));
+    $url_accept_joelle = $this->generateUrl('ajax_element_proposed_tags_accept', array(
+      'proposition_id' => $proposition_joelle->getId(),
+      'token'          => $bux->getPersonalHash()
+    ));
+    $this->assertTrue(strpos($response['html'], 'href="'.$url_accept_paul.'"') !== false);
+    $this->assertTrue(strpos($response['html'], 'href="'.$url_accept_joelle.'"') !== false);
+    $url_refuse = $this->generateUrl('ajax_element_proposed_tags_refuse', array(
+      'element_id' => $element->getId(),
+      'token'      => $bux->getPersonalHash()
+    ));
+    
+    // On accepete la poposition de joelle
+    $crawler = $this->client->request(
+      'GET',
+      $url_accept_joelle, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('AZYD AZYLUM Live au Café Provisoire')
+    ;
+    // Les tags de l'élément ont bien été mis a jour
+    foreach (json_decode($element->getTagsIdsJson(), true) as $id)
+    {
+      if (in_array($id, array($metal->getId(), $soug->getId(), $tsouzoumi->getId())))
+      {
+        $this->assertTrue(true);
+      }
+      else
+      {
+        $this->assertTrue(false);
+      }
+    }
+    $ids = json_decode($element->getTagsIdsJson(), true);
+    foreach (array($metal->getId(), $soug->getId(), $tsouzoumi->getId()) as $id)
+    {
+      if (in_array($id, $ids))
+      {
+        $this->assertTrue(true);
+      }
+      else
+      {
+        $this->assertTrue(false);
+      }
+    }
+        
+    // La proposition de joelle a disparu
+    $propositions = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
+        .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
+      ->setParameters(array(
+        'eid' => $element->getId(),
+        'uid'    => $joelle->getId()
+      ))
+      ->getResult()
+    ;
+    $this->assertEquals(0, count($propositions));
+    
+    // celle de paul aussi 
+    $propositions = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
+        .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
+      ->setParameters(array(
+        'eid' => $element->getId(),
+        'uid'    => $paul->getId()
+      ))
+      ->getResult()
+    ;
+    $this->assertEquals(0, count($propositions));
+    
+    // Mais on a un event en archive pour joelle
+    $archives = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT a FROM MuzichCoreBundle:EventArchive a'
+        .' WHERE a.user = :uid AND a.type = :type')
+      ->setParameters(array(
+        'uid'    => $joelle->getId(),
+        'type'    => \Muzich\CoreBundle\Entity\EventArchive::PROP_TAGS_ELEMENT_ACCEPTED
+      ))
+      ->getResult()
+    ;
+    $this->assertEquals(1, count($archives));
+    $this->assertEquals(1, $archives[0]->getCount());
+    
+    // paul lui n'a pas d'archives
+    $archives = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT a FROM MuzichCoreBundle:EventArchive a'
+        .' WHERE a.user = :uid AND a.type = :type')
+      ->setParameters(array(
+        'uid'    => $paul->getId(),
+        'type'    => \Muzich\CoreBundle\Entity\EventArchive::PROP_TAGS_ELEMENT_ACCEPTED
+      ))
+      ->getResult()
+    ;
+    $this->assertEquals(0, count($archives));
+       
+    // contrôle de l'évolution des points
+    $bux = $this->getUser('bux');
+    $joelle = $this->getUser('joelle');
+    $paul = $this->getUser('paul');
+    
+    $this->assertEquals($points_bux, $bux->getReputation());
+    $this->assertEquals($points_joelle + $points_pour_tags_add, $joelle->getReputation());
+    $this->assertEquals($points_paul, $paul->getReputation());
+    
+  }
+  
+  /**
+   * Test des procédure concernants al proposition de tags sur un élément
+   * 
+   * On test ici: 
+   * * Proposition de tags
+   * * La consultation de ces propositions
+   * * Le refus
+   */
+  public function testTagsPropositionRefuse()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('paul', 'toor');
+    
+    $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
+    $tribe   = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+    $tsouzoumi = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tsouzoumi');
+    $soug = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Soug');
+    $metal = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Metal');
+    
+    $paul = $this->getUser();
+    $bux = $this->getUser('bux');
+    $joelle = $this->getUser('joelle');
+    
+    $points_pour_tags_add = $this->getContainer()->getParameter('reputation_element_tags_element_prop_value');
+    $points_joelle = $joelle->getReputation();
+    $points_bux    = $bux->getReputation();
+    $points_paul  = $paul->getReputation();
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('AZYD AZYLUM Live au Café Provisoire')
+    ;
+    
+    // Pas de proposition en base pur cet élément
+    $propositions = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
+      ->findOneByElement($element->getId())
+    ;
+    
+    $this->assertEquals(0, count($propositions));
+    
+    // Pas d'événement pour bux
+    $events = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $bux->getId(),
+        'type' => \Muzich\CoreBundle\Entity\Event::TYPE_TAGS_PROPOSED
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($events), 0);
+    
+    // On teste la récupération du formulaire au moin une fois
+    $crawler = $this->client->request(
+      'GET',
+      $this->generateUrl('ajax_element_propose_tags_open', 
+        array('element_id' => $element->getId())
+      ), 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    $this->assertEquals($response['form_name'], 'element_tag_proposition_'.$element->getId());
+    $this->assertTrue(strpos($response['html'], 'class="tag_proposition"') !== false);
+    
+    // paul propose une serie de tags
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_element_propose_tags_proceed', 
+        array('element_id' => $element->getId(), 'token' => $paul->getPersonalHash())
+      ), 
+      array(
+        'element_tag_proposition_'.$element->getId() => array(
+          'tags' => json_encode(array($hardtek->getId(), $tribe->getId()))
+        )
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On a maintenant la proposition en base
+    $propositions = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
+        .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
+      ->setParameters(array(
+        'eid' => $element->getId(),
+        'uid'    => $paul->getId()
+      ))
+      ->getResult()
+    ;
+    
+    $this->assertEquals(1, count($propositions));
+    $proposition_paul = $propositions[0];
+    
+    // Les tags sont aussi en base
+    foreach ($propositions[0]->getTags() as $tag)
+    {
+      if (in_array($tag->getId(), array($hardtek->getId(), $tribe->getId())))
+      {
+        $this->assertTrue(true);
+      }
+      else
+      {
+        $this->assertTrue(false);
+      }
+    }
+    
+    // Il y a maintenant un event pour bux
+    $events = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $bux->getId(),
+        'type' => \Muzich\CoreBundle\Entity\Event::TYPE_TAGS_PROPOSED
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($events), 1);
+    $this->assertEquals($events[0]['type'], \Muzich\CoreBundle\Entity\Event::TYPE_TAGS_PROPOSED);
+    // 
+    $this->assertEquals($events[0]['count'], 1);
+    $this->assertEquals($events[0]['ids'], json_encode(array((string)$element->getId())));
+    
+    // si il propose un liste vide de tags, c'est refusé bien entendu
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_element_propose_tags_proceed', 
+        array('element_id' => $element->getId(), 'token' => $paul->getPersonalHash())
+      ), 
+      array(
+        'element_tag_proposition_'.$element->getId() => array(
+          'tags' => json_encode(array())
+        )
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'error');
+    
+    /*
+     *  joelle va aussi proposer des tags sur cet élément
+     */
+    $this->disconnectUser();
+    $this->connectUser('joelle', 'toor');
+    
+    $joelle = $this->getUser();
+    
+    // joelle propose une serie de tags
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_element_propose_tags_proceed', 
+        array('element_id' => $element->getId(), 'token' => $joelle->getPersonalHash())
+      ), 
+      array(
+        'element_tag_proposition_'.$element->getId() => array(
+          'tags' => json_encode(array($tsouzoumi->getId(), $soug->getId(), $metal->getId()))
+        )
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On a maintenant la proposition en base
+    $propositions = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
+        .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
+      ->setParameters(array(
+        'eid' => $element->getId(),
+        'uid'    => $joelle->getId()
+      ))
+      ->getResult()
+    ;
+    
+    $this->assertEquals(1, count($propositions));
+    $proposition_joelle = $propositions[0];
+    
+    // Les tags sont aussi en base
+    foreach ($propositions[0]->getTags() as $tag)
+    {
+      if (in_array($tag->getId(), array($tsouzoumi->getId(), $soug->getId(), $metal->getId())))
+      {
+        $this->assertTrue(true);
+      }
+      else
+      {
+        $this->assertTrue(false);
+      }
+    }
+    
+    // avec la propsoition de joelle le nombre d'event n'a pas bougé (le compteur compte les éléments)
+    $events = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $bux->getId(),
+        'type' => \Muzich\CoreBundle\Entity\Event::TYPE_TAGS_PROPOSED
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($events), 1);
+    $this->assertEquals($events[0]['type'], \Muzich\CoreBundle\Entity\Event::TYPE_TAGS_PROPOSED);
+    // 
+    $this->assertEquals($events[0]['count'], 1);
+    $this->assertEquals($events[0]['ids'], json_encode(array((string)$element->getId())));
+    
+    /*
+     *  C'est au tour de bux d'aller voir ces proposition
+     */
+    
+    $this->disconnectUser();
+    $this->connectUser('bux', 'toor');
+    
+    $bux = $this->getUser();
+    
+    // Il peut voir le lien vers l'ouverture des propositions
+    $url = $this->generateUrl('ajax_element_proposed_tags_view', array('element_id' => $element->getId()));
+    $this->exist('a[href="'.$url.'"]');
+    
+    // On récupére ces propositions
+    $crawler = $this->client->request(
+      'GET',
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    $url_accept_paul = $this->generateUrl('ajax_element_proposed_tags_accept', array(
+      'proposition_id' => $proposition_paul->getId(),
+      'token'          => $bux->getPersonalHash()
+    ));
+    $url_accept_joelle = $this->generateUrl('ajax_element_proposed_tags_accept', array(
+      'proposition_id' => $proposition_joelle->getId(),
+      'token'          => $bux->getPersonalHash()
+    ));
+    $this->assertTrue(strpos($response['html'], 'href="'.$url_accept_paul.'"') !== false);
+    $this->assertTrue(strpos($response['html'], 'href="'.$url_accept_joelle.'"') !== false);
+    $url_refuse = $this->generateUrl('ajax_element_proposed_tags_refuse', array(
+      'element_id' => $element->getId(),
+      'token'      => $bux->getPersonalHash()
+    ));
+    
+    // On accepete la poposition de joelle
+    $crawler = $this->client->request(
+      'GET',
+      $url_refuse, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('AZYD AZYLUM Live au Café Provisoire')
+    ;
+    // Les tags de l'élément n'ont pas bougés
+    $this->assertEquals(
+      json_encode(array($metal->getId())),
+      $element->getTagsIdsJson()
+    );
+    
+    // La proposition de joelle a disparu
+    $propositions = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
+        .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
+      ->setParameters(array(
+        'eid' => $element->getId(),
+        'uid'    => $joelle->getId()
+      ))
+      ->getResult()
+    ;
+    $this->assertEquals(0, count($propositions));
+    
+    // celle de paul aussi 
+    $propositions = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
+        .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
+      ->setParameters(array(
+        'eid' => $element->getId(),
+        'uid'    => $paul->getId()
+      ))
+      ->getResult()
+    ;
+    $this->assertEquals(0, count($propositions));
+    
+    // Et on as pas d'archive pour joelle
+    $archives = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT a FROM MuzichCoreBundle:EventArchive a'
+        .' WHERE a.user = :uid AND a.type = :type')
+      ->setParameters(array(
+        'uid'    => $joelle->getId(),
+        'type'    => \Muzich\CoreBundle\Entity\EventArchive::PROP_TAGS_ELEMENT_ACCEPTED
+      ))
+      ->getResult()
+    ;
+    $this->assertEquals(0, count($archives));
+    
+    // paul lui n'a pas d'archives non plus
+    $archives = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT a FROM MuzichCoreBundle:EventArchive a'
+        .' WHERE a.user = :uid AND a.type = :type')
+      ->setParameters(array(
+        'uid'    => $paul->getId(),
+        'type'    => \Muzich\CoreBundle\Entity\EventArchive::PROP_TAGS_ELEMENT_ACCEPTED
+      ))
+      ->getResult()
+    ;
+    $this->assertEquals(0, count($archives));
+       
+    // contrôle de l'évolution des points
+    $bux = $this->getUser('bux');
+    $joelle = $this->getUser('joelle');
+    $paul = $this->getUser('paul');
+    
+    $this->assertEquals($points_bux, $bux->getReputation());
+    $this->assertEquals($points_joelle, $joelle->getReputation());
+    $this->assertEquals($points_paul, $paul->getReputation());
+    
+  }
+  
 }
