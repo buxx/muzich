@@ -1685,7 +1685,7 @@ $(document).ready(function(){
   
   
   // Enlever les ids du ElementSearch
-  $('div.more_filters a.new_comments, div.more_filters a.new_favorites, div.more_filters a.tags').live('click', function(){
+  $('div.more_filters a.new_comments, div.more_filters a.new_favorites, div.more_filters a.new_tags').live('click', function(){
     
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
@@ -1703,6 +1703,7 @@ $(document).ready(function(){
         $('form[name="search"]').submit();
         $('div.more_filters a.new_comments').hide();
         $('div.more_filters a.new_favorites').hide();
+        $('div.more_filters a.new_tags').hide();
       }
       
     });

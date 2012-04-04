@@ -6,6 +6,8 @@ use Muzich\CoreBundle\lib\Controller;
 use Muzich\CoreBundle\ElementFactory\ElementManager;
 use Muzich\CoreBundle\Propagator\EventElement;
 use Muzich\CoreBundle\Entity\ElementTagsProposition;
+use Muzich\CoreBundle\Managers\EventArchiveManager;
+use Muzich\CoreBundle\Entity\EventArchive;
 
 class ElementController extends Controller
 {
@@ -686,13 +688,13 @@ class ElementController extends Controller
     $element->setHasTagProposition(false);
     $this->getDoctrine()->getEntityManager()->persist($element);
     
+    // On archive le fait que la proposition est été accepté
+    $eam = new EventArchiveManager($this->getDoctrine()->getEntityManager());
+    $eam->add($proposition->getUser(), EventArchive::PROP_TAGS_ELEMENT_ACCEPTED);
+    
     $propositions = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
       ->findByElement($element->getId())
     ;
-    
-    /*
-     * TODO: ARCHIVAGE (c avant ou aprés event déjà ?) (cf doc), notifs (event)
-     */
     
     // On supprime les proposition liés a cet élement
     foreach ($propositions as $proposition)
