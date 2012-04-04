@@ -59,6 +59,24 @@
         {% endif %}
           
     </div>
+    
+    <div class="tags">
+      
+        {% if events[event_const('TYPE_TAGS_PROPOSED')] is defined %}
+          <a 
+            href="{{ path('event_view_elements', {'event_id':events[event_const('TYPE_TAGS_PROPOSED')].id}) }}" 
+            title="{%if events[event_const('TYPE_TAGS_PROPOSED')].count == 1 %}{{ 'events.new_tags.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_tags.yes'|trans({'%count%':events[event_const('TYPE_TAGS_PROPOSED')].count}, 'users') }}{% endif %}"
+            class="view_follows_event"
+          >
+            <img src="{{ asset('bundles/muzichcore/img/1333484018_rss-tag.png') }}" alt="tags" />
+            <span class="new_follows">{{ events[event_const('TYPE_TAGS_PROPOSED')].count }}</span>
+          </a>
+        {% else %}
+          <img title="{{ 'events.new_tags.no'|trans({}, 'users') }}" src="{{ asset('bundles/muzichcore/img/1333484018_rss-tag.png') }}" alt="tags" />
+          <span class="new_follows">0</span>
+        {% endif %}
+          
+    </div>
   
   
   </div>

@@ -553,6 +553,15 @@ class ElementController extends Controller
       ));
     }
     
+    // On ne doit pas pouvoir proposer de tags sur son propre élément
+    if ($element->getOwner()->getId() == $this->getUserId())
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotAllowed')
+      ));
+    }
+    
     $values   = $this->getRequest()->request->get('element_tag_proposition_'.$element->getId());
     $tags_ids = json_decode($values['tags'], true);
     
@@ -597,6 +606,11 @@ class ElementController extends Controller
     
     $this->getDoctrine()->getEntityManager()->persist($element);
     $this->getDoctrine()->getEntityManager()->persist($proposition);
+    
+    // Notifs etc 
+    $event = new EventElement($this->container);
+    $event->tagsProposed($element);
+    
     $this->getDoctrine()->getEntityManager()->flush();
     
     return $this->jsonResponse(array(

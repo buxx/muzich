@@ -124,4 +124,16 @@ class EventElement extends EventPropagator
     );
   }
   
+  /**
+   * Des tags viennent d'être proposé a un élément
+   *
+   * @param Element $element 
+   */
+  public function tagsProposed(Element $element)
+  {
+    $uea = new UserEventAction($element->getOwner(), $this->container);
+    $event = $uea->proceed(Event::TYPE_TAGS_PROPOSED, $element->getId());
+    $this->container->get('doctrine')->getEntityManager()->persist($event);
+  }
+  
 }

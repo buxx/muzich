@@ -1168,6 +1168,18 @@ div#events div.follows span
   margin-left: 5px;
 }
 
+div#events div.tags img
+{
+  margin-left: 3px;
+  margin-bottom: -2px;
+}
+
+div#events div.tags span
+{
+  font-weight: bold;
+  margin-left: 5px;
+}
+
 /*
 * css mynetwork
 */

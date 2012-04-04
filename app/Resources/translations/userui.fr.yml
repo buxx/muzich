@@ -67,6 +67,7 @@ filter:
   network_my:    Mon réseau
   new_comments:     Nvx commentaires
   new_favoriteds:   Nvx favoris
+  new_tags:         Propositions de tags
   
 element_add:
   url:

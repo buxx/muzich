@@ -131,6 +131,9 @@ class MyTwigExtension extends \Twig_Extension {
       case 'TYPE_USER_FOLLOW':
         return Event::TYPE_USER_FOLLOW;
       break;
+      case 'TYPE_TAGS_PROPOSED':
+        return Event::TYPE_TAGS_PROPOSED;
+      break;
       default:
         throw new \Exception('Constante non géré dans MyTwigExtension::event_const');
       break;

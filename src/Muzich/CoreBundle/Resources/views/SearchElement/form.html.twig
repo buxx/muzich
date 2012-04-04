@@ -17,18 +17,28 @@
   </div>
 
   <div class="more_filters">
+    
     <a href="{{ path('ajax_filter_remove_ids') }}" class="button active new_comments" 
        style="{% if ids_display != event_const('TYPE_COMMENT_ADDED_ELEMENT') %}display: none;{% endif %}"
     >
       {{ 'filter.new_comments'|trans({}, 'userui') }}
       <img src="{{ asset('bundles/muzichcore/img/1328276855_list-remove.png') }}" alt="remove" />
     </a>
+      
     <a href="{{ path('ajax_filter_remove_ids') }}" class="button active new_favorites" 
        style="{% if ids_display != event_const('TYPE_FAV_ADDED_ELEMENT') %}display: none;{% endif %}"
     >
       {{ 'filter.new_favoriteds'|trans({}, 'userui') }}
       <img src="{{ asset('bundles/muzichcore/img/1328276855_list-remove.png') }}" alt="remove" />
     </a>
+      
+    <a href="{{ path('ajax_filter_remove_ids') }}" class="button active new_tags" 
+       style="{% if ids_display != event_const('TYPE_TAGS_PROPOSED') %}display: none;{% endif %}"
+    >
+      {{ 'filter.new_tags'|trans({}, 'userui') }}
+      <img src="{{ asset('bundles/muzichcore/img/1328276855_list-remove.png') }}" alt="remove" />
+    </a>
+    
   </div>
   
   {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 

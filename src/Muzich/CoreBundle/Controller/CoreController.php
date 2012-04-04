@@ -615,6 +615,7 @@ class CoreController extends Controller
     
     $es = $this->getElementSearcher();
     $es->setIds(null);
+    $es->setIdsDisplay(null);
     $this->setElementSearcherParams($es->getParams());
     
     $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(

@@ -21,6 +21,7 @@ class Event
   const TYPE_COMMENT_ADDED_ELEMENT = "com.adde.ele";
   const TYPE_FAV_ADDED_ELEMENT     = "fav.adde.ele";
   const TYPE_USER_FOLLOW           = "user.follow";
+  const TYPE_TAGS_PROPOSED         = "tags.prop.ad";
   
   /**
    * @ORM\Id

@@ -25,6 +25,10 @@ events:
     no:                         Pas de nouveaux utilisateurs qui vous suivent
     one:                        %count% nouvel utilisateur vous suis
     yes:                        %count% nouveaux utilisateurs vous suivent
+  new_tags:
+    no:                         Pas de nouvelle proposition de tags
+    one:                        %count% nouveau partage avec proposition de tags
+    yes:                        %count% nouveaux partages avec proposition de tags
     
 reputation:
   bar:

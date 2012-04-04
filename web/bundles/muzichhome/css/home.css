@@ -94,7 +94,16 @@ div.more_filters a.new_favorites
   background-position: 2px 3px;
 }
 
-div.more_filters a.new_comments img, div.more_filters a.new_favorites img
+div.more_filters a.new_tags
+{
+  margin-top: 5px;
+  padding-left: 20px;
+  background-image: url(/bundles/muzichcore/img/1333484018_rss-tag.png);
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
+}
+
+div.more_filters a.new_comments img, div.more_filters a.new_favorites img, div.more_filters a.new_tags img
 {
   margin-bottom: -3px;
 }
