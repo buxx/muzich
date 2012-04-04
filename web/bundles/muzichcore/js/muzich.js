@@ -1794,14 +1794,9 @@ $(document).ready(function(){
   });
   
   // Annulation d'un formulaire de modification d'élément
-  //
-  //  TODO TODO TODO
-  //    ca en dessous la: TODO neuu
-  //
   $('div.tag_proposition input.cancel').live('click', function(){
     $(this).parent('form').parent('div').slideUp();
   });
-  ///////
   
   $('a.element_view_propositions_link').live('click', function(){
     
