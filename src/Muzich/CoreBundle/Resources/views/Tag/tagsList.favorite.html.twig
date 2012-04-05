@@ -6,7 +6,7 @@
   <ul id="favorite_tags">
     {% for tag in tags %}
       <li>
-        <a href="#{{ tag.id }}" class="button tag">
+        <a id="filtering_tag_{{ tag.id }}" href="#" class="button tag">
           {{ tag.name }}
         </a>
       </li>
