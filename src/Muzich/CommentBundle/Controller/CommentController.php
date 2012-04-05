@@ -177,7 +177,9 @@ class CommentController extends Controller
     $html = $this->render('MuzichCommentBundle:Comment:edit.html.twig', array(
       'comment'     => $comment,
       'element_id'  => $element->getId(),
-      'date'        => $date
+      'date'        => $date,
+      'following'   => $element->userFollowComments($this->getUserId()),
+      'own'         => ($this->getUserId() == $element->getOwner()->getId())
     ))->getContent();
     // On retourne le tout
     return $this->jsonResponse(array(
