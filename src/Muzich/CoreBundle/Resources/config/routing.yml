@@ -133,3 +133,9 @@ ajax_element_proposed_tags_accept:
 ajax_element_proposed_tags_refuse:
   pattern: /ajax/element/proposed/tags/refuses/{element_id}/{token}
   defaults: { _controller: MuzichCoreBundle:Element:proposedTagsRefuse }
+  
+## lol
+
+teapot:
+  pattern: /what/are/you
+  defaults: { _controller: MuzichCoreBundle:Info:teapot }
