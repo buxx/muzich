@@ -23,7 +23,7 @@ security:
                 target: /hello
             anonymous:  ~
             remember_me:
-              key:      sfdg45m14ez4g5f69ez8s1n
+              key:      %secret%
               lifetime: 1209600
               path:     /
               domain:   ~
