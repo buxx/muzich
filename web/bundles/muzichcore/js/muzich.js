@@ -248,7 +248,7 @@ $(document).ready(function(){
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
     
-    form = $('form[name="search"]');
+    var form = $('form[name="search"]');
     remove_tags(form.attr('name'));
     form.submit();
   });
@@ -259,7 +259,7 @@ $(document).ready(function(){
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
     
-    form = $(this).parent('div').parent('form');
+    var form = $(this).parents('form[name="search"]');
     
     $.getJSON(url_get_favorites_tags, function(response) {
       if (response.status == 'mustbeconnected')
@@ -270,7 +270,7 @@ $(document).ready(function(){
       remove_tags(form.attr('name'));
 //      if (tags.length)
 //      {
-        inputTag = $("div#tags_prompt_"+form.attr('name')+" input.form-default-value-processed");
+        var inputTag = $("div#tags_prompt_"+form.attr('name')+" input.form-default-value-processed");
         for (i in response.tags)
         {
           $('input#tags_selected_tag_'+form.attr('name')).val(i);
@@ -289,10 +289,11 @@ $(document).ready(function(){
   // Tag cliqué dans la liste d'éléments
   $('ul.element_tags li a.element_tag').live('click', function(){
     // Si il y a une liste de tags (comme sur la page favoris, profil)
+    var id;
     if ($('ul#favorite_tags').length)
     {
-      id = str_replace('#', '', $(this).attr('href'));
-      link = $('ul#favorite_tags li a[href="#'+id+'"]');
+      id = str_replace('element_tag', '', $(this).attr('id'));
+      var link = $('ul#favorite_tags li a[href="#'+id+'"]');
       list_tag_clicked(link, true);
     }
     
@@ -300,10 +301,10 @@ $(document).ready(function(){
     {
       $('img.elements_more_loader').show();
       $('ul.elements').html('');
-      form = $('form[name="search"]');
-      id = str_replace('#', '', $(this).attr('href'));
+      var form = $('form[name="search"]');
+      id = str_replace('element_tag', '', $(this).attr('id'));
       remove_tags('search');
-      inputTag = $("div#tags_prompt_search input.form-default-value-processed");
+      var inputTag = $("div#tags_prompt_search input.form-default-value-processed");
       $('input#tags_selected_tag_search').val(id);
       inputTag.val($(this).html());
       inputTag.trigger("selectTag");
@@ -316,7 +317,7 @@ $(document).ready(function(){
   // 1328283201_emblem-symbolic-link.png
   $('a.element_embed_open_link').live("click", function(){
     
-     li = $(this).parent('td').parent('tr').parent().parent().parent('li.element');
+     var li = $(this).parents('li.element');
      
      li.find('a.element_embed_close_link').show();
      li.find('a.element_embed_open_link_text').hide();
@@ -327,7 +328,7 @@ $(document).ready(function(){
   
   $('a.element_name_embed_open_link').live("click", function(){
     
-     li = $(this).parent('span').parent('td').parent('tr').parent().parent().parent('li.element');
+     var li = $(this).parents('li.element');
      
      li.find('a.element_embed_close_link').show();
      li.find('a.element_embed_open_link_text').hide();
@@ -339,7 +340,7 @@ $(document).ready(function(){
   // Fermeture du embed si demandé
   $('a.element_embed_close_link').live("click", function(){
     
-     li = $(this).parent('td').parent('tr').parent().parent().parent('li.element');
+     var li = $(this).parents('li.element');
     
      li.find('div.element_embed').hide();
      li.find('a.element_embed_open_link_text').show();
@@ -353,8 +354,8 @@ $(document).ready(function(){
     mouseenter:
       function()
       {
-        td = $(this).parent('td');
-        a = td.find('a.a_thumbnail');
+        var td = $(this).parent('td');
+        var a = td.find('a.a_thumbnail');
         if (a.hasClass('embed'))
         {
           td.find('img.play').show();
@@ -367,8 +368,8 @@ $(document).ready(function(){
     mouseleave:
       function()
       {
-        td = $(this).parent('td');
-        a = td.find('a.a_thumbnail');
+        var td = $(this).parent('td');
+        var a = td.find('a.a_thumbnail');
         if (a.hasClass('embed'))
         {
           td.find('img.play').hide();
@@ -383,10 +384,10 @@ $(document).ready(function(){
 
   // Mise en favoris
   $('a.favorite_link').live("click", function(){
-    link = $(this);
+    var link = $(this);
     
     // Pour ne pas attendre la fin du chargement ajax:
-    img = link.find('img');
+    var img = link.find('img');
     if (!link.hasClass('loading'))
     {
       if (img.attr('src') == '/bundles/muzichcore/img/favorite_bw.png')
@@ -407,7 +408,7 @@ $(document).ready(function(){
         $(location).attr('href', url_index);
       }
       
-      img = link.find('img');
+      var img = link.find('img');
       link.attr('href', response.link_new_url);
       img.attr('src', response.img_new_src);
       img.attr('title', response.img_new_title);
@@ -440,12 +441,12 @@ $(document).ready(function(){
   );
     
    // Plus d'éléments
-   last_id = null;
+   var last_id = null;
    $('a.elements_more').click(function(){
-     link = $(this);
-     last_element = $('ul.elements li.element:last-child');
-     id_last = str_replace('element_', '', last_element.attr('id'));
-     invertcolor = 0;
+     var link = $(this);
+     var last_element = $('ul.elements li.element:last-child');
+     var id_last = str_replace('element_', '', last_element.attr('id'));
+     var invertcolor = 0;
      if (last_element.hasClass('even'))
      {
        invertcolor = 1;
@@ -519,7 +520,7 @@ $(document).ready(function(){
     cancelAnswer : string_element_delete_confirm_no,
     onYes: function(link){
       
-      li = link.parent('td').parent('tr').parent().parent().parent('li.element');
+      var li = $(this).parents('li.element');
       li.find('img.element_loader').show();
       $.getJSON(link.attr('href'), function(response){
         if (response.status == 'mustbeconnected')
@@ -540,12 +541,12 @@ $(document).ready(function(){
       return false;
     },
     onOpen: function(link){
-      li = link.parent('td').parent('tr').parent().parent().parent('li.element');
+      var li = $(this).parents('li.element');
       li.find('a.element_edit_link').addClass('mustBeDisplayed');
       li.find('a.element_remove_link').addClass('mustBeDisplayed');
     },
     onClose: function(link){
-      li = link.parent('td').parent('tr').parent().parent().parent('li.element');
+      var li = $(this).parents('li.element');
       li.find('a.element_edit_link').removeClass('mustBeDisplayed');
       li.find('a.element_remove_link').removeClass('mustBeDisplayed');
       li.find('a.element_edit_link').hide();
@@ -553,15 +554,15 @@ $(document).ready(function(){
     }
   });
 
- elements_edited = new Array();
+ var elements_edited = new Array();
  // Ouverture du formulaire de modification
   $('a.element_edit_link').live('click', function(){
     
-    link = $(this);
-    li = link.parent('td').parent('tr').parent().parent().parent('li.element');
+    var link = $(this);
+    var li = link.parents('li.element');
     // On garde en mémoire l'élément édité en cas d'annulation
     elements_edited[li.attr('id')] = li.html();
-    div_loader = li.find('div.loader');
+    var div_loader = li.find('div.loader');
     li.html(div_loader);
     li.find('img.element_loader').show();
     
@@ -587,7 +588,7 @@ $(document).ready(function(){
       
       // On rend ce formulaire ajaxFormable
       $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){
-        li = $(this).parent('form').parent('li');
+        var li = $(this).parents('li.element');
         li.prepend(div_loader);
         li.find('img.element_loader').show();
       });
@@ -598,7 +599,7 @@ $(document).ready(function(){
           $(location).attr('href', url_index);
         }
         
-        li = $('li#'+response.dom_id);
+        var li = $('li#'+response.dom_id);
         
         if (response.status == 'success')
         {
@@ -609,7 +610,7 @@ $(document).ready(function(){
         {
           li.find('img.element_loader').hide();
           li.find('ul.error_list').remove();
-          ul_errors = $('<ul>').addClass('error_list');
+          var ul_errors = $('<ul>').addClass('error_list');
           
           for (i in response.errors)
           {
@@ -626,15 +627,15 @@ $(document).ready(function(){
   
   // Annulation d'un formulaire de modification d'élément
   $('form.edit_element input.cancel_edit').live('click', function(){
-    var li = $(this).parent('form').parent('li');
+    var li = link.parents('li.element');
     li.html(elements_edited[li.attr('id')]);
     delete(elements_edited[li.attr('id')]);
   });
  
   ////////////////// TAG PROMPT ///////////////
  
-  ajax_query_timestamp = null;
-  tag_text_help = $('input.tag_text_help').val();
+  var ajax_query_timestamp = null;
+  var tag_text_help = $('input.tag_text_help').val();
  
   // Les deux clicks ci-dessous permettent de faire disparaitre
   // la div de tags lorsque l'on clique ailleurs
@@ -657,16 +658,16 @@ $(document).ready(function(){
     {
 
       // on met en variable l'input
-      inputTag = input;
+      var inputTag = input;
       
       // On récupére la div de tags
-      divtags = $("#search_tag_"+form_name);
+      var divtags = $("#search_tag_"+form_name);
 
       // Si la fenêtre de tags est caché
       if (!divtags.is(':visible'))
       {
         // On la replace
-        position = input.position();
+        var position = input.position();
         divtags.css('left', Math.round(position.left) + 5);
         divtags.css('top', Math.round(position.top) + 28);
         // Et on l'affiche
@@ -675,12 +676,12 @@ $(document).ready(function(){
       // On affiche le loader
       $('#tag_loader_'+form_name).show();
       // On cache la liste de tags
-      search_tag_list = divtags.find('ul.search_tag_list');
+      var search_tag_list = divtags.find('ul.search_tag_list');
       // On supprime les anciens li
       search_tag_list.find('li').remove();
       search_tag_list.hide();
       // Et on affiche une info
-      span_info = divtags.find('span.info');
+      var span_info = divtags.find('span.info');
       span_info.show();
       // TODO: multilingue !
       span_info.text("Recherche des tags correspondants à \""+input.val()+"\" ...");
@@ -690,7 +691,7 @@ $(document).ready(function(){
 
       // On récupère le timestamp pour reconnaitre la dernière requête effectué
       ajax_query_timestamp = new Date().getTime();
-
+      
       // Récupération des tags correspondants
       $.getJSON(url_search_tag+'/'+input.val()+'/'+ajax_query_timestamp, function(data) {
         if (data.status == 'mustbeconnected')
@@ -702,8 +703,8 @@ $(document).ready(function(){
         // ajax a été faite depuis.
         if (data.timestamp == ajax_query_timestamp)
         {
-          status = data.status;
-          tags   = data.data;
+          var status = data.status;
+          var tags   = data.data;
 
           // Si on spécifie une erreur
           if (status == 'error')
@@ -716,7 +717,7 @@ $(document).ready(function(){
           {
             if (tags.length > 0)
             {
-              more = false;
+              var more = false;
               // Pour chaque tags retournés
               for (i in tags)
               {
@@ -725,24 +726,25 @@ $(document).ready(function(){
                 var t_string = tag_name
                 // On construit un li
                 
-                r_string = $.trim(input.val());
+                var r_string = $.trim(input.val());
                 var re = new RegExp(r_string, "i");
                 t_string = t_string.replace(re,"<strong>" + r_string + "</strong>");
                 
                                 
-                li_tag = 
+                var li_tag = 
                   $('<li>').append(
-                    $('<a>').attr('href','#'+tag_id+'#'+tag_name)
+                    $('<a>').attr('id','searched_tag_'+tag_id+'_'+tag_name)
+                      .attr('href', '#')
                     // qui réagit quand on clique dessus
                     .click(function(e){
                       // On récupère le nom du tag
-                      name = $(this).attr('href').substr(1,$(this).attr('href').length);
-                      name = name.substr(strpos(name, '#')+1, name.length);
-                                            
-                      id = $(this).attr('href').substr(1,$(this).attr('href').length);
+                      var name = $(this).attr('id').substr(13,$(this).attr('id').length);
+                      name = name.substr(strpos(name, '_')+1, name.length);
+                      
+                      var id = $(this).attr('id').substr(13,$(this).attr('id').length);
                       id = str_replace(name, '', id);
-                      id = str_replace('#', '', id);
-                                     
+                      id = str_replace('_', '', id);
+                      
                       $('input#tags_selected_tag_'+form_name).val(id);
                       inputTag.val(name);
                       // Et on execute l'évènement selectTag de l'input
@@ -793,7 +795,7 @@ $(document).ready(function(){
             if (!data.same_found)
             {
               // Cette variable nous permettra de stocker le lien nouveau tag
-              link_add_tag = null;
+              var link_add_tag = null;
               
               li_tag = 
                 $('<li>').addClass('new').append(
@@ -810,7 +812,7 @@ $(document).ready(function(){
                     link_add_tag = $(this);
                     
                     // En premier lieux on fait apparaître la fenêtre de confirmation
-                    popup = $('<div>')
+                    var popup = $('<div>')
                     .attr('id', 'add_tag')
                     .addClass('popin_block')
                     .css('width', '400px')
@@ -846,10 +848,10 @@ $(document).ready(function(){
                             $('#add_tag').remove();
                             
                             // On récupère le nom du tag
-                            name = link_add_tag.attr('href').substr(1,link_add_tag.attr('href').length);
+                            var name = link_add_tag.attr('href').substr(1,link_add_tag.attr('href').length);
                             name = name.substr(strpos(name, '#')+1, name.length);
 
-                            link_add_tag.parent('li').parent('ul').parent('div').find('img.tag_loader').show();
+                            link_add_tag.parents('div.search_tag_list').find('img.tag_loader').show();
 
                             var url;
                             if (arguments)
@@ -869,8 +871,8 @@ $(document).ready(function(){
                                 $(location).attr('href', url_index);
                               }
 
-                              tag_id   = response.tag_id;
-                              tag_name = response.tag_name;
+                              var tag_id   = response.tag_id;
+                              var tag_name = response.tag_name;
 
                               $('input#tags_selected_tag_'+form_name).val(tag_id);
                               inputTag.val(tag_name);
@@ -880,7 +882,7 @@ $(document).ready(function(){
                               divtags.hide();
                               inputTag.val(tag_text_help); 
 
-                              link_add_tag.parent('li').parent('ul').parent('div').find('img.tag_loader').hide();
+                              link_add_tag.parents('div.search_tag_list').find('img.tag_loader').hide();
                             });
                             
                             return false;
@@ -922,7 +924,7 @@ $(document).ready(function(){
   }
  
  
-  last_keypress = 0;
+  var last_keypress = 0;
   
   function check_timelaps_and_search(input, form_name, time_id, timed, info)
   {
@@ -965,9 +967,7 @@ $(document).ready(function(){
   // Autocompletion de tags
   $("div.tags_prompt ul.tagbox li.input input").live('keypress', function(e){
     
-    var form_name = $(this).parent('li').parent('ul.tagbox')
-      .parent('div.tags_prompt').parent('form').attr('name')
-    ;
+    var form_name = $(this).parents('form').attr('name');
     var code = (e.keyCode ? e.keyCode : e.which);
 
     if ((e.which !== 0 && e.charCode !== 0) || (code == 8 || code == 46))
@@ -1006,7 +1006,7 @@ $(document).ready(function(){
   
   // Selection Réseau global / Mon réseau
   $('div.select_network a').live('click', function(){
-    divSelect = $(this).parent('div');
+    var divSelect = $(this).parent('div');
     if ($(this).hasClass('all_network'))
     {
       divSelect.find('a.all_network').addClass('active');
@@ -1075,7 +1075,7 @@ $(document).ready(function(){
     else if (response.status == 'error')
     {
       $('form[name="add"]').find('ul.error_list').remove();
-      ul_errors = $('<ul>').addClass('error_list');
+      var ul_errors = $('<ul>').addClass('error_list');
       
       for (i in response.errors)
       {
@@ -1092,6 +1092,7 @@ $(document).ready(function(){
   // TODO.
 
  /////////////////////
+ var tags_ids_for_filter = new Array();
  // Filtre par tags (show, favorite)
  function refresh_elements_with_tags_selected(link)
   {
@@ -1101,7 +1102,7 @@ $(document).ready(function(){
     $('ul.elements').html('');
     $('div.no_elements').hide();
     $('img.elements_more_loader').show();
-    $.getJSON($('input#get_elements_url').val()+'/'+array2json(tags_ids), function(response){
+    $.getJSON($('input#get_elements_url').val()+'/'+array2json(tags_ids_for_filter), function(response){
       
       if (response.status == 'mustbeconnected')
       {
@@ -1139,15 +1140,15 @@ $(document).ready(function(){
     }
     
     // On construit notre liste de tags
-    tags_ids = new Array();
+    tags_ids_for_filter = new Array();
     $('ul#favorite_tags a.tag.active').each(function(index){
-      id = str_replace('#', '', $(this).attr('href'));
-      tags_ids[id] = id;
+      var id = str_replace('filtering_tag_', '', $(this).attr('id'));
+      tags_ids_for_filter[id] = id;
     });
     
     // On adapte le lien afficher plus de résultats
-    a_more = $('a.elements_more');
-    a_more.attr('href', $('input#more_elements_url').val()+'/'+array2json(tags_ids));
+    var a_more = $('a.elements_more');
+    a_more.attr('href', $('input#more_elements_url').val()+'/'+array2json(tags_ids_for_filter));
     
     return check_timelaps_and_find_with_tags(link, new Date().getTime(), false);
   }
@@ -1200,7 +1201,7 @@ $(document).ready(function(){
   ////////////////////////////////////////
   /// Gestion de nouveaux éléments
   
-  do_check_new_elements = false;
+  var do_check_new_elements = false;
   
   function check_new_elements()
   {
@@ -1220,7 +1221,7 @@ $(document).ready(function(){
           +str_replace('element_', '', $('ul.elements li:first').attr('id'))
         ;
         $.getJSON(url, function(response){
-
+          
           if (response.status == 'mustbeconnected')
           {
             $(location).attr('href', url_index);
@@ -1313,19 +1314,11 @@ $(document).ready(function(){
   
   // Afficher les commentaires
     $('td.element_content a.display_comments').live('click', function(){
-      display_comments(
-        $('li#element_'+
-          str_replace('#comments_', '', $(this).attr('href'))
-        )
-      );
+      display_comments($(this).parents('li.element'));
     });
     
     $('td.element_content a.hide_comments').live('click', function(){
-      hide_comments(
-        $('li#element_'+
-          str_replace('#hide_comments_', '', $(this).attr('href'))
-        )
-      );
+      hide_comments($(this).parents('li.element'));
     });
   
     function display_comments(li_element)
@@ -1344,13 +1337,11 @@ $(document).ready(function(){
     
   // Ajouter un commentaire
     $('li.element a.add_comment').live('click', function(){
-      display_add_comment($('li#element_'+
-        str_replace('#add_comment_', '', $(this).attr('href'))
-      ));
+      display_add_comment($(this).parents('li.element'));
     });
     
     $('form.add_comment input[type="submit"]').live('click', function(){
-      $(this).parent('div').parent('form').parent('div.comments').find('img.comments_loader').show();
+      $(this).parents('div.comments').find('img.comments_loader').show();
     });
         
     function display_add_comment(li_element)
@@ -1376,7 +1367,7 @@ $(document).ready(function(){
         else if (response.status == 'error')
         {
           li_element.find('form.add_comment').find('ul.error_list').remove();
-          ul_errors = $('<ul>').addClass('error_list');
+          var ul_errors = $('<ul>').addClass('error_list');
 
           for (i in response.errors)
           {
@@ -1392,7 +1383,7 @@ $(document).ready(function(){
     }
     
     $('form.add_comment input.cancel').live('click', function(){
-      li_element = $(this).parent('div').parent('form').parent('div.comments').parent('li.element');
+      var li_element = $(this).parents('li.element');
       hide_add_comment(li_element);
     });
     
@@ -1434,7 +1425,7 @@ $(document).ready(function(){
     cancelAnswer : string_comment_delete_confirm_no,
     onYes: function(link){
       
-      li = link.parent('li.comment');
+      var li = link.parents('li.comment');
       li.find('img.comment_loader').show();
       
       $.getJSON(link.attr('href'), function(response){
@@ -1455,12 +1446,12 @@ $(document).ready(function(){
       return false;
     },
     onOpen: function(link){
-      li = link.parent('li.comment');
+      var li = link.parents('li.comment');
       li.find('a.comment_edit_link').addClass('mustBeDisplayed');
       li.find('a.comment_remove_link').addClass('mustBeDisplayed');
     },
     onClose: function(link){
-      li = link.parent('li.comment');
+      var li = link.parents('li.comment');
       li.find('a.comment_edit_link').removeClass('mustBeDisplayed');
       li.find('a.comment_remove_link').removeClass('mustBeDisplayed');
       li.find('a.comment_edit_link').hide();
@@ -1468,17 +1459,17 @@ $(document).ready(function(){
     }
   });
   
-  comments_edited = new Array();
+  var comments_edited = new Array();
   
   // Modification
   // Ouverture du formulaire de modification
   $('a.comment_edit_link').live('click', function(){
     
-    link = $(this);
-    li = link.parent('li.comment');
+    var link = $(this);
+    var li = link.parents('li.comment');
     // On garde en mémoire l'élément édité en cas d'annulation
     comments_edited[li.attr('id')] = li.html();
-    loader = li.find('img.comment_loader');
+    var loader = li.find('img.comment_loader');
     li.html(loader);
     li.find('img.comment_loader').show();
     
@@ -1492,7 +1483,7 @@ $(document).ready(function(){
       li.html(response.html);
       // On rend ce formulaire ajaxFormable
       $('li#'+li.attr('id')+' form.edit_comment input[type="submit"]').live('click', function(){
-        li_current = $(this).parent('div').parent('form').parent('li');
+        var li_current = $(this).parents('li.comment');
         li_current.prepend(loader);
         li_current.find('img.comment_loader').show();
       });
@@ -1515,7 +1506,7 @@ $(document).ready(function(){
         else if (response.status == 'error')
         {
           li.find('ul.error_list').remove();
-          ul_errors = $('<ul>').addClass('error_list');
+          var ul_errors = $('<ul>').addClass('error_list');
           
           for (i in response.errors)
           {
@@ -1532,7 +1523,7 @@ $(document).ready(function(){
   
   // Annulation d'un formulaire de modification d'un comment
   $('form.edit_comment input.cancel').live('click', function(){
-    var li = $(this).parent('div').parent('form').parent('li');
+    var li = $(this).parents('li.comment');
     li.html(comments_edited[li.attr('id')]);
     delete(comments_edited[li.attr('id')]);
   });
@@ -1578,11 +1569,11 @@ $(document).ready(function(){
       return false;
     },
     onOpen: function(link){
-      li = link.parent('li.element_tag');
+      var li = link.parents('li.element_tag');
       li.find('a.tag_to_favorites').addClass('mustBeDisplayed');
     },
     onClose: function(link){
-      li = link.parent('li.element_tag');
+      var li = link.parents('li.element_tag');
       li.find('a.tag_to_favorites').removeClass('mustBeDisplayed');
       li.find('a.element_tag').removeClass('element_tag_large_for_fav');
       li.find('a.tag_to_favorites').hide();
@@ -1595,12 +1586,12 @@ $(document).ready(function(){
   
   $('a.added_element_add_to_group').live('click', function(){
     
-    div = $(this).parent('li').parent('ul').parent('div');
-    div.find('img.loader').show();
+    var loader = $('div#added_element_to_group').find('img.loader');
+    loader.show();
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      div.find('img.loader').hide();
+      loader.hide();
     
       if (response.status == 'mustbeconnected')
       {
@@ -1660,8 +1651,8 @@ $(document).ready(function(){
   
   $('li.element a.vote').live('click', function(){
     
-    img = $(this).find('img');
-    link = $(this);
+    var img = $(this).find('img');
+    var link = $(this);
     img.attr('src', url_img_ajax_loader);
     
     $.getJSON(link.attr('href'), function(response){
@@ -1675,7 +1666,7 @@ $(document).ready(function(){
       {
         link.attr('href', response.data.a.href);
         img.attr('src', response.data.img.src);
-        link.parent('li').parent('ul').find('li.score span.score').html(response.data.element.points);
+        link.parents('td.right').find('li.score span.score').html(response.data.element.points);
       }
       
     });
@@ -1689,7 +1680,7 @@ $(document).ready(function(){
     
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
-    link = $(this);
+    var link = $(this);
     
     $.getJSON(link.attr('href'), function(response){
         
@@ -1720,8 +1711,8 @@ $(document).ready(function(){
  // Ouverture du formulaire de modification
   $('a.element_propose_tags').live('click', function(){
     
-    link = $(this);
-    li = link.parent('td').parent('tr').parent().parent().parent('li.element');
+    var link = $(this);
+    var li = link.parents('li.element');
     
     li.find('img.element_loader').show();
     
@@ -1738,7 +1729,7 @@ $(document).ready(function(){
       {
         
         // On prépare le tagBox
-        table = li.find('table:first');
+        var table = li.find('table:first');
         li.find('div.tag_proposition').remove();
         table.after(response.html);
 
@@ -1755,7 +1746,7 @@ $(document).ready(function(){
       
       // On rend ce formulaire ajaxFormable
       $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){
-        li = $(this).parent('form').parent('div').parent('li');
+        li = $(this).parents('li.element');
         li.find('img.element_loader').show();
       });
       $('form[name="'+response.form_name+'"]').ajaxForm(function(response){
@@ -1776,7 +1767,7 @@ $(document).ready(function(){
         {
           li.find('img.element_loader').hide();
           li.find('ul.error_list').remove();
-          ul_errors = $('<ul>').addClass('error_list');
+          var ul_errors = $('<ul>').addClass('error_list');
           
           for (i in response.errors)
           {
@@ -1795,13 +1786,13 @@ $(document).ready(function(){
   
   // Annulation d'un formulaire de modification d'élément
   $('div.tag_proposition input.cancel').live('click', function(){
-    $(this).parent('form').parent('div').slideUp();
+    $(this).parents('div.tag_proposition').slideUp();
   });
   
   $('a.element_view_propositions_link').live('click', function(){
     
-    link = $(this);
-    li = link.parent('td').parent('tr').parent().parent().parent('li.element');
+    var link = $(this);
+    li = link.parents('li.element');
     
     li.find('img.element_loader').show();
     
@@ -1816,7 +1807,7 @@ $(document).ready(function(){
       
       if (response.status == 'success')
       {
-        table = li.find('table:first');
+        var table = li.find('table:first');
         li.find('div.tags_proposition_view').remove();
         table.after(response.html);
       }
@@ -1827,9 +1818,8 @@ $(document).ready(function(){
   
   $('a.accept_tag_propotision').live('click', function(){
     
-    link = $(this);
-    li = link.parent('li.tag_proposition').parent('ul.tag_propositions')
-      .parent('div.tags_proposition_view').parent('li.element');
+    var link = $(this);
+    var li = link.parents('li.element');
     
     li.find('img.element_loader').show();
     
@@ -1854,8 +1844,8 @@ $(document).ready(function(){
   //
   $('a.refuse_tag_propositions').live('click', function(){
     
-    link = $(this);
-    li = link.parent('div.tags_proposition_view').parent('li.element');
+    var link = $(this);
+    var li = link.parents('li.element');
     
     li.find('img.element_loader').show();
     

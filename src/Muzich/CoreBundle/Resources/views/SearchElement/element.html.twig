@@ -116,7 +116,7 @@
       <ul class="element_tags">
         {% for tag in element.tags %} 
           <li class="element_tag">
-            <a href="#{{ tag.id }}" class="element_tag button">{{ tag.name }}</a>
+            <a id="element_tag_{{ tag.id }}" href="#" class="element_tag button">{{ tag.name }}</a>
             <a 
               href="{{ path('ajax_tag_add_to_favorites', {
                 'tag_id' : tag.id,

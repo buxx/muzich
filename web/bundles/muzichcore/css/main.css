@@ -1,6 +1,13 @@
 
+body
+{
+  text-align: center;  
+}
+
+
 #container
 {
+  text-align: left;
   position: relative;
   min-height: 100%;
   padding-bottom: 30px;
@@ -99,6 +106,7 @@ input.button, button.button {
   list-style: none outside none;
   margin: -35px 16px 0 -6px;
   padding: 0;
+  position: relative;
 }
 
 #container #top-tabs li
@@ -1099,12 +1107,24 @@ div.reputation span.score
   font-weight: bold;
 }
 
+div#events_container
+{
+  text-align: left;
+}
+
+div#events_container_contained
+{
+  margin-left: 0px;
+  margin-right: auto;
+}
+
 div#events
 {
   width: 62px;
   position: absolute;
   margin-top: 50px;
   margin-left: 650px;
+  _margin-left: 640px;/* pour >=ie6 */
   background-color: white;
   padding: 4px;
   
