@@ -1,3 +1,6 @@
+login:
+  remember_me:
+    label:     Rester connecté
 
 start:
   title:       Inscription terminé
