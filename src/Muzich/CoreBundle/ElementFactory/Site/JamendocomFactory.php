@@ -68,8 +68,29 @@ class JamendocomFactory extends BaseFactory
     // http://www.jamendo.com/fr/track/207079
     else if (preg_match("#^\/[a-zA-Z0-9_-]+\/track\/([0-9]+)#", $url_object, $chaines))
     {
+      /*
+      * Pour une track c'est un peu différent
+      */
       $id_track = $chaines[1];
-      $get_url = "http://api.jamendo.com/get2/image/track/json/?id=".$id_track;
+      $get_album_url = "http://www.jamendo.com/get/album/id/track/page/json/".$id_track.'/';
+      
+      $ch = curl_init($get_album_url);
+      curl_setopt_array($ch, array(
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => array('Content-type: application/json')
+      ));
+      $result = json_decode(curl_exec($ch));
+      if (count($result))
+      {
+        $album_url = str_replace('http://www.jamendo.com', '', $result[0]);
+        
+        $expl_alb = null;
+        if (preg_match("#^\/album\/([0-9]+)#", $album_url, $expl_alb))
+        {
+          $id_album = $expl_alb[1];
+          $get_url = "http://api.jamendo.com/get2/image/album/json/?id=".$id_album;
+        }
+      }
     }
     
     if ($get_url)
@@ -77,7 +98,7 @@ class JamendocomFactory extends BaseFactory
       $ch = curl_init($get_url);
       $options = array(
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => array('Content-type: application/json')
+        CURLOPT_HTTPHEADER => array('Content-type: text/plain')
       );
       curl_setopt_array( $ch, $options );
       $result = json_decode(curl_exec($ch));
@@ -89,6 +110,13 @@ class JamendocomFactory extends BaseFactory
     }
     
       
+    /**
+     * www.jamendo.com/get/album/id/track/page/plain/2000/
+     * api.jamendo.com/get2/image/track/json/?id=
+     * 
+     * api.jamendo.com/get2/album/id/track/json/?id=
+     * 
+     */
     
 
     
