@@ -37,7 +37,7 @@ class CommentsManager
   {
     if (!$date)
     {
-      $date = date('Y-m-d H:i:s u');
+      $date = date('Y-m-d H:i:s').' '.substr(microtime(), 0, 10);
     }
     
     $this->comments[] = array(
@@ -46,6 +46,7 @@ class CommentsManager
         "s" => $user->getSlug(),
         "n" => $user->getName()
       ),
+      "a" => array(),
       "f" => $follow,
       "d" => $date,
       "c" => $comment
@@ -91,7 +92,8 @@ class CommentsManager
             "s" => $user->getSlug(),
             "n" => $user->getName()
           ),
-          "e" => date('Y-m-d H:i:s u'),
+          "a" => $comment['a'],
+          "e" => date('Y-m-d H:i:s').' '.substr(microtime(), 0, 10),
           "f" => $follow,
           "d" => $date,
           "c" => $comment_c
@@ -230,6 +232,79 @@ class CommentsManager
       }
     }
     return $ids;
+  }
+  
+  /**
+   * Signalement d'un commentaire par un utilisateur
+   *
+   * @param int $user_id id de l'user faisant le signalement
+   * @param date $date   date du commentaire
+   * 
+   * @return boolean
+   */
+  public function alertComment($user_id, $date)
+  {
+    foreach ($this->comments as $i => $comment)
+    {
+      if ($comment['d'] == $date)
+      {
+        if (!in_array($user_id, $comment['a']))
+        {
+          $comment['a'][] = $user_id;
+          $this->comments[$i] = $comment;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  
+  /**
+   * Retrait du signalement d'un commentaire de la part d'un user.
+   * 
+   * @param type $user_id  id de l'user retirant son signalement
+   * @param date $date     date du commentaire
+   * @return boolean 
+   */
+  public function unAlertComment($user_id, $date)
+  {
+    foreach ($this->comments as $i => $comment)
+    {
+      if ($comment['d'] == $date)
+      {
+        if (in_array($user_id, $comment['a']))
+        {
+          foreach ($comment['a'] as $ii => $user_alert_id)
+          {
+            if ($user_alert_id == $user_id)
+            {
+              unset($comment['a'][$ii]);
+              $this->comments[$i] = $comment;
+              return true;
+            }
+          }
+        }
+        
+      }
+    }
+    return false;
+  }
+  
+  /**
+   * Permet de savoir si un ou plusieurs des commentaires ont été signalé.
+   * 
+   * @return boolean
+   */
+  public function hasCommentAlert()
+  {
+    foreach ($this->comments as $i => $comment)
+    {
+      if (count($comment['a']))
+      {
+        return true;
+      }
+    }
+    return false;
   }
   
 }

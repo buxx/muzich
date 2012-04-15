@@ -119,10 +119,18 @@ date:
  
 element:
   report:
-    link_title:        Signaler cet élément
+    link_title:          Signaler cet élément
     confirm: 
       sentence:          Signaler ce contenu comme inapproprié ?
       yes:               Oui
       no:                Non
   proposition_tags:
     link_title:        Proposer des tags
+    
+comment:
+  report:
+    link_title:          Signaler ce commentaire
+    confirm: 
+      sentence:          Signaler ce commentaire comme inapproprié ?
+      yes:               Oui
+      no:                Non

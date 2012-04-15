@@ -195,6 +195,15 @@ class Element
    * @var int 
    */
   protected $points;
+  
+  /**
+   * Booléen permettant de savoir si un des commentaires de cet élément
+   * a été signalé a la modération.
+   * 
+   * @ORM\Column(type="boolean", nullable = "true")
+   * @var type string
+   */
+  protected $has_comment_report = false;
 
   /**
    * Get id
@@ -517,6 +526,20 @@ class Element
   public function setTagsPRopositions($propositions)
   {
     $this->tags_propositions = $propositions;
+  }
+  
+  public function getHasCommentReport()
+  {
+    if (is_null($this->has_comment_report))
+    {
+      return false;
+    }
+    return $this->has_comment_report;
+  }
+  
+  public function setHasCommentReport($has)
+  {
+    $this->has_comment_report = $has;
   }
   
   /**

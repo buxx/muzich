@@ -1871,5 +1871,34 @@ $(document).ready(function(){
   /*
    * Proposition de tag sur un élément FIN
    */
+  
+  /*
+    * Report / signalement d'un commentaire
+    */
+   
+   $('a.comment_report').jConfirmAction({
+    question : string_commentreport_confirm_sentence, 
+    yesAnswer : string_commentreport_confirm_yes, 
+    cancelAnswer : string_commentreport_confirm_no,
+    onYes: function(link){
+      
+      $.getJSON(link.attr('href'), function(response){
+        
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+      });
+      
+      $('div.question').fadeOut();
+      return false;
+    },
+    onOpen: function(link){
+      
+    },
+    onClose: function(link){
+      
+    }
+  });
 
 });

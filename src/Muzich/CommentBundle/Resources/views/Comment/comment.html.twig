@@ -5,6 +5,14 @@
    {{ date_or_relative_date(comment.e, 'comment.edited') }}{% endif %})
 </span>
 
+{% if app.user.id != comment.u.i %}
+  <a title="{{ 'comment.report.link_title'|trans({}, 'userui') }}" 
+    class="comment_report" 
+    href="{{ path('ajax_alert_comment', {'element_id':element_id, 'date': comment.d, 'token':app.user.getPersonalHash}) }}">
+    <img src="{{ asset('bundles/muzichcore/img/1331832708_comment_alert.png') }}" alt="report" />
+  </a>
+{% endif %}
+
 {% if app.user.id == comment.u.i %}
   <a title="{{ 'comment.edit.link'|trans({}, 'elements') }}" class="comment_edit_link" 
      href="{{ path('ajax_edit_comment', {'element_id': element_id, 'date':comment.d, 'token':app.user.getPersonalHash})  }}" style="display: none;"

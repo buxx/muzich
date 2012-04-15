@@ -14,3 +14,11 @@ ajax_update_comment:
 ajax_delete_comment:
   pattern: /ajax/comment/delete/{element_id}/{date}/{token}
   defaults: { _controller: MuzichCommentBundle:Comment:delete }
+  
+ajax_alert_comment:
+  pattern: /ajax/comment/alert/{element_id}/{date}/{token}
+  defaults: { _controller: MuzichCommentBundle:Comment:alert }
+  
+ajax_unalert_comment:
+  pattern: /ajax/comment/unalert/{element_id}/{date}/{token}
+  defaults: { _controller: MuzichCommentBundle:Comment:unAlert }

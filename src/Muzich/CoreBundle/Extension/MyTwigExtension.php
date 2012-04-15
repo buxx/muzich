@@ -115,6 +115,7 @@ class MyTwigExtension extends \Twig_Extension {
     $date = str_replace(' ', '', $date);
     $date = str_replace('-', '', $date);
     $date = str_replace(':', '', $date);
+    $date = str_replace('.', '', $date);
     return $date;
   }
   

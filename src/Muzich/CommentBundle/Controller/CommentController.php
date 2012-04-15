@@ -288,4 +288,82 @@ class CommentController extends Controller
     
   }
   
+  /**
+   * Signalement d'un commentaire
+   * 
+   * @param int $element_id
+   * @param date $date
+   * @param string $token
+   * @param string $dom_id
+   * @return Response 
+   */
+  public function alertAction($element_id, $date, $token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    // Création de l'objet de gestion des commentaires
+    $cm = new CommentsManager($element->getComments());
+    $cm->alertComment($this->getUserId(), $date);
+    $element->setComments($cm->get());
+    $element->setHasCommentReport($cm->hasCommentAlert());
+    
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
+    ));
+  }
+  
+  /**
+   * Signalement d'un commentaire
+   * 
+   * @param int $element_id
+   * @param date $date
+   * @param string $token
+   * @param string $dom_id
+   * @return Response 
+   */
+  public function unAlertAction($element_id, $date, $token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    // Création de l'objet de gestion des commentaires
+    $cm = new CommentsManager($element->getComments());
+    $cm->unAlertComment($this->getUserId(), $date);
+    $element->setComments($cm->get());
+    $element->setHasCommentReport($cm->hasCommentAlert());
+    
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
+    ));
+  }
+  
 }
