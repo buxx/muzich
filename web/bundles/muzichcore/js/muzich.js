@@ -1789,6 +1789,7 @@ $(document).ready(function(){
     $(this).parents('div.tag_proposition').slideUp();
   });
   
+  // Ouvrir les propositions de tags de l'élément
   $('a.element_view_propositions_link').live('click', function(){
     
     var link = $(this);

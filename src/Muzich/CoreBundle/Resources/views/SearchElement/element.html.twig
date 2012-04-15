@@ -209,6 +209,17 @@
   </tr>
 </table>
 
+{% if ids_display is defined %}
+{% if ids_display == event_const('TYPE_TAGS_PROPOSED') %}
+
+  {% include 'MuzichCoreBundle:Element:tag.propositions.html.twig' with {
+    'propositions' : element.getTagsProposition,
+    'element_id'   : element.id
+  } %}
+
+{% endif %}
+{% endif %}
+
 {% if element.embed %}
   {% autoescape false %}
     <div id="embed_{{ element.id }}" class="element_embed" style="display: none;">

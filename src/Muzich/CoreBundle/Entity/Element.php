@@ -509,6 +509,16 @@ class Element
     return $this->has_tags_proposition;
   }
   
+  public function getTagsProposition()
+  {
+    return $this->tags_propositions;
+  }
+  
+  public function setTagsPRopositions($propositions)
+  {
+    $this->tags_propositions = $propositions;
+  }
+  
   /**
    * Etablie des relation vers des tags.
    * (Supprime les anciens tags, au niveau de l'objet seulement)

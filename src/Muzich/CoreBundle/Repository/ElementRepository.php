@@ -53,9 +53,9 @@ class ElementRepository extends EntityRepository
       
       if (($id_limit = $searcher->getIdLimit()))
       {
-        return $this->getSelectElementForSearchQuery($params_select, $user_id, $searcher->getIds(), $id_limit, $searcher->getCount());
+        return $this->getSelectElementForSearchQuery($params_select, $user_id, $searcher->getIds(), $id_limit, $searcher->getCount(), $searcher->getIdsDisplay());
       }
-      return $this->getSelectElementForSearchQuery($params_select, $user_id, $searcher->getIds());
+      return $this->getSelectElementForSearchQuery($params_select, $user_id, $searcher->getIds(), null, null, $searcher->getIdsDisplay());
     }
     
     
@@ -232,7 +232,7 @@ class ElementRepository extends EntityRepository
     ;
   }
   
-  protected function getSelectElementForSearchQuery($params_select, $user_id, $ids, $id_limit = null, $count_limit = null)
+  protected function getSelectElementForSearchQuery($params_select, $user_id, $ids, $id_limit = null, $count_limit = null, $ids_display = null)
   {    
     $where = "";
     if ($id_limit)
@@ -240,14 +240,23 @@ class ElementRepository extends EntityRepository
       $where = "AND e.id < :id_limit";
       $params_select['id_limit'] = $id_limit;
     }
+    
+    $select = '';
+    $left_join = '';
+    if ($ids_display)
+    {
+      $select = ', tp, tpu, tpt';
+      $left_join = 'LEFT JOIN e.tags_propositions tp LEFT JOIN tp.user tpu LEFT JOIN tp.tags tpt';
+    }
       
     // C'est la requête qui récupérera les données element avec ses jointures.
-    $query_select = "SELECT e, t, o, g, fav
+    $query_select = "SELECT e, t, o, g, fav $select
       FROM MuzichCoreBundle:Element e 
       LEFT JOIN e.group g 
       LEFT JOIN e.tags t WITH (t.tomoderate = 'FALSE' OR t.tomoderate IS NULL
         OR t.privateids LIKE :uidt)
       LEFT JOIN e.elements_favorites fav WITH fav.user = :uid
+      $left_join
       JOIN e.owner o
       WHERE e.id IN (:ids) $where
       ORDER BY e.created DESC, e.id DESC"
