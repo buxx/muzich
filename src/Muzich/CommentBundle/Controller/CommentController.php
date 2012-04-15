@@ -317,7 +317,7 @@ class CommentController extends Controller
     $cm = new CommentsManager($element->getComments());
     $cm->alertComment($this->getUserId(), $date);
     $element->setComments($cm->get());
-    $element->setHasCommentReport($cm->hasCommentAlert());
+    $element->setCountCommentReport($cm->countCommentAlert());
     
     $this->getDoctrine()->getEntityManager()->persist($element);
     $this->getDoctrine()->getEntityManager()->flush();
@@ -356,7 +356,7 @@ class CommentController extends Controller
     $cm = new CommentsManager($element->getComments());
     $cm->unAlertComment($this->getUserId(), $date);
     $element->setComments($cm->get());
-    $element->setHasCommentReport($cm->hasCommentAlert());
+    $element->setCountCommentReport($cm->countCommentAlert());
     
     $this->getDoctrine()->getEntityManager()->persist($element);
     $this->getDoctrine()->getEntityManager()->flush();

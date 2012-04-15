@@ -343,4 +343,22 @@ class ElementRepository extends EntityRepository
     ;
   }  
   
+  public function countForCommentToModerate()
+  {
+    return $this->getEntityManager()
+      ->createQuery("SELECT COUNT(e.id) FROM MuzichCoreBundle:Element e
+        WHERE e.count_comment_report IS NOT NULL AND e.count_comment_report != 0"
+      )->getSingleScalarResult()
+    ;
+  }
+  
+  public function getForCommentToModerate()
+  {
+    return $this->getEntityManager()
+      ->createQuery("SELECT e FROM MuzichCoreBundle:Element e
+        WHERE e.count_comment_report IS NOT NULL AND e.count_comment_report != 0"
+      )->getResult()
+    ;
+  }
+  
 }

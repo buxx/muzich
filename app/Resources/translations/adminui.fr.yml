@@ -10,3 +10,6 @@ moderate:
     action:
       delete:       Supprimer
       clean:         Tout est ok
+  comments:
+    title:          Commentaires
+    to_moderate:    %count% éléments concernés

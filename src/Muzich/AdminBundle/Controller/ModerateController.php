@@ -9,6 +9,7 @@ use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 use Muzich\CoreBundle\Entity\GroupsTagsFavorites;
 use Muzich\CoreBundle\Managers\TagManager;
 use Muzich\CoreBundle\Propagator\EventElement;
+use Muzich\CoreBundle\Managers\CommentsManager;
 
 class ModerateController extends Controller
 {
@@ -23,10 +24,13 @@ class ModerateController extends Controller
       ->countToModerate();
     $count_elements = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
       ->countToModerate();
+    $count_comments = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->countForCommentToModerate();
     
     return array(
       'count_tags' => $count_tags,
-      'count_elements' => $count_elements
+      'count_elements' => $count_elements,
+      'count_comments' => $count_comments
     );
   }
     
@@ -220,4 +224,136 @@ class ModerateController extends Controller
     ));
   }
   
+  /**
+   *
+   * @Template()
+   */
+  public function commentsAction()
+  {
+    // Récupération des elements
+    $elements = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->getForCommentToModerate();
+    
+    $comments = array();
+    foreach ($elements as $element)
+    {
+      $cm = new CommentsManager($element->getComments());
+      foreach ($cm->getAlertedComments() as $comment)
+      {
+        $comments[] = array(
+          'element_id' => $element->getId(),
+          'comment'    => $comment
+        );
+      }
+      
+    }
+    
+    return array(
+      'comments' => $comments
+    );
+  }
+  
+  /**
+   * Considérer le commentaire signalé comme étant tout a fait acceptable
+   * 
+   * Ceci induit:
+   * * Que le commentaire en question ne soit plus signalé 
+   * * Que le ou les ids d'utilisateurs qui l'ont signalé comme soit "pénalisé
+   * 
+   * @param int $element_id
+   * @param date $date 
+   * 
+   * @return Response
+   */
+  public function commentCleanAction($element_id, $date)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id))
+    )
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    $cm = new CommentsManager($element->getComments());
+    // On nettoie le commentaire et on récupère les ids des "signaleurs"
+    $ids = $cm->cleanAlertsOnComment($date);
+    $element->setComments($cm->get());
+    $element->setCountCommentReport($cm->countCommentAlert());
+    
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    
+    // On récupère les user qui ont signalés ce commentaire
+    $users = $this->getDoctrine()->getEntityManager()
+      ->createQuery('
+        SELECT u FROM MuzichCoreBundle:User u
+        WHERE u.id IN (:uids)'
+      )
+      ->setParameter('uids', $ids)
+      ->getResult()
+    ;
+    
+    // Pour chacun on augmente le compteur de signalements inutiles
+    foreach ($users as $user)
+    {
+      $user->addBadReport();
+      $this->getDoctrine()->getEntityManager()->persist($user);
+    }
+    
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
+    ));
+  }
+  
+  /**
+   * Considérer le commentaire signalé comme étant tout a fait acceptable
+   * 
+   * Ceci induit:
+   * * Que le commentaire en question ne soit plus signalé 
+   * * Que le ou les ids d'utilisateurs qui l'ont signalé comme soit "pénalisé
+   * 
+   * @param int $element_id
+   * @param date $date 
+   * 
+   * @return Response
+   */
+  public function commentRefuseAction($element_id, $date)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id))
+    )
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotFound')
+      ));
+    }
+    
+    $cm = new CommentsManager($element->getComments());
+    // On supprime le commentaire
+    $cm->deleteWithDate($date);
+    $element->setComments($cm->get());
+    $element->setCountCommentReport($cm->countCommentAlert());
+    
+    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getEntityManager()->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
+    ));
+  }
 }

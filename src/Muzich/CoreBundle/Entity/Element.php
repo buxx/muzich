@@ -200,10 +200,10 @@ class Element
    * Booléen permettant de savoir si un des commentaires de cet élément
    * a été signalé a la modération.
    * 
-   * @ORM\Column(type="boolean", nullable = "true")
-   * @var type string
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int
    */
-  protected $has_comment_report = false;
+  protected $count_comment_report = false;
 
   /**
    * Get id
@@ -528,18 +528,18 @@ class Element
     $this->tags_propositions = $propositions;
   }
   
-  public function getHasCommentReport()
+  public function getCountCommentReport()
   {
-    if (is_null($this->has_comment_report))
+    if (is_null($this->count_comment_report))
     {
       return false;
     }
     return $this->has_comment_report;
   }
   
-  public function setHasCommentReport($has)
+  public function setCountCommentReport($count)
   {
-    $this->has_comment_report = $has;
+    $this->count_comment_report = $count;
   }
   
   /**

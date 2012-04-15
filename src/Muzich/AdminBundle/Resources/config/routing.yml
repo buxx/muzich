@@ -33,3 +33,17 @@ moderate_element_delete:
 moderate_element_clean:
   pattern:  /admin/moderate/element/clean/{element_id}
   defaults: { _controller: MuzichAdminBundle:Moderate:cleanElement }
+  
+##
+
+moderate_comments_index:
+  pattern:  /admin/moderate/comments
+  defaults: { _controller: MuzichAdminBundle:Moderate:comments }
+
+moderate_comment_clean:
+  pattern:  /admin/moderate/comment/{element_id}/{date}/clean
+  defaults: { _controller: MuzichAdminBundle:Moderate:commentClean }
+
+moderate_comment_refuse:
+  pattern:  /admin/moderate/comment/{element_id}/{date}/refuse
+  defaults: { _controller: MuzichAdminBundle:Moderate:commentRefuse }

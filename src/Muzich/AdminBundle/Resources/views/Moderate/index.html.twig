@@ -26,4 +26,14 @@
     </li>
   </ul>
   
+  <h3>{{ 'moderate.comments.title'|trans({}, 'adminui') }}</h3>
+  
+  <ul>
+    <li>
+      <a href="{{ path('moderate_comments_index') }}">
+        {{ 'moderate.comments.to_moderate'|trans({'%count%' : count_comments}, 'adminui') }}
+      </a>
+    </li>
+  </ul>
+  
 {% endblock %}

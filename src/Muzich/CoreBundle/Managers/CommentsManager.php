@@ -139,6 +139,19 @@ class CommentsManager
     return $found;
   }
   
+  public function deleteWithDate($date)
+  {
+    foreach ($this->comments as $i => $comment)
+    {
+      if ($comment['d'] == $date)
+      {
+        unset($this->comments[$i]);
+        return true;
+      }
+    }
+    return false;
+  }
+  
   /**
    * Permet de récupérer l'index d'un commentaire dans le tableau de commentaires.
    * Si le commentaire n'est pas trouvé on retourne null.
@@ -291,20 +304,48 @@ class CommentsManager
   }
   
   /**
-   * Permet de savoir si un ou plusieurs des commentaires ont été signalé.
+   * Retourne le nombre de commentaires signalés.
    * 
    * @return boolean
    */
-  public function hasCommentAlert()
+  public function countCommentAlert()
   {
+    $count = 0;
     foreach ($this->comments as $i => $comment)
     {
       if (count($comment['a']))
       {
-        return true;
+        $count = $count+1;
       }
     }
-    return false;
+    return $count;
+  }
+  
+  public function getAlertedComments()
+  {
+    $comments = array();
+    foreach ($this->comments as $i => $comment)
+    {
+      if (count($comment['a']))
+      {
+        $comments[] = $comment;
+      }
+    }
+    return $comments;
+  }
+  
+  public function cleanAlertsOnComment($date)
+  {
+    foreach ($this->comments as $i => $comment)
+    {
+      if ($comment['d'] == $date)
+      {
+        $ids = $comment['a'];
+        $this->comments[$i]['a'] = array();
+        return $ids;
+      }
+    }
+    return array();
   }
   
 }
