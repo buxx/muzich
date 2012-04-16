@@ -530,11 +530,7 @@ class Element
   
   public function getCountCommentReport()
   {
-    if (is_null($this->count_comment_report))
-    {
-      return false;
-    }
-    return $this->has_comment_report;
+    return $this->count_comment_report;
   }
   
   public function setCountCommentReport($count)
