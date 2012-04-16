@@ -190,12 +190,14 @@ class SearchController extends Controller
    * @param int $timestamp
    * @return Response 
    */
-  public function searchTagAction($string_search, $timestamp)
+  public function searchTagAction($timestamp)
   {
     if (($response = $this->mustBeConnected()))
     {
       return $response;
     }
+    
+    $string_search = $this->getRequest()->request->get('string_search');
     
     if ($this->getRequest()->isXmlHttpRequest())
     {

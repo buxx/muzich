@@ -693,7 +693,12 @@ $(document).ready(function(){
       ajax_query_timestamp = new Date().getTime();
       
       // Récupération des tags correspondants
-      $.getJSON(url_search_tag+'/'+input.val()+'/'+ajax_query_timestamp, function(data) {
+      $.ajax({
+        type: 'POST',
+        url: url_search_tag+'/'+ajax_query_timestamp,
+        dataType: 'json',
+        data: {'string_search':input.val()},
+        success: function(data) {
         if (data.status == 'mustbeconnected')
         {
           $(location).attr('href', url_index);
@@ -926,7 +931,11 @@ $(document).ready(function(){
           // On cache le loader
           $('#tag_loader_'+form_name).hide();
         }
+      }
       });
+      
+      
+      //$.getJSON(url_search_tag+'/'+input.val()+'/'+ajax_query_timestamp, );
       
     }
   }
