@@ -54,6 +54,10 @@ tags:
     inputs:
       cancel:       Annuler
       submit:       Faire la demande
+    errors:
+      min:              Le tag doit être de %limit% caractéres minimum
+      max:              Le tag doit être de %limit% caractéres maximum
+      unknow:           Une erreur est survenue
   new:
     has_news:       %count% éléments viennent d'être ajoutés, %link%
     has_news_one:   %count% élément vient d'être ajouté, %link%

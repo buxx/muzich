@@ -817,6 +817,55 @@ $(document).ready(function(){
                     .addClass('popin_block')
                     .css('width', '400px')
                       //.append($('<h2>').append(string_tag_add_title))
+                   .append($('<form>')
+                     .attr('action', url_add_tag)
+                     .attr('method', 'post')
+                     .attr('name', 'add_tag')
+                     .ajaxForm(function(response) {
+                       /*
+                        *
+                        */
+
+                        if (response.status == 'mustbeconnected')
+                        {
+                          $(location).attr('href', url_index);
+                        }
+
+                        if (response.status == 'success')
+                        {
+                          var tag_id   = response.tag_id;
+                          var tag_name = response.tag_name;
+
+                          $('input#tags_selected_tag_'+form_name).val(tag_id);
+                          inputTag.val(tag_name);
+                          // Et on execute l'évènement selectTag de l'input
+                          inputTag.trigger("selectTag");
+                          // On cache la liste puisque le choix vient d'être fait
+                          divtags.hide();
+                          inputTag.val(tag_text_help); 
+
+                          link_add_tag.parents('div.search_tag_list').find('img.tag_loader').hide();
+
+                          $('#fade').fadeOut(400, function(){$('#fade').remove();});
+                          $('#add_tag').remove();
+                        }
+                        
+                        if (response.status == 'error')
+                        {
+                          $('form[name="add_tag"]').find('ul.error_list').remove();
+                          var ul_errors = $('<ul>').addClass('error_list');
+
+                          for (i in response.errors)
+                          {
+                            ul_errors.append($('<li>').append(response.errors[i]));
+                          }
+
+                          $('form[name="add_tag"]').prepend(ul_errors);
+                        }
+                        
+                        return false;
+                     })
+                     
                       .append($('<div>').addClass('tag')
                         .append($('<ul>')
                           .append($('<li>').addClass('button')
@@ -837,58 +886,17 @@ $(document).ready(function(){
                           })
                         )
                         .append($('<input>')
-                          .attr('type', 'button')
+                          .attr('type', 'submit')
                           .attr('value', string_tag_add_inputs_submit)
                           .addClass('button')
                           .click(function(){
                             
-                            var arguments = $('#add_tag textarea').val();
-                            
-                            $('#fade').fadeOut(400, function(){$('#fade').remove();});
-                            $('#add_tag').remove();
-                            
-                            // On récupère le nom du tag
-                            var name = link_add_tag.attr('href').substr(1,link_add_tag.attr('href').length);
-                            name = name.substr(strpos(name, '#')+1, name.length);
-
                             link_add_tag.parents('div.search_tag_list').find('img.tag_loader').show();
-
-                            var url;
-                            if (arguments)
-                            {
-                              url = url_add_tag+'/'+name+'/'+arguments;
-                            }
-                            else
-                            {
-                              url = url_add_tag+'/'+name;
-                            }
-
-                            // La on fait l'ajout en base en tant que nouveau tag
-                            $.getJSON(url, function(response){
-
-                              if (response.status == 'mustbeconnected')
-                              {
-                                $(location).attr('href', url_index);
-                              }
-
-                              var tag_id   = response.tag_id;
-                              var tag_name = response.tag_name;
-
-                              $('input#tags_selected_tag_'+form_name).val(tag_id);
-                              inputTag.val(tag_name);
-                              // Et on execute l'évènement selectTag de l'input
-                              inputTag.trigger("selectTag");
-                              // On cache la liste puisque le choix vient d'être fait
-                              divtags.hide();
-                              inputTag.val(tag_text_help); 
-
-                              link_add_tag.parents('div.search_tag_list').find('img.tag_loader').hide();
-                            });
-                            
-                            return false;
+                          
                           })
                         )
-                      )
+                        .append($('<input>').attr('type', 'hidden').attr('name', 'tag_name').val($(this).text()))
+                      ))
                     ;
                     
                     // Il faut ajouter le popup au dom avant de le positionner en css

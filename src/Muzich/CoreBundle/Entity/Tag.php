@@ -58,7 +58,7 @@ class Tag
   /**
    * Nom du tag
    * 
-   * @ORM\Column(type="string", length=64, unique=true)
+   * @ORM\Column(type="string", length=64, unique=true, nullable=false)
    * @var type string
    */
   protected $name;

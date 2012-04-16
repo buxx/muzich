@@ -433,15 +433,49 @@ class CoreController extends Controller
   /**
    * Ajout d'un tag en base.
    */
-  public function addTagAction($name, $arguments = null)
+  public function addTagAction()
   {
-    if (($response = $this->mustBeConnected()))
+    if (($response = $this->mustBeConnected(true)))
     {
       return $response;
     }
     
+    if (strlen((($tag_name = $this->getRequest()->request->get('tag_name')))) 
+      < $this->container->getParameter('tag_add_min_length'))
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array($this->trans(
+          'tags.add.errors.min', 
+          array(
+            '%limit%' => $this->container->getParameter('tag_add_min_length')
+          ), 
+          'userui'
+        )
+      )));
+    }
+    
+    if (strlen($tag_name) > $this->container->getParameter('tag_add_max_length'))
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array($this->trans(
+          'tags.add.errors.max', 
+          array(
+            '%limit%' => $this->container->getParameter('tag_add_max_length')
+          ), 
+          'userui'
+        )
+      )));
+    }
+    
     $tagManager = new TagManager();
-    $tag = $tagManager->addTag($this->getDoctrine(), $name, $this->getUser(), $arguments);
+    $tag = $tagManager->addTag(
+      $this->getDoctrine(), 
+      $tag_name, 
+      $this->getUser(), 
+      $this->getRequest()->request->get('argument')
+    );
     
     return $this->jsonResponse(array(
       'status'   => 'success',

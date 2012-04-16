@@ -78,6 +78,7 @@ class TagManager
     }
     else
     {
+      
       // Sinon on l'ajoute en base
       $tag = new Tag();
       $tag->setName(ucfirst(strtolower($name)));

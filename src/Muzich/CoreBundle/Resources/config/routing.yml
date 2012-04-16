@@ -45,12 +45,8 @@ ajax_get_favorites_tags:
   defaults: { _controller: MuzichCoreBundle:Core:getFavoriteTags }
 
 ajax_add_tag:
-  pattern: /ajax/add-tag/{name}
-  defaults: { _controller: MuzichCoreBundle:Core:addTag, name: null }
-  
-ajax_add_tag_arguments:
-  pattern: /ajax/add-tag/{name}/{arguments}
-  defaults: { _controller: MuzichCoreBundle:Core:addTag, name: null, arguments: null }
+  pattern: /ajax/add-tag
+  defaults: { _controller: MuzichCoreBundle:Core:addTag }
   
 ajax_element_add_vote_good:
   pattern: /ajax/element/vote/add/good/{element_id}/{token}
