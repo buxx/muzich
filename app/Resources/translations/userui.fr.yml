@@ -138,3 +138,6 @@ comment:
       sentence:          Signaler ce commentaire comme inapproprié ?
       yes:               Oui
       no:                Non
+      
+search_tag:
+  title:                 Recherche de tag correspondant à \"%string_search%\" ...

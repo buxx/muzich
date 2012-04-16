@@ -49,6 +49,9 @@
     string_commentreport_confirm_sentence = "{{ 'comment.report.confirm.sentence'|trans({}, 'userui') }}";
     string_commentreport_confirm_yes = "{{ 'comment.report.confirm.yes'|trans({}, 'userui') }}";
     string_commentreport_confirm_no = "{{ 'comment.report.confirm.no'|trans({}, 'userui') }}";
+    {% autoescape false %}
+    string_search_tag_title = "{{ 'search_tag.title'|trans({}, 'userui') }}";
+    {% endautoescape %}
     
     url_index = "{{ path('index') }}";
     url_search_tag = "{{ path('search_tag') }}";

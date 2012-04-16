@@ -684,7 +684,7 @@ $(document).ready(function(){
       var span_info = divtags.find('span.info');
       span_info.show();
       // TODO: multilingue !
-      span_info.text("Recherche des tags correspondants à \""+input.val()+"\" ...");
+      span_info.text(str_replace('%string_search%', input.val(), string_search_tag_title));
 
       // C'est en fonction du nb de resultats qu'il sera affiché
       divtags.find('a.more').hide();
