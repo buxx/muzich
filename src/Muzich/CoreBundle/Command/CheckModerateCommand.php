@@ -39,11 +39,14 @@ class CheckModerateCommand extends ContainerAwareCommand
       ->countToModerate();
     $count_elements = $doctrine->getRepository('MuzichCoreBundle:Element')
       ->countToModerate();
+    $count_comments = $doctrine->getRepository('MuzichCoreBundle:Element')
+      ->countForCommentToModerate();
     
     $output->writeln('<info>Nombre de tags a modérer: '.$count_tags.'</info>');
     $output->writeln('<info>Nombre d\'élément a modérer: '.$count_elements.'</info>');
+    $output->writeln('<info>Nombre d\'élément avec commentaire a modérer: '.$count_comments.'</info>');
     
-    if ($count_tags || $count_elements)
+    if ($count_tags || $count_elements || $count_comments)
     {
       $output->writeln('<info>Envoie du courriel ...</info>');
 
@@ -54,6 +57,7 @@ class CheckModerateCommand extends ContainerAwareCommand
           ->setBody($this->getContainer()->get('templating')->render('MuzichCoreBundle:Email:checkmoderate.txt.twig', array(
             'tags'     => $count_tags,
             'elements' => $count_elements,
+            'comments' => $count_comments,
             'url'      => $this->getContainer()->get('router')->generate('MuzichAdminBundle_moderate_index', array(), true)
           )))
       ;
