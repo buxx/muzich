@@ -173,6 +173,25 @@ class CommentsManager
   }
   
   /**
+   * Permet de récupérer l'index d'un commentaire dans le tableau de commentaires.
+   * Si le commentaire n'est pas trouvé on retourne null.
+   * 
+   * @param  string $date (Y-m-d H:i:s u)
+   * @return int 
+   */
+  public function getIndexWithDate($date)
+  {
+    foreach ($this->comments as $i => $comment)
+    {
+      if ($comment['d'] == $date)
+      {
+        return $i;
+      }
+    }
+    return null;
+  }
+  
+  /**
    * Retourne un commentaire en fonction de son index dans le tableau.
    * 
    * @return array

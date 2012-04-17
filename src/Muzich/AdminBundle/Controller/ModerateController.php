@@ -53,13 +53,24 @@ class ModerateController extends Controller
   
   public function tagAcceptAction($tag_id)
   {
-    if (($response = $this->mustBeConnected()))
+    if (($response = $this->mustBeConnected(true)))
     {
       return $response;
     }
     
+    if (!($tag = $doctrine->getRepository('MuzichCoreBundle:Tag')->findOneBy(array(
+      'id'         => $tag_id,
+      'tomoderate' => true
+    ))))
+    {
+      return $this->jsonResponse(array(
+        'status'  => 'error',
+        'message' => 'NotFound'
+      ));
+    }
+    
     $tagManager = new TagManager();
-    if (!$tagManager->moderateTag($this->getDoctrine(), $tag_id, true))
+    if (!$tagManager->moderateTag($this->getDoctrine(), $tag, true))
     {
       return $this->jsonResponse(array(
         'status'  => 'error',
@@ -74,19 +85,53 @@ class ModerateController extends Controller
   
   public function tagRefuseAction($tag_id)
   {
-    if (($response = $this->mustBeConnected()))
+    if (($response = $this->mustBeConnected(true)))
     {
       return $response;
     }
     
-    $tagManager = new TagManager();
-    if (!$tagManager->moderateTag($this->getDoctrine(), $tag_id, false))
+    if (!($tag = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneBy(array(
+      'id'         => $tag_id,
+      'tomoderate' => true
+    ))))
     {
       return $this->jsonResponse(array(
         'status'  => 'error',
         'message' => 'NotFound'
       ));
     }
+    
+    $tagManager = new TagManager();
+    if (!$tagManager->moderateTag($this->getDoctrine(), $tag, false))
+    {
+      return $this->jsonResponse(array(
+        'status'  => 'error',
+        'message' => 'NotFound'
+      ));
+    }
+    
+    // Tout c'est bien passé, on incremente ceci dit le compteur
+    // de tag refusés par la modération pour le ou les utilisateurs
+    // ayant fait la demande d'ajout
+    $uids = json_decode($tag->getPrivateids(), true);
+    
+    $users = $this->getDoctrine()->getEntityManager()
+      ->createQuery('
+        SELECT u FROM MuzichCoreBundle:User u
+        WHERE u.id IN (:uids)'
+      )
+      ->setParameter('uids', $uids)
+      ->getResult()
+    ;
+    
+    // Pour chacun on augmente le compteur
+    foreach ($users as $user)
+    {
+      $user->addModeratedTagCount();
+      $this->getDoctrine()->getEntityManager()->persist($user);
+    }
+    
+    $this->getDoctrine()->getEntityManager()->flush();
     
     return $this->jsonResponse(array(
       'status' => 'success'
@@ -103,9 +148,20 @@ class ModerateController extends Controller
    */
   public function tagReplaceAction($tag_id, $tag_new_id)
   {
-    if (($response = $this->mustBeConnected()))
+    if (($response = $this->mustBeConnected(true)))
     {
       return $response;
+    }
+    
+    if (!($tag = $doctrine->getRepository('MuzichCoreBundle:Tag')->findOneBy(array(
+      'id'         => $tag_id,
+      'tomoderate' => true
+    ))))
+    {
+      return $this->jsonResponse(array(
+        'status'  => 'error',
+        'message' => 'NotFound'
+      ));
     }
     
     $tag_array = json_decode($tag_new_id);
@@ -119,7 +175,7 @@ class ModerateController extends Controller
     $tag_new_id = $tag_array[0];
     
     $tagManager = new TagManager();
-    if (!$tagManager->moderateTag($this->getDoctrine(), $tag_id, false, $tag_new_id))
+    if (!$tagManager->moderateTag($this->getDoctrine(), $tag, false, $tag_new_id))
     {
       return $this->jsonResponse(array(
         'status'  => 'error',
@@ -170,6 +226,7 @@ class ModerateController extends Controller
     
     $event = new EventElement($this->container);
     $event->elementRemoved($element);
+    $element->getOwner()->addModeratedElementCount();
 
     $this->getDoctrine()->getEntityManager()->persist($element->getOwner());
     $this->getDoctrine()->getEntityManager()->remove($element);
@@ -344,11 +401,22 @@ class ModerateController extends Controller
     }
     
     $cm = new CommentsManager($element->getComments());
+    $comment = $cm->get($cm->getIndexWithDate($date));
     // On supprime le commentaire
     $cm->deleteWithDate($date);
     $element->setComments($cm->get());
     $element->setCountCommentReport($cm->countCommentAlert());
     
+    // On récupère l'auteur du commentaire pour lui incrémenté son compteur
+    // de contenu modéré
+    $user = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:User')
+      ->findOneBy(array(
+        'id' => $comment['u']['i']
+      ));
+    
+    $user->addModeratedCommentCount();
+    
+    $this->getDoctrine()->getEntityManager()->persist($user);
     $this->getDoctrine()->getEntityManager()->persist($element);
     $this->getDoctrine()->getEntityManager()->flush();
     

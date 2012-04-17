@@ -113,6 +113,30 @@ class User extends BaseUser
    * @var int 
    */
   protected $bad_report_count;
+  
+  /**
+   * Compteur de contenus refusés par la modération
+   * 
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int 
+   */
+  protected $moderated_element_count;
+  
+  /**
+   * Compteur de contenus refusés par la modération
+   * 
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int 
+   */
+  protected $moderated_tag_count;
+  
+  /**
+   * Compteur de contenus refusés par la modération
+   * 
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int 
+   */
+  protected $moderated_comment_count;
 
   /**
    * @ORM\Column(type="text", nullable=true)
@@ -436,6 +460,63 @@ class User extends BaseUser
   public function setEvents($events)
   {
     $this->events = $events;
+  }
+  
+  public function getModeratedElementCount()
+  {
+    if ($this->moderated_element_count === null)
+    {
+      return 0;
+    }
+    return $this->moderated_element_count;
+  }
+  
+  public function setModeratedElementCount($count)
+  {
+    $this->moderated_element_count = $count;
+  }
+  
+  public function addModeratedElementCount()
+  {
+    $this->setModeratedElementCount($this->getModeratedElementCount()+1);
+  }
+  
+  public function getModeratedTagCount()
+  {
+    if ($this->moderated_tag_count === null)
+    {
+      return 0;
+    }
+    return $this->moderated_tag_count;
+  }
+  
+  public function setModeratedTagCount($count)
+  {
+    $this->moderated_tag_count = $count;
+  }
+  
+  public function addModeratedTagCount()
+  {
+    $this->setModeratedTagCount($this->getModeratedTagCount()+1);
+  }
+  
+  public function getModeratedCommentCount()
+  {
+    if ($this->moderated_comment_count === null)
+    {
+      return 0;
+    }
+    return $this->moderated_comment_count;
+  }
+  
+  public function setModeratedCommentCount($count)
+  {
+    $this->moderated_comment_count = $count;
+  }
+  
+  public function addModeratedCommentCount()
+  {
+    $this->setModeratedCommentCount($this->getModeratedCommentCount()+1);
   }
   
   /*

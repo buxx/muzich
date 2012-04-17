@@ -177,12 +177,9 @@ class TagManager
     $em->flush();
   }
   
-  public function moderateTag(Registry $doctrine, $tag_id, $accept, $replacing_id = null)
+  public function moderateTag(Registry $doctrine, Tag $tag, $accept, $replacing_id = null)
   {
-    if (($tag = $doctrine->getRepository('MuzichCoreBundle:Tag')->findOneBy(array(
-      'id'         => $tag_id,
-      'tomoderate' => true
-    ))))
+    if ($tag)
     {
       if ($accept)
       {
