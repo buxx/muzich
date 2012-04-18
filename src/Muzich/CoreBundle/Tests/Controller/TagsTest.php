@@ -15,11 +15,12 @@ class TagsTest extends FunctionalTest
     $this->connectUser('paul', 'toor');
     
     // On commence par ajouter un tag
-    $url = $this->generateUrl('ajax_add_tag', array('name' => 'Mon Beau Tag'));
+    $url = $this->generateUrl('ajax_add_tag');
     
-    $crawler = $this->client->request('GET', $url, array(), array(), array(
-        'X-Requested-With' => 'XMLHttpRequest',
+    $crawler = $this->client->request('POST', $url, array('tag_name' => 'Mon Beau Tag'), array(), array(
+        'HTTP_X-Requested-With' => 'XMLHttpRequest',
     ));
+    
     $this->isResponseSuccess();
     
     $response = json_decode($this->client->getResponse()->getContent(), true);
@@ -91,10 +92,9 @@ class TagsTest extends FunctionalTest
     
     // Lors d'une recherche de tag
     $url = $this->generateUrl('search_tag', array(
-      'string_search' => 'mon beau tag',
       'timestamp'     => time()
     ));
-    $crawler = $this->client->request('GET', $url, array(), array(), array(
+    $crawler = $this->client->request('POST', $url, array('string_search' => 'mon beau tag'), array(), array(
         'HTTP_X-Requested-With' => 'XMLHttpRequest'
     ));
     
