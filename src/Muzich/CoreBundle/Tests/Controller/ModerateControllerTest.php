@@ -408,6 +408,10 @@ class ModerateControllerTest extends FunctionalTest
     // Le compteur de mauvais comportement de bux a été incrémenté
     $this->assertEquals($bux_moderated_element_count+1, $this->getUser('bux')->getModeratedCommentCount());
     
+    $joelle = $this->getUser('joelle');
+    // Le compteur de faux signalement de joelle ne bouge pas.
+    $this->assertEquals($joelle_fake_alerts, $joelle->getBadReportCount());
+    
     // la base est a jour
     $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
       ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
