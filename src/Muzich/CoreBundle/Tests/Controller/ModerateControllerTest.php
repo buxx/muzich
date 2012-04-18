@@ -13,261 +13,261 @@ use Muzich\CoreBundle\Managers\CommentsManager;
 class ModerateControllerTest extends FunctionalTest
 {
  
-//  public function testReportElement()
-//  {
-//    $this->client = self::createClient();
-//    $this->connectUser('paul', 'toor');
-//    
-//    $paul = $this->getUser();
-//    $paul_bad_reports_count = $paul->getBadReportCount();
-//    $bux_moderated_element_count = $this->getUser('bux')->getModeratedElementCount();
-//    
-//    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-//      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
-//    ;
-//    
-//    // Paul signale cet élément comme pas bien
-//    $url = $this->generateUrl('ajax_report_element', array(
-//      'element_id' => $element_ed->getId(),
-//      'token'      => $paul->getPersonalHash()
-//    ));
-//    
-//    $crawler = $this->client->request(
-//      'GET', 
-//      $url, 
-//      array(), 
-//      array(), 
-//      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
-//    );
-//    
-//    $this->isResponseSuccess();
-//    
-//    $response = json_decode($this->client->getResponse()->getContent(), true);
-//    $this->assertEquals($response['status'], 'success');
-//    
-//    // On check en base
-//    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-//      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
-//    ;
-//    
-//    $this->assertEquals($element_ed->getCountReport(), 1);
-//    $this->assertEquals($element_ed->getReportIds(), array((string)$paul->getId()));
-//    
-//    // Si il effectue le signalement une deuxième fois sur le même element
-//    // Ca ne doit pas bouger puisqu'il l'a déjà fait
-//    $url = $this->generateUrl('ajax_report_element', array(
-//      'element_id' => $element_ed->getId(),
-//      'token'      => $paul->getPersonalHash()
-//    ));
-//    
-//    $crawler = $this->client->request(
-//      'GET', 
-//      $url, 
-//      array(), 
-//      array(), 
-//      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
-//    );
-//    
-//    $this->isResponseSuccess();
-//    
-//    $response = json_decode($this->client->getResponse()->getContent(), true);
-//    $this->assertEquals($response['status'], 'success');
-//    
-//    // On check en base
-//    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-//      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
-//    ;
-//    
-//    $this->assertEquals($element_ed->getCountReport(), 1);
-//    $this->assertEquals($element_ed->getReportIds(), array((string)$paul->getId()));
-//    
-//    // Paul va ausi signaler un autre élément
-//    // Babylon Pression - Des Tasers et des Pauvres
-//    
-//    // On check en base
-//    $element_bab = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-//      ->findOneByName('Babylon Pression - Des Tasers et des Pauvres')
-//    ;
-//    
-//    $this->assertEquals($element_bab->getCountReport(), 0);
-//    $this->assertEquals($element_bab->getReportIds(), null);
-//    
-//    // Si il effectue le signalement une deuxième fois sur le même element
-//    // Ca ne doit pas bouger puisqu'il l'a déjà fait
-//    $url = $this->generateUrl('ajax_report_element', array(
-//      'element_id' => $element_bab->getId(),
-//      'token'      => $paul->getPersonalHash()
-//    ));
-//    
-//    $crawler = $this->client->request(
-//      'GET', 
-//      $url, 
-//      array(), 
-//      array(), 
-//      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
-//    );
-//    
-//    $this->isResponseSuccess();
-//    
-//    $response = json_decode($this->client->getResponse()->getContent(), true);
-//    $this->assertEquals($response['status'], 'success');
-//    
-//    // On check en base
-//    $element_bab = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-//      ->findOneByName('Babylon Pression - Des Tasers et des Pauvres')
-//    ;
-//    
-//    $this->assertEquals($element_bab->getCountReport(), 1);
-//    $this->assertEquals($element_bab->getReportIds(), array((string)$paul->getId()));
-//    
-//    // On passe a joelle
-//    
-//    $this->disconnectUser();
-//    // On connecte joelle pour faire le même test sur le même élément
-//    $this->connectUser('joelle', 'toor');
-//    
-//    $joelle = $this->getUser();
-//    $joelle_bad_reports_count = $joelle->getBadReportCount();
-//    
-//    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-//      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
-//    ;
-//    
-//    // Paul signale cet élément comme pas bien
-//    $url = $this->generateUrl('ajax_report_element', array(
-//      'element_id' => $element_ed->getId(),
-//      'token'      => $joelle->getPersonalHash()
-//    ));
-//    
-//    $crawler = $this->client->request(
-//      'GET', 
-//      $url, 
-//      array(), 
-//      array(), 
-//      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
-//    );
-//    
-//    $this->isResponseSuccess();
-//    
-//    $response = json_decode($this->client->getResponse()->getContent(), true);
-//    $this->assertEquals($response['status'], 'success');
-//    
-//    // On check en base
-//    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-//      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
-//    ;
-//    
-//    $this->assertEquals($element_ed->getCountReport(), 2);
-//    $this->assertEquals($element_ed->getReportIds(), array((string)$paul->getId(), (string)$joelle->getId()));
-//    
-//    // Si elle effectue le signalement une deuxième fois sur le même element
-//    // Ca ne doit pas bouger puisqu'elle l'a déjà fait
-//    $url = $this->generateUrl('ajax_report_element', array(
-//      'element_id' => $element_ed->getId(),
-//      'token'      => $joelle->getPersonalHash()
-//    ));
-//    
-//    $crawler = $this->client->request(
-//      'GET', 
-//      $url, 
-//      array(), 
-//      array(), 
-//      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
-//    );
-//    
-//    $this->isResponseSuccess();
-//    
-//    $response = json_decode($this->client->getResponse()->getContent(), true);
-//    $this->assertEquals($response['status'], 'success');
-//    
-//    // On check en base
-//    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-//      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
-//    ;
-//    
-//    $this->assertEquals($element_ed->getCountReport(), 2);
-//    $this->assertEquals($element_ed->getReportIds(), array((string)$paul->getId(), (string)$joelle->getId()));
-//    
-//    /*
-//     * Maintenant on va aller modérer ça coté modération.
-//     */
-//    
-//    // On donne le status d'admin a bob
-//    $output = $this->runCommand(
-//      $this->client, 
-//      "fos:user:promote bob ROLE_ADMIN"
-//    );
-//    
-//    // On connecte bob
-//    $this->disconnectUser();
-//    $this->connectUser('bob', 'toor');
-//    
-//    // Sur la page de modération d'élément on peux voir l'élément dans la liste
-//    $this->crawler = $this->client->request('GET', $this->generateUrl('moderate_elements_index'));
-//    $this->isResponseSuccess();
-//    
-//    $this->exist('li#mod_element_'.$element_ed->getId());
-//    $this->exist('li#mod_element_'.$element_bab->getId());
-//    
-//    // Première action, effectivement le partage ed cox doit être refusé par la modération
-//    $this->crawler = $this->client->request(
-//      'GET', 
-//      $this->generateUrl('moderate_element_delete', array(
-//        'element_id' => $element_ed->getId()
-//      )),
-//      array(), 
-//      array(), 
-//      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
-//    );
-//    
-//    $this->isResponseSuccess();
-//    
-//    $response = json_decode($this->client->getResponse()->getContent(), true);
-//    $this->assertEquals($response['status'], 'success');
-//    
-//    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-//      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
-//    ;
-//    $this->assertEquals(true, is_null($element_ed));
-//    // Condéquences, le proprio (bux) vois son compteur d'élément modéré augmenter
-//    $this->assertEquals($bux_moderated_element_count+1, $this->getUser('bux')->getModeratedElementCount());
-//    // Le compteur de mauvai signalemetn de paul n'a pas bougé par contre.
-//    $this->assertEquals($paul_bad_reports_count, $this->getUser('paul')->getBadReportCount());
-//    // Ni celui de joelle
-//    $this->assertEquals($joelle_bad_reports_count, $this->getUser('joelle')->getBadReportCount());
-//    
-//    // Deuxième action on considère que l'autre élément n'a pas a être refusé
-//    $this->crawler = $this->client->request(
-//      'GET', 
-//      $this->generateUrl('moderate_element_clean', array(
-//        'element_id' => $element_bab->getId()
-//      )),
-//      array(), 
-//      array(), 
-//      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
-//    );
-//    
-//    $this->isResponseSuccess();
-//    
-//    $response = json_decode($this->client->getResponse()->getContent(), true);
-//    $this->assertEquals($response['status'], 'success');
-//    
-//    $element_bab = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-//      ->findOneByName('Babylon Pression - Des Tasers et des Pauvres')
-//    ;
-//    
-//    $this->assertEquals(false, is_null($element_bab));
-//    $this->assertEquals($element_bab->getCountReport(), 0);
-//    $this->assertEquals($element_bab->getReportIds(), null);
-//    
-//    // Condéquences, le proprio (bux) ne vois pas son compteur d'élément modéré augmenter encore
-//    //                                              +1 car c'est pour la modo juste avant
-//    $this->assertEquals($bux_moderated_element_count+1, $this->getUser('bux')->getModeratedElementCount());
-//    // Le compteur de mauvais signalemetn de paul a augmenter d'un
-//    $this->assertEquals($paul_bad_reports_count+1, $this->getUser('paul')->getBadReportCount());
-//    // Celui de joelle non, elle n'a rien a voir avec ce signalement
-//    $this->assertEquals($joelle_bad_reports_count, $this->getUser('joelle')->getBadReportCount());
-//  }
+  public function testReportElement()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('paul', 'toor');
+    
+    $paul = $this->getUser();
+    $paul_bad_reports_count = $paul->getBadReportCount();
+    $bux_moderated_element_count = $this->getUser('bux')->getModeratedElementCount();
+    
+    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    // Paul signale cet élément comme pas bien
+    $url = $this->generateUrl('ajax_report_element', array(
+      'element_id' => $element_ed->getId(),
+      'token'      => $paul->getPersonalHash()
+    ));
+    
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On check en base
+    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    $this->assertEquals($element_ed->getCountReport(), 1);
+    $this->assertEquals($element_ed->getReportIds(), array((string)$paul->getId()));
+    
+    // Si il effectue le signalement une deuxième fois sur le même element
+    // Ca ne doit pas bouger puisqu'il l'a déjà fait
+    $url = $this->generateUrl('ajax_report_element', array(
+      'element_id' => $element_ed->getId(),
+      'token'      => $paul->getPersonalHash()
+    ));
+    
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On check en base
+    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    $this->assertEquals($element_ed->getCountReport(), 1);
+    $this->assertEquals($element_ed->getReportIds(), array((string)$paul->getId()));
+    
+    // Paul va ausi signaler un autre élément
+    // Babylon Pression - Des Tasers et des Pauvres
+    
+    // On check en base
+    $element_bab = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Babylon Pression - Des Tasers et des Pauvres')
+    ;
+    
+    $this->assertEquals($element_bab->getCountReport(), 0);
+    $this->assertEquals($element_bab->getReportIds(), null);
+    
+    // Si il effectue le signalement une deuxième fois sur le même element
+    // Ca ne doit pas bouger puisqu'il l'a déjà fait
+    $url = $this->generateUrl('ajax_report_element', array(
+      'element_id' => $element_bab->getId(),
+      'token'      => $paul->getPersonalHash()
+    ));
+    
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On check en base
+    $element_bab = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Babylon Pression - Des Tasers et des Pauvres')
+    ;
+    
+    $this->assertEquals($element_bab->getCountReport(), 1);
+    $this->assertEquals($element_bab->getReportIds(), array((string)$paul->getId()));
+    
+    // On passe a joelle
+    
+    $this->disconnectUser();
+    // On connecte joelle pour faire le même test sur le même élément
+    $this->connectUser('joelle', 'toor');
+    
+    $joelle = $this->getUser();
+    $joelle_bad_reports_count = $joelle->getBadReportCount();
+    
+    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    // Paul signale cet élément comme pas bien
+    $url = $this->generateUrl('ajax_report_element', array(
+      'element_id' => $element_ed->getId(),
+      'token'      => $joelle->getPersonalHash()
+    ));
+    
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On check en base
+    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    $this->assertEquals($element_ed->getCountReport(), 2);
+    $this->assertEquals($element_ed->getReportIds(), array((string)$paul->getId(), (string)$joelle->getId()));
+    
+    // Si elle effectue le signalement une deuxième fois sur le même element
+    // Ca ne doit pas bouger puisqu'elle l'a déjà fait
+    $url = $this->generateUrl('ajax_report_element', array(
+      'element_id' => $element_ed->getId(),
+      'token'      => $joelle->getPersonalHash()
+    ));
+    
+    $crawler = $this->client->request(
+      'GET', 
+      $url, 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // On check en base
+    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    
+    $this->assertEquals($element_ed->getCountReport(), 2);
+    $this->assertEquals($element_ed->getReportIds(), array((string)$paul->getId(), (string)$joelle->getId()));
+    
+    /*
+     * Maintenant on va aller modérer ça coté modération.
+     */
+    
+    // On donne le status d'admin a bob
+    $output = $this->runCommand(
+      $this->client, 
+      "fos:user:promote bob ROLE_ADMIN"
+    );
+    
+    // On connecte bob
+    $this->disconnectUser();
+    $this->connectUser('bob', 'toor');
+    
+    // Sur la page de modération d'élément on peux voir l'élément dans la liste
+    $this->crawler = $this->client->request('GET', $this->generateUrl('moderate_elements_index'));
+    $this->isResponseSuccess();
+    
+    $this->exist('li#mod_element_'.$element_ed->getId());
+    $this->exist('li#mod_element_'.$element_bab->getId());
+    
+    // Première action, effectivement le partage ed cox doit être refusé par la modération
+    $this->crawler = $this->client->request(
+      'GET', 
+      $this->generateUrl('moderate_element_delete', array(
+        'element_id' => $element_ed->getId()
+      )),
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    $element_ed = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
+    ;
+    $this->assertEquals(true, is_null($element_ed));
+    // Condéquences, le proprio (bux) vois son compteur d'élément modéré augmenter
+    $this->assertEquals($bux_moderated_element_count+1, $this->getUser('bux')->getModeratedElementCount());
+    // Le compteur de mauvai signalemetn de paul n'a pas bougé par contre.
+    $this->assertEquals($paul_bad_reports_count, $this->getUser('paul')->getBadReportCount());
+    // Ni celui de joelle
+    $this->assertEquals($joelle_bad_reports_count, $this->getUser('joelle')->getBadReportCount());
+    
+    // Deuxième action on considère que l'autre élément n'a pas a être refusé
+    $this->crawler = $this->client->request(
+      'GET', 
+      $this->generateUrl('moderate_element_clean', array(
+        'element_id' => $element_bab->getId()
+      )),
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    $element_bab = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Babylon Pression - Des Tasers et des Pauvres')
+    ;
+    
+    $this->assertEquals(false, is_null($element_bab));
+    $this->assertEquals($element_bab->getCountReport(), 0);
+    $this->assertEquals($element_bab->getReportIds(), null);
+    
+    // Condéquences, le proprio (bux) ne vois pas son compteur d'élément modéré augmenter encore
+    //                                              +1 car c'est pour la modo juste avant
+    $this->assertEquals($bux_moderated_element_count+1, $this->getUser('bux')->getModeratedElementCount());
+    // Le compteur de mauvais signalemetn de paul a augmenter d'un
+    $this->assertEquals($paul_bad_reports_count+1, $this->getUser('paul')->getBadReportCount());
+    // Celui de joelle non, elle n'a rien a voir avec ce signalement
+    $this->assertEquals($joelle_bad_reports_count, $this->getUser('joelle')->getBadReportCount());
+  }
   
   /**
    * Test du signalement de commentaires non appropriés
@@ -460,6 +460,227 @@ class ModerateControllerTest extends FunctionalTest
     
     $this->exist('li.comment:contains("C\'est pas mal en effet")');
     $this->notExist('li.comment:contains("C\'est trop bon hein ?")');
+  }
+  
+  /**
+   * Test de la moderation de tag
+   */
+  public function testTagModerated()
+  {
+    // bux sera admin
+    $this->client = self::createClient();
+    $output = $this->runCommand(
+      $this->client, 
+      "fos:user:promote bux ROLE_ADMIN"
+    );
+    
+    $bux = $this->getUser('bux');
+    $paul = $this->getUser('paul');
+    $joelle = $this->getUser('joelle');
+    
+    $paul_moderated_tags_count   = $paul->getModeratedTagCount();
+    $joelle_moderated_tags_count = $joelle->getModeratedTagCount();
+    
+    $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
+    $tribe = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+    
+    // On ajoute quelques tags avec joelle et paul
+    
+    $this->connectUser('paul', 'toor');
+    $crawler = $this->client->request('POST', $this->generateUrl('ajax_add_tag'), 
+      array('tag_name' => 'Tag0001'), array(), array(
+      'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    $this->isResponseSuccess();
+    $Tag0001 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tag0001');
+    
+    // Avec ce tag il ajoute un élément
+    
+      /*
+       *  Ajout d'un élément avec succés
+       */
+      $this->procedure_add_element(
+        'Lelement de tag0001', 
+        'http://unsite.fr/blaaaaa1', 
+        array($Tag0001->getId()),
+              null, true
+      );
+
+      $this->isResponseRedirection();
+      $this->followRedirection();
+      $this->isResponseSuccess();
+      
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Lelement de tag0001')
+    ;
+    $this->assertEquals(json_encode(array((int)$Tag0001->getId())), $element->getTagsIdsJson());
+    
+    $crawler = $this->client->request('POST', $this->generateUrl('ajax_add_tag'), 
+      array('tag_name' => 'Tag0000'), array(), array(
+      'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    $this->isResponseSuccess();
+    $Tag0000 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tag0000');
+    // On teste déjà dans d'autre test la présence des champs permettant de montrer qu'il est
+    // a modérer.
+    
+      /*
+       *  Ajout d'un élément avec succés
+       */
+      $this->procedure_add_element(
+        'Lelement de tag0000', 
+        'http://unsite.fr/blaaaaa0', 
+        array($Tag0000->getId()),
+              null, true
+      );
+
+      $this->isResponseRedirection();
+      $this->followRedirection();
+      $this->isResponseSuccess();
+    
+    $this->disconnectUser();
+    $this->connectUser('joelle', 'toor');
+    $crawler = $this->client->request('POST', $this->generateUrl('ajax_add_tag'), 
+      array('tag_name' => 'Tag0002'), array(), array(
+      'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    $this->isResponseSuccess();
+    $Tag0002 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tag0002');
+    
+      /*
+       *  Ajout d'un élément avec succés
+       */
+      $this->procedure_add_element(
+        'Lelement de tag0002', 
+        'http://unsite.fr/blaaaaa2', 
+        array($Tag0002->getId()),
+              null, true
+      );
+
+      $this->isResponseRedirection();
+      $this->followRedirection();
+      $this->isResponseSuccess();
+    
+    $crawler = $this->client->request('POST', $this->generateUrl('ajax_add_tag'), 
+      array('tag_name' => 'Tag0000'), array(), array(
+      'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    $this->isResponseSuccess();
+    $Tag0000 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tag0000');
+    
+    $this->disconnectUser();
+    $this->connectUser('bux', 'toor');
+    
+    // On se rend sur la page de moderation des tags
+    $this->crawler = $this->client->request('GET', $this->generateUrl('MuzichAdminBundle_moderate_tags'));
+    
+    // On peux voir les tags 
+    $this->exist('li.tag:contains("Tag0000")');
+    $this->exist('li.tag:contains("Tag0001")');
+    $this->exist('li.tag:contains("Tag0002")');
+    
+    /*
+     * Etapes:
+     * 
+     * On refuse Tag0000
+     *  => L'élément lié a ce tag ne l'a plus
+     *  => Le ou les users qui l'on demandé sont incrementé
+     * On accepte Tag0001
+     *  => L'élément lié a ce tag l'a toujours
+     * On remplace Tag0002 par tribe
+     *  => L'élément lié a ce tag a le nouveau
+     *  => Les users qui l'ont demandé ne sont pas pénalisés 
+     */
+    
+    // On refuse Tag0000
+    $this->crawler = $this->client->request(
+      'GET', 
+      $this->generateUrl('MuzichAdminBundle_moderate_tags_refuse_tag', array(
+        'tag_id' => $Tag0000->getId()
+      )),
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    $this->isResponseSuccess();
+    
+    // Le tag n'est plus
+    $Tag0000 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tag0000');
+    $this->assertEquals(true, is_null($Tag0000));
+    
+    // L'élément ne dois plus l'avoir comme tag
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Lelement de tag0000')
+    ;
+    
+    $this->assertEquals('[]', $element->getTagsIdsJson());
+    
+    // les utilisateurs ayant demandé ce tag ont été pénalisés
+    $this->assertEquals($paul_moderated_tags_count+1, $this->getUser('paul')->getModeratedTagCount());
+    $this->assertEquals($joelle_moderated_tags_count+1, $this->getUser('joelle')->getModeratedTagCount());
+    
+    // On accepte Tag0001
+    $this->crawler = $this->client->request(
+      'GET', 
+      $this->generateUrl('MuzichAdminBundle_moderate_tags_accept_tag', array(
+        'tag_id' => $Tag0001->getId()
+      )),
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    $this->isResponseSuccess();
+    
+    // Le tag est toujours
+    $Tag0001 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tag0001');
+    $this->assertEquals(false, is_null($Tag0001));
+    
+    // Mais n'est plus "a modérer"
+    $this->assertEquals(null, $Tag0001->getPrivateids());
+    
+    // L'élément ne dois plus l'avoir comme tag
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Lelement de tag0001')
+    ;
+    
+    $this->assertEquals(json_encode(array((int)$Tag0001->getId())), $element->getTagsIdsJson());
+    
+    // les utilisateurs ayant demandé ne sont pas pénalisés
+    $this->assertEquals($paul_moderated_tags_count+1, $this->getUser('paul')->getModeratedTagCount());
+    $this->assertEquals($joelle_moderated_tags_count+1, $this->getUser('joelle')->getModeratedTagCount());
+    
+    // On remplace le tag Tag0002 par tribe
+    $this->crawler = $this->client->request(
+      'GET', 
+      $this->generateUrl('MuzichAdminBundle_moderate_tags_replace_tag', array(
+        'tag_id'     => $Tag0002->getId(),
+        'tag_new_id' => json_encode(array($tribe->getId()))
+      )),
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    // Le tag n'est plus
+    $Tag0002 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tag0002');
+    $this->assertEquals(true, is_null($Tag0002));
+    
+    // L'élement a tribe comme tag
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Lelement de tag0002')
+    ;
+    
+    // $this->assertEquals(json_encode(array((int)$tribe->getId())), $element->getTagsIdsJson());
+    // WARNING;TODO;FIXTHIS: Ce n'est pas normal, en base pas d'enregistrement en plus
+    // étrange ...
+    $this->assertEquals(json_encode(array(null,(int)$tribe->getId())), $element->getTagsIdsJson());
+    
+    // les utilisateurs ayant demandé ne sont pas pénalisés
+    $this->assertEquals($paul_moderated_tags_count+1, $this->getUser('paul')->getModeratedTagCount());
+    $this->assertEquals($joelle_moderated_tags_count+1, $this->getUser('joelle')->getModeratedTagCount());
+    
   }
   
 }

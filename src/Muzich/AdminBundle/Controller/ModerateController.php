@@ -58,7 +58,7 @@ class ModerateController extends Controller
       return $response;
     }
     
-    if (!($tag = $doctrine->getRepository('MuzichCoreBundle:Tag')->findOneBy(array(
+    if (!($tag = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneBy(array(
       'id'         => $tag_id,
       'tomoderate' => true
     ))))
@@ -153,7 +153,7 @@ class ModerateController extends Controller
       return $response;
     }
     
-    if (!($tag = $doctrine->getRepository('MuzichCoreBundle:Tag')->findOneBy(array(
+    if (!($tag = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneBy(array(
       'id'         => $tag_id,
       'tomoderate' => true
     ))))
