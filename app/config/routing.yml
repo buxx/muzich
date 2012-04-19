@@ -22,8 +22,12 @@ MuzichIndexBundle:
   prefix: /
     
 change_language:
-    pattern:  /change-language/{language}/{redirect}
-    defaults: { _controller: MuzichCoreBundle:Core:changeLanguage, redirect: referer }
+  pattern:  /change-language/{language}/{redirect}
+  defaults: { _controller: MuzichCoreBundle:Core:changeLanguage, redirect: referer }
+  
+language_automatic:
+  pattern:  /auto-language
+  defaults: { _controller: MuzichCoreBundle:Core:automaticLanguage }
   
 MuzichCoreBundle:
   resource: "@MuzichCoreBundle/Resources/config/routing.yml"
@@ -33,8 +37,8 @@ MuzichCoreBundle:
 MuzichHomeBundle:
   resource: "@MuzichHomeBundle/Resources/config/routing.yml"
   prefix: /{_locale}/
-  defaults:
-    _locale: fr
+#  defaults:
+#    _locale: fr
     
 # On doit rajouter une route au cas ou la langue n'est pas précisé.
 home_bis:

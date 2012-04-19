@@ -21,7 +21,7 @@ use Muzich\CoreBundle\Propagator\EventUser;
 
 class CoreController extends Controller
 {
-
+  
   /**
    * Action permettant de changer le language
    *
@@ -55,6 +55,34 @@ class CoreController extends Controller
     $new_url = $this->generateUrl($route, $params);
     
     return new RedirectResponse($new_url);
+  }
+  
+  /**
+   * 
+   * Cette action est écrite pour les utilisateur redirigé du a l'absence de 
+   * lague dans leur route.
+   * Cette redirection n'est pas interne au code, elle est actuellement effectué
+   * par le .htaccess lorsque il n'y as pas d'url (en plus de muzi.ch/
+   */
+  public function automaticLanguageAction()
+  {
+    $lang = $this->container->get('request')
+      ->getPreferredLanguage($this->container->getParameter('supported_langs')); 
+    
+    // Si on a une lang en sortie, 
+    if (is_null($lang))
+    {
+      $lang = 'fr';
+    }
+    
+    if ($this->getUser() != 'anon.')
+    {
+      return $this->redirect($this->generateUrl('home', array('_locale' => $lang)));
+    }
+    else
+    {
+      return $this->redirect($this->generateUrl('index', array('_locale' => $lang)));
+    }
   }
   
   /**

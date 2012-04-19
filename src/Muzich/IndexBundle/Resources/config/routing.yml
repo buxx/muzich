@@ -1,8 +1,12 @@
 ## Routing du Bundle Index
 
+index_without_locale:
+    pattern:  /hello/
+    defaults: { _controller: MuzichCoreBundle:Core:automaticLanguage }
+    
 index:
     pattern:  /hello/{_locale}
-    defaults: { _controller: MuzichIndexBundle:Index:index, _locale: fr }
+    defaults: { _controller: MuzichIndexBundle:Index:index }
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
