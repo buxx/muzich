@@ -18,13 +18,11 @@
 			question: "Are You Sure ?",
 			yesAnswer: "Yes",
 			cancelAnswer: "Cancel",
-      onYes: function(){alert('No Callback used ! (jConfirmAction)')},
+      onYes: function(){},
       onOpen: function(){},
       onClose: function(){}
 		}, options);
-		
-		//return this.each (function () {
-			
+					
 			$(this).live('click', function(e) {
 
         $('div.question').remove();
@@ -36,7 +34,10 @@
 				thisHref	= $(this).attr('href');
 				
 				if($(this).next('.question').length <= 0)
-					$(this).after('<div class="question">'+theOptions.question+'<br/> <span class="yes">'+theOptions.yesAnswer+'</span><span class="cancel">'+theOptions.cancelAnswer+'</span></div>');
+					$(this).after('<div class="question">'+theOptions.question
+          +'<br/> <span class="yes">'+theOptions.yesAnswer
+          +'</span><span class="cancel">'+theOptions.cancelAnswer
+          +'</span></div>');
 				
 				$(this).next('.question').animate({opacity: 1}, 300);
 				
@@ -52,8 +53,6 @@
 				});
 				
 			});
-			
-		//});
 	}
 	
 })(jQuery);

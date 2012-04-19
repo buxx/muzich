@@ -520,7 +520,7 @@ $(document).ready(function(){
     cancelAnswer : string_element_delete_confirm_no,
     onYes: function(link){
       
-      var li = $(this).parents('li.element');
+      var li = link.parents('li.element');
       li.find('img.element_loader').show();
       $.getJSON(link.attr('href'), function(response){
         if (response.status == 'mustbeconnected')
@@ -541,12 +541,12 @@ $(document).ready(function(){
       return false;
     },
     onOpen: function(link){
-      var li = $(this).parents('li.element');
+      var li = link.parents('li.element');
       li.find('a.element_edit_link').addClass('mustBeDisplayed');
       li.find('a.element_remove_link').addClass('mustBeDisplayed');
     },
     onClose: function(link){
-      var li = $(this).parents('li.element');
+      var li = link.parents('li.element');
       li.find('a.element_edit_link').removeClass('mustBeDisplayed');
       li.find('a.element_remove_link').removeClass('mustBeDisplayed');
       li.find('a.element_edit_link').hide();
