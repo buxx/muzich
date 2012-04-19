@@ -1,7 +1,7 @@
 /*
  * jQuery Plugin : jConfirmAction
  * 
- * by Hidayat Sagita
+ * by Hidayat Sagita, modified by Sevajol Bastien (http://blog.bux.fr/tag/jconfirmaction/)
  * http://www.webstuffshare.com
  * Licensed Under GPL version 2 license.
  *
@@ -20,35 +20,38 @@
 			cancelAnswer: "Cancel",
       onYes: function(){},
       onOpen: function(){},
-      onClose: function(){}
+      onClose: function(){},
+      justOneAtTime: true
 		}, options);
 					
 			$(this).live('click', function(e) {
 
-        $('div.question').remove();
+        if (theOptions.justOneAtTime)
+        {
+          $('div.question').remove();
+        }
 
-        link = $(this);
-        options.onOpen(link);
+        theOptions.onOpen($(this));
 
 				e.preventDefault();
-				thisHref	= $(this).attr('href');
 				
 				if($(this).next('.question').length <= 0)
-					$(this).after('<div class="question">'+theOptions.question
-          +'<br/> <span class="yes">'+theOptions.yesAnswer
-          +'</span><span class="cancel">'+theOptions.cancelAnswer
-          +'</span></div>');
+					$(this).after(
+            '<div class="question">'+theOptions.question
+            +'<br/> <span class="yes">'+theOptions.yesAnswer
+            +'</span><span class="cancel">'+theOptions.cancelAnswer
+            +'</span></div>'
+          );
 				
 				$(this).next('.question').animate({opacity: 1}, 300);
 				
-				$('.yes').bind('click', function(){
-					options.onYes(link);
+				$(this).next('.question').find('.yes').bind('click', function(){
+					theOptions.onYes($(this).parents('div.question').prev('a'));
 				});
 		
-				$('.cancel').bind('click', function(){
+				$(this).next('.question').find('.cancel').bind('click', function(){
 					$(this).parents('.question').fadeOut(300, function() {
-            options.onClose(link);
-						$(this).remove();
+            theOptions.onClose($(this).parents('div.question').prev('a'));
 					});
 				});
 				
