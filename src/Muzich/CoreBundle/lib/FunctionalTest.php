@@ -255,6 +255,27 @@ class FunctionalTest extends WebTestCase
    */
   protected function generateUrl($route, $parameters = array(), $absolute = false)
   {
+    
+    /**
+     * Petit hack pour que les locales ne manque pas 
+     */
+    
+    if ($route == 'index')
+    {
+      if (!array_key_exists('_locale', $parameters))
+      {
+        $parameters['_locale'] = 'fr';
+      }
+    }
+    
+    if ($route == 'home')
+    {
+      if (!array_key_exists('_locale', $parameters))
+      {
+        $parameters['_locale'] = 'fr';
+      }
+    }
+    
     return $this->client->getContainer()->get('router')->generate($route, $parameters, $absolute);
   }
   
