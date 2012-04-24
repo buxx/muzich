@@ -71,12 +71,6 @@ class ElementRepository extends EntityRepository
     $join_tags  = '';
     if (count(($tags = $searcher->getTags())))
     {
-      // Recherche strict ou non ?
-      $strict_word = 'OR';
-      if ($searcher->getTagStrict())
-      {
-        $strict_word = 'AND';
-      }
       
       foreach ($tags as $tag_id => $tag_name)
       {
@@ -90,7 +84,7 @@ class ElementRepository extends EntityRepository
         }
         else
         {
-          $where_tags .= ' '.$strict_word.' t_.id = :tid'.$tag_id;
+          $where_tags .= ' OR t_.id = :tid'.$tag_id;
         }
         $params_ids['tid'.$tag_id] = $tag_id;
       }
@@ -191,6 +185,49 @@ class ElementRepository extends EntityRepository
       $order_by = "ORDER BY e_.created ASC, e_.id ASC";
     }
     
+    
+    // Recherche strict ou non ?
+    $where_tag_strict = '';
+    if ($searcher->getTagStrict() && count($tags))
+    {
+      // On a besoin de récupérer la liste des element_id qui ont les tags
+      // demandés.
+      $tag_ids = '';
+      foreach ($tags as $tag_id => $tag_name)
+      {
+        if ($tag_ids === '')
+        {
+          $tag_ids .= (int)$tag_id;
+        }
+        else
+        {
+          $tag_ids .= ','.(int)$tag_id;
+        }
+      }
+      
+      $sql = "SELECT et.element_id FROM elements_tag et "
+      ."WHERE et.tag_id IN ($tag_ids) group by et.element_id "
+      ."having count (distinct et.tag_id) = ".count($tags);
+      $rsm = new \Doctrine\ORM\Query\ResultSetMapping;
+      $rsm->addScalarResult('element_id', 'element_id');
+      
+      $strict_element_ids_result = $this->getEntityManager()
+        ->createNativeQuery($sql, $rsm)
+        //->setParameter('ids', $tag_ids)
+        ->getScalarResult()
+      ;
+      
+      $strict_element_ids = array();
+      foreach ($strict_element_ids_result as $strict_id)
+      {
+        $strict_element_ids[] = $strict_id['element_id'];
+      }
+      
+      $where_tag_strict = ($is_where) ? ' AND' : ' WHERE';
+      $where_tag_strict .= ' e_.id IN (:tag_strict_ids)';
+      $params_ids['tag_strict_ids'] = $strict_element_ids;
+    }
+    
     // Requête qui selectionnera les ids en fonction des critéres
     $id_query = $this->getEntityManager()
       ->createQuery(
@@ -205,6 +242,7 @@ class ElementRepository extends EntityRepository
         $where_group
         $where_favorite
         $where_id_limit
+        $where_tag_strict
         GROUP BY e_.id
         $order_by")
      ->setParameters($params_ids)
