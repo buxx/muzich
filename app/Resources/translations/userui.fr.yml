@@ -75,6 +75,7 @@ filter:
   new_comments:     Nvx commentaires
   new_favoriteds:   Nvx favoris
   new_tags:         Propositions de tags
+  tag_strict:       Chaques tag doit être trouvé
   
 element_add:
   url:

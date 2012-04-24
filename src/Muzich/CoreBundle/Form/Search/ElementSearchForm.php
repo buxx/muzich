@@ -17,6 +17,10 @@ class ElementSearchForm extends AbstractType
       ),
       'required' => true,
     ));
+    
+    $builder->add('tag_strict', 'checkbox', array(
+      'required'  => false
+    ));
         
     $builder->add('tags', 'hidden');
   }

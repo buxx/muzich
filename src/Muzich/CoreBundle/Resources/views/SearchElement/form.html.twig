@@ -45,5 +45,10 @@
     'form_name'     : form_name
   } %}
   
+  <div>
+  {{ form_widget(search_form.tag_strict) }}
+      <label for="element_search_form_tag_strict">{{ 'filter.tag_strict'|trans({}, 'userui') }}</label>
+  </div>
+
   {{ form_widget(search_form.tags, { 'attr': {'class': 'tagBox_tags_ids'} }) }}
   {{ form_row(search_form._token) }}

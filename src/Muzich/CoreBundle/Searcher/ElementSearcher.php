@@ -92,6 +92,15 @@ class ElementSearcher extends Searcher implements SearcherInterface
   protected $ids_display;
   
   /**
+   * Ce booléen permet de savoir si la recherche de tag est stricte.
+   * Si elle est stricte chaque tag choisis devrons être attaché au partage
+   * pour qu'il soit pris en compte.
+   *  
+   * @var type boolean
+   */
+  protected $tag_strict = false;
+  
+  /**
    * @see SearcherInterface
    * @param array $params 
    */
@@ -104,7 +113,9 @@ class ElementSearcher extends Searcher implements SearcherInterface
     
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display'
+      'network', 'tags', 'count', 'user_id', 'group_id', 
+      'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display',
+      'tag_strict'
     ), $params);
     
   }
@@ -117,7 +128,9 @@ class ElementSearcher extends Searcher implements SearcherInterface
   {
     // Mise a jour des attributs
     $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display'
+      'network', 'tags', 'count', 'user_id', 'group_id', 
+      'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display',
+      'tag_strict'
     ), $params);
   }
   
@@ -136,7 +149,8 @@ class ElementSearcher extends Searcher implements SearcherInterface
       'group_id'    => $this->getGroupId(),
       'favorite'    => $this->isFavorite(),
       'ids'         => $this->getIds(),
-      'ids_display' => $this->getIdsDisplay()
+      'ids_display' => $this->getIdsDisplay(),
+      'tag_strict'  => $this->getTagStrict()
     );
   }
   
@@ -230,6 +244,16 @@ class ElementSearcher extends Searcher implements SearcherInterface
   public function getIdsDisplay()
   {
     return $this->ids_display;
+  }
+  
+  public function setTagStrict($strict)
+  {
+    $this->tag_strict = $strict;
+  }
+  
+  public function getTagStrict()
+  {
+    return $this->tag_strict;
   }
 
   /**

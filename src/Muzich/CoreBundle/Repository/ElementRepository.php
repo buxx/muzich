@@ -26,7 +26,11 @@ class ElementRepository extends EntityRepository
   }
   
   /**
-   *
+   * TODO: Faire un bel objet pour gérer tout ça =)
+   * => Utiliser l'objet ElementSearcher (ou du moin réorganiser ça en plusieurs 
+   * objets)
+   * 
+   * 
    * @param ElementSearcher $searcher
    * @return Doctrine\ORM\Query
    */
@@ -67,6 +71,13 @@ class ElementRepository extends EntityRepository
     $join_tags  = '';
     if (count(($tags = $searcher->getTags())))
     {
+      // Recherche strict ou non ?
+      $strict_word = 'OR';
+      if ($searcher->getTagStrict())
+      {
+        $strict_word = 'AND';
+      }
+      
       foreach ($tags as $tag_id => $tag_name)
       {
         // LEFT JOIN car un element n'est pas obligatoirement lié a un/des tags
@@ -79,7 +90,7 @@ class ElementRepository extends EntityRepository
         }
         else
         {
-          $where_tags .= ' OR t_.id = :tid'.$tag_id;
+          $where_tags .= ' '.$strict_word.' t_.id = :tid'.$tag_id;
         }
         $params_ids['tid'.$tag_id] = $tag_id;
       }
