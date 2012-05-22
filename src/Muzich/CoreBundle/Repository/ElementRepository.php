@@ -223,9 +223,18 @@ class ElementRepository extends EntityRepository
         $strict_element_ids[] = $strict_id['element_id'];
       }
       
-      $where_tag_strict = ($is_where) ? ' AND' : ' WHERE';
-      $where_tag_strict .= ' e_.id IN (:tag_strict_ids)';
-      $params_ids['tag_strict_ids'] = $strict_element_ids;
+      if (count($strict_element_ids))
+      {
+        $where_tag_strict = ($is_where) ? ' AND' : ' WHERE';
+        $where_tag_strict .= ' e_.id IN (:tag_strict_ids)';
+        $params_ids['tag_strict_ids'] = $strict_element_ids;
+      }
+      // Ce else palie au bug du au cas ou $strict_element_ids est egal a array();
+      else
+      {
+        $where_tag_strict = ($is_where) ? ' AND' : ' WHERE';
+        $where_tag_strict .= ' 1 = 2';
+      }
     }
     
     // Requête qui selectionnera les ids en fonction des critéres

@@ -18,7 +18,8 @@ class ElementSearcherTest extends UnitTest
         'group_id'  => null, 
         'favorite'  => false,
         'ids'       => null,
-        'ids_display' => null
+        'ids_display' => null,
+        'tag_strict' => false
     ));
 
     $this->assertEquals($ia, $es->getParams());
@@ -43,7 +44,8 @@ class ElementSearcherTest extends UnitTest
         'group_id'  => null, 
         'favorite'  => false,
         'ids'       => null,
-        'ids_display' => null
+        'ids_display' => null,
+        'tag_strict' => false
     ));
 
     $this->assertEquals($ua, $es->getParams());
