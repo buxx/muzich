@@ -498,7 +498,7 @@ li.element
 {
   list-style: none outside none;
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   padding: 5px;
 }
 
@@ -1229,4 +1229,12 @@ li.tag_proposition:hover
 .button_green
 {
   background-color: #5ae959;
+}
+
+
+li.element.shadows
+{
+   -moz-box-shadow: 3px 3px 3px #4F4F4F;
+   -webkit-box-shadow: 3px 3px 3px #4F4F4F;
+   box-shadow: 3px 3px 3px #4F4F4F;
 }

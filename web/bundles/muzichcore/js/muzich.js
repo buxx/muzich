@@ -311,6 +311,12 @@ $(document).ready(function(){
       form.submit();
     }
   });
+  
+  function element_last_opened(li)
+  {
+    $('li.element').removeClass('shadows');
+    li.addClass('shadows');
+  }
 
   // Affichage un/des embed
   // 1328283150_media-playback-start.png
@@ -319,6 +325,7 @@ $(document).ready(function(){
     
      var li = $(this).parents('li.element');
      
+     element_last_opened(li);
      li.find('a.element_embed_close_link').show();
      li.find('a.element_embed_open_link_text').hide();
      li.find('div.element_embed').show();
@@ -330,6 +337,7 @@ $(document).ready(function(){
     
      var li = $(this).parents('li.element');
      
+     element_last_opened(li);
      li.find('a.element_embed_close_link').show();
      li.find('a.element_embed_open_link_text').hide();
      li.find('div.element_embed').show();
@@ -342,6 +350,7 @@ $(document).ready(function(){
     
      var li = $(this).parents('li.element');
     
+     li.removeClass('shadows');
      li.find('div.element_embed').hide();
      li.find('a.element_embed_open_link_text').show();
      $(this).hide();
