@@ -34,7 +34,7 @@ class ElementRepository extends EntityRepository
    * @param ElementSearcher $searcher
    * @return Doctrine\ORM\Query
    */
-  public function findBySearch(ElementSearcher $searcher, $user_id, $exec_type = 'execute')
+  public function findBySearch(ElementSearcher $searcher, $user_id, $exec_type = 'execute', $params = array())
   {
     // Tableaux des paramétres
     $params_ids = array();
@@ -60,6 +60,68 @@ class ElementRepository extends EntityRepository
         return $this->getSelectElementForSearchQuery($params_select, $user_id, $searcher->getIds(), $id_limit, $searcher->getCount(), $searcher->getIdsDisplay());
       }
       return $this->getSelectElementForSearchQuery($params_select, $user_id, $searcher->getIds(), null, null, $searcher->getIdsDisplay());
+    }
+    
+    // Si c'est une recherche string, les autres paramètres ne sont pas nécéssaire
+    if (($string = $searcher->getString()))
+    {
+      // On prépare notre liste de mots
+      $words = array_unique(array_merge(
+        explode(' ', $string),
+        explode('-', $string),
+        explode('- ', $string),
+        explode(' -', $string),
+        explode(' - ', $string),
+        explode(',', $string),
+        explode(', ', $string),
+        explode(' ,', $string),
+        explode(' , ', $string)
+      ));
+      
+      // On récupère les ids des elements correspondants
+      $where_string = "WHERE 1 = 2";
+      $params_string = array();
+      $word_min_length = 0;
+      if (isset($params['word_min_length']))
+      {
+        $word_min_length = $params['word_min_length'];
+      }
+      foreach ($words as $i => $word)
+      {
+        if (strlen($word) >= $word_min_length)
+        {
+          if ($where_string === "WHERE 1 = 2")
+          {
+            $where_string = " WHERE UPPER(e.name) LIKE :str".$i;
+          }
+          else
+          {
+            $where_string .= " OR UPPER(e.name) LIKE :str".$i;
+          }
+          $params_string['str'.$i] = '%'.strtoupper($word).'%';
+        }
+      }
+      
+      $ids_result = $this->getEntityManager()
+        ->createQuery("SELECT e.id FROM MuzichCoreBundle:Element e
+           $where_string
+           GROUP BY e.id
+           ORDER BY e.created DESC, e.id DESC
+        ")->setParameters($params_string)->getScalarResult()
+      ;
+      $ids = array();
+      foreach ($ids_result as $id_record)
+      {
+        $ids[] = $id_record['id'];
+      }
+      
+      if (count($ids))
+      {
+        return $this->getSelectElementForSearchQuery($params_select, $user_id, $ids);
+      }
+      return $query = $this->getEntityManager()
+        ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
+      ;
     }
     
     

@@ -5,6 +5,7 @@ namespace Muzich\CoreBundle\Searcher;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bundle\DoctrineBundle\Registry;
 use Muzich\CoreBundle\Searcher\UserAndGroupSearcher;
+use Muzich\CoreBundle\Searcher\ElementSearcher;
 
 /**
  * 
@@ -50,19 +51,25 @@ class GlobalSearcher extends Searcher implements SearcherInterface
    * @param Registry $doctrine
    * @return array
    */
-  public function getResults(Registry $doctrine)
+  public function getResults(Registry $doctrine, $user_id, $min_word_length = null)
   {
-    $ug_searcher = new UserAndGroupSearcher();
-    $ug_searcher->setString($this->string);
-    
-    
-    // instancier objet SearchUser and groups;
-    // puis faire recherche sur elements
-    
     // On remplace le caratcère '%' au cas ou un malin l'insére.
     $string = str_replace('%', '#', $this->string);
+    // instancier objet SearchUser and groups;
+    $ugs = new UserAndGroupSearcher();
+    $ugs->setString($this->string);
     
-    return $ug_searcher->getResults($doctrine);
+    // puis on fait recherche sur elements
+    $es = new ElementSearcher();
+    $es->init(array('string' => $string));
+    $results = $ugs->getResults($doctrine);
+    $results['elements'] = $es->getElements(
+      $doctrine, 
+      $user_id, 
+      'execute',
+      array('word_min_length' => $min_word_length)
+    );
+    return $results;
   }
   
   

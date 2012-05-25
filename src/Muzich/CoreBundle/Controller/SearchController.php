@@ -299,12 +299,17 @@ class SearchController extends Controller
     $form = $this->getGlobalSearchForm($searcher = new GlobalSearcher());
     $form->bindRequest($request);
     $results = array(
-      'users'  => null,
-      'groups' => null
+      'users'    => null,
+      'groups'   => null,
+      'elements' => null
     );
     if ($form->isValid())
     {
-      $results = $searcher->getResults($this->getDoctrine());
+      $results = $searcher->getResults(
+        $this->getDoctrine(), 
+        $this->getUserId(),
+        $this->container->getParameter('search_global_elements_word_min_length')
+      );
     }
     
     return array(

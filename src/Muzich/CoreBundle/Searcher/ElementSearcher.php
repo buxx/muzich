@@ -101,6 +101,14 @@ class ElementSearcher extends Searcher implements SearcherInterface
   protected $tag_strict = false;
   
   /**
+   * A renseigné pour une recherche portant sur les nom
+   * 
+   * @var string 
+   */
+  protected $string = null;
+  
+  
+  /**
    * @see SearcherInterface
    * @param array $params 
    */
@@ -115,7 +123,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
     $this->setAttributes(array(
       'network', 'tags', 'count', 'user_id', 'group_id', 
       'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display',
-      'tag_strict'
+      'tag_strict', 'string'
     ), $params);
     
   }
@@ -130,7 +138,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
     $this->setAttributes(array(
       'network', 'tags', 'count', 'user_id', 'group_id', 
       'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display',
-      'tag_strict'
+      'tag_strict', 'string'
     ), $params);
   }
   
@@ -150,7 +158,8 @@ class ElementSearcher extends Searcher implements SearcherInterface
       'favorite'    => $this->isFavorite(),
       'ids'         => $this->getIds(),
       'ids_display' => $this->getIdsDisplay(),
-      'tag_strict'  => $this->getTagStrict()
+      'tag_strict'  => $this->getTagStrict(),
+      'string'      => $this->getString()
     );
   }
   
@@ -255,6 +264,16 @@ class ElementSearcher extends Searcher implements SearcherInterface
   {
     return $this->tag_strict;
   }
+  
+  public function setString($string)
+  {
+    $this->string = $string;
+  }
+  
+  public function getString()
+  {
+    return $this->string;
+  }
 
   /**
    * Construction de l'objet Query
@@ -265,11 +284,11 @@ class ElementSearcher extends Searcher implements SearcherInterface
    * 
    * @return collection
    */
-  protected function constructQueryObject(Registry $doctrine, $user_id, $exec_type = 'execute')
+  protected function constructQueryObject(Registry $doctrine, $user_id, $exec_type = 'execute', $params = array())
   {
     $this->setQuery($doctrine
       ->getRepository('MuzichCoreBundle:Element')
-      ->findBySearch($this, $user_id, $exec_type))
+      ->findBySearch($this, $user_id, $exec_type, $params))
     ;
   }
   
@@ -282,9 +301,9 @@ class ElementSearcher extends Searcher implements SearcherInterface
    * 
    * @return collection
    */
-  public function getQuery(Registry $doctrine, $user_id, $exec_type = 'execute')
+  public function getQuery(Registry $doctrine, $user_id, $exec_type = 'execute', $params = array())
   {
-    $this->constructQueryObject($doctrine, $user_id, $exec_type);
+    $this->constructQueryObject($doctrine, $user_id, $exec_type, $params);
     return $this->query;
   }
 
@@ -298,9 +317,9 @@ class ElementSearcher extends Searcher implements SearcherInterface
    * 
    * @return collection
    */
-  public function getElements(Registry $doctrine, $user_id, $exec_type = 'execute')
+  public function getElements(Registry $doctrine, $user_id, $exec_type = 'execute', $params = array())
   {
-    $query = $this->getQuery($doctrine, $user_id, $exec_type);
+    $query = $this->getQuery($doctrine, $user_id, $exec_type, $params);
     
     switch ($exec_type)
     {

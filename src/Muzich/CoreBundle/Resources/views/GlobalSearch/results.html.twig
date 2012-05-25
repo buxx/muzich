@@ -8,7 +8,7 @@
   
   {% include "MuzichCoreBundle:GlobalSearch:form.html.twig" with {'form': form } %}
   
-  {% if results.users|length or results.groups|length %}
+  {% if results.users|length or results.groups|length or results.elements|length %}
   
     {% if results.users %}
 
@@ -38,6 +38,17 @@
 
     {% endif %}
   
+    {% if results.elements %}
+      
+      {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {
+        'noelements_filter' : true,
+        'elements'          : results.elements
+      }%}
+      
+    {% endif %}
+      
+  {% else %}
+      
   {% endif %}
 
 {% endblock %}
