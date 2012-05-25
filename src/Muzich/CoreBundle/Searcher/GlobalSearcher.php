@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Searcher;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bundle\DoctrineBundle\Registry;
+use Muzich\CoreBundle\Searcher\UserAndGroupSearcher;
 
 /**
  * 
@@ -20,33 +21,15 @@ class GlobalSearcher extends Searcher implements SearcherInterface
    * @Assert\MinLength(3)
    */
   protected $string;
-  
-  /**
-   * @see SearcherInterface
-   * @param array $params 
-   */
-  public function init($params)
-  {
-    // Control des parametres transmis.
-    $this->checkParams($params, array(
-      'string' => "Muzich\CoreBundle\Searcher\GlobalSearch::init():"
-        ." \$params: Un string est nécéssaire"
-    ));
     
-    // Mise a jour des attributs
-    $this->setAttributes(array('string', 'min_lenght'), $params);
+  public function setString($string)
+  {
+    $this->string = $string;
   }
   
-  /**
-   * @see SearcherInterface
-   * @param array $params 
-   */
-  public function update($params)
+  public function getString()
   {
-    // Mise a jour des attributs
-    $this->setAttributes(array(
-      'string', 'min_length'
-    ), $params);
+    return $this->string;
   }
   
   /**
@@ -57,19 +40,8 @@ class GlobalSearcher extends Searcher implements SearcherInterface
   public function getParams()
   {
     return array(
-      'string' => $this->string,
-      'min_length' => $this->min_length
+      'string' => $this->string
     );
-  }
-  
-  public function getString()
-  {
-    return $this->string;
-  }
-  
-  public function setString($string)
-  {
-    $this->string = $string;
   }
   
   /**
@@ -80,6 +52,9 @@ class GlobalSearcher extends Searcher implements SearcherInterface
    */
   public function getResults(Registry $doctrine)
   {
+    $ug_searcher = new UserAndGroupSearcher();
+    $ug_searcher->setString($this->string);
+    
     
     // instancier objet SearchUser and groups;
     // puis faire recherche sur elements
@@ -87,22 +62,7 @@ class GlobalSearcher extends Searcher implements SearcherInterface
     // On remplace le caratcère '%' au cas ou un malin l'insére.
     $string = str_replace('%', '#', $this->string);
     
-    $users = $doctrine
-      ->getRepository('MuzichCoreBundle:User')
-      ->findByString($string)
-      ->execute()
-    ;
-    
-    $groups = $doctrine
-      ->getRepository('MuzichCoreBundle:Group')
-      ->findByString($string)
-      ->execute()
-    ;
-    
-    return array(
-      'users'  => $users,
-      'groups' => $groups
-    );
+    return $ug_searcher->getResults($doctrine);
   }
   
   

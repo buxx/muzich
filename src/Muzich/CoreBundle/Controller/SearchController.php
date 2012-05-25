@@ -306,6 +306,7 @@ class SearchController extends Controller
     {
       $results = $searcher->getResults($this->getDoctrine());
     }
+    
     return array(
       'form' => $form->createView(),
       'results'     => $results

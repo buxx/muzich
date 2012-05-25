@@ -9,16 +9,9 @@ namespace Muzich\CoreBundle\Searcher;
 interface SearcherInterface
 {
   
-  /**
-   * Initialisation de l'objet recherche.
-   */
-  public function init($params);
-  
-  /**
-   * Mise a jour des composant de la recherche.
-   */
-  public function update($params);
-  
+  public function setString($string);
+  public function getString();
+    
   /**
    * Récupération des paramètres
    */

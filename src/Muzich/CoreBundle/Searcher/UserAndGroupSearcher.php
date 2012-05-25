@@ -20,32 +20,15 @@ class UserAndGroupSearcher extends Searcher implements SearcherInterface
    * @Assert\MinLength(3)
    */
   protected $string;
-  
-  /**
-   * @see SearcherInterface
-   * @param array $params 
-   */
-  public function init($params)
-  {
-    // Control des parametres transmis.
-    $this->checkParams($params, array(
-      'string' => "Muzich\CoreBundle\Searcher\UserAndGroupSearch::init(): \$params: Un string est nécéssaire"
-    ));
     
-    // Mise a jour des attributs
-    $this->setAttributes(array('string', 'min_lenght'), $params);
+  public function setString($string)
+  {
+    $this->string = $string;
   }
   
-  /**
-   * @see SearcherInterface
-   * @param array $params 
-   */
-  public function update($params)
+  public function getString()
   {
-    // Mise a jour des attributs
-    $this->setAttributes(array(
-      'string', 'min_length'
-    ), $params);
+    return $this->string;
   }
   
   /**
@@ -56,19 +39,8 @@ class UserAndGroupSearcher extends Searcher implements SearcherInterface
   public function getParams()
   {
     return array(
-      'string' => $this->string,
-      'min_length' => $this->min_length
+      'string' => $this->string
     );
-  }
-  
-  public function getString()
-  {
-    return $this->string;
-  }
-  
-  public function setString($string)
-  {
-    $this->string = $string;
   }
   
   /**
