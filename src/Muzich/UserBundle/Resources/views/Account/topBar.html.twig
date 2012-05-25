@@ -1,5 +1,10 @@
 
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
+  <div id="top_search">
+    {% render "MuzichCoreBundle:Search:renderGlobalSearchForm" %}
+  </div>
+
   <div id="top_bar">
 
     <a href="{{ path('my_account') }}" >
@@ -11,4 +16,5 @@
     </a>
 
   </div>
+
 {% endif %}

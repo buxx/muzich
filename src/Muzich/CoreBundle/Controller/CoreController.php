@@ -669,7 +669,7 @@ class CoreController extends Controller
    * supprime cette configuration de façon a ce que le chercheur fonctionne 
    * normalement.
    * 
-   * @return type 
+   * @return \Symfony\Component\HttpFoundation\Response 
    */
   public function filterRemoveIdsAction()
   {

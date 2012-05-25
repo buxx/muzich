@@ -10,6 +10,9 @@ use Muzich\CoreBundle\Form\Search\ElementSearchForm;
 use Symfony\Component\HttpFoundation\Response;
 use Muzich\CoreBundle\Util\TagLike;
 
+use Symfony\Component\HttpFoundation\Request;
+use Muzich\CoreBundle\Searcher\GlobalSearcher;
+
 class SearchController extends Controller
 {
   
@@ -267,6 +270,46 @@ class SearchController extends Controller
     }
     
     throw $this->createNotFoundException('Cette ressource n\'est pas accessible');
+  }
+  
+  /**
+   * Retourne une réponse contenant le dom du formulaire de recherche global
+   * 
+   * @return \Symfony\Component\HttpFoundation\Response 
+   */
+  public function renderGlobalSearchFormAction()
+  {
+    return $this->render(
+      'MuzichCoreBundle:GlobalSearch:form.html.twig', 
+      array('form' => $this->getGlobalSearchForm()->createView())
+    );
+  }
+  
+  /**
+   * Page d'affichage des résultats pour une recherche globale.
+   * * Users
+   * * Groups
+   * * Partages
+   * 
+   * @return \Symfony\Component\HttpFoundation\Response
+   * @Template("MuzichCoreBundle:GlobalSearch:results.html.twig")
+   */
+  public function globalAction(Request $request)
+  {
+    $form = $this->getGlobalSearchForm($searcher = new GlobalSearcher());
+    $form->bindRequest($request);
+    $results = array(
+      'users'  => null,
+      'groups' => null
+    );
+    if ($form->isValid())
+    {
+      $results = $searcher->getResults($this->getDoctrine());
+    }
+    return array(
+      'form' => $form->createView(),
+      'results'     => $results
+    );
   }
   
 }

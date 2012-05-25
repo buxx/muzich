@@ -3,10 +3,6 @@
 {% block title %}Mon réseau{% endblock %}
 
 {% block content %}
-
-  <a class="link_navigation" href="{{ path('mynetwork_search') }}" >
-    {{ 'search.search'|trans({}, 'network') }}
-  </a>
   
   {% if followeds_users %}
     <b>{{ 'users'|trans({}, 'network') }}</b>

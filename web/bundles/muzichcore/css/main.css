@@ -217,6 +217,39 @@ div#noscript_warning
 	text-align: center;
 }
 
+#top_search
+{
+  float: left;
+  width: 207px;
+  background-color: white;
+  padding: 0px;
+  
+  margin-left: auto;
+  margin-right: auto;
+  
+  border-radius: 0px 0px 4px 4px;
+  -moz-border-radius: 0px 0px 4px 4px;
+  -webkit-border-radius: 0px 0px 4px 4px;
+  
+	text-align: center;
+}
+
+#top_search input[type="text"]
+{
+  font-size: 12px;
+  height: 12px;
+  width: 120px;
+}
+
+#top_search  input[type="submit"]
+{
+  font-size: 12px;
+  height: 16px;
+  padding: 0 2px 1px;
+}
+
+
+
 #top_bar a 
 {
   text-decoration: none;

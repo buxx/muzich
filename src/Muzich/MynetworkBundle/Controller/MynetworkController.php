@@ -67,44 +67,4 @@ class MynetworkController extends Controller
     return $followers_users_new;
   }
   
-  /**
-   * Action qui affiche la page de recherche, et effectue la recherche
-   * d'utilisateurs et de groupes.
-   * 
-   * @Template()
-   */
-  public function searchAction()
-  {
-    $request = $this->getRequest();
-    $search = new UserAndGroupSearcher();
-    $results = array('users' => null, 'groups' => null);
-    
-    $search_form = $this->createFormBuilder($search)
-      ->add('string', 'text')
-    ->getForm();
-    
-    // Si l'utilisateur effectue la recherche
-    if ($request->getMethod() == 'POST')
-    {
-      $search_form->bindRequest($request);
-      if ($search_form->isValid())
-      {
-        $results = $search->getResults($this->getDoctrine());
-      }
-    }
-    
-    if ($this->getRequest()->isXmlHttpRequest())
-    {
-      
-    }
-    else
-    {
-      return array(
-        'search_form' => $search_form->createView(),
-        'results'     => $results,
-        'search_done' => $search->getString() ? true : false
-      );
-    }
-  }
-  
 }

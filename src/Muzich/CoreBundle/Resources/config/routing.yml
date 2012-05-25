@@ -130,8 +130,17 @@ ajax_element_proposed_tags_refuse:
   pattern: /ajax/element/proposed/tags/refuses/{element_id}/{token}
   defaults: { _controller: MuzichCoreBundle:Element:proposedTagsRefuse }
   
+## search
+  
+global_search:
+  pattern:  /search
+  defaults: { _controller: MuzichCoreBundle:Search:global }
+  
+  
 ## lol
 
 teapot:
   pattern: /what/are/you
   defaults: { _controller: MuzichCoreBundle:Info:teapot }
+  
+  

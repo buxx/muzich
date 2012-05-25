@@ -1,0 +1,12 @@
+<form action="{{ path('global_search') }}" method="post" {{ form_enctype(form) }}>
+    
+  {% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
+  {{ form_errors(form) }}
+
+  {{ form_errors(form.string) }}
+  {{ form_widget(form.string) }}
+  <input type="submit" class="button" value="{{ 'search.form.submit_value'|trans({}, 'network') }}" />
+  
+  {{ form_rest(form) }}
+
+</form>

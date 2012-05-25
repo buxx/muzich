@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Muzich\CoreBundle\Form\Search\ElementSearchForm;
 use Muzich\CoreBundle\Form\Element\ElementAddForm;
 use Symfony\Component\HttpFoundation\Response;
+use Muzich\CoreBundle\Searcher\GlobalSearcher;
 
 class Controller extends BaseController
 {
@@ -286,6 +287,23 @@ class Controller extends BaseController
       $search_object->getParams(true),
       array()
     );
+  }
+  
+  /**
+   * Retourne l'objet Form du formulaire de recherche global.
+   * 
+   * @return \Symfony\Component\Form\Form 
+   */
+  protected function getGlobalSearchForm($searcher = null)
+  {
+    if ($searcher === null)
+    {
+      $searcher = new GlobalSearcher();
+    }
+    
+    return $this->createFormBuilder($searcher)
+      ->add('string', 'text')
+    ->getForm();
   }
   
   /**
