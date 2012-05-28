@@ -19,7 +19,8 @@ class ElementSearcherTest extends UnitTest
         'favorite'  => false,
         'ids'       => null,
         'ids_display' => null,
-        'tag_strict' => false
+        'tag_strict' => false,
+        'string'     => null
     ));
 
     $this->assertEquals($ia, $es->getParams());
@@ -45,7 +46,8 @@ class ElementSearcherTest extends UnitTest
         'favorite'  => false,
         'ids'       => null,
         'ids_display' => null,
-        'tag_strict' => false
+        'tag_strict' => false,
+        'string'     => null
     ));
 
     $this->assertEquals($ua, $es->getParams());

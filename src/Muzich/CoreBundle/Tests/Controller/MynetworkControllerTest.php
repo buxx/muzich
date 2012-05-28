@@ -43,14 +43,8 @@ class MynetworkControllerTest extends FunctionalTest
   {
     $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
-    $link = $this->selectLink('a[href="'.$this->generateUrl('mynetwork_index').'"]');
-    $this->clickOnLink($link);
-    $this->isResponseSuccess();
-    $link = $this->selectLink('a[href="'.$this->generateUrl('mynetwork_search').'"]');
-    $this->clickOnLink($link);
-    $this->isResponseSuccess();
     
-    $this->exist('form[action="'.($url = $this->generateUrl('mynetwork_search')).'"]');
+    $this->exist('form[action="'.($url = $this->generateUrl('global_search')).'"]');
     $this->exist('form[action="'.$url.'"] input[id="form_string"]');
     $this->exist('form[action="'.$url.'"] input[type="submit"]');
     
@@ -76,6 +70,15 @@ class MynetworkControllerTest extends FunctionalTest
     // On trouve joelle mais aussi son groupe (il y a joelle dans le nom)
     $this->exist('ul#search_users li a[href="'.$this->generateUrl('show_user', array('slug' => $joelle->getSlug())).'"]');
     $this->exist('ul#search_groups li a[href="'.$this->generateUrl('show_group', array('slug' => $Le_groupe_de_joelle->getSlug())).'"]');
+  
+    // On cherche des éléments
+    $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+    $form['form[string]'] = 'har';
+    $this->submit($form);
+    $this->isResponseSuccess();
+    
+    $this->exist('span.element_name:contains("Ed Cox - La fanfare des teuffeurs (Hardcordian)")');
+    $this->exist('span.element_name:contains("Acrotek Hardtek G01")');
   }
   
   /**
