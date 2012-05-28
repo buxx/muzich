@@ -62,7 +62,11 @@ class ElementRepository extends EntityRepository
       return $this->getSelectElementForSearchQuery($params_select, $user_id, $searcher->getIds(), null, null, $searcher->getIdsDisplay());
     }
     
+    // Booléen nous permettant de savoir si un where a déjà été écrit
+    $is_where = false;
+    
     // Si c'est une recherche string, les autres paramètres ne sont pas nécéssaire
+    $where_string = '';
     if (($string = $searcher->getString()))
     {
       // On prépare notre liste de mots
@@ -79,8 +83,8 @@ class ElementRepository extends EntityRepository
       ));
       
       // On récupère les ids des elements correspondants
-      $where_string = "WHERE 1 = 2";
-      $params_string = array();
+      //$where_string = "WHERE 1 = 2";
+      //$params_string = array();
       $word_min_length = 0;
       if (isset($params['word_min_length']))
       {
@@ -90,43 +94,52 @@ class ElementRepository extends EntityRepository
       {
         if (strlen($word) >= $word_min_length)
         {
-          if ($where_string === "WHERE 1 = 2")
+          $where_string = ($is_where) ? ' AND (' : ' WHERE (';
+          $is_where = true;
+          if ($where_string === ' AND (' || $where_string === ' WHERE (')
           {
-            $where_string = " WHERE UPPER(e.name) LIKE :str".$i;
+            $where_string .= "UPPER(e_.name) LIKE :str".$i;
           }
           else
           {
-            $where_string .= " OR UPPER(e.name) LIKE :str".$i;
+            $where_string .= " OR UPPER(e_.name) LIKE :str".$i;
           }
-          $params_string['str'.$i] = '%'.strtoupper($word).'%';
+          //$params_string['str'.$i] = '%'.strtoupper($word).'%';
+          $params_ids['str'.$i] = '%'.strtoupper($word).'%';
         }
       }
+      $where_string .= ')';
       
-      $ids_result = $this->getEntityManager()
-        ->createQuery("SELECT e.id FROM MuzichCoreBundle:Element e
-           $where_string
-           GROUP BY e.id
-           ORDER BY e.created DESC, e.id DESC
-        ")->setParameters($params_string)->getScalarResult()
-      ;
-      $ids = array();
-      foreach ($ids_result as $id_record)
-      {
-        $ids[] = $id_record['id'];
-      }
-      
-      if (count($ids))
-      {
-        return $this->getSelectElementForSearchQuery($params_select, $user_id, $ids);
-      }
-      return $query = $this->getEntityManager()
-        ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
-      ;
+//      $ids_query = $this->getEntityManager()
+//        ->createQuery("SELECT e.id FROM MuzichCoreBundle:Element e
+//           $where_string
+//           GROUP BY e.id
+//           ORDER BY e.created DESC, e.id DESC
+//        ")->setParameters($params_string)
+//      ;
+//      
+//      $ids_query->setMaxResults($searcher->getCount());
+//      $ids_result = $ids_query->getScalarResult();
+//      
+//      $ids = array();
+//      foreach ($ids_result as $id_record)
+//      {
+//        $ids[] = $id_record['id'];
+//      }
+//      
+//      if (count($ids))
+//      {
+//        if (($id_limit = $searcher->getIdLimit()))
+//        {
+//          $this->getSelectElementForSearchQuery($params_select, $user_id, $ids, $id_limit);
+//        }
+//        return $this->getSelectElementForSearchQuery($params_select, $user_id, $ids);
+//      }
+//      return $query = $this->getEntityManager()
+//        ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
+//      ;
     }
     
-    
-    // Booléen nous permettant de savoir si un where a déjà été écrit
-    $is_where = false;
     
     // Construction des conditions pour la selection d'ids
     $where_tags = '';
@@ -312,8 +325,9 @@ class ElementRepository extends EntityRepository
         $where_user
         $where_group
         $where_favorite
-        $where_id_limit
         $where_tag_strict
+        $where_string
+        $where_id_limit
         GROUP BY e_.id
         $order_by")
      ->setParameters($params_ids)
@@ -353,7 +367,7 @@ class ElementRepository extends EntityRepository
   }
   
   protected function getSelectElementForSearchQuery($params_select, $user_id, $ids, $id_limit = null, $count_limit = null, $ids_display = null)
-  {    
+  {
     $where = "";
     if ($id_limit)
     {

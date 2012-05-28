@@ -1,0 +1,11 @@
+<div class="elements_loader_div">
+  <img class="elements_more_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
+</div>
+
+{% if display_more_button and elements_length %} 
+   <span class="elements_more">
+     <a href="{{ path(more_path) }}" class="elements_more button">
+       {{ 'more'|trans({}, 'userui') }}
+     </a>
+   </span>
+{% endif %}

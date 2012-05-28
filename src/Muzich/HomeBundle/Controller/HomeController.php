@@ -28,6 +28,9 @@ class HomeController extends Controller
     $search_form = $this->getSearchForm($search_object);
     $add_form = $this->getAddForm();
     
+    $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+    $count_elements = count($elements);
+    
     return array(
       'search_tags_id'   => $search_object->getTags(),
       'ids_display'      => $search_object->getIdsDisplay(),
@@ -37,8 +40,8 @@ class HomeController extends Controller
       'search_form'      => $search_form->createView(),
       'search_form_name' => 'search',
       'network_public'   => $search_object->isNetworkPublic(),
-      'elements'         => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
-      'more_count'       => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2
+      'elements'         => $elements,
+      'display_more_button' => ($count_elements >= $this->container->getParameter('search_default_count'))?true:false
     );
   }
 }

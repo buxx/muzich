@@ -16,6 +16,14 @@ search_elements_show_more:
   pattern:  /search-elements/show/{type}/{object_id}/{id_limit}/{invertcolors}
   defaults: { _controller: MuzichCoreBundle:Search:searchElementsShow }
    
+global_search_elements_empty:
+  pattern:  /global-search-elements/
+  defaults: { _controller: MuzichCoreBundle:Search:globalSearchMore }
+  
+global_search_elements:
+  pattern:  /global-search-elements/{last_id}/{string}
+  defaults: { _controller: MuzichCoreBundle:Search:globalSearchMore }
+   
 follow:
   pattern:  /follow/{type}/{id}/{token}
   defaults: { _controller: MuzichCoreBundle:Core:follow }

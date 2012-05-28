@@ -142,3 +142,6 @@ comment:
       
 search_tag:
   title:                 Recherche de tag correspondant à \"%string_search%\" ...
+  
+global_search:
+  no_results:            Il n'y a aucun résultat a votre recherche.

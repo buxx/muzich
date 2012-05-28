@@ -58,20 +58,14 @@
     <img class="elements_new_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
   </div>
 
-  {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {'noelements_filter' : true }%}
+  {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {
+    'noelements_filter' : true 
+  }%}
     
-  <div class="elements_loader_div">
-    <img class="elements_more_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
-  </div>
-  
-  {% if more_count is defined %} 
-  {% if elements|length %}
-     <span class="elements_more">
-       <a href="{{ path('search_elements') }}" class="elements_more button">
-         {{ 'more'|trans({}, 'userui') }}
-       </a>
-     </span>
-  {% endif %}
-  {% endif %}
+  {% include "MuzichCoreBundle:SearchElement:more_button.html.twig" with {
+    'display_more_button' : display_more_button,
+    'elements_length'     : elements|length,
+    'more_path'           : 'search_elements'
+  }%}
   
 {% endblock %}

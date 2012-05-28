@@ -51,7 +51,7 @@ class GlobalSearcher extends Searcher implements SearcherInterface
    * @param Registry $doctrine
    * @return array
    */
-  public function getResults(Registry $doctrine, $user_id, $min_word_length = null)
+  public function getResults(Registry $doctrine, $user_id, $search_elements_count, $min_word_length = null)
   {
     // On remplace le caratcère '%' au cas ou un malin l'insére.
     $string = str_replace('%', '#', $this->string);
@@ -61,7 +61,10 @@ class GlobalSearcher extends Searcher implements SearcherInterface
     
     // puis on fait recherche sur elements
     $es = new ElementSearcher();
-    $es->init(array('string' => $string));
+    $es->init(array(
+      'string' => $string,
+      'count'  => $search_elements_count
+    ));
     $results = $ugs->getResults($doctrine);
     $results['elements'] = $es->getElements(
       $doctrine, 

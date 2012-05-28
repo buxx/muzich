@@ -461,7 +461,15 @@ $(document).ready(function(){
        invertcolor = 1;
      }
      $('img.elements_more_loader').show();
-     $.getJSON(link.attr('href')+'/'+id_last+'/'+invertcolor, function(response) {
+     
+     var url = link.attr('href')+'/'+id_last+'/'+invertcolor;
+     // Cas exeptionel si on se trouve sur la global_search
+     if ($('div#results_search_form').length)
+     {
+       url = link.attr('href')+id_last+'/'+$('div#results_search_form form input[type="text"]').val();
+     }
+     
+     $.getJSON(url, function(response) {
        if (response.status == 'mustbeconnected')
         {
           $(location).attr('href', url_index);
@@ -471,6 +479,7 @@ $(document).ready(function(){
        {
          $('ul.elements').append(response.html);
          $('img.elements_more_loader').hide();
+         recolorize_element_list();
        }
        
        if (response.end || response.count < 1)

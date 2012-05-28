@@ -184,6 +184,39 @@ class SearchController extends Controller
     
     throw new \Exception('XmlHttpRequest only for this action');
   }
+  
+  /**
+   * Action permettant d'afficher plus de résultats (éléments) dans
+   * une global search.
+   * 
+   * @param Request $request
+   * @param int $last_id
+   * @param string $string
+   * @return Response 
+   */
+  public function globalSearchMoreAction(Request $request, $last_id, $string)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    $search = $this->createSearchObject(array(
+      'count'    => $this->container->getParameter('search_ajax_more'),
+      'id_limit' => $last_id,
+      'string'   => $string
+    ));
+    
+    $elements = $search->getElements($this->getDoctrine(), $this->getUserId());
+      
+    return $this->searchElementsMore($elements, false,
+      $this->trans(
+        'elements.ajax.more.noelements', 
+        array(), 
+        'elements'
+      )
+    );
+  }
     
   /**
    * Procédure (ajax) de recherche de tags. Essentielement utilisé dans 
@@ -311,14 +344,16 @@ class SearchController extends Controller
         $results = $searcher->getResults(
           $this->getDoctrine(), 
           $this->getUserId(),
+          $this->container->getParameter('search_default_count'),
           $this->container->getParameter('search_global_elements_word_min_length')
         );
       }
     }
     
     return array(
-      'form' => $form->createView(),
-      'results'     => $results
+      'form'        => $form->createView(),
+      'results'     => $results,
+      'display_more_button' => (count($results['elements']))? (count($results['elements']) >= $this->container->getParameter('search_default_count'))? true : false : false
     );
   }
   
