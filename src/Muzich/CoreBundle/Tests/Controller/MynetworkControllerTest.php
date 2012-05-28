@@ -79,6 +79,16 @@ class MynetworkControllerTest extends FunctionalTest
     
     $this->exist('span.element_name:contains("Ed Cox - La fanfare des teuffeurs (Hardcordian)")');
     $this->exist('span.element_name:contains("Acrotek Hardtek G01")');
+    
+    // On cherche des éléments en jouant avec le principe de découpe (' ', ',' '-' ...)
+    $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+    $form['form[string]'] = 'azyd babylon cox';
+    $this->submit($form);
+    $this->isResponseSuccess();
+    
+    $this->exist('span.element_name:contains("Ed Cox - La fanfare des teuffeurs (Hardcordian)")');
+    $this->exist('span.element_name:contains("Babylon Pression - Des Tasers et des Pauvres")');
+    $this->exist('span.element_name:contains("AZYD AZYLUM Live au Café Provisoire")');
   }
   
   /**
