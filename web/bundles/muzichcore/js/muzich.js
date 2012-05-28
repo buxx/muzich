@@ -292,8 +292,8 @@ $(document).ready(function(){
     var id;
     if ($('ul#favorite_tags').length)
     {
-      id = str_replace('element_tag', '', $(this).attr('id'));
-      var link = $('ul#favorite_tags li a[href="#'+id+'"]');
+      id = str_replace('element_tag_', '', $(this).attr('id'));
+      var link = $('a#filtering_tag_'+id);
       list_tag_clicked(link, true);
     }
     
@@ -302,7 +302,7 @@ $(document).ready(function(){
       $('img.elements_more_loader').show();
       $('ul.elements').html('');
       var form = $('form[name="search"]');
-      id = str_replace('element_tag', '', $(this).attr('id'));
+      id = str_replace('element_tag_', '', $(this).attr('id'));
       remove_tags('search');
       var inputTag = $("div#tags_prompt_search input.form-default-value-processed");
       $('input#tags_selected_tag_search').val(id);
