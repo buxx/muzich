@@ -55,5 +55,3 @@ class YoutubecomFactory extends BaseFactory
     return $url;
   }
 }
-
-?>

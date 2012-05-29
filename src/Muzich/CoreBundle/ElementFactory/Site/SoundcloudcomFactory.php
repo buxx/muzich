@@ -16,7 +16,7 @@ class SoundcloudcomFactory extends BaseFactory
   public function getEmbedCode()
   {
     $url = str_replace('www.', '', $this->element->getUrl());
-    $data = str_replace('http://soundcloud.com', '', $url);
+    $data = $this->getCleanedUrl();
     $embed_url = null;
     
     // http://soundcloud.com/matas/sets/library-project
@@ -92,5 +92,3 @@ class SoundcloudcomFactory extends BaseFactory
     return $url;
   }
 }
-
-?>

@@ -13,8 +13,7 @@ class DeezercomFactory extends BaseFactory
 {
   public function getEmbedCode()
   {
-    $url = str_replace('www.', '', $this->element->getUrl());
-    $data = str_replace('http://deezer.com', '', $url);
+    $data = $this->getCleanedUrl();
         
     $embed = null;
     $element_id = null;
@@ -76,5 +75,3 @@ class DeezercomFactory extends BaseFactory
   }
   
 }
-
-?>

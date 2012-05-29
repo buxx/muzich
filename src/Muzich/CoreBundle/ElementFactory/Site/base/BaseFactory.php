@@ -40,7 +40,9 @@ class BaseFactory implements FactoryInterface
   protected function getCleanedUrl()
   {
     $url = str_replace('www.', '', $this->element->getUrl());
-    return str_replace('http://'.$this->element->getType(), '', $url);
+    $url = str_replace('http://'.$this->element->getType(), '', $url);
+    $url = str_replace('https://'.$this->element->getType(), '', $url);
+    return $url;
   }
   
   public function getThumbnailUrl()

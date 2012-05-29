@@ -13,8 +13,7 @@ class JamendocomFactory extends BaseFactory
 {
   public function getEmbedCode()
   {
-    $url = str_replace('www.', '', $this->element->getUrl());
-    $data = str_replace('http://jamendo.com', '', $url);
+    $data = $this->getCleanedUrl();
     
     $embed_url = null;
     // http://www.jamendo.com/fr/album/30661
@@ -117,30 +116,8 @@ class JamendocomFactory extends BaseFactory
      * api.jamendo.com/get2/album/id/track/json/?id=
      * 
      */
-    
-
-    
-    
-//    if (isset($result->errors))
-//    {
-//      if (count($result->errors))
-//      {
-//        return null;
-//      }
-//    }
-//    
-//    $getjsonurl = $result->location;
-//    $ch = curl_init($getjsonurl);
-//    curl_setopt_array($ch, $options);
-//    $result = json_decode(curl_exec($ch));
-//    
-//    $url = $result->artwork_url;
-    
-    
+     
     return $url;
   }
   
-  //http://api.jamendo.com/get2/name+url/album/json/?id=116
 }
-
-?>
