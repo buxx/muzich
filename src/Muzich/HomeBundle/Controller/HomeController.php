@@ -41,7 +41,7 @@ class HomeController extends Controller
       'search_form_name' => 'search',
       'network_public'   => $search_object->isNetworkPublic(),
       'elements'         => $elements,
-      'display_more_button' => ($count_elements >= $this->container->getParameter('search_default_count'))?true:false
+      //'display_more_button' => ($count_elements >= $this->container->getParameter('search_default_count'))?true:false
     );
   }
 }
