@@ -41,6 +41,7 @@ check(function_exists('token_get_all'), 'Checking that the token_get_all() funct
 check(function_exists('mb_strlen'), 'Checking that the mb_strlen() function is available', 'Install and enable the mbstring extension', false);
 check(function_exists('iconv'), 'Checking that the iconv() function is available', 'Install and enable the iconv extension', false);
 check(function_exists('utf8_decode'), 'Checking that the utf8_decode() is available', 'Install and enable the XML extension', false);
+check(function_exists('curl_init'), 'Checking that the curl_init() is available', 'Install and enable the curl (php5-curl package) extension', false);
 if (PHP_OS != 'WINNT') {
     check(function_exists('posix_isatty'), 'Checking that the posix_isatty() is available', 'Install and enable the php_posix extension (used to colorized the CLI output)', false);
 }
