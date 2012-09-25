@@ -41,6 +41,8 @@
     {% endif %}
   
     {% if results.elements %}
+
+      <b>{{ 'search.elements'|trans({}, 'network') }}</b>
       
       {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {
         'noelements_filter' : true,

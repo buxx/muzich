@@ -6,6 +6,7 @@ search:
   users:                 Utilisateurs
   groups:               Groupes
   no_result:            Il n'y a aucun résultat a votre recherche
+  elements:             Musique
   form:
     submit_value:       Rechercher
 users:                Utilisateurs
