@@ -390,23 +390,27 @@ class CoreController extends Controller
   {
     $element_tags = $element->getTags();
     $groups = array();
-    foreach ($this->getUser()->getGroupsOwned() as $group)
-    {
-      foreach ($element_tags as $element_tag)
-      {
-        if ($group->hasThisTag($element_tag->getId()))
-        {
-          $groups[] = array(
-            'name' => $group->getName(),
-            'id'   => $group->getId(),
-            'url'  => $this->generateUrl('ajax_set_element_group', array(
-              'token'      => $this->getUser()->getPersonalHash(),
-              'element_id' => $element->getId(),
-              'group_id'   => $group->getId()
-            ))
-          );
-        }
     
+    if ($element_tags)
+    {
+      foreach ($this->getUser()->getGroupsOwned() as $group)
+      {
+        foreach ($element_tags as $element_tag)
+        {
+          if ($group->hasThisTag($element_tag->getId()))
+          {
+            $groups[] = array(
+              'name' => $group->getName(),
+              'id'   => $group->getId(),
+              'url'  => $this->generateUrl('ajax_set_element_group', array(
+                'token'      => $this->getUser()->getPersonalHash(),
+                'element_id' => $element->getId(),
+                'group_id'   => $group->getId()
+              ))
+            );
+          }
+
+        }
       }
     }
     
