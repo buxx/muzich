@@ -469,27 +469,61 @@ $(document).ready(function(){
        url = link.attr('href')+id_last+'/'+$('div#results_search_form form input[type="text"]').val();
      }
      
-     $.getJSON(url, function(response) {
-       if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
-       
-       if (response.count)
-       {
-         $('ul.elements').append(response.html);
-         $('img.elements_more_loader').hide();
-         recolorize_element_list();
-       }
-       
-       if (response.end || response.count < 1)
-       {
-         $('img.elements_more_loader').hide();
-         $('ul.elements').after('<div class="no_elements"><p class="no-elements">'+
-           response.message+'</p></div>');
-         link.hide();
-       }
+     var old_form_action = $('form[name="search"]').attr('action');
+     $('form[name="search"]').attr('action', url);
+         
+     $.ajax({
+       type: 'POST',
+       url: url,
+       data: $('form[name="search"]').serialize(),
+       success: function(response) {
+          if (response.status == 'mustbeconnected')
+           {
+             $(location).attr('href', url_index);
+           }
+
+          if (response.count)
+          {
+            $('ul.elements').append(response.html);
+            $('img.elements_more_loader').hide();
+            recolorize_element_list();
+          }
+
+          if (response.end || response.count < 1)
+          {
+            $('img.elements_more_loader').hide();
+            $('ul.elements').after('<div class="no_elements"><p class="no-elements">'+
+              response.message+'</p></div>');
+            link.hide();
+          }
+        },
+       dataType: "json"
      });
+         
+     $('form[name="search"]').attr('action', old_form_action);
+     
+//     $.getJSON(url, function(response) {
+//       if (response.status == 'mustbeconnected')
+//        {
+//          $(location).attr('href', url_index);
+//        }
+//       
+//       if (response.count)
+//       {
+//         $('ul.elements').append(response.html);
+//         $('img.elements_more_loader').hide();
+//         recolorize_element_list();
+//       }
+//       
+//       if (response.end || response.count < 1)
+//       {
+//         $('img.elements_more_loader').hide();
+//         $('ul.elements').after('<div class="no_elements"><p class="no-elements">'+
+//           response.message+'</p></div>');
+//         link.hide();
+//       }
+//     });
+
      return false;
    });
    

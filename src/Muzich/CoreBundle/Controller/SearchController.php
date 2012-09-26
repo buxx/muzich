@@ -89,8 +89,8 @@ class SearchController extends Controller
     }
     
     if ($this->getRequest()->isXmlHttpRequest())
-    {
-      if ($form_submited)
+    { 
+      if ($form_submited && !$id_limit)
       {
         $message = $this->trans(
           'noelements.sentence_filter',
