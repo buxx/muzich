@@ -1289,21 +1289,46 @@ $(document).ready(function(){
           +'/'
           +str_replace('element_', '', $('ul.elements li:first').attr('id'))
         ;
-        $.getJSON(url, function(response){
+        
+        $.ajax({
+          type: 'POST',
+          url: url,
+          data: $('form[name="search"]').serialize(),
+          success: function(response){
           
-          if (response.status == 'mustbeconnected')
-          {
-            $(location).attr('href', url_index);
-          }
+            if (response.status == 'mustbeconnected')
+            {
+              $(location).attr('href', url_index);
+            }
 
-          if (response.status == 'success' && response.count)
-          {
-            $('div.display_more_elements').show();
-            $('div.display_more_elements span').html(response.message);
-          }
+            if (response.status == 'success' && response.count)
+            {
+              $('div.display_more_elements').show();
+              $('div.display_more_elements span').html(response.message);
+            }
 
-          setTimeout(check_new_elements, 150000);
+            setTimeout(check_new_elements, 150000);
+          },
+          dataType: "json"
         });
+        
+        
+//        $.getJSON(url, function(response){
+//          
+//          if (response.status == 'mustbeconnected')
+//          {
+//            $(location).attr('href', url_index);
+//          }
+//
+//          if (response.status == 'success' && response.count)
+//          {
+//            $('div.display_more_elements').show();
+//            $('div.display_more_elements span').html(response.message);
+//          }
+//
+//          setTimeout(check_new_elements, 150000);
+//        });
+        
         do_check_new_elements = false;
       }
       
@@ -1321,31 +1346,65 @@ $(document).ready(function(){
       +str_replace('element_', '', $('ul.elements li:first').attr('id'))
     ;
     $('img.elements_new_loader').show();
-    $.getJSON(url, function(response){
+    
+    
+    $.ajax({
+      type: 'POST',
+      url: url,
+      data: $('form[name="search"]').serialize(),
+      success: function(response){
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
-      
-      if (response.status == 'success')
-      {
-        if (response.count)
+        if (response.status == 'mustbeconnected')
         {
-          $('div.display_more_elements').show();
-          $('div.display_more_elements span').html(response.message);
+          $(location).attr('href', url_index);
         }
-        else
+
+        if (response.status == 'success')
         {
-          $('div.display_more_elements').hide();
+          if (response.count)
+          {
+            $('div.display_more_elements').show();
+            $('div.display_more_elements span').html(response.message);
+          }
+          else
+          {
+            $('div.display_more_elements').hide();
+          }
+
+          $('ul.elements').prepend(response.html);
+          recolorize_element_list();
         }
-        
-        $('ul.elements').prepend(response.html);
-        recolorize_element_list();
-      }
-      
-      $('img.elements_new_loader').hide();
+
+        $('img.elements_new_loader').hide();
+      },
+      dataType: "json"
     });
+    
+//    $.getJSON(url, function(response){
+//      
+//      if (response.status == 'mustbeconnected')
+//      {
+//        $(location).attr('href', url_index);
+//      }
+//      
+//      if (response.status == 'success')
+//      {
+//        if (response.count)
+//        {
+//          $('div.display_more_elements').show();
+//          $('div.display_more_elements span').html(response.message);
+//        }
+//        else
+//        {
+//          $('div.display_more_elements').hide();
+//        }
+//        
+//        $('ul.elements').prepend(response.html);
+//        recolorize_element_list();
+//      }
+//      
+//      $('img.elements_new_loader').hide();
+//    });
   });
 
   function recolorize_element_list()

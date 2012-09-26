@@ -298,7 +298,23 @@ class ElementController extends Controller
       return $response;
     }
     
-    $es = $this->getElementSearcher();
+    if ($this->getRequest()->getMethod() != 'POST')
+    {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+    
+    /*
+     * On met à jour l'ElementSearcher avec le form
+     */
+    $es = $this->getElementSearcher(null, true);
+    $search_form = $this->getSearchForm($es);
+    $search_form->bindRequest($this->getRequest());
+    
+    if ($search_form->isValid())
+    {
+      $es->update($search_form->getData());
+    }
+    
     $es->update(array(
       // On veux de nouveaux éléments
       'searchnew' => true,
@@ -335,7 +351,23 @@ class ElementController extends Controller
       return $response;
     }
     
-    $es = $this->getElementSearcher();
+    if ($this->getRequest()->getMethod() != 'POST')
+    {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+    
+    /*
+     * On met à jour l'ElementSearcher avec le form
+     */
+    $es = $this->getElementSearcher(null, true);
+    $search_form = $this->getSearchForm($es);
+    $search_form->bindRequest($this->getRequest());
+    
+    if ($search_form->isValid())
+    {
+      $es->update($search_form->getData());
+    }
+    
     $es->update(array(
       // On veux de nouveaux éléments
       'searchnew' => true,

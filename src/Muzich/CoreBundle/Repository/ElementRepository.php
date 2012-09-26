@@ -113,14 +113,29 @@ class ElementRepository extends EntityRepository
     // Construction des conditions pour la selection d'ids
     $where_tags = '';
     $join_tags  = '';
-    if (count(($tags = $searcher->getTags())))
+    
+    /*
+     * des fois on se retrouve avec un string au lieu d'un tableau
+     */
+    $tags = $searcher->getTags();
+    
+    if (!is_array($tags))
     {
-      
+      $tags_decoded = json_decode($tags);
+      $tags = array();
+      foreach ($tags_decoded as $tag_id)
+      {
+        $tags[$tag_id] = $tag_id;
+      }
+    }
+    
+    if (count($tags))
+    {
       foreach ($tags as $tag_id => $tag_name)
       {
         // LEFT JOIN car un element n'est pas obligatoirement lié a un/des tags
         $join_tags = " LEFT JOIN e_.tags t_";
-        
+
         // Construction du chere pour les tags
         if ($where_tags == '')
         {
