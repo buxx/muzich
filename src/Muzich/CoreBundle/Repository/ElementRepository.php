@@ -266,7 +266,7 @@ class ElementRepository extends EntityRepository
       
       $sql = "SELECT et.element_id FROM elements_tag et "
       ."WHERE et.tag_id IN ($tag_ids) group by et.element_id "
-      ."having count (distinct et.tag_id) = ".count($tags);
+      ."having count(distinct et.tag_id) = ".count($tags);
       $rsm = new \Doctrine\ORM\Query\ResultSetMapping;
       $rsm->addScalarResult('element_id', 'element_id');
       
