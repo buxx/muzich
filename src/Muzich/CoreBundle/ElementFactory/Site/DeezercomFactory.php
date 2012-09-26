@@ -11,10 +11,20 @@ use Muzich\CoreBundle\ElementFactory\Site\base\BaseFactory;
  */
 class DeezercomFactory extends BaseFactory
 {
+  
+  protected function getCleanedUrl($decode = false)
+  {
+    $data = parent::getCleanedUrl(true);
+    $data = str_replace(' ', '-', $data);
+    $data = strtolower($data);
+    
+    return $data;
+  }
+  
   public function getEmbedCode()
   {
-    $data = $this->getCleanedUrl();
-        
+    $data = $this->getCleanedUrl(true);
+    
     $embed = null;
     $element_id = null;
     $type = null;

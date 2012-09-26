@@ -37,9 +37,16 @@ class BaseFactory implements FactoryInterface
    * 
    * @return string
    */
-  protected function getCleanedUrl()
+  protected function getCleanedUrl($decode = false)
   {
-    $url = str_replace('www.', '', $this->element->getUrl());
+    // Procèdures de nettoyages après constat d'erreurs
+    $url = $this->element->getUrl();
+    if ($decode)
+    {
+      $url = urldecode($url);  
+    }
+    
+    $url = str_replace('www.', '', $url);
     $url = str_replace('http://'.$this->element->getType(), '', $url);
     $url = str_replace('https://'.$this->element->getType(), '', $url);
     return $url;
