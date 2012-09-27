@@ -52,12 +52,14 @@ class HomeControllerTest extends FunctionalTest
           $hardtek_id => 'Hardtek', 
           $tribe_id   => 'Tribe'
         ),
-        'count'     => $this->getContainer()->getParameter('search_default_count'),
-        'user_id'   => null,
-        'group_id'  => null,
-        'favorite' => false,
-        'ids'       => null,
-        'ids_display' => null
+        'count'       => $this->getContainer()->getParameter('search_default_count'),
+        'user_id'     => null,
+        'group_id'    => null,
+        'favorite'    => false,
+        'ids'         => null,
+        'ids_display' => null,
+        'tag_strict'  => false,
+        'string'      => null,
     ), $this->getSession()->get('user.element_search.params'));
     
     // On fabrique l'ElementSearcher correspondant
@@ -564,10 +566,24 @@ class HomeControllerTest extends FunctionalTest
     
     $url = $this->generateUrl('element_new_count', array('refid' => $first_id));
     // On effectue la kekete ajax
+    // 
+    // TODO: Ici ça a changé! On trasmet le form de filtre !!!
+    /*
+     * $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+        
+    // On met ce que l'on veut dans le form
+    $form['element_search_form[network]'] = ElementSearcher::NETWORK_PUBLIC;
+    $form['element_search_form[tags]'] = json_encode(array($hardtek_id, $tribe_id));
+    $this->submit($form);
+     */
+        
     $crawler = $this->client->request(
-      'GET', 
+      'POST', 
       $url, 
-      array(), 
+      array('element_search_form' => array(
+        'network' => ElementSearcher::NETWORK_PUBLIC,
+        'tags'    => json_encode(array($hardtek_id, $tribe_id))
+      )), 
       array(), 
       array('HTTP_X-Requested-With' => 'XMLHttpRequest')
     );
@@ -586,9 +602,12 @@ class HomeControllerTest extends FunctionalTest
     $url = $this->generateUrl('element_new_count', array('refid' => $first_id));
     // On effectue la kekete ajax
     $crawler = $this->client->request(
-      'GET', 
+      'POST', 
       $url, 
-      array(), 
+      array('element_search_form' => array(
+        'network' => ElementSearcher::NETWORK_PUBLIC,
+        'tags'    => json_encode(array($hardtek_id, $tribe_id))
+      )), 
       array(), 
       array('HTTP_X-Requested-With' => 'XMLHttpRequest')
     );
@@ -601,9 +620,12 @@ class HomeControllerTest extends FunctionalTest
     $url = $this->generateUrl('element_new_get', array('refid' => $first_id));
     // On effectue la kekete ajax
     $crawler = $this->client->request(
-      'GET', 
+      'POST', 
       $url, 
-      array(), 
+      array('element_search_form' => array(
+        'network' => ElementSearcher::NETWORK_PUBLIC,
+        'tags'    => json_encode(array($hardtek_id, $tribe_id))
+      )), 
       array(), 
       array('HTTP_X-Requested-With' => 'XMLHttpRequest')
     );
@@ -637,9 +659,12 @@ class HomeControllerTest extends FunctionalTest
     $url = $this->generateUrl('element_new_count', array('refid' => $first_id));
     // On effectue la kekete ajax
     $crawler = $this->client->request(
-      'GET', 
+      'POST', 
       $url, 
-      array(), 
+      array('element_search_form' => array(
+        'network' => ElementSearcher::NETWORK_PUBLIC,
+        'tags'    => json_encode(array($hardtek_id, $tribe_id))
+      )), 
       array(), 
       array('HTTP_X-Requested-With' => 'XMLHttpRequest')
     );
@@ -653,9 +678,12 @@ class HomeControllerTest extends FunctionalTest
     $url = $this->generateUrl('element_new_get', array('refid' => $first_id));
     // On effectue la kekete ajax
     $crawler = $this->client->request(
-      'GET', 
+      'POST', 
       $url, 
-      array(), 
+      array('element_search_form' => array(
+        'network' => ElementSearcher::NETWORK_PUBLIC,
+        'tags'    => json_encode(array($hardtek_id, $tribe_id))
+      )),  
       array(), 
       array('HTTP_X-Requested-With' => 'XMLHttpRequest')
     );
@@ -687,9 +715,12 @@ class HomeControllerTest extends FunctionalTest
     $url = $this->generateUrl('element_new_count', array('refid' => $element->getId()));
     // On effectue la kekete ajax
     $crawler = $this->client->request(
-      'GET', 
+      'POST', 
       $url, 
-      array(), 
+      array('element_search_form' => array(
+        'network' => ElementSearcher::NETWORK_PUBLIC,
+        'tags'    => json_encode(array($hardtek_id, $tribe_id))
+      )), 
       array(), 
       array('HTTP_X-Requested-With' => 'XMLHttpRequest')
     );

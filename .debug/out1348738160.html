@@ -1,0 +1,2448 @@
+<!-- XHTML 1.0 - Transitional -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+	<title>Muzi.ch - Réseau</title>
+	
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+  <link href="apple-touch-icon.png" rel="apple-touch-icon" />
+  
+	<link href="/favicon.ico" rel="icon" type="image/x-icon" />
+	<link href="/bundles/muzichcore/css/base.css" rel="stylesheet" media="screen" type="text/css" />
+	<link href="/bundles/muzichcore/css/main.css" rel="stylesheet" media="screen" type="text/css" />
+  	<link href="/bundles/muzichhome/css/home.css" rel="stylesheet" media="screen" type="text/css" />
+	<script src="/js/jquery-1.6.4.min.js" type="text/javascript"></script>
+  <script src="/js/jquery-ui-1.8.7.min.js" type="text/javascript"></script>
+	<script src="/bundles/muzichcore/js/muzich.js" type="text/javascript"></script>
+  <script src="/js/tags/jquery.autoGrowInput.js" type="text/javascript"></script>
+  <script src="/js/tags/jquery.tagBox.js" type="text/javascript"></script>
+  <script src="/js/formdefault/jquery.formdefaults.js" type="text/javascript"></script>
+  <script src="/js/jquery.form-2.14.js" type="text/javascript"></script>
+  <script src="/js/jConfirmAction/jconfirmaction.jquery.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    string_follow_stop = "Ne plus suivre";
+    string_follow_following = "Suivi";
+    string_follow_follow = "Suivre";
+    string_tag_prompt_input_help = "Saisissez vos tags ici (un par un)";
+    string_tag_add_title = "Ajouter un nouveau tag";
+    string_tag_add_text = "Ce tag n&#039;est pas encore connu de Muzi.ch, mais vous pouvez proposer son ajout. Cependant sa validation sera soumise a l&#039;équipe de modération du site.";
+    string_tag_add_argument = "Vous pouvez argumenter votre demande:";
+    string_tag_add_inputs_cancel = "Annuler";
+    string_tag_add_inputs_submit = "Faire la demande";
+    string_element_delete_confirm_sentence = "Vraiment supprimer ?";
+    string_element_delete_confirm_yes = "Oui";
+    string_element_delete_confirm_no = "Non";
+    string_comment_delete_confirm_sentence = "Vraiment supprimer ?";
+    string_comment_delete_confirm_yes = "Oui";
+    string_comment_delete_confirm_no = "Non";
+    string_tag_addtofav_confirm_sentence = "Ajouter aux favoris ?";
+    string_tag_addtofav_confirm_yes = "Oui";
+    string_tag_addtofav_confirm_no = "Non";
+    string_elementreport_confirm_sentence = "Signaler ce contenu comme inapproprié ?";
+    string_elementreport_confirm_yes = "Oui";
+    string_elementreport_confirm_no = "Non";
+    string_commentreport_confirm_sentence = "Signaler ce commentaire comme inapproprié ?";
+    string_commentreport_confirm_yes = "Oui";
+    string_commentreport_confirm_no = "Non";
+        string_search_tag_title = "Recherche de tag correspondant à \"%string_search%\" ...";
+        
+    url_index = "/hello/fr";
+    url_search_tag = "/fr/search/tag";
+    url_get_favorites_tags = "/fr/ajax/my-favorites-tags";
+    url_add_tag = "/fr/ajax/add-tag";
+    url_element_new_count = "/fr/ajax/element/new/count";
+    url_element_new_get = "/fr/ajax/element/new/get";
+    url_global_search = "/fr/search";
+    
+    url_img_ajax_loader = "/bundles/muzichcore/img/ajax-loader.gif";
+  </script>
+    <script src="/bundles/muzichhome/js/home.js" type="text/javascript"></script>
+  
+</head>
+<body>
+  
+  <div id="choose_language">
+  <a href="/change-language/fr">fr</a> |
+  <a href="/change-language/en">en</a>
+</div>  
+  
+
+  <div id="top_search">
+    <form action="/fr/search" method="post" >
+    
+    
+
+  
+  <input type="text" id="form_string" name="form[string]" required="required" />
+  <input type="submit" class="button" value="Rechercher" />
+  
+  <input type="hidden" id="form__token" name="form[_token]" value="fb2f42f1bb675b5f31240a97e981e4f9db2bbbee" />
+
+</form>  </div>
+
+  <div id="top_bar">
+
+    <a href="/fr/account" >
+      Mon compte (bux)
+    </a>
+
+    <a href="/logout" >
+      Déconnexion
+    </a>
+
+  </div>
+
+  
+  <noscript>
+    <div id="noscript_warning">
+      <p>
+        Javascript est nécéssaire pour l&#039;utilisation du site !
+        <a href="https://duckduckgo.com/?q=activer+javascript" target="_blank">
+          En savoir plus
+        </a>
+      </p>
+    </div>
+  </noscript>
+      
+  <div id="container">
+    
+          
+<div id="events_container">
+<div id="events_container_contained">
+<div id="events">
+    
+  <div class="score">
+    <img title="Votre réputation"
+      src="/bundles/muzichcore/img/1332286466_stock_scores.png" alt="score" />
+    <span>22</span>
+  </div>
+
+  <div class="comments">
+
+              <img title="Pas de nouveaux commentaires sur vos partages" src="/bundles/muzichcore/img/1332286007_comments_reply.png" alt="comments" />
+        <span class="new_comments">0</span>
+      
+  </div>
+
+  <div class="favorites">
+
+              <img title="Pas de nouveaux partages mis en favoris" src="/bundles/muzichcore/img/favorite_bw.png" alt="favoriteds" />
+        <span class="new_comments">0</span>
+      
+  </div>
+
+  <div class="follows">
+
+              <img title="Pas de nouveaux utilisateurs qui vous suivent" src="/bundles/muzichcore/img/1333474994_people.png" alt="favoriteds" />
+        <span class="new_follows">0</span>
+      
+  </div>
+
+  <div class="tags">
+
+              <img title="Pas de nouvelle proposition de tags" src="/bundles/muzichcore/img/1333484018_rss-tag.png" alt="tags" />
+        <span class="new_follows">0</span>
+      
+  </div>
+
+
+</div>
+</div>
+</div>        
+      
+          
+
+  <ul id="top-tabs">
+    <li  class="active" >
+      <a href="/fr/">
+        Le réseau
+      </a>
+    </li>
+    <li >
+      <a href="/fr/my-network">
+        Mon réseau
+      </a>
+    </li>
+    <li >
+      <a href="/fr/user/bux">
+        Mes diffusions
+      </a>
+    </li>
+  </ul>
+
+  <ul class="top-tabs-right">
+    <li class="">
+      <a href="/fr/my-groups" >
+        Mes groupes
+      </a>
+    </li>
+    <li class="">
+      <a href="/fr/favorites" >
+        Mes favoris
+      </a>
+    </li>
+  </ul>
+
+      
+    
+  <div id="element_add_box" style="display: none;">
+    
+    <a href="#" id="element_add_close_link" class="button">
+      &lt;&lt; Fermer
+    </a>
+    
+    <form novalidate name="add" action="/fr/element/add" method="post" >
+
+      
+
+
+<span class="help">Copier ici le lien internet (http://) pointant sur la ressource 
+que vous souhaitez partager.
+</span>
+
+<div class="field">
+  
+  <label for="element_add_url" class=" required">Lien</label>
+  <input type="text" id="element_add_url" name="element_add[url]" required="required" />
+</div>
+
+<div class="field">
+  
+  <label for="element_add_name" class=" required">Nom</label>
+  <input type="text" id="element_add_name" name="element_add[name]" required="required" />
+</div>
+
+  
+
+<div class="tags_prompt" id="tags_prompt_add">
+    
+    
+   <input class="tags_prompt_list" name="tags" value=""> 
+   <input id="tags_selected_tag_add" type="hidden" value="" />
+   <input class="tag_text_help" type="hidden" value="Saisissez vos tags ici (un par un)"/>
+   <div id="search_tag_add" class="search_tag_list" style="display: none;">
+     <span class="info"></span>
+     <div class="tag_loader_div">
+       <img id="tag_loader_add" class="tag_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+     </div>
+     <ul class="search_tag_list"></ul>
+     <a class="more button" href="#" style="display: none;">
+       Afficher les autres résultats
+     </a>
+   </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+  
+  var taginit = new Array();
+    
+  var options = new Array();
+  options.form_name  = "add";
+  options.tag_init   = taginit;
+  
+  // tags_prompt_list_
+  $("div#tags_prompt_add input.tags_prompt_list").tagBox(options);
+  
+  // text help en cas de rafraichissement de la page (nav. comme firefox 
+  // garde la valeur de l'input)
+  $(document).ready(function(){
+    $('div#tags_prompt_add ul.tagbox li.input input[type="text"]')
+      .val(string_tag_prompt_input_help)
+    ;
+  });
+  
+  // On détruit la variable taginit
+  delete taginit;
+    
+</script>
+          <input type="hidden" id="element_add_tags" name="element_add[tags]"    class="tagBox_tags_ids" />
+
+
+            <input type="hidden" id="element_add__token" name="element_add[_token]" value="fb2f42f1bb675b5f31240a97e981e4f9db2bbbee" />
+
+
+      <input type="submit" class="button" />
+      <img class="tag_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading" />
+    </form>
+  </div>
+
+  <div id="added_element_to_group" style="display: none;">
+    <img class="loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading" />
+    <p class="help">
+      L&#039;élément que vous venez d&#039;ajouter semble correspondre
+a un des groupes que vous gérez. Cliquez sur le nom d&#039;un groupe
+pour diffuser cet élément dans le groupe.
+
+    </p>
+    <ul id="groups_to_add_element"></ul>
+    <p class="cancel">
+      <a href="" class="cancel">
+        Non, ne pas diffuser cet élément dans un de mes groupes
+      </a>
+    </p>
+  </div>
+
+  <a href="#" id="element_add_link" class="button">
+    Ajouter un élément &gt;&gt;
+  </a>
+
+  <form name="search" action="/fr/search-elements" method="post" >
+
+    
+  
+
+  <div class="select_network">
+    <div class="field">
+      
+      <select id="element_search_form_network" name="element_search_form[network]" required="required"    style="display: none;"><option value="network_public" selected="selected">tout le réseau</option><option value="network_personal">mon réseau</option></select>
+    </div>
+    
+    <a href="#" class="button all_network active">
+      Réseau global
+    </a>
+    <a href="#" class="button my_network ">
+      Mon réseau
+    </a>
+      
+  </div>
+
+  <div class="more_filters">
+    
+    <a href="/fr/ajax/filter/remove/ids" class="button active new_comments" 
+       style="display: none;"
+    >
+      Nvx commentaires
+      <img src="/bundles/muzichcore/img/1328276855_list-remove.png" alt="remove" />
+    </a>
+      
+    <a href="/fr/ajax/filter/remove/ids" class="button active new_favorites" 
+       style="display: none;"
+    >
+      Nvx favoris
+      <img src="/bundles/muzichcore/img/1328276855_list-remove.png" alt="remove" />
+    </a>
+      
+    <a href="/fr/ajax/filter/remove/ids" class="button active new_tags" 
+       style="display: none;"
+    >
+      Propositions de tags
+      <img src="/bundles/muzichcore/img/1328276855_list-remove.png" alt="remove" />
+    </a>
+    
+  </div>
+  
+  
+
+<div class="tags_prompt" id="tags_prompt_search">
+    
+            <input class="clear button" type="button" value="Aucun filtre" />
+      <input type="hidden" class="filter_clear_url" value="/fr/filter/clear" />
+      <input class="mytags button" type="button" value="Tous mes tags" />
+      <input type="hidden" class="filter_mytags_url" value="/fr/filter/my-tags" />
+        
+   <input class="tags_prompt_list" name="tags" value=""> 
+   <input id="tags_selected_tag_search" type="hidden" value="" />
+   <input class="tag_text_help" type="hidden" value="Saisissez vos tags ici (un par un)"/>
+   <div id="search_tag_search" class="search_tag_list" style="display: none;">
+     <span class="info"></span>
+     <div class="tag_loader_div">
+       <img id="tag_loader_search" class="tag_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+     </div>
+     <ul class="search_tag_list"></ul>
+     <a class="more button" href="#" style="display: none;">
+       Afficher les autres résultats
+     </a>
+   </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+  
+  var taginit = new Array();
+            taginit[0] = {"id":"174", "name":"Hardtek"};
+          taginit[1] = {"id":"445", "name":"Tribe"};
+          taginit[2] = {"id":"112", "name":"Electro"};
+          taginit[3] = {"id":"237", "name":"Metal"};
+          taginit[4] = {"id":"450", "name":"Minimal"};
+          taginit[5] = {"id":"207", "name":"Jungle"};
+        
+  var options = new Array();
+  options.form_name  = "search";
+  options.tag_init   = taginit;
+  
+  // tags_prompt_list_
+  $("div#tags_prompt_search input.tags_prompt_list").tagBox(options);
+  
+  // text help en cas de rafraichissement de la page (nav. comme firefox 
+  // garde la valeur de l'input)
+  $(document).ready(function(){
+    $('div#tags_prompt_search ul.tagbox li.input input[type="text"]')
+      .val(string_tag_prompt_input_help)
+    ;
+  });
+  
+  // On détruit la variable taginit
+  delete taginit;
+    
+</script>  
+  <div>
+  <input type="checkbox" id="element_search_form_tag_strict" name="element_search_form[tag_strict]" value="1" />
+      <label for="element_search_form_tag_strict">Chaques tag doit être trouvé</label>
+  </div>
+
+          <input type="hidden" id="element_search_form_tags" name="element_search_form[tags]"    class="tagBox_tags_ids" value="[174,445,112,237,450,207]" />
+
+              <input type="hidden" id="element_search_form__token" name="element_search_form[_token]" value="fb2f42f1bb675b5f31240a97e981e4f9db2bbbee" />
+
+
+    
+    <input class="main button" type="submit" value="Filtrer"/>
+  </form>
+
+  <div class="display_more_elements" style="display: none;">
+    <span></span>
+  </div>
+
+  <div class="elements_loader_div">
+    <img class="elements_new_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading" />
+  </div>
+
+  
+  <ul class="elements">     
+      <li class="element 
+
+      even
+  " id="element_21">
+             
+        <table>
+  <tr>
+    <td class="element_thumbnail">
+      
+              <a href="#" class="a_thumbnail element_open element_embed_open_link embed">
+          <img class="play" style="display: none;" src="/bundles/muzichcore/img/1328283150_media-playback-start.png" alt="" />
+          <img 
+            class="element_thumbnail"
+                          src="http://img.youtube.com/vi/Lk1gnh-JCDs/default.jpg" 
+                        title="Afficher le lecteur" 
+            alt=""
+          />
+        </a>
+            
+    </td>
+    <td class="element_content">
+      
+      <span class="element_name">
+                  <a href="#" class="element_open element_name_embed_open_link">
+            Ed Cox - La fanfare des teuffeurs (Hardcordian)
+          </a>
+              </span> 
+      
+      <a title="Ouvrir la page d&#039;origine" class="element_link" href="http://www.youtube.com/watch?v=Lk1gnh-JCDs&amp;feature=related" target="_blank">
+        <img src="/bundles/muzichcore/img/1324917097_link.png" alt="link" />
+      </a>
+      
+            
+            
+              
+        <a title="Modifier" class="element_edit_link" 
+           href="/fr/element/21/edit" style="display: none;"
+        >
+          <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+        </a>
+
+        <a title="Supprimer" class="element_remove_link" 
+           href="/fr/element/21/remove" style="display: none;"
+        >
+          <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+        </a>
+            
+      <br />
+                        envoyé par <a href="/fr/user/bux">bux</a>
+                    Il y a 6 mois
+      
+      <div class="loader">
+        <img class="element_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+      </div>
+      
+            <ul class="element_tags">
+         
+          <li class="element_tag">
+            <a id="element_tag_112" href="#" class="element_tag button">Electro</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/112/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+      </ul>
+            
+      <a href="#" class="button element_open element_embed_close_link" style="display: none;">
+        Cacher le lecteur
+      </a>
+      
+      
+                        <a href="#hide_comments_21" class="hide_comments" style="display: none;">
+            Cacher les commentaires
+          </a>  
+          <a href="#comments_21" class="display_comments">
+            Afficher les <strong>2</strong> commentaires
+          </a>
+                              
+      <a href="#add_comment_21" class="add_comment">
+        Ajouter un commentaire
+      </a>
+      
+      
+    </td>
+    <td class="right">
+      
+      <ul>
+              <li class="score">
+
+        <span class="score">
+          2
+        </span>
+
+      </li>
+      <li>
+
+              <a class="favorite_link" href="/fr/favorite/add/21/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" >
+          <img src="/bundles/muzichcore/img/favorite_bw.png" title="Ajouter a mes favoris" alt="Ajouter a mes favoris" />
+        </a>
+      
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+      <div id="embed_21" class="element_embed" style="display: none;">
+      <iframe width="590" height="300" src="http://www.youtube.com/embed/Lk1gnh-JCDs" frameborder="0" allowfullscreen></iframe>
+    </div>
+  
+  <div class="comments" style="display: none;">
+    <ul class="comments">
+                  <li class="comment" id="2_20120330124127073648600">
+  <a href="/fr/user/bux" >bux</a>: 
+C&#039;est trop bon hein ?
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+
+  <a title="Modifier votre commentaire" class="comment_edit_link" 
+     href="/fr/ajax/comment/edit/21/2012-03-30%2012%3A41%3A27%200.73648600/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+  </a>
+
+  <a title="Supprimer votre commentaire" class="comment_remove_link" 
+     href="/fr/ajax/comment/delete/21/2012-03-30%2012%3A41%3A27%200.73648600/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+  </a>
+
+  <img 
+    class="comment_loader" 
+    style="display: none;" 
+    src="/bundles/muzichcore/img/ajax-loader.gif" 
+    alt="loading"
+  />
+  
+</li>              <li class="comment" id="4_20120330124127073653600">
+  <a href="/fr/user/paul" >paul</a>: 
+C&#039;est pas mal en effet
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+  <a title="Signaler ce commentaire" 
+    class="comment_report" 
+    href="/fr/ajax/comment/alert/21/2012-03-30%2012%3A41%3A27%200.73653600/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+    <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+  </a>
+
+  
+</li>              </ul>
+      
+    <div class="comments_loader">
+      <img class="comments_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+    </div>
+      
+    <form 
+      action="/fr/ajax/comment/add/21/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      <textarea name="comment"></textarea>
+
+<div class="buttons">
+  <input 
+    type="submit" 
+    value="Commenter" 
+    class="button"
+  />
+  <br />
+  <input 
+    type="button" 
+    value="Annuler" 
+    class="button cancel"
+  />
+</div>
+
+    </form>
+      
+    <a href="#add_comment_21" class="add_comment">
+      Ajouter un commentaire
+    </a>
+      
+  </div>
+
+      </li>
+     
+      <li class="element 
+
+      odd
+  " id="element_20">
+             
+        <table>
+  <tr>
+    <td class="element_thumbnail">
+      
+              <a href="#" class="a_thumbnail element_open element_embed_open_link embed">
+          <img class="play" style="display: none;" src="/bundles/muzichcore/img/1328283150_media-playback-start.png" alt="" />
+          <img 
+            class="element_thumbnail"
+                          src="http://img.youtube.com/vi/XWkbaHxRvds/default.jpg" 
+                        title="Afficher le lecteur" 
+            alt=""
+          />
+        </a>
+            
+    </td>
+    <td class="element_content">
+      
+      <span class="element_name">
+                  <a href="#" class="element_open element_name_embed_open_link">
+            Babylon Pression - Des Tasers et des Pauvres
+          </a>
+              </span> 
+      
+      <a title="Ouvrir la page d&#039;origine" class="element_link" href="http://www.youtube.com/watch?v=XWkbaHxRvds&amp;feature=related" target="_blank">
+        <img src="/bundles/muzichcore/img/1324917097_link.png" alt="link" />
+      </a>
+      
+            
+            
+              
+        <a title="Modifier" class="element_edit_link" 
+           href="/fr/element/20/edit" style="display: none;"
+        >
+          <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+        </a>
+
+        <a title="Supprimer" class="element_remove_link" 
+           href="/fr/element/20/remove" style="display: none;"
+        >
+          <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+        </a>
+            
+      <br />
+                        envoyé par <a href="/fr/user/bux">bux</a>
+                    Il y a 6 mois
+      
+      <div class="loader">
+        <img class="element_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+      </div>
+      
+            <ul class="element_tags">
+         
+          <li class="element_tag">
+            <a id="element_tag_237" href="#" class="element_tag button">Metal</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/237/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+          <li class="element_tag">
+            <a id="element_tag_449" href="#" class="element_tag button">Hardcore</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/449/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+      </ul>
+            
+      <a href="#" class="button element_open element_embed_close_link" style="display: none;">
+        Cacher le lecteur
+      </a>
+      
+      
+                        <a href="#hide_comments_20" class="hide_comments" style="display: none;">
+            Cacher les commentaires
+          </a>  
+          <a href="#comments_20" class="display_comments">
+            Afficher les <strong>13</strong> commentaires
+          </a>
+                              
+      <a href="#add_comment_20" class="add_comment">
+        Ajouter un commentaire
+      </a>
+      
+      
+    </td>
+    <td class="right">
+      
+      <ul>
+              <li class="score">
+
+        <span class="score">
+          1
+        </span>
+
+      </li>
+      <li>
+
+              <a class="favorite_link" href="/fr/favorite/add/20/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" >
+          <img src="/bundles/muzichcore/img/favorite_bw.png" title="Ajouter a mes favoris" alt="Ajouter a mes favoris" />
+        </a>
+      
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+      <div id="embed_20" class="element_embed" style="display: none;">
+      <iframe width="590" height="300" src="http://www.youtube.com/embed/XWkbaHxRvds" frameborder="0" allowfullscreen></iframe>
+    </div>
+  
+  <div class="comments" style="display: none;">
+    <ul class="comments">
+                  <li class="comment" id="2_20120330124127073524400">
+  <a href="/fr/user/bux" >bux</a>: 
+Je commenteuuh nanana 1
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+
+  <a title="Modifier votre commentaire" class="comment_edit_link" 
+     href="/fr/ajax/comment/edit/20/2012-03-30%2012%3A41%3A27%200.73524400/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+  </a>
+
+  <a title="Supprimer votre commentaire" class="comment_remove_link" 
+     href="/fr/ajax/comment/delete/20/2012-03-30%2012%3A41%3A27%200.73524400/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+  </a>
+
+  <img 
+    class="comment_loader" 
+    style="display: none;" 
+    src="/bundles/muzichcore/img/ajax-loader.gif" 
+    alt="loading"
+  />
+  
+</li>              <li class="comment" id="4_20120330124127073530300">
+  <a href="/fr/user/paul" >paul</a>: 
+Je répond 2
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+  <a title="Signaler ce commentaire" 
+    class="comment_report" 
+    href="/fr/ajax/comment/alert/20/2012-03-30%2012%3A41%3A27%200.73530300/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+    <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+  </a>
+
+  
+</li>              <li class="comment" id="2_20120331124127073535000">
+  <a href="/fr/user/bux" >bux</a>: 
+Je répond 3
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+
+  <a title="Modifier votre commentaire" class="comment_edit_link" 
+     href="/fr/ajax/comment/edit/20/2012-03-31%2012%3A41%3A27%200.73535000/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+  </a>
+
+  <a title="Supprimer votre commentaire" class="comment_remove_link" 
+     href="/fr/ajax/comment/delete/20/2012-03-31%2012%3A41%3A27%200.73535000/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+  </a>
+
+  <img 
+    class="comment_loader" 
+    style="display: none;" 
+    src="/bundles/muzichcore/img/ajax-loader.gif" 
+    alt="loading"
+  />
+  
+</li>              <li class="comment" id="4_20120401124127073539900">
+  <a href="/fr/user/paul" >paul</a>: 
+Je répond 4
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+  <a title="Signaler ce commentaire" 
+    class="comment_report" 
+    href="/fr/ajax/comment/alert/20/2012-04-01%2012%3A41%3A27%200.73539900/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+    <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+  </a>
+
+  
+</li>              <li class="comment" id="2_20120402124127073544800">
+  <a href="/fr/user/bux" >bux</a>: 
+Je répond 5
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+
+  <a title="Modifier votre commentaire" class="comment_edit_link" 
+     href="/fr/ajax/comment/edit/20/2012-04-02%2012%3A41%3A27%200.73544800/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+  </a>
+
+  <a title="Supprimer votre commentaire" class="comment_remove_link" 
+     href="/fr/ajax/comment/delete/20/2012-04-02%2012%3A41%3A27%200.73544800/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+  </a>
+
+  <img 
+    class="comment_loader" 
+    style="display: none;" 
+    src="/bundles/muzichcore/img/ajax-loader.gif" 
+    alt="loading"
+  />
+  
+</li>              <li class="comment" id="4_20120403124127073549900">
+  <a href="/fr/user/paul" >paul</a>: 
+Je répond 6
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+  <a title="Signaler ce commentaire" 
+    class="comment_report" 
+    href="/fr/ajax/comment/alert/20/2012-04-03%2012%3A41%3A27%200.73549900/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+    <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+  </a>
+
+  
+</li>              <li class="comment" id="2_20120404124127073555000">
+  <a href="/fr/user/bux" >bux</a>: 
+Je répond 7
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+
+  <a title="Modifier votre commentaire" class="comment_edit_link" 
+     href="/fr/ajax/comment/edit/20/2012-04-04%2012%3A41%3A27%200.73555000/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+  </a>
+
+  <a title="Supprimer votre commentaire" class="comment_remove_link" 
+     href="/fr/ajax/comment/delete/20/2012-04-04%2012%3A41%3A27%200.73555000/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+  </a>
+
+  <img 
+    class="comment_loader" 
+    style="display: none;" 
+    src="/bundles/muzichcore/img/ajax-loader.gif" 
+    alt="loading"
+  />
+  
+</li>              <li class="comment" id="4_20120405124127073560500">
+  <a href="/fr/user/paul" >paul</a>: 
+Je répond 8
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+  <a title="Signaler ce commentaire" 
+    class="comment_report" 
+    href="/fr/ajax/comment/alert/20/2012-04-05%2012%3A41%3A27%200.73560500/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+    <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+  </a>
+
+  
+</li>              <li class="comment" id="2_20120406124127073566200">
+  <a href="/fr/user/bux" >bux</a>: 
+Je répond 9
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+
+  <a title="Modifier votre commentaire" class="comment_edit_link" 
+     href="/fr/ajax/comment/edit/20/2012-04-06%2012%3A41%3A27%200.73566200/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+  </a>
+
+  <a title="Supprimer votre commentaire" class="comment_remove_link" 
+     href="/fr/ajax/comment/delete/20/2012-04-06%2012%3A41%3A27%200.73566200/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+  </a>
+
+  <img 
+    class="comment_loader" 
+    style="display: none;" 
+    src="/bundles/muzichcore/img/ajax-loader.gif" 
+    alt="loading"
+  />
+  
+</li>              <li class="comment" id="4_20120407124127073572200">
+  <a href="/fr/user/paul" >paul</a>: 
+Je répond 10
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+  <a title="Signaler ce commentaire" 
+    class="comment_report" 
+    href="/fr/ajax/comment/alert/20/2012-04-07%2012%3A41%3A27%200.73572200/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+    <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+  </a>
+
+  
+</li>              <li class="comment" id="2_20120418124127073578100">
+  <a href="/fr/user/bux" >bux</a>: 
+Je répond 11
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+
+  <a title="Modifier votre commentaire" class="comment_edit_link" 
+     href="/fr/ajax/comment/edit/20/2012-04-18%2012%3A41%3A27%200.73578100/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+  </a>
+
+  <a title="Supprimer votre commentaire" class="comment_remove_link" 
+     href="/fr/ajax/comment/delete/20/2012-04-18%2012%3A41%3A27%200.73578100/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+  </a>
+
+  <img 
+    class="comment_loader" 
+    style="display: none;" 
+    src="/bundles/muzichcore/img/ajax-loader.gif" 
+    alt="loading"
+  />
+  
+</li>              <li class="comment" id="4_20120429124127073584400">
+  <a href="/fr/user/paul" >paul</a>: 
+Je répond 12
+<span class="datesince">
+  (Il y a 5 mois)
+</span>
+
+  <a title="Signaler ce commentaire" 
+    class="comment_report" 
+    href="/fr/ajax/comment/alert/20/2012-04-29%2012%3A41%3A27%200.73584400/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+    <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+  </a>
+
+  
+</li>              <li class="comment" id="2_20120509124127073590800">
+  <a href="/fr/user/bux" >bux</a>: 
+Je répond 13
+<span class="datesince">
+  (Il y a 5 mois)
+</span>
+
+
+  <a title="Modifier votre commentaire" class="comment_edit_link" 
+     href="/fr/ajax/comment/edit/20/2012-05-09%2012%3A41%3A27%200.73590800/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+  </a>
+
+  <a title="Supprimer votre commentaire" class="comment_remove_link" 
+     href="/fr/ajax/comment/delete/20/2012-05-09%2012%3A41%3A27%200.73590800/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" style="display: none;"
+  >
+    <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+  </a>
+
+  <img 
+    class="comment_loader" 
+    style="display: none;" 
+    src="/bundles/muzichcore/img/ajax-loader.gif" 
+    alt="loading"
+  />
+  
+</li>              </ul>
+      
+    <div class="comments_loader">
+      <img class="comments_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+    </div>
+      
+    <form 
+      action="/fr/ajax/comment/add/20/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      <textarea name="comment"></textarea>
+
+<div class="buttons">
+  <input 
+    type="submit" 
+    value="Commenter" 
+    class="button"
+  />
+  <br />
+  <input 
+    type="button" 
+    value="Annuler" 
+    class="button cancel"
+  />
+</div>
+
+    </form>
+      
+    <a href="#add_comment_20" class="add_comment">
+      Ajouter un commentaire
+    </a>
+      
+  </div>
+
+      </li>
+     
+      <li class="element 
+
+      even
+  " id="element_19">
+             
+        <table>
+  <tr>
+    <td class="element_thumbnail">
+      
+              <a href="#" class="a_thumbnail element_open element_embed_open_link embed">
+          <img class="play" style="display: none;" src="/bundles/muzichcore/img/1328283150_media-playback-start.png" alt="" />
+          <img 
+            class="element_thumbnail"
+                          src="http://img.youtube.com/vi/8AXhRXAt2E4/default.jpg" 
+                        title="Afficher le lecteur" 
+            alt=""
+          />
+        </a>
+            
+    </td>
+    <td class="element_content">
+      
+      <span class="element_name">
+                  <a href="#" class="element_open element_name_embed_open_link">
+            AZYD AZYLUM Live au Café Provisoire
+          </a>
+              </span> 
+      
+      <a title="Ouvrir la page d&#039;origine" class="element_link" href="http://www.youtube.com/watch?v=8AXhRXAt2E4" target="_blank">
+        <img src="/bundles/muzichcore/img/1324917097_link.png" alt="link" />
+      </a>
+      
+            
+            
+              
+        <a title="Modifier" class="element_edit_link" 
+           href="/fr/element/19/edit" style="display: none;"
+        >
+          <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+        </a>
+
+        <a title="Supprimer" class="element_remove_link" 
+           href="/fr/element/19/remove" style="display: none;"
+        >
+          <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+        </a>
+            
+      <br />
+                        envoyé par <a href="/fr/user/bux">bux</a>
+                    Il y a 7 mois
+      
+      <div class="loader">
+        <img class="element_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+      </div>
+      
+            <ul class="element_tags">
+         
+          <li class="element_tag">
+            <a id="element_tag_237" href="#" class="element_tag button">Metal</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/237/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+      </ul>
+            
+      <a href="#" class="button element_open element_embed_close_link" style="display: none;">
+        Cacher le lecteur
+      </a>
+      
+      
+                        <a href="#hide_comments_19" class="hide_comments" style="display: none;">
+            Cacher le commentaire
+          </a> 
+          <a href="#comments_19" class="display_comments">
+            Afficher le commentaire
+          </a>
+                              
+      <a href="#add_comment_19" class="add_comment">
+        Ajouter un commentaire
+      </a>
+      
+      
+    </td>
+    <td class="right">
+      
+      <ul>
+              <li class="score">
+
+        <span class="score">
+          3
+        </span>
+
+      </li>
+      <li>
+
+              <a class="favorite_link" href="/fr/favorite/add/19/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" >
+          <img src="/bundles/muzichcore/img/favorite_bw.png" title="Ajouter a mes favoris" alt="Ajouter a mes favoris" />
+        </a>
+      
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+      <div id="embed_19" class="element_embed" style="display: none;">
+      <iframe width="590" height="300" src="http://www.youtube.com/embed/8AXhRXAt2E4" frameborder="0" allowfullscreen></iframe>
+    </div>
+  
+  <div class="comments" style="display: none;">
+    <ul class="comments">
+                  <li class="comment" id="6_20120330124127073167300">
+  <a href="/fr/user/joelle" >joelle</a>: 
+J&#039;aime bien quand ça tape. Ca rapelle le grincement sinistre des volets de vieilles maisons. D&#039;ailleur j&#039;ai repeint mon mur des shiots !
+<span class="datesince">
+  (Il y a 6 mois)
+</span>
+
+  <a title="Signaler ce commentaire" 
+    class="comment_report" 
+    href="/fr/ajax/comment/alert/19/2012-03-30%2012%3A41%3A27%200.73167300/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+    <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+  </a>
+
+  
+</li>              </ul>
+      
+    <div class="comments_loader">
+      <img class="comments_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+    </div>
+      
+    <form 
+      action="/fr/ajax/comment/add/19/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      <textarea name="comment"></textarea>
+
+<div class="buttons">
+  <input 
+    type="submit" 
+    value="Commenter" 
+    class="button"
+  />
+  <br />
+  <input 
+    type="button" 
+    value="Annuler" 
+    class="button cancel"
+  />
+</div>
+
+    </form>
+      
+    <a href="#add_comment_19" class="add_comment">
+      Ajouter un commentaire
+    </a>
+      
+  </div>
+
+      </li>
+     
+      <li class="element 
+
+      odd
+  " id="element_18">
+             
+        <table>
+  <tr>
+    <td class="element_thumbnail">
+      
+              <a href="#" class="a_thumbnail element_open element_embed_open_link embed">
+          <img class="play" style="display: none;" src="/bundles/muzichcore/img/1328283150_media-playback-start.png" alt="" />
+          <img 
+            class="element_thumbnail"
+                          src="http://img.youtube.com/vi/zCc_jLctZkA/default.jpg" 
+                        title="Afficher le lecteur" 
+            alt=""
+          />
+        </a>
+            
+    </td>
+    <td class="element_content">
+      
+      <span class="element_name">
+                  <a href="#" class="element_open element_name_embed_open_link">
+            SOULFLY - Prophecy
+          </a>
+              </span> 
+      
+      <a title="Ouvrir la page d&#039;origine" class="element_link" href="http://www.youtube.com/watch?v=zCc_jLctZkA" target="_blank">
+        <img src="/bundles/muzichcore/img/1324917097_link.png" alt="link" />
+      </a>
+      
+            
+            
+              
+        <a title="Modifier" class="element_edit_link" 
+           href="/fr/element/18/edit" style="display: none;"
+        >
+          <img src="/bundles/muzichcore/img/1327151338_desktop.png" alt="edit" />
+        </a>
+
+        <a title="Supprimer" class="element_remove_link" 
+           href="/fr/element/18/remove" style="display: none;"
+        >
+          <img src="/bundles/muzichcore/img/1327168960_fileclose.png" alt="delete" />
+        </a>
+            
+      <br />
+                        envoyé par <a href="/fr/user/bux">bux</a>
+                    Il y a 7 mois
+      
+      <div class="loader">
+        <img class="element_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+      </div>
+      
+            <ul class="element_tags">
+         
+          <li class="element_tag">
+            <a id="element_tag_237" href="#" class="element_tag button">Metal</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/237/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+      </ul>
+            
+      <a href="#" class="button element_open element_embed_close_link" style="display: none;">
+        Cacher le lecteur
+      </a>
+      
+      
+                                    
+      <a href="#add_comment_18" class="add_comment">
+        Ajouter un commentaire
+      </a>
+      
+      
+    </td>
+    <td class="right">
+      
+      <ul>
+              <li class="score">
+
+        <span class="score">
+          1
+        </span>
+
+      </li>
+      <li>
+
+              <a class="favorite_link" href="/fr/favorite/add/18/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" >
+          <img src="/bundles/muzichcore/img/favorite_bw.png" title="Ajouter a mes favoris" alt="Ajouter a mes favoris" />
+        </a>
+      
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+      <div id="embed_18" class="element_embed" style="display: none;">
+      <iframe width="590" height="300" src="http://www.youtube.com/embed/zCc_jLctZkA" frameborder="0" allowfullscreen></iframe>
+    </div>
+  
+  <div class="comments" style="display: none;">
+    <ul class="comments">
+        </ul>
+      
+    <div class="comments_loader">
+      <img class="comments_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+    </div>
+      
+    <form 
+      action="/fr/ajax/comment/add/18/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      <textarea name="comment"></textarea>
+
+<div class="buttons">
+  <input 
+    type="submit" 
+    value="Commenter" 
+    class="button"
+  />
+  <br />
+  <input 
+    type="button" 
+    value="Annuler" 
+    class="button cancel"
+  />
+</div>
+
+    </form>
+      
+    <a href="#add_comment_18" class="add_comment">
+      Ajouter un commentaire
+    </a>
+      
+  </div>
+
+      </li>
+     
+      <li class="element 
+
+      even
+  " id="element_10">
+             
+        <table>
+  <tr>
+    <td class="element_thumbnail">
+      
+              <a href="#" class="a_thumbnail element_open element_embed_open_link embed">
+          <img class="play" style="display: none;" src="/bundles/muzichcore/img/1328283150_media-playback-start.png" alt="" />
+          <img 
+            class="element_thumbnail"
+                          src="http://i1.sndcdn.com/artworks-000011371600-pdncha-large.jpg?04ad178" 
+                        title="Afficher le lecteur" 
+            alt=""
+          />
+        </a>
+            
+    </td>
+    <td class="element_content">
+      
+      <span class="element_name">
+                  <a href="#" class="element_open element_name_embed_open_link">
+            CardioT3K - Juggernaut Trap
+          </a>
+              </span> 
+      
+      <a title="Ouvrir la page d&#039;origine" class="element_link" href="http://soundcloud.com/cardiot3k/cardiot3k-juggernaut-trap" target="_blank">
+        <img src="/bundles/muzichcore/img/1324917097_link.png" alt="link" />
+      </a>
+      
+            
+        <a title="Proposer des tags" 
+          class="element_propose_tags" 
+          href="/fr/ajax/element/propose/tags/10">
+          <img src="/bundles/muzichcore/img/1333484018_rss-tag.png" alt="tags_proposition" />
+        </a>
+      
+        <a title="Signaler cet élément" 
+          class="element_report" 
+          href="/fr/ajax/element/report/10/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+          <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+        </a>
+      
+            
+            
+      <br />
+                        envoyé par <a href="/fr/user/paul">paul</a>
+                    Il y a 7 mois
+      
+      <div class="loader">
+        <img class="element_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+      </div>
+      
+            <ul class="element_tags">
+         
+          <li class="element_tag">
+            <a id="element_tag_445" href="#" class="element_tag button">Tribe</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/445/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+      </ul>
+            
+      <a href="#" class="button element_open element_embed_close_link" style="display: none;">
+        Cacher le lecteur
+      </a>
+      
+      
+                                    
+      <a href="#add_comment_10" class="add_comment">
+        Ajouter un commentaire
+      </a>
+      
+      
+    </td>
+    <td class="right">
+      
+      <ul>
+                  <li class="vote">
+                          <a class="vote" href="/fr/ajax/element/vote/add/good/10/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" title="Ce partage mérite un point supplémentaire (cliquez a nouveau pour enlever)">
+                <img src="/bundles/muzichcore/img/up_bw.png" alt="vote" />
+              </a>
+                      </li>
+            <li class="score">
+
+        <span class="score">
+          0
+        </span>
+
+      </li>
+      <li>
+
+              <a class="favorite_link" href="/fr/favorite/add/10/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" >
+          <img src="/bundles/muzichcore/img/favorite_bw.png" title="Ajouter a mes favoris" alt="Ajouter a mes favoris" />
+        </a>
+      
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+      <div id="embed_10" class="element_embed" style="display: none;">
+      <object height="81" width="100%" id="embed_35ca44125b129b865005046b138d8761" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+          <param name="movie" value="http://player.soundcloud.com/player.swf?url=http://soundcloud.com/cardiot3k/cardiot3k-juggernaut-trap&amp;enable_api=true&amp;object_id=embed_35ca44125b129b865005046b138d8761"></param>
+          <param name="allowscriptaccess" value="always"></param>
+          <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http://soundcloud.com/cardiot3k/cardiot3k-juggernaut-trap&amp;enable_api=true&amp;object_id=embed_35ca44125b129b865005046b138d8761" type="application/x-shockwave-flash" width="100%" name="embed_35ca44125b129b865005046b138d8761"></embed>
+        </object>
+        
+    </div>
+  
+  <div class="comments" style="display: none;">
+    <ul class="comments">
+        </ul>
+      
+    <div class="comments_loader">
+      <img class="comments_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+    </div>
+      
+    <form 
+      action="/fr/ajax/comment/add/10/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      <textarea name="comment"></textarea>
+
+<div class="buttons">
+  <input 
+    type="submit" 
+    value="Commenter" 
+    class="button"
+  />
+  <br />
+  <input 
+    type="button" 
+    value="Annuler" 
+    class="button cancel"
+  />
+</div>
+
+  <br />
+  <input type="checkbox" name="follow" id="input_comment_follow"  />
+  <label for="input_comment_follow">M&#039;avertir en cas de nouveaux commentaires</label>
+    </form>
+      
+    <a href="#add_comment_10" class="add_comment">
+      Ajouter un commentaire
+    </a>
+      
+  </div>
+
+      </li>
+     
+      <li class="element 
+
+      odd
+  " id="element_9">
+             
+        <table>
+  <tr>
+    <td class="element_thumbnail">
+      
+              <a href="#" class="a_thumbnail element_open element_embed_open_link embed">
+          <img class="play" style="display: none;" src="/bundles/muzichcore/img/1328283150_media-playback-start.png" alt="" />
+          <img 
+            class="element_thumbnail"
+                          src="/bundles/muzichcore/img/nothumb.png" 
+                        title="Afficher le lecteur" 
+            alt=""
+          />
+        </a>
+            
+    </td>
+    <td class="element_content">
+      
+      <span class="element_name">
+                  <a href="#" class="element_open element_name_embed_open_link">
+            RE-FUCK (ReVeRB_FBC) mix.
+          </a>
+              </span> 
+      
+      <a title="Ouvrir la page d&#039;origine" class="element_link" href="http://soundcloud.com/reverb-2/re-fuck-reverb_fbc-mix" target="_blank">
+        <img src="/bundles/muzichcore/img/1324917097_link.png" alt="link" />
+      </a>
+      
+            
+        <a title="Proposer des tags" 
+          class="element_propose_tags" 
+          href="/fr/ajax/element/propose/tags/9">
+          <img src="/bundles/muzichcore/img/1333484018_rss-tag.png" alt="tags_proposition" />
+        </a>
+      
+        <a title="Signaler cet élément" 
+          class="element_report" 
+          href="/fr/ajax/element/report/9/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+          <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+        </a>
+      
+            
+            
+      <br />
+                        envoyé par <a href="/fr/user/paul">paul</a>
+                    Il y a 7 mois
+      
+      <div class="loader">
+        <img class="element_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+      </div>
+      
+            <ul class="element_tags">
+         
+          <li class="element_tag">
+            <a id="element_tag_445" href="#" class="element_tag button">Tribe</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/445/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+      </ul>
+            
+      <a href="#" class="button element_open element_embed_close_link" style="display: none;">
+        Cacher le lecteur
+      </a>
+      
+      
+                                    
+      <a href="#add_comment_9" class="add_comment">
+        Ajouter un commentaire
+      </a>
+      
+      
+    </td>
+    <td class="right">
+      
+      <ul>
+                  <li class="vote">
+                          <a class="vote" href="/fr/ajax/element/vote/add/good/9/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" title="Ce partage mérite un point supplémentaire (cliquez a nouveau pour enlever)">
+                <img src="/bundles/muzichcore/img/up_bw.png" alt="vote" />
+              </a>
+                      </li>
+            <li class="score">
+
+        <span class="score">
+          0
+        </span>
+
+      </li>
+      <li>
+
+              <a class="favorite_link" href="/fr/favorite/add/9/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" >
+          <img src="/bundles/muzichcore/img/favorite_bw.png" title="Ajouter a mes favoris" alt="Ajouter a mes favoris" />
+        </a>
+      
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+      <div id="embed_9" class="element_embed" style="display: none;">
+      <object height="81" width="100%" id="embed_8c59c7a49aecc4eb8a846e16855e7850" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+          <param name="movie" value="http://player.soundcloud.com/player.swf?url=http://soundcloud.com/reverb-2/re-fuck-reverb_fbc-mix&amp;enable_api=true&amp;object_id=embed_8c59c7a49aecc4eb8a846e16855e7850"></param>
+          <param name="allowscriptaccess" value="always"></param>
+          <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http://soundcloud.com/reverb-2/re-fuck-reverb_fbc-mix&amp;enable_api=true&amp;object_id=embed_8c59c7a49aecc4eb8a846e16855e7850" type="application/x-shockwave-flash" width="100%" name="embed_8c59c7a49aecc4eb8a846e16855e7850"></embed>
+        </object>
+        
+    </div>
+  
+  <div class="comments" style="display: none;">
+    <ul class="comments">
+        </ul>
+      
+    <div class="comments_loader">
+      <img class="comments_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+    </div>
+      
+    <form 
+      action="/fr/ajax/comment/add/9/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      <textarea name="comment"></textarea>
+
+<div class="buttons">
+  <input 
+    type="submit" 
+    value="Commenter" 
+    class="button"
+  />
+  <br />
+  <input 
+    type="button" 
+    value="Annuler" 
+    class="button cancel"
+  />
+</div>
+
+  <br />
+  <input type="checkbox" name="follow" id="input_comment_follow"  />
+  <label for="input_comment_follow">M&#039;avertir en cas de nouveaux commentaires</label>
+    </form>
+      
+    <a href="#add_comment_9" class="add_comment">
+      Ajouter un commentaire
+    </a>
+      
+  </div>
+
+      </li>
+     
+      <li class="element 
+
+      even
+  " id="element_8">
+             
+        <table>
+  <tr>
+    <td class="element_thumbnail">
+      
+              <a href="#" class="a_thumbnail element_open element_embed_open_link embed">
+          <img class="play" style="display: none;" src="/bundles/muzichcore/img/1328283150_media-playback-start.png" alt="" />
+          <img 
+            class="element_thumbnail"
+                          src="/bundles/muzichcore/img/nothumb.png" 
+                        title="Afficher le lecteur" 
+            alt=""
+          />
+        </a>
+            
+    </td>
+    <td class="element_content">
+      
+      <span class="element_name">
+                  <a href="#" class="element_open element_name_embed_open_link">
+            All Is Full Of Pain
+          </a>
+              </span> 
+      
+      <a title="Ouvrir la page d&#039;origine" class="element_link" href="http://soundcloud.com/keytek/all-is-full-of-pain" target="_blank">
+        <img src="/bundles/muzichcore/img/1324917097_link.png" alt="link" />
+      </a>
+      
+            
+        <a title="Proposer des tags" 
+          class="element_propose_tags" 
+          href="/fr/ajax/element/propose/tags/8">
+          <img src="/bundles/muzichcore/img/1333484018_rss-tag.png" alt="tags_proposition" />
+        </a>
+      
+        <a title="Signaler cet élément" 
+          class="element_report" 
+          href="/fr/ajax/element/report/8/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+          <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+        </a>
+      
+            
+            
+      <br />
+                        envoyé par <a href="/fr/user/paul">paul</a>
+                    Il y a 7 mois
+      
+      <div class="loader">
+        <img class="element_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+      </div>
+      
+            <ul class="element_tags">
+         
+          <li class="element_tag">
+            <a id="element_tag_174" href="#" class="element_tag button">Hardtek</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/174/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+          <li class="element_tag">
+            <a id="element_tag_445" href="#" class="element_tag button">Tribe</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/445/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+      </ul>
+            
+      <a href="#" class="button element_open element_embed_close_link" style="display: none;">
+        Cacher le lecteur
+      </a>
+      
+      
+                                    
+      <a href="#add_comment_8" class="add_comment">
+        Ajouter un commentaire
+      </a>
+      
+      
+    </td>
+    <td class="right">
+      
+      <ul>
+                  <li class="vote">
+                          <a class="vote" href="/fr/ajax/element/vote/add/good/8/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" title="Ce partage mérite un point supplémentaire (cliquez a nouveau pour enlever)">
+                <img src="/bundles/muzichcore/img/up_bw.png" alt="vote" />
+              </a>
+                      </li>
+            <li class="score">
+
+        <span class="score">
+          0
+        </span>
+
+      </li>
+      <li>
+
+              <a class="favorite_link" href="/fr/favorite/add/8/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" >
+          <img src="/bundles/muzichcore/img/favorite_bw.png" title="Ajouter a mes favoris" alt="Ajouter a mes favoris" />
+        </a>
+      
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+      <div id="embed_8" class="element_embed" style="display: none;">
+      <object height="81" width="100%" id="embed_f4cac63779184e11b09bccfaecf8649e" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+          <param name="movie" value="http://player.soundcloud.com/player.swf?url=http://soundcloud.com/keytek/all-is-full-of-pain&amp;enable_api=true&amp;object_id=embed_f4cac63779184e11b09bccfaecf8649e"></param>
+          <param name="allowscriptaccess" value="always"></param>
+          <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http://soundcloud.com/keytek/all-is-full-of-pain&amp;enable_api=true&amp;object_id=embed_f4cac63779184e11b09bccfaecf8649e" type="application/x-shockwave-flash" width="100%" name="embed_f4cac63779184e11b09bccfaecf8649e"></embed>
+        </object>
+        
+    </div>
+  
+  <div class="comments" style="display: none;">
+    <ul class="comments">
+        </ul>
+      
+    <div class="comments_loader">
+      <img class="comments_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+    </div>
+      
+    <form 
+      action="/fr/ajax/comment/add/8/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      <textarea name="comment"></textarea>
+
+<div class="buttons">
+  <input 
+    type="submit" 
+    value="Commenter" 
+    class="button"
+  />
+  <br />
+  <input 
+    type="button" 
+    value="Annuler" 
+    class="button cancel"
+  />
+</div>
+
+  <br />
+  <input type="checkbox" name="follow" id="input_comment_follow"  />
+  <label for="input_comment_follow">M&#039;avertir en cas de nouveaux commentaires</label>
+    </form>
+      
+    <a href="#add_comment_8" class="add_comment">
+      Ajouter un commentaire
+    </a>
+      
+  </div>
+
+      </li>
+     
+      <li class="element 
+
+      odd
+  " id="element_7">
+             
+        <table>
+  <tr>
+    <td class="element_thumbnail">
+      
+              <a href="#" class="a_thumbnail element_open element_embed_open_link embed">
+          <img class="play" style="display: none;" src="/bundles/muzichcore/img/1328283150_media-playback-start.png" alt="" />
+          <img 
+            class="element_thumbnail"
+                          src="http://imgjam.com/albums/s3/3409/covers/1.100.jpg" 
+                        title="Afficher le lecteur" 
+            alt=""
+          />
+        </a>
+            
+    </td>
+    <td class="element_content">
+      
+      <span class="element_name">
+                  <a href="#" class="element_open element_name_embed_open_link">
+            Acrotek Hardtek G01
+          </a>
+              </span> 
+      
+      <a title="Ouvrir la page d&#039;origine" class="element_link" href="http://www.jamendo.com/fr/album/3409" target="_blank">
+        <img src="/bundles/muzichcore/img/1324917097_link.png" alt="link" />
+      </a>
+      
+            
+        <a title="Proposer des tags" 
+          class="element_propose_tags" 
+          href="/fr/ajax/element/propose/tags/7">
+          <img src="/bundles/muzichcore/img/1333484018_rss-tag.png" alt="tags_proposition" />
+        </a>
+      
+        <a title="Signaler cet élément" 
+          class="element_report" 
+          href="/fr/ajax/element/report/7/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+          <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+        </a>
+      
+            
+            
+      <br />
+                        envoyé par <a href="/fr/user/jean">jean</a>
+                    Il y a 7 mois
+      
+      <div class="loader">
+        <img class="element_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+      </div>
+      
+            <ul class="element_tags">
+         
+          <li class="element_tag">
+            <a id="element_tag_174" href="#" class="element_tag button">Hardtek</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/174/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+      </ul>
+            
+      <a href="#" class="button element_open element_embed_close_link" style="display: none;">
+        Cacher le lecteur
+      </a>
+      
+      
+                                    
+      <a href="#add_comment_7" class="add_comment">
+        Ajouter un commentaire
+      </a>
+      
+      
+    </td>
+    <td class="right">
+      
+      <ul>
+                  <li class="vote">
+                          <a class="vote" href="/fr/ajax/element/vote/add/good/7/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" title="Ce partage mérite un point supplémentaire (cliquez a nouveau pour enlever)">
+                <img src="/bundles/muzichcore/img/up_bw.png" alt="vote" />
+              </a>
+                      </li>
+            <li class="score">
+
+        <span class="score">
+          0
+        </span>
+
+      </li>
+      <li>
+
+              <a class="favorite_link" href="/fr/favorite/add/7/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" >
+          <img src="/bundles/muzichcore/img/favorite_bw.png" title="Ajouter a mes favoris" alt="Ajouter a mes favoris" />
+        </a>
+      
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+      <div id="embed_7" class="element_embed" style="display: none;">
+      
+          <object width="200" height="300" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" align="middle">
+            <param name="allowScriptAccess" value="always" />
+            <param name="wmode" value="transparent" />
+            <param name="movie" value="http://widgets.jamendo.com/fr/album/?album_id=3409&playertype=2008" />
+            <param name="quality" value="high" />
+            <param name="bgcolor" value="#FFFFFF" />
+            <embed src="http://widgets.jamendo.com/fr/album/?album_id=3409&playertype=2008" quality="high" wmode="transparent" bgcolor="#FFFFFF" width="200" height="300" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+              &nbsp;
+            </embed>
+            &nbsp;
+          </object>
+          <a href="http://pro.jamendo.com/" style="display:block;font-size:8px !important;">Catalogue professionnel de musique libre</a>
+        
+    </div>
+  
+  <div class="comments" style="display: none;">
+    <ul class="comments">
+        </ul>
+      
+    <div class="comments_loader">
+      <img class="comments_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+    </div>
+      
+    <form 
+      action="/fr/ajax/comment/add/7/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      <textarea name="comment"></textarea>
+
+<div class="buttons">
+  <input 
+    type="submit" 
+    value="Commenter" 
+    class="button"
+  />
+  <br />
+  <input 
+    type="button" 
+    value="Annuler" 
+    class="button cancel"
+  />
+</div>
+
+  <br />
+  <input type="checkbox" name="follow" id="input_comment_follow"  />
+  <label for="input_comment_follow">M&#039;avertir en cas de nouveaux commentaires</label>
+    </form>
+      
+    <a href="#add_comment_7" class="add_comment">
+      Ajouter un commentaire
+    </a>
+      
+  </div>
+
+      </li>
+     
+      <li class="element 
+
+      even
+  " id="element_6">
+             
+        <table>
+  <tr>
+    <td class="element_thumbnail">
+      
+              <a href="#" class="a_thumbnail element_open element_embed_open_link embed">
+          <img class="play" style="display: none;" src="/bundles/muzichcore/img/1328283150_media-playback-start.png" alt="" />
+          <img 
+            class="element_thumbnail"
+                          src="http://imgjam.com/albums/s75/75206/covers/1.100.jpg" 
+                        title="Afficher le lecteur" 
+            alt=""
+          />
+        </a>
+            
+    </td>
+    <td class="element_content">
+      
+      <span class="element_name">
+                  <a href="#" class="element_open element_name_embed_open_link">
+            Dj antoine
+          </a>
+              </span> 
+      
+      <a title="Ouvrir la page d&#039;origine" class="element_link" href="http://www.jamendo.com/fr/album/75206" target="_blank">
+        <img src="/bundles/muzichcore/img/1324917097_link.png" alt="link" />
+      </a>
+      
+            
+        <a title="Proposer des tags" 
+          class="element_propose_tags" 
+          href="/fr/ajax/element/propose/tags/6">
+          <img src="/bundles/muzichcore/img/1333484018_rss-tag.png" alt="tags_proposition" />
+        </a>
+      
+        <a title="Signaler cet élément" 
+          class="element_report" 
+          href="/fr/ajax/element/report/6/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+          <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+        </a>
+      
+            
+            
+      <br />
+                        envoyé par <a href="/fr/user/jean">jean</a>
+                    Il y a 7 mois
+      
+      <div class="loader">
+        <img class="element_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+      </div>
+      
+            <ul class="element_tags">
+         
+          <li class="element_tag">
+            <a id="element_tag_174" href="#" class="element_tag button">Hardtek</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/174/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+          <li class="element_tag">
+            <a id="element_tag_445" href="#" class="element_tag button">Tribe</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/445/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+      </ul>
+            
+      <a href="#" class="button element_open element_embed_close_link" style="display: none;">
+        Cacher le lecteur
+      </a>
+      
+      
+                                    
+      <a href="#add_comment_6" class="add_comment">
+        Ajouter un commentaire
+      </a>
+      
+      
+    </td>
+    <td class="right">
+      
+      <ul>
+                  <li class="vote">
+                          <a class="vote" href="/fr/ajax/element/vote/add/good/6/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" title="Ce partage mérite un point supplémentaire (cliquez a nouveau pour enlever)">
+                <img src="/bundles/muzichcore/img/up_bw.png" alt="vote" />
+              </a>
+                      </li>
+            <li class="score">
+
+        <span class="score">
+          0
+        </span>
+
+      </li>
+      <li>
+
+              <a class="favorite_link" href="/fr/favorite/add/6/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" >
+          <img src="/bundles/muzichcore/img/favorite_bw.png" title="Ajouter a mes favoris" alt="Ajouter a mes favoris" />
+        </a>
+      
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+      <div id="embed_6" class="element_embed" style="display: none;">
+      
+          <object width="200" height="300" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" align="middle">
+            <param name="allowScriptAccess" value="always" />
+            <param name="wmode" value="transparent" />
+            <param name="movie" value="http://widgets.jamendo.com/fr/album/?album_id=75206&playertype=2008" />
+            <param name="quality" value="high" />
+            <param name="bgcolor" value="#FFFFFF" />
+            <embed src="http://widgets.jamendo.com/fr/album/?album_id=75206&playertype=2008" quality="high" wmode="transparent" bgcolor="#FFFFFF" width="200" height="300" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+              &nbsp;
+            </embed>
+            &nbsp;
+          </object>
+          <a href="http://pro.jamendo.com/" style="display:block;font-size:8px !important;">Catalogue professionnel de musique libre</a>
+        
+    </div>
+  
+  <div class="comments" style="display: none;">
+    <ul class="comments">
+        </ul>
+      
+    <div class="comments_loader">
+      <img class="comments_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+    </div>
+      
+    <form 
+      action="/fr/ajax/comment/add/6/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      <textarea name="comment"></textarea>
+
+<div class="buttons">
+  <input 
+    type="submit" 
+    value="Commenter" 
+    class="button"
+  />
+  <br />
+  <input 
+    type="button" 
+    value="Annuler" 
+    class="button cancel"
+  />
+</div>
+
+  <br />
+  <input type="checkbox" name="follow" id="input_comment_follow"  />
+  <label for="input_comment_follow">M&#039;avertir en cas de nouveaux commentaires</label>
+    </form>
+      
+    <a href="#add_comment_6" class="add_comment">
+      Ajouter un commentaire
+    </a>
+      
+  </div>
+
+      </li>
+     
+      <li class="element 
+
+      odd
+  " id="element_5">
+             
+        <table>
+  <tr>
+    <td class="element_thumbnail">
+      
+              <a href="#" class="a_thumbnail element_open element_embed_open_link embed">
+          <img class="play" style="display: none;" src="/bundles/muzichcore/img/1328283150_media-playback-start.png" alt="" />
+          <img 
+            class="element_thumbnail"
+                          src="http://imgjam.com/albums/s42/42567/covers/1.100.jpg" 
+                        title="Afficher le lecteur" 
+            alt=""
+          />
+        </a>
+            
+    </td>
+    <td class="element_content">
+      
+      <span class="element_name">
+                  <a href="#" class="element_open element_name_embed_open_link">
+            DJ FAB
+          </a>
+              </span> 
+      
+      <a title="Ouvrir la page d&#039;origine" class="element_link" href="http://www.jamendo.com/fr/album/42567" target="_blank">
+        <img src="/bundles/muzichcore/img/1324917097_link.png" alt="link" />
+      </a>
+      
+            
+        <a title="Proposer des tags" 
+          class="element_propose_tags" 
+          href="/fr/ajax/element/propose/tags/5">
+          <img src="/bundles/muzichcore/img/1333484018_rss-tag.png" alt="tags_proposition" />
+        </a>
+      
+        <a title="Signaler cet élément" 
+          class="element_report" 
+          href="/fr/ajax/element/report/5/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb">
+          <img src="/bundles/muzichcore/img/1331832708_comment_alert.png" alt="report" />
+        </a>
+      
+            
+            
+      <br />
+                        envoyé par <a href="/fr/user/jean">jean</a>
+                    Il y a 7 mois
+      
+      <div class="loader">
+        <img class="element_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+      </div>
+      
+            <ul class="element_tags">
+         
+          <li class="element_tag">
+            <a id="element_tag_174" href="#" class="element_tag button">Hardtek</a>
+            <a 
+              href="/fr/ajax/tag/add-to-favorites/174/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+              class="tag_to_favorites" 
+              style="display: none;"
+              title="Ajouter a vos tags favoris"   
+            >
+              <img src="/bundles/muzichcore/img/1331734087_emblem-favorite.png" alt="add-to-favorites"/>
+            </a>
+          </li>
+         
+      </ul>
+            
+      <a href="#" class="button element_open element_embed_close_link" style="display: none;">
+        Cacher le lecteur
+      </a>
+      
+      
+                                    
+      <a href="#add_comment_5" class="add_comment">
+        Ajouter un commentaire
+      </a>
+      
+      
+    </td>
+    <td class="right">
+      
+      <ul>
+                  <li class="vote">
+                          <a class="vote" href="/fr/ajax/element/vote/add/good/5/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" title="Ce partage mérite un point supplémentaire (cliquez a nouveau pour enlever)">
+                <img src="/bundles/muzichcore/img/up_bw.png" alt="vote" />
+              </a>
+                      </li>
+            <li class="score">
+
+        <span class="score">
+          0
+        </span>
+
+      </li>
+      <li>
+
+              <a class="favorite_link" href="/fr/favorite/remove/5/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" >
+          <img src="/bundles/muzichcore/img/favorite.png" title="Retirer de mes favoris" alt="Retirer de mes favoris"/>
+        </a>
+      
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+      <div id="embed_5" class="element_embed" style="display: none;">
+      
+          <object width="200" height="300" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" align="middle">
+            <param name="allowScriptAccess" value="always" />
+            <param name="wmode" value="transparent" />
+            <param name="movie" value="http://widgets.jamendo.com/fr/album/?album_id=42567&playertype=2008" />
+            <param name="quality" value="high" />
+            <param name="bgcolor" value="#FFFFFF" />
+            <embed src="http://widgets.jamendo.com/fr/album/?album_id=42567&playertype=2008" quality="high" wmode="transparent" bgcolor="#FFFFFF" width="200" height="300" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+              &nbsp;
+            </embed>
+            &nbsp;
+          </object>
+          <a href="http://pro.jamendo.com/" style="display:block;font-size:8px !important;">Catalogue professionnel de musique libre</a>
+        
+    </div>
+  
+  <div class="comments" style="display: none;">
+    <ul class="comments">
+        </ul>
+      
+    <div class="comments_loader">
+      <img class="comments_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading"/>
+    </div>
+      
+    <form 
+      action="/fr/ajax/comment/add/5/8dfbab03ec0a040623310c98b46ec6f5de7e8df41d4856f1b144a9b1b5d35dcb" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      <textarea name="comment"></textarea>
+
+<div class="buttons">
+  <input 
+    type="submit" 
+    value="Commenter" 
+    class="button"
+  />
+  <br />
+  <input 
+    type="button" 
+    value="Annuler" 
+    class="button cancel"
+  />
+</div>
+
+  <br />
+  <input type="checkbox" name="follow" id="input_comment_follow"  />
+  <label for="input_comment_follow">M&#039;avertir en cas de nouveaux commentaires</label>
+    </form>
+      
+    <a href="#add_comment_5" class="add_comment">
+      Ajouter un commentaire
+    </a>
+      
+  </div>
+
+      </li>
+     
+  </ul>
+    
+  <div class="elements_loader_div">
+  <img class="elements_more_loader" style="display: none;" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading" />
+</div>
+
+ 
+   <span class="elements_more">
+     <a href="/fr/search-elements" class="elements_more button">
+       Afficher plus de résultats
+     </a>
+   </span>
+  
+  
+      </div>
+    
+    
+  <div id="bottomContainer">
+  
+  <a href="/fr/info/about" >
+    A propos
+  </a>
+  
+  -
+  
+  <a href="/fr/info/development" >
+    Version en développement
+  </a>-
+  
+  <a href="/fr/info/sites" >
+    Sites supportés
+  </a>
+  
+  
+  
+</div>  
+</body>
+</html>
+

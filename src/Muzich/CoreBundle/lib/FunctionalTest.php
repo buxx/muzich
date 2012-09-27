@@ -26,8 +26,13 @@ class FunctionalTest extends WebTestCase
   
   protected function outputDebug($content = null)
   {
-    unlink('/home/bux/.debug/out.html');
-    $monfichier = fopen('/home/bux/.debug/out.html', 'a+');
+    $time = time();
+    //unlink('.debug/out'.$time.'.html');
+    if(@mkdir("./debug",0777,true))
+    {
+      
+    }
+    $monfichier = fopen('.debug/out'.$time.'.html', 'a+');
     if (!$content)
     {
       fwrite($monfichier, $this->client->getResponse()->getContent());
