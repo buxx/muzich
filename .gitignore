@@ -7,3 +7,4 @@ app/logs/test.log
 *.log
 *.*~
 nbproject
+.debug
