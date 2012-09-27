@@ -117,7 +117,7 @@ class TagReadTest extends UnitTest
     //////////////////////////
     $cresults = array(
       'Skate punk', 'Ska-punk', 'Ska', 'Anarcho-punk', 'Dance-Punk', 'Horror punk', 
-        'Pop-punk', 'Post-Punk', 'Punk rock', 'Skacore', 'Ska-jazz',  'Synthpunk' 
+        'Pop-punk', 'Post-Punk', 'Punk rock', 'Ska-jazz', 'Skacore',  'Synthpunk' 
     );
     
     $TagLike = new TagLike($this->getDoctrine());

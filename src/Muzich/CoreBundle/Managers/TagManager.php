@@ -177,6 +177,15 @@ class TagManager
     $em->flush();
   }
   
+  
+  /**
+   * 
+   * @param \Symfony\Bundle\DoctrineBundle\Registry $doctrine
+   * @param \Muzich\CoreBundle\Entity\Tag $tag
+   * @param type $accept
+   * @param type $replacing_id
+   * @return boolean
+   */
   public function moderateTag(Registry $doctrine, Tag $tag, $accept, $replacing_id = null)
   {
     if ($tag)

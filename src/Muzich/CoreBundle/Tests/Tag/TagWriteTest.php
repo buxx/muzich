@@ -127,7 +127,7 @@ class TagWriteTest extends UnitTest
     $this->assertTrue(!is_null($tag_3));
     
     // Test 1: On accepte
-    $this->assertTrue($tagManager->moderateTag($this->getDoctrine(), $tag_1->getId(), true));
+    $this->assertTrue($tagManager->moderateTag($this->getDoctrine(), $tag_1, true));
     
     $tag_1 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
       ->findOneBy(array(
@@ -145,7 +145,7 @@ class TagWriteTest extends UnitTest
     $this->assertTrue(!is_null($tag_1));
     
     // Test 2: On refuse
-    $tagManager->moderateTag($this->getDoctrine(), $tag_2->getId(), false);
+    $tagManager->moderateTag($this->getDoctrine(), $tag_2, false);
     $tag_2 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
       ->findOneBy(array(
         'name'       => 'Nouveau 2'
@@ -249,7 +249,7 @@ class TagWriteTest extends UnitTest
     
     // A ce stade les vérifications on été faites on lance le replace
     // Test 3: On remplace
-    $tagManager->moderateTag($this->getDoctrine(), $tag_3->getId(), false, $tag_1->getId());
+    $tagManager->moderateTag($this->getDoctrine(), $tag_3, false, $tag_1->getId());
         
     // On relance les tests en base, inversés donc puisqu'il a été remplacé
     // element
