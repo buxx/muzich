@@ -8,14 +8,19 @@ imports:
 
 monolog:
     handlers:
-        main:
+        mail:
             type:         fingers_crossed
-            action_level: error
-            handler:      nested
-        nested:
-            type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: debug
+            action_level: critical
+            handler:      buffered
+        buffered:
+            type:    buffer
+            handler: swift
+        swift:
+            type:       swift_mailer
+            from_email: error@siga-jsp.fr
+            to_email:   sevajol.bastien@gmail.com
+            subject:    An Error Occurred!
+            level:      debug
 
 parameters:
     env: prod

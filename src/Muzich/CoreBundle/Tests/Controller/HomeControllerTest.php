@@ -566,17 +566,6 @@ class HomeControllerTest extends FunctionalTest
     
     $url = $this->generateUrl('element_new_count', array('refid' => $first_id));
     // On effectue la kekete ajax
-    // 
-    // TODO: Ici ça a changé! On trasmet le form de filtre !!!
-    /*
-     * $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
-        
-    // On met ce que l'on veut dans le form
-    $form['element_search_form[network]'] = ElementSearcher::NETWORK_PUBLIC;
-    $form['element_search_form[tags]'] = json_encode(array($hardtek_id, $tribe_id));
-    $this->submit($form);
-     */
-        
     $crawler = $this->client->request(
       'POST', 
       $url, 
