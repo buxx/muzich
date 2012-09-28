@@ -206,6 +206,14 @@ class Element
   protected $count_comment_report = false;
 
   /**
+   * Données de l'objet chez le service externe
+   * 
+   * @ORM\Column(type="text", nullable=true)
+   * @var type string
+   */
+  protected $datas;
+  
+  /**
    * Get id
    *
    * @return integer 
@@ -501,6 +509,59 @@ class Element
   public function setComments($comments)
   {
     $this->comments = json_encode($comments);
+  }
+  
+  
+  
+  /**
+   *
+   * @return type array
+   */
+  public function getDatas()
+  {
+    if ($this->datas === null)
+    {
+      return array();
+    }
+    return json_decode($this->datas, true);
+  }
+  
+  /**
+   *
+   * @param string $data_id
+   * @return all 
+   */
+  public function getData($data_id)
+  {
+    $datas = $this->getDatas();
+    if (array_key_exists($data_id, $datas))
+    {
+      return $datas[$data_id];
+    }
+    
+    return null;
+  }
+  
+  
+  /**
+   *
+   * @param array $datas 
+   */
+  public function setDatas($datas)
+  {
+    $this->datas = json_encode($datas);
+  }
+  
+  /**
+   *
+   * @param string $data_id
+   * @param all $data_value 
+   */
+  public function setData($data_id, $data_value)
+  {
+    $datas = $this->getDatas();
+    $datas[$data_id] = $data_value;
+    $this->setDatas($datas);
   }
   
   public function setHasTagProposition($has_prop)

@@ -1,18 +1,18 @@
 <?php
 
-namespace Muzich\CoreBundle\ElementFactory;
+namespace Muzich\CoreBundle\Managers;
 
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 
-use Muzich\CoreBundle\ElementFactory\Site\YoutubecomFactory;
-use Muzich\CoreBundle\ElementFactory\Site\YoutubeFactory;
-use Muzich\CoreBundle\ElementFactory\Site\DailymotioncomFactory;
-use Muzich\CoreBundle\ElementFactory\Site\JamendocomFactory;
-use Muzich\CoreBundle\ElementFactory\Site\SoundcloudcomFactory;
-use Muzich\CoreBundle\ElementFactory\Site\DeezercomFactory;
+use Muzich\CoreBundle\Factory\Elements\YoutubecomFactory;
+use Muzich\CoreBundle\Factory\Elements\YoutubeFactory;
+use Muzich\CoreBundle\Factory\Elements\DailymotioncomFactory;
+use Muzich\CoreBundle\Factory\Elements\JamendocomFactory;
+use Muzich\CoreBundle\Factory\Elements\SoundcloudcomFactory;
+use Muzich\CoreBundle\Factory\Elements\DeezercomFactory;
 
 /**
  * 
@@ -130,8 +130,11 @@ class ElementManager
     if (in_array($this->element->getType(), $this->factories))
     {
       $site_factory = $this->getFactory();
-      $this->element->setEmbed($site_factory->getEmbedCode());
-      $this->element->setThumbnailUrl($site_factory->getThumbnailUrl());
+      // On récupères les datas de l'élément
+      $site_factory->retrieveDatas();
+      // On procède a la construction de nos informations
+      $site_factory->proceedEmbedCode();
+      $site_factory->proceedThumbnailUrl();
     }
     
   }
