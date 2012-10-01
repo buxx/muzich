@@ -575,9 +575,9 @@ class ModerateControllerTest extends FunctionalTest
     $this->crawler = $this->client->request('GET', $this->generateUrl('MuzichAdminBundle_moderate_tags'));
     
     // On peux voir les tags 
-    $this->exist('li.tag:contains("Tag0000")');
-    $this->exist('li.tag:contains("Tag0001")');
-    $this->exist('li.tag:contains("Tag0002")');
+    $this->exist('span.name:contains("Tag0000")');
+    $this->exist('span.name:contains("Tag0001")');
+    $this->exist('span.name:contains("Tag0002")');
     
     /*
      * Etapes:
