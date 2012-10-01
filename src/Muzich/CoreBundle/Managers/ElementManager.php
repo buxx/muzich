@@ -7,12 +7,12 @@ use Muzich\CoreBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 
-use Muzich\CoreBundle\Factory\Elements\YoutubecomFactory;
-use Muzich\CoreBundle\Factory\Elements\YoutubeFactory;
-use Muzich\CoreBundle\Factory\Elements\DailymotioncomFactory;
-use Muzich\CoreBundle\Factory\Elements\JamendocomFactory;
-use Muzich\CoreBundle\Factory\Elements\SoundcloudcomFactory;
-use Muzich\CoreBundle\Factory\Elements\DeezercomFactory;
+use Muzich\CoreBundle\Factory\Elements\Youtubecom;
+use Muzich\CoreBundle\Factory\Elements\Youtube;
+use Muzich\CoreBundle\Factory\Elements\Dailymotioncom;
+use Muzich\CoreBundle\Factory\Elements\Jamendocom;
+use Muzich\CoreBundle\Factory\Elements\Soundcloudcom;
+use Muzich\CoreBundle\Factory\Elements\Deezercom;
 
 /**
  * 
@@ -147,22 +147,22 @@ class ElementManager
     switch ($this->element->getType())
     {
       case 'youtube.com':
-        return new YoutubecomFactory($this->element, $this->container);
+        return new Youtubecom($this->element, $this->container);
       break;
       case 'youtu.be':
-        return new YoutubeFactory($this->element, $this->container);
+        return new Youtube($this->element, $this->container);
       break;
       case 'soundcloud.com':
-        return new SoundcloudcomFactory($this->element, $this->container);
+        return new Soundcloudcom($this->element, $this->container);
       break;
       case 'jamendo.com':
-        return new JamendocomFactory($this->element, $this->container);
+        return new Jamendocom($this->element, $this->container);
       break;
       case 'dailymotion.com':
-        return new DailymotioncomFactory($this->element, $this->container);
+        return new Dailymotioncom($this->element, $this->container);
       break;
       case 'deezer.com':
-        return new DeezercomFactory($this->element, $this->container);
+        return new Deezercom($this->element, $this->container);
       break;
       default:
         throw new \Exception("La Factory n'est pas prise en charge pour ce type.");

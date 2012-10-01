@@ -19,7 +19,7 @@ class Youtube extends Youtubecom
     
     if (preg_match("#\/([a-zA-Z0-9]+)#", $url_clean, $chaines))
     {
-      $ref_id = $chaines[2];
+      $ref_id = $chaines[1];
     }
     
     $this->element->setData('ref_id', $ref_id);

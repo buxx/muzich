@@ -3,7 +3,7 @@
 namespace Muzich\CoreBundle\Controller;
 
 use Muzich\CoreBundle\lib\Controller;
-use Muzich\CoreBundle\ElementFactory\ElementManager;
+use Muzich\CoreBundle\Managers\ElementManager;
 use Muzich\CoreBundle\Propagator\EventElement;
 use Muzich\CoreBundle\Entity\ElementTagsProposition;
 

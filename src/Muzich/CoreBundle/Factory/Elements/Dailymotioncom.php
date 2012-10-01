@@ -31,7 +31,7 @@ class Dailymotioncom extends ElementFactory
     // Récupération de données auprés de l'API
     if ($ref_id)
     {
-      $api_url = curl_init('https://api.dailymotion.com/video/'.$chaines[2]
+      $api_url = curl_init('https://api.dailymotion.com/video/'.$ref_id
         .'&fields=thumbnail_medium_url');
       
       $options = array(

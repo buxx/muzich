@@ -9,7 +9,7 @@ use Muzich\CoreBundle\Factory\ElementFactory;
  *
  * @author bux
  */
-class SoundcloudcomFactory extends ElementFactory
+class Soundcloudcom extends ElementFactory
 {
   
   /**
@@ -24,12 +24,12 @@ class SoundcloudcomFactory extends ElementFactory
     // ??SET
     if (preg_match("#^\/[a-zA-Z0-9_-]+\/sets\/[a-zA-Z0-9_-]+#", $url_clean, $chaines))
     {
-      $ref_id = $url;
+      $ref_id = $url_clean;
     }
     // ???
     else if (preg_match("#^\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+#", $url_clean, $chaines))
     {
-      $ref_id = $url;
+      $ref_id = $url_clean;
     }
     
     // On en gère pas encore les recherches
@@ -43,7 +43,7 @@ class SoundcloudcomFactory extends ElementFactory
     // récupération de données avec l'API
     if ($ref_id)
     {
-      $ch = curl_init('http://api.soundcloud.com/resolve.json?url='.$url_object.'&client_id=39946ea18e3d78d64c0ac95a025794e1');
+      $ch = curl_init('http://api.soundcloud.com/resolve.json?url='.$ref_id.'&client_id=39946ea18e3d78d64c0ac95a025794e1');
 
       $options = array(
         CURLOPT_RETURNTRANSFER => true,
@@ -77,6 +77,7 @@ class SoundcloudcomFactory extends ElementFactory
   {
     if (($ref_id = $this->element->getData('ref_id')))
     {
+      $ref_id = 'http://soundcloud.com'.$ref_id;
       $embed_id = md5($ref_id);
       $height = $this->container->getParameter('soundcloud_player_height');
       $this->element->setEmbed(
