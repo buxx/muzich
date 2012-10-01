@@ -327,20 +327,9 @@ class ElementSearcherQueryBuilder
     // On récupère les ids d'éléments
     if (!$this->es->hasIds())
     {
-      
-//      $query = $this->getIdsQuery();
-//      
-//      
-//      var_dump($this->em->getRepository('MuzichCoreBundle:Element')->findBySearchOLD(
-//        $this->es, $this->user_id, 'count', $this->builder_params
-//      )->getDql()
-//              
-//              );
-//      die(var_dump($this->getIdsQuery()->getArrayResult()));
-      
       // On va récupérer les ids en base en fonction des paramètres
       $q_ids = $this->getIdsQuery()->getArrayResult();
-      
+      $element_ids = array();
       if (count($q_ids))
       {
         // On prépare les ids pour la requete des éléments
@@ -359,9 +348,7 @@ class ElementSearcherQueryBuilder
     if (!count($element_ids))
     {
       // Si on a pas d'ids on retourne une requete qui ne donnera rien
-      return $this->getEntityManager()
-        ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
-      ;
+      return false;
     }
     
     // On prépare des paramètres de la requete d'éléments
@@ -384,13 +371,14 @@ class ElementSearcherQueryBuilder
       ->addOrderBy("e.id", 'DESC')
     ;
     
-    // Ce cas de figure se présente lorsque l'on fait un ajax de "plus d'éléments"
-    if (($id_limit = $this->es->getIdLimit()))
-    {
-      $this->query_elements->andWhere("e.id < :id_limit");
-      $this->query_elements->setMaxResults($this->es->getCount());
-      $this->parameters_elements['id_limit'] = $id_limit;
-    }
+    // Ce code est désactivé: Les ids ont déjà été filtré par la id_query.
+//    // Ce cas de figure se présente lorsque l'on fait un ajax de "plus d'éléments"
+//    if (($id_limit = $this->es->getIdLimit()))
+//    {
+//      $this->query_elements->andWhere("e.id < :id_limit");
+//      $this->query_elements->setMaxResults($this->es->getCount());
+//      $this->parameters_elements['id_limit'] = $id_limit;
+//    }
     
     // Lorsque l'on impose les ids (typiquement affichage des éléments avec un commentaire etc)
     // On charge les tags proposés dés la requete pour économiser les échanges avec la bdd
@@ -405,16 +393,17 @@ class ElementSearcherQueryBuilder
     }
     
     $this->query_elements->setParameters($this->parameters_elements);
-    
-//    die(var_dump(count($this->query_elements->getQuery()->getResult())));
-//    
-//    var_dump($element_ids);
-//    die(var_dump($this->query_elements->getQuery()->getParameters()));
   }
   
   public function getElementsQuery()
   {
-    $this->proceedElementsQuery();
+    if ($this->proceedElementsQuery() === false)
+    {
+      return $this->em
+        ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
+      ;
+    }
+    
     return $this->query_elements->getQuery();
   }
   
