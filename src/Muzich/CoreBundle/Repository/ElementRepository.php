@@ -5,6 +5,7 @@ namespace Muzich\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Muzich\CoreBundle\Searcher\ElementSearcherQueryBuilder;
 
 class ElementRepository extends EntityRepository
 {
@@ -25,6 +26,33 @@ class ElementRepository extends EntityRepository
     ;
   }
   
+  
+  public function findBySearch(ElementSearcher $searcher, $user_id, $exec_type = 'execute', $params = array())
+  {
+    // Cas exeptionel: Si on demande les "nouveaux" éléments alors que l'on impose
+    // la liste d'élément consultable. Dans ce cas c'est une demande superflu:
+    // il ne peut y avoir de nouveaux élements puisque la liste des éléments est déjà fixé.
+    if ($searcher->isSearchingNew() && $searcher->hasIds())
+    {
+      return $query = $this->getEntityManager()
+        ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
+      ;
+    }
+     
+    $esqb = new ElementSearcherQueryBuilder($this->getEntityManager(), $searcher, $user_id, $params);
+    
+    // Si on demande une comptabilisation, on retourne juste la requete qui selectionne les ids
+    if ($exec_type == 'count')
+    {
+      return $esqb->getIdsQuery(true);
+    }
+    
+    // Sinon on retourne la requete sur les éléments
+    return $esqb->getElementsQuery();
+  }
+  
+  
+  
   /**
    * TODO: Faire un bel objet pour gérer tout ça =)
    * => Utiliser l'objet ElementSearcher (ou du moin réorganiser ça en plusieurs 
@@ -34,7 +62,7 @@ class ElementRepository extends EntityRepository
    * @param ElementSearcher $searcher
    * @return Doctrine\ORM\Query
    */
-  public function findBySearch(ElementSearcher $searcher, $user_id, $exec_type = 'execute', $params = array())
+  public function findBySearchOLD(ElementSearcher $searcher, $user_id, $exec_type = 'execute', $params = array())
   {
     // Tableaux des paramétres
     $params_ids = array();
@@ -66,6 +94,8 @@ class ElementRepository extends EntityRepository
     $is_where = false;
     
     // Si c'est une recherche string, les autres paramètres ne sont pas nécéssaire
+    // TODO: Dans la nouvelle version ourquoi pas !!
+    // TODOOO: Pas encore dans new version (string)
     $where_string = '';
     if (($string = $searcher->getString()))
     {

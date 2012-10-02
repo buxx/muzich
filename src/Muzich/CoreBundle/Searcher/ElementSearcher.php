@@ -107,6 +107,11 @@ class ElementSearcher extends Searcher implements SearcherInterface
    */
   protected $string = null;
   
+  private $attributes = array(
+    'network', 'tags', 'count', 'user_id', 'group_id', 
+    'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display',
+    'tag_strict', 'string'
+  );
   
   /**
    * @see SearcherInterface
@@ -120,11 +125,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
 //    ));
     
     // Mise a jour des attributs
-    $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 
-      'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display',
-      'tag_strict', 'string'
-    ), $params);
+    $this->setAttributes($params);
     
   }
   
@@ -135,11 +136,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
   public function update($params)
   {
     // Mise a jour des attributs
-    $this->setAttributes(array(
-      'network', 'tags', 'count', 'user_id', 'group_id', 
-      'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display',
-      'tag_strict', 'string'
-    ), $params);
+    $this->setAttributes($params);
   }
   
   /**
