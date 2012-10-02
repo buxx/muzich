@@ -1,18 +1,18 @@
 <?php
 
-namespace Muzich\CoreBundle\ElementFactory;
+namespace Muzich\CoreBundle\Managers;
 
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 
-use Muzich\CoreBundle\ElementFactory\Site\YoutubecomFactory;
-use Muzich\CoreBundle\ElementFactory\Site\YoutubeFactory;
-use Muzich\CoreBundle\ElementFactory\Site\DailymotioncomFactory;
-use Muzich\CoreBundle\ElementFactory\Site\JamendocomFactory;
-use Muzich\CoreBundle\ElementFactory\Site\SoundcloudcomFactory;
-use Muzich\CoreBundle\ElementFactory\Site\DeezercomFactory;
+use Muzich\CoreBundle\Factory\Elements\Youtubecom;
+use Muzich\CoreBundle\Factory\Elements\Youtube;
+use Muzich\CoreBundle\Factory\Elements\Dailymotioncom;
+use Muzich\CoreBundle\Factory\Elements\Jamendocom;
+use Muzich\CoreBundle\Factory\Elements\Soundcloudcom;
+use Muzich\CoreBundle\Factory\Elements\Deezercom;
 
 /**
  * 
@@ -130,8 +130,11 @@ class ElementManager
     if (in_array($this->element->getType(), $this->factories))
     {
       $site_factory = $this->getFactory();
-      $this->element->setEmbed($site_factory->getEmbedCode());
-      $this->element->setThumbnailUrl($site_factory->getThumbnailUrl());
+      // On récupères les datas de l'élément
+      $site_factory->retrieveDatas();
+      // On procède a la construction de nos informations
+      $site_factory->proceedEmbedCode();
+      $site_factory->proceedThumbnailUrl();
     }
     
   }
@@ -144,22 +147,22 @@ class ElementManager
     switch ($this->element->getType())
     {
       case 'youtube.com':
-        return new YoutubecomFactory($this->element, $this->container);
+        return new Youtubecom($this->element, $this->container);
       break;
       case 'youtu.be':
-        return new YoutubeFactory($this->element, $this->container);
+        return new Youtube($this->element, $this->container);
       break;
       case 'soundcloud.com':
-        return new SoundcloudcomFactory($this->element, $this->container);
+        return new Soundcloudcom($this->element, $this->container);
       break;
       case 'jamendo.com':
-        return new JamendocomFactory($this->element, $this->container);
+        return new Jamendocom($this->element, $this->container);
       break;
       case 'dailymotion.com':
-        return new DailymotioncomFactory($this->element, $this->container);
+        return new Dailymotioncom($this->element, $this->container);
       break;
       case 'deezer.com':
-        return new DeezercomFactory($this->element, $this->container);
+        return new Deezercom($this->element, $this->container);
       break;
       default:
         throw new \Exception("La Factory n'est pas prise en charge pour ce type.");

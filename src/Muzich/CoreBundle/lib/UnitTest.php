@@ -4,7 +4,7 @@ namespace Muzich\CoreBundle\lib;
 
 require_once(__DIR__ . "/../../../../app/AppKernel.php");
 use Muzich\CoreBundle\Entity\Element;
-use Muzich\CoreBundle\ElementFactory\ElementManager;
+use Muzich\CoreBundle\Managers\ElementManager;
 
 class UnitTest extends \PHPUnit_Framework_TestCase
 {

@@ -8,7 +8,7 @@ use Muzich\CoreBundle\Entity\FollowUser;
 use Muzich\CoreBundle\Entity\FollowGroup;
 //use Doctrine\ORM\Query;
 use Muzich\CoreBundle\Form\Element\ElementAddForm;
-use Muzich\CoreBundle\ElementFactory\ElementManager;
+use Muzich\CoreBundle\Managers\ElementManager;
 use Muzich\CoreBundle\Entity\Element;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Muzich\CoreBundle\Form\Search\ElementSearchForm;

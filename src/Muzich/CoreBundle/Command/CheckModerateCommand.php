@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Muzich\CoreBundle\ElementFactory\ElementManager;
+use Muzich\CoreBundle\Managers\ElementManager;
 
 class CheckModerateCommand extends ContainerAwareCommand
 {

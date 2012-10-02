@@ -1,6 +1,6 @@
 <?php
 
-namespace Muzich\CoreBundle\ElementFactory\Site\base;
+namespace Muzich\CoreBundle\Factory;
 
 use Muzich\CoreBundle\Entity\Element;
 use Symfony\Component\DependencyInjection\Container;
@@ -10,9 +10,13 @@ use \Exception;
  *
  * @author bux
  */
-class BaseFactory implements FactoryInterface
+abstract class ElementFactory
 {
   
+  /**
+   *
+   * @var Element 
+   */
   protected $element;
   protected $container;
   
@@ -25,11 +29,6 @@ class BaseFactory implements FactoryInterface
   {
     $this->element   = $element;
     $this->container = $container;
-  }
-  
-  public function getEmbedCode()
-  {
-    return null;
   }
   
   /**
@@ -52,9 +51,19 @@ class BaseFactory implements FactoryInterface
     return $url;
   }
   
-  public function getThumbnailUrl()
+  public function retrieveDatas()
   {
-    return null;
+    $this->element->setDatas(array());
+  }
+  
+  public function proceedEmbedCode()
+  {
+    $this->element->setEmbed(null);
+  }
+  
+  public function proceedThumbnailUrl()
+  {
+    $this->element->setThumbnailUrl(null);
   }
   
 }
