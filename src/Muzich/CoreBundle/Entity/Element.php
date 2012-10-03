@@ -24,6 +24,57 @@ class Element
 {
   
   /**
+   * Identifiant de l'objet externe
+   * @var string 
+   */
+  const DATA_REF_ID         = "data_ref_id";
+  /**
+   * Adresse HTTP(S) de la jaquette
+   * @var string 
+   */
+  const DATA_THUMB_URL      = "data_thumb_url";
+  /**
+   * Titre de l'objet externe
+   * @var string 
+   */
+  const DATA_TITLE          = "data_title";
+  /**
+   * Nom de l'artiste
+   * @var string 
+   */
+  const DATA_ARTIST         = "data_artist";
+  /**
+   * Tags de l'objets externe array("tag1", "tag2", [...])
+   * @var string 
+   */
+  const DATA_TAGS           = "data_tags";
+  /**
+   * Type de l'objet track|album|
+   * @var string 
+   */
+  const DATA_TYPE           = "data_type";
+  /**
+   * Contenu téléchargeable ?
+   * @var string 
+   */
+  const DATA_DOWNLOAD       = "data_download";
+  /**
+   * Adresse du contenu téléchargeable
+   * @var string 
+   */
+  const DATA_DOWNLOAD_URL   = "data_download_url";
+  /**
+   * Don possible ?
+   * @var string 
+   */
+  const DATA_GIFT           = "data_gift";
+  /**
+   * Adresse pour effectuer un don
+   * @var string 
+   */
+  const DATA_GIFT_URL       = "data_gift_url";
+  
+  /**
    * @ORM\Id
    * @ORM\Column(type="integer")
    * @ORM\GeneratedValue(strategy="AUTO")
