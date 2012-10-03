@@ -64,6 +64,12 @@
           href="{{ path('ajax_report_element', {'element_id':element.id, 'token':app.user.getPersonalHash}) }}">
           <img src="{{ asset('bundles/muzichcore/img/1331832708_comment_alert.png') }}" alt="report" />
         </a>
+        
+        <a title="{{ 'element.reshare.link_title'|trans({}, 'userui') }}" 
+          class="element_reshare" 
+          href="{{ path('ajax_reshare_element', {'element_id':element.id, 'token':app.user.getPersonalHash('reshare_'~element.id)}) }}">
+          <img src="{{ asset('bundles/muzichcore/img/') }}" alt="re" />
+        </a>
       
       {% endif %}
       

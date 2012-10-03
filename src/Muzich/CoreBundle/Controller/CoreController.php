@@ -271,14 +271,14 @@ class CoreController extends Controller
         {
           $html = $this->render('MuzichCoreBundle:SearchElement:li.element.html.twig', array(
             'element'     => $element,
-            'class_color' => 'odd'
+            'class_color' => 'odd'  // TODO: n'est plus utilisé
           ))->getContent();
         }
          else 
         {
           $html = $this->render('MuzichCoreBundle:SearchElement:li.element.html.twig', array(
             'element'     => $element,
-            'class_color' => 'odd',
+            'class_color' => 'odd',  // TODO: n'est plus utilisé
             'no_group_name' => true
           ))->getContent();
         }
@@ -377,44 +377,6 @@ class CoreController extends Controller
       
     
     
-  }
-  
-  /**
-   * Cette méthode vérifie si l'élément qui vient d'être envoyé pourrais être
-   * associé a un groupe de l'utilisateur.
-   * 
-   * @param Element $element
-   * @return array
-   */
-  protected function isAddedElementCanBeInGroup(Element $element)
-  {
-    $element_tags = $element->getTags();
-    $groups = array();
-    
-    if ($element_tags)
-    {
-      foreach ($this->getUser()->getGroupsOwned() as $group)
-      {
-        foreach ($element_tags as $element_tag)
-        {
-          if ($group->hasThisTag($element_tag->getId()))
-          {
-            $groups[] = array(
-              'name' => $group->getName(),
-              'id'   => $group->getId(),
-              'url'  => $this->generateUrl('ajax_set_element_group', array(
-                'token'      => $this->getUser()->getPersonalHash(),
-                'element_id' => $element->getId(),
-                'group_id'   => $group->getId()
-              ))
-            );
-          }
-
-        }
-      }
-    }
-    
-    return $groups;
   }
   
   /**

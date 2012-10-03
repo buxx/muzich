@@ -1089,18 +1089,9 @@ $(document).ready(function(){
       divSelect.find('select').val('network_personal');
     }
   });
-
-  // Ajout d'un element #ajouter
-  $('form[name="add"] input[type="submit"]').live('click', function(){
-    $('form[name="add"]').find('img.tag_loader').show();
-  });
-  $('form[name="add"]').ajaxForm(function(response) {
-    if (response.status == 'mustbeconnected')
-    {
-      $(location).attr('href', url_index);
-    }
-    
-    $('form[name="add"] img.tag_loader').hide();
+  
+  function element_add_proceed_json_response(response)
+  {
     if (response.status == 'success')
     {
       $('form[name="add"]').find('ul.error_list').remove();
@@ -1153,6 +1144,20 @@ $(document).ready(function(){
       
       $('form[name="add"]').prepend(ul_errors);
     }
+  }
+
+  // Ajout d'un element #ajouter
+  $('form[name="add"] input[type="submit"]').live('click', function(){
+    $('form[name="add"]').find('img.tag_loader').show();
+  });
+  $('form[name="add"]').ajaxForm(function(response) {
+    if (response.status == 'mustbeconnected')
+    {
+      $(location).attr('href', url_index);
+    }
+    
+    $('form[name="add"] img.tag_loader').hide();
+    element_add_proceed_json_response(response);
     
     return false;
   });
@@ -2019,6 +2024,42 @@ $(document).ready(function(){
       });
       
       $('div.question').fadeOut();
+      return false;
+    },
+    onOpen: function(link){
+      
+    },
+    onClose: function(link){
+      
+    }
+  });
+  
+  
+  /*
+   * reshare repartage
+   */
+  
+  $('a.element_reshare').jConfirmAction({
+    question : string_elementreshare_confirm_sentence, 
+    yesAnswer : string_elementreshare_confirm_yes, 
+    cancelAnswer : string_elementreshare_confirm_no,
+    onYes: function(link){
+      
+      $.getJSON(link.attr('href'), function(response){
+        
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+        
+        element_add_proceed_json_response(response);
+        $('div.question').fadeOut();
+        return false;
+        
+      });
+      
+      
+      
       return false;
     },
     onOpen: function(link){

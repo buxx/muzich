@@ -6,6 +6,8 @@ use Muzich\CoreBundle\lib\Controller;
 use Muzich\CoreBundle\Managers\ElementManager;
 use Muzich\CoreBundle\Propagator\EventElement;
 use Muzich\CoreBundle\Entity\ElementTagsProposition;
+use Symfony\Component\HttpFoundation\Request;
+use Muzich\CoreBundle\Entity\Element;
 
 class ElementController extends Controller
 {
@@ -802,6 +804,70 @@ class ElementController extends Controller
     
     return $this->jsonResponse(array(
       'status' => 'success'
+    ));
+  }
+  
+  public function reshareAction(Request $request, $element_id, $token)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if ($this->getUser()->getPersonalHash('reshare_'.$element_id) != $token)
+    {
+      throw new \Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException();
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)))
+    {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+    
+    if ($element->getOwner()->getId() == $this->getUserId())
+    {
+      throw new \Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException();
+    }
+    
+    
+    /**
+      * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
+      * Docrine le voit si on faire une requete directe.
+      */
+    $user = $this->getUser();
+    if ($this->container->getParameter('env') == 'test')
+    {
+      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+        $this->container->get('security.context')->getToken()->getUser()->getId(),
+        array()
+      )->getSingleResult();
+    }
+    
+    // Pour le repartage on crée un nouvel élément
+    $element_reshared = new Element();
+    $element_reshared->setUrl($element->getUrl());
+    $element_reshared->setName($element->getName());
+    $element_reshared->addTags($element->getTags());
+    $element_reshared->setParent($element);
+
+    // On utilise le gestionnaire d'élément
+    $factory = new ElementManager($element_reshared, $this->getEntityManager(), $this->container);
+    $factory->proceedFill($user, false);
+    
+    // On se retrouve maintenant avec un nouvel element tout neuf
+    $this->persist($element_reshared);
+    $this->flush();
+    
+    $html_element = $this->render('MuzichCoreBundle:SearchElement:li.element.html.twig', array(
+      'element'     => $element_reshared,
+      'class_color' => 'odd' // TODO: n'est plus utilisé
+    ))->getContent();
+
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'html'   => $html_element,
+      'groups' => $this->isAddedElementCanBeInGroup($element_reshared)
     ));
   }
   

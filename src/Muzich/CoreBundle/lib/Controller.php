@@ -9,6 +9,7 @@ use Muzich\CoreBundle\Form\Search\ElementSearchForm;
 use Muzich\CoreBundle\Form\Element\ElementAddForm;
 use Symfony\Component\HttpFoundation\Response;
 use Muzich\CoreBundle\Searcher\GlobalSearcher;
+use Muzich\CoreBundle\Entity\Element;
 
 class Controller extends BaseController
 {
@@ -100,7 +101,7 @@ class Controller extends BaseController
    * @param boolean $personal_query
    * @param array $params
    * @param boolean $force_refresh
-   * @return type 
+   * @return \Muzich\CoreBundle\Entity\User 
    */
   protected function getUser($personal_query = false, $params = array(), $force_refresh = false)
   {
@@ -391,6 +392,72 @@ class Controller extends BaseController
         return $this->redirect($this->generateUrl('index'));
       }
     }
+  }
+  
+  /**
+   *
+   * @return \Doctrine\ORM\EntityManager 
+   */
+  public function getEntityManager()
+  {
+    return $this->getDoctrine()->getEntityManager();
+  }
+  
+  /**
+   *
+   * @param object $entity 
+   */
+  public function persist($entity)
+  {
+    $this->getEntityManager()->persist($entity);
+  }
+  
+  /**
+   * 
+   */
+  public function flush()
+  {
+    $this->getEntityManager()->flush();
+  }
+  
+  
+  
+  /**
+   * Cette méthode vérifie si l'élément qui vient d'être envoyé pourrais être
+   * associé a un groupe de l'utilisateur.
+   * 
+   * @param Element $element
+   * @return array
+   */
+  protected function isAddedElementCanBeInGroup(Element $element)
+  {
+    $element_tags = $element->getTags();
+    $groups = array();
+    
+    if ($element_tags)
+    {
+      foreach ($this->getUser()->getGroupsOwned() as $group)
+      {
+        foreach ($element_tags as $element_tag)
+        {
+          if ($group->hasThisTag($element_tag->getId()))
+          {
+            $groups[] = array(
+              'name' => $group->getName(),
+              'id'   => $group->getId(),
+              'url'  => $this->generateUrl('ajax_set_element_group', array(
+                'token'      => $this->getUser()->getPersonalHash(),
+                'element_id' => $element->getId(),
+                'group_id'   => $group->getId()
+              ))
+            );
+          }
+
+        }
+      }
+    }
+    
+    return $groups;
   }
   
 }

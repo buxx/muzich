@@ -131,6 +131,12 @@ element:
       no:                Non
   proposition_tags:
     link_title:        Proposer des tags
+  reshare:
+    link_title:        Re-partager
+    confirm: 
+      sentence:          Re-partager ce partage ?
+      yes:               Oui
+      no:                Non
     
 comment:
   report:

@@ -118,6 +118,10 @@ ajax_report_element:
   pattern: /ajax/element/report/{element_id}/{token}
   defaults: { _controller: MuzichCoreBundle:Core:reportElement }
   
+ajax_reshare_element:
+  pattern: /ajax/element/reshare/{element_id}/{token}
+  defaults: { _controller: MuzichCoreBundle:Element:reshare }
+  
 ajax_element_propose_tags_open:
   pattern: /ajax/element/propose/tags/{element_id}
   defaults: { _controller: MuzichCoreBundle:Element:proposeTagsOpen }

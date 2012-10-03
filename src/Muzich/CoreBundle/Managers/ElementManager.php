@@ -69,10 +69,13 @@ class ElementManager
    * @param array $params
    * @param User $owner
    */
-  public function proceedFill(User $owner)
+  public function proceedFill(User $owner, $do_tags = true)
   {
     $this->element->setOwner($owner);
-    $this->element->setTagsWithIds($this->em, json_decode($this->element->getTags()));
+    if ($do_tags)
+    {
+      $this->element->setTagsWithIds($this->em, json_decode($this->element->getTags()));
+    }
     $this->determineType();
     $this->proceedExtraFields();
   }

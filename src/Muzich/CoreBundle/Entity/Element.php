@@ -58,6 +58,22 @@ class Element
   protected $owner;
 
   /**
+   * Objet parent (si a été repartagé)
+   * 
+   * @ORM\ManyToOne(targetEntity="Element", inversedBy="childs")
+   * @ORM\JoinColumn(name="element_parent_id", referencedColumnName="id")
+   */
+  protected $parent;
+  
+  
+  /**
+   * Liste des Elements qui on reshare cet element
+   * 
+   * @ORM\OneToMany(targetEntity="Element", mappedBy="parent")
+   */
+  protected $childs;
+
+  /**
    * Groupe de l'élément
    * 
    * @ORM\ManyToOne(targetEntity="Group", inversedBy="elements")
@@ -331,6 +347,18 @@ class Element
   public function setTags($tags)
   {
     $this->tags = $tags;
+  }
+  
+  /**
+   *
+   * @param Collection|Array $tags 
+   */
+  public function addTags($tags)
+  {
+    foreach ($tags as $tag)
+    {
+      $this->addTag($tag);
+    }
   }
 
   /**
@@ -757,6 +785,34 @@ class Element
   {
     $cm = new CommentsManager($this->getComments());
     return $cm->userFollow($user_id);
+  }
+  
+  /**
+   * 
+   * @param Element $element 
+   */
+  public function setParent(Element $element = null)
+  {
+    $this->parent = $element;
+  }
+  
+  /**
+   *
+   * @return Element 
+   */
+  public function getParent()
+  {
+    return $this->parent;
+  }
+  
+  public function setChilds($elements)
+  {
+    $this->childs = $elements;
+  }
+  
+  public function getChilds()
+  {
+    return $this->childs;
   }
   
 }

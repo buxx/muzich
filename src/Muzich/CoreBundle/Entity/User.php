@@ -617,9 +617,9 @@ class User extends BaseUser
     ;
   }
   
-  public function getPersonalHash()
+  public function getPersonalHash($salt_context = null)
   {
-    return hash('sha256', $this->getSalt().$this->getUsername());
+    return hash('sha256', $this->getSalt().$this->getUsername().$salt_context);
   }
   
   /**
