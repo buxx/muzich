@@ -903,4 +903,25 @@ class Element
     return false;
   }
   
+  public function getProposedName()
+  {
+    if (($title = $this->getData(self::DATA_TITLE)))
+    {
+      if (($artist = $this->getData(self::DATA_ARTIST)))
+      {
+        $artist = ' - '.$artist;
+      }
+      return $title.$artist;
+    }
+    return null;
+  }
+  
+  public function getProposedTags()
+  {
+    if (count($tags = $this->getData(self::DATA_TAGS)))
+    {
+      return $tags;
+    }
+  }
+  
 }

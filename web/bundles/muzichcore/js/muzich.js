@@ -1147,6 +1147,34 @@ $(document).ready(function(){
   }
 
   // Ajout d'un element #ajouter
+  
+  // Click sur "ajouter" (l'url)
+  $('a#form_add_check_url').click(function(){
+    
+    $.ajax({
+      type: 'POST',
+      url: url_datas_api,
+      data: {'url':$('input#element_add_url').val()},
+      success: function(response){
+        
+        console.debug(response);
+        
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+
+        if (response.status == 'success')
+        {
+
+        }
+      },
+      dataType: 'json'
+    });
+    
+  });
+  
+  
   $('form[name="add"] input[type="submit"]').live('click', function(){
     $('form[name="add"]').find('img.tag_loader').show();
   });
@@ -1162,8 +1190,6 @@ $(document).ready(function(){
     return false;
   });
   
-  // Check périodique 
-  // TODO.
 
  /////////////////////
  var tags_ids_for_filter = new Array();

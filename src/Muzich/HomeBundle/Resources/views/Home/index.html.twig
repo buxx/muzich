@@ -4,6 +4,7 @@
 
 {% block content %}
 
+  {#
   <div id="element_add_box" style="display: none;">
     
     <a href="#" id="element_add_close_link" class="button">
@@ -21,6 +22,23 @@
       <img class="tag_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
     </form>
   </div>
+  #}
+
+  <div id="element_add_box">    
+    
+    <img class="tag_loader" style="display: none;" 
+      src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" 
+    />
+
+    <form novalidate name="{{ add_form_name }}" action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}>
+
+      {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
+        'form'          : add_form, 
+        'form_name'     : add_form_name
+      } %}
+
+    </form>
+  </div>
 
   <div id="added_element_to_group" style="display: none;">
     <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
@@ -34,10 +52,6 @@
       </a>
     </p>
   </div>
-
-  <a href="#" id="element_add_link" class="button">
-    {{ 'home.add_element'|trans({}, 'navigationui') }} &gt;&gt;
-  </a>
 
   <form name="{{ search_form_name }}" action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
 

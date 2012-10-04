@@ -871,4 +871,27 @@ class ElementController extends Controller
     ));
   }
   
+  
+  public function getDatasApiAction(Request $request)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    // On construit l'élèment qui va nous permettre de travailler avec l'api
+    $element = new Element();
+    $element->setUrl($request->get('url'));
+    
+    $factory = new ElementManager($element, $this->getEntityManager(), $this->container);
+    $factory->proceedFill($this->getUser());
+    
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'name'   => $element->getProposedName(),
+      'tags'   => $element->getProposedTags(),
+      'thumb'  => $element->getThumbnailUrl() 
+    ));
+  }
+  
 }
