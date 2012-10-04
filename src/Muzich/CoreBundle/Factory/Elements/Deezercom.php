@@ -3,6 +3,7 @@
 namespace Muzich\CoreBundle\Factory\Elements;
 
 use Muzich\CoreBundle\Factory\ElementFactory;
+use Muzich\CoreBundle\Entity\Element;
 
 /**
  * 
@@ -44,8 +45,8 @@ class Deezercom extends ElementFactory
       $ref_id = $chaines[1];
     }
     
-    $this->element->setData('type'  , $type);
-    $this->element->setData('ref_id', $ref_id);
+    $this->element->setData(Element::DATA_TYPE  , $type);
+    $this->element->setData(Element::DATA_REF_ID, $ref_id);
     
     if ($type && $ref_id)
     {
@@ -60,14 +61,15 @@ class Deezercom extends ElementFactory
 
       if (isset($result->cover))
       {
-        $this->element->setData('cover_url', $result->cover);
+        $this->element->setData(Element::DATA_THUMB_URL, $result->cover);
       }
     }
   }
   
   public function proceedEmbedCode()
   {
-    if (($ref_id = $this->element->getData('ref_id')) && ($type = $this->element->getData('type')))
+    if (($ref_id = $this->element->getData(Element::DATA_REF_ID)) 
+      && ($type = $this->element->getData(Element::DATA_TYPE)))
     {
       $width = $this->container->getParameter('deezer_player_width');
       $heigth = $this->container->getParameter('deezer_player_height');
@@ -82,7 +84,7 @@ class Deezercom extends ElementFactory
   
   public function proceedThumbnailUrl()
   {
-    if (($thumb = $this->element->getData('cover_url')))
+    if (($thumb = $this->element->getData(Element::DATA_TYPE)))
     {
       $this->element->setThumbnailUrl($thumb);
     }

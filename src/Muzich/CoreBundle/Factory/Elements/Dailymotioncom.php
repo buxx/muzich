@@ -3,6 +3,7 @@
 namespace Muzich\CoreBundle\Factory\Elements;
 
 use Muzich\CoreBundle\Factory\ElementFactory;
+use Muzich\CoreBundle\Entity\Element;
 
 /**
  * 
@@ -25,7 +26,7 @@ class Dailymotioncom extends ElementFactory
     if (preg_match("#(video\/)([a-zA-Z0-9]+)([a-zA-Z0-9_-]*)#", $url_clean, $preg_result))
     {
       $ref_id = $preg_result[2];
-      $this->element->setData('ref_id', $ref_id);
+      $this->element->setData(Element::DATA_REF_ID, $ref_id);
     }
     
     // Récupération de données auprés de l'API
@@ -45,14 +46,14 @@ class Dailymotioncom extends ElementFactory
       // On récupère l'url du thumbnail
       if (isset($api_result->thumbnail_medium_url))
       {
-        $this->element->setData('thumb_medium_url', $api_result->thumbnail_medium_url);
+        $this->element->setData(Element::DATA_THUMB_URL, $api_result->thumbnail_medium_url);
       }
     }
   }
   
   public function proceedEmbedCode()
   {
-    if (($ref_id = $this->element->getData('ref_id')))
+    if (($ref_id = $this->element->getData(Element::DATA_REF_ID)))
     {
       $width = $this->container->getParameter('dailymotion_player_width');
       $height = $this->container->getParameter('dailymotion_player_height');
@@ -65,7 +66,7 @@ class Dailymotioncom extends ElementFactory
   
   public function proceedThumbnailUrl()
   {
-    if (($thumb = $this->element->getData('thumb_medium_url')))
+    if (($thumb = $this->element->getData(Element::DATA_THUMB_URL)))
     {
       $this->element->setThumbnailUrl($thumb);
     }

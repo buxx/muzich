@@ -3,6 +3,7 @@
 namespace Muzich\CoreBundle\Factory\Elements;
 
 use Muzich\CoreBundle\Factory\ElementFactory;
+use Muzich\CoreBundle\Entity\Element;
 
 /**
  * 
@@ -11,6 +12,17 @@ use Muzich\CoreBundle\Factory\ElementFactory;
  */
 class Youtubecom extends ElementFactory
 {
+  
+  protected function proceedAPIDatas($ref_id)
+  {
+    $video_data_dom = new \DOMDocument;
+    $video_data_dom->load("http://gdata.youtube.com/feeds/api/videos/". $ref_id);
+    
+    if (($title = $video_data_dom->getElementsByTagName("title")->item(0)->nodeValue))
+    {
+      $this->element->setData(Element::DATA_TITLE, $title);
+    }
+  }
   
   public function retrieveDatas()
   {
@@ -26,18 +38,18 @@ class Youtubecom extends ElementFactory
       $ref_id = $chaines[2];
     }
     
-    $this->element->setData('ref_id', $ref_id);
+    $this->element->setData(Element::DATA_REF_ID, $ref_id);
     
     // Données API TODO: REFACTORISER
     if ($ref_id)
     {
-      
+      $this->proceedAPIDatas($ref_id);
     }
   }
   
   public function proceedEmbedCode()
   {
-    if (($ref_id = $this->element->getData('ref_id')))
+    if (($ref_id = $this->element->getData(Element::DATA_REF_ID)))
     {
       $width = $this->container->getParameter('youtube_player_width');
       $height = $this->container->getParameter('youtube_player_height');
@@ -51,7 +63,7 @@ class Youtubecom extends ElementFactory
   
   public function proceedThumbnailUrl()
   {
-    if (($ref_id = $this->element->getData('ref_id')))
+    if (($ref_id = $this->element->getData(Element::DATA_REF_ID)))
     {
       $this->element->setThumbnailUrl(
         'http://img.youtube.com/vi/'.$ref_id.'/default.jpg'        

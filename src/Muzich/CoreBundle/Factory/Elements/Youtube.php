@@ -3,6 +3,7 @@
 namespace Muzich\CoreBundle\Factory\Elements;
 
 use Muzich\CoreBundle\Factory\Elements\Youtubecom;
+use Muzich\CoreBundle\Entity\Element;
 
 /**
  * 
@@ -22,7 +23,7 @@ class Youtube extends Youtubecom
       $ref_id = $chaines[1];
     }
     
-    $this->element->setData('ref_id', $ref_id);
+    $this->element->setData(Element::DATA_REF_ID, $ref_id);
     
     // Données API
     if ($ref_id)
