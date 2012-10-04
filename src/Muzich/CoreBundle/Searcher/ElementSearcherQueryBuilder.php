@@ -358,9 +358,11 @@ class ElementSearcherQueryBuilder
     
     // On prépare la requete des elements
     $this->query_elements = $this->em->createQueryBuilder()
-      ->select('e', 't', 'o', 'g', 'fav')
+      ->select('e', 'p', 'po', 't', 'o', 'g', 'fav')
       ->from('MuzichCoreBundle:Element', 'e')
       ->leftJoin('e.group', 'g')
+      ->leftJoin('e.parent', 'p')
+      ->leftJoin('p.owner', 'po')
       ->leftJoin('e.tags', 't', Join::WITH, 
         "(t.tomoderate = 'FALSE' OR t.tomoderate IS NULL OR t.privateids LIKE :uidt)")
       ->leftJoin('e.elements_favorites', 'fav', Join::WITH,

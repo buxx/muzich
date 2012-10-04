@@ -58,17 +58,17 @@
           href="{{ path('ajax_element_propose_tags_open', {'element_id' : element.id}) }}">
           <img src="{{ asset('bundles/muzichcore/img/1333484018_rss-tag.png') }}" alt="tags_proposition" />
         </a>
+        
+        <a title="{{ 'element.reshare.link_title'|trans({}, 'userui') }}" 
+          class="element_reshare" 
+          href="{{ path('ajax_reshare_element', {'element_id':element.id, 'token':app.user.getPersonalHash('reshare_'~element.id)}) }}">
+          <img src="{{ asset('bundles/muzichcore/img/1349338086_adept_update.png') }}" alt="re" />
+        </a>
       
         <a title="{{ 'element.report.link_title'|trans({}, 'userui') }}" 
           class="element_report" 
           href="{{ path('ajax_report_element', {'element_id':element.id, 'token':app.user.getPersonalHash}) }}">
           <img src="{{ asset('bundles/muzichcore/img/1331832708_comment_alert.png') }}" alt="report" />
-        </a>
-        
-        <a title="{{ 'element.reshare.link_title'|trans({}, 'userui') }}" 
-          class="element_reshare" 
-          href="{{ path('ajax_reshare_element', {'element_id':element.id, 'token':app.user.getPersonalHash('reshare_'~element.id)}) }}">
-          <img src="{{ asset('bundles/muzichcore/img/') }}" alt="re" />
         </a>
       
       {% endif %}
@@ -111,8 +111,16 @@
             '%owner_name%' : element.owner.name
           }, 'elements') }}
         {% endif %}
+      
+        {{ element.created.date|date_or_relative_date }}
+      
+        {% if element.parent %}
+          {{ 'element.name.reshare'|trans({
+            '%owner_url%'  : path('show_user', {'slug': element.parent.owner.slug}),
+            '%owner_name%' : element.parent.owner.name
+          }, 'elements') }}
+        {% endif %}
       {% endautoescape %}
-      {{ element.created.date|date_or_relative_date }}
       
       <div class="loader">
         <img class="element_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>

@@ -214,7 +214,7 @@ function explode (delimiter, string, limit) {
 // fonction de nettoyage des tags
 function remove_tags(form_name)
 {
-  tagsAddeds[form_name] = new Array();
+  //tagsAddeds[form_name] = new Array();
   $('form[name="'+form_name+'"] ul.tagbox li.tag').remove();
   $('form[name="'+form_name+'"] input.tagBox_tags_ids').val('');
   $('div#tags_prompt_'+form_name+' ul.tagbox li.input input[type="text"]')
@@ -2045,6 +2045,7 @@ $(document).ready(function(){
     cancelAnswer : string_elementreshare_confirm_no,
     onYes: function(link){
       
+      $('div.question').fadeOut();
       $.getJSON(link.attr('href'), function(response){
         
         if (response.status == 'mustbeconnected')
@@ -2052,10 +2053,14 @@ $(document).ready(function(){
           $(location).attr('href', url_index);
         }
         
-        element_add_proceed_json_response(response);
-        $('div.question').fadeOut();
+        // On affiche l'élément que si on voit que le formulaire est sur la page
+        // Sinon c'est qu'on est sur une page ou on a pas normalement la possibilité
+        // d'ajouetr un élément.
+        if ($('form[name="add"]').length)
+        {
+          element_add_proceed_json_response(response);
+        }
         return false;
-        
       });
       
       

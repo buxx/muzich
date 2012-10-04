@@ -134,7 +134,7 @@ element:
   reshare:
     link_title:        Re-partager
     confirm: 
-      sentence:          Re-partager ce partage ?
+      sentence:          Re-partager ce partage dans votre flux ?
       yes:               Oui
       no:                Non
     

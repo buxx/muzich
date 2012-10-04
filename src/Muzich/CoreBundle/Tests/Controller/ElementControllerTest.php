@@ -1194,4 +1194,49 @@ class ElementControllerTest extends FunctionalTest
     
   }
   
+  public function testResharing()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('paul', 'toor');
+    
+    $paul = $this->getUser();
+    
+    // Cet élément a été partagé par bux
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('AZYD AZYLUM Live au Café Provisoire')
+    ;
+    
+    // On effectue la requete ajax
+    // paul propose une serie de tags
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_reshare_element', 
+        array(
+          'element_id' => $element->getId(), 
+          'token' => $paul->getPersonalHash('reshare_'.$element->getId())
+       )
+      ), 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    // tout c'est bien passé
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    // L'objet est en base
+    $element_reshared = $this->findOneBy('Element', array(
+      'name'   => 'AZYD AZYLUM Live au Café Provisoire',
+      'owner'  => $paul->getId(),
+      'parent' => $element->getId()
+    ));
+    
+    // L'objet est bien en base
+    $this->assertTrue(!is_null($element_reshared));
+    
+    
+  }
+  
 }

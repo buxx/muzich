@@ -497,4 +497,27 @@ class FunctionalTest extends WebTestCase
       return $output;
   }
   
+  /**
+   *
+   * @return \Doctrine\ORM\EntityManager 
+   */
+  protected function getEntityManager()
+  {
+    return $this->getDoctrine()->getEntityManager();
+  }
+  
+  /**
+   * Raccourcis de findOneBy
+   * 
+   * @param string $entityName
+   * @param array $params
+   * @return object 
+   */
+  protected function findOneBy($entityName, array $params)
+  {
+    return $this->getEntityManager()->getRepository('MuzichCoreBundle:'.$entityName)
+      ->findOneBy($params);
+  }
+  
+  
 }
