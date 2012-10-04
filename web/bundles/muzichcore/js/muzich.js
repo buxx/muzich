@@ -679,7 +679,7 @@ $(document).ready(function(){
   
   // Annulation d'un formulaire de modification d'élément
   $('form.edit_element input.cancel_edit').live('click', function(){
-    var li = link.parents('li.element');
+    var li = $(this).parents('li.element');
     li.html(elements_edited[li.attr('id')]);
     delete(elements_edited[li.attr('id')]);
   });
