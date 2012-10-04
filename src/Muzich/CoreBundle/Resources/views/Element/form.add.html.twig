@@ -22,4 +22,10 @@
 
   {{ form_widget(form.tags, { 'attr': {'class': 'tagBox_tags_ids'} }) }}
 
+<div class="field">
+  {{ form_errors(form.need_tags) }}
+  {{ form_widget(form.need_tags) }}
+  {{ form_label(form.need_tags, 'element_add.need_tags.name'|trans({}, 'userui')) }}
+</div>
+
 {{ form_row(form._token) }}

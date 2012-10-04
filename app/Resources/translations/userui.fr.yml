@@ -83,6 +83,8 @@ element_add:
     help:     |
               Copier ici le lien internet (http://) pointant sur la ressource 
               que vous souhaitez partager.
+  need_tags:
+    name:     Demander de l'aide pour tagger votre partage
   name:
     name:     Nom
     

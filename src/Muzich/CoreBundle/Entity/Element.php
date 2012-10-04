@@ -229,6 +229,14 @@ class Element
    */
   protected $datas;
   
+  
+  /**
+   *
+   * @ORM\Column(type="boolean", nullable=true)
+   * @var boolean 
+   */
+  protected $need_tags = false;
+  
   /**
    * Get id
    *
@@ -813,6 +821,35 @@ class Element
   public function getChilds()
   {
     return $this->childs;
+  }
+  
+  /**
+   *
+   * @param boolean $need 
+   */
+  public function setNeedTags($need)
+  {
+    if ($need)
+    {
+      $this->need_tags = true;
+    }
+    else
+    {
+      $this->need_tags = false;
+    }
+  }
+  
+  /**
+   *
+   * @return boolean 
+   */
+  public function getNeedTags()
+  {
+    if ($this->need_tags)
+    {
+      return true;
+    }
+    return false;
   }
   
 }

@@ -21,7 +21,13 @@ class ElementAddForm extends AbstractType
       'error_bubbling' => true
     ));
         
-    $builder->add('tags', 'hidden');    
+    $builder->add('tags', 'hidden');   
+    
+    $builder->add('need_tags', 'checkbox', array(
+      'required' => false,
+      'error_bubbling' => true
+    ));
+         
   }
   
   public function setName($name)
@@ -44,6 +50,7 @@ class ElementAddForm extends AbstractType
       'name' => '',
       'url' => '',
       'tags' => '',
+      'need_tags' => false,
       //'groups' => array(),
       'data_class' => 'Muzich\CoreBundle\Entity\Element'
     );

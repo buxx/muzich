@@ -229,8 +229,7 @@ class CoreController extends Controller
     $element->setType('none');
     $form = $this->getAddForm($element);
     $form->bindRequest($this->getRequest());
-    
-    
+        
     if ($form->isValid())
     {
 
@@ -259,6 +258,19 @@ class CoreController extends Controller
       else
       {
         $redirect_url = $this->generateUrl('home');
+      }
+      
+      // Un bug fait que le champ 'need_tags' n'est pas automatiquement renseigné pour l'élement,
+      // Alors on le fait en manuel ici ... zarb
+      $form_values = $this->getRequest()->get($form->getName());
+      
+      if (array_key_exists('need_tags', $form_values))
+      {
+        
+        if ($form_values['need_tags'])
+        {
+          $element->setNeedTags(true);
+        }
       }
 
       $em->persist($element);

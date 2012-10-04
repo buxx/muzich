@@ -1239,4 +1239,61 @@ class ElementControllerTest extends FunctionalTest
     
   }
   
+  public function testAddElementNeedTags()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('joelle', 'toor');
+    
+    $joelle = $this->getUser();
+    
+    $hardtek = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek');
+    $tribe = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe');
+      
+    // L'élément n'existe pas encore
+    $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneByName('Musique qui dechire bis4d5456aqd')
+    ;
+    $this->assertTrue(is_null($element));
+    
+    // On commence par ajouter un tag
+    $url = $this->generateUrl('element_add');
+   
+    $extract = $this->crawler->filter('input[name="element_add[_token]"]')
+      ->extract(array('value'));
+    $csrf = $extract[0];
+    
+    $crawler = $this->client->request(
+      'POST', 
+      $url, 
+      array(
+          'element_add' => array(
+              '_token'     => $csrf,
+              'name'       => 'Musique qui dechire bis4d5456aqd',
+              'url'        => 'http://www.youtube.com/watch?v=WC8qb_of04E',
+              'tags'       => json_encode(array($hardtek->getId(), $tribe->getId())),
+              'need_tags'  => '1'
+          )
+        
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    
+    $element_need_tags = $this->findOneBy('Element', array(
+      'name'   => 'Musique qui dechire bis4d5456aqd',
+      'owner'  => $joelle->getId(),
+      'need_tags' => true
+    ));
+    
+    // L'objet est bien en base
+    $this->assertTrue(!is_null($element_need_tags));
+    
+  }
+  
 }
