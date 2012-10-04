@@ -128,50 +128,59 @@ class Soundcloudcom extends ElementFactory
 
        */
       
-      if (array_key_exists('id', $result) )
+      // En premier lieux il nous faut être sur d'avoir le droit d'utiliser le lecteur exportable
+      $sharing = false;
+      if (array_key_exists('sharing', $result) && array_key_exists('embeddable_by', $result))
       {
-        $this->element->setData(Element::DATA_REF_ID, $result['id']);
-      }
-      
-      if (array_key_exists('artwork_url', $result) )
-      {
-        $this->element->setData(Element::DATA_THUMB_URL, $result['artwork_url']);
-      }
-      
-      if (array_key_exists('kind', $result) )
-      {
-        $this->element->setData(Element::DATA_TYPE, $result['kind']);
-      }
-      
-      if (array_key_exists('downloadable', $result) )
-      {
-        $this->element->setData(Element::DATA_DOWNLOAD, $result['downloadable']);
-        // FIXME
-        $this->element->setData(Element::DATA_DOWNLOAD_URL, $this->element->getUrl().'/download');
-      }
-      
-      if (array_key_exists('title', $result) )
-      {
-        $this->element->setData(Element::DATA_TITLE, $result['title']);
-      }
-      
-      if (array_key_exists('user', $result) )
-      {
-        $this->element->setData(Element::DATA_ARTIST, $result['user']['username']);
-      }
-      
-      if (array_key_exists('genre', $result) )
-      {
-        if (strlen($result['genre']))
+        if ($result['sharing'] == 'public' && ($result['embeddable_by'] == 'all' || $result['embeddable_by'] == 'me'))
         {
-          $this->element->setData(Element::DATA_TAGS, array($result['genre']));
+          $sharing = true;
         }
       }
       
-      /*
-       * TODO: Il y a un parametre share:public si a pas public pas de lecteur intégré ??
-       */
-      
+      if ($sharing)
+      {
+        if (array_key_exists('id', $result) )
+        {
+          $this->element->setData(Element::DATA_REF_ID, $result['id']);
+        }
+
+        if (array_key_exists('artwork_url', $result) )
+        {
+          $this->element->setData(Element::DATA_THUMB_URL, $result['artwork_url']);
+        }
+
+        if (array_key_exists('kind', $result) )
+        {
+          $this->element->setData(Element::DATA_TYPE, $result['kind']);
+        }
+
+        if (array_key_exists('downloadable', $result) )
+        {
+          $this->element->setData(Element::DATA_DOWNLOAD, $result['downloadable']);
+          // FIXME
+          $this->element->setData(Element::DATA_DOWNLOAD_URL, $this->element->getUrl().'/download');
+        }
+
+        if (array_key_exists('title', $result) )
+        {
+          $this->element->setData(Element::DATA_TITLE, $result['title']);
+        }
+
+        if (array_key_exists('user', $result) )
+        {
+          $this->element->setData(Element::DATA_ARTIST, $result['user']['username']);
+        }
+
+        if (array_key_exists('genre', $result) )
+        {
+          if (strlen($result['genre']))
+          {
+            $this->element->setData(Element::DATA_TAGS, array($result['genre']));
+          }
+        }
+      }
+            
     }
   }
   
