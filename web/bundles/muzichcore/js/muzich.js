@@ -1276,6 +1276,9 @@ $(document).ready(function(){
       form_add_open_dialog_for_new_tag($(this), input_tag, form_name, divtags);
     }
     
+    // On nettoie le champs de saisie des tags
+    $('input.form-default-value-processed').val('');
+    
   });
   
   // #ajouter ajouter un élément (envoi du formulaire)
