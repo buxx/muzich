@@ -1132,24 +1132,37 @@ $(document).ready(function(){
         $('a#element_add_link').show();
       }
       
+      form_add_hide_errors();
+      
       return true;
     }
     else if (response.status == 'error')
     {
-      $('form[name="add"]').find('ul.error_list').remove();
-      var ul_errors = $('<ul>').addClass('error_list');
-      
-      for (i in response.errors)
-      {
-        ul_errors.append($('<li>').append(response.errors[i]));
-      }
-      
-      $('form[name="add"]').prepend(ul_errors);
-      
+      form_add_display_errors(response.errors);
+      $('#form_add_loader').hide();
       return false;
     }
     
     return false;
+  }
+  
+  function form_add_hide_errors()
+  {
+    $('form[name="add"]').find('ul.error_list').remove();
+  }
+  
+  // Affichage des erreurs lors de laprocédure d'ajout d'un élément
+  function form_add_display_errors(errors)
+  {
+    $('form[name="add"]').find('ul.error_list').remove();
+    var ul_errors = $('<ul>').addClass('error_list');
+
+    for (i in errors)
+    {
+      ul_errors.append($('<li>').append(errors[i]));
+    }
+    
+    $('form[name="add"]').prepend(ul_errors);
   }
 
   // Ajout d'un element #ajouter (première partie)
@@ -1223,7 +1236,13 @@ $(document).ready(function(){
           // On a plus qu'a afficher les champs
           $('div#form_add_second_part').slideDown();
           $('div#form_add_first_part').slideUp();
-            
+          form_add_hide_errors();
+        }
+        else if (response.status == 'error')
+        {
+          form_add_display_errors(response.errors);
+          $('#form_add_loader').hide();
+          return false;
         }
       },
       dataType: 'json'

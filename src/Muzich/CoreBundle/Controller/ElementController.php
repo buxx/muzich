@@ -921,6 +921,17 @@ class ElementController extends Controller
       return $response;
     }
     
+    // On vérifie la tête de l'url quand même
+    if (filter_var($request->get('url'), FILTER_VALIDATE_URL) === false)
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array(
+          $this->trans('error.url.invalid', array(), 'validators')
+        )
+      ));
+    }
+    
     // On construit l'élèment qui va nous permettre de travailler avec l'api
     $element = new Element();
     $element->setUrl($request->get('url'));
