@@ -78,6 +78,8 @@ filter:
   tag_strict:       Chaques tag doit être trouvé
   
 element_add:
+  prop_tags:
+    text:     "Proposition de tags:"
   url:
     name:     http://
     help:     |

@@ -916,12 +916,17 @@ class Element
     return null;
   }
   
+  /**
+   *
+   * @return type 
+   */
   public function getProposedTags()
   {
     if (count($tags = $this->getData(self::DATA_TAGS)))
     {
       return $tags;
     }
+    return array();
   }
   
 }

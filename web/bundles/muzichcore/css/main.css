@@ -996,9 +996,16 @@ div.display_more_elements
   text-align: center;
 }
 
-input#element_add_url, input#element_add_name
+input#element_add_url
 {
   width: 70%;
+  font-size: 110%;
+  font-weight: bold;
+}
+
+input#element_add_name
+{
+  width: 65%;
   font-size: 110%;
   font-weight: bold;
 }

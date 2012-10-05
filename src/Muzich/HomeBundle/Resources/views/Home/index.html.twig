@@ -24,12 +24,14 @@
   </div>
   #}
 
-  <div id="element_add_box">    
-    
-    <img class="tag_loader" style="display: none;" 
-      src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" 
-    />
 
+
+  <div id="element_add_box" style="display: none;">    
+    
+    <a href="#" id="element_add_close_link" class="button">
+      &lt;&lt; {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
+    </a>
+    
     <form novalidate name="{{ add_form_name }}" action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}>
 
       {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
@@ -39,6 +41,11 @@
 
     </form>
   </div>
+
+
+  <a href="#" id="element_add_link" class="button">
+    {{ 'home.add_element'|trans({}, 'navigationui') }} &gt;&gt;
+  </a>
 
   <div id="added_element_to_group" style="display: none;">
     <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
