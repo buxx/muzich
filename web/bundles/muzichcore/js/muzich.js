@@ -1273,19 +1273,24 @@ $(document).ready(function(){
     
     if (element_add_proceed_json_response(response))
     { 
-      $('div#element_add_box').slideUp();
-      $('div#form_add_first_part').show();
-      $('div#form_add_second_part').hide();
-      $('ul#form_add_prop_tags').hide();
-      $('ul#form_add_prop_tags_text').hide();
-      $('input#element_add_url').val('');
-      $('input#element_add_name').val('');
+      form_add_reinit();
     }
 
     
     return false;
   });
   
+  
+  function form_add_reinit()
+  {
+    $('div#element_add_box').slideUp();
+    $('div#form_add_first_part').show();
+    $('div#form_add_second_part').hide();
+    $('ul#form_add_prop_tags').hide();
+    $('ul#form_add_prop_tags_text').hide();
+    $('input#element_add_url').val('');
+    $('input#element_add_name').val('');
+  }
 
  /////////////////////
  var tags_ids_for_filter = new Array();
