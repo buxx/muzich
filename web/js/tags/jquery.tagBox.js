@@ -145,9 +145,6 @@
              
           }
           
-          $('div#tags_prompt_'+form_name+' ul.tagbox li.input input[type="text"]')
-            .val(string_tag_prompt_input_help)
-          ;
         },
         removeTag : function(index, id, form_name) {
             

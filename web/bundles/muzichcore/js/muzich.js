@@ -217,9 +217,7 @@ function remove_tags(form_name)
   //tagsAddeds[form_name] = new Array();
   $('form[name="'+form_name+'"] ul.tagbox li.tag').remove();
   $('form[name="'+form_name+'"] input.tagBox_tags_ids').val('');
-  $('div#tags_prompt_'+form_name+' ul.tagbox li.input input[type="text"]')
-    .val(string_tag_prompt_input_help)
-  ;
+  
 }
 
 $(document).ready(function(){
@@ -687,7 +685,6 @@ $(document).ready(function(){
   ////////////////// TAG PROMPT ///////////////
  
   var ajax_query_timestamp = null;
-  var tag_text_help = $('input.tag_text_help').val();
  
   // Les deux clicks ci-dessous permettent de faire disparaitre
   // la div de tags lorsque l'on clique ailleurs
@@ -706,7 +703,7 @@ $(document).ready(function(){
   function autocomplete_tag(input, form_name)
   {
     // Il doit y avoir au moin un caractère
-    if ((input.val().length > 0) && (input.val() != string_tag_prompt_input_help)) 
+    if (input.val().length > 0) 
     {
 
       // on met en variable l'input
@@ -808,7 +805,8 @@ $(document).ready(function(){
                       inputTag.trigger("selectTag");
                       // On cache la liste puisque le choix vient d'être fait
                       divtags.hide();
-                      inputTag.val(tag_text_help); 
+                      // On vide le champs de saisie du tag
+                      $('input.form-default-value-processed').val('');
                       return false;
                     })
                     .append(t_string)
@@ -924,7 +922,6 @@ $(document).ready(function(){
           inputTag.trigger("selectTag");
           // On cache la liste puisque le choix vient d'être fait
           divtags.hide();
-          inputTag.val(tag_text_help); 
 
           link_add_tag.parents('div.search_tag_list').find('img.tag_loader').hide();
 
@@ -1060,7 +1057,6 @@ $(document).ready(function(){
     return false;
   });
   
-  $('ul.tagbox li.input input[type="text"]').val(tag_text_help);
   $('ul.tagbox li.input input[type="text"]').formDefaults();
  
   ////////////////// FIN TAG PROMPT ///////////////
@@ -1247,7 +1243,6 @@ $(document).ready(function(){
       input_tag.val($(this).text());
       // Et on execute l'évènement selectTag de l'input
       input_tag.trigger("selectTag");
-      input_tag.val(tag_text_help); 
     }
     else
     {

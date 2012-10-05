@@ -11,9 +11,9 @@
     {% endif %}
   {% endif %}
   
-   <input class="tags_prompt_list" name="tags" value=""> 
+   <input class="tags_prompt_list" name="tags" value="" /> 
    <input id="tags_selected_tag_{{ form_name }}" type="hidden" value="" />
-   <input class="tag_text_help" type="hidden" value="{{ 'tags.inputtext.help'|trans({}, 'userui') }}"/>
+   
    <div id="search_tag_{{ form_name }}" class="search_tag_list" style="display: none;">
      <span class="info"></span>
      <div class="tag_loader_div">
@@ -46,8 +46,7 @@
   // garde la valeur de l'input)
   $(document).ready(function(){
     $('div#tags_prompt_{{ form_name }} ul.tagbox li.input input[type="text"]')
-      .val(string_tag_prompt_input_help)
-    ;
+      .attr('placeholder', "{{ 'tags.inputtext.help'|trans({}, 'userui') }}");
   });
   
   // On détruit la variable taginit
