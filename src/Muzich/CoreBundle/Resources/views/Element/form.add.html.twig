@@ -17,11 +17,6 @@
       {{ 'home.check_url'|trans({}, 'navigationui') }}
     </a>
 
-
-    <img id="form_add_loader" class="tag_loader" style="display: none;" 
-      src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" 
-    />
-
   </div>
     
 </div>
@@ -69,5 +64,9 @@
   <input type="submit" value="Partager cette ressource" />
     
 </div>
+
+    <img id="form_add_loader" class="tag_loader" style="display: none;" 
+      src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" 
+    />
 
 {{ form_row(form._token) }}
