@@ -1132,6 +1132,7 @@ $(document).ready(function(){
         $('a#element_add_link').show();
       }
       
+      return true;
     }
     else if (response.status == 'error')
     {
@@ -1144,7 +1145,11 @@ $(document).ready(function(){
       }
       
       $('form[name="add"]').prepend(ul_errors);
+      
+      return false;
     }
+    
+    return false;
   }
 
   // Ajout d'un element #ajouter (première partie)
@@ -1265,13 +1270,18 @@ $(document).ready(function(){
     }
     
     $('form[name="add"] img.tag_loader').hide();
-    element_add_proceed_json_response(response);
     
-    $('div#element_add_box').slideUp();
-    $('div#form_add_first_part').show();
-    $('div#form_add_second_part').hide();
-    $('ul#form_add_prop_tags').hide();
-    $('ul#form_add_prop_tags_text').hide();
+    if (element_add_proceed_json_response(response))
+    { 
+      $('div#element_add_box').slideUp();
+      $('div#form_add_first_part').show();
+      $('div#form_add_second_part').hide();
+      $('ul#form_add_prop_tags').hide();
+      $('ul#form_add_prop_tags_text').hide();
+      $('input#element_add_url').val('');
+      $('input#element_add_name').val('');
+    }
+
     
     return false;
   });

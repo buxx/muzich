@@ -1005,7 +1005,7 @@ input#element_add_url
 
 input#element_add_name
 {
-  width: 65%;
+  width: 100%;
   font-size: 110%;
   font-weight: bold;
 }
