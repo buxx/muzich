@@ -186,7 +186,8 @@ class Soundcloudcom extends ElementFactory
   
   public function proceedEmbedCode()
   {
-    if (($ref_id = $this->element->getData(Element::DATA_REF_ID)) && $this->element->getData(Element::DATA_TYPE) == 'track')
+    if (($ref_id = $this->element->getData(Element::DATA_REF_ID)) 
+      && ($this->element->getData(Element::DATA_TYPE) == 'track' || $this->element->getData(Element::DATA_TYPE) == 'playlist' ))
     {
       $ref_id = $this->element->getUrl();
       $embed_id = md5($ref_id);
