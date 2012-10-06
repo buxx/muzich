@@ -33,6 +33,9 @@ error:
       notblank:          Vous devez saisir un nom
       toshort:           Le nom est trop court
       tolong:            Le nom est trop long
+  url:
+    invalid:             L'adresse fournie est invalide
+  
       
 registration:
   token:

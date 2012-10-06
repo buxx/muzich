@@ -16,7 +16,11 @@
 	<link href="{{ asset('bundles/muzichcore/css/base.css') }}" rel="stylesheet" media="screen" type="text/css" />
 	<link href="{{ asset('bundles/muzichcore/css/main.css') }}" rel="stylesheet" media="screen" type="text/css" />
   {% block css %}{% endblock %}
-	<script src="{{ asset('js/jquery-1.6.4.min.js') }}" type="text/javascript"></script>
+  {% if  app.environment != 'prod' %}  
+	<script src="{{ asset('js/jquery-1.8.2.dev.js') }}" type="text/javascript"></script>
+  {% else %}
+	<script src="{{ asset('js/jquery-1.8.2.prod.js') }}" type="text/javascript"></script>
+  {% endif %}
   <script src="{{ asset('js/jquery-ui-1.8.7.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('bundles/muzichcore/js/muzich.js') }}" type="text/javascript"></script>
   <script src="{{ asset('js/tags/jquery.autoGrowInput.js') }}" type="text/javascript"></script>
@@ -28,7 +32,6 @@
     string_follow_stop = "{{ 'user.stop_follow'|trans({}, 'users') }}";
     string_follow_following = "{{ 'user.following'|trans({}, 'users') }}";
     string_follow_follow = "{{ 'user.follow'|trans({}, 'users') }}";
-    string_tag_prompt_input_help = "{{ 'tags.inputtext.help'|trans({}, 'userui') }}";
     string_tag_add_title = "{{ 'tags.add.title'|trans({}, 'userui') }}";
     string_tag_add_text = "{{ 'tags.add.text'|trans({}, 'userui') }}";
     string_tag_add_argument = "{{ 'tags.add.argument'|trans({}, 'userui') }}";
@@ -63,6 +66,7 @@
     url_element_new_count = "{{ path('element_new_count') }}";
     url_element_new_get = "{{ path('element_new_get') }}";
     url_global_search = "{{ path('global_search') }}";
+    url_datas_api = "{{ path('element_retrieve_api_datas') }}";
     
     url_img_ajax_loader = "{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}";
   </script>

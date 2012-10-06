@@ -1296,4 +1296,65 @@ class ElementControllerTest extends FunctionalTest
     
   }
   
+  public function testDatasApi()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('joelle', 'toor');
+    
+    $joelle = $this->getUser();
+    $url = $this->generateUrl('element_retrieve_api_datas');
+    
+    $crawler = $this->client->request(
+      'POST', 
+      $url, 
+      array(
+        'url' => 'http://www.jamendo.com/fr/album/30661'
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals(array(
+    'status' => 'success',
+    'name' => 'ZwaNe 01 - Ptit lutin',
+    'tags' => array(
+      0 => array(
+        'original_name' => 'Basse',
+        'like_found' => false,
+        'like' => array()
+      ),
+      1 => array(
+        'original_name' => 'Batterie',
+        'like_found' => true,
+        'like' => array(
+          'name' => 'Batterie',
+          'id' => '495',
+          'slug' => 'batterie',
+        )
+      ),
+      2 => array(
+        'original_name' => 'Hardtek',
+        'like_found' => true,
+        'like' => array(
+          'name' => 'Hardtek',
+          'id' => '174',
+          'slug' => 'hardtek',
+        )
+      ),
+      3 => array(
+        'original_name' => 'Tek',
+        'like_found' => false,
+        'like' => array()
+      ),
+    ),
+    'thumb' => 'http://imgjam.com/albums/s30/30661/covers/1.100.jpg'
+    ), $response);
+    
+    
+    
+  }
+  
 }

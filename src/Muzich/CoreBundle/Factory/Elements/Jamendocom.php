@@ -63,7 +63,7 @@ class Jamendocom extends ElementFactory
     {
       case 'album':
         $api_url = "http://api.jamendo.com/get2/"
-          ."id+name+url+image+artist_name+artist_url/album/jsonpretty/?album_id=".$ref_id;
+          ."id+name+url+image+artist_name+artist_url/album/json/?album_id=".$ref_id;
         $api_tag_url = "http://api.jamendo.com/get2/name+weight/tag/json/album_tag/?album_id=".$ref_id;
       break;
     
@@ -83,7 +83,7 @@ class Jamendocom extends ElementFactory
       );
       curl_setopt_array( $ch, $options );
       $result = json_decode(curl_exec($ch), true);
-            
+      
       if (count($result))
       {
         // Thumb

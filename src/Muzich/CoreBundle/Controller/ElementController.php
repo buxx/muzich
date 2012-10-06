@@ -8,6 +8,7 @@ use Muzich\CoreBundle\Propagator\EventElement;
 use Muzich\CoreBundle\Entity\ElementTagsProposition;
 use Symfony\Component\HttpFoundation\Request;
 use Muzich\CoreBundle\Entity\Element;
+use Muzich\CoreBundle\Util\TagLike;
 
 class ElementController extends Controller
 {
@@ -868,6 +869,88 @@ class ElementController extends Controller
       'status' => 'success',
       'html'   => $html_element,
       'groups' => $this->isAddedElementCanBeInGroup($element_reshared)
+    ));
+  }
+  
+  protected function findTagsWithProposeds($tags)
+  {
+    $tag_like = new TagLike($this->getDoctrine());
+    $tags_with_likes = array();
+    foreach ($tags as $tag_name)
+    {
+      // On va determiner si on connais ces tags
+      $tag_like_tag = $tag_like->getSimilarTags($tag_name, $this->getUserId());
+      
+      // Premièrement: Si on a trouvé des équivalents en base
+      if (array_key_exists('tags', $tag_like_tag))
+      {
+        if (count($tag_like_tag['tags']))
+        {
+          // Deuxièmement: Si nos algorythmes on déterminés qu'on l'a en base
+          if ($tag_like_tag['same_found'])
+          {
+            // A ce moment là on le considère comme "bon"
+            // Et on prend le premier
+            $tags_with_likes[] = array(
+              'original_name' => $tag_name,
+              'like_found'    => true,
+              'like'          => $tag_like_tag['tags'][0]
+            );
+          }
+          // On considère ce tag comme inconnu, l'utilisateur peut toute fois 
+          // l'ajouté a notre base.
+          else
+          {
+            $tags_with_likes[] = array(
+              'original_name' => $tag_name,
+              'like_found'    => false,
+              'like'          => array()
+            );
+          }
+        }
+      }
+    }
+    
+    return $tags_with_likes;
+  }
+  
+  public function getDatasApiAction(Request $request)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    // On vérifie la tête de l'url quand même
+    if (filter_var($request->get('url'), FILTER_VALIDATE_URL) === false)
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array(
+          $this->trans('error.url.invalid', array(), 'validators')
+        )
+      ));
+    }
+    
+    // On construit l'élèment qui va nous permettre de travailler avec l'api
+    $element = new Element();
+    $element->setUrl($request->get('url'));
+    
+    $factory = new ElementManager($element, $this->getEntityManager(), $this->container);
+    $factory->proceedFill($this->getUser());
+    
+    // On gère les tags proposés
+    $tags_propositions = array();
+    if (count($tags = $element->getProposedTags()))
+    {
+      $tags_propositions = $this->findTagsWithProposeds($tags);
+    }
+    
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'name'   => $element->getProposedName(),
+      'tags'   => $tags_propositions,
+      'thumb'  => $element->getThumbnailUrl() 
     ));
   }
   

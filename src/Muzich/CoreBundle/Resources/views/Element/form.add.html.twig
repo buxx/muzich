@@ -2,30 +2,71 @@
 
 {{ form_errors(form) }}
 
-<span class="help">{{ 'element_add.url.help'|trans({}, 'userui') }}</span>
+<div id="form_add_first_part">
 
-<div class="field">
-  {{ form_errors(form.url) }}
-  {{ form_label(form.url, 'element_add.url.name'|trans({}, 'userui')) }}
-  {{ form_widget(form.url) }}
+  <span class="help">{{ 'element_add.url.help'|trans({}, 'userui') }}</span>
+
+  <div class="field fom_add_url">
+    {{ form_errors(form.url) }}
+    {{ form_widget(form.url, { 'attr': {
+      'placeholder': 'element_add.url.name'|trans({}, 'userui')},
+      'type': 'URL'
+    }) }}
+
+    <a href="#" id="form_add_check_url" class="button">
+      {{ 'home.check_url'|trans({}, 'navigationui') }}
+    </a>
+
+  </div>
+    
 </div>
 
-<div class="field">
-  {{ form_errors(form.name) }}
-  {{ form_label(form.name, 'element_add.name.name'|trans({}, 'userui')) }}
-  {{ form_widget(form.name) }}
+<div id="form_add_second_part" style="display: none;">
+  
+  <table>
+    <tr>
+      <td style="vertical-align: top;">
+        <div id="form_add_thumb">
+          <img src="{{ asset('bundles/muzichcore/img/nothumb.png') }}" />
+        </div>
+      </td>
+      <td style="vertical-align: top;">
+        <div class="field fom_add_name">
+          {{ form_errors(form.name) }}
+          {{ form_widget(form.name, { 'attr': {'placeholder': 'element_add.name.name'|trans({}, 'userui')} }) }}
+        </div>
+
+          <p id="form_add_prop_tags_text" style="display: none;">
+            {{ 'element_add.prop_tags.text'|trans({}, 'userui') }}
+          </p>
+          <ul id="form_add_prop_tags" style="display: none;"></ul>
+
+          {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
+            'form_name'     : form_name
+          } %}
+
+          {{ form_widget(form.tags, { 'attr': {'class': 'tagBox_tags_ids'} }) }}
+
+        <div class="field">
+          {{ form_errors(form.need_tags) }}
+          {{ form_widget(form.need_tags) }}
+          {{ form_label(form.need_tags, 'element_add.need_tags.name'|trans({}, 'userui')) }}
+        </div>
+      </td>
+    </tr>
+  </table>
+  
+  
+  
+  
+  
+    
+  <input type="submit" value="Partager cette ressource" />
+    
 </div>
 
-  {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
-    'form_name'     : form_name
-  } %}
-
-  {{ form_widget(form.tags, { 'attr': {'class': 'tagBox_tags_ids'} }) }}
-
-<div class="field">
-  {{ form_errors(form.need_tags) }}
-  {{ form_widget(form.need_tags) }}
-  {{ form_label(form.need_tags, 'element_add.need_tags.name'|trans({}, 'userui')) }}
-</div>
+    <img id="form_add_loader" class="tag_loader" style="display: none;" 
+      src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" 
+    />
 
 {{ form_row(form._token) }}

@@ -78,15 +78,17 @@ filter:
   tag_strict:       Chaques tag doit être trouvé
   
 element_add:
+  prop_tags:
+    text:     "Proposition de tags:"
   url:
-    name:     Lien
+    name:     http://
     help:     |
               Copier ici le lien internet (http://) pointant sur la ressource 
               que vous souhaitez partager.
   need_tags:
     name:     Demander de l'aide pour tagger votre partage
   name:
-    name:     Nom
+    name:     Titre de la piste - Artiste
     
   added_to_group:
     sentence:       |

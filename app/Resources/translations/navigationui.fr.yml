@@ -23,6 +23,7 @@ home:
   add_element:          Ajouter un élément
   add_element_box:
     close:              Fermer
+  check_url:            Ajouter
   
 group:
   add_element:          Ajouter un élément dans ce groupe

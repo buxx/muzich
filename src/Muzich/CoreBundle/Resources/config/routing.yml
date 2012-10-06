@@ -155,4 +155,10 @@ teapot:
   pattern: /what/are/you
   defaults: { _controller: MuzichCoreBundle:Info:teapot }
   
-  
+#
+
+element_retrieve_api_datas:
+  pattern: /ajax/element/get/datas/api
+  defaults: { _controller: MuzichCoreBundle:Element:getDatasApi }
+  requirements:
+    method:  POST

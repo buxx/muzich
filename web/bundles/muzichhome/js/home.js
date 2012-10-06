@@ -13,6 +13,16 @@ $(document).ready(function(){
      $('#element_add_box').slideUp("slow");
      $('#element_add_link').show();
      $('form[name="search"]').slideDown();
+     //form_add_reinit();
+     // copie du contenu de la fonction ci dessus, arrive pas a l'appeler ... huh
+     $('div#element_add_box').slideUp();
+    $('div#form_add_first_part').show();
+    $('div#form_add_second_part').hide();
+    $('ul#form_add_prop_tags').hide();
+    $('ul#form_add_prop_tags_text').hide();
+    $('input#element_add_url').val('');
+    $('input#element_add_name').val('');
+     
      return false;
    }); 
    
