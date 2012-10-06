@@ -28,7 +28,7 @@ class Youtube extends Youtubecom
     // Données API
     if ($ref_id)
     {
-      
+      $this->proceedAPIDatas($ref_id);
     }
   }
   
