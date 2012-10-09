@@ -5,7 +5,7 @@ namespace Muzich\CoreBundle\Tests\User;
 use Muzich\CoreBundle\lib\UnitTest;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 
-class TagReadTest extends UnitTest
+class UserTest extends UnitTest
 {  
   
   public function testTagsFavoritesQuick()
