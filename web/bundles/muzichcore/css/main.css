@@ -1283,3 +1283,8 @@ li.element.shadows
    -webkit-box-shadow: 3px 3px 3px #4F4F4F;
    box-shadow: 3px 3px 3px #4F4F4F;
 }
+
+ul#favorite_tags a.button.highlight
+{
+  color: blue;
+}
