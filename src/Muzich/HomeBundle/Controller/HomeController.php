@@ -51,7 +51,8 @@ class HomeController extends Controller
     ));
     
     return $this->render('MuzichHomeBundle:Home:need_tags.html.twig', array(
-      'elements' => $es->getElements($this->getDoctrine(), $this->getUserId())
+      'elements' => $es->getElements($this->getDoctrine(), $this->getUserId()),
+      'topmenu_active' => 'needs-tags'
     ));
   }
   
