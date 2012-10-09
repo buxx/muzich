@@ -5,6 +5,7 @@ container_menu:
   my_favorites:         Mes favoris
   my_feeds:             Mes diffusions
   return:               Retour
+  need_tags:            Demandes
   
 top_bar:
   my_account:           Mon compte (%name%)
@@ -39,6 +40,7 @@ title:
   hello:                Découvrez et partagez la musique !
   element:
     edit:               Modification d'un élément
+  need_tags:            Partages en demande de tags
   
   
 bottom_menu:
