@@ -84,5 +84,23 @@ class UnitTest extends \PHPUnit_Framework_TestCase
       ->findOneByUsername($username)
     ;
   }
+
+
+  protected function getTag($name)
+  {
+    return $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneByName($name)
+    ;
+  }
+  
+  protected function persist($entity)
+  {
+    $this->getDoctrine()->getEntityManager()->persist($entity);
+  }
+  
+  protected function flush()
+  {
+    $this->getDoctrine()->getEntityManager()->flush();
+  }
   
 }

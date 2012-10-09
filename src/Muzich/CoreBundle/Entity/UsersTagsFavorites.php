@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * 
  * @ORM\Entity
  * @ORM\Table(name="users_tags_favorites")
+ * @ORM\HasLifecycleCallbacks
  */
 class UsersTagsFavorites
 {
@@ -42,7 +43,7 @@ class UsersTagsFavorites
    * L'attribut position permet de connaitre l'ordre de préfèrence de 
    * l'utilisateur.
    * 
-   * @ORM\Column(type="integer")
+   * @ORM\Column(type="integer", nullable=true)
    * @var type int
    */
   protected $position;
@@ -118,4 +119,21 @@ class UsersTagsFavorites
   {
     return $this->tag;
   }
+  
+  /**
+   * @ORM\prePersist
+   */
+  public function prePersist()
+  {
+    $this->getUser()->addTagFavoriteQuick($this->getTag());
+  }
+  
+  /**
+   * @ORM\preRemove
+   */
+  public function preRemove()
+  {
+    $this->getUser()->removeTagFavoriteQuick($this->getTag());
+  }
+  
 }

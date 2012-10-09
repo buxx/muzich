@@ -11,6 +11,7 @@ use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 use Symfony\Component\Validator\Constraints as Assert;
 use Muzich\CoreBundle\Validator as MuzichAssert;
 use Muzich\CoreBundle\Entity\ElementTagsProposition;
+use Muzich\CoreBundle\Entity\Tag;
 
 /**
  * Cet entité est l'utilisateur ayant effectué la requête.
@@ -171,6 +172,16 @@ class User extends BaseUser
    * @var array 
    */
   protected $live_datas = array();
+  
+  /**
+   * Tableau contenant les id => name des tags favoris
+   * de l'user. Ces donnée sont faites pour optimiser les calculs.
+   * Ce chamsp est mis ajour a chaque fois qu'un UsersTagsFavorite est manipulé.
+   * 
+   * @ORM\Column(type="text", unique=false, nullable=true)
+   * @var array 
+   */
+  private $tags_favorites_quick;
   
   /**
    * 
@@ -755,6 +766,53 @@ class User extends BaseUser
       }
     }
     return false;
+  }
+  
+  public function getTagsFavoritesQuick()
+  {
+    if ($this->tags_favorites_quick == null)
+    {
+      return array();
+    }
+    
+    return json_decode($this->tags_favorites_quick, true);
+  }
+  
+  /**
+   * 
+   * @param array $tags_favorites_quick (id => name)
+   */
+  public function setTagsFavoritesQuick($tags_favorites_quick)
+  {
+    $this->tags_favorites_quick = json_encode($tags_favorites_quick);
+  }
+  
+  /**
+   * 
+   * @param \Muzich\CoreBundle\Entity\Tag $tag
+   */
+  public function addTagFavoriteQuick(Tag $tag)
+  {
+    $tags_favorites_quick = $this->getTagsFavoritesQuick();
+    if (!array_key_exists($tag->getId(), $tags_favorites_quick))
+    {
+      $tags_favorites_quick[$tag->getId()] = $tag->getName();
+    }
+    $this->setTagsFavoritesQuick($tags_favorites_quick);
+  }
+  
+  /**
+   * 
+   * @param \Muzich\CoreBundle\Entity\Tag $tag
+   */
+  public function removeTagFavoriteQuick(Tag $tag)
+  {
+    $tags_favorites_quick = $this->getTagsFavoritesQuick();
+    if (array_key_exists($tag->getId(), $tags_favorites_quick))
+    {
+      unset($tags_favorites_quick[$tag->getId()]);
+    }
+    $this->setTagsFavoritesQuick($tags_favorites_quick);
   }
   
 }
