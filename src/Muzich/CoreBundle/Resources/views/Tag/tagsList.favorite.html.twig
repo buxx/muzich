@@ -16,13 +16,12 @@
       </li>
     {% endfor %}
   </ul>
+  <div class="clearboth" ></div>
   
-  {% if tags|length > cloud_tags_limit_to_display %}
-  <div style="clear: both;"></div>
+  {% if tags|length > cloud_tags_limit_to_display+1 %}
     <a href="#" id="display_all_cloud_tag" >
       {{ 'tags.cloud.display_more'|trans({}, 'userui') }}
     </a>
   {% endif %}
   
-  <div class="clearboth" ></div>
 {% endif %}
