@@ -25,6 +25,28 @@
   
 
   <h2>{{ 'user.show.title'|trans({'%name%' : viewed_user.name}, 'users') }}</h2>
+
+  {% if app.user.id == viewed_user.id %}
+    <div id="element_add_box" style="display: none;">    
+    
+      <a href="#" id="element_add_close_link" class="button">
+        &lt;&lt; {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
+      </a>
+
+      <form novalidate name="{{ add_form_name }}" action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}>
+
+        {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
+          'form'          : add_form, 
+          'form_name'     : add_form_name
+        } %}
+
+      </form>
+    </div>
+
+    <a href="#" id="element_add_link" class="button">
+      {{ 'home.add_element'|trans({}, 'navigationui') }} &gt;&gt;
+    </a>
+  {% endif %}
   
   <div class="reputation">
     {{ 'user.reputation.name'|trans({}, 'users') }}: 

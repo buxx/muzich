@@ -65,7 +65,9 @@ class ShowController extends Controller
       'count_owned'     => count($element_ids_owned),
       'count_favorited' => $count_favorited,
       'count_favorited_users' => $count_favorited_users,
-      'count_followers' => $count_followers
+      'count_followers' => $count_followers,
+      'add_form'        => ($this->getUserId() == $viewed_user->getId())?$this->getAddForm()->createView():null,
+      'add_form_name'   => 'add'
     );
   }
   
