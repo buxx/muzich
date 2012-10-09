@@ -815,4 +815,22 @@ class User extends BaseUser
     $this->setTagsFavoritesQuick($tags_favorites_quick);
   }
   
+  /**
+   * Retourne vrai si le tag_id transmis fait partis des tags favoris de 
+   * l'utilisateur
+   * 
+   * @param int $tag_id
+   * @return boolean
+   */
+  public function haveTagsFavorite($tag_id)
+  {
+    $tags_favorites_quick = $this->getTagsFavoritesQuick();
+    if (array_key_exists($tag_id, $tags_favorites_quick))
+    {
+      return true;
+    }
+    
+    return false;
+  }
+  
 }

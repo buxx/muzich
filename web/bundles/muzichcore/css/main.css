@@ -1068,13 +1068,18 @@ div.comments_loader
 
 /* Ajouter tag d'élément a ses tags favoris */
 
-li.element a.tag_to_favorites
+li.element a.tag_to_favorites, li.element img.tag_to_favorites
 {
   margin-left: -15px;
   margin-right: 4px;
 }
 
 li.element a.element_tag_large_for_fav
+{
+  padding-right: 15px;
+}
+
+li.element a.element_tag_large_for_fav_still
 {
   padding-right: 15px;
 }
