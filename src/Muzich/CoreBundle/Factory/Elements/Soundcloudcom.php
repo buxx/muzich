@@ -57,14 +57,26 @@ class Soundcloudcom extends ElementFactory
       curl_setopt_array( $ch, $options );
       $result = json_decode(curl_exec($ch));
 
-      if (isset($result->errors))
+      if (!isset($result->errors))
       {
-        if (count($result->errors))
-        {
-          return null;
-        }
+        return;
       }
-
+      
+      if (count($result->errors))
+      {
+        return;  
+      }
+      
+      if (!isset($result->location))
+      {
+        return null;
+      }
+      
+      if (!$result->location)
+      {
+        return null;
+      }
+      
       $getjsonurl = $result->location;
       // On a maintenant la bonne url pour demander les infos
       $ch = curl_init($getjsonurl);

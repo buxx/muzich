@@ -23,7 +23,7 @@ class Dailymotioncom extends ElementFactory
     $ref_id = null;
     
     // Récupération de l'id
-    if (preg_match("#(video\/)([a-zA-Z0-9]+)([a-zA-Z0-9_-]*)#", $url_clean, $preg_result))
+    if (preg_match("#\/(video\/)([a-zA-Z0-9]+)([a-zA-Z0-9_-]*)#", $url_clean, $preg_result))
     {
       $ref_id = $preg_result[2];
       $this->element->setData(Element::DATA_REF_ID, $ref_id);
@@ -42,7 +42,7 @@ class Dailymotioncom extends ElementFactory
       
       curl_setopt_array($api_url, $options);
       $api_result = json_decode(curl_exec($api_url));
-      
+            
       // On récupère l'url du thumbnail
       if (isset($api_result->thumbnail_medium_url))
       {
