@@ -1,6 +1,7 @@
 {% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
 
 {{ form_errors(form) }}
+<input type="hidden" id="form_add_step" value="1" />
 
 <div id="form_add_first_part">
 
@@ -13,9 +14,7 @@
       'type': 'URL'
     }) }}
 
-    <a href="#" id="form_add_check_url" class="button">
-      {{ 'home.check_url'|trans({}, 'navigationui') }}
-    </a>
+    <input class="button" type="submit" value="{{ 'home.check_url'|trans({}, 'navigationui') }}" />
 
   </div>
     

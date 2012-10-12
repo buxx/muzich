@@ -5,6 +5,8 @@ $(document).ready(function(){
      $('#element_add_box').slideDown("slow");
      $('#element_add_link').hide();
      $('form[name="search"]').slideUp();
+     // Au cas ou firefox garde la valeur step 2:
+        $('input#form_add_step').val('1');
      return false;
    });   
    

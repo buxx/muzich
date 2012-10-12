@@ -1167,88 +1167,154 @@ $(document).ready(function(){
 
   // Ajout d'un element #ajouter (première partie)
   
-  // Click sur "ajouter" (l'url)
-  $('a#form_add_check_url').click(function(){
-    
-    // On fait tourner notre gif loader
-    $('img#form_add_loader').show();
-    
-    $.ajax({
-      type: 'POST',
-      url: url_datas_api,
-      data: {'url':$('input#element_add_url').val()},
-      success: function(response){
-        
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+//  // Click sur "ajouter" (l'url)
+//  $('a#form_add_check_url').click(function(){
+//    
+//    // On fait tourner notre gif loader
+//    $('img#form_add_loader').show();
+//    
+//    $.ajax({
+//      type: 'POST',
+//      url: url_datas_api,
+//      data: {'url':$('input#element_add_url').val()},
+//      success: function(response){
+//        
+//        if (response.status == 'mustbeconnected')
+//        {
+//          $(location).attr('href', url_index);
+//        }
+//
+//        if (response.status == 'success')
+//        {
+//          // On cache notre gif loader.
+//          $('img#form_add_loader').hide();
+//          
+//          // On commence par renseigner les champs si on a du concret
+//          // name
+//          if (response.name)
+//          {
+//            $('input#element_add_name').val(response.name);
+//          }
+//          
+//          // thumb
+//          $('div#form_add_thumb img').attr('src', '/bundles/muzichcore/img/nothumb.png');
+//          if (response.thumb)
+//          {
+//            $('div#form_add_thumb img').attr('src', response.thumb);
+//          }
+//          
+//          // Proposition de tags
+//          if (response.tags)
+//          {
+//            $('ul#form_add_prop_tags li').remove();
+//            $('ul#form_add_prop_tags').show();
+//            $('ul#form_add_prop_tags_text').show();
+//            
+//            for (tags_index = 0; tags_index < response.tags.length; tags_index++)
+//            {
+//              var tag = response.tags[tags_index];
+//              var tag_id = '';
+//              var tag_name = tag.original_name;
+//              // Si il y a des équivalent en base.
+//              if (tag.like_found)
+//              {
+//                tag_id = tag.like.id;
+//                tag_name = tag.like.name;
+//              }
+//                
+//              // On aura plus qu'a vérifie le href pour savoir si c'est une demande d'ajout de tags =)
+//              $('ul#form_add_prop_tags').append(
+//                '<li>'+
+//                  '<a href="#'+tag_id+'" class="form_add_prop_tag">'+
+//                    tag_name+
+//                  '</a>'+
+//                '</li>'
+//              );
+//            }
+//          }
+//          
+//          // On a plus qu'a afficher les champs
+//          $('div#form_add_second_part').slideDown();
+//          $('div#form_add_first_part').slideUp();
+//          form_add_hide_errors();
+//        }
+//        else if (response.status == 'error')
+//        {
+//          form_add_display_errors(response.errors);
+//          $('#form_add_loader').hide();
+//          return false;
+//        }
+//      },
+//      dataType: 'json'
+//    });
+//    
+//  });
+  
+  function element_add_proceed_data_apis(response)
+  {
+    if (response.status == 'mustbeconnected')
+    {
+      $(location).attr('href', url_index);
+    }
 
-        if (response.status == 'success')
+    if (response.status == 'success')
+    {
+      // On cache notre gif loader.
+      $('img#form_add_loader').hide();
+
+      // On commence par renseigner les champs si on a du concret
+      // name
+      if (response.name)
+      {
+        $('input#element_add_name').val(response.name);
+      }
+
+      // thumb
+      $('div#form_add_thumb img').attr('src', '/bundles/muzichcore/img/nothumb.png');
+      if (response.thumb)
+      {
+        $('div#form_add_thumb img').attr('src', response.thumb);
+      }
+
+      // Proposition de tags
+      if (response.tags)
+      {
+        $('ul#form_add_prop_tags li').remove();
+        $('ul#form_add_prop_tags').show();
+        $('ul#form_add_prop_tags_text').show();
+
+        for (tags_index = 0; tags_index < response.tags.length; tags_index++)
         {
-          // On cache notre gif loader.
-          $('img#form_add_loader').hide();
-          
-          // On commence par renseigner les champs si on a du concret
-          // name
-          if (response.name)
+          var tag = response.tags[tags_index];
+          var tag_id = '';
+          var tag_name = tag.original_name;
+          // Si il y a des équivalent en base.
+          if (tag.like_found)
           {
-            $('input#element_add_name').val(response.name);
+            tag_id = tag.like.id;
+            tag_name = tag.like.name;
           }
-          
-          // thumb
-          $('div#form_add_thumb img').attr('src', '/bundles/muzichcore/img/nothumb.png');
-          if (response.thumb)
-          {
-            $('div#form_add_thumb img').attr('src', response.thumb);
-          }
-          
-          // Proposition de tags
-          if (response.tags)
-          {
-            $('ul#form_add_prop_tags li').remove();
-            $('ul#form_add_prop_tags').show();
-            $('ul#form_add_prop_tags_text').show();
-            
-            for (tags_index = 0; tags_index < response.tags.length; tags_index++)
-            {
-              var tag = response.tags[tags_index];
-              var tag_id = '';
-              var tag_name = tag.original_name;
-              // Si il y a des équivalent en base.
-              if (tag.like_found)
-              {
-                tag_id = tag.like.id;
-                tag_name = tag.like.name;
-              }
-                
-              // On aura plus qu'a vérifie le href pour savoir si c'est une demande d'ajout de tags =)
-              $('ul#form_add_prop_tags').append(
-                '<li>'+
-                  '<a href="#'+tag_id+'" class="form_add_prop_tag">'+
-                    tag_name+
-                  '</a>'+
-                '</li>'
-              );
-            }
-          }
-          
-          // On a plus qu'a afficher les champs
-          $('div#form_add_second_part').slideDown();
-          $('div#form_add_first_part').slideUp();
-          form_add_hide_errors();
+
+          // On aura plus qu'a vérifie le href pour savoir si c'est une demande d'ajout de tags =)
+          $('ul#form_add_prop_tags').append(
+            '<li>'+
+              '<a href="#'+tag_id+'" class="form_add_prop_tag">'+
+                tag_name+
+              '</a>'+
+            '</li>'
+          );
         }
-        else if (response.status == 'error')
-        {
-          form_add_display_errors(response.errors);
-          $('#form_add_loader').hide();
-          return false;
-        }
-      },
-      dataType: 'json'
-    });
+      }
+
+      return true;
+    }
+    else if (response.status == 'error')
+    {
+      return false;
+    }
     
-  });
+    return true;
+  }
   
   /*
    * Formulaire d'ajout: click sur proposition de tags du a une api
@@ -1293,9 +1359,32 @@ $(document).ready(function(){
     
     $('form[name="add"] img.tag_loader').hide();
     
-    if (element_add_proceed_json_response(response))
+    // Si on en est a la promière étape la réponse sera des données récupérés auprès
+    // des apis
+    if ($('input#form_add_step').val() == '1')
+    {
+      if (element_add_proceed_data_apis(response))
+      {
+        // On a plus qu'a afficher les champs
+        $('div#form_add_second_part').slideDown();
+        $('div#form_add_first_part').slideUp();
+        form_add_hide_errors();
+        $('#form_add_loader').hide();
+        $('input#form_add_step').val('2');
+        $('form[name="add"]').attr('action', url_element_add);
+      }
+      else
+      {
+        form_add_display_errors(response.errors);
+        $('#form_add_loader').hide();
+      }
+    }
+    else if ($('input#form_add_step').val() == '2')
     { 
+      if (element_add_proceed_json_response(response))
+      {
       form_add_reinit();
+      }
     }
 
     

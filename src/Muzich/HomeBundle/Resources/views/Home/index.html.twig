@@ -32,7 +32,9 @@
       &lt;&lt; {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
     </a>
     
-    <form novalidate name="{{ add_form_name }}" action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}>
+    <form novalidate name="{{ add_form_name }}" 
+      action="{{ path('element_retrieve_api_datas') }}" method="post" {{ form_enctype(add_form) }}
+    >
 
       {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
         'form'          : add_form, 

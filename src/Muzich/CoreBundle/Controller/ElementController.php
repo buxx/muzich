@@ -921,8 +921,14 @@ class ElementController extends Controller
       return $response;
     }
     
+    $url =  null;
+    if (count(($element_add_values = $request->get('element_add'))))
+    {
+      $url = $element_add_values['url'];
+    }
+    
     // On vérifie la tête de l'url quand même
-    if (filter_var($request->get('url'), FILTER_VALIDATE_URL) === false)
+    if (filter_var($url, FILTER_VALIDATE_URL) === false)
     {
       return $this->jsonResponse(array(
         'status' => 'error',
@@ -934,7 +940,7 @@ class ElementController extends Controller
     
     // On construit l'élèment qui va nous permettre de travailler avec l'api
     $element = new Element();
-    $element->setUrl($request->get('url'));
+    $element->setUrl($url);
     
     $factory = new ElementManager($element, $this->getEntityManager(), $this->container);
     $factory->proceedFill($this->getUser());
