@@ -23,15 +23,14 @@ abstract class Searcher
     foreach ($params as $param_id => $param_value)
     {
       // TODO: check existance attribut
-//      if (isset($this->$param_id))
-//      {
+      if (property_exists($this, $param_id))
+      {
         $this->$param_id = $param_value;
-//      }
-//      else
-//      {
-//        die(var_dump($this->$param_id));
-//        throw new \Exception("You're trying access unknow attribute '$param_id'");
-//      }
+      }
+      else
+      {
+        throw new \Exception("You're trying access unknow attribute '$param_id'");
+      }
     }
   }
 

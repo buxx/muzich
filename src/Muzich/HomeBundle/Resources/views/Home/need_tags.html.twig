@@ -1,0 +1,27 @@
+{% extends "MuzichHomeBundle::layout.html.twig" %}
+
+{% block title %}{{ 'title.need_tags'|trans({}, 'navigationui') }}{% endblock %}
+
+{% block content %}
+
+  <h1>{{ 'title.need_tags'|trans({}, 'navigationui') }}</h1>
+
+  <p>{{ 'need_tags.text_help'|trans({}, 'userui') }}</p>
+  
+  <div class="display_more_elements" style="display: none;">
+    <span></span>
+  </div>
+
+  <div class="elements_loader_div">
+    <img class="elements_new_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
+  </div>
+
+  {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
+    
+  {% include "MuzichCoreBundle:SearchElement:more_button.html.twig" with {
+    'display_more_button' : true,
+    'elements_length'     : elements|length,
+    'more_path'           : 'search_elements'
+  }%}
+  
+{% endblock %}

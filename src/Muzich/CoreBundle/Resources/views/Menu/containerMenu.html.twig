@@ -12,14 +12,19 @@
         {{ 'container_menu.my_network'|trans({}, 'navigationui') }}
       </a>
     </li>
-    <li {% if active == 'myfeeds' %} class="active" {% endif %}>
-      <a href="{{ path('show_user', {'slug': app.user.slug}) }}">
-        {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
+    <li {% if active == 'needs-tags' %} class="active" {% endif %}>
+      <a href="{{ path('element_show_need_tags') }}">
+        {{ 'container_menu.need_tags'|trans({}, 'navigationui') }}
       </a>
     </li>
   </ul>
 
   <ul class="top-tabs-right">
+    <li {% if active == 'myfeeds' %} class="active" {% endif %}>
+      <a href="{{ path('show_user', {'slug': app.user.slug}) }}">
+        {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
+      </a>
+    </li>
     <li class="{% if active == 'mygroups' %}active{% endif %}">
       <a href="{{ path('groups_own_list') }}" >
         {{ 'network.mygroups'|trans({}, 'navigationui') }}

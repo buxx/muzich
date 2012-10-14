@@ -130,18 +130,29 @@
       <ul class="element_tags">
         {% for tag in element.tags %} 
           <li class="element_tag">
-            <a id="element_tag_{{ tag.id }}" href="#" class="element_tag button">{{ tag.name }}</a>
-            <a 
-              href="{{ path('ajax_tag_add_to_favorites', {
-                'tag_id' : tag.id,
-                'token'  : app.user.getPersonalHash
-              }) }}" 
-              class="tag_to_favorites" 
-              style="display: none;"
-              title="{{ 'element.tag.addtofav.title'|trans({}, 'elements') }}"   
+            <a id="element_tag_{{ tag.id }}" href="#" 
+              class="element_tag button {% if app.user.haveTagsFavorite(tag.id) %}element_tag_large_for_fav_still{% endif %}"
             >
-              <img src="{{ asset('/bundles/muzichcore/img/1331734087_emblem-favorite.png') }}" alt="add-to-favorites"/>
+              {{ tag.name }}
             </a>
+            {% if app.user.haveTagsFavorite(tag.id) %}
+              <img class="tag_to_favorites" src="{{ asset('/bundles/muzichcore/img/1331734087_emblem-favorite.png') }}" 
+                alt="add-to-favorites"
+                title="{{ 'element.tag.isfav.title'|trans({'%tagname%':tag.name}, 'elements') }}"
+              />
+            {% else %}
+              <a 
+                href="{{ path('ajax_tag_add_to_favorites', {
+                  'tag_id' : tag.id,
+                  'token'  : app.user.getPersonalHash
+                }) }}" 
+                class="tag_to_favorites" 
+                style="display: none;"
+                title="{{ 'element.tag.addtofav.title'|trans({}, 'elements') }}"   
+              >
+                <img src="{{ asset('/bundles/muzichcore/img/1331734087_emblem-favorite.png') }}" alt="add-to-favorites"/>
+              </a>
+            {% endif %}
           </li>
         {% endfor %} 
       </ul>

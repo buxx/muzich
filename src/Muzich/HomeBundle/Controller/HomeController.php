@@ -4,10 +4,7 @@ namespace Muzich\HomeBundle\Controller;
 
 use Muzich\CoreBundle\lib\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
-use Doctrine\ORM\Query;
-use Muzich\CoreBundle\Form\Search\ElementSearchForm;
-use Muzich\CoreBundle\Form\Element\ElementAddForm;
+use Muzich\CoreBundle\Searcher\ElementSearcher;
 
 class HomeController extends Controller
 {
@@ -29,12 +26,12 @@ class HomeController extends Controller
     $add_form = $this->getAddForm();
     
     $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
-    $count_elements = count($elements);
+    //$count_elements = count($elements);
     
     return array(
       'search_tags_id'   => $search_object->getTags(),
       'ids_display'      => $search_object->getIdsDisplay(),
-      'user'             => $this->getUser(),
+      'user'             => $user,
       'add_form'         => $add_form->createView(),
       'add_form_name'    => 'add',
       'search_form'      => $search_form->createView(),
@@ -44,4 +41,19 @@ class HomeController extends Controller
       //'display_more_button' => ($count_elements >= $this->container->getParameter('search_default_count'))?true:false
     );
   }
+  
+  public function needTagsAction()
+  {
+    $es = new ElementSearcher();
+    $es->init(array(
+      'count'     => $this->container->getParameter('search_default_count'),
+      'need_tags' => true
+    ));
+    
+    return $this->render('MuzichHomeBundle:Home:need_tags.html.twig', array(
+      'elements' => $es->getElements($this->getDoctrine(), $this->getUserId()),
+      'topmenu_active' => 'needs-tags'
+    ));
+  }
+  
 }

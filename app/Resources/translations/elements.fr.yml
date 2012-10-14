@@ -38,6 +38,8 @@ element:
         sentence:       Ajouter aux favoris ?
         yes:            Oui
         no:             Non
+    isfav:
+      title:            Le tag "%tagname%" fait partis de vos tags favoris
   comments: 
     add:                Ajouter un commentaire
     thereis:            Afficher le commentaire
