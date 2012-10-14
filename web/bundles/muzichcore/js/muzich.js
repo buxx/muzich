@@ -2224,4 +2224,33 @@ $(document).ready(function(){
     }
   });
 
+  /*
+   * Cloud tags
+   */
+  
+  $('a#display_all_cloud_tag').click(function(){
+    $('ul#favorite_tags li').show();
+    $(this).hide();
+  });
+  
+  $('input#cloud_tags_filter').keyup(function(){
+    var search_string = $(this).val();
+    
+    $('ul#favorite_tags li a').removeClass('highlight');
+    
+    if (search_string.length > 1)
+    {
+      $('ul#favorite_tags li a').each(function(){
+
+        if ($(this).text().toUpperCase().search(search_string.toUpperCase()) != -1)
+        {
+          $(this).addClass('highlight')
+        }
+
+      });
+    }
+    
+  });
+
+
 });

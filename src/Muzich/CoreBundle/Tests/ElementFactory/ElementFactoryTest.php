@@ -285,4 +285,219 @@ class ElementFactoryTest extends UnitTest
     
   }
   
+  public function testDataApiengine()
+  {
+    $r = $this->getDoctrine();
+    $bux = $r->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername('bux')
+    ;
+    
+    /*
+     *   - youtube.com && youtu.be
+     */
+    
+    $this->assertEquals(array(
+      'data_ref_id' => 'Itfg7UpkcSs',
+      'data_title'  => 'DIDIER SUPER SUR FRANCE O : UN PETIT MALENTENDU ?'
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://www.youtube.com/watch?v=Itfg7UpkcSs&feature=g-vrec&context=G2e61726RVAAAAAAAAAg'
+    ));
+    
+    $this->assertEquals(array(
+      'data_ref_id' => 'Itfg7UpkcSs',
+      'data_title'  => 'DIDIER SUPER SUR FRANCE O : UN PETIT MALENTENDU ?'
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://www.youtube.com/watch?feature=player_detailpage&v=Itfg7UpkcSs#t=3s'
+    ));
+    
+    $this->assertEquals(array(
+      'data_ref_id' => 'Itfg7UpkcSs',
+      'data_title'  => 'DIDIER SUPER SUR FRANCE O : UN PETIT MALENTENDU ?'
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://youtu.be/Itfg7UpkcSs'
+    ));
+    
+    $this->assertEquals(array(
+      'data_ref_id' => 'Itfg7UpkcSs',
+      'data_title'  => 'DIDIER SUPER SUR FRANCE O : UN PETIT MALENTENDU ?'
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://www.youtube.com/watch?v=Itfg7UpkcSs'
+    ));
+    
+    
+    /*
+     *   - dailymotion.com
+     */
+    
+      // 'http://www.dailymotion.com/video/xafj1q_black-bomb-a-tales-from-the-old-sch_music', 
+    
+      // TODO: l'url est pas toujours la même pour le thumb :/
+//    $this->assertEquals(array(
+//      'data_ref_id' => 'xafj1q',
+//      'data_thumb_url'  => 'http://static2.dmcdn.net/static/video/686/025/17520686:jpeg_preview_medium.jpg?20110820212502'
+//    ),$this->proceed_element_datas_api(
+//      $bux, 
+//      'http://www.dailymotion.com/video/xafj1q_black-bomb-a-tales-from-the-old-sch_music'
+//    ));
+    
+    /*
+     * - soundcloud.com
+     */
+    
+    // 'http://soundcloud.com/matas/sets/library-project'
+    
+    $this->assertEquals(array(
+      'data_ref_id' => 3770,
+      'data_title' => 'Library Project',
+      'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000000514203-fsvbcj-large.jpg?04ad178',
+      'data_type' => 'playlist',
+      'data_download' => null,
+      'data_download_url' => 'http://soundcloud.com/matas/sets/library-project/download',
+      'data_artist' => 'matas',
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://soundcloud.com/matas/sets/library-project'
+    ));
+    
+    // 'http://soundcloud.com/matas/above-hyperion-redux'
+    
+    $this->assertEquals(array(
+      'data_ref_id' => 3154252,
+      'data_title' => 'Above Hyperion (redux)',
+      'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000001536693-gb1n5v-large.jpg?04ad178',
+      'data_type' => 'track',
+      'data_download' => false,
+      'data_download_url' => 'http://soundcloud.com/matas/above-hyperion-redux/download',
+      'data_artist' => 'matas',
+      'data_tags' => array(
+        0 => 'Spacestep'
+      )
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://soundcloud.com/matas/above-hyperion-redux'
+    ));
+    
+    // 'http://soundcloud.com/tracks/search?q%5Bfulltext%5D=EEK+A+MOUSSE&q%5Btype%5D=&q%5Bduration%5D='
+    
+    $this->assertEquals(array(
+      
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://soundcloud.com/tracks/search?q%5Bfulltext%5D=EEK+A+MOUSSE&q%5Btype%5D=&q%5Bduration%5D='
+    ));
+    
+    //'http://soundcloud.com/people/search?q%5Bfulltext%5D=EEK+A+MOUSSE&q%5Btype%5D=&q%5Bduration%5D='
+    
+    $this->assertEquals(array(
+      
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://soundcloud.com/people/search?q%5Bfulltext%5D=EEK+A+MOUSSE&q%5Btype%5D=&q%5Bduration%5D='
+    ));
+    
+    // 'http://soundcloud.com/groups/search?q%5Bfulltext%5D=EEK+A+MOUSSE&q%5Btype%5D=&q%5Bduration%5D='
+    
+    $this->assertEquals(array(
+      
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://soundcloud.com/groups/search?q%5Bfulltext%5D=EEK+A+MOUSSE&q%5Btype%5D=&q%5Bduration%5D='
+    ));
+     
+    /*
+     *   - jamendo.com
+     */
+    
+    // 'http://www.jamendo.com/fr/album/30661'
+    
+    $this->assertEquals(array(
+      'data_ref_id' => '30661',
+      'data_title' => 'ZwaNe 01',
+      'data_type' => 'album',
+      'data_thumb_url' => 'http://imgjam.com/albums/s30/30661/covers/1.100.jpg',
+      'data_artist' => 'Ptit lutin',
+      'data_tags' => array(
+        0 => 'Basse',
+        1 => 'Batterie',
+        2 => 'Hardtek',
+        3 => 'Tek',
+        4 => 'Hardtechno',
+      ),
+      'data_download' => true,
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://www.jamendo.com/fr/album/30661'
+    ));
+    
+    // 'http://www.jamendo.com/fr/track/207079'
+    
+    $this->assertEquals(array(
+      'data_ref_id' => '207079',
+      'data_title' => 'Insanity',
+      'data_type' => 'track',
+      'data_thumb_url' => 'http://imgjam.com/albums/s30/30661/covers/1.100.jpg',
+      'data_artist' => 'Ptit lutin',
+      'data_tags' => array(
+        0 => 'Techno',
+        1 => 'Hardtek'
+      ),
+      'data_download' => true,
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://www.jamendo.com/fr/track/207079'
+    ));
+    
+    // 'http://www.jamendo.com/fr/search/all/psytrance'
+    
+    $this->assertEquals(array(
+      'data_ref_id' => null,
+      'data_type' => null,
+      'data_download' => true,
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://www.jamendo.com/fr/search/all/psytrance'
+    ));
+    
+    // 'http://www.jamendo.com/fr/artist/DJ_BETO'
+    
+    $this->assertEquals(array(
+      'data_ref_id' => null,
+      'data_type' => null,
+      'data_download' => true,
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://www.jamendo.com/fr/artist/DJ_BETO'
+    ));
+    
+    /*/*
+     *   - deezer.com
+     */
+    
+    // 'http://www.deezer.com/fr/music/pantera/far-beyond-driven-80398'
+    
+    $this->assertEquals(array(
+      'data_ref_id' => '80398',
+      'data_type' => 'album',
+      'data_thumb_url' => 'http://api.deezer.com/2.0/album/80398/image'
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://www.deezer.com/fr/music/pantera/far-beyond-driven-80398'
+    ));
+    
+    // 'http://www.deezer.com/fr/music/playlist/18701350'
+    
+    $this->assertEquals(array(
+      'data_ref_id' => '18701350',
+      'data_type' => 'playlist',
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://www.deezer.com/fr/music/playlist/18701350'
+    ));
+    
+  }
+  
 }
