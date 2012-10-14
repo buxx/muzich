@@ -39,9 +39,6 @@ class UnitTest extends \PHPUnit_Framework_TestCase
   
   protected function proceed_elementAndFill($user, $name, $url, $tag_ids, $final_embed)
   {
-    $youtube_width = '590';
-    $youtube_height = '300';
-        
     $element = new Element();
     $element->setName($name);
     $element->setTags(json_encode($tag_ids));
@@ -68,11 +65,42 @@ class UnitTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals($element->getEmbed(), $final_embed);
   }
   
+  protected function proceed_element_datas_api($user, $url)
+  {
+    $element = new Element();
+    $element->setUrl($url);
+    
+    $factory = new ElementManager($element, 
+      $this->getDoctrine()->getEntityManager(), $this->_container);
+    $factory->proceedFill($user);
+    
+    return $element->getDatas();
+  }
+
+
   protected function getUser($username)
   {
     return $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
       ->findOneByUsername($username)
     ;
+  }
+
+
+  protected function getTag($name)
+  {
+    return $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
+      ->findOneByName($name)
+    ;
+  }
+  
+  protected function persist($entity)
+  {
+    $this->getDoctrine()->getEntityManager()->persist($entity);
+  }
+  
+  protected function flush()
+  {
+    $this->getDoctrine()->getEntityManager()->flush();
   }
   
 }

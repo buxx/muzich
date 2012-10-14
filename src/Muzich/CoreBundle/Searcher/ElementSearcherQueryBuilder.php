@@ -264,6 +264,15 @@ class ElementSearcherQueryBuilder
       }
     }
   }
+  
+  private function buildNeedTags()
+  {
+    // Si id_limit est précisé c'est que l'on demande "la suite" ou "les nouveaux"
+    if ($this->es->isNeedTags())
+    {
+      $this->query_ids->andWhere("e.need_tags  = '1'");
+    }
+  }
 
   /**
    *
@@ -299,6 +308,8 @@ class ElementSearcherQueryBuilder
     $this->buildLimits();
     // Si on recherche les tags de manière stricte
     $this->buildStrict();
+    // Si on recherche des partages en demande de tags
+    $this->buildNeedTags();
     
     $this->query_ids->setParameters($this->parameters_ids);
   }

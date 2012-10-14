@@ -743,6 +743,7 @@ class ElementController extends Controller
       $element->addTag($tag);
     }
     $element->setHasTagProposition(false);
+    $element->setNeedTags(false);
     $this->getDoctrine()->getEntityManager()->persist($element);
     
     $event = new EventElement($this->container);

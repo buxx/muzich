@@ -1,4 +1,8 @@
 {% if tags|length %}
+
+  <label for="cloud_tags_filter" >{{ 'tags.cloud.filter.text'|trans({}, 'userui') }}</label>
+  <input type="text" id="cloud_tags_filter" />
+
   <input type="hidden" id="get_elements_url" value="{{ path('show_elements_get', {
     'type'          : object_type,
     'object_id'     : object_id, 
@@ -6,7 +10,7 @@
   }) }}" />
   <ul id="favorite_tags">
     {% for tag in tags %}
-      <li>
+      <li {% if loop.index0 > cloud_tags_limit_to_display %}style="display: none;"{% endif %}>
         <a id="filtering_tag_{{ tag.id }}" href="#" class="button tag">
           {{ tag.name }}
         </a>
@@ -14,4 +18,10 @@
     {% endfor %}
   </ul>
   <div class="clearboth" ></div>
+  
+  {% if tags|length > cloud_tags_limit_to_display+1 %}
+    <a href="#" id="display_all_cloud_tag" >
+      {{ 'tags.cloud.display_more'|trans({}, 'userui') }}
+    </a>
+  {% endif %}
 {% endif %}

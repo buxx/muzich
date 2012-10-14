@@ -107,11 +107,12 @@ class ElementSearcher extends Searcher implements SearcherInterface
    */
   protected $string = null;
   
-  private $attributes = array(
-    'network', 'tags', 'count', 'user_id', 'group_id', 
-    'favorite', 'id_limit', 'searchnew', 'ids', 'ids_display',
-    'tag_strict', 'string'
-  );
+  /**
+   * Pour la recherche de partage qui demande des tags.
+   * 
+   * @var boolean 
+   */
+  protected $need_tags = false;
   
   /**
    * @see SearcherInterface
@@ -337,6 +338,15 @@ class ElementSearcher extends Searcher implements SearcherInterface
   public function isSearchingNew()
   {
     return $this->searchnew;
+  }
+  
+  public function isNeedTags()
+  {
+    if ($this->need_tags)
+    {
+      return true;
+    }
+    return false;
   }
   
 }

@@ -213,8 +213,9 @@ class FunctionalTest extends WebTestCase
    * @param string $url
    * @param array $tags
    * @param string $group_slug 
+   * @param boolean $need_tags 
    */
-  protected function procedure_add_element($name, $url, $tags, $group_slug = null)
+  protected function procedure_add_element($name, $url, $tags, $group_slug = null, $need_tags = false)
   {
     if (!$group_slug)
     {
@@ -231,7 +232,16 @@ class FunctionalTest extends WebTestCase
     $form = $this->selectForm('form[action="'.$form_url.'"] input[type="submit"]');
     $form['element_add[name]'] = $name;
     $form['element_add[url]'] = $url;
-    $form['element_add[tags]'] = json_encode($tags);
+    
+    if (count($tags))
+    {
+      $form['element_add[tags]'] = json_encode($tags);
+    }
+    
+    if ($need_tags)
+    {
+      $form['element_add[need_tags]'] = true;
+    }
     
     $this->submit($form);
   }
@@ -519,5 +529,9 @@ class FunctionalTest extends WebTestCase
       ->findOneBy($params);
   }
   
+  protected function goToPage($url)
+  {
+    $this->crawler = $this->client->request('GET', $url);
+  }
   
 }
