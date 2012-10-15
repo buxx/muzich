@@ -353,7 +353,7 @@ class ElementFactoryTest extends UnitTest
     $this->assertEquals(array(
       'data_ref_id' => 3770,
       'data_title' => 'Library Project',
-      'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000000514203-fsvbcj-large.jpg?04ad178',
+      'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000000514203-fsvbcj-large.jpg?51826bf',
       'data_type' => 'playlist',
       'data_download' => null,
       'data_download_url' => 'http://soundcloud.com/matas/sets/library-project/download',
@@ -368,7 +368,7 @@ class ElementFactoryTest extends UnitTest
     $this->assertEquals(array(
       'data_ref_id' => 3154252,
       'data_title' => 'Above Hyperion (redux)',
-      'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000001536693-gb1n5v-large.jpg?04ad178',
+      'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000001536693-gb1n5v-large.jpg?51826bf',
       'data_type' => 'track',
       'data_download' => false,
       'data_download_url' => 'http://soundcloud.com/matas/above-hyperion-redux/download',
