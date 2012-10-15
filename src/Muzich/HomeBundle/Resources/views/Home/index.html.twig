@@ -44,6 +44,19 @@
         'form'          : add_form, 
         'form_name'     : add_form_name
       } %}
+            
+    {% if from_url %}
+      <script type="text/javascript">
+        $(document).ready(function(){
+          $('#element_add_box').slideDown("slow");
+          $('#element_add_link').hide();
+          $('form[name="search"]').slideUp();
+          $('img#form_add_loader').show();
+          $('input#element_add_url').val("{{ from_url }}");
+          $('form[name="add"]').submit();
+        });
+      </script>
+    {% endif %}
 
     </form>
   </div>

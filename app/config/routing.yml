@@ -44,6 +44,10 @@ MuzichHomeBundle:
 home_bis:
   pattern:  /
   defaults: { _controller: MuzichHomeBundle:Home:index }
+  
+#share_form:
+#  pattern:  /share-from/{url}
+#  defaults: { _controller: MuzichCoreBundle:Core:shareFrom }
 
 MuzichUserBundle:
   resource: "@MuzichUserBundle/Resources/config/routing.yml"
