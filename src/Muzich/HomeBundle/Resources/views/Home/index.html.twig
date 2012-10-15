@@ -33,7 +33,11 @@
     </a>
     
     <form novalidate name="{{ add_form_name }}" 
-      action="{{ path('element_retrieve_api_datas') }}" method="post" {{ form_enctype(add_form) }}
+      {% if  app.environment != 'test' %}
+        action="{{ path('element_retrieve_api_datas') }}" method="post" {{ form_enctype(add_form) }}
+      {% else %}
+        action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}
+      {% endif %}
     >
 
       {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 

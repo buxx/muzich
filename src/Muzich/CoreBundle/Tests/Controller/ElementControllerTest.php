@@ -1308,7 +1308,7 @@ class ElementControllerTest extends FunctionalTest
       'POST', 
       $url, 
       array(
-        'url' => 'http://www.jamendo.com/fr/album/30661'
+        'element_add' => array('url' => 'http://www.jamendo.com/fr/album/30661')
       ), 
       array(), 
       array('HTTP_X-Requested-With' => 'XMLHttpRequest')
