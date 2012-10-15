@@ -350,25 +350,47 @@ class ElementFactoryTest extends UnitTest
     
     // 'http://soundcloud.com/matas/sets/library-project'
     
+    // On retire le test de "data_thumb_url", chez sound cloud ca arrete pas de 
+    // changer en ce moment
+    
+    $datas = $this->proceed_element_datas_api(
+      $bux, 
+      'http://soundcloud.com/matas/sets/library-project'
+    );
+    
+    $this->assertTrue(array_key_exists('data_thumb_url', $datas));
+    
+    if (array_key_exists('data_thumb_url', $datas))
+    {
+      unset($datas['data_thumb_url']);
+    }
+    
     $this->assertEquals(array(
       'data_ref_id' => 3770,
       'data_title' => 'Library Project',
-      'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000000514203-fsvbcj-large.jpg?51826bf',
+      //'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000000514203-fsvbcj-large.jpg?51826bf',
       'data_type' => 'playlist',
       'data_download' => null,
       'data_download_url' => 'http://soundcloud.com/matas/sets/library-project/download',
       'data_artist' => 'matas',
-    ),$this->proceed_element_datas_api(
-      $bux, 
-      'http://soundcloud.com/matas/sets/library-project'
-    ));
+    ),$datas);
     
     // 'http://soundcloud.com/matas/above-hyperion-redux'
+    $datas = $this->proceed_element_datas_api(
+      $bux, 
+      'http://soundcloud.com/matas/above-hyperion-redux'
+    );
     
+    $this->assertTrue(array_key_exists('data_thumb_url', $datas));
+    
+    if (array_key_exists('data_thumb_url', $datas))
+    {
+      unset($datas['data_thumb_url']);
+    }
     $this->assertEquals(array(
       'data_ref_id' => 3154252,
       'data_title' => 'Above Hyperion (redux)',
-      'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000001536693-gb1n5v-large.jpg?51826bf',
+      //'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000001536693-gb1n5v-large.jpg?51826bf',
       'data_type' => 'track',
       'data_download' => false,
       'data_download_url' => 'http://soundcloud.com/matas/above-hyperion-redux/download',
@@ -376,10 +398,7 @@ class ElementFactoryTest extends UnitTest
       'data_tags' => array(
         0 => 'Spacestep'
       )
-    ),$this->proceed_element_datas_api(
-      $bux, 
-      'http://soundcloud.com/matas/above-hyperion-redux'
-    ));
+    ),$datas);
     
     // 'http://soundcloud.com/tracks/search?q%5Bfulltext%5D=EEK+A+MOUSSE&q%5Btype%5D=&q%5Bduration%5D='
     

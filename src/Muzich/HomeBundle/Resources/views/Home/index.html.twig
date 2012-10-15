@@ -45,6 +45,7 @@
         'form_name'     : add_form_name
       } %}
             
+    {% if from_url is defined %}
     {% if from_url %}
       <script type="text/javascript">
         $(document).ready(function(){
@@ -56,6 +57,7 @@
           $('form[name="add"]').submit();
         });
       </script>
+    {% endif %}
     {% endif %}
 
     </form>
