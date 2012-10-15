@@ -16,11 +16,23 @@ class Youtubecom extends ElementFactory
   protected function proceedAPIDatas($ref_id)
   {
     $video_data_dom = new \DOMDocument;
-    $video_data_dom->load("http://gdata.youtube.com/feeds/api/videos/". $ref_id);
-    
-    if (($title = $video_data_dom->getElementsByTagName("title")->item(0)->nodeValue))
+    try {
+      $video_data_dom->load("http://gdata.youtube.com/feeds/api/videos/". $ref_id);
+
+      if ($video_data_dom->getElementsByTagName("title"))
+      {
+        if ($video_data_dom->getElementsByTagName("title")->item(0))
+        {
+          if (($title = $video_data_dom->getElementsByTagName("title")->item(0)->nodeValue))
+          {
+            $this->element->setData(Element::DATA_TITLE, $title);
+          }
+        }
+      }
+    }
+    catch (\ErrorException $e)
     {
-      $this->element->setData(Element::DATA_TITLE, $title);
+      // Api injoignable
     }
   }
   
