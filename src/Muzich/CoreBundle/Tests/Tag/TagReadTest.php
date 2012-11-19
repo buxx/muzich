@@ -7,7 +7,7 @@ use Muzich\CoreBundle\Util\TagLike;
 use Muzich\CoreBundle\lib\Tag as TagLib;
 
 class TagReadTest extends UnitTest
-{  
+{
   private function getTagsNames($response = array())
   {
     if (count($response))
