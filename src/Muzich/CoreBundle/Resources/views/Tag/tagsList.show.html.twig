@@ -9,8 +9,8 @@
     'tags_ids_json' : ''
   }) }}" />
   <ul id="favorite_tags">
-    {% for tag in tags %}
-      <li {% if loop.index0 > cloud_tags_limit_to_display %}style="display: none;"{% endif %}>
+    {% for key, tag in tags %}
+      <li class="{{ css_list_length_class(key, tags|length) }}" {% if loop.index0 > cloud_tags_limit_to_display %}style="display: none;"{% endif %}>
         <a id="filtering_tag_{{ tag.id }}" href="#" class="button tag">
           {{ tag.name }}
         </a>
