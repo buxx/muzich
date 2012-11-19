@@ -7,6 +7,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Muzich\CoreBundle\Entity\UsersElementsFavorites;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
 use Muzich\CoreBundle\Propagator\EventElement;
+use Muzich\CoreBundle\Entity\User;
+use Muzich\CoreBundle\lib\Tag as TagLib;
+
 //use Muzich\CoreBundle\Entity\Group;
 //use Muzich\CoreBundle\Form\Group\GroupForm;
 //use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +45,7 @@ class FavoriteController extends Controller
       )->getSingleResult();
     }
     
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getEntityManager();
     
     if ($user->getPersonalHash() != $token || !is_numeric($id)
       || !($element = $em->getRepository('MuzichCoreBundle:Element')->findOneById($id))
@@ -71,7 +74,11 @@ class FavoriteController extends Controller
         $em->persist($user);
       }
       
+      // On signale que cet user a modifié sa liste de favoris
+      $user->setData(User::DATA_FAV_UPDATED, true);
+      
       $em->persist($favorite);
+      $em->persist($user);
       $em->flush();
     }
     
@@ -130,6 +137,9 @@ class FavoriteController extends Controller
         $event->removedFromFavorites($element);
       }
       
+      // On signale que cet user a modifié sa liste de favoris
+      $user->setData(User::DATA_FAV_UPDATED, true);
+      
       $em->persist($element->getOwner());
       $em->remove($fav);
       $em->flush();
@@ -160,15 +170,23 @@ class FavoriteController extends Controller
    */
   public function myListAction()
   {
+    $user = $this->getUser();
+    
     $search_object = $this->createSearchObject(array(
-      'user_id'  => $this->getUserId(),
+      'user_id'  => $user->getId(),
       'favorite' => true,
       'count'    => $this->container->getParameter('search_default_count')
     ));
     
+    // Récupération des tags
     $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
       ->getTags($this->getUserId(), $this->getUserId())      
     ;
+    
+    // Organisation des tags en fonction de leurs utilisation
+    $tag_lib = new TagLib();
+    $tags = $tag_lib->sortTagWithOrderedReference($tags, 
+      $user->getData(User::DATA_TAGS_ORDER_PAGE_FAV, array()));
     
     $tags_id = array();
     foreach ($tags as $tag)

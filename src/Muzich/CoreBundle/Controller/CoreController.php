@@ -18,6 +18,7 @@ use Muzich\CoreBundle\Managers\TagManager;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 use Muzich\CoreBundle\Managers\ElementReportManager;
 use Muzich\CoreBundle\Propagator\EventUser;
+use Muzich\CoreBundle\Entity\User;
 
 class CoreController extends Controller
 {
@@ -273,6 +274,10 @@ class CoreController extends Controller
         }
       }
 
+      // On signale que cet user a modifié ses diffusions
+      $user->setData(User::DATA_DIFF_UPDATED, true);
+      $em->persist($user);
+      
       $em->persist($element);
       $em->flush();
 

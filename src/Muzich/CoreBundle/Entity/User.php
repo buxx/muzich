@@ -24,6 +24,30 @@ use Muzich\CoreBundle\Entity\Tag;
 class User extends BaseUser
 {
   
+  /**
+   * Data ordre des tags de sa page favoris
+   * @var string 
+   */
+  const DATA_TAGS_ORDER_PAGE_FAV = "data_tags_order_page_fav";
+  
+  /**
+   * Data ordre des tags de ses diffusions
+   * @var string 
+   */
+  const DATA_TAGS_ORDER_DIFF     = "data_tags_order_diff";
+  
+  /**
+   * Data, les favoris ont ils été modifiés
+   * @var string 
+   */
+  const DATA_FAV_UPDATED         = "data_fav_updated";
+  
+  /**
+   * Data, les favoris ont ils été modifiés
+   * @var string 
+   */
+  const DATA_DIFF_UPDATED        = "data_diff_updated";
+  
  /**
   * @ORM\Id
   * @ORM\Column(type="integer")
@@ -172,6 +196,14 @@ class User extends BaseUser
    * @var array 
    */
   protected $live_datas = array();
+  
+  /**
+   * Contient des données pratique, comme l'ordre des tags de sa page favoris etc.
+   * 
+   * @ORM\Column(type="text", nullable=true)
+   * @var type string
+   */
+  protected $datas = null;
   
   /**
    * Tableau contenant les id => name des tags favoris
@@ -831,6 +863,58 @@ class User extends BaseUser
     }
     
     return false;
+  }
+  
+  /**
+   *
+   * @return type array
+   */
+  public function getDatas()
+  {
+    if ($this->datas === null)
+    {
+      return array();
+    }
+    return json_decode($this->datas, true);
+  }
+  
+  /**
+   *
+   * @param string $data_id
+   * @param ~ $default
+   * @return all 
+   */
+  public function getData($data_id, $default)
+  {
+    $datas = $this->getDatas();
+    if (array_key_exists($data_id, $datas))
+    {
+      return $datas[$data_id];
+    }
+    
+    return $default;
+  }
+  
+  
+  /**
+   *
+   * @param array $datas 
+   */
+  public function setDatas($datas)
+  {
+    $this->datas = json_encode($datas);
+  }
+  
+  /**
+   *
+   * @param string $data_id
+   * @param all $data_value 
+   */
+  public function setData($data_id, $data_value)
+  {
+    $datas = $this->getDatas();
+    $datas[$data_id] = $data_value;
+    $this->setDatas($datas);
   }
   
 }

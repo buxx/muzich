@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Muzich\CoreBundle\Form\Element\ElementAddForm;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
+use Muzich\CoreBundle\lib\Tag as TagLib;
+use Muzich\CoreBundle\Entity\User;
 
 class ShowController extends Controller
 {
@@ -29,6 +31,11 @@ class ShowController extends Controller
     $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
       ->getElementsTags($viewed_user->getId(), $this->getUserId())      
     ;
+    
+    // Organisation des tags en fonction de leurs utilisation
+    $tag_lib = new TagLib();
+    $tags = $tag_lib->sortTagWithOrderedReference($tags, 
+    $viewed_user->getData(User::DATA_TAGS_ORDER_DIFF, array()));
     
     $tags_id = array();
     foreach ($tags as $tag)

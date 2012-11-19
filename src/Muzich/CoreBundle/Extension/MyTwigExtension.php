@@ -26,7 +26,8 @@ class MyTwigExtension extends \Twig_Extension {
   public function getFunctions() {
     return array(
       'date_or_relative_date'  => new \Twig_Filter_Method($this, 'date_or_relative_date'),
-      'event_const'  => new \Twig_Filter_Method($this, 'event_const')
+      'event_const'            => new \Twig_Filter_Method($this, 'event_const'),
+      'css_list_length_class'  => new \Twig_Filter_Method($this, 'getCssLengthClassForList')
     );
   }
   
@@ -140,6 +141,35 @@ class MyTwigExtension extends \Twig_Extension {
       break;
     }
     return null;
+  }
+  
+  /**
+   * Cette fonction retourne une classe CSS (string) permettant de donner
+   * de l'importance a des élements de liste en foncyion de leur position dans
+   * la liste.
+   * 
+   * @param int $position
+   * @param int $count
+   * @return string 
+   */
+  public function getCssLengthClassForList($position, $count)
+  {
+    // On établie 3 type de taille
+    // grand, moyen, standart
+    // chacun correspondant a 1/3
+    
+    if ($position <= $count/3)
+    {
+      return 'list_length_big';
+    }
+    elseif ($position <= ($count/3)*2)
+    {
+      return 'list_length_medium';
+    }
+    else
+    {
+      return 'list_length_default';
+    }
   }
 
 }

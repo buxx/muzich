@@ -9,6 +9,7 @@ use Muzich\CoreBundle\Entity\ElementTagsProposition;
 use Symfony\Component\HttpFoundation\Request;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Util\TagLike;
+use Muzich\CoreBundle\Entity\User;
 
 class ElementController extends Controller
 {
@@ -136,6 +137,11 @@ class ElementController extends Controller
       $factory->proceedFill($user);
       // Si il y avais un groupe on le remet
       $element->setGroup($group);
+      
+      // On signale que cet user a modifié ses diffusions
+      $user->setData(User::DATA_DIFF_UPDATED, true);
+      $em->persist($user);
+      
       $em->persist($element);
       $em->flush();
       
@@ -208,6 +214,11 @@ class ElementController extends Controller
       
       $em->persist($element->getOwner());
       $em->remove($element);
+      
+      // On signale que cet user a modifié ses diffusions
+      $this->getUser()->setData(User::DATA_DIFF_UPDATED, true);
+      $em->persist($this->getUser());
+      
       $em->flush();
       
       if ($this->getRequest()->isXmlHttpRequest())
