@@ -1372,6 +1372,7 @@ $(document).ready(function(){
         $('#form_add_loader').hide();
         $('input#form_add_step').val('2');
         $('form[name="add"]').attr('action', url_element_add);
+        $('span#add_url_title_url').html($('input#element_add_url').val());
       }
       else
       {

@@ -14,6 +14,7 @@ element:
   add:
     group:
       will_be_in:       L'élément sera ajouté dans le groupe
+    url_title_step2:    Ressource
   show:
     close_embed:        Cacher le lecteur
     open_embed:         Afficher le lecteur

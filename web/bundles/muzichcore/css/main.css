@@ -1302,3 +1302,9 @@ ul#favorite_tags a.button.highlight
 {
   color: blue;
 }
+
+span#add_url_title
+{
+  font-weight: bold;
+  font-size: 15px;
+}
