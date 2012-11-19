@@ -198,7 +198,7 @@ class CoreController extends Controller
    *  Procédure d'ajout d'un element
    */
   public function elementAddAction($group_slug)
-  {   
+  {
     if (($response = $this->mustBeConnected()))
     {
       return $response;

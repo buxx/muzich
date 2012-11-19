@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Tests\Searcher;
 
 use Muzich\CoreBundle\lib\UnitTest;
 use Muzich\CoreBundle\Util\TagLike;
+use Muzich\CoreBundle\lib\Tag as TagLib;
 
 class TagReadTest extends UnitTest
 {  
@@ -208,6 +209,95 @@ class TagReadTest extends UnitTest
     );
     
     $this->assertEquals($rtags, $tags);
+  }
+  
+  /*
+   * Test des opération de création d'une liste ordonné de tags en fonction 
+   * d'une liste d'élèments
+   */
+  public function testTagOrder()
+  {
+    $bux = $this->getUser('bux');
+    $joelle = $this->getUser('joelle');
+    $tag_lib = new TagLib();
+    
+    $hardtek  = $this->findOneBy('Tag', array('name' => 'Hardtek'));
+    $metal    = $this->findOneBy('Tag', array('name' => 'Metal'));
+    $electro  = $this->findOneBy('Tag', array('name' => 'Electro'));
+    $hardcore = $this->findOneBy('Tag', array('name' => 'Hardcore'));
+    $chanteuse = $this->findOneBy('Tag', array('name' => 'Chanteuse'));
+    $dubstep  = $this->findOneBy('Tag', array('name' => 'Dubstep'));
+    $medieval = $this->findOneBy('Tag', array('name' => 'Medieval'));
+    $beatbox = $this->findOneBy('Tag', array('name' => 'Beatbox'));
+    
+    /*
+     * Test de la récuparéation de l'ordre des tags
+     */
+    
+    $search = new \Muzich\CoreBundle\Searcher\ElementSearcher();
+    $search->init(array(
+      'user_id'  => $bux->getId()
+    ));
+    $elements = $search->getElements($this->getDoctrine(), $bux->getId());
+    
+    $tag_reference = $tag_lib->getOrderedTagsWithElements($elements);
+    
+    $this->assertEquals(array(
+      $hardtek->getId(),
+      $metal->getId(),
+      $electro->getId(),
+      $hardcore->getId()
+    ), $tag_reference);
+    
+    ////////////
+    
+    
+    $search = new \Muzich\CoreBundle\Searcher\ElementSearcher();
+    $search->init(array(
+      'user_id'  => $joelle->getId()
+    ));
+    $elements = $search->getElements($this->getDoctrine(), $bux->getId());
+    
+    $tag_reference = $tag_lib->getOrderedTagsWithElements($elements);
+    
+    $this->assertEquals(array(
+      $chanteuse->getId(),
+      $dubstep->getId(),
+      $medieval->getId(),
+      $beatbox->getId()
+    ), $tag_reference);
+    
+    /*
+     * Test du trie de tags en fonction d'une liste référente
+     */
+    
+    // Tag non ordonés
+    $tags_disordered = array(
+      $medieval,
+      $beatbox,
+      $hardcore,
+      $dubstep,
+      $chanteuse
+    );
+    
+    // On ordonne tout ça avec la référence calculé juste avant
+    $tags_ordered = $tag_lib->sortTagWithOrderedReference($tags_disordered, $tag_reference);
+    
+    $tags_ordered_ids = array();
+    foreach ($tags_ordered as $tag_ordered)
+    {
+      $tags_ordered_ids[] = $tag_ordered->getId();
+    }
+    
+    $this->assertEquals(
+      array(
+        $chanteuse->getId(),
+        $dubstep->getId(),
+        $medieval->getId(),
+        $beatbox->getId(),
+        $hardcore->getId()
+      ), $tags_ordered_ids
+    );
   }
   
 }

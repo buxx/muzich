@@ -103,4 +103,26 @@ class UnitTest extends \PHPUnit_Framework_TestCase
     $this->getDoctrine()->getEntityManager()->flush();
   }
   
+  /**
+   *
+   * @return \Doctrine\ORM\EntityManager 
+   */
+  protected function getEntityManager()
+  {
+    return $this->getDoctrine()->getEntityManager();
+  }
+  
+  /**
+   * Raccourcis de findOneBy
+   * 
+   * @param string $entityName
+   * @param array $params
+   * @return object 
+   */
+  protected function findOneBy($entityName, array $params)
+  {
+    return $this->getEntityManager()->getRepository('MuzichCoreBundle:'.$entityName)
+      ->findOneBy($params);
+  }
+  
 }

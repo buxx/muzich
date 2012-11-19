@@ -19,6 +19,7 @@ class TagOrderCommand extends ContainerAwareCommand
     $this
       ->setName('tagengine:order')
       ->setDescription('Ordonne la liste des tags sur les pages utilisateurs')
+      ->addOption('force', null, InputOption::VALUE_NONE, 'Forcer les opérations sur tous les utilisateurs')
     ;
   }
   
@@ -38,12 +39,21 @@ class TagOrderCommand extends ContainerAwareCommand
     $output->writeln('<info>Gestion de l\'ordre des tags sur les pages de '
       .'partages favoris</info>');
  
-    $users = $em->createQuery(
-        "SELECT u FROM MuzichCoreBundle:User u"
-        . " WHERE u.datas LIKE :favupd"
-      )->setParameter('favupd', '%"'.User::DATA_FAV_UPDATED.'":true%')
-      ->getResult()
-    ;
+    if ($input->getOption('force'))
+    {
+      $users = $em->createQuery("SELECT u FROM MuzichCoreBundle:User u")
+        ->getResult()
+      ;
+    }
+    else
+    {
+      $users = $em->createQuery(
+          "SELECT u FROM MuzichCoreBundle:User u"
+          . " WHERE u.datas LIKE :favupd"
+        )->setParameter('favupd', '%"'.User::DATA_FAV_UPDATED.'":true%')
+        ->getResult()
+      ;
+    }
     
     if (count($users))
     {
@@ -77,12 +87,21 @@ class TagOrderCommand extends ContainerAwareCommand
     // diffusion
     $output->writeln('<info>Gestion de l\'ordre des tags sur les diffusions</info>');
  
-    $users = $em->createQuery(
-        "SELECT u FROM MuzichCoreBundle:User u"
-        . " WHERE u.datas LIKE :favupd"
-      )->setParameter('favupd', '%"'.User::DATA_DIFF_UPDATED.'":true%')
-      ->getResult()
-    ;
+    if ($input->getOption('force'))
+    {
+      $users = $em->createQuery("SELECT u FROM MuzichCoreBundle:User u")
+        ->getResult()
+      ;
+    }
+    else
+    {
+      $users = $em->createQuery(
+          "SELECT u FROM MuzichCoreBundle:User u"
+          . " WHERE u.datas LIKE :favupd"
+        )->setParameter('favupd', '%"'.User::DATA_DIFF_UPDATED.'":true%')
+        ->getResult()
+      ;
+    }
     
     if (count($users))
     {
