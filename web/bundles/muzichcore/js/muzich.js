@@ -1280,8 +1280,8 @@ $(document).ready(function(){
       if (response.tags)
       {
         $('ul#form_add_prop_tags li').remove();
-        $('ul#form_add_prop_tags').show();
-        $('ul#form_add_prop_tags_text').show();
+        $('ul#form_add_prop_tags_api').show();
+        $('p#form_add_prop_tags_text').show();
 
         for (tags_index = 0; tags_index < response.tags.length; tags_index++)
         {
@@ -1296,7 +1296,7 @@ $(document).ready(function(){
           }
 
           // On aura plus qu'a vérifie le href pour savoir si c'est une demande d'ajout de tags =)
-          $('ul#form_add_prop_tags').append(
+          $('ul#form_add_prop_tags_api').append(
             '<li>'+
               '<a href="#'+tag_id+'" class="form_add_prop_tag">'+
                 tag_name+
@@ -1398,7 +1398,7 @@ $(document).ready(function(){
     $('div#element_add_box').slideUp();
     $('div#form_add_first_part').show();
     $('div#form_add_second_part').hide();
-    $('ul#form_add_prop_tags').hide();
+    $('ul#form_add_prop_tags_api').hide();
     $('ul#form_add_prop_tags_text').hide();
     $('input#element_add_url').val('');
     $('input#element_add_name').val('');

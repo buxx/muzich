@@ -50,8 +50,10 @@
           <p id="form_add_prop_tags_text" style="display: none;">
             {{ 'element_add.prop_tags.text'|trans({}, 'userui') }}
           </p>
-          <ul id="form_add_prop_tags" style="display: none;"></ul>
+          <ul id="form_add_prop_tags_api" style="display: none;"></ul>
 
+          <div></div>
+          
           {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
             'form_name'     : form_name
           } %}

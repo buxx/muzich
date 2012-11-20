@@ -890,7 +890,7 @@ ul#favorite_tags li
   display: inline;
   margin-left: 2px;
   margin-top: 2px;
-  float:left; /*pour IE*/
+  float: left; /*pour IE*/
 }
 
 ul#favorite_tags li.list_length_big a.button
