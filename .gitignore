@@ -8,3 +8,4 @@ app/logs/test.log
 *.*~
 nbproject
 .debug
+.scripts
