@@ -88,6 +88,8 @@ elements:
   ajax:
     more:
       noelements:       Pas d'autres éléments
+  autoplay:
+    launch:             Créer une liste de lecture avec ces paramètres
       
 show:
   user:

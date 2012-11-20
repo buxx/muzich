@@ -1307,3 +1307,40 @@ span#add_url_title
   font-weight: bold;
   font-size: 15px;
 }
+
+div#autoplay.popin_block
+{
+  width: 500px;
+}
+
+div#autoplay.popin_block div#autoplay_controls
+{
+ text-align: left;
+}
+
+a#autoplay_previous
+{
+  float: left;
+  text-decoration: none;
+}
+
+a#autoplay_next
+{
+  float: right;
+  text-decoration: none;
+}
+
+div#autoplay_title
+{
+  font-weight: bold;
+  margin-left: 35px;
+  margin-right: 35px;
+}
+
+a#autoplay_close
+{
+  float: right;
+  text-decoration: none;
+  margin-top: -27px;
+  margin-right: -27px;
+}

@@ -46,6 +46,21 @@ function findKeyWithValue(arrayt, value)
   return "";
 }
 
+function array_key_exists (key, search) {
+  // http://kevin.vanzonneveld.net
+  // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +   improved by: Felix Geisendoerfer (http://www.debuggable.com/felix)
+  // *     example 1: array_key_exists('kevin', {'kevin': 'van Zonneveld'});
+  // *     returns 1: true
+  // input sanitation
+  if (!search || (search.constructor !== Array && search.constructor !== Object)) {
+    return false;
+  }
+
+  return key in search;
+}
+
+
 function json_to_array(json_string)
 {
   if (json_string.length)
@@ -2350,5 +2365,32 @@ $(document).ready(function(){
     
   });
 
-
 });
+
+
+
+/*
+ * Ouverture d'une boite avec effet fade et centré
+ *   code origine: form_add_open_dialog_for_new_tag
+ */
+
+  function open_popin_dialog(object_id)
+  {
+    
+    // Effet fade-in du fond opaque
+    $('body').append($('<div>').attr('id', 'fade')); 
+    //Apparition du fond - .css({'filter' : 'alpha(opacity=80)'}) pour corriger les bogues de IE
+    $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn();
+    
+    $('#'+object_id).css({
+      position: 'absolute',
+      left: ($(window).width() 
+        - $('#'+object_id).width())/2,
+//      top: ($(window).height() 
+//        - $('#'+object_id).height())/2
+        top: '20%'
+      });
+    $('#'+object_id).show();
+    
+    console.debug('width: '+$('#'+object_id).width());
+  }
