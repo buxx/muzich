@@ -97,7 +97,8 @@ class TagLike
       str_replace(',', ' ', $search),
       str_replace(', ', ' ', $search),
       str_replace(',', '-', $search),
-      str_replace(', ', '-', $search)
+      str_replace(', ', '-', $search),
+      str_replace(' & ', ' AND ', $search)
     ));
     
     return $words;

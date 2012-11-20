@@ -1281,8 +1281,14 @@ $(document).ready(function(){
       {
         $('ul#form_add_prop_tags li').remove();
         $('ul#form_add_prop_tags_api').show();
-        $('p#form_add_prop_tags_text').show();
-
+        $('p#form_add_prop_tags_text').hide();
+        
+        if (response.tags.length)
+        {
+          $('p#form_add_prop_tags_text').show();
+        }
+        
+        $('ul#form_add_prop_tags_api li').remove();
         for (tags_index = 0; tags_index < response.tags.length; tags_index++)
         {
           var tag = response.tags[tags_index];
