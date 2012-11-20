@@ -1381,10 +1381,10 @@ $(document).ready(function(){
       }
     }
     else if ($('input#form_add_step').val() == '2')
-    { 
+    {
       if (element_add_proceed_json_response(response))
       {
-      form_add_reinit();
+        form_add_reinit();
       }
     }
 
@@ -1402,6 +1402,8 @@ $(document).ready(function(){
     $('ul#form_add_prop_tags_text').hide();
     $('input#element_add_url').val('');
     $('input#element_add_name').val('');
+    $('input#form_add_step').val(1);
+    $('form[name="add"]').attr('action', url_datas_api);
   }
 
  /////////////////////

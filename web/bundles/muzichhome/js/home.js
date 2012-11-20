@@ -7,6 +7,7 @@ $(document).ready(function(){
      $('form[name="search"]').slideUp();
      // Au cas ou firefox garde la valeur step 2:
         $('input#form_add_step').val('1');
+    $('form[name="add"]').attr('action', url_datas_api);
      return false;
    });   
    
@@ -24,6 +25,7 @@ $(document).ready(function(){
     $('ul#form_add_prop_tags_text').hide();
     $('input#element_add_url').val('');
     $('input#element_add_name').val('');
+    $('form[name="add"]').attr('action', url_datas_api);
      
      return false;
    }); 

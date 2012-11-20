@@ -2,6 +2,13 @@
 
 {{ form_errors(form) }}
 <input type="hidden" id="form_add_step" value="1" />
+<script type="text/javascript">
+  // bugfix: lors du rechargement du navigateur, il se peut que input#form_add_step
+  // soit remplacé par la valeur 2 (si rechargé pendant la 2ème phase)
+  $(document).ready(function(){
+    $('input#form_add_step').val(1);
+  });
+</script>
 
 <div id="form_add_first_part">
 
