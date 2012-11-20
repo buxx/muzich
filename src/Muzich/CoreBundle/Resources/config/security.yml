@@ -80,6 +80,7 @@ security:
         - { path: ^/(?:fr|en)/favoritesajax, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/ajax, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/event/view/elements, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/share-from, role: IS_AUTHENTICATED_ANONYMOUSLY }
                                         
         - { path: ^/, roles: ROLE_USER }
         

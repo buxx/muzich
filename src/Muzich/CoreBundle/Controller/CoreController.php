@@ -19,6 +19,7 @@ use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 use Muzich\CoreBundle\Managers\ElementReportManager;
 use Muzich\CoreBundle\Propagator\EventUser;
 use Muzich\CoreBundle\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
 
 class CoreController extends Controller
 {
@@ -59,6 +60,25 @@ class CoreController extends Controller
   }
   
   /**
+   *  Determiner la locale automatiquement
+   * @return string 
+   */
+  protected function determineLocale()
+  {
+    $lang = $this->container->get('request')
+      ->getPreferredLanguage($this->container->getParameter('supported_langs')); 
+    
+    // Si on a une lang en sortie, 
+    if (is_null($lang))
+    {
+      // TODO: Récupérer ce paramètre dans la config
+      $lang = 'fr';
+    }
+    
+    return $lang;
+  }
+  
+  /**
    * 
    * Cette action est écrite pour les utilisateur redirigé du a l'absence de 
    * lague dans leur route.
@@ -67,15 +87,7 @@ class CoreController extends Controller
    */
   public function automaticLanguageAction()
   {
-    $lang = $this->container->get('request')
-      ->getPreferredLanguage($this->container->getParameter('supported_langs')); 
-    
-    // Si on a une lang en sortie, 
-    if (is_null($lang))
-    {
-      $lang = 'fr';
-    }
-    
+    $lang = $this->determineLocale();
     if ($this->getUser() != 'anon.')
     {
       return $this->redirect($this->generateUrl('home', array('_locale' => $lang)));
@@ -676,6 +688,19 @@ class CoreController extends Controller
       'status'  => 'success',
       'html'    => $html
     ));
+  }
+  
+  /**
+   * Url de récupération des plugins/application qui vienne partager une url
+   * @param Request $request 
+   */
+  public function shareFromAction(Request $request)
+  {
+    return $this->redirect($this->generateUrl('home', array(
+      'from_url' => $request->get('from_url'),
+      // On ne se préoccupe pas de la locale coté plugins/applications
+      '_locale'  => $this->determineLocale()
+    )));
   }
   
 }

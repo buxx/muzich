@@ -14,8 +14,6 @@ _sonata_admin:
   
 MuzichAdminBundle:
   resource: "@MuzichAdminBundle/Resources/config/routing.yml"
-#  prefix: /{_locale}/
-#  defaults: { _locale: fr }
   
 MuzichIndexBundle:
   resource: "@MuzichIndexBundle/Resources/config/routing.yml"
@@ -29,52 +27,41 @@ language_automatic:
   pattern:  /auto-language
   defaults: { _controller: MuzichCoreBundle:Core:automaticLanguage }
   
+share_form:
+  pattern:  /share-from/
+  defaults: { _controller: MuzichCoreBundle:Core:shareFrom }
+  
 MuzichCoreBundle:
   resource: "@MuzichCoreBundle/Resources/config/routing.yml"
   prefix: /{_locale}/
-  defaults: { _locale: fr }
 
+  
 MuzichHomeBundle:
   resource: "@MuzichHomeBundle/Resources/config/routing.yml"
   prefix: /{_locale}/
-#  defaults:
-#    _locale: fr
     
 # On doit rajouter une route au cas ou la langue n'est pas précisé.
 home_bis:
   pattern:  /
   defaults: { _controller: MuzichHomeBundle:Home:index }
   
-#share_form:
-#  pattern:  /share-from/{url}
-#  defaults: { _controller: MuzichCoreBundle:Core:shareFrom }
-
 MuzichUserBundle:
   resource: "@MuzichUserBundle/Resources/config/routing.yml"
   prefix: /{_locale}/
-  defaults:
-    _locale: en|fr
 
 MuzichMynetworkBundle:
   resource: "@MuzichMynetworkBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
-  defaults:
-    _locale: en|fr
   
 MuzichGroupBundle:
   resource: "@MuzichGroupBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
-  defaults:
-    _locale: en|fr
   
 MuzichFavoriteBundle:
   resource: "@MuzichFavoriteBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
-  defaults:
-    _locale: en|fr
   
 MuzichCommentBundle:
   resource: "@MuzichCommentBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
-  defaults:
-    _locale: en|fr
+  
