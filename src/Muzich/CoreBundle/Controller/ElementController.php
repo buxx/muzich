@@ -11,6 +11,7 @@ use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Util\TagLike;
 use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\lib\AutoplayManager;
+use Muzich\CoreBundle\Searcher\ElementSearcher;
 
 class ElementController extends Controller
 {
@@ -993,7 +994,7 @@ class ElementController extends Controller
    * @param "filter"|"show"|"favorites" $type
    * @param ~ $data
    */
-  public function getDatasAutoplayAction(Request $request, $type, $data)
+  public function getDatasAutoplayAction(Request $request, $type, $data, $show_type = null, $show_id = null)
   {
     if (($response = $this->mustBeConnected(true)))
     {
@@ -1010,6 +1011,30 @@ class ElementController extends Controller
       $search_object->update(array(
         'count' => $this->container->getParameter('autoplay_max_elements')
       ));
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+    }
+    elseif ($type == 'show')
+    {
+      if ($show_type != 'user' && $show_type != 'group')
+      {
+        throw $this->createNotFoundException('Not found');
+      }
+      
+      $tag_ids = json_decode($data);
+      $search_object = new ElementSearcher();
+
+      $tags = array();
+      foreach ($tag_ids as $id)
+      {
+        $tags[$id] = $id;
+      }
+
+      $search_object->init(array(
+        'tags'           => $tags,
+        $show_type.'_id' => $show_id,
+        'count'          => $this->container->getParameter('autoplay_max_elements')
+      ));
+      
       $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
     }
     

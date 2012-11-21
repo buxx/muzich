@@ -1486,6 +1486,9 @@ $(document).ready(function(){
     var a_more = $('a.elements_more');
     a_more.attr('href', $('input#more_elements_url').val()+'/'+array2json(tags_ids_for_filter));
     
+    // On adapte aussi le lien de l'autoplay
+    $('a#autoplay_launch').attr('href', $('input#autoplay_url').val()+'/'+array2json(tags_ids_for_filter));
+    
     return check_timelaps_and_find_with_tags(link, new Date().getTime(), false);
   }
    
