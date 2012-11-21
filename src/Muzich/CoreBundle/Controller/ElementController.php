@@ -1026,4 +1026,50 @@ class ElementController extends Controller
     ));
   }
   
+  public function getOneDomAction(Request $request, $element_id, $type)
+  {
+    if (($response = $this->mustBeConnected()))
+    {
+      return $response;
+    }
+    
+    if (!in_array($type, array('autoplay')))
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotAllowed')
+      ));
+    }
+    
+    // variables pour le template
+    $display_edit_actions  = true;
+    $display_player        = true;
+    $display_comments      = true;
+    
+    if ($type == 'autoplay')
+    {
+      $display_edit_actions  = false;
+      $display_player        = false;
+      $display_comments      = false;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)))
+    {
+      throw $this->createNotFoundException('Not found');
+    }
+    
+    $html = $this->render('MuzichCoreBundle:SearchElement:element.html.twig', array(
+      'element'               => $element,
+      'display_edit_actions'  => $display_edit_actions,
+      'display_player'        => $display_player,
+      'display_comments'      => $display_comments
+    ))->getContent();
+    
+    return $this->jsonResponse(array(
+      'status'  => 'success',
+      'data'    => $html
+    ));
+  }
+  
 }

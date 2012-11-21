@@ -1,9 +1,19 @@
+{% if display_edit_actions is not defined %}
+  {% set display_edit_actions = true %}
+{% endif %}
+{% if display_player is not defined %}
+  {% set display_player = true %}
+{% endif %}
+{% if display_comments is not defined %}
+  {% set display_comments = true %}
+{% endif %}
+
 <table>
   <tr>
     <td class="element_thumbnail">
       
       {% if element.embed %}
-        <a href="#" class="a_thumbnail element_open element_embed_open_link {% if element.embed %}embed{% else %}noembed{% endif %}">
+        <a href="#" class="a_thumbnail {% if display_player %}element_open element_embed_open_link{% endif %} {% if element.embed and display_player %}embed{% else %}noembed{% endif %}">
           <img class="play" style="display: none;" src="{{ asset('bundles/muzichcore/img/1328283150_media-playback-start.png') }}" alt="" />
           <img 
             class="element_thumbnail"
@@ -53,47 +63,55 @@
       
       {% if app.user.id != element.owner.id %}
       
-        <a title="{{ 'element.proposition_tags.link_title'|trans({}, 'userui') }}" 
-          class="element_propose_tags" 
-          href="{{ path('ajax_element_propose_tags_open', {'element_id' : element.id}) }}">
-          <img src="{{ asset('bundles/muzichcore/img/1333484018_rss-tag.png') }}" alt="tags_proposition" />
-        </a>
-        
-        <a title="{{ 'element.reshare.link_title'|trans({}, 'userui') }}" 
-          class="element_reshare" 
-          href="{{ path('ajax_reshare_element', {'element_id':element.id, 'token':app.user.getPersonalHash('reshare_'~element.id)}) }}">
-          <img src="{{ asset('bundles/muzichcore/img/1349338086_adept_update.png') }}" alt="re" />
-        </a>
+      {% if display_edit_actions %}
       
-        <a title="{{ 'element.report.link_title'|trans({}, 'userui') }}" 
-          class="element_report" 
-          href="{{ path('ajax_report_element', {'element_id':element.id, 'token':app.user.getPersonalHash}) }}">
-          <img src="{{ asset('bundles/muzichcore/img/1331832708_comment_alert.png') }}" alt="report" />
-        </a>
+          <a title="{{ 'element.proposition_tags.link_title'|trans({}, 'userui') }}" 
+            class="element_propose_tags" 
+            href="{{ path('ajax_element_propose_tags_open', {'element_id' : element.id}) }}">
+            <img src="{{ asset('bundles/muzichcore/img/1333484018_rss-tag.png') }}" alt="tags_proposition" />
+          </a>
+
+          <a title="{{ 'element.reshare.link_title'|trans({}, 'userui') }}" 
+            class="element_reshare" 
+            href="{{ path('ajax_reshare_element', {'element_id':element.id, 'token':app.user.getPersonalHash('reshare_'~element.id)}) }}">
+            <img src="{{ asset('bundles/muzichcore/img/1349338086_adept_update.png') }}" alt="re" />
+          </a>
+
+          <a title="{{ 'element.report.link_title'|trans({}, 'userui') }}" 
+            class="element_report" 
+            href="{{ path('ajax_report_element', {'element_id':element.id, 'token':app.user.getPersonalHash}) }}">
+            <img src="{{ asset('bundles/muzichcore/img/1331832708_comment_alert.png') }}" alt="report" />
+          </a>
+      
+      {% endif %}
       
       {% endif %}
       
       {% if app.user.id == element.owner.id %}
       
-        {% if element.hasTagProposition %}
-          <a title="{{ 'element.view_propositions.link'|trans({}, 'elements') }}" class="element_view_propositions_link" 
-             href="{{ path('ajax_element_proposed_tags_view', {'element_id' : element.id})  }}"
+        {% if display_edit_actions %}
+      
+          {% if element.hasTagProposition %}
+            <a title="{{ 'element.view_propositions.link'|trans({}, 'elements') }}" class="element_view_propositions_link" 
+              href="{{ path('ajax_element_proposed_tags_view', {'element_id' : element.id})  }}"
+            >
+              <img src="{{ asset('bundles/muzichcore/img/1333493527_tag_add.png') }}" alt="tags proposition" />
+            </a>
+          {% endif %}
+
+          <a title="{{ 'element.edit.link'|trans({}, 'elements') }}" class="element_edit_link" 
+            href="{{ path('element_edit', {'element_id' : element.id})  }}" style="display: none;"
           >
-            <img src="{{ asset('bundles/muzichcore/img/1333493527_tag_add.png') }}" alt="tags proposition" />
+            <img src="{{ asset('bundles/muzichcore/img/1327151338_desktop.png') }}" alt="edit" />
+          </a>
+
+          <a title="{{ 'element.remove.link'|trans({}, 'elements') }}" class="element_remove_link" 
+            href="{{ path('element_remove', {'element_id' : element.id})  }}" style="display: none;"
+          >
+            <img src="{{ asset('bundles/muzichcore/img/1327168960_fileclose.png') }}" alt="delete" />
           </a>
         {% endif %}
       
-        <a title="{{ 'element.edit.link'|trans({}, 'elements') }}" class="element_edit_link" 
-           href="{{ path('element_edit', {'element_id' : element.id})  }}" style="display: none;"
-        >
-          <img src="{{ asset('bundles/muzichcore/img/1327151338_desktop.png') }}" alt="edit" />
-        </a>
-
-        <a title="{{ 'element.remove.link'|trans({}, 'elements') }}" class="element_remove_link" 
-           href="{{ path('element_remove', {'element_id' : element.id})  }}" style="display: none;"
-        >
-          <img src="{{ asset('bundles/muzichcore/img/1327168960_fileclose.png') }}" alt="delete" />
-        </a>
       {% endif %}
       
       <br />
@@ -162,28 +180,31 @@
         {{ 'element.show.close_embed'|trans({}, 'elements') }}
       </a>
       
+      {% if display_comments %}
       
-      {% autoescape false %}
-        {% if element.comments|length > 1 %}
-          <a href="#hide_comments_{{ element.id }}" class="hide_comments" style="display: none;">
-            {{ 'element.comments.hideare'|trans({}, 'elements') }}
-          </a>  
-          <a href="#comments_{{ element.id }}" class="display_comments">
-            {{ 'element.comments.thereare'|trans({'%count%':element.comments|length}, 'elements') }}
-          </a>
-        {% elseif element.comments|length == 1 %}
-          <a href="#hide_comments_{{ element.id }}" class="hide_comments" style="display: none;">
-            {{ 'element.comments.hideis'|trans({}, 'elements') }}
-          </a> 
-          <a href="#comments_{{ element.id }}" class="display_comments">
-            {{ 'element.comments.thereis'|trans({}, 'elements') }}
-          </a>
-        {%endif %}
-      {% endautoescape %}
-                
-      <a href="#add_comment_{{ element.id }}" class="add_comment">
-        {{ 'element.comments.add'|trans({}, 'elements') }}
-      </a>
+        {% autoescape false %}
+          {% if element.comments|length > 1 %}
+            <a href="#hide_comments_{{ element.id }}" class="hide_comments" style="display: none;">
+              {{ 'element.comments.hideare'|trans({}, 'elements') }}
+            </a>  
+            <a href="#comments_{{ element.id }}" class="display_comments">
+              {{ 'element.comments.thereare'|trans({'%count%':element.comments|length}, 'elements') }}
+            </a>
+          {% elseif element.comments|length == 1 %}
+            <a href="#hide_comments_{{ element.id }}" class="hide_comments" style="display: none;">
+              {{ 'element.comments.hideis'|trans({}, 'elements') }}
+            </a> 
+            <a href="#comments_{{ element.id }}" class="display_comments">
+              {{ 'element.comments.thereis'|trans({}, 'elements') }}
+            </a>
+          {%endif %}
+        {% endautoescape %}
+
+        <a href="#add_comment_{{ element.id }}" class="add_comment">
+          {{ 'element.comments.add'|trans({}, 'elements') }}
+        </a>
+      
+      {% endif %}
       
       
     </td>
@@ -245,13 +266,15 @@
 {% endif %}
 {% endif %}
 
-{% if element.embed %}
+{% if element.embed and display_player %}
   {% autoescape false %}
     <div id="embed_{{ element.id }}" class="element_embed" style="display: none;">
       {{ element.embed }}
     </div>
   {% endautoescape %}
 {% endif %}
+
+{% if display_comments %}
 
   <div class="comments" style="display: none;">
     <ul class="comments">
@@ -286,3 +309,5 @@
     </a>
       
   </div>
+
+{% endif %}

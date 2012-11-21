@@ -167,3 +167,7 @@ elements_get_filter_data_autoplay:
 element_show_need_tags:
   pattern: /need-tags
   defaults: { _controller: MuzichHomeBundle:Home:needTags }
+
+element_dom_get_one:
+  pattern: /ajax/element/dom/get/{type}/{element_id}
+  defaults: { _controller: MuzichCoreBundle:Element:getOneDom, element_id: null }

@@ -47,27 +47,53 @@ $(document).ready(function(){
     // pu être créé par la lecture précedente.
     $('div#'+autoplay_player_div_id+'_container').html('<div id="'+autoplay_player_div_id+'"></div>');
     $('#autoplay_noelements_text').hide();
+    $('li#autoplay_element_container').html('');
+    $('img#autoplay_loader').show();
     
     if (autoplay_list.length)
     {
     
       if (array_key_exists(step, autoplay_list))
       {
-        // Youtube case
-        if (autoplay_list[step].element_type == 'youtube.com' || autoplay_list[step].element_type == 'youtu.be')
-        {
-          $('img#autoplay_loader').show();
-          $('div#autoplay_title').text(autoplay_list[step].element_name);
-          youtube_create_player(autoplay_list[step].element_ref_id);
-        }
+        
+        // Récupération du dom d'un élement
+        $.getJSON(url_element_dom_get_one_autoplay+'/'+autoplay_list[step].element_id, function(response) {
+          if (response.status == 'mustbeconnected')
+          {
+            $(location).attr('href', url_index);
+          }
+
+          if (response.status == 'success')
+          {
+            // On récupère la liste d'élèments
+            $('li#autoplay_element_container').html(response.data);
+            
+            // Youtube case
+            if (autoplay_list[step].element_type == 'youtube.com' || autoplay_list[step].element_type == 'youtu.be')
+            {
+              youtube_create_player(autoplay_list[step].element_ref_id);
+            }
+            
+          }
+
+        });
+        
+        
       }
     
     }
     else
     {
-      $('#autoplay_noelements_text').show();
-      $('img#autoplay_loader').hide();
+      autoplay_display_nomore();
     }
+  }
+  
+  function autoplay_display_nomore()
+  {
+    $('div#'+autoplay_player_div_id+'_container').html('<div id="'+autoplay_player_div_id+'"></div>');
+    $('li#autoplay_element_container').html('');
+    $('#autoplay_noelements_text').show();
+    $('img#autoplay_loader').hide();
   }
   
   // Avancer d'un élelement dans la liste
@@ -80,7 +106,8 @@ $(document).ready(function(){
     }
     else
     {
-      autoplay_step--;
+      autoplay_display_nomore();
+      autoplay_step = autoplay_list.length;
     }
   }
   
@@ -94,7 +121,8 @@ $(document).ready(function(){
     }
     else
     {
-      autoplay_step++;
+      autoplay_display_nomore();
+      autoplay_step = -1;
     }
   }
   

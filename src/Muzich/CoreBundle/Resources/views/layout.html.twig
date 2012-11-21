@@ -72,6 +72,7 @@
     url_global_search = "{{ path('global_search') }}";
     url_datas_api = "{{ path('element_retrieve_api_datas') }}";
     url_element_add = "{{ path('element_add') }}";
+    url_element_dom_get_one_autoplay = "{{ path('element_dom_get_one', {'type':'autoplay'}) }}";
     
     url_img_ajax_loader = "{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}";
   </script>
@@ -84,18 +85,15 @@
     <a href="javascript:void(0);" id="autoplay_close" >
       <img src="{{ asset('/bundles/muzichcore/img/1353498913_window-close.png') }}" alt="close" />
     </a>
-    <div id="autoplay_controls">
       
       <a href="javascript:void(0);" id="autoplay_previous">
-        <img src="{{ asset('/bundles/muzichcore/img/player_start.png') }}" alt="previous" />
+        <img src="{{ asset('/bundles/muzichcore/img/1353505865_button_previous.png') }}" alt="previous" />
       </a>
       <a href="javascript:void(0);" id="autoplay_next">
-        <img src="{{ asset('/bundles/muzichcore/img/player_end.png') }}" alt="next" />
+        <img src="{{ asset('/bundles/muzichcore/img/1353505874_button_next.png') }}" alt="next" />
       </a>
-        
-      <div id="autoplay_title"></div>
       
-    </div>
+    <ul id="autoplay_element"><li class="element" id="autoplay_element_container"></li></ul>
     <div id="autoplay_player_container">
       <div id="autoplay_player"></div>
     </div>
