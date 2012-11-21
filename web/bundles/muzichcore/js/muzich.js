@@ -2391,6 +2391,4 @@ $(document).ready(function(){
         top: '20%'
       });
     $('#'+object_id).show();
-    
-    console.debug('width: '+$('#'+object_id).width());
   }

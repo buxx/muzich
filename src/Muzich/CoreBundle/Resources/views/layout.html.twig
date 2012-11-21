@@ -82,7 +82,7 @@
   
   <div id="autoplay" class="popin_block" style="display: none;">
     <a href="javascript:void(0);" id="autoplay_close" >
-      <img src="{{ asset('/bundles/muzichcore/img/1328276855_list-remove.png') }}" alt="close" />
+      <img src="{{ asset('/bundles/muzichcore/img/1353498913_window-close.png') }}" alt="close" />
     </a>
     <div id="autoplay_controls">
       
@@ -100,6 +100,7 @@
       <div id="autoplay_player"></div>
     </div>
     <img id="autoplay_loader" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loader" />
+    <p id="autoplay_noelements_text" style="display: none;">{{ 'elements.autoplay.noelements.text'|trans({}, 'elements') }}</p>
   </div>
     
   {% include "MuzichCoreBundle:Language:languages.html.twig" %}

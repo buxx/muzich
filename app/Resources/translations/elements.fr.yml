@@ -89,7 +89,9 @@ elements:
     more:
       noelements:       Pas d'autres éléments
   autoplay:
-    launch:             Créer une liste de lecture avec ces paramètres
+    launch:             Lecture automatique
+    noelements:
+      text:             Aucun partage a lire
       
 show:
   user:

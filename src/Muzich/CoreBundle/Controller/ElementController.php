@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Util\TagLike;
 use Muzich\CoreBundle\Entity\User;
+use Muzich\CoreBundle\lib\AutoplayManager;
 
 class ElementController extends Controller
 {
@@ -982,6 +983,46 @@ class ElementController extends Controller
       'name'   => $element->getProposedName(),
       'tags'   => $tags_propositions,
       'thumb'  => $element->getThumbnailUrl() 
+    ));
+  }
+  
+  /**
+   * Retourne les données permettant de faire une playlist
+   * 
+   * @param Request $request 
+   * @param "filter"|"show"|"favorites" $type
+   * @param ~ $data
+   */
+  public function getDatasAutoplayAction(Request $request, $type, $data)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    $elements = array();
+    $elements_json = array();
+    
+    if ($type == 'filter')
+    {
+      // Pour cette option on utilise le dernier filtre appliqué
+      $search_object = $this->getElementSearcher();
+      $search_object->update(array(
+        'count' => $this->container->getParameter('autoplay_max_elements')
+      ));
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+    }
+    
+    if (count($elements))
+    {
+      // On récupère les élements
+      $autoplaym = new AutoplayManager($elements, $this->container);
+      $elements_json = $autoplaym->getList();
+    }
+    
+    return $this->jsonResponse(array(
+      'status'    => 'success',
+      'data'      => $elements_json
     ));
   }
   

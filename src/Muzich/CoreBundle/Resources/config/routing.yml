@@ -159,7 +159,10 @@ teapot:
 element_retrieve_api_datas:
   pattern: /ajax/element/get/datas/api
   defaults: { _controller: MuzichCoreBundle:Element:getDatasApi }
-  requirements:
+    
+elements_get_filter_data_autoplay:
+  pattern: /ajax/elements/get/datas/autoplay/{type}/{data}
+  defaults: { _controller: MuzichCoreBundle:Element:getDatasAutoplay, data: null }
     
 element_show_need_tags:
   pattern: /need-tags

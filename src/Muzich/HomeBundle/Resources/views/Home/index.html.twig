@@ -90,12 +90,16 @@
     } %}
     
     <input class="main button" type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
-    
-    <a href="javascript:void(0);" class="button" id="autoplay_launch">
-      {{ 'elements.autoplay.launch'|trans({}, 'elements') }}
-    </a>
-    
+        
   </form>
+
+  
+  <a href="{{ path('elements_get_filter_data_autoplay', {
+    'type' : 'filter'
+  }) }}" class="button" id="autoplay_launch" 
+     title="{{ 'elements.autoplay.launch'|trans({}, 'elements') }}" >
+    <img src="{{ asset('/bundles/muzichcore/img/1353494305_player_play.png') }}" alt="" />
+  </a>
 
   <div class="display_more_elements" style="display: none;">
     <span></span>

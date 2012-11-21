@@ -5,47 +5,72 @@ $(document).ready(function(){
    * Section commune
    */
   
+  // Liste de données pour la lecture
   var autoplay_list = new Array;
+  // object player
   var autoplay_player = null;
+  // identifiant de la division du lecteur
   var autoplay_player_div_id = "autoplay_player";
+  // identifiant du lecteur
   var autoplay_player_id     = "autoplay_player_id";
+  // étape de lecture, on commence naturellement a 0
   var autoplay_step = 0;
   
+  // En cas de click sur un bouton de lecture
   $('a#autoplay_launch').click(function(){
     
-    // on fake l'ajax pour les tests
-    
-    var firdtvidz = new Array;
-    firdtvidz['element_ref_id'] = 'tq4DjQK7nsM';
-    firdtvidz['element_type']   = 'youtu.be';
-    firdtvidz['element_id']     = '99989';
-    firdtvidz['element_name']   = 'Ed Cox - La fanfare des teuffeurs (Hardcordian)';
-    
-    var secondvidz = new Array;
-    secondvidz['element_ref_id'] = 'bIAFB4vRdGw';
-    secondvidz['element_type']   = 'youtube.com';
-    secondvidz['element_id']     = '2345';
-    secondvidz['element_name']   = 'Babylon Pression - Des Tasers et des Pauvres';
-    
-    autoplay_list[0] = firdtvidz;
-    autoplay_list[1] = secondvidz;
-  
+    // On ouvre la boite de dialogue pendant la demande ajax
     open_popin_dialog('autoplay');
-    autoplay_run(0);
+    $('img#autoplay_loader').show();
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      if (response.status == 'success')
+      {
+        // On récupère la liste d'élèments
+        autoplay_list = response.data;
+        autoplay_run(0);
+      }
+      
+    });
+    return false;
   });
   
+  // Lancement de l'élèment suivant
   function autoplay_run(step)
   {
+    // En premier lieu on réinitialise le lecteur en détruisant le dom qui a
+    // pu être créé par la lecture précedente.
     $('div#'+autoplay_player_div_id+'_container').html('<div id="'+autoplay_player_div_id+'"></div>');
+    $('#autoplay_noelements_text').hide();
     
-    if (autoplay_list[step].element_type == 'youtube.com' || autoplay_list[step].element_type == 'youtu.be')
+    if (autoplay_list.length)
     {
-      $('img#autoplay_loader').show();
-      $('div#autoplay_title').text(autoplay_list[step].element_name);
-      youtube_create_player(autoplay_list[step].element_ref_id);
+    
+      if (array_key_exists(step, autoplay_list))
+      {
+        // Youtube case
+        if (autoplay_list[step].element_type == 'youtube.com' || autoplay_list[step].element_type == 'youtu.be')
+        {
+          $('img#autoplay_loader').show();
+          $('div#autoplay_title').text(autoplay_list[step].element_name);
+          youtube_create_player(autoplay_list[step].element_ref_id);
+        }
+      }
+    
+    }
+    else
+    {
+      $('#autoplay_noelements_text').show();
+      $('img#autoplay_loader').hide();
     }
   }
   
+  // Avancer d'un élelement dans la liste
   function autoplay_next()
   {
     autoplay_step++;
@@ -59,6 +84,7 @@ $(document).ready(function(){
     }
   }
   
+  // Reculer d'un élement dans la liste
   function autoplay_previous()
   {
     autoplay_step--;
@@ -72,12 +98,18 @@ $(document).ready(function(){
     }
   }
   
-  
+  // bouton précedent
   $('a#autoplay_previous').click(function(){ autoplay_previous(); });
+  // bouton suivant
   $('a#autoplay_next').click(function(){ autoplay_next(); });
+  // Fermeture de la lecture auto
   $('a#autoplay_close').click(function(){
+    // Fond gris
     $('#fade').fadeOut(1000, function(){$('#fade').remove();});
+    // On cache le lecteur
     $('#autoplay').hide();
+    // On vide le dom du lecteur
+    $('div#'+autoplay_player_div_id+'_container').html('<div id="'+autoplay_player_div_id+'"></div>');
   });
    
   
@@ -85,6 +117,7 @@ $(document).ready(function(){
    * Fonction youtube.com et youtu.be
    */
     
+  // Création du lecteur FLASH youtube
   function youtube_create_player(ref_id)
   {
     var playerapiid = "ytplayerapiid";
@@ -103,6 +136,7 @@ $(document).ready(function(){
     );
   }
   
+  // Fonction appelé par l'ActionScript (flash) du lecteur youtube quand il est prêt
   window.onYouTubePlayerReady = function()
   {
     autoplay_player = document.getElementById(autoplay_player_id);
@@ -111,14 +145,17 @@ $(document).ready(function(){
     youtube_play();
   }
   
+  // Fonction appelé par le lecteur youtube quand il change d'état
   window.youtube_StateChange = function(newState)
   {
+    // Lorsque la lecture est terminé
     if (newState === 0)
     {
       autoplay_next();
     }
   }
 
+  // Lecture
   function youtube_play()
   {
     if (autoplay_player)

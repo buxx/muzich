@@ -18,14 +18,21 @@ class AutoplayManager
   
   /**
    *
+   * @var Container 
+   */
+  protected $container;
+  
+  /**
+   *
    * @param array $elements 
    */
-  public function __construct($elements)
+  public function __construct($elements, $container)
   {
     $this->elements = $elements;
+    $this->container = $container;
   }
   
-  public function getListJSON()
+  public function getList()
   {
     $list = array();
     
@@ -37,7 +44,7 @@ class AutoplayManager
         // Et le site doit être pris en charge pour le autoplay
         in_array(
           ($element_type = $element->getType()), 
-          $this->container->getParameter('dailymotion_player_width')
+          $this->container->getParameter('autoplay_sites_enabled')
         )
       )
       
@@ -49,7 +56,7 @@ class AutoplayManager
       );
     }
     
-    return json_encode($list);
+    return $list;
   }
   
 }
