@@ -108,11 +108,6 @@
         'object_id'     : viewed_user.id, 
         'tags_ids_json' : ''
       }) }}" />
-     <input type="hidden" id="autoplay_url" value="{{ path('elements_get_filter_data_autoplay_show', {
-        'show_type'          : 'user',
-        'show_id'     : viewed_user.id, 
-        'data' : ''
-      }) }}" />
      <a href="{{ path('show_elements_get', {
         'type'          : 'user',
         'object_id'     : viewed_user.id, 
@@ -123,5 +118,11 @@
    </span>
   {% endif %}
   {% endif %}
+  
+  <input type="hidden" id="autoplay_url" value="{{ path('elements_get_filter_data_autoplay_show', {
+    'show_type'          : 'user',
+    'show_id'     : viewed_user.id, 
+    'data' : ''
+  }) }}" />
   
 {% endblock %}

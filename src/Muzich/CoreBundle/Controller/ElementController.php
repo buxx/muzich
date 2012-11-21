@@ -1041,6 +1041,30 @@ class ElementController extends Controller
       
       $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
     }
+    elseif ($type == 'favorite')
+    {
+      $tags = null;
+      $tag_ids = json_decode($data);
+      $search_object = new ElementSearcher();
+      
+      if (count($tag_ids))
+      {
+        $tags = array();
+        foreach ($tag_ids as $id)
+        {
+          $tags[$id] = $id;
+        }
+      }
+
+      $search_object->init(array(
+        'tags'     => $tags,
+        'user_id'  => $show_id,
+        'favorite' => true,
+        'count'    => $this->container->getParameter('autoplay_max_elements')
+      ));
+      
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+    }
     
     if (count($elements))
     {
