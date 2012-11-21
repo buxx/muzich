@@ -156,13 +156,18 @@ class ShowController extends Controller
       throw new \Exception("Wrong Type.");
     }
     
-    $tag_ids = json_decode($tags_ids_json);
     $search_object = new ElementSearcher();
+    $tags = null;
+    $tag_ids = json_decode($tags_ids_json);
     
-    $tags = array();
-    foreach ($tag_ids as $id)
+    if (count($tag_ids))
     {
-      $tags[$id] = $id;
+
+      $tags = array();
+      foreach ($tag_ids as $id)
+      {
+        $tags[$id] = $id;
+      }
     }
     
     $search_object->init(array(

@@ -33,6 +33,7 @@ $(document).ready(function(){
       {
         // On récupère la liste d'élèments
         autoplay_list = response.data;
+        console.debug(autoplay_list);
         autoplay_run(0);
       }
       
