@@ -54,6 +54,15 @@
     'object_type' : 'group'
   } %}
   
+  <a href="{{ path('elements_get_filter_data_autoplay_show', {
+        'show_type'  : 'group',
+        'show_id'    : group.id, 
+        'data'       : '[]'
+      }) }}" class="button" id="autoplay_launch" 
+     title="{{ 'elements.autoplay.launch'|trans({}, 'elements') }}" >
+    <img src="{{ asset('/bundles/muzichcore/img/1353494305_player_play.png') }}" alt="" />
+  </a>
+  
   {% if his_group or group.open %}
   
     <div id="element_add_box" style="display: none;">
@@ -95,7 +104,7 @@
      <a href="{{ path('show_elements_get', {
         'type'          : 'group',
         'object_id'     : group.id, 
-        'tags_ids_json' : tags_id_json
+        'tags_ids_json' : '[]'
       }) }}" class="elements_more button" >
        {{ 'more'|trans({}, 'userui') }}
      </a>
@@ -103,4 +112,10 @@
   {% endif %}
   {% endif %}
   
+  <input type="hidden" id="autoplay_url" value="{{ path('elements_get_filter_data_autoplay_show', {
+    'show_type'          : 'group',
+    'show_id'            : group.id, 
+    'data' : ''
+  }) }}" />
+            
 {% endblock %}

@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Util\TagLike;
 use Muzich\CoreBundle\Entity\User;
+use Muzich\CoreBundle\lib\AutoplayManager;
+use Muzich\CoreBundle\Searcher\ElementSearcher;
 
 class ElementController extends Controller
 {
@@ -982,6 +984,144 @@ class ElementController extends Controller
       'name'   => $element->getProposedName(),
       'tags'   => $tags_propositions,
       'thumb'  => $element->getThumbnailUrl() 
+    ));
+  }
+  
+  /**
+   * Retourne les données permettant de faire une playlist
+   * 
+   * @param Request $request 
+   * @param "filter"|"show"|"favorites" $type
+   * @param ~ $data
+   */
+  public function getDatasAutoplayAction(Request $request, $type, $data, $show_type = null, $show_id = null)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    $elements = array();
+    $elements_json = array();
+    
+    if ($type == 'filter')
+    {
+      // Pour cette option on utilise le dernier filtre appliqué
+      $search_object = $this->getElementSearcher();
+      $search_object->update(array(
+        'count' => $this->container->getParameter('autoplay_max_elements')
+      ));
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+    }
+    elseif ($type == 'show')
+    {
+      if ($show_type != 'user' && $show_type != 'group')
+      {
+        throw $this->createNotFoundException('Not found');
+      }
+      
+      $tags = null;
+      $tag_ids = json_decode($data);
+      $search_object = new ElementSearcher();
+      
+      if (count($tag_ids))
+      {
+        $tags = array();
+        foreach ($tag_ids as $id)
+        {
+          $tags[$id] = $id;
+        }
+      }
+
+      $search_object->init(array(
+        'tags'           => $tags,
+        $show_type.'_id' => $show_id,
+        'count'          => $this->container->getParameter('autoplay_max_elements')
+      ));
+      
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+    }
+    elseif ($type == 'favorite')
+    {
+      $tags = null;
+      $tag_ids = json_decode($data);
+      $search_object = new ElementSearcher();
+      
+      if (count($tag_ids))
+      {
+        $tags = array();
+        foreach ($tag_ids as $id)
+        {
+          $tags[$id] = $id;
+        }
+      }
+
+      $search_object->init(array(
+        'tags'     => $tags,
+        'user_id'  => $show_id,
+        'favorite' => true,
+        'count'    => $this->container->getParameter('autoplay_max_elements')
+      ));
+      
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+    }
+    
+    if (count($elements))
+    {
+      // On récupère les élements
+      $autoplaym = new AutoplayManager($elements, $this->container);
+      $elements_json = $autoplaym->getList();
+    }
+    
+    return $this->jsonResponse(array(
+      'status'    => 'success',
+      'data'      => $elements_json
+    ));
+  }
+  
+  public function getOneDomAction(Request $request, $element_id, $type)
+  {
+    if (($response = $this->mustBeConnected()))
+    {
+      return $response;
+    }
+    
+    if (!in_array($type, array('autoplay')))
+    {
+      return $this->jsonResponse(array(
+        'status' => 'error',
+        'errors' => array('NotAllowed')
+      ));
+    }
+    
+    // variables pour le template
+    $display_edit_actions  = true;
+    $display_player        = true;
+    $display_comments      = true;
+    
+    if ($type == 'autoplay')
+    {
+      $display_edit_actions  = false;
+      $display_player        = false;
+      $display_comments      = false;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)))
+    {
+      throw $this->createNotFoundException('Not found');
+    }
+    
+    $html = $this->render('MuzichCoreBundle:SearchElement:element.html.twig', array(
+      'element'               => $element,
+      'display_edit_actions'  => $display_edit_actions,
+      'display_player'        => $display_player,
+      'display_comments'      => $display_comments
+    ))->getContent();
+    
+    return $this->jsonResponse(array(
+      'status'  => 'success',
+      'data'    => $html
     ));
   }
   

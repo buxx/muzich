@@ -88,6 +88,10 @@ elements:
   ajax:
     more:
       noelements:       Pas d'autres éléments
+  autoplay:
+    launch:             Lecture automatique
+    noelements:
+      text:             Aucun partage a lire
       
 show:
   user:

@@ -23,6 +23,14 @@
   {% endif %}
   <script src="{{ asset('js/jquery-ui-1.8.7.min.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('bundles/muzichcore/js/muzich.js') }}" type="text/javascript"></script>
+	
+  <script type="text/javascript" src="{{ asset('js/swfobject.js') }}"></script> 
+  
+       <script src="http://connect.soundcloud.com/sdk.js"></script>
+       <script src="http://w.soundcloud.com/player/api.js"></script>
+       
+  <script src="{{ asset('bundles/muzichcore/js/autoplay.js') }}" type="text/javascript"></script>
+  
   <script src="{{ asset('js/tags/jquery.autoGrowInput.js') }}" type="text/javascript"></script>
   <script src="{{ asset('js/tags/jquery.tagBox.js') }}" type="text/javascript"></script>
   <script src="{{ asset('js/formdefault/jquery.formdefaults.js') }}" type="text/javascript"></script>
@@ -68,6 +76,7 @@
     url_global_search = "{{ path('global_search') }}";
     url_datas_api = "{{ path('element_retrieve_api_datas') }}";
     url_element_add = "{{ path('element_add') }}";
+    url_element_dom_get_one_autoplay = "{{ path('element_dom_get_one', {'type':'autoplay'}) }}";
     
     url_img_ajax_loader = "{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}";
   </script>
@@ -76,6 +85,27 @@
 </head>
 <body>
   
+  <div id="autoplay" class="popin_block" style="display: none;">
+    <a href="javascript:void(0);" id="autoplay_close" >
+      <img src="{{ asset('/bundles/muzichcore/img/1353498913_window-close.png') }}" alt="close" />
+    </a>
+      
+      <a href="javascript:void(0);" id="autoplay_previous">
+        <img src="{{ asset('/bundles/muzichcore/img/1353505865_button_previous.png') }}" alt="previous" />
+      </a>
+      <a href="javascript:void(0);" id="autoplay_next">
+        <img src="{{ asset('/bundles/muzichcore/img/1353505874_button_next.png') }}" alt="next" />
+      </a>
+      
+    <ul id="autoplay_element"><li class="element" id="autoplay_element_container"></li></ul>
+    <div id="autoplay_player_container">
+      <div id="autoplay_player"></div>
+    </div>
+    <div id="autoplay_player_soundcloud"></div>
+    <img id="autoplay_loader" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loader" />
+    <p id="autoplay_noelements_text" style="display: none;">{{ 'elements.autoplay.noelements.text'|trans({}, 'elements') }}</p>
+  </div>
+    
   {% include "MuzichCoreBundle:Language:languages.html.twig" %}
   
   {% include "MuzichUserBundle:Account:topBar.html.twig" %}

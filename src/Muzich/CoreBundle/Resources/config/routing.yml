@@ -159,8 +159,23 @@ teapot:
 element_retrieve_api_datas:
   pattern: /ajax/element/get/datas/api
   defaults: { _controller: MuzichCoreBundle:Element:getDatasApi }
-  requirements:
+    
+elements_get_filter_data_autoplay:
+  pattern: /ajax/elements/get/datas/autoplay/{type}/{data}
+  defaults: { _controller: MuzichCoreBundle:Element:getDatasAutoplay, data: null }
+    
+elements_get_filter_data_autoplay_show:
+  pattern: /ajax/show/{show_type}/{show_id}/elements/get/datas/autoplay/{data}
+  defaults: { _controller: MuzichCoreBundle:Element:getDatasAutoplay, type: 'show', data: null }
+    
+elements_get_filter_data_autoplay_favorite:
+  pattern: /ajax/favorite/{show_type}/{show_id}/elements/get/datas/autoplay/{data}
+  defaults: { _controller: MuzichCoreBundle:Element:getDatasAutoplay, type: 'favorite', data: null }
     
 element_show_need_tags:
   pattern: /need-tags
   defaults: { _controller: MuzichHomeBundle:Home:needTags }
+
+element_dom_get_one:
+  pattern: /ajax/element/dom/get/{type}/{element_id}
+  defaults: { _controller: MuzichCoreBundle:Element:getOneDom, element_id: null }

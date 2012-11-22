@@ -84,13 +84,13 @@ input.button, button.button {
   background-color: #39C9CC;
 }
 
-#container a
+#container a, #autoplay a
 {
   text-decoration: none;
   color: #00d0de;
 }
 
-#container a.button
+#container a.button, #autoplay a.button
 {
   color: white;
 }
@@ -542,7 +542,7 @@ li.element
   left: 483px;
 }*/
 
-#container li.element a.favorite_link:hover
+#container li.element a.favorite_link:hover, #autoplay li.element a.favorite_link:hover
 {
   text-decoration: none;
 }
@@ -585,7 +585,7 @@ li.element img.element_thumbnail
   height: 90px;
 }
 
-#container li.element span.element_name a
+#container li.element span.element_name a, #autoplay li.element span.element_name a
 {
   color: black;
 }
@@ -596,7 +596,7 @@ li.element img.play, li.element img.open
   
 }
 
-ul.elements
+ul.elements, ul#autoplay_element
 {
   margin-left: 0px;
 }
@@ -612,7 +612,7 @@ ul.elements li.even
   margin-left: 0px;
 }
   
-.elements ul.element_tags li
+.elements ul.element_tags li, ul#autoplay_element ul.element_tags li
 {
   display: inline;
   font-size: 90%;
@@ -1306,4 +1306,60 @@ span#add_url_title
 {
   font-weight: bold;
   font-size: 15px;
+}
+
+div#autoplay
+{
+  text-align: left;
+  padding-top: 0px;
+}
+
+a#autoplay_launch
+{
+  float: right;
+  margin-top: -25px;
+}
+
+div#autoplay.popin_block
+{
+  width: 500px;
+}
+
+a#autoplay_previous
+{
+  float: left;
+  text-decoration: none;
+  margin-left: -50px;
+}
+
+a#autoplay_next
+{
+  float: right;
+  text-decoration: none;
+  margin-right: -50px;
+}
+
+div#autoplay_title
+{
+  font-weight: bold;
+  margin-left: 35px;
+  margin-right: 35px;
+}
+
+a#autoplay_close
+{
+  float: right;
+  text-decoration: none;
+  margin-top: -32px;
+  margin-right: -32px;
+}
+
+div#autoplay_player_container
+{
+  text-align: center;
+}
+
+div#autoplay ul.elements, div#autoplay
+{
+  margin-top: 0px;
 }

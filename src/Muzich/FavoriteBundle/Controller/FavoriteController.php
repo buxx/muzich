@@ -246,11 +246,15 @@ class FavoriteController extends Controller
     
     $tag_ids = json_decode($tags_ids_json);
     $search_object = new ElementSearcher();
+    $tags = null;
     
-    $tags = array();
-    foreach ($tag_ids as $id)
+    if (count($tag_ids))
     {
-      $tags[$id] = $id;
+      $tags = array();
+      foreach ($tag_ids as $id)
+      {
+        $tags[$id] = $id;
+      }
     }
     
     $search_object->init(array(

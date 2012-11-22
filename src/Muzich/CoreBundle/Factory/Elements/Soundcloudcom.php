@@ -154,6 +154,11 @@ class Soundcloudcom extends ElementFactory
         {
           $this->element->setData(Element::DATA_REF_ID, $result['id']);
         }
+        
+        if (array_key_exists('uri', $result) )
+        {
+          $this->element->setData(Element::DATA_NORMALIZED_URL, $result['uri']);
+        }
 
         if (array_key_exists('artwork_url', $result) )
         {
@@ -214,6 +219,12 @@ class Soundcloudcom extends ElementFactory
           .'width="100%" name="embed_'.$embed_id.'"></embed>
         </object>'
       );
+//      $this->element->setEmbed(
+//        '<iframe id="sc-widget_'.$this->element->getData(Element::DATA_REF_ID).
+//          '" src="http://w.soundcloud.com/player/?url='.
+//          $ref_id.'" width="100%" '.
+//          'height="'.$height.'" scrolling="no" frameborder="no"></iframe>'
+//      );
     }
   }
   

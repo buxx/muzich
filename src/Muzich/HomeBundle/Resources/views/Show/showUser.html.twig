@@ -85,6 +85,15 @@
     'object_type' : 'user'
   } %}
   
+  <a href="{{ path('elements_get_filter_data_autoplay_show', {
+        'show_type'  : 'user',
+        'show_id'    : viewed_user.id, 
+        'data'       : '[]'
+      }) }}" class="button" id="autoplay_launch" 
+     title="{{ 'elements.autoplay.launch'|trans({}, 'elements') }}" >
+    <img src="{{ asset('/bundles/muzichcore/img/1353494305_player_play.png') }}" alt="" />
+  </a>
+  
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
     
   <div class="elements_loader_div">
@@ -102,12 +111,18 @@
      <a href="{{ path('show_elements_get', {
         'type'          : 'user',
         'object_id'     : viewed_user.id, 
-        'tags_ids_json' : tags_id_json
+        'tags_ids_json' : '[]'
       }) }}" class="elements_more button" >
        {{ 'more'|trans({}, 'userui') }}
      </a>
    </span>
   {% endif %}
   {% endif %}
+  
+  <input type="hidden" id="autoplay_url" value="{{ path('elements_get_filter_data_autoplay_show', {
+    'show_type'          : 'user',
+    'show_id'     : viewed_user.id, 
+    'data' : ''
+  }) }}" />
   
 {% endblock %}
