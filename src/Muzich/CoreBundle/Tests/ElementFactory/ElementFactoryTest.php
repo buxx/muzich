@@ -373,6 +373,7 @@ class ElementFactoryTest extends UnitTest
       'data_download' => null,
       'data_download_url' => 'http://soundcloud.com/matas/sets/library-project/download',
       'data_artist' => 'matas',
+      'data_normalized_url' => 'http://api.soundcloud.com/playlists/3770'
     ),$datas);
     
     // 'http://soundcloud.com/matas/above-hyperion-redux'
@@ -397,7 +398,8 @@ class ElementFactoryTest extends UnitTest
       'data_artist' => 'matas',
       'data_tags' => array(
         0 => 'Spacestep'
-      )
+      ),
+      'data_normalized_url' => 'http://api.soundcloud.com/tracks/3154252'
     ),$datas);
     
     // 'http://soundcloud.com/tracks/search?q%5Bfulltext%5D=EEK+A+MOUSSE&q%5Btype%5D=&q%5Bduration%5D='
