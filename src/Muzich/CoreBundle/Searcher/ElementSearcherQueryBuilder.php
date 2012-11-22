@@ -239,7 +239,7 @@ class ElementSearcherQueryBuilder
       ."having count(distinct et.tag_id) = ".count($tags);
       $rsm = new \Doctrine\ORM\Query\ResultSetMapping;
       $rsm->addScalarResult('element_id', 'element_id');
-      
+   
       $strict_element_ids_result = $this->em
         ->createNativeQuery($sql, $rsm)
         //->setParameter('ids', $tag_ids)
@@ -260,7 +260,7 @@ class ElementSearcherQueryBuilder
       // Ce else palie au bug du au cas ou $strict_element_ids est egal a array();
       else
       {
-        $this->query_ids->andWhere('1 == 2');
+        return false;
       }
     }
   }
@@ -307,7 +307,10 @@ class ElementSearcherQueryBuilder
     // Pour les demandes de "more" ou "nouveaux" elements.
     $this->buildLimits();
     // Si on recherche les tags de manière stricte
-    $this->buildStrict();
+    if ($this->buildStrict() === false)
+    {
+      return false;
+    }
     // Si on recherche des partages en demande de tags
     $this->buildNeedTags();
     
@@ -329,17 +332,29 @@ class ElementSearcherQueryBuilder
         ."possédant déjà une liste d'ids");
     }
     
-    $this->proceedIdsQuery($disable_limit);
+    if ($this->proceedIdsQuery($disable_limit) === false)
+    {
+      return false;
+    }
+    
     return $this->query_ids->getQuery();
   }
   
   protected function proceedElementsQuery()
   {
+    
     // On récupère les ids d'éléments
     if (!$this->es->hasIds())
     {
+      
+      if (($ids_query = $this->getIdsQuery()) === false)
+      {
+        return false;
+      }
+      
       // On va récupérer les ids en base en fonction des paramètres
-      $q_ids = $this->getIdsQuery()->getArrayResult();
+      $q_ids = $ids_query->getArrayResult();
+     
       $element_ids = array();
       if (count($q_ids))
       {

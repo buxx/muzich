@@ -7,51 +7,51 @@ use Muzich\CoreBundle\Searcher\ElementSearcher;
 
 class ElementSearcherTest extends UnitTest
 {  
-//  public function testInit()
-//  {
-//    $es = new ElementSearcher();
-//    $es->init($ia = array(
-//        'network'   => ElementSearcher::NETWORK_PERSONAL, 
-//        'tags'      => array(1 => '', 2 => '', 6 => ''), 
-//        'count'     => 20, 
-//        'user_id'   => 185, 
-//        'group_id'  => null, 
-//        'favorite'  => false,
-//        'ids'       => null,
-//        'ids_display' => null,
-//        'tag_strict' => false,
-//        'string'     => null
-//    ));
-//
-//    $this->assertEquals($ia, $es->getParams());
-//  }
-//  
-//  public function testUpdate()
-//  {
-//    $es = new ElementSearcher();
-//    $es->init($ia = array(
-//        'network'   => ElementSearcher::NETWORK_PERSONAL, 
-//        'tags'      => array(1 => '', 2 => '', 6 => ''), 
-//        'count'     => 20, 
-//        'user_id'   => 185, 
-//        'group_id'  => null, 
-//        'favorite'  => false
-//    ));
-//    $es->init($ua = array(
-//        'network'   => ElementSearcher::NETWORK_PUBLIC, 
-//        'tags'      => array(5 => '', 8 => '', 123 => ''), 
-//        'count'     => 21, 
-//        'user_id'   => 115, 
-//        'group_id'  => null, 
-//        'favorite'  => false,
-//        'ids'       => null,
-//        'ids_display' => null,
-//        'tag_strict' => false,
-//        'string'     => null
-//    ));
-//
-//    $this->assertEquals($ua, $es->getParams());
-//  }
+  public function testInit()
+  {
+    $es = new ElementSearcher();
+    $es->init($ia = array(
+        'network'   => ElementSearcher::NETWORK_PERSONAL, 
+        'tags'      => array(1 => '', 2 => '', 6 => ''), 
+        'count'     => 20, 
+        'user_id'   => 185, 
+        'group_id'  => null, 
+        'favorite'  => false,
+        'ids'       => null,
+        'ids_display' => null,
+        'tag_strict' => false,
+        'string'     => null
+    ));
+
+    $this->assertEquals($ia, $es->getParams());
+  }
+  
+  public function testUpdate()
+  {
+    $es = new ElementSearcher();
+    $es->init($ia = array(
+        'network'   => ElementSearcher::NETWORK_PERSONAL, 
+        'tags'      => array(1 => '', 2 => '', 6 => ''), 
+        'count'     => 20, 
+        'user_id'   => 185, 
+        'group_id'  => null, 
+        'favorite'  => false
+    ));
+    $es->init($ua = array(
+        'network'   => ElementSearcher::NETWORK_PUBLIC, 
+        'tags'      => array(5 => '', 8 => '', 123 => ''), 
+        'count'     => 21, 
+        'user_id'   => 115, 
+        'group_id'  => null, 
+        'favorite'  => false,
+        'ids'       => null,
+        'ids_display' => null,
+        'tag_strict' => false,
+        'string'     => null
+    ));
+
+    $this->assertEquals($ua, $es->getParams());
+  }
   
   protected function checkElementSearchResults($es_results, $array_names)
   {
@@ -404,6 +404,23 @@ class ElementSearcherTest extends UnitTest
       array(
         'Babylon Pression - Des Tasers et des Pauvres'
       )
+    );
+    
+    $es = new ElementSearcher();
+    $es->init(array(
+      'network'   => ElementSearcher::NETWORK_PUBLIC,
+      'tags'      => array(
+        $metal->getId()      => 'Metal', 
+        $hardcore->getId()   => 'Hardcore',
+        $tribe->getId()      => 'Tribe'
+      ),
+      'count'      => 5,
+      'tag_strict' => true
+    ));
+    
+    $this->checkElementSearchResults(
+      $es->getElements($r, $bux->getId()), 
+      array()
     );
     
   }
