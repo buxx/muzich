@@ -61,7 +61,7 @@
       <a href="#" id="element_add_close_link" class="button">
         &lt;&lt; {{ 'group.add_element_box.close'|trans({}, 'navigationui') }}
       </a>
-      
+      <input type="hidden" id="add_element_group_page" value="{{ group.slug }}" />
       <form novalidate name="{{ add_form_name }}" action="{{ path('element_add', {'group_slug' : group.slug}) }}" method="post" {{ form_enctype(add_form) }}>
 
         {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 'form': add_form, 'form_name': add_form_name } %}
