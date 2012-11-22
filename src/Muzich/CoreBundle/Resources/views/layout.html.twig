@@ -25,6 +25,10 @@
 	<script src="{{ asset('bundles/muzichcore/js/muzich.js') }}" type="text/javascript"></script>
 	
   <script type="text/javascript" src="{{ asset('js/swfobject.js') }}"></script> 
+  
+       <script src="http://connect.soundcloud.com/sdk.js"></script>
+       <script src="http://w.soundcloud.com/player/api.js"></script>
+       
   <script src="{{ asset('bundles/muzichcore/js/autoplay.js') }}" type="text/javascript"></script>
   
   <script src="{{ asset('js/tags/jquery.autoGrowInput.js') }}" type="text/javascript"></script>
@@ -97,6 +101,7 @@
     <div id="autoplay_player_container">
       <div id="autoplay_player"></div>
     </div>
+    <div id="autoplay_player_soundcloud"></div>
     <img id="autoplay_loader" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loader" />
     <p id="autoplay_noelements_text" style="display: none;">{{ 'elements.autoplay.noelements.text'|trans({}, 'elements') }}</p>
   </div>

@@ -28,6 +28,12 @@ class Element
    * @var string 
    */
   const DATA_REF_ID         = "data_ref_id";
+  
+  /**
+   * Identifiant de l'objet externe
+   * @var string 
+   */
+  const DATA_NORMALIZED_URL = "data_normalized_url";
   /**
    * Adresse HTTP(S) de la jaquette
    * @var string 

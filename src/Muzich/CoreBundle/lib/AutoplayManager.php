@@ -52,7 +52,9 @@ class AutoplayManager
         'element_ref_id'   => $ref_id,
         'element_type'     => $element->getType(),
         'element_id'       => $element->getId(),
-        'element_name'     => $element->getName()
+        'element_name'     => $element->getName(),
+        'element_url'      => $element->getUrl(),
+        'element_normalized_url' => $element->getData(Element::DATA_NORMALIZED_URL)
       );
     }
     
