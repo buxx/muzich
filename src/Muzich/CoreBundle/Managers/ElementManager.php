@@ -96,7 +96,7 @@ class ElementManager
   /**
    * Determine le type d'objet auquel on a affaire.
    */
-  protected function determineType()
+  public function determineType()
   {
     // On ne prend pas de risque avec le www, on l'enlève
     $url = str_replace('www.', '', $this->element->getUrl());
