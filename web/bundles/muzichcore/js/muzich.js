@@ -260,7 +260,8 @@ $(document).ready(function(){
   $('.tags_prompt input.clear, a.filter_clear_url').live("click", function(){
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
-    
+    // On initialise la liste de tags déjà ajouté
+    tagsAddeds['search'] = new Array;
     var form = $('form[name="search"]');
     remove_tags(form.attr('name'));
     form.submit();
@@ -271,6 +272,8 @@ $(document).ready(function(){
     
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
+    // On initialise la liste de tags déjà ajouté
+    tagsAddeds['search'] = new Array;
     
     var form = $(this).parents('form[name="search"]');
     
@@ -802,18 +805,14 @@ $(document).ready(function(){
                                 
                 var li_tag = 
                   $('<li>').append(
-                    $('<a>').attr('id','searched_tag_'+tag_id+'_'+tag_name)
+                    $('<a>').attr('id','searched_tag_'+tag_id)
                       .attr('href', '#')
                     // qui réagit quand on clique dessus
                     .click(function(e){
-                      // On récupère le nom du tag
-                      var name = $(this).attr('id').substr(13,$(this).attr('id').length);
-                      name = name.substr(strpos(name, '_')+1, name.length);
                       
-                      var id = $(this).attr('id').substr(13,$(this).attr('id').length);
-                      id = str_replace(name, '', id);
-                      id = str_replace('_', '', id);
-                      
+                      var id = str_replace('searched_tag_', '', $(this).attr('id'));
+                      var name = $('span#tag_prompt_tag_'+id+'_name').html();
+                                            
                       $('input#tags_selected_tag_'+form_name).val(id);
                       inputTag.val(name);
                       // Et on execute l'évènement selectTag de l'input
@@ -825,7 +824,7 @@ $(document).ready(function(){
                       return false;
                     })
                     .append(t_string)
-                );
+                ).append($('<span style="display: none;" id="tag_prompt_tag_'+tag_id+'_name">'+tag_name+'</span>'));
 
                 // Si on depasse les 30 tags
                 if (i > 30)

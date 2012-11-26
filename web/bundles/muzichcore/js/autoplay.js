@@ -41,6 +41,7 @@ $(document).ready(function(){
         // On récupère la liste d'élèments
         autoplay_list = response.data;
         autoplay_last_element_id = autoplay_list[0].element_id;
+        autoplay_step = 0;
         autoplay_run(0);
       }
       
