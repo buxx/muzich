@@ -339,6 +339,10 @@ class UserController extends Controller
         $data = $form->getData();
         $user->updateTagsFavoritesById($this->getDoctrine()->getEntityManager(), $data['tags']);
         
+        // On réinitialise l'eventuel session de recherche en mémoire
+        $session = $this->get("session");
+        $session->remove('user.element_search.params');
+        
         $this->container->get('session')->setFlash('success', 'Vos tags péférés ont correctements été mis a jour.');
       }
       else
