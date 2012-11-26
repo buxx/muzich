@@ -306,6 +306,10 @@ $(document).ready(function(){
   $('ul.element_tags li a.element_tag').live('click', function(){
     // Si il y a une liste de tags (comme sur la page favoris, profil)
     var id;
+    
+    // On initialise la liste de tags déjà ajouté
+    tagsAddeds['search'] = new Array;
+    
     if ($('ul#favorite_tags').length)
     {
       id = str_replace('element_tag_', '', $(this).attr('id'));
