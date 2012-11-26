@@ -1106,8 +1106,13 @@ class ElementController extends Controller
       $display_comments      = false;
     }
     
-    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id)))
+    // On prépare la récupèration de l'élèment
+    $es = new ElementSearcher();
+    $es->init(array(
+      'ids' => array($element_id)
+    ));
+    
+    if (!($element = $es->getElements($this->getDoctrine(), $this->getUserId(), 'single')))
     {
       throw $this->createNotFoundException('Not found');
     }

@@ -712,14 +712,27 @@ class Element
     }
   }
   
-  /**
-   * Retourne le nombre de fois que cet élément a été msi en favoris 
-   * 
-   * @return int
-   */
-  public function getCountFavorite()
+//  /**
+//   * Retourne le nombre de fois que cet élément a été msi en favoris 
+//   * 
+//   * @return int
+//   */
+//  public function getCountFavorite()
+//  {
+//    return count($this->elements_favorites);
+//  }
+  
+  public function hasFavoriteUser($user_id)
   {
-    return count($this->elements_favorites);
+    foreach ($this->elements_favorites as $favorite)
+    {
+      if ($favorite->getUser()->getId() == $user_id)
+      {
+        return true;
+      }
+    }
+    
+    return false;
   }
   
   public function setGroupToId()

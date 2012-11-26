@@ -329,6 +329,10 @@ class ElementSearcher extends Searcher implements SearcherInterface
         return count($query->getArrayResult());
       break;
     
+      case 'single':
+        return $query->getSingleResult();
+      break;
+    
       default :
         throw new \Exception('Mode de récupération des Elements non supporté.');
       break;

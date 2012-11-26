@@ -76,6 +76,41 @@ class FavoriteControllerTest extends FunctionalTest
   }
   
   /**
+   * Test vérifiant que l'étoile apparait bien lorsque un élement est en favoris
+   * Test d'affichage dom en somme
+   */
+  public function testStarFavorites()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bux', 'toor');
+    
+    $bux = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername('bux')
+    ;
+    
+    // On se rend sur sa page des favoris de bux
+    $this->crawler = $this->client->request('GET', $this->generateUrl('favorite_user_list', array('slug' => 'bux')));
+           
+    $elements = $this->getDoctrine()->getEntityManager()->createQuery("
+      SELECT e FROM MuzichCoreBundle:Element e
+      LEFT JOIN e.elements_favorites ef
+      WHERE ef.user = :uid
+    ")->setParameter('uid', $bux->getId())
+      ->getResult()
+    ;
+    
+    $this->assertTrue(!is_null($elements));
+    
+    if (count($elements))
+    {
+      foreach ($elements as $element)
+      {
+        $this->exist('img#favorite_'.$element->getId().'_is');
+      }
+    }
+  }
+  
+  /**
    * Test d'ajout en favori un element, puis son retrait
    * Ce test dépend actuellement du fait que l'élément testé se truove sur la 
    * page du groupe en question

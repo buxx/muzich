@@ -239,13 +239,13 @@
       </li>
       <li>
 
-      {% if element.getCountFavorite %}
+      {% if element.hasFavoriteUser(app.user.id) %}
         <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash }) }}" >
-          <img src="{{ asset('bundles/muzichcore/img/favorite.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
+          <img id="favorite_{{ element.id }}_is" src="{{ asset('bundles/muzichcore/img/favorite.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
         </a>
       {% else %}
         <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': app.user.personalHash }) }}" >
-          <img src="{{ asset('bundles/muzichcore/img/favorite_bw.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
+          <img id="favorite_{{ element.id }}_isnot" src="{{ asset('bundles/muzichcore/img/favorite_bw.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
         </a>
       {% endif %}
 
