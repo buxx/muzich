@@ -17,6 +17,11 @@ $(document).ready(function(){
   var autoplay_player_id     = "autoplay_player_id";
   // étape de lecture, on commence naturellement a 0
   var autoplay_step = 0;
+  // On utilise cette variable pour savoir quel est l'élélement choisis en 
+  // dernier (cas du brute click)
+  var autoplay_last_element_id = null;
+  // Pour savoir si on est en bout de ligne
+  var autoplay_no_more = false;
   
   // En cas de click sur un bouton de lecture
   $('a#autoplay_launch').click(function(){
@@ -35,6 +40,7 @@ $(document).ready(function(){
       {
         // On récupère la liste d'élèments
         autoplay_list = response.data;
+        autoplay_last_element_id = autoplay_list[0].element_id;
         autoplay_run(0);
       }
       
@@ -42,23 +48,57 @@ $(document).ready(function(){
     return false;
   });
   
+  function autoplay_load_element(element_id, timeouted)
+  {
+    // On vérifie ici que c'est le dernier élement demandé, ca evite de multiples
+    // requetes en cas de brute click sur les flèches.
+    if (!timeouted)
+    {
+      $('#autoplay_element_loader').show();
+      $('li#autoplay_element_container').html('');
+      setTimeout(autoplay_load_element, 1000, element_id, true);
+    }
+    else
+    {
+      if (autoplay_last_element_id == element_id)
+      {
+        $.getJSON(url_element_dom_get_one_autoplay+'/'+element_id, function(response) {
+          
+          $('#autoplay_element_loader').hide();
+      
+          if (response.status == 'mustbeconnected')
+          {
+            $(location).attr('href', url_index);
+          }
+
+          if (response.status == 'success' && autoplay_last_element_id == element_id)
+          {
+            if (!autoplay_no_more)
+            {
+              // On récupère la liste d'élèments
+              $('li#autoplay_element_container').html(response.data);
+            }
+            else
+            {
+              $('li#autoplay_element_container').html('');
+            }
+          }
+
+        });
+      }
+      
+    }
+  }
+  
   // Lancement de l'élèment suivant
   function autoplay_run(step)
   {
     // En premier lieu on réinitialise le lecteur en détruisant le dom qui a
     // pu être créé par la lecture précedente.
-    $('div#'+autoplay_player_div_id+'_container').html('<div id="'+autoplay_player_div_id+'"></div>');
-    $('#autoplay_noelements_text').hide();
-    $('li#autoplay_element_container').html('');
-    $('img#autoplay_loader').show();
+    autoplay_clean_for_player_creation();
     
-    
-    ////// TMP to check
-    if (autoplay_player_soundcloud)
-    {
-      autoplay_player_soundcloud.pause();
-    }
-    $('div#autoplay_player_soundcloud').hide();
+    // Pause des lecteurs potentiels
+    autoplay_pause_all_players();
     
     if (autoplay_list.length)
     {
@@ -66,32 +106,18 @@ $(document).ready(function(){
       if (array_key_exists(step, autoplay_list))
       {
         
-        // Récupération du dom d'un élement
-        $.getJSON(url_element_dom_get_one_autoplay+'/'+autoplay_list[step].element_id, function(response) {
-          if (response.status == 'mustbeconnected')
-          {
-            $(location).attr('href', url_index);
-          }
-          
-          if (response.status == 'success')
-          {
-            // On récupère la liste d'élèments
-            $('li#autoplay_element_container').html(response.data);
-            
-            // Youtube case
-            if (autoplay_list[step].element_type == 'youtube.com' || autoplay_list[step].element_type == 'youtu.be')
-            {
-              youtube_create_player(autoplay_list[step].element_ref_id);
-            }
-            
-            if (autoplay_list[step].element_type == 'soundcloud.com')
-            {
-              soundcloud_create_player(autoplay_list[step].element_ref_id, autoplay_list[step].element_normalized_url);
-            }
-          }
+        // Youtube case
+        if (autoplay_list[step].element_type == 'youtube.com' || autoplay_list[step].element_type == 'youtu.be')
+        {
+          autoplay_load_element(autoplay_list[step].element_id, false);
+          youtube_create_player(autoplay_list[step].element_ref_id);
+        }
 
-        });
-        
+        if (autoplay_list[step].element_type == 'soundcloud.com')
+        {
+          autoplay_load_element(autoplay_list[step].element_id, false);
+          soundcloud_create_player(autoplay_list[step].element_ref_id, autoplay_list[step].element_normalized_url);
+        }
         
       }
     
@@ -102,8 +128,27 @@ $(document).ready(function(){
     }
   }
   
+  function autoplay_clean_for_player_creation(clean_element)
+  {
+    autoplay_pause_all_players();
+    
+    $('div#'+autoplay_player_div_id+'_container').html('<div id="'+autoplay_player_div_id+'"></div>');
+    $('#autoplay_noelements_text').hide();
+    if (clean_element)
+    {
+      $('li#autoplay_element_container').html('');
+    }
+    $('img#autoplay_loader').show();
+  }
+  
+  function autoplay_pause_all_players()
+  {
+    soundcloud_stop_player();
+  }
+  
   function autoplay_display_nomore()
   {
+    autoplay_no_more = true;
     $('div#'+autoplay_player_div_id+'_container').html('<div id="'+autoplay_player_div_id+'"></div>');
     $('li#autoplay_element_container').html('');
     $('#autoplay_noelements_text').show();
@@ -118,9 +163,11 @@ $(document).ready(function(){
   // Avancer d'un élelement dans la liste
   function autoplay_next()
   {
+    autoplay_no_more = false;
     autoplay_step++;
     if (array_key_exists(autoplay_step, autoplay_list))
     {
+      autoplay_last_element_id = autoplay_list[autoplay_step].element_id;
       autoplay_run(autoplay_step);
     }
     else
@@ -133,9 +180,11 @@ $(document).ready(function(){
   // Reculer d'un élement dans la liste
   function autoplay_previous()
   {
+    autoplay_no_more = false;
     autoplay_step--;
     if (array_key_exists(autoplay_step, autoplay_list))
     {
+      autoplay_last_element_id = autoplay_list[autoplay_step].element_id;
       autoplay_run(autoplay_step);
     }
     else
@@ -173,6 +222,9 @@ $(document).ready(function(){
   // Création du lecteur FLASH youtube
   function youtube_create_player(ref_id)
   {
+    // Préparation du terrain
+    autoplay_clean_for_player_creation();
+    
     var playerapiid = "ytplayerapiid";
     var params = {allowScriptAccess: "always"};
     var atts = {id: autoplay_player_id};
@@ -228,6 +280,9 @@ $(document).ready(function(){
   
   function soundcloud_create_player(ref_id, ref_url)
   {
+    
+    // Préparation du terrain
+    autoplay_clean_for_player_creation();
     
     // Variable dans lequelle on met l'index dela track lu précedamment
     var index_track_previous = 0;
@@ -308,6 +363,15 @@ $(document).ready(function(){
     $('img#autoplay_loader').hide();
     }
          
+  }
+  
+  function soundcloud_stop_player()
+  {
+    if (autoplay_player_soundcloud)
+    {
+      autoplay_player_soundcloud.pause();
+    }
+    $('div#autoplay_player_soundcloud').hide();
   }
   
 });
