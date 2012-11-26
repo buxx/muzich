@@ -50,6 +50,8 @@ class CheckModerateCommand extends ContainerAwareCommand
     {
       $output->writeln('<info>Envoie du courriel ...</info>');
 
+      $website_url = $this->getContainer()->getParameter('siteurl');
+      
       $message = \Swift_Message::newInstance()
           ->setSubject('Muzi.ch: Contrôle modération')
           ->setFrom('noreply@muzi.ch')
@@ -58,7 +60,7 @@ class CheckModerateCommand extends ContainerAwareCommand
             'tags'     => $count_tags,
             'elements' => $count_elements,
             'comments' => $count_comments,
-            'url'      => $this->getContainer()->get('router')->generate('MuzichAdminBundle_moderate_index', array(), true)
+            'url'      => $website_url.$this->getContainer()->get('router')->generate('MuzichAdminBundle_moderate_index', array(), false)
           )))
       ;
       $this->getContainer()->get('mailer')->send($message);

@@ -24,3 +24,5 @@ monolog:
 
 parameters:
     env: prod
+    siteurl:      http://muzi.ch
+    siteurl_www:  http://www.muzi.ch
