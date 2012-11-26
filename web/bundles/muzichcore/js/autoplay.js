@@ -206,6 +206,8 @@ $(document).ready(function(){
     $('#autoplay').hide();
     // On vide le dom du lecteur
     $('div#'+autoplay_player_div_id+'_container').html('<div id="'+autoplay_player_div_id+'"></div>');
+    // Plus rien de dois être lu
+    autoplay_pause_all_players();
   });
    
   
@@ -246,6 +248,7 @@ $(document).ready(function(){
   {
     autoplay_player = document.getElementById(autoplay_player_id);
     autoplay_player.addEventListener("onStateChange", "youtube_StateChange");
+    autoplay_player.addEventListener("onError", "youtube_error");
     $('img#autoplay_loader').hide();
     youtube_play();
   }
@@ -258,6 +261,12 @@ $(document).ready(function(){
     {
       autoplay_next();
     }
+  }
+  
+  // Fonction appelé par le lecteur youtube quand il y a une erreur
+  window.youtube_error = function(newState)
+  {
+    autoplay_next();
   }
 
   // Lecture
@@ -307,60 +316,85 @@ $(document).ready(function(){
       var widgetIframe = document.getElementById('soundcloud_iframe_player');
       autoplay_player_soundcloud = SC.Widget(widgetIframe);
 
-      // Lorsque le lecteur est prêt on lance la lecture
-      autoplay_player_soundcloud.bind(SC.Widget.Events.READY, function ()
-      {
-        autoplay_player_soundcloud.play();
-        $('img#autoplay_loader').hide();
-
-      });
-
-      autoplay_player_soundcloud.bind(SC.Widget.Events.PLAY, function ()
-      {
-        // Lorsque le lecteur commence une lecture
-        // On garde en mémoire l'index de la lecture en cours
-        autoplay_player_soundcloud.getCurrentSoundIndex(function(value){
-            index_track_previous = value;
-        });
-      });
-
-      // Lorsque le lecteur a terminé sa lecture, on passe au suivant
-      autoplay_player_soundcloud.bind(SC.Widget.Events.FINISH, function ()
-      {
-
-        // Cette variable contient le nombre de pistes dans la liste de lecture
-        var track_count = 1;
-        autoplay_player_soundcloud.getSounds(function(value){
-          // On récupère le nomre de pistes
-          track_count = value.length;
-        });
-
-        autoplay_player_soundcloud.getCurrentSoundIndex(function(value){
-
-          // Si la index_track_previous est la même maintenant que la piste
-          // est terminé, c'est que l'on est arrivé en fin de liste.
-          // Cependant, si c'est une liste avec une piste unique, on passe 
-          // tout de suite a la suite
-          if (value == index_track_previous || track_count == 1)
+      SC.get(ref_url, function(track, error) {
+        if (error) 
+        { 
+          // En cas d'erreur on passe a al suivante
+          autoplay_next(); 
+        }
+        else
+        {
+          // Lorsque le lecteur est prêt on lance la lecture
+          autoplay_player_soundcloud.bind(SC.Widget.Events.READY, function ()
           {
-            autoplay_next();
-          }
+            autoplay_player_soundcloud.play();
+            $('img#autoplay_loader').hide();
 
-          // Sinon on prend al nouvelle valeur
-          index_track_previous = value;
+          });
 
-        });
+          autoplay_player_soundcloud.bind(SC.Widget.Events.PLAY, function ()
+          {
+            // Lorsque le lecteur commence une lecture
+            // On garde en mémoire l'index de la lecture en cours
+            autoplay_player_soundcloud.getCurrentSoundIndex(function(value){
+                index_track_previous = value;
+            });
+          });
 
+          // Lorsque le lecteur a terminé sa lecture, on passe au suivant
+          autoplay_player_soundcloud.bind(SC.Widget.Events.FINISH, function ()
+          {
+
+            // Cette variable contient le nombre de pistes dans la liste de lecture
+            var track_count = 1;
+            autoplay_player_soundcloud.getSounds(function(value){
+              // On récupère le nomre de pistes
+              track_count = value.length;
+            });
+
+            autoplay_player_soundcloud.getCurrentSoundIndex(function(value){
+
+              // Si la index_track_previous est la même maintenant que la piste
+              // est terminé, c'est que l'on est arrivé en fin de liste.
+              // Cependant, si c'est une liste avec une piste unique, on passe 
+              // tout de suite a la suite
+              if (value == index_track_previous || track_count == 1)
+              {
+                autoplay_next();
+              }
+
+              // Sinon on prend al nouvelle valeur
+              index_track_previous = value;
+
+            });
+
+          });
+        }
       });
+
+      
 
     }
     else
     {
-      // Le lecteur iframe existait déjà
-    $('div#autoplay_player_soundcloud').show();
-      autoplay_player_soundcloud.load(ref_url+'&show_artwork=false&auto_play=true');
-      //autoplay_player_soundcloud.play();
-    $('img#autoplay_loader').hide();
+      SC.get(ref_url, function(track, error) {
+        if (error) 
+        { 
+          // En cas d'erreur on passe a al suivante
+          console.log('Not found!');
+          autoplay_next(); 
+        }
+        else
+        {
+
+          // Le lecteur iframe existait déjà
+          $('div#autoplay_player_soundcloud').show();
+            autoplay_player_soundcloud.load(ref_url+'&show_artwork=false&auto_play=true');
+            //autoplay_player_soundcloud.play();
+          $('img#autoplay_loader').hide();
+
+        }
+      });
     }
          
   }
