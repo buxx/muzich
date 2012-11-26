@@ -724,11 +724,14 @@ class Element
   
   public function hasFavoriteUser($user_id)
   {
-    foreach ($this->elements_favorites as $favorite)
+    if (count($this->elements_favorites))
     {
-      if ($favorite->getUser()->getId() == $user_id)
+      foreach ($this->elements_favorites as $favorite)
       {
-        return true;
+        if ($favorite->getUser()->getId() == $user_id)
+        {
+          return true;
+        }
       }
     }
     

@@ -101,7 +101,7 @@ class ElementManager
     // On ne prend pas de risque avec le www, on l'enlève
     $url = str_replace('www.', '', $this->element->getUrl());
     
-    preg_match("/^(http:\/\/)?([^\/]+)/i", $url, $chaines);
+    preg_match("/^(http:\/\/|https:\/\/)?([^\/]+)/i", $url, $chaines);
     
     $type = 'unknow';
     if (array_key_exists(2, $chaines))
