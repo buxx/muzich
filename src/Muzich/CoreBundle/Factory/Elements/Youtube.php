@@ -18,7 +18,7 @@ class Youtube extends Youtubecom
     $url_clean = $this->getCleanedUrl();
     $ref_id = null;
     
-    if (preg_match("#\/([a-zA-Z0-9]+)#", $url_clean, $chaines))
+    if (preg_match("#\/([a-zA-Z0-9_]+)#", $url_clean, $chaines))
     {
       $ref_id = $chaines[1];
     }
