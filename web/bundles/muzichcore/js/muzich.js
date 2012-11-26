@@ -2400,7 +2400,7 @@ $(document).ready(function(){
         - $('#'+object_id).width())/2,
 //      top: ($(window).height() 
 //        - $('#'+object_id).height())/2
-        top: '20%'
+        top: '10%'
       });
     $('#'+object_id).show();
   }

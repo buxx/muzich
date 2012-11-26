@@ -1329,14 +1329,40 @@ a#autoplay_previous
 {
   float: left;
   text-decoration: none;
-  margin-left: -50px;
+  margin-left: -120px;
+  margin-top: 25px;
 }
 
 a#autoplay_next
 {
   float: right;
   text-decoration: none;
-  margin-right: -50px;
+  margin-right: -120px;
+  margin-top: 25px;
+}
+
+a#autoplay_previous, a#autoplay_next, a#autoplay_close
+{
+  background: #fff;
+	padding: 5px;
+	border: 10px solid #ddd;
+	z-index: 99999;
+	/*--Les différentes définitions de Box Shadow en CSS3--*/
+	-webkit-box-shadow: 0px 0px 20px #000;
+	-moz-box-shadow: 0px 0px 20px #000;
+	box-shadow: 0px 0px 20px #000;
+	/*--Coins arrondis en CSS3--*/
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+a#autoplay_close
+{
+  float: left;
+  text-decoration: none;
+  margin-top: -100px;
+  margin-left: -120px;
 }
 
 div#autoplay_title
@@ -1344,14 +1370,6 @@ div#autoplay_title
   font-weight: bold;
   margin-left: 35px;
   margin-right: 35px;
-}
-
-a#autoplay_close
-{
-  float: right;
-  text-decoration: none;
-  margin-top: -32px;
-  margin-right: -32px;
 }
 
 div#autoplay_player_container
