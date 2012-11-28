@@ -167,4 +167,4 @@ need_tags:
                          Gagnez en réputation en leurs proposants les tags qui conviennent !
 
 autoplay:
-  limitations_players:   La lecture automatique ne supporte actuellement que les lecteurs youtube et soundcloud.
+  limitations_players:   La lecture automatique ne supporte actuellement que les lecteurs youtube, soundcloud et jamendo.

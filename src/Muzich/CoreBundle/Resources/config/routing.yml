@@ -179,3 +179,7 @@ element_show_need_tags:
 element_dom_get_one:
   pattern: /ajax/element/dom/get/{type}/{element_id}
   defaults: { _controller: MuzichCoreBundle:Element:getOneDom, element_id: null }
+
+element_get_stream_data:
+  pattern: /ajax/element/data/get/stream/{element_id}
+  defaults: { _controller: MuzichCoreBundle:Element:geJamendotStreamDatas, element_id: null }

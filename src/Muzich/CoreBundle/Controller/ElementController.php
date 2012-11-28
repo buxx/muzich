@@ -1130,4 +1130,28 @@ class ElementController extends Controller
     ));
   }
   
+  
+  
+  public function geJamendotStreamDatasAction(Request $request, $element_id)
+  {
+    if (($response = $this->mustBeConnected(true)))
+    {
+      return $response;
+    }
+    
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)))
+    {
+      throw $this->createNotFoundException('Not found');
+    }
+        
+    $manager = new ElementManager($element, $this->getEntityManager(), $this->container);
+    $stream_data = $manager->getFactory()->getStreamData();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'data'   => $stream_data,
+    ));
+  }
+  
 }

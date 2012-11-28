@@ -142,7 +142,7 @@ class ElementManager
     
   }
   
-  protected function getFactory()
+  public function getFactory()
   { 
 //    $factory_name = ucfirst(str_replace('.', '', $this->element->getType())).'Factory';
 //    return new $factory_name($this->element, $this->container);

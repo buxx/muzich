@@ -22,6 +22,17 @@ $(document).ready(function(){
   var autoplay_last_element_id = null;
   // Pour savoir si on est en bout de ligne
   var autoplay_no_more = false;
+  // Pour savoir si le lecteur générique a déjà été lancé
+  var autoplay_generic_player_launched = false;
+  // contient l'objet playlist du lecteur générique
+  var autoplay_generic_player_playlist = null;
+  // contient le nombre de tracks dans la playlist du lecteur générique
+  var autoplay_generic_player_playlist_count = 0;
+  // Index dernière piste lu par lecteur générique
+  var autoplay_generic_player_index_track_previous = 0;
+  // pour notre hack: les données previous track, current track sont
+  // interprété différemment lorsque on est a notre 2ème lecture ...
+  var autoplay_generic_player_first_launch = null;
   
   // En cas de click sur un bouton de lecture
   $('a#autoplay_launch').click(function(){
@@ -38,29 +49,56 @@ $(document).ready(function(){
       
       if (response.status == 'success')
       {
+        
+        // hack
+          autoplay_generic_player_playlist = new jPlayerPlaylist({
+            jPlayer: "#jquery_jplayer_1",
+            cssSelectorAncestor: "#jp_container_1"
+          },
+          []
+          , {
+             playlistOptions: {
+              autoPlay: true,
+              enableRemoveControls: true
+            },
+            swfPath: "/jplayer/js",
+            supplied: "mp3",
+            wmode: "window"
+          });
+        
         // On récupère la liste d'élèments
         autoplay_list = response.data;
+        // On renseigne l'id de l'élèment en cours de demande de lecture
         autoplay_last_element_id = autoplay_list[0].element_id;
+        // On par sur l'index premier de la liste de lecture
         autoplay_step = 0;
-        autoplay_run(0);
+        // On lance la lecture auo
+        autoplay_run(autoplay_step, false);
       }
       
     });
     return false;
   });
   
-  function autoplay_load_element(element_id, timeouted)
+  /**
+   * Cette fonction est chargé de récupérer le bloc élent avec le nom, la note etc ...
+   * @param {int} element_id
+   * @param {boolean} timed
+   */
+  function autoplay_load_element(element_id, timed)
   {
-    // On vérifie ici que c'est le dernier élement demandé, ca evite de multiples
-    // requetes en cas de brute click sur les flèches.
-    if (!timeouted)
+    // Si on a pas retardé cette demande
+    if (!timed)
     {
+      // Alors il faut que l'on attende un peu, au cas ou il y avait plein de clics simultanés
       $('#autoplay_element_loader').show();
       $('li#autoplay_element_container').html('');
-      setTimeout(autoplay_load_element, 1000, element_id, true);
+      // On relance le bousin dans x millisecondes
+      setTimeout(autoplay_load_element, 500, element_id, true);
     }
     else
     {
+      // On ne lance la procédure que si il n'y as pas eu de nouvelle demande depuis
       if (autoplay_last_element_id == element_id)
       {
         $.getJSON(url_element_dom_get_one_autoplay+'/'+element_id, function(response) {
@@ -91,50 +129,76 @@ $(document).ready(function(){
     }
   }
   
-  // Lancement de l'élèment suivant
-  function autoplay_run(step)
+  /**
+   * Lancement d'une lecture d'élément
+   * @param {int} step
+   * @param {boolean} timed
+   */
+  function autoplay_run(step, timed)
   {
-    // En premier lieu on réinitialise le lecteur en détruisant le dom qui a
-    // pu être créé par la lecture précedente.
-    autoplay_clean_for_player_creation();
     
-    // Pause des lecteurs potentiels
-    autoplay_pause_all_players();
-    
-    if (autoplay_list.length)
+    if (!timed)
+    {     
+      // En premier lieu on réinitialise le lecteur en détruisant le dom qui a
+      // pu être créé par la lecture précedente.
+      autoplay_clean_for_player_creation();
+      
+      // Pause des lecteurs potentiels
+      autoplay_pause_all_players();
+      
+      // On la relance au cas ou il y a eu de multiples clicks
+      setTimeout(autoplay_run, 500, step, true);
+    }
+    else if (autoplay_last_element_id == autoplay_list[step].element_id)
     {
-    
-      if (array_key_exists(step, autoplay_list))
+      
+      if (autoplay_list.length)
       {
-        
-        // Youtube case
-        if (autoplay_list[step].element_type == 'youtube.com' || autoplay_list[step].element_type == 'youtu.be')
+      
+        if (array_key_exists(step, autoplay_list))
         {
-          autoplay_load_element(autoplay_list[step].element_id, false);
-          youtube_create_player(autoplay_list[step].element_ref_id);
+          // Youtube case
+          if (autoplay_list[step].element_type == 'youtube.com' || autoplay_list[step].element_type == 'youtu.be')
+          {
+            autoplay_load_element(autoplay_list[step].element_id, false);
+            youtube_create_player(autoplay_list[step].element_ref_id);
+          }
+  
+          if (autoplay_list[step].element_type == 'soundcloud.com')
+          {
+            autoplay_load_element(autoplay_list[step].element_id, false);
+            soundcloud_create_player(autoplay_list[step].element_ref_id, autoplay_list[step].element_normalized_url);
+          }
+  
+          if (autoplay_list[step].element_type == 'jamendo.com')
+          {
+            autoplay_load_element(autoplay_list[step].element_id, false);
+            jamendo_create_player(autoplay_list[step].element_id);
+          }
+          
         }
-
-        if (autoplay_list[step].element_type == 'soundcloud.com')
-        {
-          autoplay_load_element(autoplay_list[step].element_id, false);
-          soundcloud_create_player(autoplay_list[step].element_ref_id, autoplay_list[step].element_normalized_url);
-        }
-        
+      
+      }
+      else
+      {
+        autoplay_display_nomore();
       }
     
     }
-    else
-    {
-      autoplay_display_nomore();
-    }
   }
   
+  /**
+   * Nettoyage du lecteur autoplay pour l'ouverture d'un nouvel élément
+   *
+   */
   function autoplay_clean_for_player_creation(clean_element)
   {
     autoplay_pause_all_players();
     
     $('div#'+autoplay_player_div_id+'_container').html('<div id="'+autoplay_player_div_id+'"></div>');
     $('#autoplay_noelements_text').hide();
+    $('div#autoplay_player_generic').hide();
+    
     if (clean_element)
     {
       $('li#autoplay_element_container').html('');
@@ -142,11 +206,20 @@ $(document).ready(function(){
     $('img#autoplay_loader').show();
   }
   
+  /**
+   * Fonction qui regroupe les méthode de mise en pause de tout les lecteurs
+   *
+   */
   function autoplay_pause_all_players()
   {
+    // Pas youtube car on détruit son lecteur
     soundcloud_stop_player();
+    jamendo_stop_player();
   }
   
+  /**
+   * Affichage du message indiquant qu'il n'y a plus rien a lire
+   */
   function autoplay_display_nomore()
   {
     autoplay_no_more = true;
@@ -161,7 +234,7 @@ $(document).ready(function(){
     }
   }
   
-  // Avancer d'un élelement dans la liste
+  // Avancer d'un éleement dans la liste
   function autoplay_next()
   {
     autoplay_no_more = false;
@@ -169,7 +242,7 @@ $(document).ready(function(){
     if (array_key_exists(autoplay_step, autoplay_list))
     {
       autoplay_last_element_id = autoplay_list[autoplay_step].element_id;
-      autoplay_run(autoplay_step);
+      autoplay_run(autoplay_step, false);
     }
     else
     {
@@ -186,7 +259,7 @@ $(document).ready(function(){
     if (array_key_exists(autoplay_step, autoplay_list))
     {
       autoplay_last_element_id = autoplay_list[autoplay_step].element_id;
-      autoplay_run(autoplay_step);
+      autoplay_run(autoplay_step, false);
     }
     else
     {
@@ -209,6 +282,8 @@ $(document).ready(function(){
     $('div#'+autoplay_player_div_id+'_container').html('<div id="'+autoplay_player_div_id+'"></div>');
     // Plus rien de dois être lu
     autoplay_pause_all_players();
+    // TODO: Pour le moment c'est surtout pour détruire la variable du lecteur générique
+    autoplay_clean_for_player_creation();
   });
    
   
@@ -281,6 +356,7 @@ $(document).ready(function(){
   
   /*
    * 
+   *
    * 
    * Fonctions soundcloud
    * 
@@ -382,7 +458,6 @@ $(document).ready(function(){
         if (error) 
         { 
           // En cas d'erreur on passe a al suivante
-          console.log('Not found!');
           autoplay_next(); 
         }
         else
@@ -407,6 +482,165 @@ $(document).ready(function(){
       autoplay_player_soundcloud.pause();
     }
     $('div#autoplay_player_soundcloud').hide();
+  }
+  
+  /*
+   * 
+   *
+   * 
+   * Jamendo.com (utilise le lecteur générique)
+   * 
+   * 
+   */
+  
+  function jamendo_create_player(element_id)
+  {
+    autoplay_generic_player_load(element_id);
+  }
+  
+  function jamendo_stop_player()
+  {
+    autoplay_generic_player_stop();
+  }
+  
+  
+  /*
+   * 
+   * 
+   * Lecteur générique
+   * 
+   */
+  
+   /**
+   * Objet son
+   * @param {string} title Nom du morceau qui sera affiché dans la liste de lecture
+   * @param {string} mp3 adresse du flux sonore
+   */
+  function GenericSong(title, mp3)
+  {
+    this.title = title;
+    this.mp3   = mp3;
+  }
+  
+  /**
+   * Fonction de lecture d'un élèment avec le lecteur générique
+   *
+   * @param {int} element_id identifiant internet de l'élément
+   */
+  function autoplay_generic_player_load(element_id)
+  {
+    // On doit récupérer les informations pour la lecture streaming
+    $.getJSON(url_element_get_stream_data+'/'+element_id, function(response) {
+          
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+
+      if (response.status == 'success')
+      {
+        if (response.data)
+        {
+          
+          // Pour stocker localement les données de notre base
+          var autoplay_generic_playlist_data = new Array;
+          
+          for(var i = 0; i < response.data.length; i++)
+          {
+            // On construit un objet son pour constituer une bibliothèque (autoplay_generic_playlist_data)
+            var song = new GenericSong(response.data[i].name, response.data[i].url);
+            autoplay_generic_playlist_data[i] = song;
+          }
+          
+          // On garde en mémoire le nombre de piste que l'on à, ca nous sera utlie pour
+          // savoir si on est en fin de lecture par exemple
+          autoplay_generic_player_playlist_count = autoplay_generic_playlist_data.length;
+          
+          $('div#autoplay_player_generic').show();
+          
+          // On a besoin de savoir si c'est la première fois que l'on charge ce lecteur
+          if (autoplay_generic_player_first_launch === null)
+          {
+            autoplay_generic_player_first_launch = true;
+          }
+          else if (autoplay_generic_player_first_launch === true)
+          {
+            autoplay_generic_player_first_launch = false;
+          }
+          
+          // On construit l'objet de jPlayerv avec une playlist
+          autoplay_generic_player_playlist = new jPlayerPlaylist({
+            jPlayer: "#jquery_jplayer_1",
+            cssSelectorAncestor: "#jp_container_1"
+          },
+          // On stransmet la plsylist a cette position
+          autoplay_generic_playlist_data
+          , {
+             playlistOptions: {
+              autoPlay: true,
+              enableRemoveControls: true
+            },
+            swfPath: "/jplayer/js",
+            supplied: "mp3",
+            wmode: "window"
+          });
+          
+          // On ne bind qu'un seule fois les functions
+          if (autoplay_generic_player_launched == false)
+          {
+            
+            // On garde en mémoire la piste lu en ce moment
+            $("#jquery_jplayer_1").bind($.jPlayer.event.play, function(event) { 
+              autoplay_generic_player_index_track_previous = autoplay_generic_player_playlist.current;
+              $('img#autoplay_loader').hide();
+            });
+            
+            $("#jquery_jplayer_1").bind($.jPlayer.event.ended, function(event) { 
+              
+              // Si la index_track_previous est la même maintenant que la piste
+              // est terminé, c'est que l'on est arrivé en fin de liste.
+              // Cependant, si c'est une liste avec une piste unique, on passe 
+              if (
+                  (
+                    // Si c'est la première fois il faut qu'après la lecture ce soit les mêmes index
+                    ( autoplay_generic_player_first_launch &&
+                      autoplay_generic_player_index_track_previous == autoplay_generic_player_playlist.current )
+                    ||
+                    // Si c'est pas la première fois, on obtient le current avant de passer a al suitante
+                    // du coup on peut regarder si on était a la dernière piste
+                    ( !autoplay_generic_player_first_launch &&
+                      autoplay_generic_player_playlist.current == autoplay_generic_player_playlist_count -1 )
+                  )
+                || autoplay_generic_player_playlist_count == 1
+              )
+              {
+                console.log('next...')
+                autoplay_next();
+              }
+              
+            });
+            
+            $("#jquery_jplayer_1").bind($.jPlayer.event.error, function(event)
+            {
+              autoplay_next();
+            });
+          
+          }
+          
+          autoplay_generic_player_launched = true;
+        }
+        else
+        {
+          autoplay_next(); 
+        }
+      }
+
+    });
+  }
+  
+  function autoplay_generic_player_stop()
+  {
+    $("#jquery_jplayer_1").jPlayer("destroy");
   }
   
 });

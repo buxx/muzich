@@ -13,13 +13,7 @@ use Muzich\CoreBundle\Entity\Element;
 class Jamendocom extends ElementFactory
 {
   
-  /**
-   *  ALBUM = http://www.jamendo.com/fr/album/30661
-   *  TRACK = http://www.jamendo.com/fr/track/207079
-   * 
-   * API: http://developer.jamendo.com/fr/wiki/Musiclist2ApiFields
-   */
-  public function retrieveDatas()
+  protected function proceedTypeAndId()
   {
     $url_clean = $this->getCleanedUrl();
         
@@ -56,6 +50,67 @@ class Jamendocom extends ElementFactory
     
     $this->element->setData(Element::DATA_TYPE  , $type);
     $this->element->setData(Element::DATA_REF_ID, $ref_id);
+  }
+  
+  public function getStreamData()
+  {
+    // On determine le type et l'url
+    $this->proceedTypeAndId();
+    
+    $type = $this->element->getData(Element::DATA_TYPE);
+    $ref_id = $this->element->getData(Element::DATA_REF_ID);
+    
+    // Récupération de données avec l'API
+    $api_url = null;
+    switch ($type)
+    {
+      case 'track':
+        $api_url = "http://api.jamendo.com/get2/name+stream/track/json/?track_id=".$ref_id;
+      break;
+    
+      case 'album':
+        $api_url = "http://api.jamendo.com/get2/name+stream/track/json/?album_id=".$ref_id;
+      break;
+    }
+    
+    if ($api_url)
+    {
+      $ch = curl_init($api_url);
+      $options = array(
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => array('Content-type: text/plain')
+      );
+      curl_setopt_array( $ch, $options );
+      $result = json_decode(curl_exec($ch), true);
+      
+      if (count($result))
+      {
+        $data_return = array();
+        foreach ($result as $song)
+        {
+          $data_return[] = array(
+            'name' => $song['name'],
+            'url'  => $song['stream'],
+          );
+        }
+        return $data_return;
+      }
+    }
+  }
+  
+  /**
+   *  ALBUM = http://www.jamendo.com/fr/album/30661
+   *  TRACK = http://www.jamendo.com/fr/track/207079
+   * 
+   * API: http://developer.jamendo.com/fr/wiki/Musiclist2ApiFields
+   */
+  public function retrieveDatas()
+  {
+    // On determine le type et l'url
+    $this->proceedTypeAndId();
+    
+    $type = $this->element->getData(Element::DATA_TYPE);
+    $ref_id = $this->element->getData(Element::DATA_REF_ID);
     
     // Récupération de données avec l'API
     $api_url = null;
