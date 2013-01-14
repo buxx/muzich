@@ -235,7 +235,26 @@ function remove_tags(form_name)
   
 }
 
-$(document).ready(function(){
+function JQueryJson(url, data, callback_success)
+{
+  $.ajax({
+    type: 'POST',
+    url: url,
+    dataType: 'json',
+    data: data,
+    success: function(response)
+    {
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      callback_success(response);
+    }
+  });
+}
+
+$(document).ready(function(){  
     
   // Controle du focus sur la page
   function onBlur() {

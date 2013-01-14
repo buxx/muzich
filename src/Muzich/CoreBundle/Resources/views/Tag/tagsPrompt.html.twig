@@ -11,8 +11,14 @@
     {% endif %}
   {% endif %}
   
+  <input
+    class="tag_prompt"
+    value=""
+    placeholder="{{ 'tags.inputtext.help'|trans({}, 'userui') }}"
+  />
+   
    <input class="tags_prompt_list" name="tags" value="" /> 
-   <input id="tags_selected_tag_{{ form_name }}" type="hidden" value="" />
+   <input class="tag_prompt_selected_ids" id="tags_selected_tag_{{ form_name }}" type="hidden" value="" />
    
    <div id="search_tag_{{ form_name }}" class="search_tag_list" style="display: none;">
      <span class="info"></span>
@@ -51,5 +57,6 @@
   
   // On détruit la variable taginit
   delete taginit;
+    
     
 </script>
