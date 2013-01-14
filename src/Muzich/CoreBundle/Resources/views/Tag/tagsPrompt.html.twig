@@ -16,47 +16,46 @@
     value=""
     placeholder="{{ 'tags.inputtext.help'|trans({}, 'userui') }}"
   />
+  <img id="tag_prompt_loader_{{ form_name }}" class="tag_loader" style="display: none;"
+    src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
    
-   <input class="tags_prompt_list" name="tags" value="" /> 
-   <input class="tag_prompt_selected_ids" id="tags_selected_tag_{{ form_name }}" type="hidden" value="" />
-   
-   <div id="search_tag_{{ form_name }}" class="search_tag_list" style="display: none;">
-     <span class="info"></span>
-     <div class="tag_loader_div">
-       <img id="tag_loader_{{ form_name }}" class="tag_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
-     </div>
-     <ul class="search_tag_list"></ul>
-     <a class="more button" href="#" style="display: none;">
-       {{ 'tags.search.display_more'|trans({}, 'userui') }}
-     </a>
-   </div>
+  <div id="search_tag_{{ form_name }}" class="search_tag_list" style="display: none;">
+    <span class="info"></span>
+    <div class="tag_loader_div">
+      <img id="tag_loader_{{ form_name }}" class="tag_loader" style="display: none;"
+        src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
+    </div>
+    <ul class="search_tag_list"></ul>
+    <a class="more button" href="#" style="display: none;">
+      {{ 'tags.search.display_more'|trans({}, 'userui') }}
+    </a>
+  </div>
+  
+  <ul class="tagbox"></ul>
+  
 </div>
 
 <script language="javascript" type="text/javascript">
-  
-  var taginit = new Array();
-  {% if search_tags is defined %}
-    {% for tid, tname in search_tags %}
-      taginit[{{ loop.index0 }}] = {"id":"{{ tid }}", "name":"{{ tname }}"};
-    {% endfor %}
-  {% endif %}
-  
-  var options = new Array();
-  options.form_name  = "{{ form_name }}";
-  options.tag_init   = taginit;
-  
-  // tags_prompt_list_
-  $("div#tags_prompt_{{ form_name }} input.tags_prompt_list").tagBox(options);
-  
-  // text help en cas de rafraichissement de la page (nav. comme firefox 
-  // garde la valeur de l'input)
   $(document).ready(function(){
-    $('div#tags_prompt_{{ form_name }} ul.tagbox li.input input[type="text"]')
-      .attr('placeholder', "{{ 'tags.inputtext.help'|trans({}, 'userui') }}");
-  });
+    
+    $('form[name="{{ form_name }}"] input.tag_prompt').val('');
+    
+    window.{{ form_name }}_tag_prompt_connector = new TagPromptConnector(
+      $('form[name="{{ form_name }}"] input.tag_prompt'),
+      $('form[name="{{ form_name }}"] input.tagBox_tags_ids'),
+      $('form[name="{{ form_name }}"] div.search_tag_list'),
+      $('form[name="{{ form_name }}"] ul.tagbox'),
+      $('#tag_prompt_loader_{{ form_name }}')
+    );
+    
+    var {{ form_name }}_taginit = new Array();
+    {% if search_tags is defined %}
+      {% for tid, tname in search_tags %}
+        {{ form_name }}_taginit[{{ loop.index0 }}] = {"id":"{{ tid }}", "name":"{{ tname }}"};
+      {% endfor %}
+    {% endif %}
+    
+    window.{{ form_name }}_tag_prompt_connector.initializeTags({{ form_name }}_taginit);
   
-  // On détruit la variable taginit
-  delete taginit;
-    
-    
+  });
 </script>
