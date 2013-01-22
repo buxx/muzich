@@ -1,87 +1,81 @@
 
-<div id="events_container">
-<div id="events_container_contained">
-<div id="events">
-    
-  <div class="score">
-    <img title="{{ 'reputation.bar.title'|trans({}, 'users') }}"
-      src="{{ asset('bundles/muzichcore/img/1332286466_stock_scores.png') }}" alt="score" />
-    <span>{{ app.user.reputation }}</span>
+<div class="user_score">
+  <div class="user_avatar">
+    <img src="{{ asset('/img/avatar_test.png') }}" />
   </div>
-
-  <div class="comments">
-
-      {% if events[event_const('TYPE_COMMENT_ADDED_ELEMENT')] is defined %}
-        <a 
-          href="{{ path('event_view_elements', {'event_id':events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].id}) }}" 
-          title="{%if events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count == 1 %}{{ 'events.new_comments.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_comments.yes'|trans({'%count%':events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count}, 'users') }}{% endif %}"
-          class="view_elements_event"
-        >
-          <img src="{{ asset('bundles/muzichcore/img/1332286007_comments_reply.png') }}" alt="comments" />
-          <span class="new_comments">{{ events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count }}</span>
-        </a>
-      {% else %}
-        <img title="{{ 'events.new_comments.no'|trans({}, 'users') }}" src="{{ asset('bundles/muzichcore/img/1332286007_comments_reply.png') }}" alt="comments" />
-        <span class="new_comments">0</span>
-      {% endif %}
-
+  <div class="score blackgradiant">
+    {{ app.user.reputation }}
   </div>
-
-  <div class="favorites">
-
-      {% if events[event_const('TYPE_FAV_ADDED_ELEMENT')] is defined %}
-        <a 
-          href="{{ path('event_view_elements', {'event_id':events[event_const('TYPE_FAV_ADDED_ELEMENT')].id}) }}" 
-          title="{%if events[event_const('TYPE_FAV_ADDED_ELEMENT')].count == 1 %}{{ 'events.new_favoriteds.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_favoriteds.yes'|trans({'%count%':events[event_const('TYPE_FAV_ADDED_ELEMENT')].count}, 'users') }}{% endif %}"
-          class="view_elements_event"
-        >
-          <img src="{{ asset('bundles/muzichcore/img/favorite.png') }}" alt="favoriteds" />
-          <span class="new_comments">{{ events[event_const('TYPE_FAV_ADDED_ELEMENT')].count }}</span>
-        </a>
-      {% else %}
-        <img title="{{ 'events.new_favoriteds.no'|trans({}, 'users') }}" src="{{ asset('bundles/muzichcore/img/favorite_bw.png') }}" alt="favoriteds" />
-        <span class="new_comments">0</span>
-      {% endif %}
-
-  </div>
-
-  <div class="follows">
-
-      {% if events[event_const('TYPE_USER_FOLLOW')] is defined %}
-        <a 
-          href="{{ path('mynetwork_index', {'event_id':events[event_const('TYPE_USER_FOLLOW')].id}) }}" 
-          title="{%if events[event_const('TYPE_USER_FOLLOW')].count == 1 %}{{ 'events.new_follows.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_follows.yes'|trans({'%count%':events[event_const('TYPE_USER_FOLLOW')].count}, 'users') }}{% endif %}"
-          class="view_follows_event"
-        >
-          <img src="{{ asset('bundles/muzichcore/img/1333474994_people.png') }}" alt="favoriteds" />
-          <span class="new_follows">{{ events[event_const('TYPE_USER_FOLLOW')].count }}</span>
-        </a>
-      {% else %}
-        <img title="{{ 'events.new_follows.no'|trans({}, 'users') }}" src="{{ asset('bundles/muzichcore/img/1333474994_people.png') }}" alt="favoriteds" />
-        <span class="new_follows">0</span>
-      {% endif %}
-
-  </div>
-
-  <div class="tags">
-
-      {% if events[event_const('TYPE_TAGS_PROPOSED')] is defined %}
-        <a 
-          href="{{ path('event_view_elements', {'event_id':events[event_const('TYPE_TAGS_PROPOSED')].id}) }}" 
-          title="{%if events[event_const('TYPE_TAGS_PROPOSED')].count == 1 %}{{ 'events.new_tags.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_tags.yes'|trans({'%count%':events[event_const('TYPE_TAGS_PROPOSED')].count}, 'users') }}{% endif %}"
-          class="view_follows_event"
-        >
-          <img src="{{ asset('bundles/muzichcore/img/1333484018_rss-tag.png') }}" alt="tags" />
-          <span class="new_follows">{{ events[event_const('TYPE_TAGS_PROPOSED')].count }}</span>
-        </a>
-      {% else %}
-        <img title="{{ 'events.new_tags.no'|trans({}, 'users') }}" src="{{ asset('bundles/muzichcore/img/1333484018_rss-tag.png') }}" alt="tags" />
-        <span class="new_follows">0</span>
-      {% endif %}
-
-  </div>
-
-
 </div>
-</div>
-</div>
+
+<ul class="user_events_infos">
+
+  <li class="user_name">
+    {{ app.user.name }}
+  </li>
+
+  <li class="user_messages">
+    {% if events[event_const('TYPE_COMMENT_ADDED_ELEMENT')] is defined %}
+      <a 
+        href="{{ path('event_view_elements', {'event_id':events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].id}) }}" 
+        title="{%if events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count == 1 %}{{ 'events.new_comments.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_comments.yes'|trans({'%count%':events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count}, 'users') }}{% endif %}"
+        class="view_elements_event"
+      >
+        <img src="{{ asset('/img/icon_messages.png') }}" alt="comments" />
+        <span class="new_comments">{{ events[event_const('TYPE_COMMENT_ADDED_ELEMENT')].count }}</span>
+      </a>
+    {% else %}
+      <img title="{{ 'events.new_comments.no'|trans({}, 'users') }}" src="{{ asset('/img/icon_messages.png') }}" alt="comments" />
+      <span class="new_comments">0</span>
+    {% endif %}
+  </li>
+
+  <li class="user_starreds">
+    {% if events[event_const('TYPE_FAV_ADDED_ELEMENT')] is defined %}
+      <a 
+        href="{{ path('event_view_elements', {'event_id':events[event_const('TYPE_FAV_ADDED_ELEMENT')].id}) }}" 
+        title="{%if events[event_const('TYPE_FAV_ADDED_ELEMENT')].count == 1 %}{{ 'events.new_favoriteds.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_favoriteds.yes'|trans({'%count%':events[event_const('TYPE_FAV_ADDED_ELEMENT')].count}, 'users') }}{% endif %}"
+        class="view_elements_event"
+      >
+        <img src="{{ asset('/img/icon_star.png') }}" alt="favoriteds" />
+        <span class="new_comments">{{ events[event_const('TYPE_FAV_ADDED_ELEMENT')].count }}</span>
+      </a>
+    {% else %}
+      <img title="{{ 'events.new_favoriteds.no'|trans({}, 'users') }}" src="{{ asset('/img/icon_star.png') }}" alt="favoriteds" />
+      <span class="new_comments">0</span>
+    {% endif %}
+  </li>
+
+  <li class="user_friends">
+    {% if events[event_const('TYPE_USER_FOLLOW')] is defined %}
+      <a 
+        href="{{ path('mynetwork_index', {'event_id':events[event_const('TYPE_USER_FOLLOW')].id}) }}" 
+        title="{%if events[event_const('TYPE_USER_FOLLOW')].count == 1 %}{{ 'events.new_follows.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_follows.yes'|trans({'%count%':events[event_const('TYPE_USER_FOLLOW')].count}, 'users') }}{% endif %}"
+        class="view_follows_event"
+      >
+        <img src="{{ asset('/img/icon_friends.png') }}" alt="favoriteds" />
+        <span class="new_follows">{{ events[event_const('TYPE_USER_FOLLOW')].count }}</span>
+      </a>
+    {% else %}
+      <img title="{{ 'events.new_follows.no'|trans({}, 'users') }}" src="{{ asset('/img/icon_friends.png') }}" alt="favoriteds" />
+      <span class="new_follows">0</span>
+    {% endif %}
+  </li>
+
+  <li class="user_tagprops">
+    {% if events[event_const('TYPE_TAGS_PROPOSED')] is defined %}
+      <a 
+        href="{{ path('event_view_elements', {'event_id':events[event_const('TYPE_TAGS_PROPOSED')].id}) }}" 
+        title="{%if events[event_const('TYPE_TAGS_PROPOSED')].count == 1 %}{{ 'events.new_tags.one'|trans({'%count%':1}, 'users') }}{% else %}{{ 'events.new_tags.yes'|trans({'%count%':events[event_const('TYPE_TAGS_PROPOSED')].count}, 'users') }}{% endif %}"
+        class="view_follows_event"
+      >
+        <img src="{{ asset('/img/icon_tag.png') }}" alt="tags" />
+        <span class="new_follows">{{ events[event_const('TYPE_TAGS_PROPOSED')].count }}</span>
+      </a>
+    {% else %}
+      <img title="{{ 'events.new_tags.no'|trans({}, 'users') }}" src="{{ asset('/img/icon_tag.png') }}" alt="tags" />
+      <span class="new_follows">0</span>
+    {% endif %}
+  </li>
+
+</ul>

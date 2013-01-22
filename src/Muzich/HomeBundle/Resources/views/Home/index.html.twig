@@ -4,27 +4,23 @@
 
 {% block content %}
 
-  {#
-  <div id="element_add_box" style="display: none;">
-    
-    <a href="#" id="element_add_close_link" class="button">
-      &lt;&lt; {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
-    </a>
-    
-    <form novalidate name="{{ add_form_name }}" action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}>
+  <ul id="tabs_tag_search_buttons">
+    <li class="selected gradient">
+      <a id="tabs_tag_search_no_tags" href="#" >
+        {{ 'filter.clear'|trans({}, 'userui') }}
+      </a>
+      <div class="dart"></div>
+    </li>
+    <li class="gradient">
+      <a id="tabs_tag_search_with_tags" href="#" >
+        {{ 'filter.mytags'|trans({}, 'userui') }}
+      </a>
+      <div class="dart"></div>
+    </li>
+  </ul>
 
-      {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
-        'form'          : add_form, 
-        'form_name'     : add_form_name
-      } %}
-
-      <input type="submit" class="button" />
-      <img class="tag_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
-    </form>
-  </div>
-  #}
-
-
+  <input type="hidden" class="filter_clear_url" value="{{ path('filter_clear') }}" />
+  <input type="hidden" class="filter_mytags_url" value="{{ path('filter_mytags') }}" />
 
   <div id="element_add_box" style="display: none;">    
     
@@ -85,8 +81,7 @@
 
     {% include "MuzichCoreBundle:SearchElement:form.html.twig" with { 
       'form_name'               : search_form_name,
-      'search_tags'             : search_tags_id,
-      'display_specials_buttons': true
+      'search_tags'             : search_tags_id
     } %}
     
     <input class="main button" type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>

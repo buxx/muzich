@@ -489,7 +489,7 @@ class ElementController extends Controller
           ))
         ),
         'img' => array(
-          'src'  => $this->getAssetUrl('bundles/muzichcore/img/up_b.png')
+          'src'  => $this->getAssetUrl('/img/icon_thumb_red.png')
         ),
         'element' => array(
           'points' => $element->getPoints()
@@ -548,7 +548,7 @@ class ElementController extends Controller
           ))
         ),
         'img' => array(
-          'src'  => $this->getAssetUrl('bundles/muzichcore/img/up_bw.png')
+          'src'  => $this->getAssetUrl('/img/icon_thumb.png')
         ),
         'element' => array(
           'points' => $element->getPoints()

@@ -90,7 +90,7 @@ class FavoriteController extends Controller
             'id'    => $id,
             'token' => $token
         )),
-        'img_new_src'   => $this->getAssetUrl('bundles/muzichcore/img/favorite.png'),
+        'img_new_src'   => $this->getAssetUrl('img/icon_star_2_red.png'),
         'img_new_title' => $this->trans('element.favorite.remove', array(), 'elements')
       ));
     }
@@ -153,7 +153,7 @@ class FavoriteController extends Controller
             'id'    => $id,
             'token' => $token
         )),
-        'img_new_src'   => $this->getAssetUrl('bundles/muzichcore/img/favorite_bw.png'),
+        'img_new_src'   => $this->getAssetUrl('img/icon_star_2.png'),
         'img_new_title' => $this->trans('element.favorite.add', array(), 'elements')
       ));
     }

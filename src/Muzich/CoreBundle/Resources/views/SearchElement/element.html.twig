@@ -42,6 +42,42 @@
         </a>
       {% endif %}
       
+      <ul class="element_thumb_actions">
+        <li class="score">
+          {{ element.points }}
+        </li>
+          {% if element.owner.id != app.user.id %}
+            <li class="vote thumb">
+              {% if element.hasVoteGood(app.user.id) %}
+                <a class="vote" href="{{ path('ajax_element_remove_vote_good', {
+                  'element_id' : element.id,
+                  'token'      : app.user.getPersonalHash
+                }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
+                  <img src="{{ asset('img/icon_thumb_red.png') }}" alt="vote" />
+                </a>
+              {% else %}
+                <a class="vote" href="{{ path('ajax_element_add_vote_good', {
+                  'element_id' : element.id,
+                  'token'      : app.user.getPersonalHash
+                }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
+                  <img src="{{ asset('img/icon_thumb.png') }}" alt="vote" />
+                </a>
+              {% endif %}
+            </li>
+        {% endif %}
+        <li class="star">
+          {% if element.hasFavoriteUser(app.user.id) %}
+            <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash }) }}" >
+              <img id="favorite_{{ element.id }}_is" src="{{ asset('img/icon_star_2_red.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
+            </a>
+          {% else %}
+            <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': app.user.personalHash }) }}" >
+              <img id="favorite_{{ element.id }}_isnot" src="{{ asset('img/icon_star_2.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
+            </a>
+          {% endif %}
+        </li>
+      </ul>
+      
     </td>
     <td class="element_content">
       
@@ -57,62 +93,82 @@
         {% endif %}
       </span> 
       
-      <a title="{{ 'element.link'|trans({}, 'elements') }}" class="element_link" href="{{ element.url }}" target="_blank">
-        <img src="{{ asset('bundles/muzichcore/img/1324917097_link.png') }}" alt="link" />
-      </a>
-      
-      {% if app.user.id != element.owner.id %}
-      
-      {% if display_edit_actions %}
-      
-          <a title="{{ 'element.proposition_tags.link_title'|trans({}, 'userui') }}" 
-            class="element_propose_tags" 
-            href="{{ path('ajax_element_propose_tags_open', {'element_id' : element.id}) }}">
-            <img src="{{ asset('bundles/muzichcore/img/1333484018_rss-tag.png') }}" alt="tags_proposition" />
+      <ul class="element_links_actions" class="gradient">
+        <li class="element_link">
+          <a title="{{ 'element.link'|trans({}, 'elements') }}" class="element_link" href="{{ element.url }}" target="_blank">
+            <img src="{{ asset('/img/icon_link.png') }}" alt="link" />
           </a>
+        </li>
+        
+        {% if app.user.id != element.owner.id %}
+      
+          {% if display_edit_actions %}
+            <li class="element_propose_tags">
+              <a title="{{ 'element.proposition_tags.link_title'|trans({}, 'userui') }}" 
+                class="element_propose_tags" 
+                href="{{ path('ajax_element_propose_tags_open', {'element_id' : element.id}) }}">
+                <img src="{{ asset('bundles/muzichcore/img/1333484018_rss-tag.png') }}" alt="tags_proposition" />
+              </a>
+            </li>
 
-          <a title="{{ 'element.reshare.link_title'|trans({}, 'userui') }}" 
-            class="element_reshare" 
-            href="{{ path('ajax_reshare_element', {'element_id':element.id, 'token':app.user.getPersonalHash('reshare_'~element.id)}) }}">
-            <img src="{{ asset('bundles/muzichcore/img/1349338086_adept_update.png') }}" alt="re" />
-          </a>
+            <li class="element_reshare">
+              <a title="{{ 'element.reshare.link_title'|trans({}, 'userui') }}" 
+                class="element_reshare" 
+                href="{{ path('ajax_reshare_element', {'element_id':element.id, 'token':app.user.getPersonalHash('reshare_'~element.id)}) }}">
+                <img src="{{ asset('/img/icon_reload.png') }}" alt="re" />
+              </a>
+            </li>
+            
+            <li class="element_report">
+              <a title="{{ 'element.report.link_title'|trans({}, 'userui') }}" 
+                class="element_report" 
+                href="{{ path('ajax_report_element', {'element_id':element.id, 'token':app.user.getPersonalHash}) }}">
+                <img src="{{ asset('/img/icon_alert.png') }}" alt="report" />
+              </a>
+            </li>
 
-          <a title="{{ 'element.report.link_title'|trans({}, 'userui') }}" 
-            class="element_report" 
-            href="{{ path('ajax_report_element', {'element_id':element.id, 'token':app.user.getPersonalHash}) }}">
-            <img src="{{ asset('bundles/muzichcore/img/1331832708_comment_alert.png') }}" alt="report" />
-          </a>
-      
-      {% endif %}
-      
-      {% endif %}
-      
-      {% if app.user.id == element.owner.id %}
-      
-        {% if display_edit_actions %}
-      
-          {% if element.hasTagProposition %}
-            <a title="{{ 'element.view_propositions.link'|trans({}, 'elements') }}" class="element_view_propositions_link" 
-              href="{{ path('ajax_element_proposed_tags_view', {'element_id' : element.id})  }}"
-            >
-              <img src="{{ asset('bundles/muzichcore/img/1333493527_tag_add.png') }}" alt="tags proposition" />
-            </a>
           {% endif %}
 
-          <a title="{{ 'element.edit.link'|trans({}, 'elements') }}" class="element_edit_link" 
-            href="{{ path('element_edit', {'element_id' : element.id})  }}" style="display: none;"
-          >
-            <img src="{{ asset('bundles/muzichcore/img/1327151338_desktop.png') }}" alt="edit" />
-          </a>
-
-          <a title="{{ 'element.remove.link'|trans({}, 'elements') }}" class="element_remove_link" 
-            href="{{ path('element_remove', {'element_id' : element.id})  }}" style="display: none;"
-          >
-            <img src="{{ asset('bundles/muzichcore/img/1327168960_fileclose.png') }}" alt="delete" />
-          </a>
         {% endif %}
+
+        {% if app.user.id == element.owner.id %}
+
+          {% if display_edit_actions %}
+
+            {% if element.hasTagProposition %}
+              <li class="element_view_propositions_link">
+                <a title="{{ 'element.view_propositions.link'|trans({}, 'elements') }}" class="element_view_propositions_link" 
+                  href="{{ path('ajax_element_proposed_tags_view', {'element_id' : element.id})  }}"
+                >
+                  <img src="{{ asset('bundles/muzichcore/img/1333493527_tag_add.png') }}" alt="tags proposition" />
+                </a>
+              </li>
+            {% endif %}
+
+            <li class="element_edit_link">
+              <a title="{{ 'element.edit.link'|trans({}, 'elements') }}" class="element_edit_link" 
+                href="{{ path('element_edit', {'element_id' : element.id})  }}"
+              >
+                <img src="{{ asset('/img/icon_pen.png') }}" alt="edit" />
+              </a>
+            </li>
+
+            <li class="element_remove_link">
+              <a title="{{ 'element.remove.link'|trans({}, 'elements') }}" class="element_remove_link" 
+                href="{{ path('element_remove', {'element_id' : element.id})  }}"
+              >
+                <img src="{{ asset('/img/icon_close_2.png') }}" alt="delete" />
+              </a>
+            </li>
+          {% endif %}
+
+        {% endif %}
+        
+      </ul>
       
-      {% endif %}
+      
+      
+      
       
       <br />
       {% autoescape false %}
@@ -154,7 +210,7 @@
               {{ tag.name }}
             </a>
             {% if app.user.haveTagsFavorite(tag.id) %}
-              <img class="tag_to_favorites" src="{{ asset('/bundles/muzichcore/img/1331734087_emblem-favorite.png') }}" 
+              <img class="tag_to_favorites" src="{{ asset('/img/icon_heart.png') }}" 
                 alt="add-to-favorites"
                 title="{{ 'element.tag.isfav.title'|trans({'%tagname%':tag.name}, 'elements') }}"
               />
@@ -168,7 +224,7 @@
                 style="display: none;"
                 title="{{ 'element.tag.addtofav.title'|trans({}, 'elements') }}"   
               >
-                <img src="{{ asset('/bundles/muzichcore/img/1331734087_emblem-favorite.png') }}" alt="add-to-favorites"/>
+                <img class="tag_add_to_favorites"  src="{{ asset('/img/icon_heart.png') }}" alt="add-to-favorites"/>
               </a>
             {% endif %}
           </li>
@@ -207,50 +263,6 @@
       {% endif %}
       
       
-    </td>
-    <td class="right">
-      
-      <ul>
-        {% if element.owner.id != app.user.id %}
-          <li class="vote">
-            {% if element.hasVoteGood(app.user.id) %}
-              <a class="vote" href="{{ path('ajax_element_remove_vote_good', {
-                'element_id' : element.id,
-                'token'      : app.user.getPersonalHash
-              }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
-                <img src="{{ asset('/bundles/muzichcore/img/up_b.png') }}" alt="vote" />
-              </a>
-            {% else %}
-              <a class="vote" href="{{ path('ajax_element_add_vote_good', {
-                'element_id' : element.id,
-                'token'      : app.user.getPersonalHash
-              }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
-                <img src="{{ asset('/bundles/muzichcore/img/up_bw.png') }}" alt="vote" />
-              </a>
-            {% endif %}
-          </li>
-      {% endif %}
-      <li class="score">
-
-        <span class="score">
-          {{ element.points }}
-        </span>
-
-      </li>
-      <li>
-
-      {% if element.hasFavoriteUser(app.user.id) %}
-        <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash }) }}" >
-          <img id="favorite_{{ element.id }}_is" src="{{ asset('bundles/muzichcore/img/favorite.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
-        </a>
-      {% else %}
-        <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': app.user.personalHash }) }}" >
-          <img id="favorite_{{ element.id }}_isnot" src="{{ asset('bundles/muzichcore/img/favorite_bw.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
-        </a>
-      {% endif %}
-
-        </li>
-      </ul>
     </td>
   </tr>
 </table>

@@ -1,8 +1,8 @@
 
-body
+/*body
 {
   text-align: center;  
-}
+}*/
 
 
 #container
@@ -57,7 +57,7 @@ div.clearboth
   clear: both;
 }
 
-.button {
+/*.button {
 	display: inline-block;
 	line-height: 1;
 	padding: 4px 7px;
@@ -82,7 +82,7 @@ input.button, button.button {
 .button.active
 {
   background-color: #39C9CC;
-}
+}*/
 
 #container a, #autoplay a
 {
@@ -511,7 +511,7 @@ line-height:1.2;
 padding: 3px 0;
 font-size: 105%;
 }
-ul.tagbox a.close {
+/*ul.tagbox a.close {
 position: absolute;
 right: 4px; top: 5px;
 display: block;
@@ -522,23 +522,23 @@ font-size: 1px;
 background: url('/bundles/muzichcore/img/tag_close.gif');
 background-position: 0px 100%;
 margin-top: 2px;
-}
-ul.tagbox a.close:hover {
+}*/
+/*ul.tagbox a.close:hover {
 background-position: 7px;
-} 
+} */
 
 
 /* Fin CSS pour tags */
 
 /* Debut CSS pour elements */
 
-li.element
+/*li.element
 {
   list-style: none outside none;
   margin-top: 5px;
   margin-bottom: 10px;
   padding: 5px;
-}
+}*/
 
 /*li.element a.favorite_link
 {
@@ -563,26 +563,26 @@ li.element div.element_embed
   text-align: center;
 }
 
-li.element td.element_content
+/*li.element td.element_content
 {
   vertical-align: top;
   padding-left: 5px;
   width: 468px;
-}
+}*/
 
-li.element span.element_name
+/*li.element span.element_name
 {
   
-}
+}*/
 
-li.element td.element_thumbnail
+/*li.element td.element_thumbnail
 {
   background-image: url(/bundles/muzichcore/img/nothumb.png);
   background-repeat: no-repeat;
   width: 120px;
   height: 90px;
   vertical-align: top;
-}
+}*/
 
 li.element img.element_thumbnail
 {
@@ -606,12 +606,12 @@ ul.elements, ul#autoplay_element
   margin-left: 0px;
 }
 
-ul.elements li.even
+/*ul.elements li.even
 {
   background-color: #d9f7ff;
-}
+}*/
 
-.elements ul.element_tags
+/*.elements ul.element_tags
 {
   margin-top: 3px;
   margin-left: 0px;
@@ -627,7 +627,7 @@ ul.element_tags .button
 {
   padding: 2px 4px 2px 4px;
   font-size: 95%;
-}
+}*/
 
 
 /* FIN CSS pour elements */
@@ -727,10 +727,10 @@ div.tag_loader_div, div.loader
   marin-right: auto;
 }
 
-.element_name
+/*.element_name
 {
   font-weight: bold;
-}
+}*/
 
 div.no_elements
 {
@@ -1059,12 +1059,12 @@ li.comment span.datesince
 {
   color: #868686;
 }
-
+/*
 div.comments form.add_comment textarea, div.comments form.edit_comment textarea
 {
   width: 80%;
   height: 48px;
-}
+}*/
 
 div.comments form.add_comment div.buttons, div.comments form.edit_comment div.buttons
 {
@@ -1072,11 +1072,11 @@ div.comments form.add_comment div.buttons, div.comments form.edit_comment div.bu
   text-align: center;
 }
 
-div.comments form.add_comment div.buttons input, div.comments form.edit_comment div.buttons input
+/*div.comments form.add_comment div.buttons input, div.comments form.edit_comment div.buttons input
 {
   margin-top: 1px;
   margin-bottom: 1px;
-}
+}*/
 
 div.comments_loader
 {
@@ -1087,21 +1087,21 @@ div.comments_loader
 
 /* Ajouter tag d'élément a ses tags favoris */
 
-li.element a.tag_to_favorites, li.element img.tag_to_favorites
+/*li.element a.tag_to_favorites, li.element img.tag_to_favorites
 {
   margin-left: -15px;
   margin-right: 4px;
-}
+}*/
 
 li.element a.element_tag_large_for_fav
 {
   padding-right: 15px;
 }
 
-li.element a.element_tag_large_for_fav_still
+/*li.element a.element_tag_large_for_fav_still
 {
   padding-right: 15px;
-}
+}*/
 
 /* END Ajouter tag d'élément a ses tags favoris */
 
@@ -1182,13 +1182,13 @@ div#events_container_contained
   margin-right: auto;
 }
 
-div#events
+/*div#events
 {
   width: 62px;
   position: absolute;
   margin-top: 50px;
   margin-left: 650px;
-  _margin-left: 640px;/* pour >=ie6 */
+  _margin-left: 640px; pour >=ie6 
   background-color: white;
   padding: 4px;
   
@@ -1203,8 +1203,8 @@ div#events
   -webkit-box-shadow: 2px 2px 2px #666;
   -moz-box-shadow: 2px 2px 2px #666 ;
   box-shadow: 2px 2px 2px #666;
-}
-
+}*/
+/*
 div#events div.score img
 {
   margin-bottom: -5px;
@@ -1262,7 +1262,7 @@ div#events div.tags span
 {
   font-weight: bold;
   margin-left: 5px;
-}
+}*/
 
 /*
 * css mynetwork

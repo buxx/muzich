@@ -11,7 +11,7 @@ body {
   font-family: Arial, Helvetica, FreeSans, sans-serif; */
   /*font-size: .8em;*/ /* À adapter pour la police choisie. (3) */
   color: black;
-  background-color: #9AE4E8;
+  /*background-color: #9AE4E8;*/
   font: 13.34px helvetica,arial,freesans,clean,sans-serif;
   line-height: 1.4;
 }
@@ -56,7 +56,7 @@ a {
   text-decoration: underline;
 }
 a:link {
-  color: #11C;
+  /*color: #11C;*/
 }
 a:visited {
   color: #339;

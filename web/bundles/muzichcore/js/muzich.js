@@ -257,7 +257,7 @@ $(document).ready(function(){
   
   // Bouton de personalisation du filtre
   // Aucun tags
-  $('.tags_prompt input.clear, a.filter_clear_url').live("click", function(){
+  $('#tabs_tag_search_no_tags, a.filter_clear_url').live("click", function(){
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
     // On initialise la liste de tags déjà ajouté
@@ -268,14 +268,14 @@ $(document).ready(function(){
   });
   
   // tags préférés
-  $('.tags_prompt input.mytags').live("click", function(){
+  $('#tabs_tag_search_with_tags').live("click", function(){
     
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
     // On initialise la liste de tags déjà ajouté
     tagsAddeds['search'] = new Array;
     
-    var form = $(this).parents('form[name="search"]');
+    var form = $('form[name="search"]');
     
     $.getJSON(url_get_favorites_tags, function(response) {
       if (response.status == 'mustbeconnected')
@@ -419,13 +419,13 @@ $(document).ready(function(){
     var img = link.find('img');
     if (!link.hasClass('loading'))
     {
-      if (img.attr('src') == '/bundles/muzichcore/img/favorite_bw.png')
+      if (img.attr('src') == '/img/icon_star_2.png')
       {
-        img.attr('src', '/bundles/muzichcore/img/favorite.png');
+        img.attr('src', '/img/icon_star_2_red.png');
       }
       else
       {
-        img.attr('src', '/bundles/muzichcore/img/favorite_bw.png');
+        img.attr('src', '/img/icon_star_2.png');
       }
     }
     
@@ -446,28 +446,28 @@ $(document).ready(function(){
     return false;
   });
     
-  // Affichage du bouton Modifier et Supprimer
-  $('ul.elements li.element').live({
-    mouseenter:
-      function()
-      {
-        $(this).find('a.element_edit_link').show();
-        $(this).find('a.element_remove_link').show();
-      },
-    mouseleave:
-      function()
-      {
-        if (!$(this).find('a.element_edit_link').hasClass('mustBeDisplayed'))
-        {
-          $(this).find('a.element_edit_link').hide();
-        }
-        if (!$(this).find('a.element_remove_link').hasClass('mustBeDisplayed'))
-        {
-          $(this).find('a.element_remove_link').hide();
-        }
-      }
-    }
-  );
+//  // Affichage du bouton Modifier et Supprimer
+//  $('ul.elements li.element').live({
+//    mouseenter:
+//      function()
+//      {
+//        $(this).find('a.element_edit_link').show();
+//        $(this).find('a.element_remove_link').show();
+//      },
+//    mouseleave:
+//      function()
+//      {
+//        if (!$(this).find('a.element_edit_link').hasClass('mustBeDisplayed'))
+//        {
+//          $(this).find('a.element_edit_link').hide();
+//        }
+//        if (!$(this).find('a.element_remove_link').hasClass('mustBeDisplayed'))
+//        {
+//          $(this).find('a.element_remove_link').hide();
+//        }
+//      }
+//    }
+//  );
     
    // Plus d'éléments
    var last_id = null;
