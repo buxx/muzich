@@ -230,12 +230,31 @@ function explode (delimiter, string, limit) {
 function remove_tags(form_name)
 {
   //tagsAddeds[form_name] = new Array();
-  $('form[name="'+form_name+'"] ul.tagbox li.tag').remove();
-  $('form[name="'+form_name+'"] input.tagBox_tags_ids').val('');
+  //$('form[name="'+form_name+'"] ul.tagbox li.tag').remove();
+  //$('form[name="'+form_name+'"] input.tagBox_tags_ids').val('');
   
 }
 
-$(document).ready(function(){
+function JQueryJson(url, data, callback_success)
+{
+  $.ajax({
+    type: 'POST',
+    url: url,
+    dataType: 'json',
+    data: data,
+    success: function(response)
+    {
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      callback_success(response);
+    }
+  });
+}
+
+$(document).ready(function(){  
     
   // Controle du focus sur la page
   function onBlur() {
@@ -261,9 +280,11 @@ $(document).ready(function(){
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
     // On initialise la liste de tags déjà ajouté
-    tagsAddeds['search'] = new Array;
+    window.search_tag_prompt_connector.initializeTags([]);
+    $('div.no_elements').hide();
+    //tagsAddeds['search'] = new Array;
     var form = $('form[name="search"]');
-    remove_tags(form.attr('name'));
+    //remove_tags(form.attr('name'));
     form.submit();
   });
   
@@ -272,8 +293,6 @@ $(document).ready(function(){
     
     $('img.elements_more_loader').show();
     $('ul.elements').html('');
-    // On initialise la liste de tags déjà ajouté
-    tagsAddeds['search'] = new Array;
     
     var form = $('form[name="search"]');
     
@@ -283,22 +302,15 @@ $(document).ready(function(){
         $(location).attr('href', url_index);
       }
       
-      remove_tags(form.attr('name'));
-//      if (tags.length)
-//      {
-        var inputTag = $("div#tags_prompt_"+form.attr('name')+" input.form-default-value-processed");
+        var tags = [];
         for (i in response.tags)
         {
-          $('input#tags_selected_tag_'+form.attr('name')).val(i);
-          inputTag.val(response.tags[i]);
-                                        
-          // Et on execute l'évènement selectTag de l'input
-          inputTag.trigger("selectTag");
+          var tag = new Tag(i, response.tags[i]);
+          tags.push(tag);
         }
         
+        window.search_tag_prompt_connector.initializeTags(tags);
         form.submit();
-      //}
-      
     });
   });
   
@@ -306,9 +318,6 @@ $(document).ready(function(){
   $('ul.element_tags li a.element_tag').live('click', function(){
     // Si il y a une liste de tags (comme sur la page favoris, profil)
     var id;
-    
-    // On initialise la liste de tags déjà ajouté
-    tagsAddeds['search'] = new Array;
     
     if ($('ul#favorite_tags').length)
     {
@@ -321,13 +330,13 @@ $(document).ready(function(){
     {
       $('img.elements_more_loader').show();
       $('ul.elements').html('');
+      
       var form = $('form[name="search"]');
       id = str_replace('element_tag_', '', $(this).attr('id'));
-      remove_tags('search');
-      var inputTag = $("div#tags_prompt_search input.form-default-value-processed");
-      $('input#tags_selected_tag_search').val(id);
-      inputTag.val($(this).html());
-      inputTag.trigger("selectTag");
+      var tag = new Tag(id, $(this).text());
+      
+      window.search_tag_prompt_connector.initializeTags([tag]);
+      
       form.submit();
     }
   });
@@ -705,378 +714,378 @@ $(document).ready(function(){
   });
  
   ////////////////// TAG PROMPT ///////////////
- 
-  var ajax_query_timestamp = null;
- 
-  // Les deux clicks ci-dessous permettent de faire disparaitre
-  // la div de tags lorsque l'on clique ailleurs
-  $('html').click(function() {
-    if ($("div.search_tag_list").is(':visible'))
-    {
-      $("div.search_tag_list").hide();
-    }
-  });
-
-  $("div.search_tag_list, div.search_tag_list a.more").live('click', function(event){
-    event.stopPropagation();
-    $("div.search_tag_list").show();
-  });
-
-  function autocomplete_tag(input, form_name)
-  {
-    // Il doit y avoir au moin un caractère
-    if (input.val().length > 0) 
-    {
-
-      // on met en variable l'input
-      var inputTag = input;
-      
-      // On récupére la div de tags
-      var divtags = $("#search_tag_"+form_name);
-
-      // Si la fenêtre de tags est caché
-      if (!divtags.is(':visible'))
-      {
-        // On la replace
-        var position = input.position();
-        divtags.css('left', Math.round(position.left) + 5);
-        divtags.css('top', Math.round(position.top) + 28);
-        // Et on l'affiche
-        divtags.show();
-      }
-      // On affiche le loader
-      $('#tag_loader_'+form_name).show();
-      // On cache la liste de tags
-      var search_tag_list = divtags.find('ul.search_tag_list');
-      // On supprime les anciens li
-      search_tag_list.find('li').remove();
-      search_tag_list.hide();
-      // Et on affiche une info
-      var span_info = divtags.find('span.info');
-      span_info.show();
-      // TODO: multilingue !
-      span_info.text(str_replace('%string_search%', input.val(), string_search_tag_title));
-
-      // C'est en fonction du nb de resultats qu'il sera affiché
-      divtags.find('a.more').hide();
-
-      // On récupère le timestamp pour reconnaitre la dernière requête effectué
-      ajax_query_timestamp = new Date().getTime();
-      
-      // Récupération des tags correspondants
-      $.ajax({
-        type: 'POST',
-        url: url_search_tag+'/'+ajax_query_timestamp,
-        dataType: 'json',
-        data: {'string_search':input.val()},
-        success: function(data) {
-        if (data.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
-        
-        // Ce contrôle permet de ne pas continuer si une requete
-        // ajax a été faite depuis.
-        if (data.timestamp == ajax_query_timestamp)
-        {
-          var status = data.status;
-          var tags   = data.data;
-
-          // Si on spécifie une erreur
-          if (status == 'error')
-          {
-            // On l'affiche a l'utilisateur
-            span_info.text(data.error);
-          }
-          // Si c'est un succés
-          else if (status == 'success')
-          {
-            if (tags.length > 0)
-            {
-              var more = false;
-              // Pour chaque tags retournés
-              for (i in tags)
-              {
-                var tag_name = tags[i]['name'];
-                var tag_id = tags[i]['id'];
-                var t_string = tag_name
-                // On construit un li
-                
-                var r_string = $.trim(input.val());
-                var re = new RegExp(r_string, "i");
-                t_string = t_string.replace(re,"<strong>" + r_string + "</strong>");
-                
-                                
-                var li_tag = 
-                  $('<li>').append(
-                    $('<a>').attr('id','searched_tag_'+tag_id)
-                      .attr('href', '#')
-                    // qui réagit quand on clique dessus
-                    .click(function(e){
-                      
-                      var id = str_replace('searched_tag_', '', $(this).attr('id'));
-                      var name = $('span#tag_prompt_tag_'+id+'_name').html();
-                                            
-                      $('input#tags_selected_tag_'+form_name).val(id);
-                      inputTag.val(name);
-                      // Et on execute l'évènement selectTag de l'input
-                      inputTag.trigger("selectTag");
-                      // On cache la liste puisque le choix vient d'être fait
-                      divtags.hide();
-                      // On vide le champs de saisie du tag
-                      $('input.form-default-value-processed').val('');
-                      return false;
-                    })
-                    .append(t_string)
-                ).append($('<span style="display: none;" id="tag_prompt_tag_'+tag_id+'_name">'+tag_name+'</span>'));
-
-                // Si on depasse les 30 tags
-                if (i > 30)
-                {
-                  more = true;
-                  // On le cache
-                  li_tag.hide();
-                }
-
-                // On ajout ce li a la liste
-                search_tag_list.append(li_tag);
-              } 
-
-              if (more)
-              {
-                divtags.find('a.more').show();
-              }
-              
-              span_info.show();
-              span_info.text(data.message);
-              // Et on affiche la liste
-              search_tag_list.show();
-            }
-            else
-            {
-              span_info.show();
-              span_info.text(data.message);
-              search_tag_list.show();
-              
-              // Dans ce cas ou aucun tag n'a été trouvé, la proposition 
-              // d'ajout s'affichecf en dessous
-              
-              //span_info.text("Aucun tag de trouvé pour \""+inputTag.val()+"\"");
-            }
-            
-            // Si le tag ne semble pas connu en base
-            if (!data.same_found)
-            {
-              li_tag = 
-                $('<li>').addClass('new').append(
-                  $('<a>').attr('href','#new#'+$.trim(input.val()))
-                  // qui réagit quand on clique dessus
-                  .click({
-                    inputTag: inputTag,
-                    form_name: form_name,
-                    divtags: divtags
-                  }, event_click_new_tag_proposition)
-                  .append($.trim(input.val()))
-              );
-              search_tag_list.append(li_tag);
-            }
-            
-          }
-
-          // On cache le loader
-          $('#tag_loader_'+form_name).hide();
-        }
-      }
-      });
-      
-      
-      //$.getJSON(url_search_tag+'/'+input.val()+'/'+ajax_query_timestamp, );
-      
-    }
-  }
-  
-  function event_click_new_tag_proposition(event)
-  {
-    form_add_open_dialog_for_new_tag($(event.target), event.data.inputTag, event.data.form_name, event.data.divtags);
-  }
- 
-  function form_add_open_dialog_for_new_tag(link_add_tag, inputTag, form_name, divtags)
-  {       
-    
-    
-    // Effet fade-in du fond opaque
-    $('body').append($('<div>').attr('id', 'fade')); 
-    //Apparition du fond - .css({'filter' : 'alpha(opacity=80)'}) pour corriger les bogues de IE
-    $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn();
-    
-    // En premier lieux on fait apparaître la fenêtre de confirmation
-    var popup = $('<div>')
-    .attr('id', 'add_tag')
-    .addClass('popin_block')
-    .css('width', '400px')
-      //.append($('<h2>').append(string_tag_add_title))
-    .append($('<form>')
-      .attr('action', url_add_tag)
-      .attr('method', 'post')
-      .attr('name', 'add_tag')
-      .ajaxForm(function(response) {
-        /*
-        *
-        */
-
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
-
-        if (response.status == 'success')
-        {
-          var tag_id   = response.tag_id;
-          var tag_name = response.tag_name;
-
-          $('input#tags_selected_tag_'+form_name).val(tag_id);
-          inputTag.val(tag_name);
-          // Et on execute l'évènement selectTag de l'input
-          inputTag.trigger("selectTag");
-          // On cache la liste puisque le choix vient d'être fait
-          divtags.hide();
-
-          link_add_tag.parents('div.search_tag_list').find('img.tag_loader').hide();
-
-          $('#fade').fadeOut(400, function(){$('#fade').remove();});
-          $('#add_tag').remove();
-        }
-
-        if (response.status == 'error')
-        {
-          $('form[name="add_tag"]').find('ul.error_list').remove();
-          var ul_errors = $('<ul>').addClass('error_list');
-
-          for (i in response.errors)
-          {
-            ul_errors.append($('<li>').append(response.errors[i]));
-          }
-
-          $('form[name="add_tag"]').prepend(ul_errors);
-        }
-
-        return false;
-      })
-
-      .append($('<div>').addClass('tag')
-        .append($('<ul>')
-          .append($('<li>').addClass('button')
-            .append(link_add_tag.text()))))
-      .append($('<p>').append(string_tag_add_text))
-      .append($('<p>').append(string_tag_add_argument))
-      .append($('<textarea>').attr('name', 'argument'))
-      .append($('<div>').addClass('inputs')
-        .append($('<input>')
-          .attr('type', 'button')
-          .attr('value', string_tag_add_inputs_cancel)
-          .addClass('button')
-          .click(function(){
-            $('#fade').fadeOut(1000, function(){$('#fade').remove();});
-            $('#add_tag').remove();
-
-            return false;
-          })
-        )
-        .append($('<input>')
-          .attr('type', 'submit')
-          .attr('value', string_tag_add_inputs_submit)
-          .addClass('button')
-          .click(function(){
-
-            link_add_tag.parents('div.search_tag_list').find('img.tag_loader').show();
-
-          })
-        )
-        .append($('<input>').attr('type', 'hidden').attr('name', 'tag_name').val(link_add_tag.text()))
-      ))
-    ;
-
-    // Il faut ajouter le popup au dom avant de le positionner en css
-    // Sinon la valeur height n'est pas encore calculable
-    $('body').prepend(popup);
-
-    //Récupération du margin, qui permettra de centrer la fenêtre - on ajuste de 80px en conformité avec le CSS
-    var popMargTop = (popup.height() + 50) / 2;
-    var popMargLeft = (popup.width() + 50) / 2;
-
-    //On affecte le margin
-    $(popup).css({
-      'margin-top' : -popMargTop,
-      'margin-left' : -popMargLeft
-    });
-
-    return false;
-  }
- 
-  var last_keypress = 0;
-  
-  function check_timelaps_and_search(input, form_name, time_id, timed, info)
-  {
-    if (!timed)
-    {
-      // C'est une nouvelle touche (pas redirigé) on lui donne un id
-      // et on met a jour l'id de la dernière pressé
-      last_keypress = new Date().getTime(); 
-      var this_time_id = last_keypress;
-    }
-    else
-    {
-      // Si elle a été redirigé, on met son id dans cette variable
-      var this_time_id = time_id;
-    }
-    
-    // C'est une touche redirigé dans le temps qui a été suivit d'une autre touche
-    if (time_id != last_keypress && timed)
-    {
-      // elle disparait
-    }
-    else
-    {
-      //
-      if ((new Date().getTime() - last_keypress) < 600 || timed == false)
-      {
-        // Si elle vient d'être tapé (timed == false) elle doit attendre (au cas ou une autre touche soit tapé)
-        // Si c'est une redirigé qui n'a pas été remplacé par une nouvelle lettre
-        // elle doit attendre au cas ou soit pressé.
-        setTimeout(function(){check_timelaps_and_search(input, form_name, this_time_id, true, info)}, 700);
-      }
-      else
-      {
-        // il n'y a plus a attendre, on envoie la demande de tag.
-        autocomplete_tag(input, form_name);
-      }
-    }
-  }
-  
-  // Autocompletion de tags
-  $("div.tags_prompt ul.tagbox li.input input").live('keypress', function(e){
-    
-    var form_name = $(this).parents('form').attr('name');
-    var code = (e.keyCode ? e.keyCode : e.which);
-
-    if ((e.which !== 0 && e.charCode !== 0) || (code == 8 || code == 46))
-    {
-      check_timelaps_and_search($(this), form_name, new Date().getTime(), false, $(this).val());
-    }
-     
-  });
-  
-  // Un click sur ce lien affiche tout les tags cachés de la liste
-  $('div.search_tag_list a.more').live('click', function(){
-    jQuery.each( $(this).parent('div').find('ul.search_tag_list li') , function(){
-      $(this).show();
-    });
-    $(this).hide();
-    return false;
-  });
-  
-  $('ul.tagbox li.input input[type="text"]').formDefaults();
- 
+  //
+  //var ajax_query_timestamp = null;
+  //
+  //// Les deux clicks ci-dessous permettent de faire disparaitre
+  //// la div de tags lorsque l'on clique ailleurs
+  //$('html').click(function() {
+  //  if ($("div.search_tag_list").is(':visible'))
+  //  {
+  //    $("div.search_tag_list").hide();
+  //  }
+  //});
+  //
+  //$("div.search_tag_list, div.search_tag_list a.more").live('click', function(event){
+  //  event.stopPropagation();
+  //  $("div.search_tag_list").show();
+  //});
+  //
+  //function autocomplete_tag(input, form_name)
+  //{
+  //  // Il doit y avoir au moin un caractère
+  //  if (input.val().length > 0) 
+  //  {
+  //
+  //    // on met en variable l'input
+  //    var inputTag = input;
+  //    
+  //    // On récupére la div de tags
+  //    var divtags = $("#search_tag_"+form_name);
+  //
+  //    // Si la fenêtre de tags est caché
+  //    if (!divtags.is(':visible'))
+  //    {
+  //      // On la replace
+  //      var position = input.position();
+  //      divtags.css('left', Math.round(position.left) + 5);
+  //      divtags.css('top', Math.round(position.top) + 28);
+  //      // Et on l'affiche
+  //      divtags.show();
+  //    }
+  //    // On affiche le loader
+  //    $('#tag_loader_'+form_name).show();
+  //    // On cache la liste de tags
+  //    var search_tag_list = divtags.find('ul.search_tag_list');
+  //    // On supprime les anciens li
+  //    search_tag_list.find('li').remove();
+  //    search_tag_list.hide();
+  //    // Et on affiche une info
+  //    var span_info = divtags.find('span.info');
+  //    span_info.show();
+  //    // TODO: multilingue !
+  //    span_info.text(str_replace('%string_search%', input.val(), string_search_tag_title));
+  //
+  //    // C'est en fonction du nb de resultats qu'il sera affiché
+  //    divtags.find('a.more').hide();
+  //
+  //    // On récupère le timestamp pour reconnaitre la dernière requête effectué
+  //    ajax_query_timestamp = new Date().getTime();
+  //    
+  //    // Récupération des tags correspondants
+  //    $.ajax({
+  //      type: 'POST',
+  //      url: url_search_tag+'/'+ajax_query_timestamp,
+  //      dataType: 'json',
+  //      data: {'string_search':input.val()},
+  //      success: function(data) {
+  //      if (data.status == 'mustbeconnected')
+  //      {
+  //        $(location).attr('href', url_index);
+  //      }
+  //      
+  //      // Ce contrôle permet de ne pas continuer si une requete
+  //      // ajax a été faite depuis.
+  //      if (data.timestamp == ajax_query_timestamp)
+  //      {
+  //        var status = data.status;
+  //        var tags   = data.data;
+  //
+  //        // Si on spécifie une erreur
+  //        if (status == 'error')
+  //        {
+  //          // On l'affiche a l'utilisateur
+  //          span_info.text(data.error);
+  //        }
+  //        // Si c'est un succés
+  //        else if (status == 'success')
+  //        {
+  //          if (tags.length > 0)
+  //          {
+  //            var more = false;
+  //            // Pour chaque tags retournés
+  //            for (i in tags)
+  //            {
+  //              var tag_name = tags[i]['name'];
+  //              var tag_id = tags[i]['id'];
+  //              var t_string = tag_name
+  //              // On construit un li
+  //              
+  //              var r_string = $.trim(input.val());
+  //              var re = new RegExp(r_string, "i");
+  //              t_string = t_string.replace(re,"<strong>" + r_string + "</strong>");
+  //              
+  //                              
+  //              var li_tag = 
+  //                $('<li>').append(
+  //                  $('<a>').attr('id','searched_tag_'+tag_id)
+  //                    .attr('href', '#')
+  //                  // qui réagit quand on clique dessus
+  //                  .click(function(e){
+  //                    
+  //                    var id = str_replace('searched_tag_', '', $(this).attr('id'));
+  //                    var name = $('span#tag_prompt_tag_'+id+'_name').html();
+  //                                          
+  //                    $('input#tags_selected_tag_'+form_name).val(id);
+  //                    inputTag.val(name);
+  //                    // Et on execute l'évènement selectTag de l'input
+  //                    inputTag.trigger("selectTag");
+  //                    // On cache la liste puisque le choix vient d'être fait
+  //                    divtags.hide();
+  //                    // On vide le champs de saisie du tag
+  //                    $('input.form-default-value-processed').val('');
+  //                    return false;
+  //                  })
+  //                  .append(t_string)
+  //              ).append($('<span style="display: none;" id="tag_prompt_tag_'+tag_id+'_name">'+tag_name+'</span>'));
+  //
+  //              // Si on depasse les 30 tags
+  //              if (i > 30)
+  //              {
+  //                more = true;
+  //                // On le cache
+  //                li_tag.hide();
+  //              }
+  //
+  //              // On ajout ce li a la liste
+  //              search_tag_list.append(li_tag);
+  //            } 
+  //
+  //            if (more)
+  //            {
+  //              divtags.find('a.more').show();
+  //            }
+  //            
+  //            span_info.show();
+  //            span_info.text(data.message);
+  //            // Et on affiche la liste
+  //            search_tag_list.show();
+  //          }
+  //          else
+  //          {
+  //            span_info.show();
+  //            span_info.text(data.message);
+  //            search_tag_list.show();
+  //            
+  //            // Dans ce cas ou aucun tag n'a été trouvé, la proposition 
+  //            // d'ajout s'affichecf en dessous
+  //            
+  //            //span_info.text("Aucun tag de trouvé pour \""+inputTag.val()+"\"");
+  //          }
+  //          
+  //          // Si le tag ne semble pas connu en base
+  //          if (!data.same_found)
+  //          {
+  //            li_tag = 
+  //              $('<li>').addClass('new').append(
+  //                $('<a>').attr('href','#new#'+$.trim(input.val()))
+  //                // qui réagit quand on clique dessus
+  //                .click({
+  //                  inputTag: inputTag,
+  //                  form_name: form_name,
+  //                  divtags: divtags
+  //                }, event_click_new_tag_proposition)
+  //                .append($.trim(input.val()))
+  //            );
+  //            search_tag_list.append(li_tag);
+  //          }
+  //          
+  //        }
+  //
+  //        // On cache le loader
+  //        $('#tag_loader_'+form_name).hide();
+  //      }
+  //    }
+  //    });
+  //    
+  //    
+  //    //$.getJSON(url_search_tag+'/'+input.val()+'/'+ajax_query_timestamp, );
+  //    
+  //  }
+  //}
+  //
+  //function event_click_new_tag_proposition(event)
+  //{
+  //  form_add_open_dialog_for_new_tag($(event.target), event.data.inputTag, event.data.form_name, event.data.divtags);
+  //}
+  //
+  //function form_add_open_dialog_for_new_tag(link_add_tag, inputTag, form_name, divtags)
+  //{       
+  //  
+  //  
+  //  // Effet fade-in du fond opaque
+  //  $('body').append($('<div>').attr('id', 'fade')); 
+  //  //Apparition du fond - .css({'filter' : 'alpha(opacity=80)'}) pour corriger les bogues de IE
+  //  $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn();
+  //  
+  //  // En premier lieux on fait apparaître la fenêtre de confirmation
+  //  var popup = $('<div>')
+  //  .attr('id', 'add_tag')
+  //  .addClass('popin_block')
+  //  .css('width', '400px')
+  //    //.append($('<h2>').append(string_tag_add_title))
+  //  .append($('<form>')
+  //    .attr('action', url_add_tag)
+  //    .attr('method', 'post')
+  //    .attr('name', 'add_tag')
+  //    .ajaxForm(function(response) {
+  //      /*
+  //      *
+  //      */
+  //
+  //      if (response.status == 'mustbeconnected')
+  //      {
+  //        $(location).attr('href', url_index);
+  //      }
+  //
+  //      if (response.status == 'success')
+  //      {
+  //        var tag_id   = response.tag_id;
+  //        var tag_name = response.tag_name;
+  //
+  //        $('input#tags_selected_tag_'+form_name).val(tag_id);
+  //        inputTag.val(tag_name);
+  //        // Et on execute l'évènement selectTag de l'input
+  //        inputTag.trigger("selectTag");
+  //        // On cache la liste puisque le choix vient d'être fait
+  //        divtags.hide();
+  //
+  //        link_add_tag.parents('div.search_tag_list').find('img.tag_loader').hide();
+  //
+  //        $('#fade').fadeOut(400, function(){$('#fade').remove();});
+  //        $('#add_tag').remove();
+  //      }
+  //
+  //      if (response.status == 'error')
+  //      {
+  //        $('form[name="add_tag"]').find('ul.error_list').remove();
+  //        var ul_errors = $('<ul>').addClass('error_list');
+  //
+  //        for (i in response.errors)
+  //        {
+  //          ul_errors.append($('<li>').append(response.errors[i]));
+  //        }
+  //
+  //        $('form[name="add_tag"]').prepend(ul_errors);
+  //      }
+  //
+  //      return false;
+  //    })
+  //
+  //    .append($('<div>').addClass('tag')
+  //      .append($('<ul>')
+  //        .append($('<li>').addClass('button')
+  //          .append(link_add_tag.text()))))
+  //    .append($('<p>').append(string_tag_add_text))
+  //    .append($('<p>').append(string_tag_add_argument))
+  //    .append($('<textarea>').attr('name', 'argument'))
+  //    .append($('<div>').addClass('inputs')
+  //      .append($('<input>')
+  //        .attr('type', 'button')
+  //        .attr('value', string_tag_add_inputs_cancel)
+  //        .addClass('button')
+  //        .click(function(){
+  //          $('#fade').fadeOut(1000, function(){$('#fade').remove();});
+  //          $('#add_tag').remove();
+  //
+  //          return false;
+  //        })
+  //      )
+  //      .append($('<input>')
+  //        .attr('type', 'submit')
+  //        .attr('value', string_tag_add_inputs_submit)
+  //        .addClass('button')
+  //        .click(function(){
+  //
+  //          link_add_tag.parents('div.search_tag_list').find('img.tag_loader').show();
+  //
+  //        })
+  //      )
+  //      .append($('<input>').attr('type', 'hidden').attr('name', 'tag_name').val(link_add_tag.text()))
+  //    ))
+  //  ;
+  //
+  //  // Il faut ajouter le popup au dom avant de le positionner en css
+  //  // Sinon la valeur height n'est pas encore calculable
+  //  $('body').prepend(popup);
+  //
+  //  //Récupération du margin, qui permettra de centrer la fenêtre - on ajuste de 80px en conformité avec le CSS
+  //  var popMargTop = (popup.height() + 50) / 2;
+  //  var popMargLeft = (popup.width() + 50) / 2;
+  //
+  //  //On affecte le margin
+  //  $(popup).css({
+  //    'margin-top' : -popMargTop,
+  //    'margin-left' : -popMargLeft
+  //  });
+  //
+  //  return false;
+  //}
+  //
+  //var last_keypress = 0;
+  //
+  //function check_timelaps_and_search(input, form_name, time_id, timed, info)
+  //{
+  //  if (!timed)
+  //  {
+  //    // C'est une nouvelle touche (pas redirigé) on lui donne un id
+  //    // et on met a jour l'id de la dernière pressé
+  //    last_keypress = new Date().getTime(); 
+  //    var this_time_id = last_keypress;
+  //  }
+  //  else
+  //  {
+  //    // Si elle a été redirigé, on met son id dans cette variable
+  //    var this_time_id = time_id;
+  //  }
+  //  
+  //  // C'est une touche redirigé dans le temps qui a été suivit d'une autre touche
+  //  if (time_id != last_keypress && timed)
+  //  {
+  //    // elle disparait
+  //  }
+  //  else
+  //  {
+  //    //
+  //    if ((new Date().getTime() - last_keypress) < 600 || timed == false)
+  //    {
+  //      // Si elle vient d'être tapé (timed == false) elle doit attendre (au cas ou une autre touche soit tapé)
+  //      // Si c'est une redirigé qui n'a pas été remplacé par une nouvelle lettre
+  //      // elle doit attendre au cas ou soit pressé.
+  //      setTimeout(function(){check_timelaps_and_search(input, form_name, this_time_id, true, info)}, 700);
+  //    }
+  //    else
+  //    {
+  //      // il n'y a plus a attendre, on envoie la demande de tag.
+  //      autocomplete_tag(input, form_name);
+  //    }
+  //  }
+  //}
+  //
+  //// Autocompletion de tags
+  //$("div.tags_prompt ul.tagbox li.input input").live('keypress', function(e){
+  //  
+  //  var form_name = $(this).parents('form').attr('name');
+  //  var code = (e.keyCode ? e.keyCode : e.which);
+  //
+  //  if ((e.which !== 0 && e.charCode !== 0) || (code == 8 || code == 46))
+  //  {
+  //    check_timelaps_and_search($(this), form_name, new Date().getTime(), false, $(this).val());
+  //  }
+  //   
+  //});
+  //
+  //// Un click sur ce lien affiche tout les tags cachés de la liste
+  //$('div.search_tag_list a.more').live('click', function(){
+  //  jQuery.each( $(this).parent('div').find('ul.search_tag_list li') , function(){
+  //    $(this).show();
+  //  });
+  //  $(this).hide();
+  //  return false;
+  //});
+  //
+  //$('ul.tagbox li.input input[type="text"]').formDefaults();
+  //
   ////////////////// FIN TAG PROMPT ///////////////
  
   // Suppression d'un element
@@ -1348,15 +1357,12 @@ $(document).ready(function(){
     
     var form_name = "add";
     var tag_id = str_replace('#', '', $(this).attr('href'));
-    var input_tag = $("div.tags_prompt ul.tagbox li.input input");
     
     // Si on connait le tag id (pas un nouveau tag donc)
     if (tag_id)
     {
-      $('input#tags_selected_tag_'+form_name).val(tag_id);
-      input_tag.val($(this).text());
-      // Et on execute l'évènement selectTag de l'input
-      input_tag.trigger("selectTag");
+      var tag = new Tag(tag_id, $(this).text());
+      window.add_tag_prompt_connector.addTagToTagPrompt(tag);
     }
     else
     {
