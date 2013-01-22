@@ -468,7 +468,7 @@ ul.tagbox li {
 margin:0;
 }
 
-ul.tagbox li.tag {
+/*ul.tagbox li.tag {
   
 float: left;
 line-height: 1;
@@ -510,7 +510,7 @@ outline: 0;
 line-height:1.2;
 padding: 3px 0;
 font-size: 105%;
-}
+}*/
 /*ul.tagbox a.close {
 position: absolute;
 right: 4px; top: 5px;

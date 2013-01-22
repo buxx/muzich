@@ -6,13 +6,6 @@
       {{ form_errors(search_form.network) }}
       {{ form_widget(search_form.network, { 'attr': {'style': 'display: none;'} }) }}
     </div>
-    
-    <a href="#" class="button all_network {% if network_public and not ids_display %}active{% endif %}">
-      {{ 'filter.network_all'|trans({}, 'userui') }}
-    </a>
-    <a href="#" class="button my_network {% if not network_public and not ids_display %}active{% endif %}">
-      {{ 'filter.network_my'|trans({}, 'userui') }}
-    </a>
       
   </div>
 

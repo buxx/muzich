@@ -129,15 +129,20 @@
           </li>
         </ul>
         <ul id="header_menu">
-          <li class="selected">
-            <a href="">
-              Réseau global
+          
+          {% if network_public is not defined %}
+            {% set network_public = '' %}
+          {% endif %}
+          
+          <li class="{% if network_public == '1' and not ids_display %}selected{% endif %}">
+            <a href="{{ path('home') }}" class="all_network">
+              {{ 'filter.network_all'|trans({}, 'userui') }}
             </a>
           </li>
           <li class="separator"></li>
-          <li>
-            <a href="" >
-              Mon réseau
+          <li class="{% if network_public == '0' and not ids_display %}selected{% endif %}">
+            <a href="{{ path('home') }}" class="my_network" >
+              {{ 'filter.network_my'|trans({}, 'userui') }}
             </a>
           </li>
           <li class="separator"></li>

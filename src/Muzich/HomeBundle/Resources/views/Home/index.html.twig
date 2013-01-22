@@ -4,6 +4,10 @@
 
 {% block content %}
 
+  <a href="#" id="element_add_link" class="button gradient">
+    {{ 'home.add_element'|trans({}, 'navigationui') }} &gt;&gt;
+  </a>
+
   <ul id="tabs_tag_search_buttons">
     <li class="selected gradient">
       <a id="tabs_tag_search_no_tags" href="#" >
@@ -22,79 +26,78 @@
   <input type="hidden" class="filter_clear_url" value="{{ path('filter_clear') }}" />
   <input type="hidden" class="filter_mytags_url" value="{{ path('filter_mytags') }}" />
 
-  <div id="element_add_box" style="display: none;">    
-    
-    <a href="#" id="element_add_close_link" class="button">
-      &lt;&lt; {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
-    </a>
-    
-    <form novalidate name="{{ add_form_name }}" 
-      {% if  app.environment != 'test' %}
-        action="{{ path('element_retrieve_api_datas') }}" method="post" {{ form_enctype(add_form) }}
-      {% else %}
-        action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}
-      {% endif %}
-    >
+  <div id="home_top_tools">
+  
+    <div id="element_add_box" style="display: none;">    
 
-      {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
-        'form'          : add_form, 
-        'form_name'     : add_form_name
+      <a href="#" id="element_add_close_link" class="button">
+        &lt;&lt; {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
+      </a>
+
+      <form novalidate name="{{ add_form_name }}" 
+        {% if  app.environment != 'test' %}
+          action="{{ path('element_retrieve_api_datas') }}" method="post" {{ form_enctype(add_form) }}
+        {% else %}
+          action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}
+        {% endif %}
+      >
+
+        {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
+          'form'          : add_form, 
+          'form_name'     : add_form_name
+        } %}
+
+      {% if from_url is defined %}
+      {% if from_url %}
+        <script type="text/javascript">
+          $(document).ready(function(){
+            $('#element_add_box').slideDown("slow");
+            $('#element_add_link').hide();
+            $('form[name="search"]').slideUp();
+            $('img#form_add_loader').show();
+            $('input#element_add_url').val("{{ from_url }}");
+            $('form[name="add"]').submit();
+          });
+        </script>
+      {% endif %}
+      {% endif %}
+
+      </form>
+    </div>
+
+    <div id="added_element_to_group" style="display: none;">
+      <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
+      <p class="help">
+        {{ 'element_add.added_to_group.sentence'|trans({}, 'userui') }}
+      </p>
+      <ul id="groups_to_add_element"></ul>
+      <p class="cancel">
+        <a href="" class="cancel">
+          {{ 'element_add.added_to_group.nothanks'|trans({}, 'userui') }}
+        </a>
+      </p>
+    </div>
+
+    <form name="{{ search_form_name }}" action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
+
+      {% include "MuzichCoreBundle:SearchElement:form.html.twig" with { 
+        'form_name'               : search_form_name,
+        'search_tags'             : search_tags_id
       } %}
-            
-    {% if from_url is defined %}
-    {% if from_url %}
-      <script type="text/javascript">
-        $(document).ready(function(){
-          $('#element_add_box').slideDown("slow");
-          $('#element_add_link').hide();
-          $('form[name="search"]').slideUp();
-          $('img#form_add_loader').show();
-          $('input#element_add_url').val("{{ from_url }}");
-          $('form[name="add"]').submit();
-        });
-      </script>
-    {% endif %}
-    {% endif %}
+
+      <input class="main button" type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
 
     </form>
-  </div>
 
 
-  <a href="#" id="element_add_link" class="button">
-    {{ 'home.add_element'|trans({}, 'navigationui') }} &gt;&gt;
-  </a>
-
-  <div id="added_element_to_group" style="display: none;">
-    <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
-    <p class="help">
-      {{ 'element_add.added_to_group.sentence'|trans({}, 'userui') }}
-    </p>
-    <ul id="groups_to_add_element"></ul>
-    <p class="cancel">
-      <a href="" class="cancel">
-        {{ 'element_add.added_to_group.nothanks'|trans({}, 'userui') }}
-      </a>
-    </p>
-  </div>
-
-  <form name="{{ search_form_name }}" action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
-
-    {% include "MuzichCoreBundle:SearchElement:form.html.twig" with { 
-      'form_name'               : search_form_name,
-      'search_tags'             : search_tags_id
-    } %}
-    
-    <input class="main button" type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
-        
-  </form>
-
+    <a href="{{ path('elements_get_filter_data_autoplay', {
+      'type' : 'filter'
+    }) }}" class="button" id="autoplay_launch" 
+       title="{{ 'elements.autoplay.launch'|trans({}, 'elements') }}" >
+      <img src="{{ asset('/bundles/muzichcore/img/1353494305_player_play.png') }}" alt="" />
+    </a>
   
-  <a href="{{ path('elements_get_filter_data_autoplay', {
-    'type' : 'filter'
-  }) }}" class="button" id="autoplay_launch" 
-     title="{{ 'elements.autoplay.launch'|trans({}, 'elements') }}" >
-    <img src="{{ asset('/bundles/muzichcore/img/1353494305_player_play.png') }}" alt="" />
-  </a>
+  </div>
 
   <div class="display_more_elements" style="display: none;">
     <span></span>

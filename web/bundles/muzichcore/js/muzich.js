@@ -1102,20 +1102,24 @@ $(document).ready(function(){
   });
   
   // Selection Réseau global / Mon réseau
-  $('div.select_network a').live('click', function(){
-    var divSelect = $(this).parent('div');
+  $('a.all_network, a.my_network').live('click', function(){
+    
+    $(this).parent('li').parent('ul').find('li').removeClass('selected')
+    
     if ($(this).hasClass('all_network'))
     {
-      divSelect.find('a.all_network').addClass('active');
-      divSelect.find('a.my_network').removeClass('active');
-      divSelect.find('select').val('network_public');
+      $(this).parent('li').addClass('selected');
+      $('#element_search_form_network').val('network_public');
     }
     else
     {
-      divSelect.find('a.my_network').addClass('active');
-      divSelect.find('a.all_network').removeClass('active');
-      divSelect.find('select').val('network_personal');
+      $(this).parent('li').addClass('selected');
+      $('#element_search_form_network').val('network_personal');
     }
+    
+    $('form[name="search"] input[type="submit"]').trigger('click');
+    
+    return false;
   });
   
   function element_add_proceed_json_response(response)

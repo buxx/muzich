@@ -1,7 +1,10 @@
 
 
 <div class="tags_prompt" id="tags_prompt_{{ form_name }}">
-
+   
+  
+  <ul class="tagbox"></ul>
+  
   <input
     class="tag_prompt"
     value=""
@@ -9,7 +12,7 @@
   />
   <img id="tag_prompt_loader_{{ form_name }}" class="tag_loader" style="display: none;"
     src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
-   
+  
   <div id="search_tag_{{ form_name }}" class="search_tag_list" style="display: none;">
     <span class="info"></span>
     <div class="tag_loader_div">
@@ -21,8 +24,6 @@
       {{ 'tags.search.display_more'|trans({}, 'userui') }}
     </a>
   </div>
-  
-  <ul class="tagbox"></ul>
   
 </div>
 
