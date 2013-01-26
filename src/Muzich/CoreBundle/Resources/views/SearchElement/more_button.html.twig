@@ -3,9 +3,9 @@
 </div>
 
 {% if display_more_button and elements_length %} 
-   <span class="elements_more">
-     <a href="{{ path(more_path) }}" class="elements_more button">
-       {{ 'more'|trans({}, 'userui') }}
-     </a>
-   </span>
+  <a href="{{ path(more_path) }}" class="elements_more">
+    <div>
+      {{ 'more'|trans({}, 'userui') }}
+    </div>
+  </a>
 {% endif %}

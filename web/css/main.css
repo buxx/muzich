@@ -185,7 +185,24 @@ header#header hgroup
 
 #mainbox
 {
+  margin-top: 25px;
+  /*padding: 10px;*/
+  padding-bottom: 23px;
+}
+
+#mainbox.mainbox_margintop
+{
   margin-top: 80px;
+}
+
+#mainbox.mainbox_nopadding
+{
+  padding: 0px;
+}
+
+#mainbox h1
+{
+  margin-top: 10px;
 }
 
 .nicebox
@@ -199,10 +216,16 @@ header#header hgroup
 aside#sidebar
 {
   display: table-cell;
-	width: 300px;
+  width: 300px;
   vertical-align: top;
 }
 
+ul.elements
+{
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+}
 
 ul.elements li.element
 {
@@ -210,6 +233,11 @@ ul.elements li.element
   border-top: 1px solid #c8c8c8;
   list-style-type: none;
   padding: 10px;
+}
+
+ul.elements li.element:last-child
+{
+  
 }
 
 td.element_thumbnail
@@ -377,14 +405,14 @@ ul.element_tags .button
 }
 
 .button {
-	display: inline-block;
-	line-height: 1;
-	padding: 4px 7px;
-	font-weight: bold;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	border-radius: 3px;
+  display: inline-block;
+  line-height: 1;
+  padding: 4px 7px;
+  font-weight: bold;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  border-radius: 3px;
   border: 1px solid #2b82ad;
   text-transform : uppercase;
   border: 1px solid #b0b0b0;
@@ -402,7 +430,7 @@ ul.element_tags .button
 
 }
 
-a.button.element_tag, ul.tagbox li.tag
+a.button.element_tag, ul.tagbox li.tag, ul.search_tag_list li, ul#favorite_tags li
 {
   padding: 6px;
   border: none;
@@ -425,9 +453,6 @@ td.element_content li.element_tag a.button, ul.tagbox li.tag
   text-transform : uppercase;
 }
 
-.button:active {
-  background-color: #39c9cc;
-}
 
 .button.active
 {
@@ -798,8 +823,8 @@ div#secondarymenu ul.secondarymenu li.top_menu_element.open ul.submenu
 {
   display: none;
   height: 16px;
-  margin-left: 18px;
-  margin-top: 5px;
+  margin-left: 30px;
+  margin-top: 6px;
   width: 30px;
   background: url("/img/icon_bigtag_choosed.png") no-repeat scroll 0 0 transparent;
   position: absolute;
@@ -824,8 +849,8 @@ ul.tagbox li.tag
   padding-right: 18px;
 }
 
-ul.tagbox li.tag {
-  
+ul.tagbox li.tag, ul#favorite_tags li
+{
   border-radius: 3px 3px 3px 3px;
   display: inline-block;
   font-size: 13px;
@@ -833,10 +858,10 @@ ul.tagbox li.tag {
   line-height: 1;
   margin-bottom: 1px;
   margin-right: 3px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	-khtml-border-radius: 4px;
-	border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
 }
 ul.tagbox li.input {display:block; float:left;}
 ul.tagbox input:focus {
@@ -852,7 +877,12 @@ padding: 3px 0;
 font-size: 105%;
 }
 
-#element_add_link
+ul#favorite_tags li
+{
+  margin-right: 0px;
+}
+
+#element_add_link, #element_add_close_link
 {
   float: right;
   margin-top: -58px;
@@ -873,9 +903,22 @@ font-size: 105%;
 
 }
 
-#home_top_tools
+#element_add_link img, #element_add_close_link img
+{
+  margin-bottom: -5px;
+    margin-right: -5px;
+}
+
+#element_add_link.justtopright, #element_add_close_link.justtopright
+{
+  margin-top: 0px;
+  margin-right: 0px;
+}
+
+.top_tools
 {
   padding: 10px;
+  margin-bottom: 10px;
 }
 
 form[name="search"]
@@ -886,28 +929,420 @@ form[name="search"]
 form[name="search"] input[type="submit"]
 {
   float: right;
-  margin-top: -52px;
+  height: 34px;
+  margin-top: -55px;
 }
 
-#home_top_tools input.tag_prompt
+.top_tools input.tag_prompt
+{
+  text-align: center;
+  width: 518px;
+}
+
+.niceinput
 {
   -webkit-box-shadow: inset 0px 0px 2px 3px #c8c8c8;
   box-shadow: inset 0px 0px 2px 3px #c8c8c8; 
   height: 34px;
   -moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	-khtml-border-radius: 4px;
-	border-radius: 4px;
+  -webkit-border-radius: 4px;
+   -khtml-border-radius: 4px;
+  border-radius: 4px;
   border: medium none;
   padding-left: 10px;
   padding-right: 10px;
-  text-align: center;
-  width: 518px;
 }
 
 input:-moz-placeholder, textarea:-moz-placeholder {
-    color: black;
+  color: black;
 }
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
-    color: black;
+  color: black;
+}
+
+a.elements_more div
+{
+  height: 32px;
+  width: 100%;
+  padding: 0px;
+  text-align: center;
+  background-image: url("/img/more_result.png");
+  background-repeat: no-repeat;
+  padding-top: 30px;
+  text-transform : uppercase;
+  
+}
+
+a.elements_more
+{
+  color: black;
+  font-weight: bold;
+}
+
+a.elements_more:hover
+{
+  color: black;
+}
+
+div#element_add_box
+{
+  padding: 10px;
+}
+
+#element_add_box h2
+{
+  margin-top: 0px;
+}
+
+div#form_add_first_part #element_add_url
+{
+  height: 29px;
+  width: 485px;
+}
+
+#tabs_tag_search_buttons a
+{
+  padding-left: 5px;
+}
+
+#tabs_tag_search_buttons img
+{
+  float: left;
+}
+
+.muzichlogodecored
+{
+  background-image: url("/img/icon_minilogo_2.png");
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+a#autoplay_launch
+{
+  -moz-border-radius: 3px 3px 0px 0px;
+  -webkit-border-radius: 3px 3px 0px 0px;
+  -khtml-border-radius: 3px 3px 0px 0px;
+  padding-bottom: 0px;
+  border-bottom: none;
+  margin-right: -4px;
+  margin-top: -3px;
+}
+
+div#tags_prompt_add
+{
+  width: 465px;
+  
+}
+
+div#tags_prompt_add input.tag_prompt
+{
+  width: 450px;
+}
+
+div#form_add_second_part table td
+{
+  padding: 10px;
+}
+
+div#form_add_second_part input[type="submit"]
+{
+  float: right;
+  margin-top: -10px;
+}
+
+div#footer
+{
+  height: 104px;
+  width: 100%;
+  margin-top: 25px;
+  border-top: 4px solid #E51936;
+  background-color: #171717;
+  text-align: center;
+}
+
+div#footer_content
+{
+  margin-left: auto;
+  margin-right: auto;
+  width: 980px;
+  color: #999999;
+}
+
+div#footer_content a
+{
+  color: #999999;
+}
+
+div#footer_logo
+{
+  line-height: 18px;
+  margin-top: 25px;
+  padding-left: 0;
+  padding-right: 40px;
+  text-align: left;
+  width: 191px;
+  float: left;
+}
+
+div#footer_logo img
+{
+  float: left;
+  padding-right: 10px;
+}
+
+span.fotter_muzich_big
+{
+  font-size: 22px;
+  font-weight: bold;
+}
+
+div#footer_content ul.footer_pages_links
+{
+  float: left;
+  height: 74px;
+  margin-bottom: 0;
+  margin-top: 12px;
+  padding-top: 10px;
+  margin-left: 0;
+  padding-left: 32px;
+  width: 210px;
+  border-left: 1px solid #2F2F2F;
+  text-align: left;
+}
+
+div#footer_content ul.footer_pages_links li
+{
+  list-style-image: url("/img/list_chip_red.png");
+}
+
+
+div.search_tag_list ul.search_tag_list
+{
+  list-style-image: none;
+  padding:0;
+  margin:0;
+  list-style-type:none;
+  overflow: hidden;
+}
+
+div.search_tag_list ul.search_tag_list li
+{
+  float: left;
+  margin-right: 4px;
+  margin-left: 4px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding: 2px 4px 2px 4px;
+  background-color: #d9f7ff;
+  
+  
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  
+  -webkit-box-shadow: #666 0px 2px 3px;
+  -moz-box-shadow: #666 0px 2px 3px;
+  box-shadow: #666 0px 2px 3px;
+}
+
+div.search_tag_list ul.search_tag_list li.new
+{
+  font-weight: bold;
+  background: #e0e0e0;
+  color: black;
+}
+
+div.search_tag_list ul.search_tag_list li.new a
+{
+  color: black;
+}
+  
+
+div.search_tag_list ul.search_tag_list li:hover
+{
+  background-color: #999999;
+}
+
+div.search_tag_list span.info
+{
+  text-shadow: 1px 1px 1px #666;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+#container ul.search_tag_list li a
+{
+  color: black;
+}
+
+#container ul.search_tag_list li a:hover
+{
+  text-decoration: none;
+}
+
+ul.search_tag_list li a
+{
+  color: white;
+}
+
+
+div#search_tag_search a.more
+{
+  color: black;
+}
+
+div#search_tag_search p.help
+{
+  font-size: 11px;
+  font-style: italic;
+}
+
+.textcenter
+{
+  text-align: center;
+}
+
+ul#form_add_prop_tags_api li
+{
+  float: left;
+  list-style-type: none;
+  margin-right: 15px;
+}
+
+ul#form_add_prop_tags_api li:hover
+{
+  text-decoration: underline;
+}
+
+ul.elements li.element.selected
+{
+  background-color: #E7E7E7;
+}
+
+ul.elements li.element h2
+{
+  margin-top: 0px;
+}
+
+ul.elements li.element fieldset
+{
+  margin-bottom: 5px;
+}
+
+ul.elements li.element fieldset.edit_url label, ul.elements li.element fieldset.edit_name label, ul.elements li.element fieldset.edit_tags label
+{
+  display: block;
+  float: left;
+  width: 80px;
+  font-size: 16px;
+  padding-top: 6px;
+  font-weight: bold;
+}
+
+ul.elements li.element fieldset.edit_tags label
+{
+  float: left;
+}
+
+ul.elements li.element fieldset.edit_url input[type="text"], ul.elements li.element fieldset.edit_name input[type="text"]
+{
+  width: 520px;
+  font-size: 100%;
+  height: 30px;
+}
+
+ul.elements li.element fieldset.edit_tags input.tag_prompt
+{
+  width: 600px;
+}
+
+ul.elements li.element div.inputs
+{
+  text-align: right;
+}
+
+div.no_elements
+{
+  text-align: center;
+}
+
+ul#autoplay_element
+{
+  margin: 0px;
+  padding: 0px;
+}
+
+ul#autoplay_element li
+{
+  list-style-type: none;
+}
+
+ul.tagbox {
+
+cursor: text;
+border: none;
+overflow: hidden;
+padding: 0 0 1px 3px;
+margin-left: 0px;
+}
+ul.tagbox li {
+margin:0;
+}
+
+ul#favorite_tags
+{
+  padding:0;
+  margin-top:10px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  list-style-type:none;
+}
+
+ul#favorite_tags li a
+{
+  color: white;
+}
+
+ul#favorite_tags li.list_length_big a
+{
+  font-size: 16px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+ul#favorite_tags li.list_length_medium a
+{
+  font-size: 15px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+ul#favorite_tags li a.active
+{
+  color: #999999;
+}
+
+input#element_add_name
+{
+  width: 450px;
+}
+
+.darkbutton {
+  background-color: #585454;
+  padding: 8px 8px 6px 6px;
+  border: 1px solid black;
+  text-transform : uppercase;
+  font-size: 70%;
+  font-weight: bold;
+  
+  background: none;
+  background-color: #555;
+  box-shadow: 0 1px 1px 0 #696465 inset;
+  color: white;
+}
+
+div.top_tools div.show_options
+{
+  float: right;
+  padding: 10px;
 }

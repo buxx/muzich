@@ -17,7 +17,9 @@
   <div class="field fom_add_url">
     {{ form_errors(form.url) }}
     {{ form_widget(form.url, { 'attr': {
-      'placeholder': 'element_add.url.name'|trans({}, 'userui')},
+      'placeholder': 'element_add.url.name'|trans({}, 'userui'),
+      'class': 'niceinput'
+      },
       'type': 'URL'
     }) }}
 
@@ -29,10 +31,13 @@
 
 <div id="form_add_second_part" style="display: none;">
   
-  <span  id="add_url_title">
+  <div  id="add_url_title">
     {{ 'element.add.url_title_step2'|trans({}, 'elements') }}:
     <span id="add_url_title_url"></span>
-  </span>
+  </div>
+  
+  
+  <input type="submit" value="{{ 'element.share.share_button'|trans({}, 'userui') }}" class="button" />
   
   <table>
     <tr>
@@ -44,7 +49,12 @@
       <td style="vertical-align: top;">
         <div class="field fom_add_name">
           {{ form_errors(form.name) }}
-          {{ form_widget(form.name, { 'attr': {'placeholder': 'element_add.name.name'|trans({}, 'userui')} }) }}
+          {{ form_widget(form.name, { 'attr':
+            {
+              'placeholder': 'element_add.name.name'|trans({}, 'userui'),
+              'class' : 'niceinput'
+            }
+          }) }}
         </div>
 
           <p id="form_add_prop_tags_text" style="display: none;">
@@ -52,7 +62,7 @@
           </p>
           <ul id="form_add_prop_tags_api" style="display: none;"></ul>
 
-          <div></div>
+          <div style="clear: both;"></div>
           
           {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
             'form_name'     : form_name
@@ -68,13 +78,6 @@
       </td>
     </tr>
   </table>
-  
-  
-  
-  
-  
-    
-  <input type="submit" value="Partager cette ressource" />
     
 </div>
 

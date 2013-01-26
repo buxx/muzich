@@ -1,124 +1,131 @@
 {% extends "MuzichHomeBundle::layout.html.twig" %}
 
 {% block title %}{{ viewed_user.name }}{% endblock %}
+{% block mainbox_classes %}mainbox_nopadding{% endblock %}
 
 {% block content %}
 
-  <div class="show_options">
+  <div class="top_tools">
     
-    <a class="button" href="{{ path('favorite_user_list', {'slug' : viewed_user.slug}) }}" >
-      {{ 'user.view_favorites'|trans({}, 'users') }}
-    </a>
-    
-    {% if app.user.id != viewed_user.id %}
-      <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash }) }}" 
-         class="follow_link button {% if following %}following{% else %}notfollowing{% endif %}" >
-        {% if following %}
-          {{ 'user.following'|trans({}, 'users') }}
-        {% else %}
-          {{ 'user.follow'|trans({}, 'users') }}
-        {% endif %}
+    {% if app.user.id == viewed_user.id %}
+      <a href="#" id="element_add_link" class="button gradient justtopright">
+        {{ 'home.add_element'|trans({}, 'navigationui') }}
+        <img src="{{ asset('/img/icon_dart_right_white.png') }}" alt="" />
+      </a>
+      <a href="#" id="element_add_close_link" class="button gradient justtopright" style="display: none;">
+        {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
+        <img src="{{ asset('/img/icon_dart_left_white.png') }}" alt="" />
       </a>
     {% endif %}
     
-  </div>
-  
-
-  <h2>{{ 'user.show.title'|trans({'%name%' : viewed_user.name}, 'users') }}</h2>
-
-  {% if app.user.id == viewed_user.id %}
-    <div id="element_add_box" style="display: none;">    
-    
-      <a href="#" id="element_add_close_link" class="button">
-        &lt;&lt; {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
-      </a>
-
-      <form novalidate name="{{ add_form_name }}" 
-        {% if  app.environment != 'test' %}
-          action="{{ path('element_retrieve_api_datas') }}" method="post" {{ form_enctype(add_form) }}
-        {% else %}
-          action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}
-        {% endif %}    
-      method="post" {{ form_enctype(add_form) }}>
-
-        {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
-          'form'          : add_form, 
-          'form_name'     : add_form_name
-        } %}
-
-      </form>
+    <div class="show_options">
+      
+      {% if app.user.id != viewed_user.id %}
+        <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash }) }}" 
+           class="follow_link button darkbutton {% if following %}following{% else %}notfollowing{% endif %}" >
+          {% if following %}
+            {{ 'user.following'|trans({}, 'users') }}
+          {% else %}
+            {{ 'user.follow'|trans({}, 'users') }}
+          {% endif %}
+        </a>
+      {% endif %}
+      
     </div>
-
-    <a href="#" id="element_add_link" class="button">
-      {{ 'home.add_element'|trans({}, 'navigationui') }} &gt;&gt;
-    </a>
-  {% endif %}
+    
+    <h1>{{ 'user.show.title'|trans({'%name%' : viewed_user.name}, 'users') }}</h1>
   
-  <div class="reputation">
-    {{ 'user.reputation.name'|trans({}, 'users') }}: 
-    <span class="score">{{ viewed_user.reputation }}</span>
-    {{ 'user.reputation.txt'|trans({}, 'users') }}
+    {% if app.user.id == viewed_user.id %}
+      <div id="element_add_box" style="display: none;">    
+      
+        <form novalidate name="{{ add_form_name }}" 
+          {% if  app.environment != 'test' %}
+            action="{{ path('element_retrieve_api_datas') }}" method="post" {{ form_enctype(add_form) }}
+          {% else %}
+            action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}
+          {% endif %}    
+        method="post" {{ form_enctype(add_form) }}>
+  
+          {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
+            'form'          : add_form, 
+            'form_name'     : add_form_name
+          } %}
+      
+        </form>
+      </div>
+  
+    {% endif %}
+    
+    <div class="reputation">
+      {{ 'user.reputation.name'|trans({}, 'users') }}: 
+      <span class="score">{{ viewed_user.reputation }}</span>
+      {{ 'user.reputation.txt'|trans({}, 'users') }}
+    </div>
+    
+    <p class="show_info">
+      {% if count_owned != 0 %}
+      {{ 'show.user.elements.count'|trans({
+        '%count_owned%' : count_owned,
+        '%count_favorited%': count_favorited,
+        '%count_favorited_users%': count_favorited_users
+      }, 'elements') }}
+      {% else %}
+        {{ 'show.user.elements.no_count'|trans({}, 'elements') }}
+      {% endif %}
+      <br />
+      {% if count_followers > 1 %}
+        {{ 'show.user.followers.x_count'|trans({'%count%':count_followers, '%name%':viewed_user.name }, 'elements') }}
+      {% elseif count_followers == 0 %}
+        {{ 'show.user.followers.zero_count'|trans({'%name%':viewed_user.name }, 'elements') }}
+      {% else %}
+        {{ 'show.user.followers.one_count'|trans({'%count%':count_followers, '%name%':viewed_user.name }, 'elements') }}
+      {% endif %}
+    </p>
+      
+    {% include "MuzichCoreBundle:Tag:tagsList.show.html.twig" with {
+      'object_id'   : viewed_user.id,
+      'object_type' : 'user'
+    } %}
+    
+    <a href="{{ path('elements_get_filter_data_autoplay_show', {
+          'show_type'  : 'user',
+          'show_id'    : viewed_user.id, 
+          'data'       : '[]'
+        }) }}" class="button" id="autoplay_launch" 
+       title="{{ 'elements.autoplay.launch'|trans({}, 'elements') }}" >
+      <img src="{{ asset('/bundles/muzichcore/img/1353494305_player_play.png') }}" alt="" />
+    </a>
+  
   </div>
   
-  <p class="show_info">
-    {% if count_owned != 0 %}
-    {{ 'show.user.elements.count'|trans({
-      '%count_owned%' : count_owned,
-      '%count_favorited%': count_favorited,
-      '%count_favorited_users%': count_favorited_users
-    }, 'elements') }}
-    {% else %}
-      {{ 'show.user.elements.no_count'|trans({}, 'elements') }}
-    {% endif %}
-    <br />
-    {% if count_followers > 1 %}
-      {{ 'show.user.followers.x_count'|trans({'%count%':count_followers, '%name%':viewed_user.name }, 'elements') }}
-    {% elseif count_followers == 0 %}
-      {{ 'show.user.followers.zero_count'|trans({'%name%':viewed_user.name }, 'elements') }}
-    {% else %}
-      {{ 'show.user.followers.one_count'|trans({'%count%':count_followers, '%name%':viewed_user.name }, 'elements') }}
-    {% endif %}
-  </p>
-    
-  {% include "MuzichCoreBundle:Tag:tagsList.show.html.twig" with {
-    'object_id'   : viewed_user.id,
-    'object_type' : 'user'
-  } %}
-  
-  <a href="{{ path('elements_get_filter_data_autoplay_show', {
-        'show_type'  : 'user',
-        'show_id'    : viewed_user.id, 
-        'data'       : '[]'
-      }) }}" class="button" id="autoplay_launch" 
-     title="{{ 'elements.autoplay.launch'|trans({}, 'elements') }}" >
-    <img src="{{ asset('/bundles/muzichcore/img/1353494305_player_play.png') }}" alt="" />
-  </a>
   
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
-    
+  
   <div class="elements_loader_div">
     <img class="elements_more_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
   </div>
   
   {% if more_count is defined %} 
   {% if elements|length %}
-   <span class="elements_more">
-     <input type="hidden" id="more_elements_url" value="{{ path('show_elements_get', {
+    
+    <input type="hidden" id="more_elements_url" value="{{ path('show_elements_get', {
         'type'          : 'user',
         'object_id'     : viewed_user.id, 
         'tags_ids_json' : ''
       }) }}" />
-     <a href="{{ path('show_elements_get', {
+    <a href="{{ path('show_elements_get', {
         'type'          : 'user',
         'object_id'     : viewed_user.id, 
         'tags_ids_json' : '[]'
-      }) }}" class="elements_more button" >
-       {{ 'more'|trans({}, 'userui') }}
-     </a>
-   </span>
+      }) }}" class="elements_more" >
+      <div>
+        {{ 'more'|trans({}, 'userui') }}
+      </div>
+    </a>
+   
   {% endif %}
   {% endif %}
-  
+    
   <input type="hidden" id="autoplay_url" value="{{ path('elements_get_filter_data_autoplay_show', {
     'show_type'          : 'user',
     'show_id'     : viewed_user.id, 

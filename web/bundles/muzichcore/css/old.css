@@ -456,7 +456,7 @@ width: 300px;
 
 /**/
 
-ul.tagbox {
+/*ul.tagbox {
 
 cursor: text;
 border: none;
@@ -466,7 +466,7 @@ margin-left: 0px;
 }
 ul.tagbox li {
 margin:0;
-}
+}*/
 
 /*ul.tagbox li.tag {
   
@@ -601,10 +601,10 @@ li.element img.play, li.element img.open
   
 }
 
-ul.elements, ul#autoplay_element
+/*ul.elements, ul#autoplay_element
 {
   margin-left: 0px;
-}
+}*/
 
 /*ul.elements li.even
 {
@@ -732,11 +732,11 @@ div.tag_loader_div, div.loader
   font-weight: bold;
 }*/
 
-div.no_elements
+/*div.no_elements
 {
   text-align: center;
   background-color: #d9f7ff;
-}
+}*/
 
 /*  Recherche de tags dynamique  */
 
@@ -764,7 +764,7 @@ div.search_tag_list span.info
   background-color: white;
   padding: 2px;
 }
-
+/*
 div.search_tag_list ul.search_tag_list
 {
   list-style-image: none;
@@ -772,9 +772,9 @@ div.search_tag_list ul.search_tag_list
   margin:0;
   list-style-type:none;
   overflow: hidden;
-}
+}*/
 
-div.search_tag_list ul.search_tag_list li
+/*div.search_tag_list ul.search_tag_list li
 {
   float: left;
   margin-right: 4px;
@@ -820,7 +820,7 @@ div.search_tag_list span.info
 #container ul.search_tag_list li a:hover
 {
   text-decoration: none;
-}
+}*/
  
 .elements_loader_div
 {
@@ -883,7 +883,7 @@ div.question .title {
 
 /* Liste de tags */
 
-ul#favorite_tags
+/*ul#favorite_tags
 {
   padding:0;
   margin:0;
@@ -895,7 +895,7 @@ ul#favorite_tags li
   display: inline;
   margin-left: 2px;
   margin-top: 2px;
-  float: left; /*pour IE*/
+  float: left;
 }
 
 ul#favorite_tags li.list_length_big a.button
@@ -910,7 +910,7 @@ ul#favorite_tags li.list_length_medium a.button
   font-size: 15px;
   padding-top: 3px;
   padding-bottom: 3px;
-}
+}*/
 
 a.more
 {
@@ -1015,7 +1015,7 @@ div.display_more_elements
   text-align: center;
 }
 
-input#element_add_url
+/*input#element_add_url
 {
   width: 70%;
   font-size: 110%;
@@ -1027,7 +1027,7 @@ input#element_add_name
   width: 100%;
   font-size: 110%;
   font-weight: bold;
-}
+}*/
 
 label#element_add_url, label#element_add_name
 {
@@ -1307,10 +1307,14 @@ ul#favorite_tags a.button.highlight
   color: blue;
 }
 
-span#add_url_title
+div#add_url_title
 {
+  width: 510px;
   font-weight: bold;
   font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 div#autoplay

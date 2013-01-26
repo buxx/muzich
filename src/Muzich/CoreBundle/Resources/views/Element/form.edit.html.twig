@@ -1,29 +1,34 @@
 {% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
 
+<h2>{{ 'element_edit.title'|trans({}, 'userui') }}</h2>
+
 {{ form_errors(form) }}
 
-<div class="field">
+<fieldset class="edit_url">
   {{ form_errors(form.url) }}
   {{ form_label(form.url, 'element_edit.url.name'|trans({}, 'userui')) }}
-  {{ form_widget(form.url) }}
-</div>
+  {{ form_widget(form.url, {'attr':{'class':'niceinput'}}) }}
+</fieldset>
 
-<div class="field">
+<fieldset class="edit_name">
   {{ form_errors(form.name) }}
   {{ form_label(form.name, 'element_edit.name.name'|trans({}, 'userui')) }}
-  {{ form_widget(form.name) }}
-</div>
+  {{ form_widget(form.name, {'attr':{'class':'niceinput'}}) }}
+</fieldset>
 
+<fieldset class="edit_tags">
+  <label>Tags</label>
   {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
     'form_name'     : form_name
   } %}
+</fieldset>
 
   {{ form_widget(form.tags, { 'attr': {'class': 'tagBox_tags_ids'} }) }}
 
-<div class="field">
+<fieldset class="edit_need_tag">
   {{ form_errors(form.need_tags) }}
   {{ form_widget(form.need_tags) }}
   {{ form_label(form.need_tags, 'element_add.need_tags.name'|trans({}, 'userui')) }}
-</div>
+</fieldset>
 
 {{ form_row(form._token) }}

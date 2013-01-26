@@ -129,9 +129,9 @@ class CoreController extends Controller
     
     // Vérifications préléminaires
     if ($user->getPersonalHash() != $token 
-            || !in_array($type, array('user', 'group')) 
-            || !is_numeric($id)
-            || $user->getId() == $id
+        || !in_array($type, array('user', 'group')) 
+        || !is_numeric($id)
+        || ($user->getId() == $id && $type == 'user')
     )
     {
       throw $this->createNotFoundException();

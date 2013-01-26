@@ -1,22 +1,30 @@
 {% extends "MuzichHomeBundle::layout.html.twig" %}
 
 {% block title %}Réseau{% endblock %}
+{% block mainbox_classes %}mainbox_margintop mainbox_nopadding{% endblock %}
 
 {% block content %}
 
   <a href="#" id="element_add_link" class="button gradient">
-    {{ 'home.add_element'|trans({}, 'navigationui') }} &gt;&gt;
+    {{ 'home.add_element'|trans({}, 'navigationui') }}
+    <img src="{{ asset('/img/icon_dart_right_white.png') }}" alt="" />
+  </a>
+  <a href="#" id="element_add_close_link" class="button gradient" style="display: none;">
+    {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
+    <img src="{{ asset('/img/icon_dart_left_white.png') }}" alt="" />
   </a>
 
   <ul id="tabs_tag_search_buttons">
-    <li class="selected gradient">
+    <li id="tab_li_tag_search_no_tags" class="{% if search_tags_id|length == 0 %}selected{% endif %} gradient">
       <a id="tabs_tag_search_no_tags" href="#" >
+        <img src="{{ asset('/img/icon_close.png') }}" alt="nofilters" />
         {{ 'filter.clear'|trans({}, 'userui') }}
       </a>
       <div class="dart"></div>
     </li>
-    <li class="gradient">
+    <li id="tab_li_tag_search_with_tags" class="{% if search_tags_id|length %}selected{% endif %} gradient">
       <a id="tabs_tag_search_with_tags" href="#" >
+        <img src="{{ asset('/img/icon_minilogo_2.png') }}" alt="nofilters" />
         {{ 'filter.mytags'|trans({}, 'userui') }}
       </a>
       <div class="dart"></div>
@@ -26,69 +34,68 @@
   <input type="hidden" class="filter_clear_url" value="{{ path('filter_clear') }}" />
   <input type="hidden" class="filter_mytags_url" value="{{ path('filter_mytags') }}" />
 
-  <div id="home_top_tools">
+  <div id="element_add_box" style="display: none;">    
+
+    <h2>{{ 'home.add_element_box.title'|trans({}, 'navigationui') }}</h2>
   
-    <div id="element_add_box" style="display: none;">    
-
-      <a href="#" id="element_add_close_link" class="button">
-        &lt;&lt; {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
-      </a>
-
-      <form novalidate name="{{ add_form_name }}" 
-        {% if  app.environment != 'test' %}
-          action="{{ path('element_retrieve_api_datas') }}" method="post" {{ form_enctype(add_form) }}
-        {% else %}
-          action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}
-        {% endif %}
-      >
-
-        {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
-          'form'          : add_form, 
-          'form_name'     : add_form_name
-        } %}
-
-      {% if from_url is defined %}
-      {% if from_url %}
-        <script type="text/javascript">
-          $(document).ready(function(){
-            $('#element_add_box').slideDown("slow");
-            $('#element_add_link').hide();
-            $('form[name="search"]').slideUp();
-            $('img#form_add_loader').show();
-            $('input#element_add_url').val("{{ from_url }}");
-            $('form[name="add"]').submit();
-          });
-        </script>
+    <form novalidate name="{{ add_form_name }}" 
+      {% if  app.environment != 'test' %}
+        action="{{ path('element_retrieve_api_datas') }}" method="post" {{ form_enctype(add_form) }}
+      {% else %}
+        action="{{ path('element_add') }}" method="post" {{ form_enctype(add_form) }}
       {% endif %}
-      {% endif %}
+    >
 
-      </form>
-    </div>
-
-    <div id="added_element_to_group" style="display: none;">
-      <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
-      <p class="help">
-        {{ 'element_add.added_to_group.sentence'|trans({}, 'userui') }}
-      </p>
-      <ul id="groups_to_add_element"></ul>
-      <p class="cancel">
-        <a href="" class="cancel">
-          {{ 'element_add.added_to_group.nothanks'|trans({}, 'userui') }}
-        </a>
-      </p>
-    </div>
-
-    <form name="{{ search_form_name }}" action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
-
-      {% include "MuzichCoreBundle:SearchElement:form.html.twig" with { 
-        'form_name'               : search_form_name,
-        'search_tags'             : search_tags_id
+      {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
+        'form'          : add_form, 
+        'form_name'     : add_form_name
       } %}
 
-      <input class="main button" type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
+    {% if from_url is defined %}
+    {% if from_url %}
+      <script type="text/javascript">
+        $(document).ready(function(){
+          $('#element_add_box').slideDown("slow");
+          $('#element_add_link').hide();
+          $('form[name="search"]').slideUp();
+          $('img#form_add_loader').show();
+          $('input#element_add_url').val("{{ from_url }}");
+          $('form[name="add"]').submit();
+        });
+      </script>
+    {% endif %}
+    {% endif %}
 
     </form>
+  </div>
 
+  <div id="added_element_to_group" style="display: none;">
+    <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
+    <p class="help">
+      {{ 'element_add.added_to_group.sentence'|trans({}, 'userui') }}
+    </p>
+    <ul id="groups_to_add_element"></ul>
+    <p class="cancel">
+      <a href="" class="cancel">
+        {{ 'element_add.added_to_group.nothanks'|trans({}, 'userui') }}
+      </a>
+    </p>
+  </div>
+
+  <div class="top_tools" {% if search_tags_id|length == 0 %}style="display: none;"{% endif %}>
+  
+    <div class="search_tools">
+      <form name="{{ search_form_name }}" action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
+  
+        {% include "MuzichCoreBundle:SearchElement:form.html.twig" with { 
+          'form_name'               : search_form_name,
+          'search_tags'             : search_tags_id
+        } %}
+  
+        <input class="main button" type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>
+  
+      </form>
+    </div>
 
     <a href="{{ path('elements_get_filter_data_autoplay', {
       'type' : 'filter'

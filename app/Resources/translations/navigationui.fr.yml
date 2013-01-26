@@ -21,9 +21,10 @@ login:
   display:              J'ai déjà un compte
   
 home:
-  add_element:          Ajouter un élément
+  add_element:          Ajouter un partage
   add_element_box:
-    close:              Fermer
+    close:              Fermer l'ajout d'élément
+    title:              Ajouter un partage
   check_url:            Ajouter
   
 group:

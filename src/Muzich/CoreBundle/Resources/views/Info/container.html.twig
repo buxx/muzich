@@ -1,19 +1,41 @@
-<div id="bottomContainer">
-  
-  <a href="{{ path('info_about') }}" >
-    {{ 'bottom_menu.about'|trans({}, 'navigationui') }}
-  </a>
-  
-  -
-  
-  <a href="{{ path('info_development') }}" >
-    {{ 'bottom_menu.development'|trans({}, 'navigationui') }}
-  </a>-
-  
-  <a href="{{ path('info_sites') }}" >
-    {{ 'bottom_menu.sites'|trans({}, 'navigationui') }}
-  </a>
-  
-  
-  
-</div>
+<ul class="footer_pages_links footer_pages_links_sys">
+  <li>
+    <a href="{{ path('info_about') }}" >
+      {{ 'bottom_menu.about'|trans({}, 'navigationui') }}
+    </a>
+  </li>
+  <li>
+    <a href="{{ path('info_development') }}" >
+      {{ 'bottom_menu.development'|trans({}, 'navigationui') }}
+    </a>
+  </li>
+  <li>
+    <a href="{{ path('info_sites') }}" >
+      {{ 'bottom_menu.sites'|trans({}, 'navigationui') }}
+    </a>
+  </li>
+</ul>
+<ul class="footer_pages_links footer_pages_links_how">
+  <li>
+    <a href="" >
+      CGU
+    </a>
+  </li>
+  <li>
+    <a href="" >
+      FAQ
+    </a>
+  </li>
+</ul>
+<ul class="footer_pages_links footer_pages_links_user">
+  <li>
+    <a href="" >
+      Profil
+    </a>
+  </li>
+  <li>
+    <a href="" >
+      Paramètres
+    </a>
+  </li>
+</ul>

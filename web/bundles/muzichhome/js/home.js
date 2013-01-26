@@ -4,7 +4,11 @@ $(document).ready(function(){
    $('#element_add_link').click(function(){
      $('#element_add_box').slideDown("slow");
      $('#element_add_link').hide();
-     $('form[name="search"]').slideUp();
+     $('#element_add_close_link').show();
+     if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
+     {
+       $('div#home_top_tools').slideUp();
+     }
      // Au cas ou firefox garde la valeur step 2:
         $('input#form_add_step').val('1');
     $('form[name="add"]').attr('action', url_datas_api);
@@ -15,7 +19,13 @@ $(document).ready(function(){
    $('#element_add_close_link').click(function(){
      $('#element_add_box').slideUp("slow");
      $('#element_add_link').show();
-     $('form[name="search"]').slideDown();
+     $('#element_add_close_link').hide();
+     
+     if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
+     {
+       $('div#home_top_tools').slideDown();
+     }
+     
      //form_add_reinit();
      // copie du contenu de la fonction ci dessus, arrive pas a l'appeler ... huh
      $('div#element_add_box').slideUp();
