@@ -1,18 +1,25 @@
 {% extends "MuzichGroupBundle::layout.html.twig" %}
 
 {% block title %}Edition du groupe {{ group.name }}{% endblock %}
+{% block mainbox_classes %}mainbox_padding{% endblock %}
 
 {% block content %}
 
-  <h2>Edition du groupe {{ group.name }}</h2>
+  <div id="group_add_box" style="">
 
-  <form name="{{ form_name }}" action="{{ path('group_update', { 'slug': group.slug }) }}" method="post" {{ form_enctype(form) }}>
-    
-    {% include "MuzichGroupBundle:Form:form.html.twig" %}
-
-    {{ form_widget(form.tags, { 'attr': {'class': 'tagBox_tags_ids'} }) }}
-    
-    <input type="submit" class="button" />
-  </form>
+    <h2>Edition du groupe {{ group.name }}</h2>
+  
+    <form class="nicelabels" name="{{ form_name }}" action="{{ path('group_update', { 'slug': group.slug }) }}" method="post" {{ form_enctype(form) }}>
+      
+      {% include "MuzichGroupBundle:Form:form.html.twig" %}
+  
+      {{ form_widget(form.tags, { 'attr': {'class': 'tagBox_tags_ids'} }) }}
+      
+      <div class="alignright">
+        <input type="submit" class="button" value="{{ 'group.form.submit'|trans({}, 'groups') }}" />
+      </div>
+    </form>
+  
+  </div>
 
 {% endblock %}

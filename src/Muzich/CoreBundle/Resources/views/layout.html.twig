@@ -172,193 +172,145 @@
     
   </div>
   
-    <header id="header">
-      <hgroup>
-        <ul id="parameters">
-          <li>
-            <a href="" class="languages">
-              FR
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <img src="{{ asset('img/header_icon_params.png') }}" alt="parameters" />
-            </a>
-          </li>
-        </ul>
-        <a id="header_logo" href="{{ path('index') }}" title="">
-          <img src="{{ asset('img/header_logo.png') }}" alt="logo" />
-        </a>
-        <ul id="register_and_login">
-          <li>
-            <a href="" class="left">
-              Devenir membre
-            </a>
-          </li>
-          <li>
-            <a href="" class="right">
-              Connexion
-            </a>
-          </li>
-        </ul>
-        <ul id="header_menu">
-          
-          {% if network_public is not defined %}
-            {% set network_public = '' %}
-          {% endif %}
-          
-          <li class="{% if network_public == '1' and not ids_display %}selected{% endif %}">
-            <a href="{{ path('home') }}" class="all_network">
-              {{ 'filter.network_all'|trans({}, 'userui') }}
-            </a>
-          </li>
-          <li class="separator"></li>
-          <li class="{% if network_public == '0' and not ids_display %}selected{% endif %}">
-            <a href="{{ path('home') }}" class="my_network" >
-              {{ 'filter.network_my'|trans({}, 'userui') }}
-            </a>
-          </li>
-          <li class="separator"></li>
-          <li>
-            <a href="{{ path('show_user', {'slug': app.user.slug}) }}">
-              {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
-            </a>
-          </li>
-          <li class="separator"></li>
-          <li>
-            <a href="{{ path('groups_own_list') }}" >
-              {{ 'network.mygroups'|trans({}, 'navigationui') }}
-            </a>
-          </li>
-          <li class="separator"></li>
-          <li>
-            <a href="{{ path('favorites_my_list') }}" >
-              {{ 'container_menu.my_favorites'|trans({}, 'navigationui') }}
-            </a>
-          </li>
-          <li class="separator"></li>
-        </ul>
-      </hgroup>
-    </header>
-    
-    <div id="content">
+  <div id="container">
+  
+    <div id="main_content">
       
-      <div id="main">
-        
-        <div id="mainbox" class="nicebox {% block mainbox_classes %}{% endblock %}">
-          {% block main_content %}{% endblock %}
-          {% block fos_user_content %}{% endblock %}
-        </div>
-        
-      </div>
-        
-      <aside id="sidebar">
-        
-        <div id="user_statusbox" class="nicebox">
-          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            {% render "MuzichUserBundle:Event:infoBar" %}
-          {% endif %}
-        </div>
-        
-        <div id="searchbox" class="nicebox">
-          <div class="seachboxcontainer">
-            <form>
-              <input type="text" />
+      <header id="header">
+        <hgroup>
+            {% include "MuzichCoreBundle:Language:languages.html.twig" %}
+            <!--
+          <ul id="parameters"><li>
               <a href="">
-                <img src="{{ asset('/img/icon_search.png') }}" alt="search" />
+                <img src="{{ asset('img/header_icon_params.png') }}" alt="parameters" />
               </a>
-            </form>
+            </li></ul>-->
+          
+          <a id="header_logo" href="{{ path('index') }}" title="">
+            <img src="{{ asset('img/header_logo.png') }}" alt="logo" />
+          </a>
+          <ul id="register_and_login">
+            {% if not app.user %}
+              <!--<li>
+                <a href="" class="left">
+                  Devenir membre
+                </a>
+              </li>
+              <li>
+                <a href="" class="right">
+                  Connexion
+                </a>
+              </li>-->
+            {% else %}
+              <li>
+                <a href="{{ path('my_account') }}" class="left">
+                  {{ 'top_bar.my_account'|trans({}, 'navigationui') }}
+                </a>
+              </li>
+              <li>
+                <a class="right" href="{{ path('fos_user_security_logout') }}">
+                    {{ 'top_bar.logout'|trans({}, 'navigationui') }}
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+          
+          {% if app.user %}
+          <ul id="header_menu">
+            
+            {% if network_public is not defined %}
+              {% set network_public = '' %}
+            {% endif %}
+            
+            <li class="{% if network_public == '1' and not ids_display %}selected{% endif %}">
+              <a href="{{ path('home') }}" class="all_network">
+                {{ 'filter.network_all'|trans({}, 'userui') }}
+              </a>
+            </li>
+            <li class="separator"></li>
+            <li class="{% if network_public == '0' and not ids_display %}selected{% endif %}">
+              <a href="{{ path('home') }}" class="my_network" >
+                {{ 'filter.network_my'|trans({}, 'userui') }}
+              </a>
+            </li>
+            <li class="separator"></li>
+            <li class="{% if app.request.get('topmenu') == 'showuser' and app.request.get('slug') == app.user.slug %}selected{% endif %}">
+              <a href="{{ path('show_user', {'slug': app.user.slug}) }}">
+                {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
+              </a>
+            </li>
+            <li class="separator"></li>
+            {% if his_group is not defined %}{% set his_group = false %}{% endif %}
+            <li class="{% if app.request.get('topmenu') == 'mygroups' or his_group == true %}selected{% endif %}">
+              <a href="{{ path('groups_own_list') }}" >
+                {{ 'network.mygroups'|trans({}, 'navigationui') }}
+              </a>
+            </li>
+            <li class="separator"></li>
+            <li class="{% if app.request.get('topmenu') == 'myfavorites' %}selected{% endif %}">
+              <a href="{{ path('favorites_my_list') }}" >
+                {{ 'container_menu.my_favorites'|trans({}, 'navigationui') }}
+              </a>
+            </li>
+            <li class="separator"></li>
+          </ul>
+          {% endif %}
+          
+        </hgroup>
+      </header>
+      
+      <div id="content">
+        
+        <div id="main">
+          
+          <div id="mainbox" class="nicebox {% block mainbox_classes %}{% endblock %}">
+            {% block main_content %}{% endblock %}
+            {% block fos_user_content %}{% endblock %}
           </div>
-        </div>
-        
-        <div id="social" class="nicebox">
-          <ul class="social_links">
-            <li>
-              <a href="" >
-                <img src="{{ asset('/img/icon_facebook.png') }}" alt="facebook" />
-              </a>
-            </li>
-            <li>
-              <a href="" >
-                <img src="{{ asset('/img/icon_twitter.png') }}" alt="twitter" />
-              </a>
-            </li>
-            <li>
-              <a href="" >
-                <img src="{{ asset('/img/icon_googleplus.png') }}" alt="google plus" />
-              </a>
-            </li>
-          </ul>
-        </div>
-        
-        <div id="secondarymenu" class="nicebox">
           
-          <ul class="secondarymenu">
-            <li class="top_menu_element open">
-              
-              <a href="" class="top_menu_link">
-                <div class="blackgradiant">
-                    Menu element
-                    <div class="dart"></div>
-                </div>
-              </a>
-              
-              <ul class="submenu">
-                <li class="sub_menu_element">
+        </div>
+          
+        <aside id="sidebar">
+          
+          {% if app.user %}
+            <div id="user_statusbox" class="nicebox">
+              {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {% render "MuzichUserBundle:Event:infoBar" %}
+              {% endif %}
+            </div>
+          
+            <div id="searchbox" class="nicebox">
+              {% render "MuzichCoreBundle:Search:renderGlobalSearchForm" %}
+            </div>
+            
+            <!--<div id="social" class="nicebox">
+              <ul class="social_links">
+                <li>
                   <a href="" >
-                    sub menu element
+                    <img src="{{ asset('/img/icon_facebook.png') }}" alt="facebook" />
                   </a>
                 </li>
-                <li class="sub_menu_element">
+                <li>
                   <a href="" >
-                    sub menu element
+                    <img src="{{ asset('/img/icon_twitter.png') }}" alt="twitter" />
                   </a>
                 </li>
-                <li class="sub_menu_element">
+                <li>
                   <a href="" >
-                    sub menu element
+                    <img src="{{ asset('/img/icon_googleplus.png') }}" alt="google plus" />
                   </a>
                 </li>
               </ul>
-            </li>
-              
-          </ul>
+            </div>-->
+            
+            {% render 'MuzichCoreBundle:Core:renderSideMenu' %}
           
-          <ul class="secondarymenu">
-            <li class="top_menu_element close">
-              
-              <a href="" class="top_menu_link">
-                <div class="blackgradiant">
-                    Menu element
-                    <div class="dart"></div>
-                </div>
-              </a>
-              
-              <ul class="submenu">
-                <li class="sub_menu_element">
-                  <a href="" >
-                    sub menu element
-                  </a>
-                </li>
-                <li class="sub_menu_element">
-                  <a href="" >
-                    sub menu element
-                  </a>
-                </li>
-                <li class="sub_menu_element">
-                  <a href="" >
-                    sub menu element
-                  </a>
-                </li>
-              </ul>
-            </li>
-              
-          </ul>
+          {% endif %}
           
-        </div>
-                
-      </aside>
-        
+        </aside>
+          
+      </div>
+      
     </div>
     
     <div id="footer">
@@ -377,7 +329,7 @@
       
     </div>
     
-    
+  </div>
     
   </body>
 </html>

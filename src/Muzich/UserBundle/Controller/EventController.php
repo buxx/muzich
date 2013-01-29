@@ -53,30 +53,23 @@ class EventController extends Controller
     // A partir d'ici on a ce qu'il faut.
     // On modifie l'Element Searcher en lui donnat les ids correspondant a l'event
     
-    $es = $this->getElementSearcher();
+    $user = $this->getUser();
+    $es = $this->getNewElementSearcher();
+    $es->setNoTags();
     $es->setIds($event->getIds());
     $es->setIdsDisplay($event->getType());
-    $this->setElementSearcherParams($es->getParams());
-    $this->getDoctrine()->getEntityManager()->remove($event);
-    $this->getDoctrine()->getEntityManager()->flush();
     
-    // Si ajax
-    if ($this->getRequest()->isXmlHttpRequest())
-    {
-      $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
-        'user'        => $this->getUser(),
-        'elements'    => $es->getElements($this->getDoctrine(), $this->getUserId()),
-        'invertcolor' => false
-      ))->getContent();
-      
-      return $this->jsonResponse(array(
-        'status'  => 'success',
-        'html'    => $html
-      ));
-    }
+    $this->setElementSearcherParams($es->getParams(), $user->getPersonalHash($event->getId()));
+    //$this->getDoctrine()->getEntityManager()->remove($event);
+    //$this->getDoctrine()->getEntityManager()->flush();
+        
+    $elements = $es->getElements($this->getDoctrine(), $this->getUserId());
     
-    // Sinon on redirige vers home
-    return $this->redirect($this->generateUrl('home'));
+    return $this->render('MuzichUserBundle:Event:elements.html.twig', array(
+      'elements'        => $elements,
+      'last_element_id' => $elements[count($elements)-1]->getId(),
+      'event'           => $event
+    ));
   }
-    
+  
 }

@@ -8,7 +8,7 @@ container_menu:
   need_tags:            Demandes
   
 top_bar:
-  my_account:           Mon compte (%name%)
+  my_account:           Mon compte
   logout:               Déconnexion
   
 network:

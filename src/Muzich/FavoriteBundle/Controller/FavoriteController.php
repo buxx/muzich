@@ -237,7 +237,7 @@ class FavoriteController extends Controller
     );
   }
   
-  public function getElementsAction($user_id, $tags_ids_json, $id_limit = null, $invert = false)
+  public function getElementsAction($user_id, $tags_ids_json, $id_limit = null)
   {
     if (($response = $this->mustBeConnected()))
     {
@@ -278,8 +278,7 @@ class FavoriteController extends Controller
     {
       $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
         'user'        => $this->getUser(),
-        'elements'    => $elements,
-        'invertcolor' => $invert
+        'elements'    => $elements
       ))->getContent();
     }
     

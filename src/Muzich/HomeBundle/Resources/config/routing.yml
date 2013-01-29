@@ -10,11 +10,11 @@ home_more:
   
 show_user:
   pattern: /user/{slug}
-  defaults: { _controller: MuzichHomeBundle:Show:showUser }
+  defaults: { _controller: MuzichHomeBundle:Show:showUser, topmenu: showuser }
   
 show_user_more:
   pattern: /user/{slug}/more/{count}
-  defaults: { _controller: MuzichHomeBundle:Show:showUser, count: null }
+  defaults: { _controller: MuzichHomeBundle:Show:showUser, count: null, topmenu: showgroup }
   
 show_group:
   pattern: /group/{slug}

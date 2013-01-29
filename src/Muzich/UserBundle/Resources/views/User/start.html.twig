@@ -1,13 +1,14 @@
 {% extends "MuzichUserBundle::layout.html.twig" %}
 
 {% block title %}{{ 'start.title'|trans([], 'userui') }}{% endblock %}
+{% block mainbox_classes %}mainbox_padding mainbox_start{% endblock %}
 
 {% block content %}
 
-  <h2>{{ 'start.titleh2'|trans([], 'userui') }}</h2>
+  <h1>{{ 'start.titleh2'|trans([], 'userui') }}</h1>
   
   <p>
-    {{ 'start.description'|trans([], 'userui') }}</h2>
+    {{ 'start.description'|trans([], 'userui') }}
   </p>
   
   <h3>{{ 'start.tags.title'|trans([], 'userui') }}</h3>

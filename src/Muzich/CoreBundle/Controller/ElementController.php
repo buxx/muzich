@@ -412,8 +412,7 @@ class ElementController extends Controller
     // On en fait un rendu graphique
     $html_elements = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
       'user'        => $this->getUser(),
-      'elements'    => $elements,
-      'invertcolor' => false
+      'elements'    => $elements
     ))->getContent();
     
     // On calcule le nouveau compte de nouveaux

@@ -273,6 +273,15 @@ class ElementSearcherQueryBuilder
       $this->query_ids->andWhere("e.need_tags  = '1'");
     }
   }
+  
+  private function buildIdsLimits()
+  {
+    if ($this->es->hasIds())
+    {
+      $this->query_ids->andWhere('e.id IN (:limiteds_ids)');
+      $this->parameters_ids['limiteds_ids'] = $this->es->getIds();
+    }
+  }
 
   /**
    *
@@ -313,6 +322,8 @@ class ElementSearcherQueryBuilder
     }
     // Si on recherche des partages en demande de tags
     $this->buildNeedTags();
+    // Si on a fournis des ids dés le départ
+    $this->buildIdsLimits();
     
     $this->query_ids->setParameters($this->parameters_ids);
   }
@@ -325,12 +336,12 @@ class ElementSearcherQueryBuilder
    */
   public function getIdsQuery($disable_limit = false)
   {
-    // Contrôle de la demande
-    if ($this->es->hasIds())
-    {
-      throw new \Exception("Vous demandez un Query_ids avec un ElementSearcher "
-        ."possédant déjà une liste d'ids");
-    }
+    //// Contrôle de la demande
+    //if ($this->es->hasIds())
+    //{
+    //  throw new \Exception("Vous demandez un Query_ids avec un ElementSearcher "
+    //    ."possédant déjà une liste d'ids");
+    //}
     
     if ($this->proceedIdsQuery($disable_limit) === false)
     {
@@ -344,31 +355,22 @@ class ElementSearcherQueryBuilder
   {
     
     // On récupère les ids d'éléments
-    if (!$this->es->hasIds())
+    if (($ids_query = $this->getIdsQuery()) === false)
     {
-      
-      if (($ids_query = $this->getIdsQuery()) === false)
-      {
-        return false;
-      }
-      
-      // On va récupérer les ids en base en fonction des paramètres
-      $q_ids = $ids_query->getArrayResult();
-     
-      $element_ids = array();
-      if (count($q_ids))
-      {
-        // On prépare les ids pour la requete des éléments
-        foreach ($q_ids as $r_id)
-        {
-          $element_ids[] = $r_id['id'];
-        }
-      }
+      return false;
     }
-    else
+    
+    // On va récupérer les ids en base en fonction des paramètres
+    $q_ids = $ids_query->getArrayResult();
+   
+    $element_ids = array();
+    if (count($q_ids))
     {
-      // Les ids sont déjà transmis par la demande
-      $element_ids = $this->es->getIds();
+      // On prépare les ids pour la requete des éléments
+      foreach ($q_ids as $r_id)
+      {
+        $element_ids[] = $r_id['id'];
+      }
     }
     
     if (!count($element_ids))

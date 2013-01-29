@@ -19,7 +19,7 @@
     {% endif %}
     
     <div class="show_options">
-      
+            
       {% if app.user.id != viewed_user.id %}
         <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash }) }}" 
            class="follow_link button darkbutton {% if following %}following{% else %}notfollowing{% endif %}" >
@@ -30,6 +30,10 @@
           {% endif %}
         </a>
       {% endif %}
+      
+      <a class="button darkbutton" href="{{ path('favorite_user_list', {'slug' : viewed_user.slug}) }}" >
+        {{ 'user.view_favorites'|trans({}, 'users') }}
+      </a>
       
     </div>
     

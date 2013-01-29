@@ -36,9 +36,13 @@ class Controller extends BaseController
    * 
    * @param array $params
    */
-  protected function setElementSearcherParams($params)
+  protected function setElementSearcherParams($params, $session_id = '')
   {
-    $this->get("session")->set('user.element_search.params', $params);
+    if ($session_id != '')
+    {
+      $session_id = '.'.$session_id;
+    }
+    $this->get("session")->set('user.element_search.params'.$session_id, $params);
   }
   
   /**
@@ -51,11 +55,15 @@ class Controller extends BaseController
    * 
    * @return  ElementSearcher
    */
-  protected function getElementSearcher($count = null, $force_new = false)
+  protected function getElementSearcher($count = null, $force_new = false, $session_id = '')
   {
     $session = $this->get("session");
+    if ($session_id != '')
+    {
+      $session_id = '.'.$session_id;
+    }
     // Si l'objet n'existe pas encore, a t-on déjà des paramètres de recherche
-    if (!$session->has('user.element_search.params') || $force_new)
+    if (!$session->has('user.element_search.params'.$session_id) || $force_new)
     {
       // Il nous faut instancier notre premier objet recherche
       // Premièrement on récupère les tags favoris de l'utilisateur
@@ -77,7 +85,7 @@ class Controller extends BaseController
       // Des paramètres existes, on fabrique l'objet recherche
       $this->ElementSearcher = new ElementSearcher();
       // et on l'initatialise avec ces paramétres connus
-      $this->ElementSearcher->init($session->get('user.element_search.params'));
+      $this->ElementSearcher->init($session->get('user.element_search.params'.$session_id));
       if ($count)
       {
         $this->ElementSearcher->update(array('count' => $count));
@@ -86,6 +94,11 @@ class Controller extends BaseController
     
     // on le retourne
     return $this->ElementSearcher;
+  }
+  
+  protected function getNewElementSearcher()
+  {
+    return $this->getElementSearcher(null, true);
   }
   
   /**

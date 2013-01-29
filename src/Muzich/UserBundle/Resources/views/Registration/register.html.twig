@@ -1,7 +1,7 @@
 <div class="register">
   <form action="{{ path('register') }}" {{ form_enctype(form) }} 
     method="POST" 
-    class="fos_user_registration_register"
+    class="fos_user_registration_register nicelabels"
   >
         
     {% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
@@ -19,25 +19,25 @@
     <div class="field">
       {{ form_errors(form.username) }}
       {{ form_label(form.username, 'username'|trans({}, 'userform')) }}
-      {{ form_widget(form.username) }}
+      {{ form_widget(form.username, {'attr':{'class':'niceinput'}}) }}
     </div>   
         
     <div class="field">
       {{ form_errors(form.email) }}
       {{ form_label(form.email, 'email'|trans({}, 'userform')) }}
-      {{ form_widget(form.email) }}
+      {{ form_widget(form.email, {'attr':{'class':'niceinput'}}) }}
     </div> 
     
     <div class="field">
       {{ form_errors(form.plainPassword.first) }}
       {{ form_label(form.plainPassword.first, 'password.first'|trans({}, 'userform')) }}
-      {{ form_widget(form.plainPassword.first) }}
+      {{ form_widget(form.plainPassword.first, {'attr':{'class':'niceinput'}}) }}
     </div> 
     
     <div class="field">
       {{ form_errors(form.plainPassword.second) }}
       {{ form_label(form.plainPassword.second, 'password.second'|trans({}, 'userform')) }}
-      {{ form_widget(form.plainPassword.second) }}
+      {{ form_widget(form.plainPassword.second, {'attr':{'class':'niceinput'}}) }}
     </div> 
     
     <span class="help">{{ 'help.token'|trans({}, 'userform') }}</span>
@@ -45,13 +45,13 @@
     <div class="field">
       {{ form_errors(form.token) }}
       {{ form_label(form.token, 'token'|trans({}, 'userform')) }}
-      {{ form_widget(form.token) }}
+      {{ form_widget(form.token, {'attr':{'class':'niceinput'}}) }}
     </div> 
 
     {{ form_rest(form) }}
     
-    <div>
-        <input type="submit" class="button" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+    <div class="alignright">
+        <input type="submit" class="button" value="{{ 'registration.submit'|trans({}, 'userui') }}" />
     </div>
   </form>
 </div>

@@ -292,9 +292,9 @@ $(document).ready(function(){
       $(this).parent('li').addClass('selected');
     }
     
-    if ($('div#home_top_tools:visible').length)
+    if ($('div.top_tools:visible').length)
     {
-      $('div#home_top_tools').slideUp();
+      $('div.top_tools').slideUp();
     }
     
     // On initialise la liste de tags déjà ajouté
@@ -314,9 +314,9 @@ $(document).ready(function(){
     $(this).parents('ul#tabs_tag_search_buttons').find('li').removeClass('selected');
     $(this).parent('li').addClass('selected');
     
-    if ($('div#home_top_tools:visible').length == 0)
+    if ($('div.top_tools:visible').length == 0)
     {
-      $('div#home_top_tools').slideDown();
+      $('div.top_tools').slideDown();
     }
     
     var form = $('form[name="search"]');
@@ -357,9 +357,9 @@ $(document).ready(function(){
       {
         $('ul#tabs_tag_search_buttons').find('li').removeClass('selected');
         $('li#tab_li_tag_search_with_tags').addClass('selected');
-        if (!$('div#home_top_tools:visible').length)
+        if (!$('div.top_tools:visible').length)
         {
-          $('div#home_top_tools').slideDown();
+          $('div.top_tools').slideDown();
         }
       }
       
@@ -517,30 +517,41 @@ $(document).ready(function(){
    // Plus d'éléments
    var last_id = null;
    $('a.elements_more').click(function(){
-     var link = $(this);
-     var last_element = $('ul.elements li.element:last-child');
-     var id_last = str_replace('element_', '', last_element.attr('id'));
-     var invertcolor = 0;
-     if (last_element.hasClass('even'))
-     {
-       invertcolor = 1;
-     }
-     $('img.elements_more_loader').show();
-     
-     var url = link.attr('href')+'/'+id_last+'/'+invertcolor;
-     // Cas exeptionel si on se trouve sur la global_search
-     if ($('div#results_search_form').length)
-     {
-       url = link.attr('href')+id_last+'/'+$('div#results_search_form form input[type="text"]').val();
-     }
-     
-     var old_form_action = $('form[name="search"]').attr('action');
-     $('form[name="search"]').attr('action', url);
+    
+    $('img.elements_more_loader').show();
+    // On fait un cas isolé (pour l'instant!!)
+    if (!$(this).hasClass('event_view'))
+    {
+      var link = $(this);
+      var last_element = $('ul.elements li.element:last-child');
+      var id_last = str_replace('element_', '', last_element.attr('id'));
+      
+      
+      var url = link.attr('href')+'/'+id_last;
+      // Cas exeptionel si on se trouve sur la global_search
+      if ($('div#results_search_form').length)
+      {
+        url = link.attr('href')+id_last+'/'+$('div#results_search_form form input[type="text"]').val();
+      }
+      
+      var old_form_action = $('form[name="search"]').attr('action');
+      $('form[name="search"]').attr('action', url);
+      
+      var data = $('form[name="search"]').serialize();
+      var type = 'POST';
+    }
+    else
+    {
+      var link = $(this);
+      var url = $(this).attr('href');
+      var data = {};
+      var type = 'GET';
+    }
          
      $.ajax({
-       type: 'POST',
+       type: type,
        url: url,
-       data: $('form[name="search"]').serialize(),
+       data: data,
        success: function(response) {
           if (response.status == 'mustbeconnected')
            {
@@ -552,8 +563,13 @@ $(document).ready(function(){
             $('ul.elements').append(response.html);
             $('img.elements_more_loader').hide();
             recolorize_element_list();
+            
+            if (link.hasClass('event_view'))
+            {
+              link.attr('href', response.data.more_link_href);
+            }
           }
-
+          
           if (response.end || response.count < 1)
           {
             $('img.elements_more_loader').hide();
@@ -564,32 +580,12 @@ $(document).ready(function(){
         },
        dataType: "json"
      });
-         
-     $('form[name="search"]').attr('action', old_form_action);
      
-//     $.getJSON(url, function(response) {
-//       if (response.status == 'mustbeconnected')
-//        {
-//          $(location).attr('href', url_index);
-//        }
-//       
-//       if (response.count)
-//       {
-//         $('ul.elements').append(response.html);
-//         $('img.elements_more_loader').hide();
-//         recolorize_element_list();
-//       }
-//       
-//       if (response.end || response.count < 1)
-//       {
-//         $('img.elements_more_loader').hide();
-//         $('ul.elements').after('<div class="no_elements"><p class="no-elements">'+
-//           response.message+'</p></div>');
-//         link.hide();
-//       }
-//     });
-
-     return false;
+     if (!$(this).hasClass('event_view'))
+    {
+      $('form[name="search"]').attr('action', old_form_action);
+    }
+    return false;
    });
    
   tag_box_input_value = $('ul.tagbox input[type="text"]').val();
@@ -1177,7 +1173,7 @@ $(document).ready(function(){
       {
         if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
         {
-          $('div#home_top_tools').slideDown();
+          $('div.top_tools').slideDown();
         }
       }
       remove_tags('add');
@@ -2438,6 +2434,38 @@ $(document).ready(function(){
       });
     }
     
+  });
+  
+  /* Click sur le bouton de recherche des champs de recherches */
+  $('div.seachboxcontainer a.global_search_link').click(function(){
+    $(this).parents('div.seachboxcontainer').find('form').submit();
+  });
+  
+  /* Ouverture des menus deroulants */
+  $('ul.secondarymenu a.top_menu_link').click(function(){
+    
+    if ($(this).parents('li.top_menu_element').hasClass('close'))
+    {
+      $(this).parents('li.top_menu_element').find('ul.submenu').hide();
+      $(this).parents('li.top_menu_element').removeClass('close');
+      $(this).parents('li.top_menu_element').addClass('open');
+      $(this).parents('li.top_menu_element').find('ul.submenu').slideDown();
+    }
+    else
+    {
+      $(this).parents('li.top_menu_element').removeClass('open');
+      $(this).parents('li.top_menu_element').addClass('close');
+    }
+    
+    return false;
+  });
+
+  $('div#secondarymenu ul.submenu').each(function(){
+    if ($(this).find('li').length > 7)
+    {
+      $(this).css('overflow', 'auto');
+      $(this).css('height', '283px');
+    }
   });
 
 });

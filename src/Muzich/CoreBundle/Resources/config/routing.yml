@@ -5,15 +5,15 @@ search_elements:
   defaults: { _controller: MuzichCoreBundle:Search:searchElements }
   
 search_elements_more:
-  pattern:  /search-elements/{id_limit}/{invertcolors}
-  defaults: { _controller: MuzichCoreBundle:Search:searchElements }
+  pattern:  /search-elements/{id_limit}/{session_id}
+  defaults: { _controller: MuzichCoreBundle:Search:searchElements, session_id: null }
    
 search_elements_show_more_empty:
   pattern:  /search-elements/show/{type}/{object_id}
   defaults: { _controller: MuzichCoreBundle:Search:searchElementsShow }
     
 search_elements_show_more:
-  pattern:  /search-elements/show/{type}/{object_id}/{id_limit}/{invertcolors}
+  pattern:  /search-elements/show/{type}/{object_id}/{id_limit}
   defaults: { _controller: MuzichCoreBundle:Search:searchElementsShow }
    
 global_search_elements_empty:

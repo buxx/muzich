@@ -184,6 +184,11 @@ class ElementSearcher extends Searcher implements SearcherInterface
     return false;
   }
   
+  public function setNoTags()
+  {
+    $this->tags = array();
+  }
+  
   public function getTags($tags_string = false)
   {
     if (!$tags_string)

@@ -9,7 +9,7 @@ favorite_remove:
 
 favorites_my_list:
   pattern:   /favorites
-  defaults: { _controller: MuzichFavoriteBundle:Favorite:myList }
+  defaults: { _controller: MuzichFavoriteBundle:Favorite:myList, topmenu: myfavorites }
 
 favorite_user_list:
   pattern:   /user/{slug}/favorites

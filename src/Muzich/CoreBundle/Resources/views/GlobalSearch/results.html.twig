@@ -1,66 +1,68 @@
 {% extends "MuzichCoreBundle::layout.html.twig" %}
 
 {% block title %}Recherche{% endblock %}
+{% block mainbox_classes %}mainbox_padding{% endblock %}
 
 {% block main_content %}
 
-  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with {'active': null} %}
-  
   <div id="results_search_form">
     {% include "MuzichCoreBundle:GlobalSearch:form.html.twig" with {'form': form } %}
   </div>
   
-  {% if results.users|length or results.groups|length or results.elements|length %}
+  <div class="global_search_results">
+    {% if results.users|length or results.groups|length or results.elements|length %}
+    
+      {% if results.users %}
   
-    {% if results.users %}
-
-      <b>{{ 'search.users'|trans({}, 'network') }}</b>
-      
-      <ul id="search_users" class="inline">
-      {% for user in results.users %} 
-        <li>
-          <a href="{{ path('show_user', { 'slug': user.slug }) }}">{{ user.username }}</a>
-        </li>
-      {% endfor %}
-      </ul>
-
+        <b>{{ 'search.users'|trans({}, 'network') }}</b>
+        
+        <ul id="search_users" class="inline">
+        {% for user in results.users %} 
+          <li>
+            <a href="{{ path('show_user', { 'slug': user.slug }) }}">{{ user.username }}</a>
+          </li>
+        {% endfor %}
+        </ul>
+  
+      {% endif %}
+    
+      {% if results.groups %}
+  
+        <b>{{ 'search.groups'|trans({}, 'network') }}</b>
+        
+        <ul id="search_groups" class="inline">
+        {% for group in results.groups %} 
+          <li>
+            <a href="{{ path('show_group', { 'slug': group.slug }) }}">{{ group.name }}</a>
+          </li>
+        {% endfor %}
+        </ul>
+  
+      {% endif %}
+    
+      {% if results.elements %}
+  
+        <b>{{ 'search.elements'|trans({}, 'network') }}</b>
+        
+        {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {
+          'noelements_filter' : true,
+          'elements'          : results.elements
+        }%}
+        
+        {% include "MuzichCoreBundle:SearchElement:more_button.html.twig" with {
+          'display_more_button' : display_more_button,
+          'elements_length'     : results.elements|length,
+          'more_path'           : 'global_search_elements_empty'
+        }%}
+        
+      {% endif %}
+        
+    {% elseif app.request.getMethod == 'POST' %}
+        <p>
+          {{ 'global_search.no_results'|trans({}, 'userui') }}
+        </p>
     {% endif %}
   
-    {% if results.groups %}
-
-      <b>{{ 'search.groups'|trans({}, 'network') }}</b>
-      
-      <ul id="search_groups" class="inline">
-      {% for group in results.groups %} 
-        <li>
-          <a href="{{ path('show_group', { 'slug': group.slug }) }}">{{ group.name }}</a>
-        </li>
-      {% endfor %}
-      </ul>
-
-    {% endif %}
+  </div>
   
-    {% if results.elements %}
-
-      <b>{{ 'search.elements'|trans({}, 'network') }}</b>
-      
-      {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {
-        'noelements_filter' : true,
-        'elements'          : results.elements
-      }%}
-      
-      {% include "MuzichCoreBundle:SearchElement:more_button.html.twig" with {
-        'display_more_button' : display_more_button,
-        'elements_length'     : results.elements|length,
-        'more_path'           : 'global_search_elements_empty'
-      }%}
-      
-    {% endif %}
-      
-  {% elseif app.request.getMethod == 'POST' %}
-      <p>
-        {{ 'global_search.no_results'|trans({}, 'userui') }}
-      </p>
-  {% endif %}
-
 {% endblock %}

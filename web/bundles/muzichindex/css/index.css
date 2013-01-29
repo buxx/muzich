@@ -17,11 +17,11 @@
 
 #login_box input[id="username"], #login_box input[id="password"]
 {
-  width: 100px;
+  width: 230px;
 }
 
-#registration_link, #login_link
+/*#registration_link, #login_link
 {
   float: right;
   font-size: 120%;
-}
+}*/

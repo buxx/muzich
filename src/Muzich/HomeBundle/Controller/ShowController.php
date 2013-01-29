@@ -144,7 +144,7 @@ class ShowController extends Controller
     );
   }
   
-  public function getElementsAction($type, $object_id, $tags_ids_json, $id_limit = null, $invert = false)
+  public function getElementsAction($type, $object_id, $tags_ids_json, $id_limit = null)
   {
     if (($response = $this->mustBeConnected()))
     {
@@ -190,8 +190,7 @@ class ShowController extends Controller
     {
       $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
         'user'        => $this->getUser(),
-        'elements'    => $elements,
-        'invertcolor' => $invert
+        'elements'    => $elements
       ))->getContent();
     }
     

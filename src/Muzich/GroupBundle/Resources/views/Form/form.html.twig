@@ -2,21 +2,21 @@
 
 {{ form_errors(form) }}
 
-<div class="field">
+<div class="field name">
   {{ form_errors(form.name) }}
   {{ form_label(form.name, 'name'|trans({}, 'groupform')) }}
-  {{ form_widget(form.name) }}
+  {{ form_widget(form.name, {'attr':{'class':'niceinput'}}) }}
 </div>
 
-<div class="field">
+<div class="field description">
   {{ form_errors(form.description) }}
   {{ form_label(form.description, 'description'|trans({}, 'groupform')) }}
-  {{ form_widget(form.description) }}
+  {{ form_widget(form.description, {'attr':{'class':'nicetextbox'}}) }}
 </div>
 
   <i>{{ 'openhelp'|trans({}, 'groupform') }}</i>
 
-<div class="field">
+<div class="field open">
   {{ form_errors(form.open) }}
   {{ form_label(form.open, 'open'|trans({}, 'groupform')) }}
   {{ form_widget(form.open) }}

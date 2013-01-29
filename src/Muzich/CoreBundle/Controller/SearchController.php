@@ -21,22 +21,27 @@ class SearchController extends Controller
    * par defalt de la liste d'élément.
    * 
    * @param Collection $elements
-   * @param boolean $invertcolors
    * @param sring $message
+   * @param string $session_id
    * @return Response 
    */
-  protected function searchElementsMore($elements, $invertcolors, $message)
+  protected function searchElementsMore($elements, $message, $session_id)
   {
     
+    $data = array();
     $end = (($count = count($elements)) < $this->container->getParameter('search_ajax_more'));
     $html = '';
     if ($count)
     {
       $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
         'user'        => $this->getUser(),
-        'elements'    => $elements,
-        'invertcolor' => $invertcolors
+        'elements'    => $elements
       ))->getContent();
+      
+      $data['more_link_href'] = $this->generateUrl('search_elements_more', array(
+        'id_limit'   => $elements[count($elements)-1]->getId(),
+        'session_id' => $session_id
+      ));
     }
     
     return $this->jsonResponse(array(
@@ -44,7 +49,8 @@ class SearchController extends Controller
       'count'   => $count,
       'message' => $message,
       'html'    => $html,
-      'end'     => $end
+      'end'     => $end,
+      'data'    => $data
     ));
   }
   
@@ -53,7 +59,7 @@ class SearchController extends Controller
    * que les paramétres en session). 
    * 
    */
-  public function searchElementsAction($id_limit = null, $invertcolors = false)
+  public function searchElementsAction($id_limit = null, $session_id = null)
   {
     if (($response = $this->mustBeConnected()))
     {
@@ -61,7 +67,7 @@ class SearchController extends Controller
     }
     
     $request = $this->getRequest();
-    $search_object = $this->getElementSearcher();
+    $search_object = $this->getElementSearcher(null, false, $session_id);
     
     $search_form = $this->getSearchForm($search_object);
     
@@ -89,7 +95,7 @@ class SearchController extends Controller
     }
     
     if ($this->getRequest()->isXmlHttpRequest())
-    { 
+    {
       if ($form_submited && !$id_limit)
       {
         $message = $this->trans(
@@ -112,14 +118,14 @@ class SearchController extends Controller
       }
       
       // template qui apelle doSearchElementsAction 
-      $search = $this->getElementSearcher();
-      $search->update(array(
+      $search_object->update(array(
         'count'    => $this->container->getParameter('search_ajax_more'),
         'id_limit' => $id_limit
       ));
-      $elements = $search->getElements($this->getDoctrine(), $this->getUserId());
       
-      return $this->searchElementsMore($elements, $invertcolors, $message);      
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+      
+      return $this->searchElementsMore($elements, $message, $session_id);      
     }
     else
     {
@@ -134,10 +140,9 @@ class SearchController extends Controller
    * @param string $type
    * @param string $object_id
    * @param int $id_limit
-   * @param boolean $invertcolors
    * @return Response 
    */
-  public function searchElementsShowAction($type, $object_id, $id_limit, $invertcolors)
+  public function searchElementsShowAction($type, $object_id, $id_limit)
   {
     if ($this->getRequest()->isXmlHttpRequest())
     {
@@ -173,7 +178,7 @@ class SearchController extends Controller
 
       $elements = $search->getElements($this->getDoctrine(), $this->getUserId());
       
-      return $this->searchElementsMore($elements, $invertcolors,
+      return $this->searchElementsMore($elements,
         $this->trans(
           'elements.ajax.more.noelements', 
           array(), 

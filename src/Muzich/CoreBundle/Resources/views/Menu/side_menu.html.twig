@@ -1,0 +1,90 @@
+<div id="secondarymenu" class="nicebox">
+  
+  <ul class="secondarymenu">
+    <li class="top_menu_element close">
+      
+      <a href="" class="top_menu_link">
+        <div class="blackgradiant">
+            {{ 'submenu.followed_users.title'|trans({}, 'userui') }}
+            <div class="dart"></div>
+        </div>
+      </a>
+      
+      <ul class="submenu">
+        {% if followeds_users %}
+          {% for user in followeds_users %}
+            <li class="sub_menu_element">
+              <a href="{{ path('show_user', { 'slug': user.slug }) }}">
+                {{ user.username }}
+              </a>
+            </li>
+          {% endfor %}
+        {% else %}
+          <li class="sub_menu_element">
+            {{ 'submenu.followed_users.nouser'|trans({}, 'userui') }}
+          </li>
+        {% endif %}
+      </ul>
+    </li>
+      
+  </ul>
+  
+  <ul class="secondarymenu">
+    <li class="top_menu_element close">
+      
+      <a href="" class="top_menu_link">
+        <div class="blackgradiant">
+            {{ 'submenu.followed_groups.title'|trans({}, 'userui') }}
+            <div class="dart"></div>
+        </div>
+      </a>
+      
+      <ul class="submenu">
+        {% if followeds_groups %}
+          {% for group in followeds_groups %}
+            <li class="sub_menu_element">
+              <a href="{{ path('show_group', { 'slug': group.slug }) }}">
+                {{ group.name }}
+              </a>
+            </li>
+          {% endfor %}
+        {% else %}
+          <li class="sub_menu_element">
+            {{ 'submenu.followed_groups.nouser'|trans({}, 'userui') }}
+          </li>
+        {% endif %}
+      </ul>
+    </li>
+      
+  </ul>
+  
+  <ul class="secondarymenu">
+    <li class="top_menu_element close">
+      
+      <a href="" class="top_menu_link">
+        <div class="blackgradiant">
+            {{ 'submenu.follower_users.title'|trans({}, 'userui') }}
+            <div class="dart"></div>
+        </div>
+      </a>
+      
+      <ul class="submenu">
+        {% if followers_users %}
+          {% for user in followers_users %}
+            <li class="sub_menu_element">
+              <a href="{{ path('show_user', { 'slug': user.slug }) }}">
+                {{ user.username }}
+              </a>
+            </li>
+          {% endfor %}
+        {% else %}
+          <li class="sub_menu_element">
+            {{ 'submenu.follower_users.nouser'|trans({}, 'userui') }}
+          </li>
+        {% endif %}
+      </ul>
+    </li>
+      
+  </ul>
+  
+</div>

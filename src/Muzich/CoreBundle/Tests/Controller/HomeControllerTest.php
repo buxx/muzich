@@ -736,8 +736,7 @@ class HomeControllerTest extends FunctionalTest
     $id_limit = (int)str_replace('element_', '', $extract[9]);
     
     $url = $this->generateUrl('search_elements_more', array(
-      'id_limit'  => $id_limit,
-      'invertcolors' => 0
+      'id_limit'  => $id_limit
     ));
     
     // We want mooooore

@@ -680,8 +680,7 @@ class CoreController extends Controller
     
     $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
       'user'        => $this->getUser(),
-      'elements'    => $es->getElements($this->getDoctrine(), $this->getUserId()),
-      'invertcolor' => false
+      'elements'    => $es->getElements($this->getDoctrine(), $this->getUserId())
     ))->getContent();
 
     return $this->jsonResponse(array(
@@ -701,6 +700,23 @@ class CoreController extends Controller
       // On ne se préoccupe pas de la locale coté plugins/applications
       '_locale'  => $this->determineLocale()
     )));
+  }
+  
+  public function renderSideMenuAction()
+  {
+    $user = $this->getUser(true, array('join' => array(
+      'followeds_users', 'followers_users', 'followeds_groups'
+    )), true);
+    
+    
+    return $this->render(
+      'MuzichCoreBundle:Menu:side_menu.html.twig', 
+      array(
+        'followeds_users'  => $user->getFollowedsUsers(),
+        'followeds_groups' =>  $user->getFollowedGroups(),
+        'followers_users'  => $user->getFollowersUsers()
+      )
+    );
   }
   
 }

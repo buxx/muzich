@@ -80,19 +80,7 @@
       
     </td>
     <td class="element_content">
-      
-      <span class="element_name">
-        {% if element.embed %}
-          <a href="#" class="element_open element_name_embed_open_link">
-            {{ element.name }}
-          </a>
-        {% else %}
-          <a href="{{ element.url }}" class="element_open" target="_blank">
-            {{ element.name }}
-          </a>
-        {% endif %}
-      </span> 
-      
+            
       <ul class="element_links_actions" class="gradient">
         <li class="element_link">
           <a title="{{ 'element.link'|trans({}, 'elements') }}" class="element_link" href="{{ element.url }}" target="_blank">
@@ -166,9 +154,17 @@
         
       </ul>
       
-      
-      
-      
+      <span class="element_name">
+        {% if element.embed %}
+          <a href="#" class="element_open element_name_embed_open_link">
+            {{ element.name }}
+          </a>
+        {% else %}
+          <a href="{{ element.url }}" class="element_open" target="_blank">
+            {{ element.name }}
+          </a>
+        {% endif %}
+      </span>
       
       <br />
       {% autoescape false %}

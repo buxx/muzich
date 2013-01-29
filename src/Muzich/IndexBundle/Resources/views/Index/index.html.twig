@@ -1,32 +1,28 @@
 {% extends "MuzichIndexBundle::layout.html.twig" %}
 
 {% block title %}{{ 'title.hello'|trans({}, 'navigationui') }}{% endblock %}
+{% block mainbox_classes %}mainbox_margintop mainbox_padding{% endblock %}
 
 {% block content %}
     
-  <div class="hello">
-
+    <a href="#" id="registration_link" class="button gradient">
+      {{ 'registration.display'|trans({}, 'navigationui') }}
+      <img src="{{ asset('/img/icon_dart_right_white.png') }}" alt="" />
+    </a>
+    <a href="#" id="login_link" class="button gradient" style="display: none;">
+      {{ 'login.display'|trans({}, 'navigationui') }}
+      <img src="{{ asset('/img/icon_dart_left_white.png') }}" alt="" />
+    </a>
+    
     <div id="login_box" style="{% if registration_page is defined %}display: none;{% endif %}">
       {% include "MuzichUserBundle:Security:login.html.twig" %}
-        
-      <a href="#" id="registration_link">
-        {{ 'registration.display'|trans({}, 'navigationui') }} &gt;&gt;
-      </a>
     </div>
     
     <div id="registration_box" style="{% if registration_page is not defined %}display: none;{% endif %}">
-      
+      <h1>{{ 'register.title'|trans({}, 'userui') }}</h1>
       <span class="sinfo">{{ 'index.beta.warning'|trans({}, 'userui') }}</span>
-
       {% include "MuzichUserBundle:Registration:register.html.twig" %}
-        
-      <a href="#" id="login_link">
-        &lt;&lt; {{ 'login.display'|trans({}, 'navigationui') }}
-      </a>
     </div>
-    
-  </div>
-    
     
 {% endblock %}
 

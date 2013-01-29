@@ -1,12 +1,14 @@
-<form action="{{ path('global_search') }}" method="post" {{ form_enctype(form) }}>
+<div class="seachboxcontainer">
+  <form action="{{ path('global_search') }}" method="post" {{ form_enctype(form) }}>
     
-  {% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
-  {{ form_errors(form) }}
-
-  {{ form_errors(form.string) }}
-  {{ form_widget(form.string) }}
-  <input type="submit" class="button" value="{{ 'search.form.submit_value'|trans({}, 'network') }}" />
-  
-  {{ form_rest(form) }}
-
-</form>
+    {% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
+    {{ form_errors(form) }}
+    {{ form_errors(form.string) }}
+    {{ form_widget(form.string) }}
+    {{ form_rest(form) }}
+    
+    <a href="#" class="global_search_link">
+      <img src="{{ asset('/img/icon_search.png') }}" alt="search" />
+    </a>
+  </form>
+</div>

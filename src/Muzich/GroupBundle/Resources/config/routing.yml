@@ -1,7 +1,7 @@
 
 groups_own_list:
   pattern:  /my-groups
-  defaults: { _controller: MuzichGroupBundle:Default:myList }
+  defaults: { _controller: MuzichGroupBundle:Default:myList, topmenu: mygroups }
 
 group_add:
   pattern:   /my-groups/add

@@ -1,13 +1,23 @@
 {% extends "MuzichGroupBundle::layout.html.twig" %}
 
 {% block title %}{{ 'my_groups.title'|trans({}, 'navigationui') }}{% endblock %}
+{% block mainbox_classes %}mainbox_padding{% endblock %}
 
 {% block content %}
 
-  <a href="#" id="group_add_link" class="button">
-    {{ 'group.add_group'|trans({}, 'navigationui') }} &gt;&gt;
-  </a>
-
+  <div class="top_tools">
+    
+    <a href="#" id="group_add_link" class="button gradient justtopright">
+      {{ 'group.add_group'|trans({}, 'navigationui') }}
+      <img src="{{ asset('/img/icon_dart_right_white.png') }}" alt="" />
+    </a>
+    <a href="#" id="group_add_close_link" class="button gradient justtopright" style="display: none;">
+      {{ 'group.add_group_box.close'|trans({}, 'navigationui') }}
+      <img src="{{ asset('/img/icon_dart_left_white.png') }}" alt="" />
+    </a>
+    
+  </div>
+  
   {% if groups|length %}
 
     {{ 'havegroups.sentence'|trans({}, 'groups') }}
@@ -36,17 +46,15 @@
 
   <div id="group_add_box" style="{% if not open_add_group %}display: none;{% endif %}">
 
-    <a href="#" id="group_add_close_link" class="button">
-      &lt;&lt; {{ 'group.add_group_box.close'|trans({}, 'navigationui') }}
-    </a>
-    
     <h2>{{ 'group.add_group'|trans({}, 'navigationui') }}</h2>
 
-    <form name="{{ form_new_name }}" action="{{ path('group_add') }}" method="post" {{ form_enctype(form_new) }}>
+    <form class="nicelabels" name="{{ form_new_name }}" action="{{ path('group_add') }}" method="post" {{ form_enctype(form_new) }}>
 
       {% include "MuzichGroupBundle:Form:form.html.twig" with { 'form': form_new, 'form_name': form_new_name } %}
 
-      <input type="submit" class="button" />
+      <div class="alignright">
+        <input type="submit" class="button" value="{{ 'group.form.submit'|trans({}, 'groups') }}" />
+      </div>
     </form>
   
   </div>

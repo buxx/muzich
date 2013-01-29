@@ -27,15 +27,17 @@
     </a>
   </li>
 </ul>
-<ul class="footer_pages_links footer_pages_links_user">
-  <li>
-    <a href="" >
-      Profil
-    </a>
-  </li>
-  <li>
-    <a href="" >
-      Paramètres
-    </a>
-  </li>
-</ul>
+{% if app.user %}
+  <ul class="footer_pages_links footer_pages_links_user">
+    <li>
+      <a href="" >
+        Profil
+      </a>
+    </li>
+    <li>
+      <a href="" >
+        Paramètres
+      </a>
+    </li>
+  </ul>
+{% endif %}

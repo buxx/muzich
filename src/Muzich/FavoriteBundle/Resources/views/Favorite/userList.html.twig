@@ -1,34 +1,36 @@
 {% extends "MuzichFavoriteBundle::layout.html.twig" %}
 
 {% block title %}Favoris de {{ viewed_user.name }}{% endblock %}
+{% block mainbox_classes %}mainbox_nopadding{% endblock %}
 
 {% block content %}
 
-  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with {'active': ''} %}
-
-  <div class="show_options">
+  <div class="top_tools">
     
-    <a class="button" href="{{ path('show_user', {'slug' : viewed_user.slug}) }}" >
-      {{ 'user.view_profile'|trans({}, 'users') }}
+    <div class="show_options">
+      
+      <a class="button darkbutton" href="{{ path('show_user', {'slug' : viewed_user.slug}) }}" >
+        {{ 'user.view_profile'|trans({}, 'users') }}
+      </a>
+      
+    </div>
+  
+    <h1>{{ 'favorites.user_favorites'|trans({'%name%' : viewed_user.name}, 'network') }}</h1>
+  
+    {% include "MuzichCoreBundle:Tag:tagsList.favorite.html.twig" with {
+      'user_id' : viewed_user.id
+    } %}
+    
+    <a href="{{ path('elements_get_filter_data_autoplay_favorite', {
+          'show_type'  : 'user',
+          'show_id'    : viewed_user.id, 
+          'data'       : '[]'
+        }) }}" class="button" id="autoplay_launch" 
+       title="{{ 'elements.autoplay.launch'|trans({}, 'elements') }}" >
+      <img src="{{ asset('/bundles/muzichcore/img/1353494305_player_play.png') }}" alt="" />
     </a>
     
   </div>
-
-  <h2>{{ 'favorites.user_favorites'|trans({'%name%' : viewed_user.name}, 'network') }}</h2>
-
-  {% include "MuzichCoreBundle:Tag:tagsList.favorite.html.twig" with {
-    'user_id' : viewed_user.id
-  } %}
-  
-  <a href="{{ path('elements_get_filter_data_autoplay_favorite', {
-        'show_type'  : 'user',
-        'show_id'    : viewed_user.id, 
-        'data'       : '[]'
-      }) }}" class="button" id="autoplay_launch" 
-     title="{{ 'elements.autoplay.launch'|trans({}, 'elements') }}" >
-    <img src="{{ asset('/bundles/muzichcore/img/1353494305_player_play.png') }}" alt="" />
-  </a>
-  
 
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
     
@@ -37,12 +39,12 @@
   </div>
   
   {% if elements|length %}
-     <span class="elements_more">
-       <input type="hidden" id="more_elements_url" value="{{ path('favorite_get', {'user_id': viewed_user.id, 'tags_ids_json' : ''}) }}" />
-       <a href="{{ path('favorite_get', {'user_id': viewed_user.id, 'tags_ids_json' : '[]'}) }}" class="elements_more button">
-         {{ 'more'|trans({}, 'userui') }}
-       </a>
-     </span>
+    <input type="hidden" id="more_elements_url" value="{{ path('favorite_get', {'user_id': viewed_user.id, 'tags_ids_json' : ''}) }}" />
+    <a href="{{ path('favorite_get', {'user_id': viewed_user.id, 'tags_ids_json' : '[]'}) }}" class="elements_more">
+      <div>
+       {{ 'more'|trans({}, 'userui') }}
+     </div>
+    </a>
   {% endif %}
   
   <input type="hidden" id="autoplay_url" value="{{ path('elements_get_filter_data_autoplay_favorite', {

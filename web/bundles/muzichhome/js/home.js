@@ -7,7 +7,7 @@ $(document).ready(function(){
      $('#element_add_close_link').show();
      if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
      {
-       $('div#home_top_tools').slideUp();
+       $('div.top_tools').slideUp();
      }
      // Au cas ou firefox garde la valeur step 2:
         $('input#form_add_step').val('1');
@@ -23,7 +23,7 @@ $(document).ready(function(){
      
      if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
      {
-       $('div#home_top_tools').slideDown();
+       $('div.top_tools').slideDown();
      }
      
      //form_add_reinit();

@@ -12,3 +12,5 @@ group:
   notfollow:                    Ne plus suivre
   remove:
     link:                       Supprimer le groupe
+  form:
+    submit:                     Enregistrer le groupe

@@ -5,7 +5,7 @@
 }*/
 
 
-#container
+/*#container
 {
   text-align: left;
   position: relative;
@@ -50,7 +50,7 @@
 #container h4
 {
   
-}
+}*/
 
 div.clearboth
 {
@@ -84,18 +84,18 @@ input.button, button.button {
   background-color: #39C9CC;
 }*/
 
-#container a, #autoplay a
+/*#container a, #autoplay a
 {
   text-decoration: none;
   color: #00d0de;
-}
+}*/
 
 #autoplay div.jp-audio a
 {
   color: black;
 }
 
-#container a.button, #autoplay a.button
+/*#container a.button, #autoplay a.button
 {
   color: white;
 }
@@ -132,7 +132,7 @@ input.button, button.button {
   border-radius: 5px 5px 0px 0px;
   -moz-border-radius: 5px 5px 0px 0px;
   -webkit-border-radius: 5px 5px 0px 0px;
-}
+}*/
 
 /* Noscript */
 div#noscript_warning
@@ -184,7 +184,7 @@ div#noscript_warning
   background-color: white;
 }
 
-#container #top-tabs li.active, .top-tabs-right ul.active, .top-tabs-right ul.active li
+/*#container #top-tabs li.active, .top-tabs-right ul.active, .top-tabs-right ul.active li
 {
   background-color: white;
 }
@@ -193,7 +193,7 @@ div#noscript_warning
 {
   text-decoration: none;
   color: black;
-}
+}*/
 
 .top-tabs-right
 {
@@ -547,10 +547,10 @@ background-position: 7px;
   left: 483px;
 }*/
 
-#container li.element a.favorite_link:hover, #autoplay li.element a.favorite_link:hover
+/*#container li.element a.favorite_link:hover, #autoplay li.element a.favorite_link:hover
 {
   text-decoration: none;
-}
+}*/
 
 li.element a.element_open
 {
@@ -590,10 +590,10 @@ li.element img.element_thumbnail
   height: 90px;
 }
 
-#container li.element span.element_name a, #autoplay li.element span.element_name a
+/*#container li.element span.element_name a, #autoplay li.element span.element_name a
 {
   color: black;
-}
+}*/
 
 li.element img.play, li.element img.open
 {
@@ -1004,10 +1004,10 @@ position: absolute;
 
 /* END POPIN BLOCK */
 
-#container a.element_edit_link
+/*#container a.element_edit_link
 {
   text-decoration: none;
-}
+}*/
 
 div.display_more_elements
 {
@@ -1307,7 +1307,7 @@ ul#favorite_tags a.button.highlight
   color: blue;
 }
 
-div#add_url_title
+/*div#add_url_title
 {
   width: 510px;
   font-weight: bold;
@@ -1315,7 +1315,7 @@ div#add_url_title
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+}*/
 
 div#autoplay
 {

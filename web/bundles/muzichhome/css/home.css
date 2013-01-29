@@ -16,7 +16,7 @@ div.show_options
   text-align: center;
 }
 
-#container a.following
+/*#container a.following
 {
   background: -moz-linear-gradient(top, #08ec00 0%, #10d400 39%, #0a9800 100%);
   background: -webkit-linear-gradient(top, #08ec00 0%, #10d400 39%, #0a9800 100%);
@@ -40,20 +40,20 @@ div.show_options
 
   border: 1px solid #bf0a00;
   text-decoration: none;
-}
+}*/
 
-#container #element_add_link, #container #element_add_close_link
+/*#container #element_add_link, #container #element_add_close_link
 {
   color: white;
   font-size: 120%;
   float: right;
-}
+}*/
 
-#container #element_add_box
+/*#container #element_add_box
 {
   background-color: #e3f6fd;
   padding: 20px;
-}
+}*/
 
 #container div.select_network a
 {
