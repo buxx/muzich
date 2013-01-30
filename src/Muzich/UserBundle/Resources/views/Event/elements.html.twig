@@ -1,25 +1,49 @@
 {% extends "MuzichHomeBundle::layout.html.twig" %}
 
-{% block title %}TODO{% endblock %}
+{% block title %}
+  {% if event.type == event_const('TYPE_COMMENT_ADDED_ELEMENT') %}
+    {{ 'events.view.title.comments'|trans({}, 'userui') }}
+  {% endif %}
+  {% if event.type == event_const('TYPE_FAV_ADDED_ELEMENT') %}
+    {{ 'events.view.title.nvxfav'|trans({}, 'userui') }}
+  {% endif %}
+  {% if event.type == event_const('TYPE_TAGS_PROPOSED') %}
+    {{ 'events.view.title.tagsprop'|trans({}, 'userui') }}
+  {% endif %}
+{% endblock %}
 {% block mainbox_classes %}mainbox_nopadding{% endblock %}
 
 {% block content %}
 
   <div class="top_tools">
     
+    <div class="show_options">
+     
+      <a class="button darkbutton" href="{{ path('event_delete', {
+        'event_id' : event.id,
+        'token'    : app.user.getPersonalHash(event.id)
+      }) }}" >
+        {{ 'events.view.link_delete'|trans({}, 'userui') }}
+      </a>
+    
+    </div>
+    
     {% if event.type == event_const('TYPE_COMMENT_ADDED_ELEMENT') %}
       
       <h1>{{ 'events.view.title.comments'|trans({}, 'userui') }}</h1>
+      <p>{{ 'events.view.text.comments'|trans({}, 'userui') }}</p>
       
     {% endif %}
     {% if event.type == event_const('TYPE_FAV_ADDED_ELEMENT') %}
       
       <h1>{{ 'events.view.title.nvxfav'|trans({}, 'userui') }}</h1>
+      <p>{{ 'events.view.text.nvxfav'|trans({}, 'userui') }}</p>
       
     {% endif %}
     {% if event.type == event_const('TYPE_TAGS_PROPOSED') %}
       
       <h1>{{ 'events.view.title.tagsprop'|trans({}, 'userui') }}</h1>
+      <p>{{ 'events.view.text.tagsprop'|trans({}, 'userui') }}</p>
       
     {% endif %}
     

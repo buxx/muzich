@@ -18,11 +18,11 @@ class MynetworkController extends Controller
   public function indexAction($event_id)
   {    
     $user = $this->getUser(true, array('join' => array(
-      'followeds_users', 'followers_users', 'followeds_groups'
+      'followers_users'//, 'followeds_users', 'followeds_groups'
     )));
     
-    $followeds_users = $user->getFollowedsUsers();
-    $followeds_groups = $user->getFollowedGroups();
+    //$followeds_users = $user->getFollowedsUsers();
+    //$followeds_groups = $user->getFollowedGroups();
     $followers_users = $user->getFollowersUsers();
     
     if ($event_id)
@@ -35,14 +35,14 @@ class MynetworkController extends Controller
 
       if ($event->getUser()->getId() != $this->getUserId())
       {
-        throw $this->createNotFoundException('NotAllowed');
+        throw $this->createNotFoundException();
       }
       $followers_users = $this->proceedForEvent($event, $followers_users, $event_id);
     }
     
     return array(
-      'followeds_users' => $followeds_users,
-      'followeds_groups' => $followeds_groups,
+      //'followeds_users' => $followeds_users,
+      //'followeds_groups' => $followeds_groups,
       'followers_users' => $followers_users
     );
   }
@@ -59,9 +59,8 @@ class MynetworkController extends Controller
     {
       if (in_array($user->getId(), $ids))
       {
-        $user->addLiveData('new', true);
+        $followers_users_new[] = $user;
       }
-      $followers_users_new[] = $user;
     }
     
     return $followers_users_new;

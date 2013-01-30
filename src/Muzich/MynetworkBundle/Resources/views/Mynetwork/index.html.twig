@@ -1,52 +1,22 @@
 {% extends "MuzichMynetworkBundle::layout.html.twig" %}
 
 {% block title %}Mon réseau{% endblock %}
+{% block mainbox_classes %}mainbox_padding{% endblock %}
 
 {% block content %}
   
-  {% if followeds_users %}
-    <b>{{ 'users'|trans({}, 'network') }}</b>
-    <ul id="followeds_users" class="inline">
-    {% for user in followeds_users %} 
-      <li>
-        <a href="{{ path('show_user', { 'slug': user.slug }) }}">{{ user.username }}</a>
-      </li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-  
-  {% if followeds_groups %}
-    <b>{{ 'groups'|trans({}, 'network') }}</b>
-    <ul id="followeds_groups" class="inline">
-    {% for group in followeds_groups %} 
-      <li>
-        <a href="{{ path('show_group', { 'slug': group.slug }) }}">{{ group.name }}</a>
-      </li>
-    {% endfor %}
-    </ul>
-  {% endif %}
+  <h1>{{ 'followed_by'|trans({}, 'network') }}</h1>
   
   {% if followers_users %}
-    <b>{{ 'followed_by'|trans({}, 'network') }}</b>
+    
     <ul id="followers_users" class="inline">
     {% for user in followers_users %} 
-      <li {% if user.hasLiveData('new', true) %}class="new"{% endif %}>
+      <li>
         <a href="{{ path('show_user', { 'slug': user.slug }) }}">{{ user.username }}</a>
       </li>
     {% endfor %}
     </ul>
   {% endif %}
-    
-  {% if followeds_users|length < 1  %}
-  {% if followeds_groups|length < 1 %}
-  {% if followers_users|length < 1 %}
   
-    <br />
-    {{ 'nothing'|trans({}, 'network') }}
-    <br /><br />
-    
-  {% endif %}
-  {% endif %}
-  {% endif %}
 
 {% endblock %}

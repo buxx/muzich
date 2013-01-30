@@ -3,9 +3,12 @@
 namespace Muzich\UserBundle\Controller;
 
 use Muzich\CoreBundle\lib\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class EventController extends Controller
 {
+  
+  protected $event;
     
   public function infoBarAction()
   {
@@ -60,8 +63,7 @@ class EventController extends Controller
     $es->setIdsDisplay($event->getType());
     
     $this->setElementSearcherParams($es->getParams(), $user->getPersonalHash($event->getId()));
-    //$this->getDoctrine()->getEntityManager()->remove($event);
-    //$this->getDoctrine()->getEntityManager()->flush();
+    
         
     $elements = $es->getElements($this->getDoctrine(), $this->getUserId());
     
@@ -70,6 +72,39 @@ class EventController extends Controller
       'last_element_id' => $elements[count($elements)-1]->getId(),
       'event'           => $event
     ));
+  }
+  
+  public function userCanAccessToThisEvent($event_id)
+  {
+    if (!($this->event = $this->getDoctrine()->getRepository('MuzichCoreBundle:Event')
+      ->findOneById($event_id)))
+    {
+      throw $this->createNotFoundException();
+    }
+    
+    if ($this->event->getUser()->getId() != $this->getUserId())
+    {
+      throw $this->createNotFoundException();
+    }
+  }
+  
+  public function userUseCorrectToken($token)
+  {
+    if ($this->getUser()->getPersonalHash($this->event->getId()) != $token)
+    {
+      throw new AccessDeniedException();
+    }
+  }
+  
+  public function deleteAction($event_id, $token)
+  {
+    $this->userCanAccessToThisEvent($event_id);
+    $this->userUseCorrectToken($token);
+    
+    $this->getEntityManager()->remove($this->event);
+    $this->flush();
+    
+    return $this->redirect($this->generateUrl('home'));
   }
   
 }

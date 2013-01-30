@@ -200,8 +200,18 @@ autoplay:
 
 events:
   view:
+    link_delete:         Considérer comme vu(s)
     title:
       comments:          Commentaires
       nvxfav:            Mis en favoris
       tagsprop:          Proposition de tags
+    text:
+      comments:          |
+                          Sont affichés ci-dessous vos partages qui ont été commentés, ainsi que les
+                          partages sur lesquels vous avez rédigé un commentaire et souhaité être avertis des nouveaux
+                          commentaires.
+      nvxfav:            |
+                          Sont affichés ci-dessous vos partages qui ont été mis en favoris par d'autres utilisateurs
+      tagsprop:          |
+                          Sont affichés ci-dessous vos partages pour lesquels ont vous propose une nouvelle liste de tags
       
