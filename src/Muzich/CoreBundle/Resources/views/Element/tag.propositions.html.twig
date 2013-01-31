@@ -19,7 +19,7 @@
           <span class="button">{{ tag.name }}</span>
         {% endfor %}
           
-          <a class="accept_tag_propotision button button_green" href="{{ path('ajax_element_proposed_tags_accept', {'proposition_id':proposition.id,'token':app.user.getPersonalHash}) }}">
+          <a class="accept_tag_propotision button darkbutton" href="{{ path('ajax_element_proposed_tags_accept', {'proposition_id':proposition.id,'token':app.user.getPersonalHash}) }}">
             {{ 'element.view_propositions.link_accept'|trans({}, 'elements') }}
           </a>
           
@@ -28,11 +28,11 @@
   </ul>
   
   {% if propositions|length > 1 %}
-    <a class="refuse_tag_propositions button" href="{{ path('ajax_element_proposed_tags_refuse', {'element_id':element_id,'token':app.user.getPersonalHash}) }}" >
+    <a class="refuse_tag_propositions button darkbutton" href="{{ path('ajax_element_proposed_tags_refuse', {'element_id':element_id,'token':app.user.getPersonalHash}) }}" >
       {{ 'element.view_propositions.link_refuse_x'|trans({}, 'elements') }}
     </a>
   {% else %}
-    <a class="refuse_tag_propositions button" href="{{ path('ajax_element_proposed_tags_refuse', {'element_id':element_id,'token':app.user.getPersonalHash}) }}" >
+    <a class="refuse_tag_propositions button darkbutton" href="{{ path('ajax_element_proposed_tags_refuse', {'element_id':element_id,'token':app.user.getPersonalHash}) }}" >
       {{ 'element.view_propositions.link_refuse_one'|trans({}, 'elements') }}
     </a>
   {% endif %}

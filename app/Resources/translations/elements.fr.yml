@@ -71,7 +71,7 @@ element:
     description_one:    Un utilisateur vous propose cette configuration de tags
     description_x:      Des utilisateurs vous propose ces configurations de tags
     link_accept:        Accepter cette proposition
-    link_refuse_one:    Refuser les propositions
+    link_refuse_one:    Refuser la proposition
     link_refuse_x:      Refuser les propositions
   
 comment:

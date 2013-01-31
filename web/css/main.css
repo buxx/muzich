@@ -1606,3 +1606,22 @@ div#myaccount h2:hover
 {
   text-decoration: underline;
 }
+
+div.tag_proposition input.tag_prompt
+{
+  width: 605px;
+}
+
+div.tag_proposition input.button
+{
+  float: right;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+li.element_view_propositions_link
+{
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: 1px;
+}
