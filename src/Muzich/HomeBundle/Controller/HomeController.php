@@ -44,15 +44,19 @@ class HomeController extends Controller
   
   public function needTagsAction()
   {
-    $es = new ElementSearcher();
+    $es = $this->getNewElementSearcher();
     $es->init(array(
       'count'     => $this->container->getParameter('search_default_count'),
-      'need_tags' => true
+      'need_tags' => true,
+      'tags'      => array()
     ));
+    $this->setElementSearcherParams($es->getParams(), $this->getUser()->getPersonalHash('needstagpage'));
+    $elements = $es->getElements($this->getDoctrine(), $this->getUserId());
     
     return $this->render('MuzichHomeBundle:Home:need_tags.html.twig', array(
-      'elements' => $es->getElements($this->getDoctrine(), $this->getUserId()),
-      'topmenu_active' => 'needs-tags'
+      'elements'        => $elements,
+      'topmenu_active'  => 'needs-tags',
+      'last_element_id' => (count($elements))?$elements[count($elements)-1]->getId():null
     ));
   }
   

@@ -157,6 +157,7 @@ class ElementSearcher extends Searcher implements SearcherInterface
       'ids'         => $this->getIds(),
       'ids_display' => $this->getIdsDisplay(),
       'tag_strict'  => $this->getTagStrict(),
+      'need_tags'   => $this->getNeedTags(),
       'string'      => $this->getString()
     );
   }
@@ -266,6 +267,11 @@ class ElementSearcher extends Searcher implements SearcherInterface
   public function getTagStrict()
   {
     return $this->tag_strict;
+  }
+  
+  public function getNeedTags()
+  {
+    return ($this->need_tags);
   }
   
   public function setString($string)

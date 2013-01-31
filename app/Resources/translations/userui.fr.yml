@@ -94,6 +94,10 @@ submenu:
   follower_users:
     title:                  Suivis par
     nouser:                Aucun
+  otherpages:
+    title:                 Pages spéciales
+    needtags:
+      title:               Partages en demandes de tags
 
 filter:
   network: "Résultats de "

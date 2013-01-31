@@ -87,4 +87,25 @@
       
   </ul>
   
+  <ul class="secondarymenu">
+    <li class="top_menu_element close">
+      
+      <a href="" class="top_menu_link">
+        <div class="blackgradiant">
+            {{ 'submenu.otherpages.title'|trans({}, 'userui') }}
+            <div class="dart"></div>
+        </div>
+      </a>
+      
+      <ul class="submenu">
+        <li class="sub_menu_element">
+          <a href="{{ path('element_show_need_tags') }}">
+            {{ 'submenu.otherpages.needtags.title'|trans({}, 'userui') }}
+          </a>
+        </li>
+      </ul>
+    </li>
+      
+  </ul>
+  
 </div>

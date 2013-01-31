@@ -768,7 +768,7 @@ div#secondarymenu ul.submenu li.sub_menu_element:last-child
 div#secondarymenu ul.submenu li.sub_menu_element a
 {
   color: black;
-  text-transform : capitalize;
+  text-transform : uppercase;
   font-weight: inherit;
 }
 
