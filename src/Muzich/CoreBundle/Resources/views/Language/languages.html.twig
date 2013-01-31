@@ -1,4 +1,4 @@
 <div id="languages">
-  <a href="{{ path('change_language', {'language' : 'fr'}) }}">FR</a>
-  <a href="{{ path('change_language', {'language' : 'en'}) }}">EN</a>
+  <a {% if app.session.locale == 'fr' %}class="selected"{% endif %} href="{{ path('change_language', {'language' : 'fr'}) }}">FR</a>
+  <a {% if app.session.locale == 'en' %}class="selected"{% endif %} href="{{ path('change_language', {'language' : 'en'}) }}">EN</a>
 </div>

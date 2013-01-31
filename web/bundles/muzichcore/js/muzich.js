@@ -2472,13 +2472,17 @@ $(document).ready(function(){
     }
   });
   
-  /* Sous menus page mon compte (myaccount) */
+  /* Sou-menus page mon compte (myaccount) */
   $('div#myaccount h2').click(function(){
     $('div#myaccount div.myaccount_part:visible').slideUp();
     console.log($(this).data('open'));
     $('div#'+$(this).data('open')).slideDown();
   });
-
+  
+  /* Languages placement */
+  var selected_language = $('div#languages a.selected');
+  $('div#languages').prepend(selected_language);
+  delete selected_language;
 });
 
 
