@@ -26,7 +26,9 @@ my_account:
   email:            Adresse email
   favorite_tags:    Vos tags préférés
   change_password:  Changer mon mot de passe
+  change_password_submit: Mettre à jour mon mot de passe
   change_email:     Changer mon adresse email
+  change_email_submit: Mettre à jour mon email
   address:
     title:          Mon adresse
     description:    Avec votre adresse Muzi.ch pourra vous avertir plus aisément des événements à venirs dans votre région.
@@ -37,6 +39,8 @@ my_account:
       errors:
         notown:     Veuillez saisir la ville
         nocountry:  Veuillez saisir le pays
+  help_clicks:      |
+                    Cliquez sur les titres ci-dessous pour accèder aux autres paramètres
   
 connexion:
   password_lost:    Mot de passe perdu ?

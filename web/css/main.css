@@ -1546,3 +1546,60 @@ div#add_url_title, div.element_title
   background: linear-gradient(to bottom,  #f6282d 0%,#f6282d 0%,#c50617 100%,#c50617 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6282d', endColorstr='#c50617',GradientType=0 ); /* IE6-8 */
 }
+
+div#tags_prompt_tag_favorites_form input.tag_prompt
+{
+  width: 95%;
+}
+
+form[name="tag_favorites_form"] input.button
+{
+  float: right;
+  margin-right: 11px;
+  margin-top: 5px;
+}
+
+form.changepassword label
+{
+  width: 210px;
+}
+
+form.changepassword input[type="password"]
+{
+  margin-bottom: 2px;
+  width: 388px;
+}
+
+form.changepassword input[type="submit"]
+{
+  float: right;
+  margin-top: 5px;
+  margin-right: 7px;
+}
+
+form.changeemail label
+{
+  width: 210px;
+}
+
+form.changeemail input[type="text"]
+{
+  width: 388px;
+}
+
+form.changeemail input[type="submit"]
+{
+  float: right;
+  margin-top: 5px;
+  margin-right: 7px;
+}
+
+div#myaccount h2
+{
+  cursor: pointer;
+}
+
+div#myaccount h2:hover
+{
+  text-decoration: underline;
+}

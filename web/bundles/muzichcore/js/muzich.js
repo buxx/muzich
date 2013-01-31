@@ -2467,6 +2467,13 @@ $(document).ready(function(){
       $(this).css('height', '283px');
     }
   });
+  
+  /* Sous menus page mon compte (myaccount) */
+  $('div#myaccount h2').click(function(){
+    $('div#myaccount div.myaccount_part:visible').slideUp();
+    console.log($(this).data('open'));
+    $('div#'+$(this).data('open')).slideDown();
+  });
 
 });
 
