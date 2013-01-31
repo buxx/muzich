@@ -66,14 +66,21 @@ $(document).ready(function(){
             wmode: "window"
           });
         
-        // On récupère la liste d'élèments
-        autoplay_list = response.data;
-        // On renseigne l'id de l'élèment en cours de demande de lecture
-        autoplay_last_element_id = autoplay_list[0].element_id;
-        // On par sur l'index premier de la liste de lecture
-        autoplay_step = 0;
-        // On lance la lecture auo
-        autoplay_run(autoplay_step, false);
+        if (response.data.length)
+        {
+          // On récupère la liste d'élèments
+          autoplay_list = response.data;
+          // On renseigne l'id de l'élèment en cours de demande de lecture
+          autoplay_last_element_id = autoplay_list[0].element_id;
+          // On par sur l'index premier de la liste de lecture
+          autoplay_step = 0;
+          // On lance la lecture auo
+          autoplay_run(autoplay_step, false);
+        }
+        else
+        {
+          autoplay_display_nomore();
+        }
       }
       
     });
@@ -227,6 +234,7 @@ $(document).ready(function(){
     $('li#autoplay_element_container').html('');
     $('#autoplay_noelements_text').show();
     $('img#autoplay_loader').hide();
+    $('img#autoplay_element_loader').hide();
     if (autoplay_player_soundcloud)
     {
       $('div#autoplay_player_soundcloud').hide();
