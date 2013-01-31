@@ -662,6 +662,9 @@ ul.user_events_infos li:last-child
 ul.user_events_infos li.user_name
 {
   text-transform : uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 div.seachboxcontainer
