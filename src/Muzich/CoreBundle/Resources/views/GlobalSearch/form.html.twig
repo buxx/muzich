@@ -1,9 +1,11 @@
+
+{% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
+{{ form_errors(form) }}
+{{ form_errors(form.string) }}
+
 <div class="seachboxcontainer">
   <form action="{{ path('global_search') }}" method="post" {{ form_enctype(form) }}>
     
-    {% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
-    {{ form_errors(form) }}
-    {{ form_errors(form.string) }}
     {{ form_widget(form.string) }}
     {{ form_rest(form) }}
     

@@ -1625,3 +1625,8 @@ li.element_view_propositions_link
   padding-right: 2px;
   padding-top: 1px;
 }
+
+div#results_search_form div.seachboxcontainer input
+{
+  width: 570px;
+}
