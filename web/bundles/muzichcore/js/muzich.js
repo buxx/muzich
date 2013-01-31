@@ -285,6 +285,7 @@ $(document).ready(function(){
     {
       $('ul#tabs_tag_search_buttons').find('li').removeClass('selected');
       $('li#tab_li_tag_search_no_tags').addClass('selected');
+      $('input#element_search_form_tag_strict').attr('checked', false);
     }
     else
     {
