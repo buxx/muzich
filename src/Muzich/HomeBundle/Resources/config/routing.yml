@@ -2,7 +2,7 @@
 
 home:
   pattern:  /
-  defaults: { _controller: MuzichHomeBundle:Home:index }
+  defaults: { _controller: MuzichHomeBundle:Home:index, network: network_public }
   
 home_more:
   pattern:  /more/{count}

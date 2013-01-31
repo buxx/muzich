@@ -33,7 +33,7 @@
     <script src="{{ asset('js/lib/TagPrompt.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript" src="{{ asset('js/swfobject.js') }}"></script> 
-    {# TODO: On peux piquer les js ?  #}
+    
     <script src="http://connect.soundcloud.com/sdk.js"></script>
     <script src="http://w.soundcloud.com/player/api.js"></script>
 
@@ -229,7 +229,7 @@
             </li>
             <li class="separator"></li>
             <li class="{% if network_public == '0' and not ids_display %}selected{% endif %}">
-              <a href="{{ path('home') }}" class="my_network" >
+              <a href="{{ path('mynetwork_home') }}" class="my_network" >
                 {{ 'filter.network_my'|trans({}, 'userui') }}
               </a>
             </li>

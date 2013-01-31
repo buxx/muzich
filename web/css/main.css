@@ -1235,7 +1235,7 @@ div.search_tag_list ul.search_tag_list li.new
   color: black;
 }
 
-div.search_tag_list ul.search_tag_list li.new a
+#container div.search_tag_list ul.search_tag_list li.new a
 {
   color: black;
 }
@@ -1269,7 +1269,7 @@ ul.search_tag_list li a
 }
 
 
-div#search_tag_search a.more
+div#search_tag_search a.more, div#search_tag_add a.more
 {
   color: black;
 }

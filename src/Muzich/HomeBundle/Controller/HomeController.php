@@ -15,13 +15,13 @@ class HomeController extends Controller
    * 
    * @Template()
    */
-  public function indexAction($count = null)
+  public function indexAction($count = null, $network = 'public')
   {
     $search_object = $this->getElementSearcher($count);
     $user = $this->getUser(true, array('join' => array(
       'groups_owned'
     )), true);
-    
+    $search_object->setNetwork($network);
     $search_form = $this->getSearchForm($search_object);
     $add_form = $this->getAddForm();
     

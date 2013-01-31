@@ -358,4 +358,13 @@ class ElementSearcher extends Searcher implements SearcherInterface
     return false;
   }
   
+  public function setNetwork($network)
+  {
+    if (!in_array($network, array(self::NETWORK_PERSONAL, self::NETWORK_PUBLIC)))
+    {
+      throw new \Exception("Wrong network set");
+    }
+    $this->network = $network;
+  }
+  
 }
