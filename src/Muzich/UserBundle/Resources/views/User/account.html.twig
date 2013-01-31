@@ -34,8 +34,12 @@
     </p>
 
     <h2 data-open="myaccount_favorites_tags">{{ 'my_account.favorite_tags'|trans({}, 'userui') }}</h2>
-
-    <div id="myaccount_favorites_tags" class="myaccount_part" style="display: none;">
+    
+    <div id="myaccount_favorites_tags" class="myaccount_part"
+      {% if not form_tags_favorites|form_has_errors %}
+       style="display: none;"
+      {% endif %}
+    >
       {% include "MuzichCoreBundle:Tag:tagFavoritesForm.html.twig" with { 
         'form'             : form_tags_favorites,
         'redirect'         : 'account',
@@ -46,7 +50,11 @@
 
     <h2 data-open="myaccount_favorites_password">{{ 'my_account.change_password'|trans({}, 'userui') }}</h2>
 
-    <div id="myaccount_favorites_password" class="myaccount_part" style="display: none;">
+    <div id="myaccount_favorites_password" class="myaccount_part" 
+      {% if not form_password|form_has_errors %}
+       style="display: none;"
+      {% endif %}
+     >
       <form class="nicelabels changepassword" action="{{ path('change_password') }}" method="post" {{ form_enctype(form_password) }}>
 
         {% include "MuzichUserBundle:Security:change_password_form.html.twig" with { 
@@ -59,7 +67,11 @@
 
     <h2 data-open="myaccount_favorites_email">{{ 'my_account.change_email'|trans({}, 'userui') }}</h2>
 
-    <div id="myaccount_favorites_email" class="myaccount_part" style="display: none;">
+    <div id="myaccount_favorites_email" class="myaccount_part"
+      {% if not change_email_form|form_has_errors %}
+       style="display: none;"
+      {% endif %}
+    >
       <form class="nicelabels changeemail" action="{{ path('change_email_request') }}" method="post" {{ form_enctype(change_email_form) }}>
 
         {% include "MuzichUserBundle:User:change_email_form.html.twig" with { 

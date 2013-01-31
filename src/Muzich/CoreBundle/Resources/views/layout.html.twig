@@ -99,6 +99,17 @@
   </head>
   <body>
     
+    <noscript>
+    <div id="noscript_warning">
+      <p>
+        {{ 'noscript.message'|trans({}, 'messages') }}
+        <a href="{{ 'noscript.link_search'|trans({}, 'messages') }}" target="_blank">
+          {{ 'noscript.link_text'|trans({}, 'messages') }}
+        </a>
+      </p>
+    </div>
+  </noscript>
+    
     <div id="autoplay" class="popin_block" style="display: none;">
       
       <a href="javascript:void(0);" id="autoplay_previous">
@@ -258,6 +269,23 @@
           
         </hgroup>
       </header>
+      
+      {% for key, flash in app.session.getFlashes() %}
+        <div class="{{ key }} message">
+          <a class="message-close" href="javascript:void(0);" title="fermer"><img alt="close" src="{{ asset('bundles/muzichcore/img/1317386146_cancel.png') }}" /></a>
+          <h3>{{ flash|trans({}, 'flash') }}</h3>
+        </div>
+
+        {% if key == 'success' %}
+        <script type="text/javascript" >
+          $(document).ready(function(){
+            window.setTimeout(function(){
+              $('div.success').slideUp();
+            }, 3000);
+          });
+        </script>
+        {% endif %}
+      {% endfor %}
       
       <div id="content">
         

@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Extension;
 
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Muzich\CoreBundle\Entity\Event;
+use Symfony\Component\Form\FormView;
 
 class MyTwigExtension extends \Twig_Extension {
 
@@ -19,7 +20,8 @@ class MyTwigExtension extends \Twig_Extension {
     return array(
       'var_dump'               => new \Twig_Filter_Function('var_dump'),
       'date_or_relative_date'  => new \Twig_Filter_Method($this, 'date_or_relative_date'),
-      'date_epurate'            => new \Twig_Filter_Method($this, 'date_epurate')
+      'date_epurate'           => new \Twig_Filter_Method($this, 'date_epurate'),
+      'form_has_errors'        => new \Twig_Filter_Method($this, 'form_has_errors')
     );
   }
   
@@ -170,6 +172,22 @@ class MyTwigExtension extends \Twig_Extension {
     {
       return 'list_length_default';
     }
+  }
+  
+  public function form_has_errors(FormView $form)
+  {
+    $form_vars = $form->getVars();
+    $count_error = count($form_vars['errors']);
+    foreach ($form->getChildren() as $form_children)
+    {
+      $form_children_vars = $form_children->getVars();
+      $count_error += count($form_children_vars['errors']);
+    }
+    if ($count_error)
+    {
+      return true;
+    }
+    return false;
   }
 
 }
