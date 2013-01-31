@@ -1460,6 +1460,9 @@ $(document).ready(function(){
           $('form[name="add"]').attr('action', url_element_add+'/'+$('input#add_element_group_page').val());
         }
         $('span#add_url_title_url').html($('input#element_add_url').val());
+        // Mise a zero des tags
+        window.add_tag_prompt_connector.initializeTags([]);
+        $('input#element_add_need_tags').attr('checked', false);
       }
       else
       {
