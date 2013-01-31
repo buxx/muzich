@@ -1,0 +1,19 @@
+
+sites:
+  subtitle:      Support des sites externes
+  text:          |
+                  Lorsque vous ajouter un lien sur le réseau Muzi.ch celui-ci est
+                  interprété afin d'intégrer directement le contenu que vous souhaitez 
+                  partager. Ci-dessous la liste des sites dont certaines ressources sont
+                  actuellement supportés.
+dev:
+  subtitle:       Muzich est en cours de construction
+  text:           |
+                  Actuellement vous utilisez une version de test. De nombreuses 
+                  fonctionnalités doivent voir le jours au fur et a mesure du développement.
+about:
+  subtitle:       Découvrez et partagez la musique d'internet
+  text:           |
+                  Grâce au réseau de Muzi.ch découvrez chaque jours de nouveaux son partagés
+                  par les autres membres de ce réseau. Partagez egallement vos coup de coeurs 
+                  sur ce même réseau. 

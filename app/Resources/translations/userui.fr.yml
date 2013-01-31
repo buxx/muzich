@@ -19,6 +19,18 @@ start:
   tags:
     title:     Choisissez vos tags préférés
     remind:    Vous pourrez egallement modifier vos tags préféré dans la partie 'mon compte'.
+   
+title:
+  myaccount:     Mon compte
+  mynetwork:     Mon réseau
+  home:          Le réseau
+  editgroup:     Modification du groupe %group_name%
+  favoriteof:    Favoris de %name%
+  myfavorites:   Mes favoris
+  sites:         Sites supportés
+  devvers:       En développement
+  abbout:        A propos
+  search:        Recherche
     
 my_account: 
   title:          Mon compte

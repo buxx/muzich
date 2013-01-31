@@ -1,17 +1,12 @@
 {% extends "MuzichCoreBundle::layout.html.twig" %}
 
-{% block title %}A propos{% endblock %}
+{% block title %}{{ 'title.about'|trans({}, 'userui') }}{% endblock %}
+{% block mainbox_classes %}mainbox_padding{% endblock %}
 
 {% block main_content %}
 
-  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with {'active': null} %}
+  <h1>{{ 'about.subtitle'|trans({}, 'text') }}</h1>
 
-  <h1>Découvrez et partagez la musique d'internet</h1>
-
-  <p>
-    Grâce au réseau de Muzi.ch découvrez chaque jours de nouveaux son partagés
-    par les autres membres de ce réseau. Partagez egallement vos coup de coeurs 
-    sur ce même réseau. 
-  </p>
+  <p>{{ 'about.text'|trans({}, 'text') }}</p>
 
 {% endblock %}

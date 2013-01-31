@@ -1,6 +1,6 @@
 {% extends "MuzichFavoriteBundle::layout.html.twig" %}
 
-{% block title %}Mes favoris{% endblock %}
+{% block title %}{{ 'title.myfavorites'|trans({}, 'userui') }}{% endblock %}
 {% block mainbox_classes %}mainbox_nopadding{% endblock %}
 
 {% block content %}

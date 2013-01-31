@@ -1,6 +1,6 @@
 {% extends "MuzichGroupBundle::layout.html.twig" %}
 
-{% block title %}Edition du groupe {{ group.name }}{% endblock %}
+{% block title %}{{ 'title.editgroup'|trans({'%group_name%':group.name}, 'userui') }}{% endblock %}
 {% block mainbox_classes %}mainbox_padding{% endblock %}
 
 {% block content %}

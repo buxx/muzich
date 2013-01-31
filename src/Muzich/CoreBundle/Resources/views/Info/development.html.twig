@@ -1,16 +1,12 @@
 {% extends "MuzichCoreBundle::layout.html.twig" %}
 
-{% block title %}Version en développement{% endblock %}
+{% block title %}{{ 'title.devvers'|trans({}, 'userui') }}{% endblock %}
+{% block mainbox_classes %}mainbox_padding{% endblock %}
 
 {% block main_content %}
 
-  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with {'active': null} %}
+  <h1>{{ 'dev.subtitle'|trans({}, 'text') }}</h1>
 
-  <h1>Muzich est en cours de construction</h1>
-
-  <p>
-    Actuellement vous utilisez la version <strong>0.9</strong> de Muzich. De nombreuses 
-    fonctionnalités doivent voir le jours au fur et a mesure du développement.
-  </p>
+  <p>{{ 'dev.text'|trans({}, 'text') }}</p>
 
 {% endblock %}

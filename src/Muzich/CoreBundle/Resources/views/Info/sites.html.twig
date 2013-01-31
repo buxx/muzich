@@ -1,19 +1,13 @@
 {% extends "MuzichCoreBundle::layout.html.twig" %}
 
-{% block title %}A propos{% endblock %}
+{% block title %}{{ 'title.sites'|trans({}, 'userui') }}{% endblock %}
+{% block mainbox_classes %}mainbox_padding{% endblock %}
 
 {% block main_content %}
 
-  {% include "MuzichCoreBundle:Menu:containerMenu.html.twig" with {'active': null} %}
+  <h1>{{ 'sites.subtitle'|trans({}, 'text') }}</h1>
 
-  <h1>Liste des sites supportés</h1>
-
-  <p>
-    Lorsque vous ajouter un lien sur le réseau Muzi.ch celui-ci est
-    interprété afin d'intégrer directement le contenu que vous souhaitez 
-    partager. Ci-dessous la liste des sites dont certaines ressources sont
-    actuellement supportés.
-  </p>
+  <p>{{ 'sites.text'|trans({}, 'text') }}</p>
   
   <ul>
     <li>
