@@ -43,7 +43,7 @@ MuzichHomeBundle:
 # On doit rajouter une route au cas ou la langue n'est pas précisé.
 home_bis:
   pattern:  /
-  defaults: { _controller: MuzichHomeBundle:Home:index }
+  defaults: { _controller: MuzichHomeBundle:Home:index, network: network_public }
   
 MuzichUserBundle:
   resource: "@MuzichUserBundle/Resources/config/routing.yml"
