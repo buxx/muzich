@@ -6,35 +6,35 @@ use Muzich\CoreBundle\lib\FunctionalTest;
 
 class MynetworkControllerTest extends FunctionalTest
 {
-  /**
-   * Test de l'affichage de la page "mon réseau"
-   */
-  public function testMyNetwork()
-  {
-    /**
-     * Avec l'utilisateur 'bux' , qui d'après les fixtures suis: jean, paul,
-     * les groupes DUDELDRUM et Fans de psytrance
-     * et est suivis par joelle
-     */
-    $this->client = self::createClient();
-    $this->connectUser('bux', 'toor');
-    $link = $this->selectLink('a[href="'.$this->generateUrl('mynetwork_index').'"]');
-    $this->clickOnLink($link);
-    $this->isResponseSuccess();
-    
-    // Récupération des entités
-    $jean = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneByUsername('jean');
-    $paul = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneByUsername('paul');
-    $joelle = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneByUsername('joelle');
-    $DUDELDRUM = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('DUDELDRUM');
-    $Fans_de_psytrance = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Fans de psytrance');
-    
-    $this->exist('ul#followeds_users li a[href="'.$this->generateUrl('show_user', array('slug' => $jean->getSlug())).'"]');
-    $this->exist('ul#followeds_users li a[href="'.$this->generateUrl('show_user', array('slug' => $paul->getSlug())).'"]');
-    $this->exist('ul#followers_users li a[href="'.$this->generateUrl('show_user', array('slug' => $joelle->getSlug())).'"]');
-    $this->exist('ul#followeds_groups li a[href="'.$this->generateUrl('show_group', array('slug' => $DUDELDRUM->getSlug())).'"]');
-    $this->exist('ul#followeds_groups li a[href="'.$this->generateUrl('show_group', array('slug' => $Fans_de_psytrance->getSlug())).'"]');
-  }
+  ///**
+  // * Test de l'affichage de la page "mon réseau"
+  // */
+  //public function testMyNetwork()
+  //{
+  //  /**
+  //   * Avec l'utilisateur 'bux' , qui d'après les fixtures suis: jean, paul,
+  //   * les groupes DUDELDRUM et Fans de psytrance
+  //   * et est suivis par joelle
+  //   */
+  //  $this->client = self::createClient();
+  //  $this->connectUser('bux', 'toor');
+  //  $link = $this->selectLink('a[href="'.$this->generateUrl('mynetwork_index').'"]');
+  //  $this->clickOnLink($link);
+  //  $this->isResponseSuccess();
+  //  
+  //  // Récupération des entités
+  //  $jean = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneByUsername('jean');
+  //  $paul = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneByUsername('paul');
+  //  $joelle = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneByUsername('joelle');
+  //  $DUDELDRUM = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('DUDELDRUM');
+  //  $Fans_de_psytrance = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')->findOneByName('Fans de psytrance');
+  //  
+  //  $this->exist('ul#followeds_users li a[href="'.$this->generateUrl('show_user', array('slug' => $jean->getSlug())).'"]');
+  //  $this->exist('ul#followeds_users li a[href="'.$this->generateUrl('show_user', array('slug' => $paul->getSlug())).'"]');
+  //  $this->exist('ul#followers_users li a[href="'.$this->generateUrl('show_user', array('slug' => $joelle->getSlug())).'"]');
+  //  $this->exist('ul#followeds_groups li a[href="'.$this->generateUrl('show_group', array('slug' => $DUDELDRUM->getSlug())).'"]');
+  //  $this->exist('ul#followeds_groups li a[href="'.$this->generateUrl('show_group', array('slug' => $Fans_de_psytrance->getSlug())).'"]');
+  //}
   
   /**
    * Test de la recherche

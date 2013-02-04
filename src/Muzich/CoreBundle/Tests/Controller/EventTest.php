@@ -143,19 +143,18 @@ class EventTest extends FunctionalTest
     // Nous allons maintenant consulter ces events avec bux
     $this->disconnectUser();
     $this->connectUser('bux', 'toor');
+    $bux = $this->getUser();
     
     // bux doit pouvoir voir dans la barre de droite qu'il a deux elements avec de
     // nouveaux commentaire
-    $this->exist('div#events div.comments a span.new_comments:contains("2")');
+    $this->exist('ul.user_events_infos li.user_messages span.new_comments:contains("2")');
     
     // Il y a d'ailleurs un lien pour les afficher
     $url = $this->generateUrl('event_view_elements', array('event_id' => $result[0]['id']));
-    $this->exist('div#events div.comments a[href="'.$url.'"]');
+    $this->exist('ul.user_events_infos li.user_messages a[href="'.$url.'"]');
     
     // On se rend sur ce lien
     $this->crawler = $this->client->request('GET', $url);
-    $this->isResponseRedirection();
-    $this->followRedirection();
     $this->isResponseSuccess();
     
     // nous somme sur la page home
@@ -163,10 +162,29 @@ class EventTest extends FunctionalTest
     // et on peux voir les deux éléments qui ont reçu le nouveau commentaire
     $this->exist('li#element_'.$element->getId());
     $this->exist('li#element_'.$element_2->getId());
-    // On voit egallement le bouton dans les filtres
-    // /!\ la je ne teste pas si il est affiché ou caché /!\
-    $url = $this->generateUrl('ajax_filter_remove_ids');
-    $this->exist('div.more_filters a[href="'.$url.'"]');
+    
+    // On voit egallement le bouton pour ne plus voir l'event
+    $url = $this->generateUrl('event_delete', array(
+      'event_id' => $result[0]['id'],
+      'token'    => $bux->getPersonalHash($result[0]['id'])
+    ));
+    $this->exist('a[href="'.$url.'"]');
+    
+    // L'objet Event est encore en base
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $bux->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 1);
+    
+    // On va sur le liens pour ne plus voir l'event
+    $this->crawler = $this->client->request('GET', $url);
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
     
     // L'objet Event ne doit plus être en base maintenant qu'il a été vu
     $result = $this->getDoctrine()->getEntityManager()
@@ -177,24 +195,24 @@ class EventTest extends FunctionalTest
       ->getArrayResult()
     ;
     $this->assertEquals(count($result), 0);
-    
-    // Du coup on clique dessus pour revenir a un etat normal
-    $this->crawler = $this->client->request(
-      'GET', 
-      $url, 
-      array(), 
-      array(), 
-      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
-    );
-    
-    $this->isResponseSuccess();
-    
-    $response = json_decode($this->client->getResponse()->getContent(), true);
-    $this->assertEquals($response['status'], 'success');
-    
-    // la réponse contient bien un des éléments qui n'a pas été commenté tout a l'heure
-    $this->assertTrue(!is_null(strpos($response['html'], 'Babylon Pression - Des Tasers et des Pauvres')));
-    
+    //
+    //// Du coup on clique dessus pour revenir a un etat normal
+    //$this->crawler = $this->client->request(
+    //  'GET', 
+    //  $url, 
+    //  array(), 
+    //  array(), 
+    //  array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    //);
+    //
+    //$this->isResponseSuccess();
+    //
+    //$response = json_decode($this->client->getResponse()->getContent(), true);
+    //$this->assertEquals($response['status'], 'success');
+    //
+    //// la réponse contient bien un des éléments qui n'a pas été commenté tout a l'heure
+    //$this->assertTrue(!is_null(strpos($response['html'], 'Babylon Pression - Des Tasers et des Pauvres')));
+    //
     // Et si on réaffiche la page home, le filtre a bien été réinitialisé
     $this->crawler = $this->client->request('GET', $this->generateUrl('home'));
     
@@ -535,6 +553,23 @@ class EventTest extends FunctionalTest
     $url = $this->generateUrl('event_view_elements', array('event_id' => $result_paul[0]['id']));
     // il le consulte
     $this->crawler = $this->client->request('GET', $url);
+    $this->isResponseSuccess();
+    
+    // L'objet Event doit encore être en bas etant que l'on a pas validé sa suppression
+    $result = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid'
+      )
+      ->setParameter('uid', $paul->getId())
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($result), 1);
+        
+    // On le supprime de la base
+    $this->crawler = $this->client->request('GET', $this->generateUrl('event_delete', array(
+      'event_id' => $result_paul[0]['id'],
+      'token'    => $paul->getPersonalHash($result_paul[0]['id'])
+    )));
     $this->isResponseRedirection();
     $this->followRedirection();
     $this->isResponseSuccess();
@@ -584,6 +619,16 @@ class EventTest extends FunctionalTest
     $url = $this->generateUrl('event_view_elements', array('event_id' => $result_jo[0]['id']));
     // il le consulte
     $this->crawler = $this->client->request('GET', $url);
+    $this->isResponseSuccess();
+        
+    $this->crawler = $this->client->request('GET', $url);
+    
+    
+    $delete_url = $this->generateUrl('event_delete', array(
+      'event_id' => $result_jo[0]['id'],
+      'token'    => $joelle->getPersonalHash($result_jo[0]['id'])
+    ));
+    $this->crawler = $this->client->request('GET', $delete_url);
     $this->isResponseRedirection();
     $this->followRedirection();
     $this->isResponseSuccess();
@@ -719,18 +764,18 @@ class EventTest extends FunctionalTest
     $this->connectUser('bob', 'toor');
     
     // bob doit pouvoir voir dans la barre de droite l'event
-    $this->exist('div#events div.follows a span.new_follows:contains("1")');
+    $this->exist('ul.user_events_infos li.user_friends span.new_follows:contains("1")');
     
     // Il y a d'ailleurs un lien pour les afficher
     $url = $this->generateUrl('mynetwork_index', array('event_id' => $result[0]['id']));
-    $this->exist('div#events div.follows a[href="'.$url.'"]');
+    $this->exist('ul.user_events_infos li.user_friends a[href="'.$url.'"]');
     
     // On se rend sur ce lien
     $this->crawler = $this->client->request('GET', $url);
     $this->isResponseSuccess();
     
     // On peux voir le lien vers bux en class 'new'
-    $this->exist('ul#followers_users li.new:contains(\'bux\')');
+    $this->exist('ul#followers_users li:contains(\'bux\')');
     
     // L'event n'existe d'ailleurs plus en base
     $result = $this->getDoctrine()->getEntityManager()

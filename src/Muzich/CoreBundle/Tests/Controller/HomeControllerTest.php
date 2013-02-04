@@ -60,6 +60,7 @@ class HomeControllerTest extends FunctionalTest
         'ids_display' => null,
         'tag_strict'  => false,
         'string'      => null,
+        'need_tags'   => false,
     ), $this->getSession()->get('user.element_search.params'));
     
     // On fabrique l'ElementSearcher correspondant
@@ -89,7 +90,7 @@ class HomeControllerTest extends FunctionalTest
     );
     
     $this->isResponseSuccess();
-    $this->exist('h2:contains("'.$jean->getName().'")');
+    $this->exist('h1:contains("'.$jean->getName().'")');
     
     $es = new ElementSearcher();
     $es->init(array(
@@ -120,7 +121,7 @@ class HomeControllerTest extends FunctionalTest
     );
     
     $this->isResponseSuccess();
-    $this->exist('h2:contains("'.$fdp->getName().'")');
+    $this->exist('h1:contains("'.$fdp->getName().'")');
     
     $es = new ElementSearcher();
     $es->init(array(

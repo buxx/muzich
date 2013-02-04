@@ -228,7 +228,7 @@ class GroupControllerTest extends FunctionalTest
     }
     
     // Et sur la page aussi
-    $this->exist('h2:contains("Les Fans de Psytrance")');
+    $this->exist('h1:contains("Les Fans de Psytrance")');
   }
   
 }
