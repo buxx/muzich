@@ -107,29 +107,6 @@ class UserController extends Controller
     $form_values = $this->getRequest()->request->get($form->getName());
     $user = $form->getData();
     
-    /**
-     * Contrôle du token
-     */
-    
-    $r_token = $this->getDoctrine()->getRepository('MuzichCoreBundle:RegistrationToken')
-      ->findOneBy(array('token' => $form_values["token"], 'used' => false))
-    ;
-      
-    if (!$r_token)
-    {
-      $errors[] = $this->get('translator')->trans(
-        'registration.token.error', 
-        array(),
-        'validators'
-      );
-    }
-    else
-    {
-      $r_token->setUsed(true);
-      $em = $this->getDoctrine()->getEntityManager();
-      $em->persist($r_token);
-      $em->flush();
-    }
     
     /*
      * Contrôle de la taille du pseudo
@@ -193,6 +170,31 @@ class UserController extends Controller
         $this->setFlash('fos_user_success', 'registration.flash.user_created');
         $url = $this->generateUrl($route);
 
+        
+        /**
+         * Contrôle du token
+         */
+        $form_values = $this->getRequest()->request->get($form->getName());
+        $r_token = $this->getDoctrine()->getRepository('MuzichCoreBundle:RegistrationToken')
+          ->findOneBy(array('token' => $form_values["token"], 'used' => false))
+        ;
+          
+        if (!$r_token)
+        {
+          $errors[] = $this->get('translator')->trans(
+            'registration.token.error', 
+            array(),
+            'validators'
+          );
+        }
+        else
+        {
+          $r_token->setUsed(true);
+          $em = $this->getDoctrine()->getEntityManager();
+          $em->persist($r_token);
+          $em->flush();
+        }
+        
         return new RedirectResponse($url);
       }
     }
