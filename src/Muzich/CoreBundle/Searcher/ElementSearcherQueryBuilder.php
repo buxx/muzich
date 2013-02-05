@@ -247,9 +247,12 @@ class ElementSearcherQueryBuilder
       ;
       
       $strict_element_ids = array();
-      foreach ($strict_element_ids_result as $strict_id)
+      if (count($strict_element_ids_result))
       {
-        $strict_element_ids[] = $strict_id['element_id'];
+        foreach ($strict_element_ids_result as $strict_id)
+        {
+          $strict_element_ids[] = $strict_id['element_id'];
+        }
       }
       
       if (count($strict_element_ids))
