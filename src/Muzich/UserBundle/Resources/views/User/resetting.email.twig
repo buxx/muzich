@@ -1,8 +1,8 @@
-{% block subject %}{{ 'mail.change_email.subject'|trans({}, 'text') }}{% endblock %}
+{% block subject %}{{ 'mail.resetting_password.subject'|trans({}, 'text') }}{% endblock %}
 
 {% block body_text %}
   {% autoescape false %}
-    {{ 'mail.change_email.content'|trans({
+    {{ 'mail.resetting_password.content'|trans({
       '%url%'      : confirmationUrl,
       '%username%' : user.username
     }, 'text') }}

@@ -1,4 +1,10 @@
-{% autoescape false %}
-  Changement d'adresse email
-  {{ confirmationUrl }}
-{% endautoescape %}
+{% block subject %}{{ 'mail.change_email.subject'|trans({}, 'text') }}{% endblock %}
+
+{% block body_text %}
+  {% autoescape false %}
+    {{ 'mail.change_email.content'|trans({
+      '%url%'      : confirmationUrl,
+      '%username%' : user.username
+    }, 'text') }}
+  {% endautoescape %}
+{% endblock %}
