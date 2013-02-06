@@ -41,12 +41,25 @@ class Deezercom extends ElementFactory
       $type   = 'album';
       $ref_id = $chaines[1];
     }
+    // http://www.deezer.com/fr/album/379324
+    else if (preg_match("#^\/[a-zA-Z_-]+\/album\/([0-9]+)#", $url_clean, $chaines))
+    {
+      $type   = 'album';
+      $ref_id = $chaines[1];
+    }
     // playlist
     else if (preg_match("#^\/[a-zA-Z_-]+\/music\/playlist\/([0-9]+)#", $url_clean, $chaines))
     {
       $type = 'playlist';
       $ref_id = $chaines[1];
     }
+    // http://www.deezer.com/track/4067216
+    else if (preg_match("#^\/track\/([0-9]+)#", $url_clean, $chaines))
+    {
+      $type = 'track';
+      $ref_id = $chaines[1];
+    }
+    
     
     $this->element->setData(Element::DATA_TYPE  , $type);
     $this->element->setData(Element::DATA_REF_ID, $ref_id);
@@ -66,7 +79,31 @@ class Deezercom extends ElementFactory
       {
         $this->element->setData(Element::DATA_THUMB_URL, $result->cover);
       }
+      else if ($type == 'track')
+      {
+        if (isset($result->album))
+        {
+          if (isset($result->album->cover))
+          {
+            $this->element->setData(Element::DATA_THUMB_URL, $result->album->cover);
+          }
+        }
+      }
       
+      if ($type == 'album' || $type == 'track')
+      {
+        if (isset($result->title))
+        {
+          $this->element->setData(Element::DATA_TITLE, $result->title);
+        }
+        if (isset($result->artist))
+        {
+          if (isset($result->artist->name))
+          {
+            $this->element->setData(Element::DATA_ARTIST, $result->artist->name);
+          }
+        }
+      }
       
     }
   }
@@ -74,7 +111,10 @@ class Deezercom extends ElementFactory
   public function proceedEmbedCode()
   {
     if (($ref_id = $this->element->getData(Element::DATA_REF_ID)) 
-      && ($type = $this->element->getData(Element::DATA_TYPE)))
+      && ($type = $this->element->getData(Element::DATA_TYPE))
+      && ($this->element->getData(Element::DATA_TYPE) == 'album' ||
+         $this->element->getData(Element::DATA_TYPE) == 'playlist')
+      )
     {
       $width = $this->container->getParameter('deezer_player_width');
       $heigth = $this->container->getParameter('deezer_player_height');
