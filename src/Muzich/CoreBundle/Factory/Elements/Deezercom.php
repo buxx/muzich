@@ -25,6 +25,9 @@ class Deezercom extends ElementFactory
   /**
    *  URL_PLAYLIST: http://www.deezer.com/fr/music/playlist/18701350
    *  URL_ALBUM:    http://www.deezer.com/fr/music/pantera/far-beyond-driven-80398
+   *
+   * http://www.deezer.com/fr/music/the-delta/Thing%20EP-379324
+   * http://www.deezer.com/fr/album/379324
    */
   public function retrieveDatas()
   {
@@ -58,11 +61,13 @@ class Deezercom extends ElementFactory
       );
       curl_setopt_array( $ch, $options );
       $result = json_decode(curl_exec($ch));
-
+      
       if (isset($result->cover))
       {
         $this->element->setData(Element::DATA_THUMB_URL, $result->cover);
       }
+      
+      
     }
   }
   
@@ -84,7 +89,7 @@ class Deezercom extends ElementFactory
   
   public function proceedThumbnailUrl()
   {
-    if (($thumb = $this->element->getData(Element::DATA_TYPE)))
+    if (($thumb = $this->element->getData(Element::DATA_THUMB_URL)))
     {
       $this->element->setThumbnailUrl($thumb);
     }
