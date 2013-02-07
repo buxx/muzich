@@ -524,9 +524,8 @@ $(document).ready(function(){
     if (!$(this).hasClass('event_view'))
     {
       var link = $(this);
-      var last_element = $('ul.elements li.element:last-child');
+      var last_element = $('ul.elements li.element:last');
       var id_last = str_replace('element_', '', last_element.attr('id'));
-      
       
       var url = link.attr('href')+'/'+id_last;
       // Cas exeptionel si on se trouve sur la global_search
