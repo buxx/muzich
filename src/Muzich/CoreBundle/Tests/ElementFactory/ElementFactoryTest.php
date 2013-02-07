@@ -503,7 +503,9 @@ class ElementFactoryTest extends UnitTest
     $this->assertEquals(array(
       'data_ref_id' => '80398',
       'data_type' => 'album',
-      'data_thumb_url' => 'http://api.deezer.com/2.0/album/80398/image'
+      'data_thumb_url' => 'http://api.deezer.com/2.0/album/80398/image',
+      'data_title' => 'Far Beyond Driven',
+      'data_artist' => 'Pantera'
     ),$this->proceed_element_datas_api(
       $bux, 
       'http://www.deezer.com/fr/music/pantera/far-beyond-driven-80398'
