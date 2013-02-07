@@ -4,8 +4,9 @@
 {% else %}
   <script src="{{ asset('js/jquery-1.8.2.prod.js') }}" type="text/javascript"></script>
 {% endif %}
+
 <script src="{{ asset('js/jquery-ui-1.8.7.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/muzichcore/js/muzich.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/lib/muzich.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/lib/TagPrompt.js') }}" type="text/javascript"></script>
 
 <script type="text/javascript" src="{{ asset('js/swfobject.js') }}"></script> 
@@ -13,7 +14,7 @@
 <script src="http://connect.soundcloud.com/sdk.js"></script>
 <script src="http://w.soundcloud.com/player/api.js"></script>
 
-<script src="{{ asset('bundles/muzichcore/js/autoplay.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/lib/autoplay.js') }}" type="text/javascript"></script>
 
 {# jPlayer #}
 <link href="{{ asset('jplayer/skin/blue.monday/jplayer.blue.monday.css') }}" rel="stylesheet" type="text/css" />
