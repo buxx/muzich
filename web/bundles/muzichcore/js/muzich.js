@@ -1414,10 +1414,7 @@ $(document).ready(function(){
     }
     else
     {
-      // Cette var sert a rien ici, mais c'est la refactorisation qui
-      //  pose problmeme (corrigeable cela dit)
-      var divtags = $("#search_tag_"+form_name);
-      form_add_open_dialog_for_new_tag($(this), input_tag, form_name, divtags);
+      window.add_tag_prompt_connector.openTagSubmission($(this).text());
     }
     
     // On nettoie le champs de saisie des tags
@@ -2482,7 +2479,6 @@ $(document).ready(function(){
   /* Languages placement */
   var selected_language = $('div#languages a.selected');
   $('div#languages').prepend(selected_language);
-  delete selected_language;
 });
 
 

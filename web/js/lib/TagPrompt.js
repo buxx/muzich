@@ -35,7 +35,7 @@ function TagPrompt(select_tag_callback, tag_prompt_connector)
   {
     if (!tag_id)
     {
-      openTagSubmission(tag_name);
+      this.openTagSubmission(tag_name);
     }
     else
     {
@@ -44,7 +44,7 @@ function TagPrompt(select_tag_callback, tag_prompt_connector)
     }
   }
   
-  var openTagSubmission = function (tag_name)
+  this.openTagSubmission = function (tag_name)
   {
     // TODO : Cette partie du code n'est pas encore refactorisé
     
@@ -310,6 +310,11 @@ function TagPromptConnector(input, output, proposition_list, tag_box, prompt_loa
   {
     _tag_prompt.addTag(tag);
     this.updateOutput(_tag_prompt.getSelectedTags());
+  }
+  
+  this.openTagSubmission = function(tag_name)
+  {
+    _tag_prompt.openTagSubmission(tag_name);
   }
   
 }
