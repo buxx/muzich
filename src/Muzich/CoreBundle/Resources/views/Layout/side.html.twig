@@ -1,0 +1,16 @@
+{% if app.user %}
+  <div id="user_statusbox" class="nicebox">
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+      {% render "MuzichUserBundle:Event:infoBar" %}
+    {% endif %}
+  </div>
+
+  <div id="searchbox" class="nicebox">
+    {% render "MuzichCoreBundle:Search:renderGlobalSearchForm" %}
+  </div>
+  
+  {#{% include 'MuzichCoreBundle:Layout:social.html.twig' %}#}
+  
+  {% render 'MuzichCoreBundle:Core:renderSideMenu' %}
+
+{% endif %}

@@ -1,0 +1,15 @@
+{% if add_class is not defined %}
+  {% set add_class = ''%}
+{% endif %}
+{% if close_class is not defined %}
+  {% set close_class = ''%}
+{% endif %}
+
+<a href="#" id="element_add_link" class="button gradient {{ add_class }}">
+  {{ 'home.add_element'|trans({}, 'navigationui') }}
+  <img src="{{ asset('/img/icon_dart_right_white.png') }}" alt="" />
+</a>
+<a href="#" id="element_add_close_link" class="button gradient {{ close_class }}" style="display: none;">
+  {{ 'home.add_element_box.close'|trans({}, 'navigationui') }}
+  <img src="{{ asset('/img/icon_dart_left_white.png') }}" alt="" />
+</a>

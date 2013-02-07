@@ -214,12 +214,13 @@ class SearchController extends Controller
     
     $elements = $search->getElements($this->getDoctrine(), $this->getUserId());
       
-    return $this->searchElementsMore($elements, false,
+    return $this->searchElementsMore($elements,
       $this->trans(
         'elements.ajax.more.noelements', 
         array(), 
         'elements'
-      )
+      ),
+      null
     );
   }
     

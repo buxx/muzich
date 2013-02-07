@@ -1,291 +1,25 @@
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<html>
   <head>
     <title>Muzi.ch - {% block title %}{% endblock %}</title>
-    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    <meta http-equiv="Content-Style-Type" content="text/css" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <meta name="author" content="" />
-    <link href="apple-touch-icon.png" rel="apple-touch-icon" />
-
-    <link href="{{ asset('favicon.ico') }}" rel="icon" type="image/x-icon" />
-    <link href="{{ asset('bundles/muzichcore/css/base.css') }}" rel="stylesheet" media="screen" type="text/css" />
-    <link href="{{ asset('bundles/muzichcore/css/old.css') }}" rel="stylesheet" media="screen" type="text/css" />
-    <link href="{{ asset('css/main.css') }}" rel="stylesheet" media="screen" type="text/css" />
-
-    <!--[if gte IE 9]>
-      <style type="text/css">
-        .gradient, .button {
-           filter: none;
-        }
-      </style>
-    <![endif]-->
-    
+    {% include 'MuzichCoreBundle:Layout:head.html.twig' %}
     {% block css %}{% endblock %}
-    {% if  app.environment != 'prod' %}  
-    <script src="{{ asset('js/jquery-1.8.2.dev.js') }}" type="text/javascript"></script>
-    {% else %}
-    <script src="{{ asset('js/jquery-1.8.2.prod.js') }}" type="text/javascript"></script>
-    {% endif %}
-    <script src="{{ asset('js/jquery-ui-1.8.7.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/muzichcore/js/muzich.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/lib/TagPrompt.js') }}" type="text/javascript"></script>
-
-    <script type="text/javascript" src="{{ asset('js/swfobject.js') }}"></script> 
-    
-    <script src="http://connect.soundcloud.com/sdk.js"></script>
-    <script src="http://w.soundcloud.com/player/api.js"></script>
-
-    <script src="{{ asset('bundles/muzichcore/js/autoplay.js') }}" type="text/javascript"></script>
-
-    {# jPlayer #}
-    <link href="{{ asset('jplayer/skin/blue.monday/jplayer.blue.monday.css') }}" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="{{ asset('jplayer/js/jquery.jplayer.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('jplayer/js/jplayer.playlist.min.js') }}"></script>
-
-    <script src="{{ asset('js/tags/jquery.autoGrowInput.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/tags/jquery.tagBox.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/formdefault/jquery.formdefaults.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/jquery.form-2.14.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/jConfirmAction/jconfirmaction.jquery.js') }}" type="text/javascript"></script>
-    <script type="text/javascript">
-      string_follow_stop = "{{ 'user.stop_follow'|trans({}, 'users') }}";
-      string_follow_following = "{{ 'user.following'|trans({}, 'users') }}";
-      string_follow_follow = "{{ 'user.follow'|trans({}, 'users') }}";
-      string_tag_add_title = "{{ 'tags.add.title'|trans({}, 'userui') }}";
-      string_tag_add_text = "{{ 'tags.add.text'|trans({}, 'userui') }}";
-      string_tag_add_argument = "{{ 'tags.add.argument'|trans({}, 'userui') }}";
-      string_tag_add_inputs_cancel = "{{ 'tags.add.inputs.cancel'|trans({}, 'userui') }}";
-      string_tag_add_inputs_submit = "{{ 'tags.add.inputs.submit'|trans({}, 'userui') }}";
-      string_element_delete_confirm_sentence = "{{ 'element.remove.confirm.sentence'|trans({}, 'elements') }}";
-      string_element_delete_confirm_yes = "{{ 'element.remove.confirm.yes'|trans({}, 'elements') }}";
-      string_element_delete_confirm_no = "{{ 'element.remove.confirm.no'|trans({}, 'elements') }}";
-      string_comment_delete_confirm_sentence = "{{ 'comment.remove.confirm.sentence'|trans({}, 'elements') }}";
-      string_comment_delete_confirm_yes = "{{ 'comment.remove.confirm.yes'|trans({}, 'elements') }}";
-      string_comment_delete_confirm_no = "{{ 'comment.remove.confirm.no'|trans({}, 'elements') }}";
-      string_tag_addtofav_confirm_sentence = "{{ 'element.tag.addtofav.confirm.sentence'|trans({}, 'elements') }}";
-      string_tag_addtofav_confirm_yes = "{{ 'element.tag.addtofav.confirm.yes'|trans({}, 'elements') }}";
-      string_tag_addtofav_confirm_no = "{{ 'element.tag.addtofav.confirm.no'|trans({}, 'elements') }}";
-      string_elementreport_confirm_sentence = "{{ 'element.report.confirm.sentence'|trans({}, 'userui') }}";
-      string_elementreport_confirm_yes = "{{ 'element.report.confirm.yes'|trans({}, 'userui') }}";
-      string_elementreport_confirm_no = "{{ 'element.report.confirm.no'|trans({}, 'userui') }}";
-      string_commentreport_confirm_sentence = "{{ 'comment.report.confirm.sentence'|trans({}, 'userui') }}";
-      string_commentreport_confirm_yes = "{{ 'comment.report.confirm.yes'|trans({}, 'userui') }}";
-      string_commentreport_confirm_no = "{{ 'comment.report.confirm.no'|trans({}, 'userui') }}";
-      string_elementreshare_confirm_sentence = "{{ 'element.reshare.confirm.sentence'|trans({}, 'userui') }}";
-      string_elementreshare_confirm_yes = "{{ 'element.reshare.confirm.yes'|trans({}, 'userui') }}";
-      string_elementreshare_confirm_no = "{{ 'element.reshare.confirm.no'|trans({}, 'userui') }}";
-      {% autoescape false %}
-      string_search_tag_title = "{{ 'search_tag.title'|trans({}, 'userui') }}";
-      {% endautoescape %}
-
-      url_index = "{{ path('index') }}";
-      url_search_tag = "{{ path('search_tag') }}";
-      url_get_favorites_tags = "{{ path('ajax_get_favorites_tags') }}";
-      url_add_tag = "{{ path('ajax_add_tag') }}";
-      url_element_new_count = "{{ path('element_new_count') }}";
-      url_element_new_get = "{{ path('element_new_get') }}";
-      url_global_search = "{{ path('global_search') }}";
-      url_datas_api = "{{ path('element_retrieve_api_datas') }}";
-      url_element_add = "{{ path('element_add') }}";
-      url_element_dom_get_one_autoplay = "{{ path('element_dom_get_one', {'type':'autoplay'}) }}";
-      url_element_get_stream_data = "{{ path('element_get_stream_data') }}";
-
-      url_img_ajax_loader = "{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}";
-    </script>
     {% block js %}{% endblock %}
-
   </head>
   <body>
     
-    <noscript>
-    <div id="noscript_warning">
-      <p>
-        {{ 'noscript.message'|trans({}, 'messages') }}
-        <a href="{{ 'noscript.link_search'|trans({}, 'messages') }}" target="_blank">
-          {{ 'noscript.link_text'|trans({}, 'messages') }}
-        </a>
-      </p>
-    </div>
-  </noscript>
-    
-    <div id="autoplay" class="popin_block" style="display: none;">
-      
-      <a href="javascript:void(0);" id="autoplay_previous">
-        <img src="{{ asset('/bundles/muzichcore/img/autoplay_previous.png') }}" alt="previous" />
-      </a>
-      
-  <a href="javascript:void(0);" id="autoplay_close" >
-    <img src="{{ asset('/bundles/muzichcore/img/1317386146_cancel.png') }}" alt="close" />
-  </a>
-      
-      <a href="javascript:void(0);" id="autoplay_next">
-        <img src="{{ asset('/bundles/muzichcore/img/autoplay_next.png') }}" alt="next" />
-      </a>
-      
-    <img id="autoplay_element_loader" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loader" />
-    <ul id="autoplay_element"><li class="element" id="autoplay_element_container"></li></ul>
-    <div id="autoplay_player_container">
-      <div id="autoplay_player"></div>
-    </div>
-    <div id="autoplay_player_soundcloud"></div>
-    <div id="autoplay_player_generic" style="display: none;">
-      <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-      <div id="jp_container_1" class="jp-audio">
-        <div class="jp-type-playlist">
-          <div class="jp-gui jp-interface">
-            <ul class="jp-controls">
-              <li><a href="javascript:;" class="jp-previous" tabindex="1">previous</a></li>
-              <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
-              <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
-              <li><a href="javascript:;" class="jp-next" tabindex="1">next</a></li>
-              <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
-              <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
-              <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
-              <li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
-            </ul>
-            <div class="jp-progress">
-              <div class="jp-seek-bar">
-                <div class="jp-play-bar"></div>
-              </div>
-            </div>
-            <div class="jp-volume-bar">
-              <div class="jp-volume-bar-value"></div>
-            </div>
-            <div class="jp-time-holder">
-              <div class="jp-current-time"></div>
-              <div class="jp-duration"></div>
-            </div>
-            <ul class="jp-toggles" style="display: none;">
-              <li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle">shuffle</a></li>
-              <li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off">shuffle off</a></li>
-              <li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></li>
-              <li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>
-            </ul>
-          </div>
-          <div class="jp-playlist">
-            <ul>
-              <li></li>
-            </ul>
-          </div>
-          <div class="jp-no-solution">
-            <span>Update Required</span>
-            To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-          </div>
-        </div>
-      </div>
-    </div>
-    <img id="autoplay_loader" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loader" />
-    <p id="autoplay_noelements_text" style="display: none;">{{ 'elements.autoplay.noelements.text'|trans({}, 'elements') }}</p>
-        
-    <p><span class="sinfo">{{ 'autoplay.limitations_players'|trans({}, 'userui') }}</span></p>
-    
-  </div>
+    {% include 'MuzichCoreBundle:Layout:noscript.html.twig' %}
+    {% include 'MuzichCoreBundle:Autoplay:autoplay.html.twig' %}
   
   <div id="container">
   
     <div id="main_content">
       
       <header id="header">
-        <hgroup>
-            {% include "MuzichCoreBundle:Language:languages.html.twig" %}
-            <!--
-          <ul id="parameters"><li>
-              <a href="">
-                <img src="{{ asset('img/header_icon_params.png') }}" alt="parameters" />
-              </a>
-            </li></ul>-->
-          
-          <a id="header_logo" href="{{ path('index') }}" title="">
-            <img src="{{ asset('img/header_logo.png') }}" alt="logo" />
-          </a>
-          <ul id="register_and_login">
-            {% if not app.user %}
-              <!--<li>
-                <a href="" class="left">
-                  Devenir membre
-                </a>
-              </li>
-              <li>
-                <a href="" class="right">
-                  Connexion
-                </a>
-              </li>-->
-            {% else %}
-              <li>
-                <a href="{{ path('my_account') }}" class="left">
-                  {{ 'top_bar.my_account'|trans({}, 'navigationui') }}
-                </a>
-              </li>
-              <li>
-                <a class="right" href="{{ path('fos_user_security_logout') }}">
-                    {{ 'top_bar.logout'|trans({}, 'navigationui') }}
-                </a>
-              </li>
-            {% endif %}
-          </ul>
-          
-          {% if app.user %}
-          <ul id="header_menu">
-            
-            {% if network_public is not defined %}
-              {% set network_public = '' %}
-            {% endif %}
-            
-            <li class="{% if network_public == '1' and not ids_display %}selected{% endif %}">
-              <a href="{{ path('home') }}" class="all_network">
-                {{ 'filter.network_all'|trans({}, 'userui') }}
-              </a>
-            </li>
-            <li class="separator"></li>
-            <li class="{% if network_public == '0' and not ids_display %}selected{% endif %}">
-              <a href="{{ path('mynetwork_home') }}" class="my_network" >
-                {{ 'filter.network_my'|trans({}, 'userui') }}
-              </a>
-            </li>
-            <li class="separator"></li>
-            <li class="{% if app.request.get('topmenu') == 'showuser' and app.request.get('slug') == app.user.slug %}selected{% endif %}">
-              <a href="{{ path('show_user', {'slug': app.user.slug}) }}">
-                {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
-              </a>
-            </li>
-            <li class="separator"></li>
-            {% if his_group is not defined %}{% set his_group = false %}{% endif %}
-            <li class="{% if app.request.get('topmenu') == 'mygroups' or his_group == true %}selected{% endif %}">
-              <a href="{{ path('groups_own_list') }}" >
-                {{ 'network.mygroups'|trans({}, 'navigationui') }}
-              </a>
-            </li>
-            <li class="separator"></li>
-            <li class="{% if app.request.get('topmenu') == 'myfavorites' %}selected{% endif %}">
-              <a href="{{ path('favorites_my_list') }}" >
-                {{ 'container_menu.my_favorites'|trans({}, 'navigationui') }}
-              </a>
-            </li>
-            <li class="separator"></li>
-          </ul>
-          {% endif %}
-          
-        </hgroup>
+        {% include 'MuzichCoreBundle:Layout:header.html.twig' %}
       </header>
       
-      {% for key, flash in app.session.getFlashes() %}
-        <div class="{{ key }} message">
-          <a class="message-close" href="javascript:void(0);" title="fermer"><img alt="close" src="{{ asset('bundles/muzichcore/img/1317386146_cancel.png') }}" /></a>
-          <h3>{{ flash|trans({}, 'flash') }}</h3>
-        </div>
-
-        {% if key == 'success' %}
-        <script type="text/javascript" >
-          $(document).ready(function(){
-            window.setTimeout(function(){
-              $('div.success').slideUp();
-            }, 3000);
-          });
-        </script>
-        {% endif %}
-      {% endfor %}
+      {% include 'MuzichCoreBundle:Layout:flash_messages.html.twig' %}
       
       <div id="content">
         
@@ -299,42 +33,7 @@
         </div>
           
         <aside id="sidebar">
-          
-          {% if app.user %}
-            <div id="user_statusbox" class="nicebox">
-              {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {% render "MuzichUserBundle:Event:infoBar" %}
-              {% endif %}
-            </div>
-          
-            <div id="searchbox" class="nicebox">
-              {% render "MuzichCoreBundle:Search:renderGlobalSearchForm" %}
-            </div>
-            
-            <!--<div id="social" class="nicebox">
-              <ul class="social_links">
-                <li>
-                  <a href="" >
-                    <img src="{{ asset('/img/icon_facebook.png') }}" alt="facebook" />
-                  </a>
-                </li>
-                <li>
-                  <a href="" >
-                    <img src="{{ asset('/img/icon_twitter.png') }}" alt="twitter" />
-                  </a>
-                </li>
-                <li>
-                  <a href="" >
-                    <img src="{{ asset('/img/icon_googleplus.png') }}" alt="google plus" />
-                  </a>
-                </li>
-              </ul>
-            </div>-->
-            
-            {% render 'MuzichCoreBundle:Core:renderSideMenu' %}
-          
-          {% endif %}
-          
+          {% include 'MuzichCoreBundle:Layout:side.html.twig' %}
         </aside>
           
       </div>
@@ -342,19 +41,7 @@
     </div>
     
     <div id="footer">
-      
-      <div id="footer_content">
-      
-        <div id="footer_logo">
-          <img src="{{ asset('/img/icon_minilogo_3.png') }}" alt="footer_logo">
-          <span class="fotter_muzich_big">&copy; MUZI.CH</span>
-          Tous droits réservés muzi.ch 2012 - 2013
-        </div>
-        
-        {% include "MuzichCoreBundle:Info:container.html.twig" %}
-      
-      </div>
-      
+      {% include 'MuzichCoreBundle:Layout:footer.html.twig' %}
     </div>
     
   </div>

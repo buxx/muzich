@@ -1,0 +1,21 @@
+<hgroup>
+  {% include "MuzichCoreBundle:Language:languages.html.twig" %}
+  
+  <!--<ul id="parameters"><li>
+      <a href="">
+        <img src="{{ asset('img/header_icon_params.png') }}" alt="parameters" />
+      </a>
+    </li>
+  </ul>-->
+  
+  <a id="header_logo" href="{{ path('index') }}" title="">
+    <img src="{{ asset('img/header_logo.png') }}" alt="logo" />
+  </a>
+  
+  {% include 'MuzichCoreBundle:Menu:access.html.twig' %}
+  
+  {% if app.user %}
+    {% include 'MuzichCoreBundle:Menu:main_menu.html.twig' %}
+  {% endif %}
+  
+</hgroup>

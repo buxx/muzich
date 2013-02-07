@@ -1,0 +1,45 @@
+{% if box_title is not defined %}
+  {% set box_title = '' %}
+{% endif %}
+{% if group_slug is not defined %}
+  {% set group_slug = '' %}
+{% endif %}
+{% if show_add_to_group is not defined %}
+  {% set show_add_to_group = true %}
+{% endif %}
+
+{% if not group_slug %}
+  {% set form_action = path('element_add') %}
+{% else %}
+  {% set form_action = path('element_add', {'group_slug' : group_slug}) %}
+{% endif %}
+
+<div id="element_add_box" style="display: none;">
+  
+  {% if box_title %}
+    <h2>{{ box_title }}</h2>
+  {% endif %}
+  
+  {% if group_slug %}
+    <input type="hidden" id="add_element_group_page" value="{{ group_slug }}" />
+  {% endif %}
+  
+  <form novalidate name="{{ add_form_name }}" 
+    {% if  app.environment != 'test' %}
+      action="{{ path('element_retrieve_api_datas') }}" method="post" {{ form_enctype(add_form) }}
+    {% else %}
+      action="{{ form_action }}" method="post" {{ form_enctype(add_form) }}
+    {% endif %}
+  >
+  
+    {% include "MuzichCoreBundle:Element:form.add.html.twig" with { 
+      'form'          : add_form, 
+      'form_name'     : add_form_name
+    } %}
+  
+  </form>
+</div>
+
+{% if show_add_to_group %}
+  {% include 'MuzichCoreBundle:Component:element_added_to_group.html.twig' %}
+{% endif %}

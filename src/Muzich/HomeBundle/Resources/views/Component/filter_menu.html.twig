@@ -1,0 +1,16 @@
+<ul id="tabs_tag_search_buttons">
+  <li id="tab_li_tag_search_no_tags" class="{% if search_tags_id|length == 0 %}selected{% endif %} gradient">
+    <a id="tabs_tag_search_no_tags" href="#" >
+      <img src="{{ asset('/img/icon_close.png') }}" alt="nofilters" />
+      {{ 'filter.clear'|trans({}, 'userui') }}
+    </a>
+    <div class="dart"></div>
+  </li>
+  <li id="tab_li_tag_search_with_tags" class="{% if search_tags_id|length %}selected{% endif %} gradient">
+    <a id="tabs_tag_search_with_tags" href="#" >
+      <img src="{{ asset('/img/icon_minilogo_2.png') }}" alt="nofilters" />
+      {{ 'filter.mytags'|trans({}, 'userui') }}
+    </a>
+    <div class="dart"></div>
+  </li>
+</ul>

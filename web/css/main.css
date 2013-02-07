@@ -1630,3 +1630,9 @@ div#results_search_form div.seachboxcontainer input
 {
   width: 570px;
 }
+
+div.display_more_elements
+{
+  padding: 10px;
+  text-align: center;
+}

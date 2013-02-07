@@ -49,11 +49,11 @@
           'elements'          : results.elements
         }%}
         
-        {% include "MuzichCoreBundle:SearchElement:more_button.html.twig" with {
-          'display_more_button' : display_more_button,
-          'elements_length'     : results.elements|length,
-          'more_path'           : 'global_search_elements_empty'
-        }%}
+        {% if display_more_button and results.elements|length %}
+          {% include "MuzichCoreBundle:SearchElement:more_button.html.twig" with {
+            'more_path'           : path('global_search_elements_empty')
+          }%}
+        {% endif %}
         
       {% endif %}
         

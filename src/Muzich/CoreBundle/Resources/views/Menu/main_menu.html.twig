@@ -1,0 +1,38 @@
+<ul id="header_menu">
+    
+  {% if network_public is not defined %}
+    {% set network_public = '' %}
+  {% endif %}
+  
+  <li class="{% if network_public == '1' and not ids_display %}selected{% endif %}">
+    <a href="{{ path('home') }}" class="all_network">
+      {{ 'filter.network_all'|trans({}, 'userui') }}
+    </a>
+  </li>
+  <li class="separator"></li>
+  <li class="{% if network_public == '0' and not ids_display %}selected{% endif %}">
+    <a href="{{ path('mynetwork_home') }}" class="my_network" >
+      {{ 'filter.network_my'|trans({}, 'userui') }}
+    </a>
+  </li>
+  <li class="separator"></li>
+  <li class="{% if app.request.get('topmenu') == 'showuser' and app.request.get('slug') == app.user.slug %}selected{% endif %}">
+    <a href="{{ path('show_user', {'slug': app.user.slug}) }}">
+      {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
+    </a>
+  </li>
+  <li class="separator"></li>
+  {% if his_group is not defined %}{% set his_group = false %}{% endif %}
+  <li class="{% if app.request.get('topmenu') == 'mygroups' or his_group == true %}selected{% endif %}">
+    <a href="{{ path('groups_own_list') }}" >
+      {{ 'network.mygroups'|trans({}, 'navigationui') }}
+    </a>
+  </li>
+  <li class="separator"></li>
+  <li class="{% if app.request.get('topmenu') == 'myfavorites' %}selected{% endif %}">
+    <a href="{{ path('favorites_my_list') }}" >
+      {{ 'container_menu.my_favorites'|trans({}, 'navigationui') }}
+    </a>
+  </li>
+  <li class="separator"></li>
+</ul>
