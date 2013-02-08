@@ -183,3 +183,7 @@ element_dom_get_one:
 element_get_stream_data:
   pattern: /ajax/element/data/get/stream/{element_id}
   defaults: { _controller: MuzichCoreBundle:Element:geJamendotStreamDatas, element_id: null }
+
+url_get_embed_for_element:
+  pattern: /ajax/element/data/get/embed/{element_id}
+  defaults: { _controller: MuzichCoreBundle:Element:getEmbedCode, element_id: null }

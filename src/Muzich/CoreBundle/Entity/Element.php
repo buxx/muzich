@@ -951,4 +951,9 @@ class Element
     return array();
   }
   
+  public function getRefId()
+  {
+    return $this->getData(self::DATA_REF_ID);
+  }
+  
 }

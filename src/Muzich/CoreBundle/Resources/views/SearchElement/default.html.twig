@@ -8,36 +8,18 @@
   </div>
 {% endif %}
 
-<div class="elements_loader_div">
-  <img class="elements_new_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
-</div>
+{% if not app.request.isXmlHttpRequest %}
+  <div class="elements_loader_div">
+    <img class="elements_new_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
+  </div>
+{% endif %}
 
 {% if elements|length %}
   {% if not app.request.isXmlHttpRequest %}<ul class="elements">{% endif %}
     {% for element in elements %} 
-      <li class="element 
-
-{% if loop.index0 is even %}
-  {% if invertcolor is not defined %}
-    even
-  {% elseif invertcolor %}
-    odd
-  {% else %}
-    even
-  {% endif %}
-{% else %}
-  {% if invertcolor is not defined %}
-    odd
-  {% elseif invertcolor %}
-    even
-  {% else %}
-    odd
-  {% endif %}
-{% endif %}" id="element_{{ element.id }}">
-             
-        {% include "MuzichCoreBundle:SearchElement:element.html.twig" %}
-
-      </li>
+      
+      {% include "MuzichCoreBundle:SearchElement:li.element.html.twig" %}
+      
     {% endfor %} 
   {% if not app.request.isXmlHttpRequest %}</ul>{% endif %}
 
@@ -61,6 +43,8 @@
 
 {% endif %}
 
-<div class="elements_loader_div">
-  <img class="elements_more_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
-</div>
+{% if not app.request.isXmlHttpRequest %}
+  <div class="elements_loader_div">
+    <img class="elements_more_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
+  </div>
+{% endif %}

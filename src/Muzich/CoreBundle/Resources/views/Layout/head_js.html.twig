@@ -9,10 +9,21 @@
   'js/jquery.form-2.14.js'
   'js/jConfirmAction/jconfirmaction.jquery.js'
   '@MuzichCoreBundle/Resources/public/js/TagPrompt.js'
-  '@MuzichCoreBundle/Resources/public/js/autoplay.js'
+  '@MuzichCoreBundle/Resources/public/js/play.js'
+  '@MuzichCoreBundle/Resources/public/js/play2.js'
   '@MuzichCoreBundle/Resources/public/js/muzich.js' %}{# filter='yui_js' %}#}
   <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
+
+<script>
+  $(document).ready(function(){  
+    // Pour le moment on charge toujours yt api
+    var tag = document.createElement('script');
+    tag.src = "//www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  });
+</script>
 
 <script type="text/javascript">
   string_follow_stop = "{{ 'user.stop_follow'|trans({}, 'users') }}";
@@ -56,6 +67,9 @@
   url_element_add = "{{ path('element_add') }}";
   url_element_dom_get_one_autoplay = "{{ path('element_dom_get_one', {'type':'autoplay'}) }}";
   url_element_get_stream_data = "{{ path('element_get_stream_data') }}";
-
   url_img_ajax_loader = "{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}";
+  url_get_embed_for_element = "{{ path('url_get_embed_for_element') }}";
+  
+  config_player_youtube_width = "{{ player_config_youtube_width }}";
+  config_player_youtube_height = "{{ player_config_youtube_height }}";
 </script>

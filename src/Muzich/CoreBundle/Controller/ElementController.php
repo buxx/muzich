@@ -1153,4 +1153,18 @@ class ElementController extends Controller
     ));
   }
   
+  public function getEmbedCodeAction($element_id)
+  {
+    if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)))
+    {
+      throw $this->createNotFoundException();
+    }
+    
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'data'   => $element->getEmbed(),
+    ));
+  }
+  
 }

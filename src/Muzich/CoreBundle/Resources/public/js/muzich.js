@@ -396,6 +396,16 @@ $(document).ready(function(){
      li.find('a.element_embed_open_link_text').hide();
      li.find('div.element_embed').show();
      
+    if ((player = window.dynamic_player.play(
+      li.find('div.element_embed'),
+      li.data('type'),
+      li.data('refid'),
+      li.data('elementid')
+    )))
+    {
+      window.players_manager.add(player, li.attr('id'));
+    }
+     
      return false;
   });
   
@@ -420,6 +430,8 @@ $(document).ready(function(){
      li.find('div.element_embed').hide();
      li.find('a.element_embed_open_link_text').show();
      $(this).hide();
+     
+     window.players_manager.get(li.attr('id')).stop();
      
      return false;
   });

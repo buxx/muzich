@@ -274,12 +274,8 @@
 {% endif %}
 {% endif %}
 
-{% if element.embed and display_player %}
-  {% autoescape false %}
-    <div id="embed_{{ element.id }}" class="element_embed" style="display: none;">
-      {{ element.embed }}
-    </div>
-  {% endautoescape %}
+{% if display_player %}
+  <div id="embed_{{ element.id }}" class="element_embed" style="display: none;"></div>
 {% endif %}
 
 {% if display_comments %}

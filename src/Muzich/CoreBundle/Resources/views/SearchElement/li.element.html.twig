@@ -1,4 +1,13 @@
-<li class="element {{ class_color }}" id="element_{{ element.id }}">
+{% if class_color is not defined %}
+  {% set class_color = '' %}
+{% endif %}
+<li
+  class="element {{ class_color }}"
+  id="element_{{ element.id }}"
+  data-type="{{ element.type }}"
+  data-refid="{{ element.refId }}"
+  data-elementid="{{ element.id }}"
+>
   
   {% include "MuzichCoreBundle:SearchElement:element.html.twig" %}
   
