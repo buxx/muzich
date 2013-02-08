@@ -524,11 +524,12 @@ $(document).ready(function(){
    * @param {string} title Nom du morceau qui sera affiché dans la liste de lecture
    * @param {string} mp3 adresse du flux sonore
    */
-  function GenericSong(title, mp3)
-  {
-    this.title = title;
-    this.mp3   = mp3;
-  }
+   // EN COMMENTAIRE CAR CODE COPIE VERS play2.js
+  //function GenericSong(title, mp3)
+  //{
+  //  this.title = title;
+  //  this.mp3   = mp3;
+  //}
   
   /**
    * Fonction de lecture d'un élèment avec le lecteur générique

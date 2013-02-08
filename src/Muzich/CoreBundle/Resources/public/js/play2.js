@@ -23,6 +23,11 @@ function DynamicPlayer()
     {
       return new SoundCloudPlayer(ref_id, object_for_player);
     }
+    if (player_type == 'jamendo.com')
+    {
+      return new JamendoPlayer(element_id, object_for_player);
+    }
+    
     return new GenericPlayer(element_id, object_for_player);
   }
   
@@ -187,6 +192,94 @@ function SoundCloudPlayer(ref_id, object_for_player)
     {
       // Fin de lecture
     }
+    
+  }
+}
+
+function GenericSong(title, mp3)
+{
+  this.title = title;
+  this.mp3   = mp3;
+}
+
+function JamendoPlayer(ref_id, object_for_player)
+{
+  var _ref_id = ref_id;
+  var _object_for_player = object_for_player;
+  var _playlist = new Array();
+  
+  this.play = function()
+  {
+    create_player();
+  }
+  
+  var create_player = function()
+  {
+    // TODO efactoriser dans un objet lecteur generique
+    var jplayer_player  = $('#jquery_jplayer_1').clone();
+    var jplayer_content = $('#jp_container_1').clone();
+    
+    jplayer_player.attr ('id', 'jplayer_player_element_'+ref_id);
+    jplayer_content.attr('id', 'jplayer_content_element_'+ref_id);
+    
+    _object_for_player.html('');
+    _object_for_player.append(jplayer_player);
+    _object_for_player.append(jplayer_content);
+    
+    JQueryJson(url_element_get_stream_data+'/'+ref_id, {}, function(response){
+      if (response.status == 'success')
+      {
+        
+        for(var i = 0; i < response.data.length; i++)
+        {
+          var song = new GenericSong(response.data[i].name, response.data[i].url);
+          _playlist[i] = song;
+        }
+        
+        autoplay_generic_player_playlist = new jPlayerPlaylist
+        (
+          {
+            jPlayer: '#jplayer_player_element_'+ref_id,
+            cssSelectorAncestor: '#jplayer_content_element_'+ref_id
+          },
+          _playlist,
+          {
+            playlistOptions:
+            {
+              autoPlay: true,
+              enableRemoveControls: true
+            },
+            swfPath: "/jplayer/js",
+            supplied: "mp3",
+            wmode: "window"
+          }
+        );
+        
+        $('#jplayer_player_element_'+ref_id).bind($.jPlayer.event.play, event_play);
+        $('#jplayer_player_element_'+ref_id).bind($.jPlayer.event.ended, event_end);
+        $('#jplayer_player_element_'+ref_id).bind($.jPlayer.event.error, event_error);
+        
+      }
+    });
+  }
+  
+  var event_play = function(event)
+  {
+    
+  }
+  
+  var event_end = function(event)
+  {
+    
+  }
+  
+  var event_error = function(event)
+  {
+    
+  }
+  
+  this.stop = function()
+  {
     
   }
 }
