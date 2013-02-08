@@ -1,7 +1,12 @@
 <link href="{{ asset('favicon.ico') }}" rel="icon" type="image/x-icon" />
-<link href="{{ asset('bundles/muzichcore/css/base.css') }}" rel="stylesheet" media="screen" type="text/css" />
-<link href="{{ asset('bundles/muzichcore/css/old.css') }}" rel="stylesheet" media="screen" type="text/css" />
-<link href="{{ asset('css/main.css') }}" rel="stylesheet" media="screen" type="text/css" />
+
+{% stylesheets
+  'jplayer/skin/blue.monday/jplayer.blue.monday.css'
+  'bundles/muzichcore/css/base.css'
+  'bundles/muzichcore/css/old.css'
+  'css/main.css' %}{# filter='yui_css' %}#}
+  <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
 
 <!--[if gte IE 9]>
   <style type="text/css">

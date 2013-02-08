@@ -1,6 +1,6 @@
 function TagPrompt(select_tag_callback, tag_prompt_connector)
 {
-  
+  // En plus je change une ligne !
   /* @var tags_selected array of Tag */
   var tags_selected = [];
   /* @var tags_proposed array of Tag */
