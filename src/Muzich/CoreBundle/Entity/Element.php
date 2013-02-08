@@ -951,8 +951,13 @@ class Element
     return array();
   }
   
-  public function getRefId()
+  public function getRefId($api_context = false)
   {
+    if ($api_context && $this->getType() == 'soundcloud.com')
+    {
+      return $this->getData(self::DATA_NORMALIZED_URL);
+    }
+    
     return $this->getData(self::DATA_REF_ID);
   }
   
