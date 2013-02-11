@@ -1,10 +1,3 @@
-
-// TODO: On recpere un tableau des lectures a effectuer:
-// actuellement on a un champ element_id, puis un champs
-// normalized_id (pour soundcloud par exemple). Il faudrait plutot
-// traité du coté php que l'on veut le "id utilisé par objet lecteur"
-// pour ne pas gérer l'héterogénéité coté js
-
 function Autoplay()
 {
   
