@@ -1,9 +1,11 @@
 function DynamicPlayer()
 {
   
-  this.play = function(object_for_player, player_type, ref_id, element_id)
+  this.play = function(object_for_player, player_type, ref_id, element_id, autoplay, finish_callback)
   {
-    if ((player = getPlayerObjectForElementType(object_for_player, player_type, ref_id, element_id)))
+    autoplay = typeof autoplay !== 'undefined' ? autoplay : false;
+    finish_callback = typeof finish_callback !== 'undefined' ? finish_callback : $.noop;
+    if ((player = getPlayerObjectForElementType(object_for_player, player_type, ref_id, element_id, autoplay, finish_callback)))
     {
       player.play();
       return player;
@@ -12,22 +14,27 @@ function DynamicPlayer()
     return false;
   }
   
-  var getPlayerObjectForElementType = function(object_for_player, player_type, ref_id, element_id)
+  var getPlayerObjectForElementType = function(object_for_player, player_type, ref_id, element_id, autoplay, finish_callback)
   {
     if (player_type == 'youtube.com' || player_type == 'youtu.be')
     {
-      return new YoutubePlayer(ref_id, object_for_player);
+      return new YoutubePlayer(ref_id, object_for_player, finish_callback);
     }
     if (player_type == 'soundcloud.com')
     {
-      return new SoundCloudPlayer(ref_id, object_for_player);
+      return new SoundCloudPlayer(ref_id, object_for_player, finish_callback, autoplay);
     }
     if (player_type == 'jamendo.com')
     {
-      return new JamendoPlayer(element_id, object_for_player);
+      return new JamendoPlayer(element_id, object_for_player, finish_callback);
     }
     
-    return new GenericPlayer(element_id, object_for_player);
+    if (autoplay)
+    {
+      return new GenericPlayer(element_id, object_for_player);
+    }
+    
+    return false;
   }
   
 }
@@ -44,6 +51,16 @@ function PlayersManager()
   this.get = function(key)
   {
     return _players[key];
+  }
+  
+  this.remove = function(key)
+  {
+    delete _players[key];
+  }
+  
+  this.getAll = function()
+  {
+    return _players;
   }
 }
 

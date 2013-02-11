@@ -17,4 +17,9 @@ function GenericPlayer(ref_id, object_for_player)
   {
     _object_for_player.html('');
   }
+  
+  this.close = function()
+  {
+    this.stop();
+  }
 }

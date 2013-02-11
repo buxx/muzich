@@ -1636,3 +1636,8 @@ div.display_more_elements
   padding: 10px;
   text-align: center;
 }
+
+div.element_embed div.jp-playlist ul
+{
+  text-align: left;
+}

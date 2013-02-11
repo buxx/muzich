@@ -40,7 +40,7 @@ class AutoplayManager
     {
       if (
         // On doit connaitre l'id externe
-        ($ref_id = $element->getData(Element::DATA_REF_ID)) && 
+        ($ref_id = $element->getRefId(true)) && 
         // Et le site doit être pris en charge pour le autoplay
         in_array(
           ($element_type = $element->getType()), 
@@ -54,7 +54,6 @@ class AutoplayManager
         'element_id'       => $element->getId(),
         'element_name'     => $element->getName(),
         'element_url'      => $element->getUrl(),
-        'element_normalized_url' => $element->getData(Element::DATA_NORMALIZED_URL)
       );
     }
     

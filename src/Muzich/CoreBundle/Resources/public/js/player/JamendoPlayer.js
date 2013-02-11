@@ -1,8 +1,9 @@
-function JamendoPlayer(ref_id, object_for_player)
+function JamendoPlayer(ref_id, object_for_player, finish_callback)
 {
   var _ref_id = ref_id;
   var _object_for_player = object_for_player;
   var _player = null;
+  var _finish_callback = finish_callback;
   
   this.play = function()
   {
@@ -26,12 +27,12 @@ function JamendoPlayer(ref_id, object_for_player)
   
   var event_error = function()
   {
-    
+    _finish_callback();
   }
   
   var event_finish_playlist = function()
   {
-    
+    _finish_callback();
   }
   
   this.stop = function()
@@ -44,4 +45,19 @@ function JamendoPlayer(ref_id, object_for_player)
     _player.pause();
   }
   
+  this.destroy = function()
+  {
+     _player.destroy();
+  }
+  
+  this.stopAndDestroy = function()
+  {
+    this.stop();
+    this.destroy();
+  }
+  
+  this.close = function()
+  {
+    this.stopAndDestroy();
+  }
 }

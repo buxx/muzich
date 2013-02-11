@@ -400,7 +400,8 @@ $(document).ready(function(){
       li.find('div.element_embed'),
       li.data('type'),
       li.data('refid'),
-      li.data('elementid')
+      li.data('elementid'),
+      false
     )))
     {
       window.players_manager.add(player, li.attr('id'));
@@ -431,7 +432,7 @@ $(document).ready(function(){
      li.find('a.element_embed_open_link_text').show();
      $(this).hide();
      
-     window.players_manager.get(li.attr('id')).stop();
+     window.players_manager.get(li.attr('id')).close();
      
      return false;
   });
@@ -710,7 +711,7 @@ $(document).ready(function(){
 
       ajax_query_timestamp = null;
       
-      $("#tags_prompt_list_"+response.form_name).tagBox(options);
+      //$("#tags_prompt_list_"+response.form_name).tagBox(options);
       
       // On rend ce formulaire ajaxFormable
       $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){

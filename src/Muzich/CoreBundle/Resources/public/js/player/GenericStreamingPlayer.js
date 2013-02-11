@@ -9,6 +9,7 @@ function GenericStreamingPlayer(ref_id, object_for_player,
   var _object_for_player = object_for_player;
   var _playlist = new Array();
   var _player = null;
+  var _player_dom = null;
   
   var _callback_event_play = callback_event_play;
   var _callback_event_end = callback_event_end;
@@ -32,37 +33,46 @@ function GenericStreamingPlayer(ref_id, object_for_player,
     JQueryJson(url_element_get_stream_data+'/'+ref_id, {}, function(response){
       if (response.status == 'success')
       {
-        
-        for(var i = 0; i < response.data.length; i++)
+        if (response.data)
         {
-          var song = new GenericSong(response.data[i].name, response.data[i].url);
-          _playlist[i] = song;
-        }
-        
-        _player = new jPlayerPlaylist
-        (
+          for(var i = 0; i < response.data.length; i++)
           {
-            jPlayer: '#jplayer_player_element_'+ref_id,
-            cssSelectorAncestor: '#jplayer_content_element_'+ref_id
-          },
-          _playlist,
-          {
-            playlistOptions:
-            {
-              autoPlay: true,
-              enableRemoveControls: true
-            },
-            swfPath: "/jplayer/js",
-            supplied: "mp3",
-            wmode: "window"
+            var song = new GenericSong(response.data[i].name, response.data[i].url);
+            _playlist[i] = song;
           }
-        );
-        
-        var player = $('#jplayer_player_element_'+ref_id);
-        player.bind($.jPlayer.event.play, event_play);
-        player.bind($.jPlayer.event.ended, event_end);
-        player.bind($.jPlayer.event.error, event_error);
-        
+          
+          _player = new jPlayerPlaylist
+          (
+            {
+              jPlayer: '#jplayer_player_element_'+ref_id,
+              cssSelectorAncestor: '#jplayer_content_element_'+ref_id
+            },
+            _playlist,
+            {
+              playlistOptions:
+              {
+                autoPlay: true,
+                enableRemoveControls: true
+              },
+              swfPath: "/jplayer/js",
+              supplied: "mp3",
+              wmode: "window"
+            }
+          );
+          
+          var _player_dom = $('#jplayer_player_element_'+ref_id);
+          _player_dom.bind($.jPlayer.event.play, event_play);
+          _player_dom.bind($.jPlayer.event.ended, event_end);
+          _player_dom.bind($.jPlayer.event.error, event_error);
+        }
+        else
+        {
+          _callback_event_finish_playlist();
+        }
+      }
+      else
+      {
+        _callback_event_finish_playlist();
       }
     });
   }
@@ -95,17 +105,22 @@ function GenericStreamingPlayer(ref_id, object_for_player,
   
   this.play = function()
   {
-    _player.jPlayer("play");
+    _player_dom.jPlayer("play");
   }
   
   this.stop = function()
   {
-    _player.jPlayer("stop");
+    //_player_dom.jPlayer("stop");
   }
   
   this.pause = function()
   {
-    _player.jPlayer("pause");
+    _player_dom.jPlayer("pause");
+  }
+  
+  this.destroy = function()
+  {
+    _object_for_player.html('');
   }
 }
 
