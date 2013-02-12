@@ -280,7 +280,10 @@ function TagPromptConnector(input, output, proposition_list, tag_box, prompt_loa
     if ($(this).val().length > 0)
     {
       showPromptLoader();
-      setTimeout(launchSearchTagsIdLastKeystroke, 1000, [_input.val()]);
+      var input_value = _input.val();
+      window.setTimeout(function(){
+        launchSearchTagsIdLastKeystroke(input_value);
+      }, 1000);
     }
   });
   

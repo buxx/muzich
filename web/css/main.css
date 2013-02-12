@@ -31,7 +31,7 @@ div#container
   min-height: 100%;
 }
 
-header#header
+div#header
 {
   height: 80px;
   background-image: url("/img/header_background.png");
@@ -39,7 +39,7 @@ header#header
   border-bottom: 3px solid #e51936;
 }
 
-header#header hgroup
+div#header div#hgroup
 {
   width: 980px;
   margin-left: auto;
@@ -1641,3 +1641,5 @@ div.element_embed div.jp-playlist ul
 {
   text-align: left;
 }
+
+.placeholder { color:#999; }

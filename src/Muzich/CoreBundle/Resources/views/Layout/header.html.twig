@@ -1,12 +1,6 @@
-<hgroup>
-  {% include "MuzichCoreBundle:Language:languages.html.twig" %}
+<div id="hgroup">
   
-  <!--<ul id="parameters"><li>
-      <a href="">
-        <img src="{{ asset('img/header_icon_params.png') }}" alt="parameters" />
-      </a>
-    </li>
-  </ul>-->
+  {% include "MuzichCoreBundle:Language:languages.html.twig" %}
   
   <a id="header_logo" href="{{ path('index') }}" title="">
     <img src="{{ asset('img/header_logo.png') }}" alt="logo" />
@@ -18,4 +12,4 @@
     {% include 'MuzichCoreBundle:Menu:main_menu.html.twig' %}
   {% endif %}
   
-</hgroup>
+</div>

@@ -1,15 +1,6 @@
 <ul id="register_and_login">
   {% if not app.user %}
-    <!--<li>
-      <a href="" class="left">
-        Devenir membre
-      </a>
-    </li>
-    <li>
-      <a href="" class="right">
-        Connexion
-      </a>
-    </li>-->
+    
   {% else %}
     <li>
       <a href="{{ path('my_account') }}" class="left">

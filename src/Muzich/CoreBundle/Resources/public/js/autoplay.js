@@ -34,7 +34,9 @@ function Autoplay()
       {
         _current_index = index_to_play;
         $('#autoplay_element_loader').show();
-        setTimeout(window.autoplay.play, 1000, index_to_play, true);
+        window.setTimeout(function(){
+          window.autoplay.play(index_to_play, true);
+        });
       }
       else if (_current_index == index_to_play)
       {
