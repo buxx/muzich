@@ -2221,7 +2221,7 @@ $(document).ready(function(){
 
         ajax_query_timestamp = null;
 
-        $("#tags_prompt_list_"+response.form_name).tagBox(options);
+        //$("#tags_prompt_list_"+response.form_name).tagBox(options);
       
       // On rend ce formulaire ajaxFormable
       $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){
