@@ -145,8 +145,6 @@ class FunctionalTest extends WebTestCase
       $token
     );
     
-    
-    
     $this->isResponseRedirection();
     $this->followRedirection();
     $this->isResponseSuccess();

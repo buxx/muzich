@@ -38,9 +38,21 @@ class RegistrationToken
   /**
    * Si ce boolean est a vrai il n'est plus utilisable
    * @ORM\Column(type="boolean", nullable=true)
-   * @var type boolean
+   * @var boolean
    */
   protected $used = false;
+  
+  /**
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int
+   */
+  protected $count = 0;
+  
+  /**
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int
+   */
+  protected $count_max = 1;
     
   public function __toString()
   {
@@ -95,6 +107,39 @@ class RegistrationToken
   public function getUsed()
   {
     return $this->used;
+  }
+  
+  public function getCount()
+  {
+    if (!$this->count)
+    {
+      return 0;
+    }
+    return $this->count;
+  }
+  
+  public function setCount($count)
+  {
+    $this->count = $count;
+  }
+  
+  public function addUseCount()
+  {
+    $this->setCount($this->getCount()+1);
+    if ($this->getCount() >= $this->count_max)
+    {
+      $this->setUsed(true);
+    }
+  }
+  
+  public function getCountMax()
+  {
+    return $this->count_max;
+  }
+  
+  public function setCountMax($count_max)
+  {
+    $this->count_max = $count_max;
   }
 
 }

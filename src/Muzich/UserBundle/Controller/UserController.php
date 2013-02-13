@@ -161,54 +161,52 @@ class UserController extends Controller
     $form = $this->container->get('fos_user.registration.form');
     $formHandler = $this->container->get('fos_user.registration.form.handler');
     $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
+    $errors = array();
     
-    // Pour palier bug, verif interne
-    if (count(($errors = $this->checkRegistrationInformations($form))) < 1)
+    // On contrôle le token en premier lieu
+    $form_values = $this->getRequest()->request->get($form->getName());
+    $r_token = $this->getDoctrine()->getRepository('MuzichCoreBundle:RegistrationToken')
+      ->findOneBy(array('token' => $form_values["token"], 'used' => false))
+    ;
+    
+    if ($r_token)
     {
-      $process = $formHandler->process($confirmationEnabled);
-      if ($process) {
-        $user = $form->getData();
-
-        if ($confirmationEnabled) {
-          $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
-          $route = 'fos_user_registration_check_email';
-        } else {
-          $this->authenticateUser($user);
-          $route = 'start';
-        }
-
-        $this->setFlash('fos_user_success', 'registration.flash.user_created');
-        $url = $this->generateUrl($route);
-
-        
-        /**
-         * Contrôle du token
-         */
-        $form_values = $this->getRequest()->request->get($form->getName());
-        $r_token = $this->getDoctrine()->getRepository('MuzichCoreBundle:RegistrationToken')
-          ->findOneBy(array('token' => $form_values["token"], 'used' => false))
-        ;
+      if (count(($errors = $this->checkRegistrationInformations($form))) < 1)
+      {
+        $process = $formHandler->process($confirmationEnabled);
+        if ($process) {
+          $user = $form->getData();
+  
+          if ($confirmationEnabled) {
+            $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
+            $route = 'fos_user_registration_check_email';
+          } else {
+            $this->authenticateUser($user);
+            $route = 'start';
+          }
           
-        if (!$r_token)
-        {
-          $errors[] = $this->get('translator')->trans(
-            'registration.token.error', 
-            array(),
-            'validators'
-          );
-        }
-        else
-        {
-          $r_token->setUsed(true);
+          $this->setFlash('fos_user_success', 'registration.flash.user_created');
+          $url = $this->generateUrl($route);
+          
+          $r_token->addUseCount();
           $em = $this->getDoctrine()->getEntityManager();
           $em->persist($r_token);
           $em->flush();
+          
+          return new RedirectResponse($url);
         }
-        
-        return new RedirectResponse($url);
       }
     }
-
+    else
+    {
+      $form->bindRequest($this->getRequest());
+      $errors[] = $this->get('translator')->trans(
+        'registration.token.error', 
+        array(),
+        'validators'
+      );
+    }
+    
     return $this->container->get('templating')->renderResponse(
       'MuzichIndexBundle:Index:index.html.twig',
       array(

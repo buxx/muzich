@@ -39,4 +39,4 @@ error:
       
 registration:
   token:
-    error:               Le code saisie pour l'inscription n'est pas correct
+    error:               Le code saisie pour l'inscription est incorrect ou n'est plus utilisable

@@ -16,6 +16,8 @@ class RegistrationTokenAdmin extends Admin
       ->addIdentifier('id')
       ->addIdentifier('token')
       ->add('used')
+      ->add('count')
+      ->add('count_max')
       ->add('_action', 'actions', array(
         'actions' => array(
           'view' => array(),
@@ -37,6 +39,8 @@ class RegistrationTokenAdmin extends Admin
   {
     $formMapper
       ->add('token')
+      ->add('count')
+      ->add('count_max')
       ->add('used')
     ;
   }
