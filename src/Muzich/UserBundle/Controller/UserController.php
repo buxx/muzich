@@ -294,7 +294,8 @@ class UserController extends Controller
           'form_tags_favorites'      => $form_tags_favorites->createView(),
           'form_tags_favorites_name' => $form_tags_favorites->getName(),
           'favorite_tags_id'         => $this->getTagsFavorites(),
-          'change_email_form'        => $change_email_form->createView()
+          'change_email_form'        => $change_email_form->createView(),
+          'avatar_form'              => $this->getAvatarForm()->createView()
         )
       );
     }
@@ -477,7 +478,8 @@ class UserController extends Controller
         'form_tags_favorites'      => $form_tags_favorites->createView(),
         'form_tags_favorites_name' => $form_tags_favorites->getName(),
         'favorite_tags_id'         => $this->getTagsFavorites(),
-        'change_email_form'        => $change_email_form->createView()
+        'change_email_form'        => $change_email_form->createView(),
+        'avatar_form'              => $this->getAvatarForm()->createView()
       )
     );
   }
