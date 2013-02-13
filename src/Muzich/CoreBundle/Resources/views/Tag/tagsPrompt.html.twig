@@ -35,8 +35,6 @@
 <script language="javascript" type="text/javascript">
   $(document).ready(function(){
     
-    $('form[name="{{ form_name }}"] input.tag_prompt').val('');
-    
     window.{{ form_name }}_tag_prompt_connector = new TagPromptConnector(
       $('form[name="{{ form_name }}"] input.tag_prompt'),
       $('form[name="{{ form_name }}"] input.tagBox_tags_ids'),

@@ -59,8 +59,8 @@ div#header div#hgroup
   margin: 0px;
   padding: 0px;
   height: 80px;
-  margin-left: 210px;
-  width: 560px;
+  margin-left: 200px;
+  width: 580px;
 }
 
 #header_menu li a, #register_and_login li a, #parameters li a
@@ -1641,8 +1641,6 @@ div.element_embed div.jp-playlist ul
 {
   text-align: left;
 }
-
-.placeholder { color:#999; }
 
 div.reputation img
 {

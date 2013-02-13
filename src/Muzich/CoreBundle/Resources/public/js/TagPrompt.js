@@ -35,13 +35,119 @@ function TagPrompt(select_tag_callback, tag_prompt_connector)
   {
     if (!tag_id)
     {
-      this.openTagSubmission(tag_name);
+      openTagSubmission(tag_name);
     }
     else
     {
       addTagToSelectedTags(findTagInProposedList(tag_id));
       _select_tag_callback(tags_selected);
     }
+  }
+  
+  var openTagSubmission = function (tag_name)
+  {
+    // TODO : Cette partie du code n'est pas encore refactorisé
+    
+    // Effet fade-in du fond opaque
+    $('body').append($('<div>').attr('id', 'fade')); 
+    //Apparition du fond - .css({'filter' : 'alpha(opacity=80)'}) pour corriger les bogues de IE
+    $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn();
+    
+    // En premier lieux on fait apparaître la fenêtre de confirmation
+    var popup = $('<div>')
+    .attr('id', 'add_tag')
+    .addClass('popin_block')
+    .css('width', '400px')
+      //.append($('<h2>').append(string_tag_add_title))
+    .append($('<form>')
+      .attr('action', url_add_tag)
+      .attr('method', 'post')
+      .attr('name', 'add_tag')
+      .ajaxForm(function(response) {
+        /*
+        *
+        */
+  
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+  
+        if (response.status == 'success')
+        {
+          var tag = new Tag(response.tag_id, response.tag_name);
+          addTagToProposedTags(tag);
+          addTagToSelectedTags(tag);
+          _tag_prompt_connector.updateOutput(tags_selected);
+  
+          $('#fade').fadeOut(400, function(){$('#fade').remove();});
+          $('#add_tag').remove();
+        }
+  
+        if (response.status == 'error')
+        {
+          $('form[name="add_tag"]').find('ul.error_list').remove();
+          var ul_errors = $('<ul>').addClass('error_list');
+  
+          for (i in response.errors)
+          {
+            ul_errors.append($('<li>').append(response.errors[i]));
+          }
+  
+          $('form[name="add_tag"]').prepend(ul_errors);
+        }
+  
+        return false;
+      })
+  
+      .append($('<div>').addClass('tag')
+        .append($('<ul>')
+          .append($('<li>').addClass('button')
+            .append(tag_name))))
+      .append($('<p>').append(string_tag_add_text))
+      .append($('<p>').append(string_tag_add_argument))
+      .append($('<textarea>').attr('name', 'argument'))
+      .append($('<div>').addClass('inputs')
+        .append($('<input>')
+          .attr('type', 'button')
+          .attr('value', string_tag_add_inputs_cancel)
+          .addClass('button')
+          .click(function(){
+            $('#fade').fadeOut(1000, function(){$('#fade').remove();});
+            $('#add_tag').remove();
+  
+            return false;
+          })
+        )
+        .append($('<input>')
+          .attr('type', 'submit')
+          .attr('value', string_tag_add_inputs_submit)
+          .addClass('button')
+          .click(function(){
+  
+            // TODO: loader gif
+  
+          })
+        )
+        .append($('<input>').attr('type', 'hidden').attr('name', 'tag_name').val(tag_name))
+      ))
+    ;
+  
+    // Il faut ajouter le popup au dom avant de le positionner en css
+    // Sinon la valeur height n'est pas encore calculable
+    $('body').prepend(popup);
+  
+    //Récupération du margin, qui permettra de centrer la fenêtre - on ajuste de 80px en conformité avec le CSS
+    var popMargTop = (popup.height() + 50) / 2;
+    var popMargLeft = (popup.width() + 50) / 2;
+  
+    //On affecte le margin
+    $(popup).css({
+      'margin-top' : -popMargTop,
+      'margin-left' : -popMargLeft
+    });
+  
+    return false;
   }
   
   this.openTagSubmission = function (tag_name)
@@ -245,7 +351,16 @@ function TagPromptConnector(input, output, proposition_list, tag_box, prompt_loa
   
   var cleanInput = function()
   {
-    _input.val('');
+    // hack pour ie < 10 ne supportant pas le placeholder
+    if ($.browser.version < 10 && $.browser.msie)
+    {
+      _input.addClass('placeholder');
+      _input.val(_input.attr('placeholder'));
+    }
+    else
+    {
+      _input.val('');
+    }
   }
   
   var showPromptLoader = function()

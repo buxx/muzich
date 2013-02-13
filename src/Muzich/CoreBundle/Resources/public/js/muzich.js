@@ -432,7 +432,15 @@ $(document).ready(function(){
      li.find('a.element_embed_open_link_text').show();
      $(this).hide();
      
-     window.players_manager.get(li.attr('id')).close();
+     var player = window.players_manager.get(li.attr('id'));
+     if (player)
+     {
+       player.close();
+     }
+     else
+     {
+      alert('noplayer!');
+     }
      
      return false;
   });
@@ -2515,7 +2523,6 @@ $(document).ready(function(){
   /* Sou-menus page mon compte (myaccount) */
   $('div#myaccount h2').click(function(){
     $('div#myaccount div.myaccount_part:visible').slideUp();
-    console.log($(this).data('open'));
     $('div#'+$(this).data('open')).slideDown();
   });
   
@@ -2528,6 +2535,11 @@ $(document).ready(function(){
   {
     if ($.browser.version < 10)
     {
+      $('[placeholder]').each(function(){
+        $(this).addClass('placeholder');
+        $(this).val($(this).attr('placeholder'));
+      });
+      
       $('[placeholder]').focus(function() {
           var input = $(this);
           if (input.val() == input.attr('placeholder')) {
