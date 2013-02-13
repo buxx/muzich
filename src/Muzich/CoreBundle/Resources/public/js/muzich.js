@@ -11,7 +11,7 @@ var myMessages = ['info','warning','error','success']; // define the messages ty
 function hideAllMessages()
 {
   var messagesHeights = new Array(); // this array will store height for each
-	 
+  
  for (i=0; i<myMessages.length; i++)
  {
     messagesHeights[i] = $('.' + myMessages[i]).outerHeight();
@@ -639,7 +639,7 @@ $(document).ready(function(){
     
   }); 
   
- // Suppression d'un element
+  // Suppression d'un element
   $('a.element_remove_link').jConfirmAction({
     question : string_element_delete_confirm_sentence, 
     yesAnswer : string_element_delete_confirm_yes, 
@@ -677,6 +677,37 @@ $(document).ready(function(){
       li.find('a.element_remove_link').removeClass('mustBeDisplayed');
       li.find('a.element_edit_link').hide();
       li.find('a.element_remove_link').hide();
+    }
+    
+    
+  });
+  
+  // Retrait d'un element d'un groupe
+  $('a.element_remove_from_group_link').jConfirmAction({
+    question : string_removefromgroup_sentence, 
+    yesAnswer : string_removefromgroup_confirm_yes, 
+    cancelAnswer : string_removefromgroup_confirm_no,
+    onYes: function(link){
+      
+      var li = link.parents('li.element');
+      li.find('img.element_loader').show();
+      $.getJSON(link.attr('href'), function(response){
+        if (response.status == 'mustbeconnected')
+        {
+          $(location).attr('href', url_index);
+        }
+        
+        if (response.status == 'success')
+        {
+          li.remove();
+        }
+        else
+        {
+          li.find('img.element_loader').hide();
+        }
+      });
+
+      return false;
     }
   });
 

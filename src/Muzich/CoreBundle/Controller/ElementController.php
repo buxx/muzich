@@ -1167,4 +1167,29 @@ class ElementController extends Controller
     ));
   }
   
+  public function removeFromGroupAction($group_id, $element_id, $token)
+  {
+    if (!($group = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
+      ->findOneById($group_id))
+        || !($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id)))
+    {
+      return $this->jsonNotFoundResponse();
+    }
+    
+    if ($token != $this->getUser()->getPersonalHash('remove_from_group_'.$element->getId())
+      || $group->getOwner()->getId() != $this->getUserId())
+    {
+      return $this->jsonNotFoundResponse();
+    }
+    
+    $element->setGroup(null);
+    $this->persist($element);
+    $this->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
+    ));
+  }
+  
 }

@@ -32,6 +32,13 @@ element:
       sentence:         Vraiment supprimer ?
       yes:              Oui
       no:               Non
+  group:
+    remove_from:
+      title:            Retirer du groupe %group_name%
+      confirm:
+        title:          Retirer du groupe ?
+        yes:            Oui
+        no:             Non
   tag:
     addtofav:
       title:            Ajouter a vos tags favoris

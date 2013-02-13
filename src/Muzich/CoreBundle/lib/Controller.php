@@ -350,6 +350,16 @@ class Controller extends BaseController
     return $response;
   }
   
+  protected function jsonNotFoundResponse()
+  {
+    $response = new Response(json_encode(array(
+      'status' => 'error',
+      'errors' => array('NotFound')
+    )));
+    $response->headers->set('Content-Type', 'application/json; charset=utf-8');
+    return $response;
+  }
+  
   /**
    * Permet d'utiliser la méthode Assert que l'on utilise dans les templates
    * afin d'avoir une url correcte vers une ressource web (img, js, ...)

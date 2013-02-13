@@ -231,4 +231,113 @@ class GroupControllerTest extends FunctionalTest
     $this->exist('h1:contains("Les Fans de Psytrance")');
   }
   
+  public function testRemoveElementFromGroup()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bob', 'toor');
+    
+    // Elements que l'on va retirer pour le test
+    $element_1 = $this->findOneBy('Element', 'Infected mushroom - Muse Breaks');
+    $element_2 = $this->findOneBy('Element', 'Infected Mushroom - Psycho');
+    $element_3 = $this->findOneBy('Element', 'DUDELDRUM'); 
+    $group_fdp = $this->findOneBy('Group', 'Fans de psytrance');
+    $group_dud = $this->findOneBy('Group', 'DUDELDRUM');
+    
+    $this->assertTrue(!is_null($element_1));
+    $this->assertTrue(!is_null($element_2));
+    $this->assertTrue(!is_null($element_3));
+    
+    $this->assertTrue(!is_null($element_1->getGroup()));
+    $this->assertTrue(!is_null($element_2->getGroup()));
+    $this->assertTrue(!is_null($element_3->getGroup()));
+    
+    $this->assertEquals($group_fdp->getName(), $element_1->getGroup()->getName());
+    $this->assertEquals($group_fdp->getName(), $element_2->getGroup()->getName());
+    $this->assertEquals($group_dud->getName(), $element_3->getGroup()->getName());
+    
+    // On retire le premier element
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('element_remove_from_group', array(
+        'group_id'   => $group_fdp->getId(),
+        'element_id' => $element_1->getId(),
+        'token'      => $this->getUser()->getPersonalHash('remove_from_group_'.$element_1->getId())
+      )), 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    $this->isResponseSuccess();
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    $element_1 = $this->findOneBy('Element', 'Infected mushroom - Muse Breaks');
+    $element_2 = $this->findOneBy('Element', 'Infected Mushroom - Psycho');
+    $element_3 = $this->findOneBy('Element', 'DUDELDRUM'); 
+    
+    $this->assertTrue(!is_null($element_1));
+    $this->assertTrue(!is_null($element_2));
+    $this->assertTrue(!is_null($element_3));
+    
+    $this->assertTrue(is_null($element_1->getGroup()));
+    $this->assertTrue(!is_null($element_2->getGroup()));
+    $this->assertTrue(!is_null($element_3->getGroup()));
+    
+    // On retire le deuxieme element
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('element_remove_from_group', array(
+        'group_id'   => $group_fdp->getId(),
+        'element_id' => $element_2->getId(),
+        'token'      => $this->getUser()->getPersonalHash('remove_from_group_'.$element_2->getId())
+      )), 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    $this->isResponseSuccess();
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+    
+    $element_1 = $this->findOneBy('Element', 'Infected mushroom - Muse Breaks');
+    $element_2 = $this->findOneBy('Element', 'Infected Mushroom - Psycho');
+    $element_3 = $this->findOneBy('Element', 'DUDELDRUM'); 
+    
+    $this->assertTrue(!is_null($element_1));
+    $this->assertTrue(!is_null($element_2));
+    $this->assertTrue(!is_null($element_3));
+    
+    $this->assertTrue(is_null($element_1->getGroup()));
+    $this->assertTrue(is_null($element_2->getGroup()));
+    $this->assertTrue(!is_null($element_3->getGroup()));
+    
+    // On va maintenant essayer d'enlever un element d'un autre groupe, ce ne sera pas possible
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('element_remove_from_group', array(
+        'group_id'   => $group_dud->getId(),
+        'element_id' => $element_3->getId(),
+        'token'      => $this->getUser()->getPersonalHash('remove_from_group_'.$element_3->getId())
+      )), 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    $this->isResponseSuccess();
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'error');
+    
+    $element_1 = $this->findOneBy('Element', 'Infected mushroom - Muse Breaks');
+    $element_2 = $this->findOneBy('Element', 'Infected Mushroom - Psycho');
+    $element_3 = $this->findOneBy('Element', 'DUDELDRUM'); 
+    
+    $this->assertTrue(!is_null($element_1));
+    $this->assertTrue(!is_null($element_2));
+    $this->assertTrue(!is_null($element_3));
+    
+    $this->assertTrue(is_null($element_1->getGroup()));
+    $this->assertTrue(is_null($element_2->getGroup()));
+    $this->assertTrue(!is_null($element_3->getGroup()));
+  }
+  
 }

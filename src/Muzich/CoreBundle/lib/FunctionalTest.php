@@ -523,8 +523,12 @@ class FunctionalTest extends WebTestCase
    * @param array $params
    * @return object 
    */
-  protected function findOneBy($entityName, array $params)
+  protected function findOneBy($entityName, $params)
   {
+    if (!is_array($params))
+    {
+      $params = array('name' => $params);
+    }
     return $this->getEntityManager()->getRepository('MuzichCoreBundle:'.$entityName)
       ->findOneBy($params);
   }
