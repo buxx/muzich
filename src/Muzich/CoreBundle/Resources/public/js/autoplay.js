@@ -53,7 +53,7 @@ function Autoplay()
     }
     else
     {
-      this.nothingToPlay();
+      window.autoplay.nothingToPlay();
     }
   }
   
@@ -122,6 +122,7 @@ function Autoplay()
     $('div#autoplay_player_container').html('<div id="autoplay_player"></div>');
     $('li#autoplay_element_container').html('');
     $('#autoplay iframe').hide();
+    $('#autoplay img[alt="loader"]').hide();
   }
   
 }
