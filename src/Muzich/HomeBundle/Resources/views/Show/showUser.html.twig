@@ -45,7 +45,7 @@
       {% endif %}
       
       {{ 'user.reputation.name'|trans({}, 'users') }}: 
-      <span class="score">{{ viewed_user.reputation }}</span>
+      <span class="score">{{ viewed_user.reputation|format_score }}</span>
       {{ 'user.reputation.txt'|trans({}, 'users') }}
     </div>
     

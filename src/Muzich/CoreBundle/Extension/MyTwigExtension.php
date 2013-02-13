@@ -21,7 +21,8 @@ class MyTwigExtension extends \Twig_Extension {
       'var_dump'               => new \Twig_Filter_Function('var_dump'),
       'date_or_relative_date'  => new \Twig_Filter_Method($this, 'date_or_relative_date'),
       'date_epurate'           => new \Twig_Filter_Method($this, 'date_epurate'),
-      'form_has_errors'        => new \Twig_Filter_Method($this, 'form_has_errors')
+      'form_has_errors'        => new \Twig_Filter_Method($this, 'form_has_errors'),
+      'format_score'           => new \Twig_Filter_Method($this, 'format_score')
     );
   }
   
@@ -31,6 +32,11 @@ class MyTwigExtension extends \Twig_Extension {
       'event_const'            => new \Twig_Filter_Method($this, 'event_const'),
       'css_list_length_class'  => new \Twig_Filter_Method($this, 'getCssLengthClassForList')
     );
+  }
+  
+  public function format_score($score)
+  {
+    return number_format($score, 0, '.', ' ');
   }
   
   protected function datetime2timestamp($string)

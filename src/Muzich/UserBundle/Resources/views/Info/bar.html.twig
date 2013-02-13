@@ -8,7 +8,7 @@
     {% endif %}
   </div>
   <div class="score blackgradiant">
-    {{ app.user.reputation }}
+    {{ app.user.reputation|format_score }}
   </div>
 </div>
 

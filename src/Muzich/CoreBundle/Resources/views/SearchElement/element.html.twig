@@ -47,7 +47,7 @@
       
       <ul class="element_thumb_actions">
         <li class="score">
-          {{ element.points }}
+          {{ element.points|format_score }}
         </li>
           {% if element.owner.id != app.user.id %}
             <li class="vote thumb">
