@@ -1,0 +1,9 @@
+{% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
+
+{{ form_errors(form) }}
+    
+  {{ form_errors(form.avatar) }}
+  {{ form_label(form.avatar, '') }}
+  {{ form_widget(form.avatar, {'attr':{'class':'niceinput'}}) }}
+
+{{ form_rest(form) }}

@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Sonata\BluePrintBundle\SonataBluePrintBundle(),
             new Sonata\AdminBundle\SonataAdminBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Gregwar\ImageBundle\GregwarImageBundle(),
             new Muzich\CoreBundle\MuzichCoreBundle(),
             new Muzich\UserBundle\MuzichUserBundle(),
             new Muzich\IndexBundle\MuzichIndexBundle(),

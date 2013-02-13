@@ -10,3 +10,5 @@ nbproject
 .debug
 .scripts
 muzich.komodoproject
+web/files/avatars/*
+web/cache/*

@@ -10,6 +10,7 @@ use FOS\UserBundle\Model\UserInterface;
 use Muzich\CoreBundle\Form\Tag\TagFavoritesForm;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Collection;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends Controller
 {
@@ -88,8 +89,17 @@ class UserController extends Controller
       'form_tags_favorites'      => $form_tags_favorites->createView(),
       'form_tags_favorites_name' => $form_tags_favorites->getName(),
       'favorite_tags_id'         => $this->getTagsFavorites(),
-      'change_email_form'        => $change_email_form->createView()
+      'change_email_form'        => $change_email_form->createView(),
+      'avatar_form'              => $this->getAvatarForm()->createView()
     );
+  }
+  
+  protected function getAvatarForm()
+  {
+    return $this->createFormBuilder($this->getUser())
+      ->add('avatar')
+      ->getForm()
+    ;
   }
   
   /**
@@ -572,5 +582,27 @@ class UserController extends Controller
       'status' => 'success'
     ));
   }
+  
+  public function updateAvatarAction(Request $request)
+  {
+    $form = $this->getAvatarForm();
+    $form->bindRequest($request);
     
+    if ($form->isValid()) {
+      $em = $this->getEntityManager();
+      $form->getData()->preUploadAvatar();
+      $form->getData()->uploadAvatar();
+      $em->persist($form->getData());
+      $em->flush();
+
+      $this->setFlash('success',
+        $this->trans('my_account.avatar.success', array(), 'userui'));
+      return $this->redirect($this->generateUrl('my_account'));
+    }
+    
+    $this->setFlash('error',
+      $this->trans('my_account.avatar.error', array(), 'userui'));
+    return $this->redirect($this->generateUrl('my_account'));
+  }
+  
 }

@@ -1,7 +1,11 @@
 
 <div class="user_score">
   <div class="user_avatar">
-    <img src="{{ asset('/img/avatar_test.png') }}" />
+    {% if app.user.avatar_path %}
+      <img alt="avatar" src="{{ image(app.user.avatarWebPath).resize(130,137,'#000000') }}" />
+    {% else %}
+      <img alt="default_avatar" src="{{ asset('/img/1360770994_user.png') }}" />
+    {% endif %}
   </div>
   <div class="score blackgradiant">
     {{ app.user.reputation }}

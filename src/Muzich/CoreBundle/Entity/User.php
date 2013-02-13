@@ -216,6 +216,16 @@ class User extends BaseUser
   private $tags_favorites_quick;
   
   /**
+   * @Assert\Image(maxSize="6000000")
+   */
+  public $avatar;
+    
+  /**
+   * @ORM\Column(type="text", length=255, nullable=true)
+   */
+  public $avatar_path;
+  
+  /**
    * 
    */
   public function __construct()
@@ -915,6 +925,65 @@ class User extends BaseUser
     $datas = $this->getDatas();
     $datas[$data_id] = $data_value;
     $this->setDatas($datas);
+  }
+  
+  public function getAvatarAbsolutePath()
+  {
+    return null === $this->avatar_path
+      ? null
+      : $this->getAvatarUploadRootDir().'/'.$this->avatar_path;
+  }
+
+  public function getAvatarWebPath()
+  {
+    return null === $this->avatar_path
+      ? null
+      : $this->getAvatarUploadDir().'/'.$this->avatar_path;
+  }
+
+  protected function getAvatarUploadRootDir()
+  {
+    return __DIR__.'/../../../../web/'.$this->getAvatarUploadDir();
+  }
+
+  protected function getAvatarUploadDir()
+  {
+    return 'files/avatars';
+  }
+    
+   /**
+    * @ORM\PrePersist()
+    * @ORM\PreUpdate()
+    */
+   public function preUploadAvatar()
+   {
+      if (null !== $this->avatar) {
+         $this->avatar_path = $this->getPersonalHash($this->avatar->getClientOriginalName()).'.'.$this->avatar->guessExtension();
+      }
+   }
+   
+  /**
+   * @ORM\PostPersist()
+   * @ORM\PostUpdate()
+   */
+  public function uploadAvatar()
+  {
+    if (null === $this->avatar) {
+      return;
+    }
+    
+    $this->avatar->move($this->getAvatarUploadRootDir(), $this->avatar_path);
+    $this->avatar = null;
+  }
+  
+  /**
+   * @ORM\PostRemove()
+   */
+  public function removeUpload()
+  {
+    if ($file = $this->getAvatarAbsolutePath()) {
+      unlink($file);
+    }
   }
   
 }

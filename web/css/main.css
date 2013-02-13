@@ -609,8 +609,8 @@ div.user_score div.score
   font-size: 18px;
   padding-top: 5px;
   margin-bottom: 4px;
-  margin-left: 4px;
-  margin-right: 4px;
+  margin-left: 3px;
+  margin-right: 5px;
 }
 
 ul.user_events_infos
@@ -1643,3 +1643,16 @@ div.element_embed div.jp-playlist ul
 }
 
 .placeholder { color:#999; }
+
+div.reputation img
+{
+  float: left;
+  margin: 4px;
+  margin-right: 8px;
+  margin-top: 8px;
+}
+
+p.show_info
+{
+  margin-top: 0px;
+}

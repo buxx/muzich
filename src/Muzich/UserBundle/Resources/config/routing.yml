@@ -44,3 +44,9 @@ event_delete:
   requirements:
     _method:  GET
     message_id: \d+
+  
+user_update_avatar:
+  pattern:  /account/update-avatar
+  defaults: { _controller: MuzichUserBundle:User:updateAvatar }
+  requirements:
+    _method:  POST

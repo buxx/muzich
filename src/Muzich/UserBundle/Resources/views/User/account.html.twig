@@ -83,5 +83,24 @@
     </div>
     <div style="clear:both;"></div>
   
+    <h2 data-open="myaccount_avatar">{{ 'my_account.avatar.title'|trans({}, 'userui') }}</h2>
+  
+    <div id="myaccount_avatar" class="myaccount_part"
+       style="display: none;"
+    >
+      <form
+          action="{{ path('user_update_avatar') }}"
+          method="post" {{ form_enctype(avatar_form) }}
+        >
+        
+          <p class="help">{{ 'my_account.avatar.help'|trans({}, 'userui') }}</p>
+          {% include "MuzichUserBundle:User:avatar_form.html.twig" with { 
+            'form': avatar_form
+          } %}
+      
+          <input type="submit" class="button" value="{{ 'my_account.avatar.submit'|trans({}, 'userui') }}" />
+      </form>
+    </div>
+    
   </div>
 {% endblock %}

@@ -37,6 +37,13 @@
     {% endif %}
     
     <div class="reputation">
+      
+      {% if viewed_user.avatar_path %}
+        <img alt="avatar" src="{{ image(viewed_user.avatarWebPath).resize(48,50,'#000000') }}" />
+      {% else %}
+        <img alt="default_avatar" src="{{ asset('/img/1360770994_user_48_50.png') }}" />
+      {% endif %}
+      
       {{ 'user.reputation.name'|trans({}, 'users') }}: 
       <span class="score">{{ viewed_user.reputation }}</span>
       {{ 'user.reputation.txt'|trans({}, 'users') }}
