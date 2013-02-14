@@ -5,8 +5,10 @@ namespace Muzich\IndexBundle\Controller;
 use Muzich\CoreBundle\lib\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\SecurityContext;
-
-//use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Collection;
+use Muzich\CoreBundle\Entity\Presubscription;
+use Symfony\Component\HttpFoundation\Request;
 
 class IndexController extends Controller
 {
@@ -28,8 +30,17 @@ class IndexController extends Controller
     $form = $this->container->get('fos_user.registration.form');
     
     return array_merge($vars, array(
-      'form' => $form->createView()
+      'form' => $form->createView(),
+      'presubscription_form' => $this->getPreSubscriptionForm()->createView()
     ));
+  }
+  
+  protected function getPreSubscriptionForm()
+  {
+    return $this->createFormBuilder(new Presubscription())
+      ->add('email', 'email')
+      ->getForm()
+    ;
   }
   
   /**
@@ -66,6 +77,28 @@ class IndexController extends Controller
         'error'         => $error,
         'registration_errors_pers' => array()
     );
+  }
+  
+  public function presubscriptionAction(Request $request)
+  {
+    $form = $this->getPreSubscriptionForm();
+    $form->bindRequest($request);
+    if ($form->isValid())
+    {
+      $this->persist($form->getData());
+      $this->flush();
+      $this->setFlash('success', 'presubscription.success');
+      return $this->redirect($this->generateUrl('index'));
+    }
+    
+    $this->setFlash('error', 'presubscription.error');
+    return $this->render('MuzichIndexBundle:Index:index.html.twig', array(
+      'form' => $this->container->get('fos_user.registration.form')->createView(),
+      'presubscription_form' => $form->createView(),
+      'last_username' => '',
+      'error'         => '',
+      'registration_errors_pers' => array()
+    ));
   }
   
 }

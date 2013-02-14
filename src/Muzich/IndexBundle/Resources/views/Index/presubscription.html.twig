@@ -1,0 +1,18 @@
+<div id="presubscription" class="nicebox">
+  
+  <p class="info">{{ 'login.presubscription.info'|trans({}, 'userui') }}</p>
+  
+  <form action="{{ path('presubscription_register') }}" method="post">
+    
+    <div class="field name">
+      {{ form_errors(presubscription_form.email) }}
+      {{ form_widget(presubscription_form.email, {'attr':{'class':'niceinput'}}) }}
+    </div>
+    
+    {{ form_rest(presubscription_form) }}
+    
+    <div class="alignright">
+      <input type="submit" class="button" value="{{ 'login.presubscription.submit'|trans({}, 'userui') }}" />
+    </div>
+  </form>
+</div>

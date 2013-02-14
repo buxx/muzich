@@ -335,11 +335,11 @@ ul.inline li
 		 -moz-animation: animate-bg 5s linear infinite;
 }
 
-.info, .fos_user_info
+/*.info, .fos_user_info
 {
 		 background-color: #4ea5cd;
 		 border-color: #3b8eb5;
-}
+}*/
 
 .error, .fos_user_error
 {

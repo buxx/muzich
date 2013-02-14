@@ -3,6 +3,10 @@
 {% block title %}{{ 'title.hello'|trans({}, 'navigationui') }}{% endblock %}
 {% block mainbox_classes %}mainbox_margintop mainbox_padding{% endblock %}
 
+{% block sidebar_top %}
+  {% include 'MuzichIndexBundle:Index:presubscription.html.twig' %}
+{% endblock %}
+
 {% block content %}
     
     <a href="#" id="registration_link" class="button gradient">

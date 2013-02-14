@@ -33,7 +33,9 @@
         </div>
           
         <aside id="sidebar">
+          {% block sidebar_top %}{% endblock %}
           {% include 'MuzichCoreBundle:Layout:side.html.twig' %}
+          {% block sidebar_bottom %}{% endblock %}
         </aside>
           
       </div>

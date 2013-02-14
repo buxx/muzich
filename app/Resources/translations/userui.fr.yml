@@ -1,6 +1,11 @@
 login:
   remember_me:
     label:     Rester connecté
+  presubscription:
+    info:       |
+                Vous souhaitez être informé de l'ouverture officielle de muzi.ch ?
+                Saisissez votre email et nous vous ferons part de cette nouvelle le moment venu !
+    submit:     Enregistrer mon email
 
 security:
   login:

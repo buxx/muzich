@@ -1654,3 +1654,19 @@ p.show_info
 {
   margin-top: 0px;
 }
+
+div#presubscription
+{
+  margin-top: 23px;
+}
+
+div#presubscription input[type="email"]
+{
+  width: 253px;
+}
+
+div#presubscription input[type="submit"]
+{
+  margin-top: 10px;
+  margin-right: 1px;
+}
