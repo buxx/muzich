@@ -24,13 +24,13 @@
           <ul>
             <li><strong>Name</strong>: {{ element.name }}</li>
             <li><strong>url</strong>: <a href="{{ element.url }}" target="_blank">{{ element.url }}</a></li>
-            {% if element.embed %}
+            {#% if element.embed %}
               {% autoescape false %}
                 <li>
                   {{ element.embed }}
                 </li>
               {% endautoescape %}
-            {% endif %}
+            {% endif %#}
           </ul>
         </div>
         
