@@ -120,7 +120,7 @@ class Deezercom extends ElementFactory
       $heigth = $this->container->getParameter('deezer_player_height');
       $this->element->setEmbed(
         '<iframe scrolling="no" frameborder="0" allowTransparency="true" '
-        .'src="http://www.deezer.com/fr/plugins/player?autoplay=false&playlist=true'
+        .'src="http://www.deezer.com/fr/plugins/player?autoplay=true&playlist=true'
         .'&width='.$width.'&height='.$heigth.'&cover=true&btn_popup=true&type='.$type.'&id='.$ref_id.'&title=" '
         .'width="'.$width.'" height="'.$heigth.'"></iframe>'
       );

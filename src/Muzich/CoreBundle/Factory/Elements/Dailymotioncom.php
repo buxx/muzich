@@ -59,7 +59,7 @@ class Dailymotioncom extends ElementFactory
       $height = $this->container->getParameter('dailymotion_player_height');
       $this->element->setEmbed(
         '<iframe frameborder="0" width="'.$width.'" height="'.$height.'" '
-        .'src="http://www.dailymotion.com/embed/video/'.$ref_id.'"></iframe>'
+        .'src="http://www.dailymotion.com/embed/video/'.$ref_id.'?autoPlay=1"></iframe>'
       );
     }
   }

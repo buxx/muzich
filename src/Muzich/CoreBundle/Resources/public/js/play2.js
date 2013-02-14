@@ -29,7 +29,7 @@ function DynamicPlayer()
       return new JamendoPlayer(element_id, object_for_player, finish_callback);
     }
     
-    if (autoplay)
+    if (!autoplay && element_id)
     {
       return new GenericPlayer(element_id, object_for_player);
     }

@@ -1155,10 +1155,15 @@ class ElementController extends Controller
   
   public function getEmbedCodeAction($element_id)
   {
+    if (!$element_id)
+    {
+      return $this->jsonNotFoundResponse();
+    }
+    
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
       ->findOneById($element_id)))
     {
-      throw $this->createNotFoundException();
+      return $this->jsonNotFoundResponse();
     }
     
     return $this->jsonResponse(array(

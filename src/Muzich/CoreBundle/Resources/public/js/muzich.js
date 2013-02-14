@@ -439,7 +439,7 @@ $(document).ready(function(){
      }
      else
      {
-      alert('noplayer!');
+        // On a eu un soucis a la creation du player on dirais
      }
      
      return false;
