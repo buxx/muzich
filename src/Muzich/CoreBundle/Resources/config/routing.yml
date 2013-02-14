@@ -93,7 +93,7 @@ element_update:
   defaults: { _controller: MuzichCoreBundle:Element:update }
   
 element_remove:
-  pattern: /element/{element_id}/remove
+  pattern: /element/{element_id}/remove/{token}
   defaults: { _controller: MuzichCoreBundle:Element:remove }
   
 element_new_count:

@@ -202,11 +202,16 @@ class ElementController extends Controller
    * @param int $element_id
    * @return Response 
    */
-  public function removeAction($element_id)
+  public function removeAction($element_id, $token)
   {
     if (($response = $this->mustBeConnected()))
     {
       return $response;
+    }
+    
+    if ($token != $this->getUser()->getPersonalHash($element_id))
+    {
+      return $this->jsonResponse(array('status' => 'error'));
     }
     
     try {
@@ -455,7 +460,7 @@ class ElementController extends Controller
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash($element_id) != $token)
     {
       return $this->jsonResponse(array(
         'status' => 'error',
@@ -486,7 +491,7 @@ class ElementController extends Controller
         'a' => array(
           'href' => $this->generateUrl('ajax_element_remove_vote_good', array(
             'element_id' => $element->getId(),
-            'token'      => $this->getUser()->getPersonalHash()
+            'token'      => $this->getUser()->getPersonalHash($element->getId())
           ))
         ),
         'img' => array(
@@ -514,7 +519,7 @@ class ElementController extends Controller
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash($element_id) != $token)
     {
       return $this->jsonResponse(array(
         'status' => 'error',
@@ -545,7 +550,7 @@ class ElementController extends Controller
         'a' => array(
           'href' => $this->generateUrl('ajax_element_add_vote_good', array(
             'element_id' => $element->getId(),
-            'token'      => $this->getUser()->getPersonalHash()
+            'token'      => $this->getUser()->getPersonalHash($element->getId())
           ))
         ),
         'img' => array(
@@ -754,7 +759,7 @@ class ElementController extends Controller
     }
     
     if (!($proposition = $this->getDoctrine()->getRepository('MuzichCoreBundle:ElementTagsProposition')
-      ->findOneById($proposition_id)) || $token != $this->getUser()->getPersonalHash())
+      ->findOneById($proposition_id)) || $token != $this->getUser()->getPersonalHash($proposition_id))
     {
       return $this->jsonResponse(array(
         'status' => 'error',
@@ -813,7 +818,7 @@ class ElementController extends Controller
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id)) || $token != $this->getUser()->getPersonalHash())
+      ->findOneById($element_id)) || $token != $this->getUser()->getPersonalHash($element_id))
     {
       return $this->jsonResponse(array(
         'status' => 'error',

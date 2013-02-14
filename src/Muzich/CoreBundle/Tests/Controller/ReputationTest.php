@@ -59,7 +59,7 @@ class ReputationTest extends FunctionalTest
       'GET', 
       $this->generateUrl('ajax_element_add_vote_good', array(
         'element_id' => $element->getId(),
-        'token' => $paul->getPersonalHash()
+        'token' => $paul->getPersonalHash($element->getId())
       )), 
       array(), 
       array(), 
@@ -83,7 +83,8 @@ class ReputationTest extends FunctionalTest
     $crawler = $this->client->request(
       'GET', 
       $this->generateUrl('element_remove', array(
-        'element_id' => $element->getId()
+        'element_id' => $element->getId(),
+        'token'      => $bux->getPersonalHash($element->getId())
       )), 
       array(), 
       array(), 

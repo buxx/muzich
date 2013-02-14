@@ -125,7 +125,7 @@ class MynetworkControllerTest extends FunctionalTest
     $url_follow = $this->generateUrl('follow', array(
       'type' => 'user', 
       'id' => $bux->getId(),
-      'token' => $this->getUser()->getPersonalHash()
+      'token' => $this->getUser()->getPersonalHash($bux->getId())
     ));
     
     // On lance l'action de suivre
@@ -210,7 +210,7 @@ class MynetworkControllerTest extends FunctionalTest
     $url_follow = $this->generateUrl('follow', array(
       'type' => 'group', 
       'id' => $DUDELDRUM->getId(),
-      'token' => $this->getUser()->getPersonalHash()
+      'token' => $this->getUser()->getPersonalHash($DUDELDRUM->getId())
     ));
     
     // On lance l'action de suivre

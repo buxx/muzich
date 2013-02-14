@@ -298,7 +298,7 @@ class ElementControllerTest extends FunctionalTest
     
     // On est sur la page home, on peut voir le lien de suppression l'élément
     $this->exist('a[href="'.($url = $this->generateUrl('element_remove', array(
-        'element_id' => $element->getId()
+        'element_id' => $element->getId(), 'token' => $bux->getPersonalHash($element->getId())
     ))).'"]');
   
     // Suppression de l'élément
@@ -346,7 +346,7 @@ class ElementControllerTest extends FunctionalTest
     // On peut donc voir le lien pour "dé-voter"
     $url_unvote_soul = $this->generateUrl('ajax_element_remove_vote_good', array(
       'element_id' => $element_soul->getId(),
-      'token' => $paul->getPersonalHash()
+      'token' => $paul->getPersonalHash($element_soul->getId())
     ));
     $this->exist('a.vote[href="'.$url_unvote_soul.'"]');
     
@@ -378,7 +378,7 @@ class ElementControllerTest extends FunctionalTest
       'GET', 
       $this->generateUrl('ajax_element_add_vote_good', array(
         'element_id' => $element_ed->getId(),
-        'token' => $paul->getPersonalHash()
+        'token' => $paul->getPersonalHash($element_ed->getId())
       )), 
       array(), 
       array(), 
@@ -441,7 +441,7 @@ class ElementControllerTest extends FunctionalTest
       'GET', 
       $this->generateUrl('ajax_element_add_vote_good', array(
         'element_id' => $element_ed->getId(),
-        'token' => $bob->getPersonalHash()
+        'token' => $bob->getPersonalHash($element_ed->getId())
       )), 
       array(), 
       array(), 
@@ -729,17 +729,17 @@ class ElementControllerTest extends FunctionalTest
     
     $url_accept_paul = $this->generateUrl('ajax_element_proposed_tags_accept', array(
       'proposition_id' => $proposition_paul->getId(),
-      'token'          => $bux->getPersonalHash()
+      'token'          => $bux->getPersonalHash($proposition_paul->getId())
     ));
     $url_accept_joelle = $this->generateUrl('ajax_element_proposed_tags_accept', array(
       'proposition_id' => $proposition_joelle->getId(),
-      'token'          => $bux->getPersonalHash()
+      'token'          => $bux->getPersonalHash($proposition_joelle->getId())
     ));
     $this->assertTrue(strpos($response['html'], 'href="'.$url_accept_paul.'"') !== false);
     $this->assertTrue(strpos($response['html'], 'href="'.$url_accept_joelle.'"') !== false);
     $url_refuse = $this->generateUrl('ajax_element_proposed_tags_refuse', array(
       'element_id' => $element->getId(),
-      'token'      => $bux->getPersonalHash()
+      'token'      => $bux->getPersonalHash($element->getId())
     ));
     
     // On accepete la poposition de joelle
@@ -1099,17 +1099,17 @@ class ElementControllerTest extends FunctionalTest
     
     $url_accept_paul = $this->generateUrl('ajax_element_proposed_tags_accept', array(
       'proposition_id' => $proposition_paul->getId(),
-      'token'          => $bux->getPersonalHash()
+      'token'          => $bux->getPersonalHash($proposition_paul->getId())
     ));
     $url_accept_joelle = $this->generateUrl('ajax_element_proposed_tags_accept', array(
       'proposition_id' => $proposition_joelle->getId(),
-      'token'          => $bux->getPersonalHash()
+      'token'          => $bux->getPersonalHash($proposition_joelle->getId())
     ));
     $this->assertTrue(strpos($response['html'], 'href="'.$url_accept_paul.'"') !== false);
     $this->assertTrue(strpos($response['html'], 'href="'.$url_accept_joelle.'"') !== false);
     $url_refuse = $this->generateUrl('ajax_element_proposed_tags_refuse', array(
       'element_id' => $element->getId(),
-      'token'      => $bux->getPersonalHash()
+      'token'      => $bux->getPersonalHash($element->getId())
     ));
     
     // On accepete la poposition de joelle

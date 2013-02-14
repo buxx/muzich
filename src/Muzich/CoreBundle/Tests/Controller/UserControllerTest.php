@@ -375,7 +375,7 @@ class UserControllerTest extends FunctionalTest
     
     $url = $this->generateUrl('ajax_tag_add_to_favorites', array(
       'tag_id' => $tribe->getId(),
-      'token'  => $paul->getPersonalHash()
+      'token'  => $paul->getPersonalHash($tribe->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(
@@ -400,7 +400,7 @@ class UserControllerTest extends FunctionalTest
     
     $url = $this->generateUrl('ajax_tag_add_to_favorites', array(
       'tag_id' => $tribe->getId(),
-      'token'  => $paul->getPersonalHash()
+      'token'  => $paul->getPersonalHash($tribe->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(
@@ -425,7 +425,7 @@ class UserControllerTest extends FunctionalTest
     
     $url = $this->generateUrl('ajax_tag_add_to_favorites', array(
       'tag_id' => $hardtek->getId(),
-      'token'  => $paul->getPersonalHash()
+      'token'  => $paul->getPersonalHash($hardtek->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(

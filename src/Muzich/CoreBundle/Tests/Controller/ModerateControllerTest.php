@@ -29,7 +29,7 @@ class ModerateControllerTest extends FunctionalTest
     // Paul signale cet élément comme pas bien
     $url = $this->generateUrl('ajax_report_element', array(
       'element_id' => $element_ed->getId(),
-      'token'      => $paul->getPersonalHash()
+      'token'      => $paul->getPersonalHash($element_ed->getId())
     ));
     
     $crawler = $this->client->request(
@@ -57,7 +57,7 @@ class ModerateControllerTest extends FunctionalTest
     // Ca ne doit pas bouger puisqu'il l'a déjà fait
     $url = $this->generateUrl('ajax_report_element', array(
       'element_id' => $element_ed->getId(),
-      'token'      => $paul->getPersonalHash()
+      'token'      => $paul->getPersonalHash($element_ed->getId())
     ));
     
     $crawler = $this->client->request(
@@ -96,7 +96,7 @@ class ModerateControllerTest extends FunctionalTest
     // Ca ne doit pas bouger puisqu'il l'a déjà fait
     $url = $this->generateUrl('ajax_report_element', array(
       'element_id' => $element_bab->getId(),
-      'token'      => $paul->getPersonalHash()
+      'token'      => $paul->getPersonalHash($element_bab->getId())
     ));
     
     $crawler = $this->client->request(
@@ -136,7 +136,7 @@ class ModerateControllerTest extends FunctionalTest
     // Paul signale cet élément comme pas bien
     $url = $this->generateUrl('ajax_report_element', array(
       'element_id' => $element_ed->getId(),
-      'token'      => $joelle->getPersonalHash()
+      'token'      => $joelle->getPersonalHash($element_ed->getId())
     ));
     
     $crawler = $this->client->request(
@@ -164,7 +164,7 @@ class ModerateControllerTest extends FunctionalTest
     // Ca ne doit pas bouger puisqu'elle l'a déjà fait
     $url = $this->generateUrl('ajax_report_element', array(
       'element_id' => $element_ed->getId(),
-      'token'      => $joelle->getPersonalHash()
+      'token'      => $joelle->getPersonalHash($element_ed->getId())
     ));
     
     $crawler = $this->client->request(
@@ -318,7 +318,7 @@ class ModerateControllerTest extends FunctionalTest
       $this->generateUrl('ajax_alert_comment', array(
         'element_id' => $element->getId(),
         'date'       => $comment_bux['d'],
-        'token'      => $joelle->getPersonalHash()
+        'token'      => $joelle->getPersonalHash($element->getId())
       )),
       array(), 
       array(), 
@@ -348,7 +348,7 @@ class ModerateControllerTest extends FunctionalTest
       $this->generateUrl('ajax_alert_comment', array(
         'element_id' => $element->getId(),
         'date'       => $comment_paul['d'],
-        'token'      => $joelle->getPersonalHash()
+        'token'      => $joelle->getPersonalHash($element->getId())
       )),
       array(), 
       array(), 

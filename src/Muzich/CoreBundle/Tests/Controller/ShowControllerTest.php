@@ -228,7 +228,7 @@ class ShowControllerTest extends FunctionalTest
     
     $url = $this->generateUrl('favorite_add', array(
       'id'    => $element->getId(),
-      'token' => $bux->getPersonalHash()
+      'token' => $bux->getPersonalHash($element->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(
@@ -273,7 +273,7 @@ class ShowControllerTest extends FunctionalTest
     
     $url = $this->generateUrl('favorite_add', array(
       'id'    => $element->getId(),
-      'token' => $bux->getPersonalHash()
+      'token' => $bux->getPersonalHash($element->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(
@@ -322,7 +322,7 @@ class ShowControllerTest extends FunctionalTest
     
     $url = $this->generateUrl('favorite_add', array(
       'id'    => $element->getId(),
-      'token' => $joelle->getPersonalHash()
+      'token' => $joelle->getPersonalHash($element->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(
@@ -367,7 +367,7 @@ class ShowControllerTest extends FunctionalTest
     
     $url = $this->generateUrl('favorite_add', array(
       'id'    => $element->getId(),
-      'token' => $joelle->getPersonalHash()
+      'token' => $joelle->getPersonalHash($element->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(

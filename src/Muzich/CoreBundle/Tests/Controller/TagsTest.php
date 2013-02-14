@@ -51,7 +51,7 @@ class TagsTest extends FunctionalTest
     // Il ajoute cet élément en favoris
     $url = $this->generateUrl('favorite_add', array(
       'id'    => $element->getId(),
-      'token' => $paul->getPersonalHash()
+      'token' => $paul->getPersonalHash($element->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(

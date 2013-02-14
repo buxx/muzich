@@ -47,7 +47,7 @@ class FavoriteController extends Controller
     
     $em = $this->getEntityManager();
     
-    if ($user->getPersonalHash() != $token || !is_numeric($id)
+    if ($user->getPersonalHash($id) != $token || !is_numeric($id)
       || !($element = $em->getRepository('MuzichCoreBundle:Element')->findOneById($id))
     )
     {
@@ -88,7 +88,7 @@ class FavoriteController extends Controller
         'favorite'      => true,
         'link_new_url'  => $this->generateUrl('favorite_remove', array(
             'id'    => $id,
-            'token' => $token
+            'token' => $user->getPersonalHash($id)
         )),
         'img_new_src'   => $this->getAssetUrl('img/icon_star_2_red.png'),
         'img_new_title' => $this->trans('element.favorite.remove', array(), 'elements')
@@ -116,7 +116,7 @@ class FavoriteController extends Controller
     $user = $this->getUser();
     $em = $this->getDoctrine()->getEntityManager();
     
-    if ($user->getPersonalHash() != $token || !is_numeric($id)
+    if ($user->getPersonalHash($id) != $token || !is_numeric($id)
       || !($element = $em->getRepository('MuzichCoreBundle:Element')->findOneById($id))
     )
     {
@@ -151,7 +151,7 @@ class FavoriteController extends Controller
         'favorite'      => true,
         'link_new_url'  => $this->generateUrl('favorite_add', array(
             'id'    => $id,
-            'token' => $token
+            'token' => $user->getPersonalHash($id)
         )),
         'img_new_src'   => $this->getAssetUrl('img/icon_star_2.png'),
         'img_new_title' => $this->trans('element.favorite.add', array(), 'elements')

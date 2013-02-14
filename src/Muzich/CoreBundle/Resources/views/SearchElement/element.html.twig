@@ -54,14 +54,14 @@
               {% if element.hasVoteGood(app.user.id) %}
                 <a class="vote" href="{{ path('ajax_element_remove_vote_good', {
                   'element_id' : element.id,
-                  'token'      : app.user.getPersonalHash
+                  'token'      : app.user.getPersonalHash(element.id)
                 }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
                   <img src="{{ asset('img/icon_thumb_red.png') }}" alt="vote" />
                 </a>
               {% else %}
                 <a class="vote" href="{{ path('ajax_element_add_vote_good', {
                   'element_id' : element.id,
-                  'token'      : app.user.getPersonalHash
+                  'token'      : app.user.getPersonalHash(element.id)
                 }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
                   <img src="{{ asset('img/icon_thumb.png') }}" alt="vote" />
                 </a>
@@ -70,11 +70,11 @@
         {% endif %}
         <li class="star">
           {% if element.hasFavoriteUser(app.user.id) %}
-            <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash }) }}" >
+            <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash(element.id) }) }}" >
               <img id="favorite_{{ element.id }}_is" src="{{ asset('img/icon_star_2_red.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
             </a>
           {% else %}
-            <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': app.user.personalHash }) }}" >
+            <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': app.user.personalHash(element.id) }) }}" >
               <img id="favorite_{{ element.id }}_isnot" src="{{ asset('img/icon_star_2.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
             </a>
           {% endif %}
@@ -113,7 +113,7 @@
             <li class="element_report">
               <a title="{{ 'element.report.link_title'|trans({}, 'userui') }}" 
                 class="element_report" 
-                href="{{ path('ajax_report_element', {'element_id':element.id, 'token':app.user.getPersonalHash}) }}">
+                href="{{ path('ajax_report_element', {'element_id':element.id, 'token':app.user.getPersonalHash(element.id)}) }}">
                 <img src="{{ asset('/img/icon_alert.png') }}" alt="report" />
               </a>
             </li>
@@ -146,7 +146,7 @@
 
             <li class="element_remove_link">
               <a title="{{ 'element.remove.link'|trans({}, 'elements') }}" class="element_remove_link" 
-                href="{{ path('element_remove', {'element_id' : element.id})  }}"
+                href="{{ path('element_remove', {'element_id' : element.id, 'token':app.user.getPersonalHash(element.id)})  }}"
               >
                 <img src="{{ asset('/img/icon_close_2.png') }}" alt="delete" />
               </a>
@@ -230,7 +230,7 @@
               <a 
                 href="{{ path('ajax_tag_add_to_favorites', {
                   'tag_id' : tag.id,
-                  'token'  : app.user.getPersonalHash
+                  'token'  : app.user.getPersonalHash(tag.id)
                 }) }}" 
                 class="tag_to_favorites" 
                 style="display: none;"
@@ -310,7 +310,7 @@
     </div>
       
     <form 
-      action="{{ path('ajax_add_comment', {'element_id':element.id, 'token':app.user.getPersonalHash}) }}" 
+      action="{{ path('ajax_add_comment', {'element_id':element.id, 'token':app.user.getPersonalHash(element.id)}) }}" 
       method="post" 
       name="add_comment"
       style="display: none;"

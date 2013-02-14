@@ -201,7 +201,7 @@ class DefaultController extends Controller
   public function deleteAction($group_id, $token)
   {
     $user = $this->getUser();
-    if ($user->getPersonalHash() != $token)
+    if ($user->getPersonalHash($group_id) != $token)
     {
       throw $this->createNotFoundException('Accès non autorisé.');
     }

@@ -479,7 +479,7 @@ class Controller extends BaseController
               'name' => $group->getName(),
               'id'   => $group->getId(),
               'url'  => $this->generateUrl('ajax_set_element_group', array(
-                'token'      => $this->getUser()->getPersonalHash(),
+                'token'      => $this->getUser()->getPersonalHash($element->getId()),
                 'element_id' => $element->getId(),
                 'group_id'   => $group->getId()
               ))

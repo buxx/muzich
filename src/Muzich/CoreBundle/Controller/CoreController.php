@@ -128,7 +128,7 @@ class CoreController extends Controller
     }
     
     // Vérifications préléminaires
-    if ($user->getPersonalHash() != $token 
+    if ($user->getPersonalHash($id) != $token 
         || !in_array($type, array('user', 'group')) 
         || !is_numeric($id)
         || ($user->getId() == $id && $type == 'user')
@@ -523,7 +523,7 @@ class CoreController extends Controller
     }
     
     if (!($tag = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
-      ->findOneById($tag_id)) || $this->getUser()->getPersonalHash() != $token)
+      ->findOneById($tag_id)) || $this->getUser()->getPersonalHash($tag_id) != $token)
     {
       return $this->jsonResponse(array(
         'status' => 'error',
@@ -586,7 +586,7 @@ class CoreController extends Controller
       ->findOneById($element_id)) 
       || !($group = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
       ->findOneById($group_id)) 
-      || $this->getUser()->getPersonalHash() != $token)
+      || $this->getUser()->getPersonalHash($element_id) != $token)
     {
       return $this->jsonResponse(array(
         'status' => 'error',
@@ -637,7 +637,7 @@ class CoreController extends Controller
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
       ->findOneById($element_id)) 
-      || $this->getUser()->getPersonalHash() != $token)
+      || $this->getUser()->getPersonalHash($element_id) != $token)
     {
       return $this->jsonResponse(array(
         'status' => 'error',

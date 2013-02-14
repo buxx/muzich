@@ -40,7 +40,7 @@ class EventTest extends FunctionalTest
       'POST', 
       $this->generateUrl('ajax_add_comment', array(
         'element_id' => $element->getId(),
-        'token'      => $paul->getPersonalHash()
+        'token'      => $paul->getPersonalHash($element->getId())
       )), 
       array(
           'comment' => "Du coup ce com va emettre un event"
@@ -77,7 +77,7 @@ class EventTest extends FunctionalTest
       'POST', 
       $this->generateUrl('ajax_add_comment', array(
         'element_id' => $element_2->getId(),
-        'token'      => $paul->getPersonalHash()
+        'token'      => $paul->getPersonalHash($element_2->getId())
       )), 
       array(
           'comment' => "Du coup ce com va aussi emettre un event"
@@ -112,7 +112,7 @@ class EventTest extends FunctionalTest
       'POST', 
       $this->generateUrl('ajax_add_comment', array(
         'element_id' => $element_2->getId(),
-        'token'      => $paul->getPersonalHash()
+        'token'      => $paul->getPersonalHash($element_2->getId())
       )), 
       array(
           'comment' => "Du coup ce com va aussi emettre un event"
@@ -247,7 +247,7 @@ class EventTest extends FunctionalTest
     // Il ajoute cet élément en favoris
     $url = $this->generateUrl('favorite_add', array(
       'id'    => $element->getId(),
-      'token' => $paul->getPersonalHash()
+      'token' => $paul->getPersonalHash($element->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(
@@ -282,7 +282,7 @@ class EventTest extends FunctionalTest
     // On enlève des favoris
     $url = $this->generateUrl('favorite_remove', array(
       'id'    => $element->getId(),
-      'token' => $paul->getPersonalHash()
+      'token' => $paul->getPersonalHash($element->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(
@@ -349,7 +349,7 @@ class EventTest extends FunctionalTest
       'POST', 
       $this->generateUrl('ajax_add_comment', array(
         'element_id' => $element->getId(),
-        'token'      => $paul->getPersonalHash()
+        'token'      => $paul->getPersonalHash($element->getId())
       )), 
       array(
           'comment' => "Je choisis en commentant de suivre l'élément",
@@ -398,7 +398,7 @@ class EventTest extends FunctionalTest
       'POST', 
       $this->generateUrl('ajax_add_comment', array(
         'element_id' => $element->getId(),
-        'token'      => $joelle->getPersonalHash()
+        'token'      => $joelle->getPersonalHash($element->getId())
       )), 
       array(
           'comment' => "Je choisis en commentant de suivre l'élément (joelle)",
@@ -447,7 +447,7 @@ class EventTest extends FunctionalTest
       'POST', 
       $this->generateUrl('ajax_add_comment', array(
         'element_id' => $element->getId(),
-        'token'      => $bux->getPersonalHash()
+        'token'      => $bux->getPersonalHash($element->getId())
       )), 
       array(
           'comment' => "Voila le com qui declenche les événemetns chez paul et joelle"
@@ -499,7 +499,7 @@ class EventTest extends FunctionalTest
       'POST', 
       $this->generateUrl('ajax_add_comment', array(
         'element_id' => $element->getId(),
-        'token'      => $bux->getPersonalHash()
+        'token'      => $bux->getPersonalHash($element->getId())
       )), 
       array(
           'comment' => "un nouveau com"
@@ -589,7 +589,7 @@ class EventTest extends FunctionalTest
       'POST', 
       $this->generateUrl('ajax_add_comment', array(
         'element_id' => $element->getId(),
-        'token'      => $paul->getPersonalHash()
+        'token'      => $paul->getPersonalHash($element->getId())
       )), 
       array(
           'comment' => "ze veux plus",
@@ -657,7 +657,7 @@ class EventTest extends FunctionalTest
       'POST', 
       $this->generateUrl('ajax_add_comment', array(
         'element_id' => $element->getId(),
-        'token'      => $bux->getPersonalHash()
+        'token'      => $bux->getPersonalHash($element->getId())
       )), 
       array(
           'comment' => "ce com va declencher un event chez joelle mais pas chez paul"
@@ -734,7 +734,7 @@ class EventTest extends FunctionalTest
     $url_follow = $this->generateUrl('follow', array(
       'type' => 'user', 
       'id' => $bob->getId(),
-      'token' => $bux->getPersonalHash()
+      'token' => $bux->getPersonalHash($bob->getId())
     ));
     
     $this->crawler = $this->client->request('GET', $url_follow);
@@ -898,7 +898,7 @@ class EventTest extends FunctionalTest
       $this->generateUrl('ajax_element_proposed_tags_accept', 
         array(
           'proposition_id' => $proposition_id,
-          'token' => $user->getPersonalHash()
+          'token' => $user->getPersonalHash($proposition_id)
         )
       ), 
       array(), 
@@ -919,7 +919,7 @@ class EventTest extends FunctionalTest
       $this->generateUrl('ajax_element_proposed_tags_refuse', 
         array(
           'element_id' => $element_id,
-          'token' => $user->getPersonalHash()
+          'token' => $user->getPersonalHash($element_id)
         )
       ), 
       array(), 

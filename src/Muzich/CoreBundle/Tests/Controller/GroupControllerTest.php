@@ -84,7 +84,7 @@ class GroupControllerTest extends FunctionalTest
             
     $this->exist('a[href="'.($url = $this->generateUrl('group_delete', array(
       'group_id'  => $Fans_de_psytrance->getId(),
-      'token'     => $this->getUser()->getPersonalHash()
+      'token'     => $this->getUser()->getPersonalHash($Fans_de_psytrance->getId())
     ))).'"]');
     
     $this->crawler = $this->client->request('GET', $url);

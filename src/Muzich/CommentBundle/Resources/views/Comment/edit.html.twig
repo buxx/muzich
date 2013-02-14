@@ -3,7 +3,7 @@
   action="{{ path('ajax_update_comment', {
     'element_id':element_id, 
     'date': date, 
-    'token':app.user.getPersonalHash,
+    'token':app.user.getPersonalHash(element_id),
     'dom_id': comment.u.i~'_'~(comment.d|date_epurate)
   }) }}" 
   method="post" 

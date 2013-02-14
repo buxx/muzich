@@ -45,7 +45,7 @@ class CommentControllerTest extends FunctionalTest
       'POST', 
       $this->generateUrl('ajax_add_comment', array(
         'element_id' => $element->getId(),
-        'token'      => $this->getUser()->getPersonalHash()
+        'token'      => $this->getUser()->getPersonalHash($element->getId())
       )), 
       array(
           'comment' => "J'ai réécouté et ouaa je kiff BrOOO"
@@ -84,7 +84,7 @@ class CommentControllerTest extends FunctionalTest
         'element_id' => $element->getId(),
         'date'       => $comment['d'],
         'dom_id'     => $id,
-        'token'      => $this->getUser()->getPersonalHash()
+        'token'      => $this->getUser()->getPersonalHash($element->getId())
       )),
       array(
           'comment' => "Je me modifie mon com kwaa"
@@ -118,7 +118,7 @@ class CommentControllerTest extends FunctionalTest
       $this->generateUrl('ajax_delete_comment', array(
         'element_id' => $element->getId(),
         'date'       => $comment['d'],
-        'token'      => $this->getUser()->getPersonalHash()
+        'token'      => $this->getUser()->getPersonalHash($element->getId())
       )),
       array(), 
       array(), 
@@ -174,7 +174,7 @@ class CommentControllerTest extends FunctionalTest
         'element_id' => $element->getId(),
         'date'       => $comment['d'],
         'dom_id'     => $id,
-        'token'      => $this->getUser()->getPersonalHash()
+        'token'      => $this->getUser()->getPersonalHash($element->getId())
       )),
       array(
           'comment' => "Je répond 13 HACKED"
@@ -194,7 +194,7 @@ class CommentControllerTest extends FunctionalTest
       $this->generateUrl('ajax_delete_comment', array(
         'element_id' => $element->getId(),
         'date'       => $comment['d'],
-        'token'      => $this->getUser()->getPersonalHash()
+        'token'      => $this->getUser()->getPersonalHash($element->getId())
       )),
       array(), 
       array(), 

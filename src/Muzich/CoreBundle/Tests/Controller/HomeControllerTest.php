@@ -844,7 +844,7 @@ class HomeControllerTest extends FunctionalTest
         'name' => $fan_de_psy->getName(),
         'id'   => $fan_de_psy->getId(),
         'url'  => $this->generateUrl('ajax_set_element_group', array(
-          'token'      => $this->getUser()->getPersonalHash(),
+          'token'      => $this->getUser()->getPersonalHash($element->getId()),
           'element_id' => $element->getId(),
           'group_id'   => $fan_de_psy->getId()
         ))
@@ -857,7 +857,7 @@ class HomeControllerTest extends FunctionalTest
       $this->generateUrl('ajax_set_element_group', array(
         'element_id' => $element->getId(),
         'group_id'   => $fan_de_psy->getId(),
-        'token'      => $this->getUser()->getPersonalHash()
+        'token'      => $this->getUser()->getPersonalHash($element->getId())
       )), 
       array(), 
       array(), 
@@ -960,7 +960,7 @@ class HomeControllerTest extends FunctionalTest
     // On accepte la proposition de paul
     $url_accept_paul = $this->generateUrl('ajax_element_proposed_tags_accept', array(
       'proposition_id' => $proposition_paul->getId(),
-      'token'          => $bux->getPersonalHash()
+      'token'          => $bux->getPersonalHash($proposition_paul->getId())
     ));
     
     $crawler = $this->client->request(

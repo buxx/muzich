@@ -24,7 +24,7 @@ class CommentController extends Controller
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash($element_id) != $token)
     {
       return $this->jsonResponse(array(
         'status' => 'error',
@@ -109,7 +109,7 @@ class CommentController extends Controller
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash($element_id) != $token)
     {
       return $this->jsonResponse(array(
         'status' => 'error',
@@ -161,7 +161,7 @@ class CommentController extends Controller
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash($element_id) != $token)
     {
       return $this->jsonResponse(array(
         'status' => 'error',
@@ -206,7 +206,7 @@ class CommentController extends Controller
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash($element_id) != $token)
     {
       return $this->jsonResponse(array(
         'status' => 'error',
@@ -305,7 +305,7 @@ class CommentController extends Controller
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash($element_id) != $token)
     {
       return $this->jsonResponse(array(
         'status' => 'error',
@@ -344,7 +344,7 @@ class CommentController extends Controller
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id)) || $this->getUser()->getPersonalHash() != $token)
+      ->findOneById($element_id)) || $this->getUser()->getPersonalHash($element_id) != $token)
     {
       return $this->jsonResponse(array(
         'status' => 'error',

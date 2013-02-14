@@ -153,7 +153,7 @@ class FavoriteControllerTest extends FunctionalTest
     $this->exist('li:contains("DUDELDRUM")');
     $this->exist('a[href="'.($url = $this->generateUrl('favorite_add', array(
       'id'    => $element_DUDELDRUM->getId(),
-      'token' => $this->getUser()->getPersonalHash()
+      'token' => $this->getUser()->getPersonalHash($element_DUDELDRUM->getId())
     ))).'"]');
     $link = $this->selectLink('a[href="'.$url.'"]');
     $this->clickOnLink($link);
@@ -169,7 +169,7 @@ class FavoriteControllerTest extends FunctionalTest
     // Il a laissé place aux lien pour le retirer
     $this->exist('a[href="'.($url_rm = $this->generateUrl('favorite_remove', array(
       'id'    => $element_DUDELDRUM->getId(),
-      'token' => $this->getUser()->getPersonalHash()
+      'token' => $this->getUser()->getPersonalHash($element_DUDELDRUM->getId())
     ))).'"]');
     
     // En base l'enregistrement existe
@@ -232,7 +232,7 @@ class FavoriteControllerTest extends FunctionalTest
     // Il ajoute cet élément en favoris
     $url = $this->generateUrl('favorite_add', array(
       'id'    => $element->getId(),
-      'token' => $bux->getPersonalHash()
+      'token' => $bux->getPersonalHash($element->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(
@@ -257,7 +257,7 @@ class FavoriteControllerTest extends FunctionalTest
     // On enlève des favoris
     $url = $this->generateUrl('favorite_remove', array(
       'id'    => $element->getId(),
-      'token' => $bux->getPersonalHash()
+      'token' => $bux->getPersonalHash($element->getId())
     ));
     
     $crawler = $this->client->request('GET', $url, array(), array(), array(
