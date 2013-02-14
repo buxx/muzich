@@ -139,7 +139,24 @@ class Event
     }
     $this->setIds($ids);
   }
-    
+  
+  public function removeId($id)
+  {
+    if ($this->hasId($id))
+    {
+      $new_ids = array();
+      $ids = $this->getIds();
+      foreach ($ids as $i => $idc)
+      {
+        if ($id != $idc)
+        {
+          $new_ids[] = $idc;
+        }
+      }
+      $this->setIds($new_ids);
+      $this->setCount(count($new_ids));
+    }
+  }
   /**
    * Répond vrai si l'id transmis fait partis des ids
    * 

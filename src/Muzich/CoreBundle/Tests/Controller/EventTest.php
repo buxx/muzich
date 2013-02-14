@@ -788,4 +788,165 @@ class EventTest extends FunctionalTest
     $this->assertEquals(count($result), 0);
   }
   
+  public function testElementTagsPropositions()
+  {
+    $this->client = self::createClient();
+    $this->connectUser('bux', 'toor');
+    
+    $paul = $this->getUser('paul');
+    $bux = $this->getUser('bux');
+    
+    $element_1 = $this->findOneBy('Element', 'Infected Mushroom - Psycho');
+    $element_2 = $this->findOneBy('Element', 'CardioT3K - Juggernaut Trap ');
+    $tag_1     = $this->findOneBy('Tag', 'Metal');
+    
+    // Bux propose un tag de remplacement sur son element 1
+    $this->eventCount($paul, Event::TYPE_TAGS_PROPOSED, 0);
+    $this->proposeElementTags($element_1, $bux, array($tag_1->getId()));
+    $this->eventCount($paul, Event::TYPE_TAGS_PROPOSED, 1);
+    $this->eventHasElementId($paul, Event::TYPE_TAGS_PROPOSED, $element_1->getId());
+    // Deuxieme proposition
+    $this->proposeElementTags($element_2, $bux, array($tag_1->getId()));
+    $this->eventCount($paul, Event::TYPE_TAGS_PROPOSED, 1);
+    $this->eventHasElementId($paul, Event::TYPE_TAGS_PROPOSED, $element_1->getId());
+    $event = $this->eventHasElementId($paul, Event::TYPE_TAGS_PROPOSED, $element_2->getId());
+    // On connecte paul
+    $this->disconnectUser();
+    $this->connectUser('paul', 'toor');
+    $this->acceptTagProposition($paul, $this->getElementTagProposition($element_1->getId(), $bux->getId())->getId());
+    $this->eventCount($paul, Event::TYPE_TAGS_PROPOSED, 1);
+    $this->eventHasNotElementId($paul, Event::TYPE_TAGS_PROPOSED, $element_1->getId());
+    $this->eventHasElementId($paul, Event::TYPE_TAGS_PROPOSED, $element_2->getId());
+    $this->refuseTagProposition($paul, $element_2->getId());
+    $this->eventCount($paul, Event::TYPE_TAGS_PROPOSED, 0);
+  }
+  
+  protected function eventCount($user, $type, $count)
+  {
+    $events = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type'
+      )
+      ->setParameters(array(
+        'uid' => $user->getId(),
+        'type' => $type
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($events), $count);
+  }
+  
+  protected function proposeElementTags($element, $user, $tags_ids)
+  {
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_element_propose_tags_proceed', 
+        array('element_id' => $element->getId(), 'token' => $user->getPersonalHash())
+      ), 
+      array(
+        'element_tag_proposition_'.$element->getId() => array(
+          'tags' => json_encode($tags_ids)
+        )
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+  }
+  
+  protected function eventHasElementId($user, $type, $element_id)
+  {
+    $events = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type AND e.ids LIKE :eid'
+      )
+      ->setParameters(array(
+        'uid' => $user->getId(),
+        'type' => $type,
+        'eid' => '%"'.$element_id.'"%'
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($events), 1);
+    return $events[0];
+  }
+  
+  protected function eventHasNotElementId($user, $type, $element_id)
+  {
+    $events = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
+        WHERE e.user = :uid AND e.type = :type AND e.ids LIKE :eid'
+      )
+      ->setParameters(array(
+        'uid' => $user->getId(),
+        'type' => $type,
+        'eid' => '%"'.$element_id.'"%'
+      ))
+      ->getArrayResult()
+    ;
+    $this->assertEquals(count($events), 0);
+  }
+  
+  protected function acceptTagProposition($user, $proposition_id)
+  {
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_element_proposed_tags_accept', 
+        array(
+          'proposition_id' => $proposition_id,
+          'token' => $user->getPersonalHash()
+        )
+      ), 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+  }        
+  
+  protected function refuseTagProposition($user, $element_id)
+  {
+    $crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('ajax_element_proposed_tags_refuse', 
+        array(
+          'element_id' => $element_id,
+          'token' => $user->getPersonalHash()
+        )
+      ), 
+      array(), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+    
+    $this->isResponseSuccess();
+    
+    $response = json_decode($this->client->getResponse()->getContent(), true);
+    $this->assertEquals($response['status'], 'success');
+  }
+  
+  protected function getElementTagProposition($element_id, $user_id)
+  {
+    $propositions = $this->getDoctrine()->getEntityManager()
+      ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
+        .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
+      ->setParameters(array(
+        'eid' => $element_id,
+        'uid' => $user_id
+      ))
+      ->getResult();
+    if (count($propositions))
+    {
+      return $propositions[0];
+    }
+  }
+  
 }

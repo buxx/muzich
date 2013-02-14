@@ -19,12 +19,14 @@
     
     <div class="show_options">
      
-      <a class="button darkbutton" href="{{ path('event_delete', {
-        'event_id' : event.id,
-        'token'    : app.user.getPersonalHash(event.id)
-      }) }}" >
-        {{ 'events.view.link_delete'|trans({}, 'userui') }}
-      </a>
+      {% if event.type != event_const('TYPE_TAGS_PROPOSED') %}
+        <a class="button darkbutton" href="{{ path('event_delete', {
+          'event_id' : event.id,
+          'token'    : app.user.getPersonalHash(event.id)
+        }) }}" >
+          {{ 'events.view.link_delete'|trans({}, 'userui') }}
+        </a>
+      {% endif %}
     
     </div>
     

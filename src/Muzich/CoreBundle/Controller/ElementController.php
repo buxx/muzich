@@ -8,10 +8,12 @@ use Muzich\CoreBundle\Propagator\EventElement;
 use Muzich\CoreBundle\Entity\ElementTagsProposition;
 use Symfony\Component\HttpFoundation\Request;
 use Muzich\CoreBundle\Entity\Element;
+use Muzich\CoreBundle\Entity\Event;
 use Muzich\CoreBundle\Util\TagLike;
 use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\lib\AutoplayManager;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class ElementController extends Controller
 {
@@ -784,6 +786,9 @@ class ElementController extends Controller
       $this->getDoctrine()->getEntityManager()->remove($proposition);
     }
     
+    // Traitement de l'Event si il y a
+    $this->removeElementFromEvent($element->getId(), Event::TYPE_TAGS_PROPOSED);
+    
     $this->getDoctrine()->getEntityManager()->flush();
     $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
       ->findOneById($element->getId())
@@ -824,6 +829,10 @@ class ElementController extends Controller
     {
       $this->getDoctrine()->getEntityManager()->remove($proposition);
     }
+    
+    // Traitement de l'Event si il y a
+    $this->removeElementFromEvent($element->getId(), Event::TYPE_TAGS_PROPOSED);
+    
     // On spécifie qu'il n'y as plus de proposition
     $element->setHasTagProposition(false);
     $this->getDoctrine()->getEntityManager()->persist($element);
@@ -832,6 +841,25 @@ class ElementController extends Controller
     return $this->jsonResponse(array(
       'status' => 'success'
     ));
+  }
+  
+  
+  protected function removeElementFromEvent($element_id, $event_type)
+  {
+    if (($event = $this->getEntityManager()->getRepository('MuzichCoreBundle:Event')
+          ->findUserEventWithElementId($this->getUserId(), $element_id, $event_type)))
+    {
+      $event->removeId($element_id);
+      if (!$event->getCount())
+      {
+        $this->remove($event);
+        $this->flush();
+        return;
+      }
+      
+      $this->persist($event);
+      $this->flush();
+    }
   }
   
   public function reshareAction(Request $request, $element_id, $token)

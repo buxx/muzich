@@ -436,6 +436,15 @@ class Controller extends BaseController
   }
   
   /**
+   *
+   * @param object $entity 
+   */
+  public function remove($entity)
+  {
+    $this->getEntityManager()->remove($entity);
+  }
+  
+  /**
    * 
    */
   public function flush()

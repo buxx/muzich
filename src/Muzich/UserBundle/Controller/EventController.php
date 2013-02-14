@@ -38,7 +38,7 @@ class EventController extends Controller
           'errors' => array('NotFound')
         ));
       }
-      throw $this->createNotFoundException('Ressource ajax uniquement.');
+      return $this->redirect($this->generateUrl('index'));
     }
     
     if ($event->getUser()->getId() != $this->getUserId())
