@@ -10,6 +10,7 @@ use Muzich\CoreBundle\Form\Element\ElementAddForm;
 use Symfony\Component\HttpFoundation\Response;
 use Muzich\CoreBundle\Searcher\GlobalSearcher;
 use Muzich\CoreBundle\Entity\Element;
+use Muzich\CoreBundle\Entity\Presubscription;
 
 class Controller extends BaseController
 {
@@ -490,6 +491,14 @@ class Controller extends BaseController
     }
     
     return $groups;
+  }
+  
+  protected function getPreSubscriptionForm()
+  {
+    return $this->createFormBuilder(new Presubscription())
+      ->add('email', 'email')
+      ->getForm()
+    ;
   }
   
 }

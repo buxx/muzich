@@ -215,7 +215,8 @@ class UserController extends Controller
         'registration_errors'      => $form->getErrors(),
         'registration_errors_pers' => $errors,
         'last_username'            => null,
-        'registration_page'        => true
+        'registration_page'        => true,
+        'presubscription_form'     => $this->getPreSubscriptionForm()->createView()
       )
     );
   }

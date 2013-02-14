@@ -7,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Collection;
-use Muzich\CoreBundle\Entity\Presubscription;
 use Symfony\Component\HttpFoundation\Request;
 
 class IndexController extends Controller
@@ -33,14 +32,6 @@ class IndexController extends Controller
       'form' => $form->createView(),
       'presubscription_form' => $this->getPreSubscriptionForm()->createView()
     ));
-  }
-  
-  protected function getPreSubscriptionForm()
-  {
-    return $this->createFormBuilder(new Presubscription())
-      ->add('email', 'email')
-      ->getForm()
-    ;
   }
   
   /**

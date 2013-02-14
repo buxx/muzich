@@ -116,7 +116,7 @@ class ElementFactoryTest extends UnitTest
       array($hardtek->getId(), $tribe->getId()), 
       '<iframe frameborder="0" width="'.$this->getParam('dailymotion_player_width').'" '
         .'height="'.$this->getParam('dailymotion_player_height').'" '
-        .'src="http://www.dailymotion.com/embed/video/xafj1q"></iframe>'
+        .'src="http://www.dailymotion.com/embed/video/xafj1q?autoPlay=1"></iframe>'
     );
     
     /*
@@ -259,7 +259,7 @@ class ElementFactoryTest extends UnitTest
       'http://www.deezer.com/fr/music/pantera/far-beyond-driven-80398', 
       array($hardtek->getId(), $tribe->getId()), 
       '<iframe scrolling="no" frameborder="0" allowTransparency="true" '
-        .'src="http://www.deezer.com/fr/plugins/player?autoplay=false&playlist=true'
+        .'src="http://www.deezer.com/fr/plugins/player?autoplay=true&playlist=true'
         .'&width='.$this->getParam('deezer_player_width').'&height='
         .$this->getParam('deezer_player_height')
         .'&cover=true&btn_popup=true&type=album&id=80398&title=" '
@@ -274,7 +274,7 @@ class ElementFactoryTest extends UnitTest
       'http://www.deezer.com/fr/music/playlist/18701350', 
       array($hardtek->getId(), $tribe->getId()), 
       '<iframe scrolling="no" frameborder="0" allowTransparency="true" '
-        .'src="http://www.deezer.com/fr/plugins/player?autoplay=false&playlist=true'
+        .'src="http://www.deezer.com/fr/plugins/player?autoplay=true&playlist=true'
         .'&width='.$this->getParam('deezer_player_width').'&height='
         .$this->getParam('deezer_player_height')
         .'&cover=true&btn_popup=true&type=playlist&id=18701350&title=" '
