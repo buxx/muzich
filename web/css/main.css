@@ -1670,3 +1670,8 @@ div#presubscription input[type="submit"]
   margin-top: 10px;
   margin-right: 1px;
 }
+
+ul.element_thumb_actions li.score
+{
+  color: black;
+}
