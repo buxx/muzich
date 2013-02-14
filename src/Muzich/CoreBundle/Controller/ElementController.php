@@ -978,7 +978,7 @@ class ElementController extends Controller
     $url =  null;
     if (count(($element_add_values = $request->get('element_add'))))
     {
-      $url = $element_add_values['url'];
+      $url = trim($element_add_values['url']);
     }
     
     // On vérifie la tête de l'url quand même
