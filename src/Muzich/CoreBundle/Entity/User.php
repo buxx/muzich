@@ -226,6 +226,12 @@ class User extends BaseUser
   public $avatar_path;
   
   /**
+   * @ORM\Column(type="text", unique=false, nullable=true)
+   * @var array 
+   */
+  private $help_tour;
+  
+  /**
    * 
    */
   public function __construct()
@@ -238,6 +244,10 @@ class User extends BaseUser
     $this->followed_groups = new ArrayCollection();
     $this->groups = new ArrayCollection();
     $this->groups_owned = new ArrayCollection();
+    $this->help_tour = json_encode(array(
+      'home' => true,
+      
+    ));
     parent::__construct();
   }
   
