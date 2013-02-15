@@ -50,3 +50,14 @@ bottom_menu:
   development:          Version en développement
   sites:                Sites supportés
   cgu:                  CGU
+  
+error_page:
+  notfound:
+    title:              Ressource introuvable
+    text:               La ressource ou page que vous demandez est introuvable
+  forbidden:
+    title:              Accès refusé
+    text:               L'accès a cette page vous a été refusé
+  error:
+    title:              Erreur
+    text:               Une erreur est survenue. Notre équipe technique en a été avertis et tantera de procéder a sa correction.

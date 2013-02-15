@@ -1,0 +1,12 @@
+{% extends "JSPCoreBundle::layout_error.html.twig" %}
+
+{% block title %}{{ 'error_page.notfound.title'|trans({}, 'navigationui') }}{% endblock %}
+{% block mainbox_classes %}mainbox_padding{% endblock %}
+
+{% block main_content %}
+  
+  <h1>{{ 'error_page.notfound.title'|trans({}, 'navigationui') }}</h1>
+  
+  <p>{{ 'error_page.notfound.text'|trans({}, 'navigationui') }}</p>
+  
+{% endblock %}
