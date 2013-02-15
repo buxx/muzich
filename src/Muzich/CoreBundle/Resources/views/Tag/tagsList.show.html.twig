@@ -8,6 +8,9 @@
     'object_id'     : object_id, 
     'tags_ids_json' : ''
   }) }}" />
+  
+  <p><span class="help">{{ 'tag_favorites.help'|trans({}, 'elements') }}</span></p>
+  
   <ul id="favorite_tags">
     {% for key, tag in tags %}
       <li class="{{ css_list_length_class(key, tags|length) }}" {% if loop.index0 > cloud_tags_limit_to_display %}style="display: none;"{% endif %}>

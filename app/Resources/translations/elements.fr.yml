@@ -109,3 +109,6 @@ show:
     elements:
       no_count:         Aucun partage
       count:            %count_owned% partages (dont %count_favorited% mis en favoris par %count_favorited_users% utilisateurs)
+
+tag_favorites:
+  help:                 Filtrer les partages en selectionnant différents tags ci-dessous (vous pouvez en choisir plusieurs).

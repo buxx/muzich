@@ -7,6 +7,8 @@
     'user_id': user_id, 
     'tags_ids_json' : ''
   }) }}" />
+  
+  <p><span class="help">{{ 'tag_favorites.help'|trans({}, 'elements') }}</span></p>
          
   <ul id="favorite_tags">
     {% for key, tag in tags %}
