@@ -43,4 +43,13 @@ class InfoController extends Controller
     throw new HttpException(418, "I'm a teapot !");
   }
   
+  /**
+   *
+   * @Template() 
+   */
+  public function cguAction()
+  {
+    return array();
+  }
+  
 }

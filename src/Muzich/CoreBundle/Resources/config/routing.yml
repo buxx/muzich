@@ -82,6 +82,10 @@ info_sites:
   pattern: /info/sites
   defaults: { _controller: MuzichCoreBundle:Info:sites }
   
+info_cgu:
+  pattern: /info/cgu
+  defaults: { _controller: MuzichCoreBundle:Info:cgu }
+  
 ####
 
 element_edit:

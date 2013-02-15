@@ -34,8 +34,9 @@ title:
   myfavorites:   Mes favoris
   sites:         Sites supportés
   devvers:       En développement
-  abbout:        A propos
+  about:         A propos
   search:        Recherche
+  cgu:           Informations légales
     
 my_account: 
   title:          Mon compte

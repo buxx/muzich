@@ -17,17 +17,17 @@
 </ul>
 <ul class="footer_pages_links footer_pages_links_how">
   <li>
-    <a href="" >
-      CGU
+    <a href="{{ path('info_cgu') }}" >
+      {{ 'bottom_menu.cgu'|trans({}, 'navigationui') }}
     </a>
   </li>
-  <li>
+  <!--<li>
     <a href="" >
       FAQ
     </a>
-  </li>
+  </li>-->
 </ul>
-{% if app.user %}
+{#% if app.user %}
   <ul class="footer_pages_links footer_pages_links_user">
     <li>
       <a href="" >
@@ -40,4 +40,4 @@
       </a>
     </li>
   </ul>
-{% endif %}
+{% endif %#}
