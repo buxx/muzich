@@ -8,7 +8,17 @@ framework:
 web_profiler:
     toolbar: true
     intercept_redirects: false
-
+    
+swiftmailer:
+    transport:  smtp
+    username:   noreply@muzi.ch
+    password:   ***REMOVED***
+    host:       mx.muzi.ch
+    port:       587
+    encryption: tls
+    auth_mode:  login
+    delivery_address: sevajol.bastien@gmail.com
+    
 monolog:
     handlers:
         main:
