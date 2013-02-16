@@ -391,7 +391,7 @@ $(document).ready(function(){
   // Affichage un/des embed
   // 1328283150_media-playback-start.png
   // 1328283201_emblem-symbolic-link.png
-  $('a.element_embed_open_link').live("click", function(){
+  $('a.element_embed_open_link, a.element_name_embed_open_link').live("click", function(){
     
      var li = $(this).parents('li.element');
      
@@ -414,17 +414,17 @@ $(document).ready(function(){
      return false;
   });
   
-  $('a.element_name_embed_open_link').live("click", function(){
-    
-     var li = $(this).parents('li.element');
-     
-     element_last_opened(li);
-     li.find('a.element_embed_close_link').show();
-     li.find('a.element_embed_open_link_text').hide();
-     li.find('div.element_embed').show();
-     
-     return false;
-  });
+  //$('a.element_name_embed_open_link').live("click", function(){
+  //  
+  //   var li = $(this).parents('li.element');
+  //   
+  //   element_last_opened(li);
+  //   li.find('a.element_embed_close_link').show();
+  //   li.find('a.element_embed_open_link_text').hide();
+  //   li.find('div.element_embed').show();
+  //   
+  //   return false;
+  //});
 
   // Fermeture du embed si demandé
   $('a.element_embed_close_link').live("click", function(){
