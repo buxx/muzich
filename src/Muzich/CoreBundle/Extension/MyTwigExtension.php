@@ -31,9 +31,9 @@ class MyTwigExtension extends \Twig_Extension {
   
   public function getFunctions() {
     return array(
-      'date_or_relative_date'  => new \Twig_Filter_Method($this, 'date_or_relative_date'),
-      'event_const'            => new \Twig_Filter_Method($this, 'event_const'),
-      'css_list_length_class'  => new \Twig_Filter_Method($this, 'getCssLengthClassForList')
+      'date_or_relative_date'  => new \Twig_Function_Method($this, 'date_or_relative_date'),
+      'event_const'            => new \Twig_Function_Method($this, 'event_const'),
+      'css_list_length_class'  => new \Twig_Function_Method($this, 'getCssLengthClassForList')
     );
   }
   
