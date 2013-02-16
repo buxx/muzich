@@ -159,12 +159,17 @@ class ShowController extends Controller
     $viewed_user = null;
     if ($type == 'user' && $object_id == $this->getUserId())
     {
-      $viewed_user = $this->getUser();
+      $object = $viewed_user = $this->getUser();
     }
     else if ($type == 'user')
     {
-      $viewed_user = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:User')
+      $object = $viewed_user = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:User')
         ->findOneById($object_id, array())->getSingleResult();
+    }
+    else if ($type == 'group')
+    {
+      $object = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:Group')
+        ->findOneById($object_id);
     }
     
     $search_object = new ElementSearcher();
@@ -205,7 +210,8 @@ class ShowController extends Controller
         'user'             => $this->getUser(),
         'viewed_user'      => $viewed_user,
         'elements'         => $elements,
-        'tag_ids_json'     => $tags_ids_json
+        'tag_ids_json'     => $tags_ids_json,
+        $type              => $object
       ))->getContent();
     }
     

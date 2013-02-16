@@ -16,7 +16,7 @@ class HomeControllerTest extends FunctionalTest
   {
     $this->client = self::createClient();
     $this->connectUser('bux', 'toor');
-
+  
     // Présence du formulaire d'ajout d'un élément
     $this->exist('form[action="'.($url = $this->generateUrl('element_add')).'"]');
     $this->exist('form[action="'.$url.'"] input[id="element_add_name"]');
@@ -558,7 +558,7 @@ class HomeControllerTest extends FunctionalTest
     ;
     $hardtek_id = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek')->getId();
     $tribe_id   = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe')->getId();
-
+  
     // On récupère l'id du dernier element affiché
     $extract = $this->crawler->filter('ul.elements li.element')
        ->extract(array('id'));

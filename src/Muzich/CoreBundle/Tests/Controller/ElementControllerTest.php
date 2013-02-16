@@ -302,7 +302,7 @@ class ElementControllerTest extends FunctionalTest
     ))).'"]');
   
     // Suppression de l'élément
- 
+  
     // On effectue la demande ajax d'edition
     $crawler = $this->client->request(
       'GET', 
@@ -1322,20 +1322,15 @@ class ElementControllerTest extends FunctionalTest
     'name' => 'ZwaNe 01 - Ptit lutin',
     'tags' => array(
       0 => array(
-        'original_name' => 'Basse',
-        'like_found' => false,
-        'like' => array()
-      ),
-      1 => array(
-        'original_name' => 'Batterie',
+        'original_name' => 'Bass guitar',
         'like_found' => true,
         'like' => array(
-          'name' => 'Batterie',
-          'id' => '495',
-          'slug' => 'batterie',
+          'name' => 'Guitare basse',
+          'id' => '724',
+          'slug' => 'guitare basse',
         )
       ),
-      2 => array(
+      1 => array(
         'original_name' => 'Hardtek',
         'like_found' => true,
         'like' => array(
@@ -1344,11 +1339,11 @@ class ElementControllerTest extends FunctionalTest
           'slug' => 'hardtek',
         )
       ),
-      3 => array(
+      2 => array(
         'original_name' => 'Tek',
         'like_found' => false,
         'like' => array()
-      ),
+      )
     ),
     'thumb' => 'http://imgjam.com/albums/s30/30661/covers/1.100.jpg'
     ), $response);

@@ -18,7 +18,7 @@ class ShowControllerTest extends FunctionalTest
     
     $hardtek_id = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek')->getId();
     $tribe_id   = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe')->getId();
-
+  
     // En premier lieux on va devoir ajouter des éléments.
     $this->addElementAjax('PoPElement 1', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
     $this->addElementAjax('PoPElement 2', 'http://labas.com', json_encode(array($hardtek_id, $tribe_id)));
@@ -148,8 +148,9 @@ class ShowControllerTest extends FunctionalTest
       array(), 
       array('HTTP_X-Requested-With' => 'XMLHttpRequest')
     );
-    
+   
     $response = json_decode($this->client->getResponse()->getContent(), true);
+    //$this->outputDebug($this->client->getResponse()->getContent());
     $this->assertEquals($response['status'], 'success');
     $this->assertTrue(strpos($response['html'], 'Infected mushroom - Muse Breaks') !== false);
     $this->assertTrue(strpos($response['html'], 'Infected Mushroom - Psycho') !== false);
