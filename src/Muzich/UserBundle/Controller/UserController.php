@@ -31,6 +31,31 @@ class UserController extends Controller
     ;
   }
   
+  protected function getPreferencesForm()
+  {
+    /**
+     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
+     * Docrine le voit si on faire une requete directe.
+     */
+    if ($this->container->getParameter('env') == 'test')
+    {
+      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+        $this->container->get('security.context')->getToken()->getUser()->getId(),
+        array()
+      )->getSingleResult();
+    }
+    else
+    {
+      $user = $this->getUser();
+    }
+     
+    return $this->createFormBuilder($user)
+      ->add('mail_newsletter', 'checkbox', array('required' => false))
+      ->add('mail_partner', 'checkbox', array('required' => false))
+      ->getForm()
+    ;
+  }
+  
   protected function getTagsFavoritesForm($user)
   {
     $ids = array();
@@ -90,7 +115,8 @@ class UserController extends Controller
       'form_tags_favorites_name' => $form_tags_favorites->getName(),
       'favorite_tags_id'         => $this->getTagsFavorites(),
       'change_email_form'        => $change_email_form->createView(),
-      'avatar_form'              => $this->getAvatarForm()->createView()
+      'avatar_form'              => $this->getAvatarForm()->createView(),
+      'preferences_form'         => $this->getPreferencesForm()->createView()
     );
   }
   
@@ -603,6 +629,26 @@ class UserController extends Controller
     
     $this->setFlash('error',
       $this->trans('my_account.avatar.error', array(), 'userui'));
+    return $this->redirect($this->generateUrl('my_account'));
+  }
+  
+  public function updatePreferencesAction(Request $request)
+  {
+    $form = $this->getPreferencesForm();
+    $form->bindRequest($request);
+    
+    if ($form->isValid()) {
+      $em = $this->getEntityManager();
+      $em->persist($form->getData());
+      $em->flush();
+
+      $this->setFlash('success',
+        $this->trans('my_account.preferences.success', array(), 'userui'));
+      return $this->redirect($this->generateUrl('my_account'));
+    }
+    
+    $this->setFlash('error',
+      $this->trans('my_account.preferences.error', array(), 'userui'));
     return $this->redirect($this->generateUrl('my_account'));
   }
   

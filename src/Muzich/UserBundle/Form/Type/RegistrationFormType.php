@@ -15,6 +15,18 @@ class RegistrationFormType extends BaseType
       "property_path" => false
     ));
     
+    $builder->add('cgu_accepted', 'checkbox', array(
+      'required'  => true
+    ));
+
+    $builder->add('mail_newsletter', 'checkbox', array(
+      'required'  => false
+    ));
+
+    $builder->add('mail_partner', 'checkbox', array(
+      'required'  => false
+    ));
+    
   }
 
   public function getName()

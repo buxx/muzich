@@ -1,0 +1,16 @@
+
+<div class="field">
+  {{ form_errors(form.mail_newsletter) }}
+  {{ form_label(form.mail_newsletter, '') }}
+  {{ form_widget(form.mail_newsletter, {'attr':{}}) }}
+  {{ 'mail_newsletter'|trans({}, 'userform') }}
+</div>
+
+<div class="field">
+  {{ form_errors(form.mail_partner) }}
+  {{ form_label(form.mail_partner, '') }}
+  {{ form_widget(form.mail_partner, {'attr':{}}) }}
+  {{ 'mail_partner'|trans({}, 'userform') }}
+</div> 
+
+{{ form_rest(form) }}

@@ -46,6 +46,29 @@
       {{ form_errors(form.token) }}
       {{ form_label(form.token, 'token'|trans({}, 'userform')) }}
       {{ form_widget(form.token, {'attr':{'class':'niceinput'}}) }}
+    </div>
+    
+    <div class="field">
+      {{ form_errors(form.cgu_accepted) }}
+      {{ form_label(form.cgu_accepted, '') }}
+      {{ form_widget(form.cgu_accepted, {'attr':{}}) }}
+      {% autoescape false %}
+      {{ 'cgu_accepted'|trans({'%url%':path('info_cgu')}, 'userform') }}
+      {% endautoescape %}
+    </div>
+    
+    <div class="field">
+      {{ form_errors(form.mail_newsletter) }}
+      {{ form_label(form.mail_newsletter, '') }}
+      {{ form_widget(form.mail_newsletter, {'attr':{}}) }}
+      {{ 'mail_newsletter'|trans({}, 'userform') }}
+    </div>
+    
+    <div class="field">
+      {{ form_errors(form.mail_partner) }}
+      {{ form_label(form.mail_partner, '') }}
+      {{ form_widget(form.mail_partner, {'attr':{}}) }}
+      {{ 'mail_partner'|trans({}, 'userform') }}
     </div> 
 
     {{ form_rest(form) }}

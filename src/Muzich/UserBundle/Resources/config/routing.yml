@@ -1,5 +1,3 @@
-
-
 my_account:
   pattern:  /account
   defaults: { _controller: MuzichUserBundle:User:account }
@@ -50,3 +48,10 @@ user_update_avatar:
   defaults: { _controller: MuzichUserBundle:User:updateAvatar }
   requirements:
     _method:  POST
+
+user_update_preferences:
+  pattern:  /account/update-preferences
+  defaults: { _controller: MuzichUserBundle:User:updatePreferences }
+  requirements:
+    _method:  POST
+  

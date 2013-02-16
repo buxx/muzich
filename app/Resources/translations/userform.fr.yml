@@ -9,6 +9,9 @@ password:
   first:   Mot de passe
   second:  Mot de passe (vérification)
 token:     Code d'inscription
+mail_newsletter:  Je souhaite recevoir des emails de la part de Muzi.ch
+mail_partner:     Je souhaite recevoir des emails de la part de partenaires de Muzi.ch (Ce service n'est pas actif pas pour le moment)
+cgu_accepted:     J'ai lu et j'accepete les <a href="%url%">condition générales d'utilisation de Muzi.ch</a>
 
 help:
   token:   |

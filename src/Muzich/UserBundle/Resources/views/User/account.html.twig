@@ -102,5 +102,24 @@
       </form>
     </div>
     
+    <h2 data-open="myaccount_preferences">{{ 'my_account.preferences.title'|trans({}, 'userui') }}</h2>
+  
+    <div id="myaccount_preferences" class="myaccount_part"
+       style="display: none;"
+    >
+      <form
+          action="{{ path('user_update_preferences') }}"
+          method="post"
+        >
+        
+          {% include "MuzichUserBundle:User:preference_form.html.twig" with { 
+            'form': preferences_form
+          } %}
+      
+          <input type="submit" class="button" value="{{ 'my_account.preferences.submit'|trans({}, 'userui') }}" />
+      </form>
+    </div>
+    <div style="clear:both;"></div>
+    
   </div>
 {% endblock %}

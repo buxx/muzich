@@ -48,6 +48,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     
     $user->setPlainPassword($password_raw);
     $user->setEnabled($enabled);
+    $user->cgu_accepted = true;
     $this->user_manager->updatePassword($user);
     
     $this->user_manager->updateUser($user, false);

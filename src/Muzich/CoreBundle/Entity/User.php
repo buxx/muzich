@@ -232,6 +232,25 @@ class User extends BaseUser
   private $help_tour;
   
   /**
+   * @ORM\Column(type="boolean")
+   * @Assert\NotBlank()
+   * @var type boolean
+   */
+  public $cgu_accepted = false;
+  
+  /**
+   * @ORM\Column(type="boolean")
+   * @var type boolean
+   */
+  public $mail_newsletter = true;
+  
+  /**
+   * @ORM\Column(type="boolean")
+   * @var type boolean
+   */
+  public $mail_partner = true;
+  
+  /**
    * 
    */
   public function __construct()
