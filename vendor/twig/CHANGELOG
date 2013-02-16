@@ -1,3 +1,18 @@
+* 1.6.2 (2012-03-18)
+
+ * fixed sandbox mode when used with inheritance
+ * added preserveKeys support for the slice filter
+ * fixed the date filter when a DateTime instance is passed with a specific timezone
+ * added a trim filter
+
+* 1.6.1 (2012-02-29)
+
+ * fixed Twig C extension
+ * removed the creation of Twig_Markup instances when not needed
+ * added a way to set the default global timezone for dates
+ * fixed the slice filter on strings when the length is not specified
+ * fixed the creation of the cache directory in case of a race condition
+
 * 1.6.0 (2012-02-04)
 
  * fixed raw blocks when used with the whitespace trim option
