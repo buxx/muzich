@@ -14,7 +14,7 @@ group:
 # Security
 security:
     login:
-        username: "Identifiant (adresse email)"
+        username: "Identifiant (ou adresse email)"
         password: "Mot de passe"
         remember_me: Rester connecté
         submit: Connexion
