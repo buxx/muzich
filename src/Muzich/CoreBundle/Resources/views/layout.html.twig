@@ -12,6 +12,10 @@
     {% include 'MuzichCoreBundle:Autoplay:autoplay.html.twig' %}
   
   <div id="container">
+    
+    {% if app.user %}
+      <a onmouseover="UE.Popin.preload();" href="#" onclick="UE.Popin.show(); return false;">Vos retours</a>
+    {% endif %}
   
     <div id="main_content">
       
