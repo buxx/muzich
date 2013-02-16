@@ -10,6 +10,12 @@
 {% if his_group is not defined %}
   {% set his_group = false %}
 {% endif %}
+{% if display_autoplay is not defined %}
+  {% set display_autoplay = false %}
+{% endif %}
+{% if tag_ids_json is not defined %}
+  {% set tag_ids_json = '[]' %}
+{% endif %}
 
 <table>
   <tr>
@@ -90,6 +96,56 @@
             <img src="{{ asset('/img/icon_link.png') }}" alt="link" />
           </a>
         </li>
+        
+        {% if display_autoplay and element|can_autoplay %}
+          <li class="element_autoplay">
+            <a title="{{ 'element.autoplay.title'|trans({}, 'elements') }}"
+               data-element_id="{{ element.id }}"
+               class="autoplay_link"
+              {% if autoplay_context == 'home' %}
+                href="{{ path('elements_get_filter_data_autoplay', {
+                  'element_id' : element.id,
+                  'type'       : 'filter'
+                }) }}"
+              {% endif %}
+              {% if autoplay_context == 'show_user' %}
+                href="{{ path('elements_get_filter_data_autoplay_show', {
+                  'element_id' : element.id,
+                  'show_type'  : 'user',
+                  'show_id'    : viewed_user.id, 
+                  'data'       : tag_ids_json
+                }) }}"
+              {% endif %}
+              {% if autoplay_context == 'show_group' %}
+                href="{{ path('elements_get_filter_data_autoplay_show', {
+                  'element_id' : element.id,
+                  'show_type'  : 'group',
+                  'show_id'    : group.id, 
+                  'data'       : tag_ids_json
+                }) }}"
+              {% endif %}
+              {% if autoplay_context == 'favorite_my' %}
+                href="{{ path('elements_get_filter_data_autoplay_favorite', {
+                  'element_id' : element.id,
+                  'show_type'  : 'user',
+                  'show_id'    : app.user.id, 
+                  'data'       : tag_ids_json
+                }) }}"
+              {% endif %}
+              {% if autoplay_context == 'favorite_user' %}
+                href="{{ path('elements_get_filter_data_autoplay_favorite', {
+                  'element_id' : element.id,
+                  'show_type'  : 'user',
+                  'show_id'    : viewed_user.id, 
+                  'data'       : tag_ids_json
+                }) }}"
+              {% endif %}
+               target="_blank"
+            >
+              <img src="{{ asset('/img/1361037350_control_play.png') }}" alt="open in playlist" />
+            </a>
+          </li>
+        {% endif %}
         
         {% if app.user.id != element.owner.id %}
       

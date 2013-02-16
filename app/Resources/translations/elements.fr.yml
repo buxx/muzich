@@ -26,6 +26,8 @@ element:
   link:                 Ouvrir la page d'origine
   edit:
     link:               Modifier
+  autoplay:
+    title:              Lancer avec la lecture automatique
   remove:
     link:               Supprimer
     confirm:

@@ -24,7 +24,7 @@ class HomeControllerTest extends FunctionalTest
     $this->exist('form[action="'.$url.'"] input[type="submit"]');
     
     // Présence du formulaire de filtrage
-    $this->exist('form[action="'.($url = $this->generateUrl('search_elements')).'"]');
+    $this->exist('form[action="'.($url = $this->generateUrl('search_elements', array('context'=>'home'))).'"]');
     $this->exist('form[action="'.$url.'"] select[id="element_search_form_network"]');
     $this->exist('form[action="'.$url.'"] input[type="submit"]');
     
@@ -737,6 +737,7 @@ class HomeControllerTest extends FunctionalTest
     $id_limit = (int)str_replace('element_', '', $extract[9]);
     
     $url = $this->generateUrl('search_elements_more', array(
+      'context' => 'home',
       'id_limit'  => $id_limit
     ));
     

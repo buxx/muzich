@@ -25,7 +25,7 @@ class SearchController extends Controller
    * @param string $session_id
    * @return Response 
    */
-  protected function searchElementsMore($elements, $message, $session_id)
+  protected function searchElementsMore($context, $autoplay_context, $elements, $message, $session_id)
   {
     
     $data = array();
@@ -34,11 +34,14 @@ class SearchController extends Controller
     if ($count)
     {
       $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
-        'user'        => $this->getUser(),
-        'elements'    => $elements
+        'user'             => $this->getUser(),
+        'elements'         => $elements,
+        'display_autoplay'  => $this->getDisplayAutoplayBooleanForContext($context),
+        'autoplay_context' => ($autoplay_context)?$autoplay_context:$context
       ))->getContent();
       
       $data['more_link_href'] = $this->generateUrl('search_elements_more', array(
+        'context'    => $context,
         'id_limit'   => $elements[count($elements)-1]->getId(),
         'session_id' => $session_id
       ));
@@ -59,7 +62,7 @@ class SearchController extends Controller
    * que les paramétres en session). 
    * 
    */
-  public function searchElementsAction($id_limit = null, $session_id = null)
+  public function searchElementsAction($context, $id_limit = null, $session_id = null)
   {
     if (($response = $this->mustBeConnected()))
     {
@@ -125,7 +128,7 @@ class SearchController extends Controller
       
       $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
       
-      return $this->searchElementsMore($elements, $message, $session_id);      
+      return $this->searchElementsMore($context, null, $elements, $message, $session_id);      
     }
     else
     {
@@ -142,14 +145,16 @@ class SearchController extends Controller
    * @param int $id_limit
    * @return Response 
    */
-  public function searchElementsShowAction($type, $object_id, $id_limit)
+  public function searchElementsShowAction($context, $type, $object_id, $id_limit)
   {
+    $autoplay_context = null;
     if ($this->getRequest()->isXmlHttpRequest())
     {
       $object = null;
       $param_id =  '';
       if ($type == 'user')
       {
+        $autoplay_context = 'show_user';
         $object = $this->getDoctrine()
           ->getRepository('MuzichCoreBundle:User')
           ->findOneBy(array('id' => $object_id))
@@ -158,6 +163,7 @@ class SearchController extends Controller
       }
       elseif ($type == 'group')
       {
+        $autoplay_context = 'show_group';
         $object = $this->getDoctrine()
           ->getRepository('MuzichCoreBundle:Group')
           ->findOneById($object_id)
@@ -178,7 +184,10 @@ class SearchController extends Controller
 
       $elements = $search->getElements($this->getDoctrine(), $this->getUserId());
       
-      return $this->searchElementsMore($elements,
+      return $this->searchElementsMore(
+        $context,
+        $autoplay_context,
+        $elements,
         $this->trans(
           'elements.ajax.more.noelements', 
           array(), 
@@ -199,7 +208,7 @@ class SearchController extends Controller
    * @param string $string
    * @return Response 
    */
-  public function globalSearchMoreAction(Request $request, $last_id, $string)
+  public function globalSearchMoreAction(Request $request, $context, $last_id, $string)
   {
     if (($response = $this->mustBeConnected(true)))
     {
@@ -214,7 +223,10 @@ class SearchController extends Controller
     
     $elements = $search->getElements($this->getDoctrine(), $this->getUserId());
       
-    return $this->searchElementsMore($elements,
+    return $this->searchElementsMore(
+      $context,
+      $autoplay_context = null,
+      $elements,
       $this->trans(
         'elements.ajax.more.noelements', 
         array(), 

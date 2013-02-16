@@ -1026,7 +1026,7 @@ class ElementController extends Controller
    * @param "filter"|"show"|"favorites" $type
    * @param ~ $data
    */
-  public function getDatasAutoplayAction(Request $request, $type, $data, $show_type = null, $show_id = null)
+  public function getDatasAutoplayAction(Request $request, $element_id, $type, $data, $show_type = null, $show_id = null)
   {
     if (($response = $this->mustBeConnected(true)))
     {
@@ -1041,7 +1041,8 @@ class ElementController extends Controller
       // Pour cette option on utilise le dernier filtre appliqué
       $search_object = $this->getElementSearcher();
       $search_object->update(array(
-        'count' => $this->container->getParameter('autoplay_max_elements')
+        'count' => $this->container->getParameter('autoplay_max_elements'),
+        'id_limit' => $element_id+1
       ));
       $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
     }
@@ -1068,7 +1069,8 @@ class ElementController extends Controller
       $search_object->init(array(
         'tags'           => $tags,
         $show_type.'_id' => $show_id,
-        'count'          => $this->container->getParameter('autoplay_max_elements')
+        'count'          => $this->container->getParameter('autoplay_max_elements'),
+        'id_limit' => $element_id+1
       ));
       
       $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
@@ -1092,7 +1094,8 @@ class ElementController extends Controller
         'tags'     => $tags,
         'user_id'  => $show_id,
         'favorite' => true,
-        'count'    => $this->container->getParameter('autoplay_max_elements')
+        'count'    => $this->container->getParameter('autoplay_max_elements'),
+        'id_limit' => $element_id+1
       ));
       
       $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());

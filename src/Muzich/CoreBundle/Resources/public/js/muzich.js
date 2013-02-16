@@ -375,7 +375,11 @@ $(document).ready(function(){
       window.search_tag_prompt_connector.initializeTags([tag]);
       
       form.submit();
+      
     }
+    
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    return false;
   });
   
   function element_last_opened(li)
@@ -1604,7 +1608,14 @@ $(document).ready(function(){
     a_more.attr('href', $('input#more_elements_url').val()+'/'+array2json(tags_ids_for_filter));
     
     // On adapte aussi le lien de l'autoplay
-    $('a#autoplay_launch').attr('href', $('input#autoplay_url').val()+'/'+array2json(tags_ids_for_filter));
+    //$('a.autoplay_link').attr('href', $('input#autoplay_url').val()+'/'+array2json(tags_ids_for_filter));
+    //$('a.autoplay_link').each(function(){
+    //  console.debug($(this));
+    //  console.log(
+    //    str_replace('__ELEMENT_ID__', $(this).data('element_id'), $('input#autoplay_url').val()+'/'+array2json(tags_ids_for_filter))
+    //  );
+    //  $(this).attr('href', str_replace('__ELEMENT_ID__', $(this).data('element_id'), $('input#autoplay_url').val()+'/'+array2json(tags_ids_for_filter)));
+    //});
     
     return check_timelaps_and_find_with_tags(link, new Date().getTime(), false);
   }

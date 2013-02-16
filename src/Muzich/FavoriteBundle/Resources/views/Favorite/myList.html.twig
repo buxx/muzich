@@ -12,18 +12,13 @@
     {% include "MuzichCoreBundle:Tag:tagsList.favorite.html.twig" with {
       'user_id' : app.user.id
     } %}
-    
-    {% include 'MuzichCoreBundle:Component:element_autoplay_button.html.twig' with {
-      'autoplay_path' : path('elements_get_filter_data_autoplay_favorite', {
-        'show_type'  : 'user',
-        'show_id'    : app.user.id, 
-        'data'       : '[]'
-      })
-    } %}
   
   </div>
   
-  {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
+  {% include "MuzichCoreBundle:SearchElement:default.html.twig" with{
+      'display_autoplay'     : true,
+      'autoplay_context'     : 'favorite_my'
+  } %}
   
   {% if elements|length %}
     {% include "MuzichCoreBundle:SearchElement:more_button.html.twig" with {
@@ -38,10 +33,4 @@
     }%}
   {% endif %}
   
-  <input type="hidden" id="autoplay_url" value="{{ path('elements_get_filter_data_autoplay_favorite', {
-    'show_type'  : 'user',
-    'show_id'    : app.user.id, 
-    'data' : ''
-  }) }}" />
-    
 {% endblock %}

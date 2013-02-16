@@ -1,28 +1,28 @@
 
 
 search_elements:
-  pattern:  /search-elements
+  pattern:  /search-elements/{context}
   defaults: { _controller: MuzichCoreBundle:Search:searchElements }
   
 search_elements_more:
-  pattern:  /search-elements/{id_limit}/{session_id}
+  pattern:  /search-elements/{context}/{id_limit}/{session_id}
   defaults: { _controller: MuzichCoreBundle:Search:searchElements, session_id: null }
    
 search_elements_show_more_empty:
-  pattern:  /search-elements/show/{type}/{object_id}
+  pattern:  /search-elements/show/{context}/{type}/{object_id}
   defaults: { _controller: MuzichCoreBundle:Search:searchElementsShow }
     
 search_elements_show_more:
-  pattern:  /search-elements/show/{type}/{object_id}/{id_limit}
+  pattern:  /search-elements/show/{context}/{type}/{object_id}/{id_limit}
   defaults: { _controller: MuzichCoreBundle:Search:searchElementsShow }
    
 global_search_elements_empty:
-  pattern:  /global-search-elements/
-  defaults: { _controller: MuzichCoreBundle:Search:globalSearchMore }
+  pattern:  /global-search-elements
+  defaults: { _controller: MuzichCoreBundle:Search:globalSearchMore, context: global_search }
   
 global_search_elements:
-  pattern:  /global-search-elements/{last_id}/{string}
-  defaults: { _controller: MuzichCoreBundle:Search:globalSearchMore }
+  pattern:  /global-search-elements/{context}/{last_id}/{string}
+  defaults: { _controller: MuzichCoreBundle:Search:globalSearchMore, context: global_search }
    
 follow:
   pattern:  /follow/{type}/{id}/{token}
@@ -169,15 +169,15 @@ element_retrieve_api_datas:
   defaults: { _controller: MuzichCoreBundle:Element:getDatasApi }
     
 elements_get_filter_data_autoplay:
-  pattern: /ajax/elements/get/datas/autoplay/{type}/{data}
+  pattern: /ajax/elements/get/datas/autoplay/{element_id}/{type}/{data}
   defaults: { _controller: MuzichCoreBundle:Element:getDatasAutoplay, data: null }
     
 elements_get_filter_data_autoplay_show:
-  pattern: /ajax/show/{show_type}/{show_id}/elements/get/datas/autoplay/{data}
+  pattern: /ajax/show/{show_type}/{show_id}/elements/get/datas/autoplay/{element_id}/{data}
   defaults: { _controller: MuzichCoreBundle:Element:getDatasAutoplay, type: 'show', data: null }
     
 elements_get_filter_data_autoplay_favorite:
-  pattern: /ajax/favorite/{show_type}/{show_id}/elements/get/datas/autoplay/{data}
+  pattern: /ajax/favorite/{show_type}/{show_id}/elements/get/datas/autoplay/{element_id}/{data}
   defaults: { _controller: MuzichCoreBundle:Element:getDatasAutoplay, type: 'favorite', data: null }
     
 element_show_need_tags:

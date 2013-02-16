@@ -64,16 +64,10 @@
     </p>
   
     {% include "MuzichCoreBundle:Tag:tagsList.show.html.twig" with {
-      'object_id'   : group.id,
-      'object_type' : 'group'
-    } %}
-    
-    {% include 'MuzichCoreBundle:Component:element_autoplay_button.html.twig' with {
-      'autoplay_path' : path('elements_get_filter_data_autoplay_show', {
-        'show_type'  : 'group',
-        'show_id'    : group.id, 
-        'data'       : '[]'
-      })
+      'object_id'            : group.id,
+      'object_type'          : 'group',
+      'display_autoplay'     : true,
+      'autoplay_context'     : 'show_group'
     } %}
     
   </div>
@@ -101,10 +95,4 @@
     {% endif %}
   {% endif %}
   
-  <input type="hidden" id="autoplay_url" value="{{ path('elements_get_filter_data_autoplay_show', {
-    'show_type'          : 'group',
-    'show_id'            : group.id, 
-    'data' : ''
-  }) }}" />
-            
 {% endblock %}

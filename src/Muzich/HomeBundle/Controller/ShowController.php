@@ -156,6 +156,17 @@ class ShowController extends Controller
       throw new \Exception("Wrong Type.");
     }
     
+    $viewed_user = null;
+    if ($type == 'user' && $object_id == $this->getUserId())
+    {
+      $viewed_user = $this->getUser();
+    }
+    else if ($type == 'user')
+    {
+      $viewed_user = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:User')
+        ->findOneById($object_id, array())->getSingleResult();
+    }
+    
     $search_object = new ElementSearcher();
     $tags = null;
     $tag_ids = json_decode($tags_ids_json);
@@ -189,8 +200,12 @@ class ShowController extends Controller
     if ($count)
     {
       $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
-        'user'        => $this->getUser(),
-        'elements'    => $elements
+        'display_autoplay' => $this->getDisplayAutoplayBooleanForContext('show_'.$type),
+        'autoplay_context' => 'show_'.$type,
+        'user'             => $this->getUser(),
+        'viewed_user'      => $viewed_user,
+        'elements'         => $elements,
+        'tag_ids_json'     => $tags_ids_json
       ))->getContent();
     }
     

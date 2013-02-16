@@ -31,7 +31,7 @@
   <div class="top_tools" {% if search_tags_id|length == 0 %}style="display: none;"{% endif %}>
   
     <div class="search_tools">
-      <form name="{{ search_form_name }}" action="{{ path('search_elements') }}" method="post" {{ form_enctype(search_form) }}>
+      <form name="{{ search_form_name }}" action="{{ path('search_elements', {'context':'home'}) }}" method="post" {{ form_enctype(search_form) }}>
         
         {% include "MuzichCoreBundle:SearchElement:form.html.twig" with { 
           'form_name'               : search_form_name,
@@ -42,23 +42,19 @@
         
       </form>
     </div>
-
-    {% include 'MuzichCoreBundle:Component:element_autoplay_button.html.twig' with {
-      'autoplay_path' : path('elements_get_filter_data_autoplay', {
-        'type' : 'filter'
-      })
-    } %}
   
   </div>
 
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {
     'noelements_filter'    : true,
-    'display_new_elements' : true
+    'display_new_elements' : true,
+    'display_autoplay'     : true,
+    'autoplay_context'     : 'home'
   }%}
   
   {% if elements|length %}
     {% include "MuzichCoreBundle:SearchElement:more_button.html.twig" with {
-      'more_path'           : path('search_elements')
+      'more_path'           : path('search_elements', {'context':'home'})
     }%}
   {% endif %}
   

@@ -501,4 +501,15 @@ class Controller extends BaseController
     ;
   }
   
+  protected function getDisplayAutoplayBooleanForContext($context)
+  {
+    if (in_array($context, 
+      $this->container->getParameter('autoplay_contexts')
+    ))
+    {
+      return true;
+    }
+    return false;
+  }
+  
 }

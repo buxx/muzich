@@ -244,6 +244,12 @@ class FavoriteController extends Controller
       return $response;
     }
     
+    $autoplay_context = 'favorite_user';
+    if ($user_id == $this->getUserId())
+    {
+      $autoplay_context = 'favorite_my';
+    }
+    
     $tag_ids = json_decode($tags_ids_json);
     $search_object = new ElementSearcher();
     $tags = null;
@@ -271,14 +277,25 @@ class FavoriteController extends Controller
       'elements'
     );
     
+    $viewed_user = $this->getUser();
+    if ($user_id != $this->getUserId())
+    {
+      $viewed_user = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:User')
+        ->findOneById($user_id, array())->getSingleResult();
+    }
+    
     $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
     $count = count($elements);
     $html = '';
     if ($count)
     {
       $html = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
-        'user'        => $this->getUser(),
-        'elements'    => $elements
+        'display_autoplay' => $this->getDisplayAutoplayBooleanForContext($autoplay_context),
+        'autoplay_context' => $autoplay_context,
+        'user'             => $this->getUser(),
+        'elements'         => $elements,
+        'tag_ids_json'     => $tags_ids_json,
+        'viewed_user'      => $viewed_user
       ))->getContent();
     }
     

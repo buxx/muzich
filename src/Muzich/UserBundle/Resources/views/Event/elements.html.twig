@@ -58,6 +58,7 @@
   {% if elements|length %}
     {% include "MuzichCoreBundle:SearchElement:more_button.html.twig" with {
       'more_path'     : path('search_elements_more', {
+        'context'    : 'event',
         'session_id' : app.user.getPersonalHash(app.request.get('event_id')),
         'id_limit'   : last_element_id
       }),

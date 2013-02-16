@@ -73,18 +73,13 @@
       'object_id'   : viewed_user.id,
       'object_type' : 'user'
     } %}
-    
-    {% include 'MuzichCoreBundle:Component:element_autoplay_button.html.twig' with {
-      'autoplay_path' : path('elements_get_filter_data_autoplay_show', {
-        'show_type'  : 'user',
-        'show_id'    : viewed_user.id, 
-        'data'       : '[]'
-      }) 
-    } %}
   
   </div>
   
-  {% include "MuzichCoreBundle:SearchElement:default.html.twig" %}
+  {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {
+    'display_autoplay'     : true,
+    'autoplay_context'     : 'show_user'
+  } %}
   
   {% if more_count is defined %} 
     {% if elements|length %}
@@ -102,11 +97,5 @@
       }%}
     {% endif %}
   {% endif %}
-    
-  <input type="hidden" id="autoplay_url" value="{{ path('elements_get_filter_data_autoplay_show', {
-    'show_type'          : 'user',
-    'show_id'     : viewed_user.id, 
-    'data' : ''
-  }) }}" />
-  
+
 {% endblock %}

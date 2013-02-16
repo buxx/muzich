@@ -9,10 +9,12 @@ use Symfony\Component\Form\FormView;
 class MyTwigExtension extends \Twig_Extension {
 
   private $translator;
+  protected $params = array();
 
-  public function __construct(Translator $translator)
+  public function __construct(Translator $translator, $params)
   {
     $this->translator = $translator;
+    $this->params = $params;
   }
   
   public function getFilters()
@@ -22,7 +24,8 @@ class MyTwigExtension extends \Twig_Extension {
       'date_or_relative_date'  => new \Twig_Filter_Method($this, 'date_or_relative_date'),
       'date_epurate'           => new \Twig_Filter_Method($this, 'date_epurate'),
       'form_has_errors'        => new \Twig_Filter_Method($this, 'form_has_errors'),
-      'format_score'           => new \Twig_Filter_Method($this, 'format_score')
+      'format_score'           => new \Twig_Filter_Method($this, 'format_score'),
+      'can_autoplay'           => new \Twig_Filter_Method($this, 'can_autoplay')
     );
   }
   
@@ -37,6 +40,15 @@ class MyTwigExtension extends \Twig_Extension {
   public function format_score($score)
   {
     return number_format($score, 0, '.', ' ');
+  }
+  
+  public function can_autoplay($element)
+  {
+    if (in_array($element->getType(), $this->params['autoplay_sites_enabled']))
+    {
+      return true;
+    }
+    return false;
   }
   
   protected function datetime2timestamp($string)

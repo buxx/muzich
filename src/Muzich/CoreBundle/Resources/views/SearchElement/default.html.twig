@@ -1,6 +1,12 @@
 {% if display_new_elements is not defined %}
   {% set display_new_elements = false %}
 {% endif %}
+{% if display_autoplay is not defined %}
+  {% set display_autoplay = false %}
+{% endif %}
+{% if autoplay_context is not defined %}
+  {% set autoplay_context = '' %}
+{% endif %}
 
 {% if display_new_elements %}
   <div class="display_more_elements" style="display: none;">
@@ -15,7 +21,7 @@
 {% endif %}
 
 {% if elements|length %}
-  {% if not app.request.isXmlHttpRequest %}<ul class="elements">{% endif %}
+  {% if not app.request.isXmlHttpRequest %}<ul class="elements" data-autoplay_context="{{ autoplay_context }}">{% endif %}
     {% for element in elements %} 
       
       {% include "MuzichCoreBundle:SearchElement:li.element.html.twig" %}
