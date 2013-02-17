@@ -150,7 +150,7 @@ class ShowControllerTest extends FunctionalTest
     );
    
     $response = json_decode($this->client->getResponse()->getContent(), true);
-    //$this->outputDebug($this->client->getResponse()->getContent());
+    
     $this->assertEquals($response['status'], 'success');
     $this->assertTrue(strpos($response['html'], 'Infected mushroom - Muse Breaks') !== false);
     $this->assertTrue(strpos($response['html'], 'Infected Mushroom - Psycho') !== false);

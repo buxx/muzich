@@ -199,7 +199,7 @@ class HomeControllerTest extends FunctionalTest
     
     // Nom trop long
     $this->procedure_add_element(
-      'Mon bel element mais qui a un nom trop court la vache oui trop long hohoho', 
+      'Mon bel element mais qui a un nom trop court  la vache oui trop long hohoho la vache oui trop long hohoho la vache oui trop long hohoho', 
       'http://www.youtube.com/watch?v=WC8qb_of04E', 
       array($hardtek->getId(), $tribe->getId())
     );

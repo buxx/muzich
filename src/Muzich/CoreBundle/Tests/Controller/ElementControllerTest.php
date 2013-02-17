@@ -1322,24 +1322,29 @@ class ElementControllerTest extends FunctionalTest
     'name' => 'ZwaNe 01 - Ptit lutin',
     'tags' => array(
       0 => array(
-        'original_name' => 'Bass guitar',
-        'like_found' => true,
-        'like' => array(
-          'name' => 'Guitare basse',
-          'id' => '724',
-          'slug' => 'guitare basse',
-        )
+        'original_name' => 'Basse',
+        'like_found' => false,
+        'like' => array()
       ),
       1 => array(
+        'original_name' => 'Batterie',
+        'like_found' => true,
+        'like' => array(
+          'name' => 'Batterie',
+          'id' => '495',
+          'slug' => 'batterie',
+        )
+      ),
+      2 => array(
         'original_name' => 'Hardtek',
         'like_found' => true,
         'like' => array(
           'name' => 'Hardtek',
           'id' => '174',
-          'slug' => 'hardtek',
+          'slug' => 'hardtek'
         )
       ),
-      2 => array(
+      3 => array(
         'original_name' => 'Tek',
         'like_found' => false,
         'like' => array()

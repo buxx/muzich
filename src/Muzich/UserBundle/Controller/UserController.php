@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\HttpFoundation\Request;
 
+
 class UserController extends Controller
 {
   
@@ -129,109 +130,41 @@ class UserController extends Controller
     ;
   }
   
-  /**
-   * Un bug étrange empêche la mise ne place de contraintes sur le formulaire
-   * d'inscription. On effectue alors les vérifications ici.
-   * 
-   * C'est sale, mais ça marche ...
-   * 
-   * @return array of string errors
-   */
-  protected function checkRegistrationInformations($form)
-  {
-    $errors = array();
-    $form->bind($this->getRequest());
-    $form_values = $this->getRequest()->request->get($form->getName());
-    $user = $form->getData();
-    
-    
-    /*
-     * Contrôle de la taille du pseudo
-     * min: 3
-     * max: 32
-     */
-    if (strlen($user->getUsername()) < 3)
-    {
-      $errors[] = $this->get('translator')->trans(
-        'error.registration.username.min', 
-        array('%limit%' => 3),
-        'validators'
-      );
-    }
-    
-    if (strlen($user->getUsername()) > 32)
-    {
-      $errors[] = $this->get('translator')->trans(
-        'error.registration.username.max', 
-        array('%limit%' => 32),
-        'validators'
-      );
-    }
-    
-    /**
-     * Mot de passes indentiques
-     */
-    if ($form_values['plainPassword']['first'] != $form_values['plainPassword']['second'])
-    {
-      $errors[] = $this->get('translator')->trans(
-        'error.registration.password.notsame', 
-        array(),
-        'validators'
-      );
-    }
-    
-    return $errors;
-  }
-  
+      
   public function registerAction()
   {
     $form = $this->container->get('fos_user.registration.form');
     $formHandler = $this->container->get('fos_user.registration.form.handler');
     $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
-    $errors = array();
     
-    // On contrôle le token en premier lieu
-    $form_values = $this->getRequest()->request->get($form->getName());
-    $r_token = $this->getDoctrine()->getRepository('MuzichCoreBundle:RegistrationToken')
-      ->findOneBy(array('token' => $form_values["token"], 'used' => false))
-    ;
-    
-    if ($r_token)
+    $process = $formHandler->process($confirmationEnabled);
+    if ($process)
     {
-      if (count(($errors = $this->checkRegistrationInformations($form))) < 1)
-      {
-        $process = $formHandler->process($confirmationEnabled);
-        if ($process) {
-          $user = $form->getData();
-  
-          if ($confirmationEnabled) {
-            $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
-            $route = 'fos_user_registration_check_email';
-          } else {
-            $this->authenticateUser($user);
-            $route = 'start';
-          }
-          
-          $this->setFlash('fos_user_success', 'registration.flash.user_created');
-          $url = $this->generateUrl($route);
-          
-          $r_token->addUseCount();
-          $em = $this->getDoctrine()->getEntityManager();
-          $em->persist($r_token);
-          $em->flush();
-          
-          return new RedirectResponse($url);
-        }
+      $user = $form->getData();
+
+      $authUser = false;
+      if ($confirmationEnabled) {
+          $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
+          $route = 'fos_user_registration_check_email';
+      } else {
+          $authUser = true;
+          $route = 'start';
       }
-    }
-    else
-    {
-      $form->bind($this->getRequest());
-      $errors[] = $this->get('translator')->trans(
-        'registration.token.error', 
-        array(),
-        'validators'
-      );
+
+      $this->setFlash('fos_user_success', 'registration.flash.user_created');
+      $url = $this->container->get('router')->generate($route);
+      $response = new RedirectResponse($url);
+
+      if ($authUser) {
+          $this->authenticateUser($user, $response);
+      }
+      
+      $formHandler->getToken()->addUseCount();
+      $em = $this->getDoctrine()->getEntityManager();
+      $em->persist($formHandler->getToken());
+      $em->flush();
+      
+      return $response;
     }
     
     return $this->container->get('templating')->renderResponse(
@@ -240,7 +173,7 @@ class UserController extends Controller
         'form'                     => $form->createView(),
         'error'                    => null,
         'registration_errors'      => $form->getErrors(),
-        'registration_errors_pers' => $errors,
+        'registration_errors_pers' => $formHandler->getErrors(),
         'last_username'            => null,
         'registration_page'        => true,
         'presubscription_form'     => $this->getPreSubscriptionForm()->createView()

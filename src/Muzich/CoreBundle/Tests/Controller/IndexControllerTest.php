@@ -109,50 +109,51 @@ class IndexControllerTest extends FunctionalTest
      * Inscription d'un utilisateur
      */
     $this->client = self::createClient();
-
+  
     // On a besoin d'un token pour le moment
     $token = new RegistrationToken();
-    $token->setToken('45gf645jgf6xqz4dc');
+    $token_name = '45gf645jgf6xqz4dc'.time();
+    $token->setToken($token_name);
     $em = $this->getDoctrine()->getEntityManager();
     $em->persist($token);
     $em->flush();
     
     // Mots de passe différents
     $this->procedure_registration_failure(
-      'raoulb', 
+      'raoulb'.time(), 
       'raoulb.def4v65sds@gmail.com', 
       'toor', 
       'toorr',
-      '45gf645jgf6xqz4dc'
+      $token_name
     );
-
+  
     // Pseudo trop court
     $this->procedure_registration_failure(
-      'ra', 
+      'rb', 
       'raoulb.def4v65sds@gmail.com', 
       'toor', 
       'toor',
-      '45gf645jgf6xqz4dc'
+      $token_name
     );
     
     // Pseudo trop long
     $this->procedure_registration_failure(
       'raouuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
          .'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
-         .'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuul', 
+         .'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuul'.time(), 
       'raoulb.def4v65sds@gmail.com', 
       'toor', 
       'toor',
-      '45gf645jgf6xqz4dc'
+      $token_name
     );
-
+  
     // Email invalide
     $this->procedure_registration_failure(
-      'raoulc', 
+      'raoulc'.time(), 
       'raoulb.def4v65sds@gmail', 
       'toor', 
       'toor',
-      '45gf645jgf6xqz4dc'
+      $token_name
     );
   }
   
@@ -191,6 +192,7 @@ class IndexControllerTest extends FunctionalTest
        
     // $mail = new Swift_Message();
     
+    $bux = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneByUsername('bux');
     $this->assertTrue(!is_null(strpos($mail->getBody(), ($url = $this->generateUrl(
       'fos_user_resetting_reset', 
       array('token' => $bux->getConfirmationToken()), 
@@ -211,6 +213,7 @@ class IndexControllerTest extends FunctionalTest
       'fos_user_resetting_reset', 
       array('token' => $bux->getConfirmationToken())
     )).'"]');
+    
     $this->exist('form[action="'.$url.'"] input[id="fos_user_resetting_form_new_first"]');
     $this->exist('form[action="'.$url.'"] input[id="fos_user_resetting_form_new_second"]');
     $this->exist('form[action="'.$url.'"] input[type="submit"]');
