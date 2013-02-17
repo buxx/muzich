@@ -1682,3 +1682,206 @@ div#myaccount_preferences input[type="submit"]
   margin-right: 7px;
   margin-top: 5px;
 }
+
+/* old isolated css files */
+div.show_options {
+    float: right;
+}
+
+#container #group_add_link, #container #group_add_close_link
+{
+  font-size: 120%;
+  float: right;
+}
+
+/*
+1328276321_add_small.png
+      1328276855_list-remove.png
+      1328276953_clean.png */
+
+div.show_options
+{
+  float: right;
+}
+
+#container .follow_link
+{
+  text-decoration: none;
+  width: 110px;
+  text-align: center;
+}
+
+/*#container a.following
+{
+  background: -moz-linear-gradient(top, #08ec00 0%, #10d400 39%, #0a9800 100%);
+  background: -webkit-linear-gradient(top, #08ec00 0%, #10d400 39%, #0a9800 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #08ec00), color-stop(0.39, #10d400), color-stop(1, #0a9800));
+  background: -o-linear-gradient(top, #08ec00 0%, #10d400 39%, #0a9800 100%);
+  background: -ms-linear-gradient(top, #08ec00 0%, #10d400 39%, #0a9800 100%);
+  background: linear-gradient(top, #08ec00 0%, #10d400 39%, #0a9800 100%);
+  
+  border: 1px solid #0a9800;
+  color: white;
+}
+
+#container a.following:hover
+{  
+  background: -moz-linear-gradient(top, #ff1e00 0%, #e50600 35%, #bf0a00 100%);
+  background: -webkit-linear-gradient(top, #ff1e00 0%, #e50600 35%, #bf0a00 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff1e00), color-stop(0.35, #e50600), color-stop(1, #bf0a00));
+  background: -o-linear-gradient(top, #ff1e00 0%, #e50600 35%, #bf0a00 100%);
+  background: -ms-linear-gradient(top, #ff1e00 0%, #e50600 35%, #bf0a00 100%);
+  background: linear-gradient(top, #ff1e00 0%, #e50600 35%, #bf0a00 100%);
+
+  border: 1px solid #bf0a00;
+  text-decoration: none;
+}*/
+
+/*#container #element_add_link, #container #element_add_close_link
+{
+  color: white;
+  font-size: 120%;
+  float: right;
+}*/
+
+/*#container #element_add_box
+{
+  background-color: #e3f6fd;
+  padding: 20px;
+}*/
+
+#container div.select_network a
+{
+  color: white;
+}
+
+div.select_network a.all_network
+{
+  padding-left: 20px;
+  background-image: url(/bundles/muzichcore/img/1328191242_keyboard_layout.png);
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
+}
+
+div.select_network a.my_network
+{
+  padding-left: 20px;
+  background-image: url(/bundles/muzichcore/img/1328191129_edit_group.png);
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
+}
+
+div.more_filters a.new_comments
+{
+  margin-top: 5px;
+  padding-left: 20px;
+  background-image: url(/bundles/muzichcore/img/1332286007_comments_reply.png);
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
+}
+
+div.more_filters a.new_favorites
+{
+  margin-top: 5px;
+  padding-left: 20px;
+  background-image: url(/bundles/muzichcore/img/favorite.png);
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
+}
+
+div.more_filters a.new_tags
+{
+  margin-top: 5px;
+  padding-left: 20px;
+  background-image: url(/bundles/muzichcore/img/1333484018_rss-tag.png);
+  background-repeat: no-repeat;
+  background-position: 2px 3px;
+}
+
+div.more_filters a.new_comments img, div.more_filters a.new_favorites img, div.more_filters a.new_tags img
+{
+  margin-bottom: -3px;
+}
+
+div.select_network a.active
+{
+  background-color: #39c9cc
+}
+
+div.tags_prompt
+{
+  margin-top: 5px;
+}
+
+p.group_description
+{
+  font-size: 90%;
+  text-indent: 15px;
+}
+
+
+
+.hello
+{
+  background-color: #f4f4f4;
+  padding: 30px;
+}
+
+.hello #login_box, .hello #registration_box
+{
+  width: 525px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #e3f6fd;
+  padding: 20px;
+}
+
+#login_box input[id="username"], #login_box input[id="password"]
+{
+  width: 230px;
+}
+
+/*#registration_link, #login_link
+{
+  float: right;
+  font-size: 120%;
+}*/
+
+
+ul#moderate_tags li.tag
+{
+  font-size: 115%;
+}
+
+ul#moderate_tags li.tag span.name
+{
+  width: 350px;
+}
+
+ul#moderate_elements
+{
+  margin-left: 0px;
+}
+
+ul#moderate_elements li.element
+{
+  list-style: none;
+  background-color: #f0f0f0;
+  margin-top: 25px;
+}
+
+ul#moderate_elements div.controls
+{
+  text-align: center;
+  font-size: 110%;
+  font-weight: bold;
+}
+
+
+#container .link_navigation
+{
+  float: right;
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+}
