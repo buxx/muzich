@@ -48,7 +48,7 @@ Many IDEs support syntax highlighting and auto-completion for Twig:
 
 * *Textmate* via the `Twig bundle`_
 * *Vim* via the `Jinja syntax plugin`_
-* *Netbeans* via the `Twig syntax plugin`_
+* *Netbeans* via the `Twig syntax plugin`_ (until 7.1, native as of 7.2)
 * *PhpStorm* (native as of 2.1)
 * *Eclipse* via the `Twig plugin`_
 * *Sublime Text* via the `Twig bundle`_
@@ -542,6 +542,11 @@ Arrays and hashes can be nested:
 
     {% set foo = [1, {"foo": "bar"}] %}
 
+.. tip::
+
+    Using double-quoted or single-quoted strings has no impact on performance
+    but string interpolation is only supported in double-quoted strings.
+
 Math
 ~~~~
 
@@ -551,7 +556,7 @@ but exists for completeness' sake. The following operators are supported:
 * ``+``: Adds two objects together (the operands are casted to numbers). ``{{
   1 + 1 }}`` is ``2``.
 
-* ``-``: Substracts the second number from the first one. ``{{ 3 - 2 }}`` is
+* ``-``: Subtracts the second number from the first one. ``{{ 3 - 2 }}`` is
   ``1``.
 
 * ``/``: Divides two numbers. The returned value will be a floating point
@@ -678,8 +683,8 @@ String Interpolation
     String interpolation was added in Twig 1.5.
 
 String interpolation (`#{expression}`) allows any valid expression to appear
-within a string. The result of evaluating that expression is inserted into the
-string:
+within a *double-quoted string*. The result of evaluating that expression is
+inserted into the string:
 
 .. code-block:: jinja
 

@@ -19,11 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        Request::trustProxyData();
-    }
-
     /**
      * @covers Symfony\Component\HttpFoundation\Request::__construct
      */
@@ -430,31 +425,13 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request->initialize(array(), array(), array(), array(), array(), array('HTTP_HOST' => 'www.exemple.com'));
         $this->assertEquals('www.exemple.com', $request->getHost(), '->getHost() from Host Header');
 
-        // Host header with port number.
+        // Host header with port number
         $request->initialize(array(), array(), array(), array(), array(), array('HTTP_HOST' => 'www.exemple.com:8080'));
         $this->assertEquals('www.exemple.com', $request->getHost(), '->getHost() from Host Header with port number');
 
-        // Server values.
+        // Server values
         $request->initialize(array(), array(), array(), array(), array(), array('SERVER_NAME' => 'www.exemple.com'));
         $this->assertEquals('www.exemple.com', $request->getHost(), '->getHost() from server name');
-
-        // X_FORWARDED_HOST.
-        $request->initialize(array(), array(), array(), array(), array(), array('HTTP_X_FORWARDED_HOST' => 'www.exemple.com'));
-        $this->assertEquals('www.exemple.com', $request->getHost(), '->getHost() from X_FORWARDED_HOST');
-
-        // X_FORWARDED_HOST
-        $request->initialize(array(), array(), array(), array(), array(), array('HTTP_X_FORWARDED_HOST' => 'www.exemple.com, www.second.com'));
-        $this->assertEquals('www.second.com', $request->getHost(), '->getHost() value from X_FORWARDED_HOST use last value');
-
-        // X_FORWARDED_HOST with port number
-        $request->initialize(array(), array(), array(), array(), array(), array('HTTP_X_FORWARDED_HOST' => 'www.exemple.com, www.second.com:8080'));
-        $this->assertEquals('www.second.com', $request->getHost(), '->getHost() value from X_FORWARDED_HOST with port number');
-
-        $request->initialize(array(), array(), array(), array(), array(), array('HTTP_HOST' => 'www.exemple.com', 'HTTP_X_FORWARDED_HOST' => 'www.forward.com'));
-        $this->assertEquals('www.forward.com', $request->getHost(), '->getHost() value from X_FORWARDED_HOST has priority over Host');
-
-        $request->initialize(array(), array(), array(), array(), array(), array('SERVER_NAME' => 'www.exemple.com', 'HTTP_X_FORWARDED_HOST' => 'www.forward.com'));
-        $this->assertEquals('www.forward.com', $request->getHost(), '->getHost() value from X_FORWARDED_HOST has priority over SERVER_NAME ');
 
         $request->initialize(array(), array(), array(), array(), array(), array('SERVER_NAME' => 'www.exemple.com', 'HTTP_HOST' => 'www.host.com'));
         $this->assertEquals('www.host.com', $request->getHost(), '->getHost() value from Host header has priority over SERVER_NAME ');
@@ -496,36 +473,37 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider testGetClientIpProvider
      */
-    public function testGetClientIp($expected, $proxy, $remoteAddr, $httpClientIp, $httpForwardedFor)
+    public function testGetClientIp($expected, $proxy, $remoteAddr, $httpForwardedFor, $trustedProxies)
     {
-        $request = new Request;
-        $this->assertEquals('', $request->getClientIp());
-        $this->assertEquals('', $request->getClientIp(true));
+        $request = new Request();
 
         $server = array('REMOTE_ADDR' => $remoteAddr);
-        if (null !== $httpClientIp) {
-            $server['HTTP_CLIENT_IP'] = $httpClientIp;
-        }
         if (null !== $httpForwardedFor) {
             $server['HTTP_X_FORWARDED_FOR'] = $httpForwardedFor;
         }
 
+        if ($proxy || $trustedProxies) {
+            Request::setTrustedProxies(null === $trustedProxies ? array($remoteAddr) : $trustedProxies);
+        }
+
         $request->initialize(array(), array(), array(), array(), array(), $server);
         $this->assertEquals($expected, $request->getClientIp($proxy));
+
+        Request::setTrustedProxies(array());
     }
 
     public function testGetClientIpProvider()
     {
         return array(
-            array('88.88.88.88', false, '88.88.88.88', null, null),
-            array('127.0.0.1', false, '127.0.0.1', '88.88.88.88', null),
-            array('88.88.88.88', true, '127.0.0.1', '88.88.88.88', null),
-            array('127.0.0.1', false, '127.0.0.1', null, '88.88.88.88'),
-            array('88.88.88.88', true, '127.0.0.1', null, '88.88.88.88'),
-            array('::1', false, '::1', null, null),
-            array('2620:0:1cfe:face:b00c::3', true, '::1', '2620:0:1cfe:face:b00c::3', null),
-            array('2620:0:1cfe:face:b00c::3', true, '::1', null, '2620:0:1cfe:face:b00c::3, ::1'),
-            array('88.88.88.88', true, '123.45.67.89', null, '88.88.88.88, 87.65.43.21, 127.0.0.1'),
+            array('88.88.88.88',              false, '88.88.88.88',  null,                                  null),
+            array('127.0.0.1',                false, '127.0.0.1',    null,                                  null),
+            array('::1',                      false, '::1',          null,                                  null),
+            array('127.0.0.1',                false, '127.0.0.1',    '88.88.88.88',                         null),
+            array('88.88.88.88',              true,  '127.0.0.1',    '88.88.88.88',                         null),
+            array('2620:0:1cfe:face:b00c::3', true,  '::1',          '2620:0:1cfe:face:b00c::3',            null),
+            array('88.88.88.88',              true,  '123.45.67.89', '127.0.0.1, 87.65.43.21, 88.88.88.88', null),
+            array('87.65.43.21',              true,  '123.45.67.89', '127.0.0.1, 87.65.43.21, 88.88.88.88', array('123.45.67.89', '88.88.88.88')),
+            array('87.65.43.21',              false, '123.45.67.89', '127.0.0.1, 87.65.43.21, 88.88.88.88', array('123.45.67.89', '88.88.88.88')),
         );
     }
 
@@ -621,7 +599,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $request->headers->set('X_FORWARDED_PROTO', 'https');
 
+        Request::setTrustedProxies(array('1.1.1.1'));
         $this->assertTrue($request->isSecure());
+        Request::setTrustedProxies(array());
 
         $request->overrideGlobals();
 
@@ -758,7 +738,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $request = new Request();
         $request->headers->set('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7');
-        $this->assertEquals(array('ISO-8859-1', '*', 'utf-8'), $request->getCharsets());
+        $this->assertEquals(array('ISO-8859-1', 'utf-8', '*'), $request->getCharsets());
     }
 
     public function testGetAcceptableContentTypes()
@@ -770,7 +750,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $request = new Request();
         $request->headers->set('Accept', 'application/vnd.wap.wmlscriptc, text/vnd.wap.wml, application/vnd.wap.xhtml+xml, application/xhtml+xml, text/html, multipart/mixed, */*');
-        $this->assertEquals(array('multipart/mixed', '*/*', 'text/html', 'application/xhtml+xml', 'text/vnd.wap.wml', 'application/vnd.wap.xhtml+xml', 'application/vnd.wap.wmlscriptc'), $request->getAcceptableContentTypes());
+        $this->assertEquals(array('application/vnd.wap.wmlscriptc', 'text/vnd.wap.wml', 'application/vnd.wap.xhtml+xml', 'application/xhtml+xml', 'text/html', 'multipart/mixed', '*/*'), $request->getAcceptableContentTypes());
     }
 
     public function testGetLanguages()
@@ -782,6 +762,18 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request->headers->set('Accept-language', 'zh, en-us; q=0.8, en; q=0.6');
         $this->assertEquals(array('zh', 'en_US', 'en'), $request->getLanguages());
         $this->assertEquals(array('zh', 'en_US', 'en'), $request->getLanguages());
+
+        $request = new Request();
+        $request->headers->set('Accept-language', 'zh, en-us; q=0.6, en; q=0.8');
+        $this->assertEquals(array('zh', 'en', 'en_US'), $request->getLanguages()); // Test out of order qvalues
+
+        $request = new Request();
+        $request->headers->set('Accept-language', 'zh, en, en-us');
+        $this->assertEquals(array('zh', 'en', 'en_US'), $request->getLanguages()); // Test equal weighting without qvalues
+
+        $request = new Request();
+        $request->headers->set('Accept-language', 'zh; q=0.6, en, en-us; q=0.6');
+        $this->assertEquals(array('en', 'zh', 'en_US'), $request->getLanguages()); // Test equal weighting with qvalues
 
         $request = new Request();
         $request->headers->set('Accept-language', 'zh, i-cherokee; q=0.6');
@@ -799,16 +791,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $request->setRequestFormat('foo');
         $this->assertEquals('foo', $request->getRequestFormat(null));
-    }
-
-    public function testForwardedSecure()
-    {
-        $request = new Request();
-        $request->headers->set('X-Forwarded-Proto', 'https');
-        $request->headers->set('X-Forwarded-Port', 443);
-
-        $this->assertTrue($request->isSecure());
-        $this->assertEquals(443, $request->getPort());
     }
 
     public function testHasSession()
@@ -862,6 +844,70 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             array('text/html,application/xhtml+xml;charset=utf-8;q=0.9; foo=bar,*/*', array('text/html' => 1, '*/*' => 1, 'application/xhtml+xml;charset=utf-8' => 0.9)),
             array('text/html,application/xhtml+xml', array('application/xhtml+xml' => 1, 'text/html' => 1)),
         );
+    }
+
+    public function testTrustedProxies()
+    {
+        $request = Request::create('http://example.com/');
+        $request->server->set('REMOTE_ADDR', '3.3.3.3');
+        $request->headers->set('X_FORWARDED_FOR', '1.1.1.1, 2.2.2.2');
+        $request->headers->set('X_FORWARDED_HOST', 'foo.example.com, real.example.com:8080');
+        $request->headers->set('X_FORWARDED_PROTO', 'https');
+        $request->headers->set('X_FORWARDED_PORT', 443);
+        $request->headers->set('X_MY_FOR', '3.3.3.3, 4.4.4.4');
+        $request->headers->set('X_MY_HOST', 'my.example.com');
+        $request->headers->set('X_MY_PROTO', 'http');
+        $request->headers->set('X_MY_PORT', 81);
+
+        // no trusted proxies
+        $this->assertEquals('3.3.3.3', $request->getClientIp());
+        $this->assertEquals('example.com', $request->getHost());
+        $this->assertEquals(80, $request->getPort());
+        $this->assertFalse($request->isSecure());
+
+        // trusted proxy via deprecated trustProxyData()
+        Request::trustProxyData();
+        $this->assertEquals('2.2.2.2', $request->getClientIp());
+        $this->assertEquals('real.example.com', $request->getHost());
+        $this->assertEquals(443, $request->getPort());
+        $this->assertTrue($request->isSecure());
+
+        // disabling proxy trusting
+        Request::setTrustedProxies(array());
+        $this->assertEquals('3.3.3.3', $request->getClientIp());
+        $this->assertEquals('example.com', $request->getHost());
+        $this->assertEquals(80, $request->getPort());
+        $this->assertFalse($request->isSecure());
+
+        // trusted proxy via setTrustedProxies()
+        Request::setTrustedProxies(array('3.3.3.3', '2.2.2.2'));
+        $this->assertEquals('1.1.1.1', $request->getClientIp());
+        $this->assertEquals('real.example.com', $request->getHost());
+        $this->assertEquals(443, $request->getPort());
+        $this->assertTrue($request->isSecure());
+
+        // custom header names
+        Request::setTrustedHeaderName(Request::HEADER_CLIENT_IP, 'X_MY_FOR');
+        Request::setTrustedHeaderName(Request::HEADER_CLIENT_HOST, 'X_MY_HOST');
+        Request::setTrustedHeaderName(Request::HEADER_CLIENT_PORT, 'X_MY_PORT');
+        Request::setTrustedHeaderName(Request::HEADER_CLIENT_PROTO, 'X_MY_PROTO');
+        $this->assertEquals('4.4.4.4', $request->getClientIp());
+        $this->assertEquals('my.example.com', $request->getHost());
+        $this->assertEquals(81, $request->getPort());
+        $this->assertFalse($request->isSecure());
+
+        // disabling via empty header names
+        Request::setTrustedHeaderName(Request::HEADER_CLIENT_IP, null);
+        Request::setTrustedHeaderName(Request::HEADER_CLIENT_HOST, null);
+        Request::setTrustedHeaderName(Request::HEADER_CLIENT_PORT, null);
+        Request::setTrustedHeaderName(Request::HEADER_CLIENT_PROTO, null);
+        $this->assertEquals('3.3.3.3', $request->getClientIp());
+        $this->assertEquals('example.com', $request->getHost());
+        $this->assertEquals(80, $request->getPort());
+        $this->assertFalse($request->isSecure());
+
+        // reset
+        Request::setTrustedProxies(array());
     }
 }
 

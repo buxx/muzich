@@ -127,6 +127,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $logger->pushHandler($handler);
         $logger->pushProcessor(function($record) {
             $record['extra']['win'] = true;
+
             return $record;
         });
         $logger->addError('test');
@@ -290,13 +291,41 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Monolog\Logger::isHandling
+     */
+    public function testIsHandling()
+    {
+        $logger = new Logger(__METHOD__);
+
+        $handler1 = $this->getMock('Monolog\Handler\HandlerInterface');
+        $handler1->expects($this->any())
+            ->method('isHandling')
+            ->will($this->returnValue(false))
+        ;
+
+        $logger->pushHandler($handler1);
+        $this->assertFalse($logger->isHandling(Logger::DEBUG));
+
+        $handler2 = $this->getMock('Monolog\Handler\HandlerInterface');
+        $handler2->expects($this->any())
+            ->method('isHandling')
+            ->will($this->returnValue(true))
+        ;
+
+        $logger->pushHandler($handler2);
+        $this->assertTrue($logger->isHandling(Logger::DEBUG));
+    }
+
+    /**
      * @dataProvider logMethodProvider
      * @covers Monolog\Logger::addDebug
      * @covers Monolog\Logger::addInfo
+     * @covers Monolog\Logger::addNotice
      * @covers Monolog\Logger::addWarning
      * @covers Monolog\Logger::addError
      * @covers Monolog\Logger::addCritical
      * @covers Monolog\Logger::addAlert
+     * @covers Monolog\Logger::addEmergency
      * @covers Monolog\Logger::debug
      * @covers Monolog\Logger::info
      * @covers Monolog\Logger::notice
@@ -320,22 +349,24 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             // monolog methods
-            array('addDebug',    Logger::DEBUG),
-            array('addInfo',     Logger::INFO),
-            array('addWarning',  Logger::WARNING),
-            array('addError',    Logger::ERROR),
-            array('addCritical', Logger::CRITICAL),
-            array('addAlert',    Logger::ALERT),
+            array('addDebug',     Logger::DEBUG),
+            array('addInfo',      Logger::INFO),
+            array('addNotice',    Logger::NOTICE),
+            array('addWarning',   Logger::WARNING),
+            array('addError',     Logger::ERROR),
+            array('addCritical',  Logger::CRITICAL),
+            array('addAlert',     Logger::ALERT),
+            array('addEmergency', Logger::EMERGENCY),
 
             // ZF/Sf2 compat methods
             array('debug',  Logger::DEBUG),
             array('info',   Logger::INFO),
-            array('notice', Logger::INFO),
+            array('notice', Logger::NOTICE),
             array('warn',   Logger::WARNING),
             array('err',    Logger::ERROR),
             array('crit',   Logger::CRITICAL),
             array('alert',  Logger::ALERT),
-            array('emerg',  Logger::ALERT),
+            array('emerg',  Logger::EMERGENCY),
         );
     }
 }

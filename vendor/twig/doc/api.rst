@@ -96,10 +96,11 @@ The following options are available:
 
 * ``autoescape``: If set to ``true``, auto-escaping will be enabled by default
   for all templates (default to ``true``). As of Twig 1.8, you can set the
-  escaping strategy to use (``html``, ``js``, ``css``, ``false`` to disable,
-  or a PHP callback that takes the template "filename" and must return the
-  escaping strategy to use -- the callback cannot be a function name to avoid
-  collision with built-in escaping strategies).
+  escaping strategy to use (``html``, ``js``, ``false`` to disable).
+  As of Twig 1.9, you can set the escaping strategy to use (``css``, ``url``, 
+  ``html_attr``, or a PHP callback that takes the template "filename" and must 
+  return the escaping strategy to use -- the callback cannot be a function name
+  to avoid collision with built-in escaping strategies).
 
 * ``optimizations``: A flag that indicates which optimizations to apply
   (default to ``-1`` -- all optimizations are enabled; set it to ``0`` to
@@ -128,6 +129,9 @@ Here is a list of the built-in loaders Twig provides:
 ``Twig_Loader_Filesystem``
 ..........................
 
+.. versionadded:: 1.10
+    The ``prependPath()`` and support for namespaces were added in Twig 1.10.
+
 ``Twig_Loader_Filesystem`` loads templates from the file system. This loader
 can find templates in folders on the file system and is the preferred way to
 load them::
@@ -141,6 +145,26 @@ It can also look for templates in an array of directories::
 With such a configuration, Twig will first look for templates in
 ``$templateDir1`` and if they do not exist, it will fallback to look for them
 in the ``$templateDir2``.
+
+You can add or prepend paths via the ``addPath()`` and ``prependPath()``
+methods::
+
+    $loader->addPath($templateDir3);
+    $loader->prependPath($templateDir4);
+
+The filesystem loader also supports namespaced templates. This allows to group
+your templates under different namespaces which have their own template paths.
+
+When using the ``setPaths()``, ``addPath()``, and ``prependPath()`` methods,
+specify the namespace as the second argument (when not specified, these
+methods act on the "main" namespace)::
+
+    $loader->addPath($templateDir, 'admin');
+
+Namespaced templates can be accessed via the special
+``@namespace_name/template_path`` notation::
+
+    $twig->render('@admin/index.html', array());
 
 ``Twig_Loader_String``
 ......................
@@ -292,6 +316,13 @@ The ``core`` extension defines all the core features of Twig:
   * ``from``
   * ``set``
   * ``spaceless``
+  * ``autoescape``
+  * ``do``
+  * ``embed``
+  * ``flush``
+  * ``raw``
+  * ``sandbox``
+  * ``use``
 
 * Filters:
 
@@ -314,6 +345,14 @@ The ``core`` extension defines all the core features of Twig:
   * ``keys``
   * ``escape``
   * ``e``
+  * ``abs``
+  * ``convert_encoding``
+  * ``date_modify``
+  * ``nl2br``
+  * ``number_format``
+  * ``raw``
+  * ``slice``
+  * ``trim``
 
 * Functions:
 
@@ -322,6 +361,10 @@ The ``core`` extension defines all the core features of Twig:
   * ``cycle``
   * ``parent``
   * ``block``
+  * ``attribute``
+  * ``date``
+  * ``dump``
+  * ``random``
 
 * Tests:
 
@@ -333,6 +376,7 @@ The ``core`` extension defines all the core features of Twig:
   * ``divisibleby``
   * ``constant``
   * ``empty``
+  * ``iterable``
 
 Escaper Extension
 ~~~~~~~~~~~~~~~~~
