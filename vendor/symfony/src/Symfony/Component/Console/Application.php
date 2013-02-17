@@ -59,8 +59,8 @@ class Application
     /**
      * Constructor.
      *
-     * @param string  $name    The name of the application
-     * @param string  $version The version of the application
+     * @param string $name    The name of the application
+     * @param string $version The version of the application
      *
      * @api
      */
@@ -503,7 +503,7 @@ class Application
      * Contrary to get, this command tries to find the best
      * match if you give it an abbreviation of a name or alias.
      *
-     * @param  string $name A command name or a command alias
+     * @param string $name A command name or a command alias
      *
      * @return Command A Command instance
      *
@@ -567,7 +567,7 @@ class Application
      *
      * The array keys are the full names and the values the command instances.
      *
-     * @param  string  $namespace A namespace name
+     * @param string $namespace A namespace name
      *
      * @return array An array of Command instances
      *
@@ -596,7 +596,7 @@ class Application
      *
      * @return array An array of abbreviations
      */
-    static public function getAbbreviations($names)
+    public static function getAbbreviations($names)
     {
         $abbrevs = array();
         foreach ($names as $name) {
@@ -711,7 +711,7 @@ class Application
     }
 
     /**
-     * Renders a catched exception.
+     * Renders a caught exception.
      *
      * @param Exception       $e      An exception instance
      * @param OutputInterface $output An OutputInterface instance
@@ -800,8 +800,8 @@ class Application
             return preg_replace('{^(\d+)x.*$}', '$1', $ansicon);
         }
 
-        if (preg_match("{rows.(\d+);.columns.(\d+);}i", exec('stty -a | grep columns'), $match)) {
-            return $match[1];
+        if (preg_match("{rows.(\d+);.columns.(\d+);}i", $this->getSttyColumns(), $match)) {
+            return $match[2];
         }
     }
 
@@ -816,8 +816,8 @@ class Application
             return preg_replace('{^\d+x\d+ \(\d+x(\d+)\)$}', '$1', trim($ansicon));
         }
 
-        if (preg_match("{rows.(\d+);.columns.(\d+);}i", exec('stty -a | grep columns'), $match)) {
-            return $match[2];
+        if (preg_match("{rows.(\d+);.columns.(\d+);}i", $this->getSttyColumns(), $match)) {
+            return $match[1];
         }
     }
 
@@ -831,6 +831,25 @@ class Application
     protected function getCommandName(InputInterface $input)
     {
         return $input->getFirstArgument('command');
+    }
+
+    /**
+     * Runs and parses stty -a if it's available, suppressing any error output
+     *
+     * @return string
+     */
+    private function getSttyColumns()
+    {
+        $descriptorspec = array(1 => array('pipe', 'w'), 2 => array('pipe', 'w'));
+        $process = proc_open('stty -a | grep columns', $descriptorspec, $pipes, null, null, array('suppress_errors' => true));
+        if (is_resource($process)) {
+            $info = stream_get_contents($pipes[1]);
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+            proc_close($process);
+
+            return $info;
+        }
     }
 
     /**

@@ -17,15 +17,15 @@ $loader->registerNamespaces(array(
     'FOS'              => __DIR__.'/../vendor/bundles',
     'Gregwar'          => __DIR__.'/../vendor/bundles',
     'Doctrine\\Common\\DataFixtures' => __DIR__.'/../vendor/doctrine-fixtures/lib',
-    'Doctrine\\Common' => __DIR__.'/../vendor/doctrine-common/lib',
-    'Stof'  => __DIR__.'/../vendor/bundles',
-    'Gedmo' => __DIR__.'/../vendor/gedmo-doctrine-extensions/lib',
-    'WhiteOctober' => __DIR__.'/../vendor/bundles',
-    'Pagerfanta'   => __DIR__.'/../vendor/pagerfanta/src',
-    'Sonata'                         => __DIR__.'/../vendor/bundles',
-    'Knp'                             => array(
-        __DIR__.'/../vendor/bundles',
-        __DIR__.'/../vendor/knp/menu/src',
+    'Doctrine\\Common'               => __DIR__.'/../vendor/doctrine-common/lib',
+    'Stof'             => __DIR__.'/../vendor/bundles',
+    'Gedmo'            => __DIR__.'/../vendor/gedmo-doctrine-extensions/lib',
+    'WhiteOctober'     => __DIR__.'/../vendor/bundles',
+    'Pagerfanta'       => __DIR__.'/../vendor/pagerfanta/src',
+    'Sonata'           => __DIR__.'/../vendor/bundles',
+    'Knp'              => array(
+                         __DIR__.'/../vendor/bundles',
+                         __DIR__.'/../vendor/knp/menu/src',
     ),
 ));
 $loader->registerPrefixes(array(
@@ -53,6 +53,8 @@ AnnotationRegistry::registerFile(__DIR__.'/../vendor/doctrine/lib/Doctrine/ORM/M
 
 // Swiftmailer needs a special autoloader to allow
 // the lazy loading of the init file (which is expensive)
-require_once __DIR__.'/../vendor/swiftmailer/lib/classes/Swift.php';
+
+//require_once __DIR__.'/../vendor/swiftmailer/lib/classes/Swift.php';
+require __DIR__.'/../vendor/swiftmailer/lib/swift_required.php';
 Swift::registerAutoload(__DIR__.'/../vendor/swiftmailer/lib/swift_init.php');
 

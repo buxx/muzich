@@ -308,19 +308,46 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         try {
             $response->setStatusCode(99);
             $this->fail();
-        } catch(\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             $this->assertTrue($response->isInvalid());
         }
 
         try {
             $response->setStatusCode(650);
             $this->fail();
-        } catch(\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             $this->assertTrue($response->isInvalid());
         }
 
         $response = new Response('', 200);
         $this->assertFalse($response->isInvalid());
+    }
+
+    /**
+     * @dataProvider getStatusCodeFixtures
+     */
+    public function testSetStatusCode($code, $text, $expectedText)
+    {
+        $response = new Response();
+
+        $response->setStatusCode($code, $text);
+
+        $statusText = new \ReflectionProperty($response, 'statusText');
+        $statusText->setAccessible(true);
+
+        $this->assertEquals($expectedText, $statusText->getValue($response));
+    }
+
+    public function getStatusCodeFixtures()
+    {
+        return array(
+            array('200', null, 'OK'),
+            array('200', false, ''),
+            array('200', 'foo', 'foo'),
+            array('199', null, ''),
+            array('199', false, ''),
+            array('199', 'foo', 'foo')
+        );
     }
 
     public function testIsInformational()
@@ -334,8 +361,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testIsRedirectRedirection()
     {
-        foreach (array(301, 302, 303, 307) as $code)
-        {
+        foreach (array(301, 302, 303, 307) as $code) {
             $response = new Response('', $code);
             $this->assertTrue($response->isRedirection());
             $this->assertTrue($response->isRedirect());
@@ -369,8 +395,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testIsEmpty()
     {
-        foreach (array(201, 204, 304) as $code)
-        {
+        foreach (array(201, 204, 304) as $code) {
             $response = new Response('', $code);
             $this->assertTrue($response->isEmpty());
         }

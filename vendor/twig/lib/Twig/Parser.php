@@ -30,8 +30,8 @@ class Twig_Parser implements Twig_ParserInterface
     protected $env;
     protected $reservedMacroNames;
     protected $importedFunctions;
-    protected $tmpVarCount;
     protected $traits;
+    protected $embeddedTemplates = array();
 
     /**
      * Constructor.
@@ -50,24 +50,22 @@ class Twig_Parser implements Twig_ParserInterface
 
     public function getVarName()
     {
-        return sprintf('__internal_%s_%d', substr($this->env->getTemplateClass($this->stream->getFilename()), strlen($this->env->getTemplateClassPrefix())), ++$this->tmpVarCount);
+        return sprintf('__internal_%s', hash('sha1', uniqid(mt_rand(), true), false));
     }
 
     /**
      * Converts a token stream to a node tree.
      *
-     * @param  Twig_TokenStream $stream A token stream instance
+     * @param Twig_TokenStream $stream A token stream instance
      *
      * @return Twig_Node_Module A node tree
      */
-    public function parse(Twig_TokenStream $stream)
+    public function parse(Twig_TokenStream $stream, $test = null, $dropNeedle = false)
     {
         // push all variables into the stack to keep the current state of the parser
         $vars = get_object_vars($this);
         unset($vars['stack'], $vars['env'], $vars['handlers'], $vars['visitors'], $vars['expressionParser']);
         $this->stack[] = $vars;
-
-        $this->tmpVarCount = 0;
 
         // tag handlers
         if (null === $this->handlers) {
@@ -91,9 +89,10 @@ class Twig_Parser implements Twig_ParserInterface
         $this->traits = array();
         $this->blockStack = array();
         $this->importedFunctions = array(array());
+        $this->embeddedTemplates = array();
 
         try {
-            $body = $this->subparse(null);
+            $body = $this->subparse($test, $dropNeedle);
 
             if (null !== $this->parent) {
                 if (null === $body = $this->filterBodyNodes($body)) {
@@ -108,7 +107,7 @@ class Twig_Parser implements Twig_ParserInterface
             throw $e;
         }
 
-        $node = new Twig_Node_Module(new Twig_Node_Body(array($body)), $this->parent, new Twig_Node($this->blocks), new Twig_Node($this->macros), new Twig_Node($this->traits), $this->stream->getFilename());
+        $node = new Twig_Node_Module(new Twig_Node_Body(array($body)), $this->parent, new Twig_Node($this->blocks), new Twig_Node($this->macros), new Twig_Node($this->traits), $this->embeddedTemplates, $this->stream->getFilename());
 
         $traverser = new Twig_NodeTraverser($this->env, $this->visitors);
 
@@ -269,6 +268,13 @@ class Twig_Parser implements Twig_ParserInterface
     public function hasTraits()
     {
         return count($this->traits) > 0;
+    }
+
+    public function embedTemplate(Twig_Node_Module $template)
+    {
+        $template->setIndex(mt_rand());
+
+        $this->embeddedTemplates[] = $template;
     }
 
     public function addImportedFunction($alias, $name, Twig_Node_Expression $node)

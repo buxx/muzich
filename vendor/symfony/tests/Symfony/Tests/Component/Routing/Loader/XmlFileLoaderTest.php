@@ -75,6 +75,16 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
     {
         return array(array('nonvalidnode.xml'), array('nonvalidroute.xml'), array('nonvalid.xml'));
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Document types are not allowed.
+     */
+    public function testDocTypeIsNotAllowed()
+    {
+        $loader = new XmlFileLoader(new FileLocator(array(__DIR__.'/../Fixtures')));
+        $loader->load('withdoctype.xml');
+    }
 }
 
 /**
@@ -87,4 +97,3 @@ class CustomXmlFileLoader extends XmlFileLoader
         return true;
     }
 }
-

@@ -142,14 +142,14 @@ class DateTimeTypeTest extends LocalizedTestCase
 
         $form->bind(array(
             'date' => array(
-                'day' => (int)$dateTime->format('d'),
-                'month' => (int)$dateTime->format('m'),
-                'year' => (int)$dateTime->format('Y'),
+                'day' => (int) $dateTime->format('d'),
+                'month' => (int) $dateTime->format('m'),
+                'year' => (int) $dateTime->format('Y'),
             ),
             'time' => array(
-                'hour' => (int)$dateTime->format('H'),
-                'minute' => (int)$dateTime->format('i'),
-                'second' => (int)$dateTime->format('s'),
+                'hour' => (int) $dateTime->format('H'),
+                'minute' => (int) $dateTime->format('i'),
+                'second' => (int) $dateTime->format('s'),
             ),
         ));
 
@@ -233,5 +233,23 @@ class DateTimeTypeTest extends LocalizedTestCase
         $this->assertFalse($form->isValid());
         $this->assertEquals(array(new FormError('Customized invalid message', array())), $form['date']->getErrors());
         $this->assertEquals(array(new FormError('Customized invalid message', array())), $form['time']->getErrors());
+    }
+
+    public function testSubmit_invalidDateTimeSingleText()
+    {
+        $form = $this->factory->create('datetime', null, array(
+            'data_timezone' => 'UTC',
+            'user_timezone' => 'UTC',
+            'input' => 'datetime',
+            'widget' => 'single_text',
+            'invalid_message' => 'Customized invalid message',
+        ));
+
+        $form->bind('2012-04-31 03:04:05');
+
+        $this->assertFalse($form->isValid());
+        $this->assertNull($form->getData());
+        $this->assertEquals('2012-04-31 03:04:05', $form->getClientData());
+        $this->assertEquals(array(new FormError('Customized invalid message', array())), $form->getErrors());
     }
 }

@@ -25,9 +25,9 @@ use Symfony\Component\Config\FileLocator;
 
 class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
-    static protected $fixturesPath;
+    protected static $fixturesPath;
 
-    static public function setUpBeforeClass()
+    public static function setUpBeforeClass()
     {
         self::$fixturesPath = realpath(__DIR__.'/../Fixtures/');
         require_once self::$fixturesPath.'/includes/foo.php';
@@ -309,5 +309,17 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $args2 = $services['extension2.foo']->getArguments();
         $inner2 = $services[(string) $args2[0]];
         $this->assertEquals('BarClass2', $inner2->getClass(), '->load() uses the same configuration as for the anonymous ones');
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Document types are not allowed.
+     */
+    public function testDocTypeIsNotAllowed()
+    {
+        $container = new ContainerBuilder();
+
+        $loader1 = new XmlFileLoader($container, new FileLocator(self::$fixturesPath.'/xml'));
+        $loader1->load('withdoctype.xml');
     }
 }

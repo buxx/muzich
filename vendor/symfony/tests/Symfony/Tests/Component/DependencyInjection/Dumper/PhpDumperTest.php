@@ -19,9 +19,9 @@ use Symfony\Component\DependencyInjection\Definition;
 
 class PhpDumperTest extends \PHPUnit_Framework_TestCase
 {
-    static protected $fixturesPath;
+    protected static $fixturesPath;
 
-    static public function setUpBeforeClass()
+    public static function setUpBeforeClass()
     {
         self::$fixturesPath = realpath(__DIR__.'/../Fixtures/');
     }
@@ -35,6 +35,20 @@ class PhpDumperTest extends \PHPUnit_Framework_TestCase
 
         $container = new ContainerBuilder();
         new PhpDumper($container);
+    }
+
+    public function testDumpFrozenContainerWithNoParameter()
+    {
+        $container = new ContainerBuilder();
+        $container->register('foo', 'stdClass');
+
+        $container->compile();
+
+        $dumper = new PhpDumper($container);
+
+        $dumpedString = $dumper->dump();
+        $this->assertStringEqualsFile(self::$fixturesPath.'/php/services11.php', $dumpedString, '->dump() does not add getDefaultParameters() method call if container have no parameters.');
+        $this->assertNotRegexp("/function getDefaultParameters\(/", $dumpedString, '->dump() does not add getDefaultParameters() method definition.');
     }
 
     public function testDumpOptimizationString()

@@ -17,9 +17,9 @@ require_once __DIR__.'/Iterator/RealIteratorTestCase.php';
 
 class FinderTest extends Iterator\RealIteratorTestCase
 {
-    static protected $tmpDir;
+    protected static $tmpDir;
 
-    static public function setUpBeforeClass()
+    public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
 
@@ -246,7 +246,7 @@ class FinderTest extends Iterator\RealIteratorTestCase
 
         $paths = array();
 
-        foreach($finder as $file) {
+        foreach ($finder as $file) {
             $paths[] = $file->getRelativePath();
         }
 
@@ -266,7 +266,7 @@ class FinderTest extends Iterator\RealIteratorTestCase
 
         $paths = array();
 
-        foreach($finder as $file) {
+        foreach ($finder as $file) {
             $paths[] = $file->getRelativePathname();
         }
 
