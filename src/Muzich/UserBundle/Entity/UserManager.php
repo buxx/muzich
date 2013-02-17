@@ -9,7 +9,8 @@ namespace Muzich\UserBundle\Entity;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use FOS\UserBundle\Util\CanonicalizerInterface;
 use Doctrine\ORM\EntityManager;
-use FOS\UserBundle\Entity\UserManager as UserManagerBase;
+//use FOS\UserBundle\Entity\UserManager as UserManagerBase; UPGRADE FOSUserBundle 1.3
+use FOS\UserBundle\Doctrine\UserManager as UserManagerBase;
 
 /**
  */
@@ -29,7 +30,7 @@ class UserManager extends UserManagerBase
     $evm->addEventSubscriber($sluggableListener);
     // now this event manager should be passed to entity manager constructor
 
-    $this->em->getEventManager()->addEventSubscriber($sluggableListener);
+    $this->objectManager->getEventManager()->addEventSubscriber($sluggableListener);
   }
 
 }

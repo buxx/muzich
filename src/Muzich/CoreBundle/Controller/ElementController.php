@@ -128,7 +128,7 @@ class ElementController extends Controller
     $group = $element->getGroup();
     $element->setGroup(null);
     $form = $this->getAddForm($element);
-    $form->bindRequest($this->getRequest());
+    $form->bind($this->getRequest());
     
     $errors = array();
     $html = '';
@@ -344,7 +344,7 @@ class ElementController extends Controller
      */
     $es = $this->getElementSearcher(null, true);
     $search_form = $this->getSearchForm($es);
-    $search_form->bindRequest($this->getRequest());
+    $search_form->bind($this->getRequest());
     
     if ($search_form->isValid())
     {
@@ -397,7 +397,7 @@ class ElementController extends Controller
      */
     $es = $this->getElementSearcher(null, true);
     $search_form = $this->getSearchForm($es);
-    $search_form->bindRequest($this->getRequest());
+    $search_form->bind($this->getRequest());
     
     if ($search_form->isValid())
     {

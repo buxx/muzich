@@ -24,7 +24,8 @@ class TagsValidator extends ConstraintValidator
     {
       if (array_diff($value, array_unique($value)))
       {
-        $this->setMessage('Tags saisies incorrects');
+        //$this->setMessage('Tags saisies incorrects');UPGRADE 2.1
+        $this->context->addViolation('tags_saisinco');
         return false;
       }
 
@@ -37,7 +38,8 @@ class TagsValidator extends ConstraintValidator
 
       if ($count != count ($value))
       {
-        $this->setMessage('Tags saisies incorrects');
+        //$this->setMessage('Tags saisies incorrects');UPGRADE 2.1
+        $this->context->addViolation('tags_saisinco');
         return false;
       }
     }

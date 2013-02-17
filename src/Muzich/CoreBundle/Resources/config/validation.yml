@@ -1,7 +1,0 @@
-##
-
-Muzich\CoreBundle\Entity\User:
-  properties:
-    username:
-      - MinLength: { limit: 3}
-      - MaxLength: { limit: 32}

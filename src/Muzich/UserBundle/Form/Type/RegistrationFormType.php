@@ -2,17 +2,18 @@
 
 namespace Muzich\UserBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 
 class RegistrationFormType extends BaseType
 {
-  public function buildForm(FormBuilder $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options)
   {
     parent::buildForm($builder, $options);
 
     $builder->add('token', 'text', array(
-      "property_path" => false
+      //"property_path" => false UPGRADE 2.1
+      'mapped' => false,
     ));
     
     $builder->add('cgu_accepted', 'checkbox', array(

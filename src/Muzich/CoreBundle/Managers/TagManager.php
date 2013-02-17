@@ -6,7 +6,7 @@ use Muzich\CoreBundle\Entity\Tag;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 use FOS\UserBundle\Util\CanonicalizerInterface;
-use Symfony\Bundle\DoctrineBundle\Registry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Muzich\CoreBundle\Util\StrictCanonicalizer;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 use Muzich\CoreBundle\Entity\GroupsTagsFavorites;
@@ -180,7 +180,7 @@ class TagManager
   
   /**
    * 
-   * @param \Symfony\Bundle\DoctrineBundle\Registry $doctrine
+   * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
    * @param \Muzich\CoreBundle\Entity\Tag $tag
    * @param type $accept
    * @param type $replacing_id

@@ -29,8 +29,7 @@ class RegistrationToken
    * 
    * @ORM\Column(type="string", length=32, unique=true)
    * @Assert\NotBlank()
-   * @Assert\MinLength(limit=3)
-   * @Assert\MaxLength(32)
+   * @Assert\Length(min = 3, max = 32)
    * @var type string
    */
   protected $token;

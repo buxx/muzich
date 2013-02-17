@@ -44,7 +44,7 @@ class IndexController extends Controller
     $request = $this->container->get('request');
     /* @var $request \Symfony\Component\HttpFoundation\Request */
     $session = $request->getSession();
-    /* @var $session \Symfony\Component\HttpFoundation\Session */
+    /* @var $session Symfony\Component\HttpFoundation\Session\Session */
 
     // get the error if any (works with forward and redirect -- see below)
     if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
@@ -73,7 +73,7 @@ class IndexController extends Controller
   public function presubscriptionAction(Request $request)
   {
     $form = $this->getPreSubscriptionForm();
-    $form->bindRequest($request);
+    $form->bind($request);
     if ($form->isValid())
     {
       $this->persist($form->getData());

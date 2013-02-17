@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class GroupOwnedOrPublic extends Constraint
 {
-  public $message = 'Le groupe est mal choisis';
+  public $message = 'group_malchoisis';
   public $entity;
   public $property;
 

@@ -51,7 +51,7 @@ class Tag
   }
   
   /**
-   * @desc Range une liste de tags [0 => Tag] en fonction d'une
+   * Range une liste de tags [0 => Tag] en fonction d'une
    * réfèrence sous la forme [0 => tag_id, 1 => tag_id]
    * 
    * @param array $tags

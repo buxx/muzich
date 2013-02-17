@@ -3,13 +3,14 @@
 namespace Muzich\CoreBundle\Form\Element;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ElementAddForm extends AbstractType
 {
   private $name = null;
   
-  public function buildForm(FormBuilder $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options)
   {    
     $builder->add('name', 'text', array(
       'required' => true,
@@ -44,15 +45,18 @@ class ElementAddForm extends AbstractType
     return 'element_add';
   }
   
-  public function getDefaultOptions(array $options)
+  public function setDefaultOptions(OptionsResolverInterface $resolver)
   {
-    return array(
+    $resolver->setDefaults(array(
       'name' => '',
       'url' => '',
       'tags' => '',
       'need_tags' => false,
-      //'groups' => array(),
-      'data_class' => 'Muzich\CoreBundle\Entity\Element'
-    );
+      //'data_class' => 'Muzich\CoreBundle\Entity\Element'
+    ));
+  
+    $resolver->setAllowedValues(array(
+      'need_tags'       => array(true, false)
+    ));
   }
 }

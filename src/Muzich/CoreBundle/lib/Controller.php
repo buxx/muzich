@@ -47,7 +47,7 @@ class Controller extends BaseController
   }
   
   /**
-   * @desc Retourn l'objet ElementSearcher en cours.
+   * Retourn l'objet ElementSearcher en cours.
    * 
    * @param int $count Si renseigné impact le nombre d'éléments qui seront 
    * récupérés
@@ -117,7 +117,7 @@ class Controller extends BaseController
    * @param boolean $force_refresh
    * @return \Muzich\CoreBundle\Entity\User 
    */
-  protected function getUser($personal_query = false, $params = array(), $force_refresh = false)
+  public function getUser($personal_query = false, $params = array(), $force_refresh = false)
   {
     if (!$personal_query)
     {
@@ -153,7 +153,7 @@ class Controller extends BaseController
   }
   
   /**
-   * @desc Retourne l'id de l'utilisateur en cours
+   *  Retourne l'id de l'utilisateur en cours
    */
   protected function getUserId()
   {
@@ -329,13 +329,17 @@ class Controller extends BaseController
    */
   protected function getAddForm($element = array(), $name = null)
   {
+    //$form = new ElementAddForm();
+    //$form->setName($name);
+    //return $this->createForm(
+    //  $form,
+    //  $element,
+    //  array()
+    //);
+  
     $form = new ElementAddForm();
     $form->setName($name);
-    return $this->createForm(
-      $form,
-      $element,
-      array()
-    );
+    return $this->createForm($form, $element);
   }
   
   /**
@@ -403,7 +407,7 @@ class Controller extends BaseController
     
     if ($this->getUser() == 'anon.')
     {
-      $this->setFlash('info', 'user.session_expired');
+      $this->setFlash('error', 'user.session_expired');
       
       if ($this->getRequest()->isXmlHttpRequest())
       {

@@ -78,7 +78,7 @@ class SearchController extends Controller
     if ($request->getMethod() == 'POST')
     {
       $form_submited = true;
-      $search_form->bindRequest($request);
+      $search_form->bind($request);
       // Si le formulaire est valide
       if ($search_form->isValid())
       {
@@ -356,7 +356,7 @@ class SearchController extends Controller
     
     if ($request->getMethod() == 'POST')
     {
-      $form->bindRequest($request);
+      $form->bind($request);
       if ($form->isValid())
       {
         $results = $searcher->getResults(

@@ -121,7 +121,7 @@ class UsersTagsFavorites
   }
   
   /**
-   * @ORM\prePersist
+   * @ORM\PrePersist
    */
   public function prePersist()
   {
@@ -129,7 +129,7 @@ class UsersTagsFavorites
   }
   
   /**
-   * @ORM\preRemove
+   * @ORM\PreRemove
    */
   public function preRemove()
   {

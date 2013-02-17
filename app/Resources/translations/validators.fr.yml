@@ -40,3 +40,7 @@ error:
 registration:
   token:
     error:               Le code saisie pour l'inscription est incorrect ou n'est plus utilisable
+    
+group_malchoisis:        Le groupe est mal choisis
+group_invalid:           Le groupe est invalide
+tags_saisinco:           Tags saisis incorrects

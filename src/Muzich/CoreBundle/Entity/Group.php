@@ -38,8 +38,7 @@ class Group
    * 
    * @ORM\Column(type="string", length=128, unique=true)
    * @Assert\NotBlank()
-   * @Assert\MinLength(limit=3)
-   * @Assert\MaxLength(64)
+   * @Assert\Length(min = 3, max = 64)
    * @var type string
    */
   protected $name;
@@ -54,7 +53,7 @@ class Group
    * Description
    * 
    * @ORM\Column(type="text", nullable=true)
-   * @Assert\MaxLength(2048)
+   * @Assert\Length(max = 4096)
    * @var type string
    */
   protected $description;

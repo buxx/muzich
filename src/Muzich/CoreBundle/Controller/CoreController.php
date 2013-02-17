@@ -34,7 +34,7 @@ class CoreController extends Controller
   {
     if($language != null)
     {
-      $old = $this->get('session')->getLocale();
+      $old = $this->container->get('request')->getLocale();
       $this->get('session')->setLocale($language);
     }
     
@@ -241,7 +241,7 @@ class CoreController extends Controller
     $element = new Element();
     $element->setType('none');
     $form = $this->getAddForm($element);
-    $form->bindRequest($this->getRequest());
+    $form->bind($this->getRequest());
         
     if ($form->isValid())
     {

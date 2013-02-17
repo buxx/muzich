@@ -3,7 +3,7 @@
 namespace Muzich\CoreBundle\Searcher;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bundle\DoctrineBundle\Registry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 /**
  * Objet de recherche
@@ -17,7 +17,7 @@ class UserAndGroupSearcher extends Searcher implements SearcherInterface
    * @var string
    * @Assert\NotBlank()
    * @Assert\Type("string")
-   * @Assert\MinLength(3)
+   * @Assert\Length(min = 3)
    */
   protected $string;
     

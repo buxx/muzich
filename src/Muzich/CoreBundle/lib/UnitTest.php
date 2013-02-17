@@ -25,7 +25,7 @@ class UnitTest extends \PHPUnit_Framework_TestCase
   
   /**
    *
-   * @return \Symfony\Bundle\DoctrineBundle\Registry
+   * @return \Doctrine\Bundle\DoctrineBundle\Registry
    */
   protected function getDoctrine()
   {

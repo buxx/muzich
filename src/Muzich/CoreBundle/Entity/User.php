@@ -640,7 +640,7 @@ class User extends BaseUser
 //  }
   
 //  /**
-//  * @ORM\prePersist
+//  * @ORM\PrePersist
 //  */
 //  public function setSlug()
 //  {
@@ -672,7 +672,7 @@ class User extends BaseUser
   /**
    * Retourn si l'user_id transmis est l'un des User suivis
    * 
-   * @param Symfony\Bundle\DoctrineBundle\Registry doctrine
+   * @param Doctrine\Bundle\DoctrineBundle\Registry doctrine
    * @param int $user_id 
    * @return boolean
    */
@@ -687,7 +687,7 @@ class User extends BaseUser
   /**
    * Retourn si l'group_id transmis est l'un des groupe suivis
    * 
-   * @param Symfony\Bundle\DoctrineBundle\Registry doctrine
+   * @param Doctrine\Bundle\DoctrineBundle\Registry doctrine
    * @param int $user_id 
    * @return boolean
    */

@@ -3,12 +3,13 @@
 namespace Muzich\CoreBundle\Form\Search;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ElementSearchForm extends AbstractType
 {
-  public function buildForm(FormBuilder $builder, array $options)
+  public function buildForm(FormBuilderInterface $builder, array $options)
   {
     $builder->add('network', 'choice', array(
       'choices' => array(
@@ -30,10 +31,11 @@ class ElementSearchForm extends AbstractType
     return 'element_search_form';
   }
   
-  public function getDefaultOptions(array $options)
+  public function setDefaultOptions(OptionsResolverInterface $resolver)
   {
-    return array(
-      'tags' => ''
-    );
+    $resolver->setDefaults(array(
+      'tags'       => '',
+      //'data_class' => null
+    ));
   }
 }

@@ -93,7 +93,7 @@ class Element
    * 
    * @ORM\Column(type="string", length=64)
    * @Assert\NotBlank()
-   * @Assert\MaxLength(1024)
+   * @Assert\Length(max = 255)
    */
   protected $type;
   
@@ -168,7 +168,7 @@ class Element
    * 
    * @ORM\Column(type="string", length=1024)
    * @Assert\NotBlank(message = "error.element.url.notblank")
-   * @Assert\MaxLength(limit = 1024, message = "error.element.url.tolong")
+   * @Assert\Length(max = 1024, maxMessage="error.element.url.tolong")
    * @Assert\Url(message = "error.element.url.invalid")
    * @var type string
    */
@@ -179,8 +179,7 @@ class Element
    * 
    * @ORM\Column(type = "string", length = 128)
    * @Assert\NotBlank(message = "error.element.name.notblank")
-   * @Assert\MinLength(limit = 3, message = "error.element.name.toshort")
-   * @Assert\MaxLength(limit = 64, message = "error.element.name.tolong")
+   * @Assert\Length(min = 3, max = 84, minMessage = "error.element.name.toshort", maxMessage = "error.element.name.tolong")
    * @var type string
    */
   protected $name;

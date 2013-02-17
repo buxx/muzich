@@ -24,7 +24,8 @@ class UserController extends Controller
     ));
     
     return $this->createFormBuilder(null, array(
-      'validation_constraint' => $collectionConstraint,
+      //'validation_constraint' => $collectionConstraint, UPGRADE 2.1
+      'constraints' => $collectionConstraint,
     ))
       ->add('email', 'text')
       ->getForm()
@@ -139,7 +140,7 @@ class UserController extends Controller
   protected function checkRegistrationInformations($form)
   {
     $errors = array();
-    $form->bindRequest($this->getRequest());
+    $form->bind($this->getRequest());
     $form_values = $this->getRequest()->request->get($form->getName());
     $user = $form->getData();
     
@@ -225,7 +226,7 @@ class UserController extends Controller
     }
     else
     {
-      $form->bindRequest($this->getRequest());
+      $form->bind($this->getRequest());
       $errors[] = $this->get('translator')->trans(
         'registration.token.error', 
         array(),
@@ -371,7 +372,7 @@ class UserController extends Controller
     
     if ($request->getMethod() == 'POST')
     {
-      $form->bindRequest($request);
+      $form->bind($request);
       if ($form->isValid())
       {
         $data = $form->getData();
@@ -442,7 +443,7 @@ class UserController extends Controller
     $request = $this->getRequest();
     $change_email_form = $this->getChangeEmailForm();
     
-    $change_email_form->bindRequest($request);
+    $change_email_form->bind($request);
     if ($change_email_form->isValid())
     {
       $data = $change_email_form->getData();
@@ -462,7 +463,11 @@ class UserController extends Controller
       // On renseigne en base l'email demandé
       $user->setEmailRequested($email);
       $user->setEmailRequestedDatetime(time());
-      $user->generateConfirmationToken();
+      
+      //$user->generateConfirmationToken(); UPGRADE FOSUserBundle 1.3
+      $tokenGenerator = $this->container->get('fos_user.util.token_generator');
+      $user->setConfirmationToken($tokenGenerator->generateToken());
+      
       $token = hash('sha256', $user->getConfirmationToken().$email);
       $url = $this->get('router')->generate('change_email_confirm', array('token' => $token), true);
       $rendered = $this->get('templating')->render('MuzichUserBundle:User:change_email_mail.txt.twig', array(
@@ -486,7 +491,7 @@ class UserController extends Controller
       $mailer = $this->get('mailer');
       $mailer->send($message);
       
-      $this->setFlash('info', 'user.changeemail.mail_send');
+      $this->setFlash('success', 'user.changeemail.mail_send');
       $em->flush();
       return new RedirectResponse($this->generateUrl('my_account'));
     }
@@ -613,7 +618,7 @@ class UserController extends Controller
   public function updateAvatarAction(Request $request)
   {
     $form = $this->getAvatarForm();
-    $form->bindRequest($request);
+    $form->bind($request);
     
     if ($form->isValid()) {
       $em = $this->getEntityManager();
@@ -635,7 +640,7 @@ class UserController extends Controller
   public function updatePreferencesAction(Request $request)
   {
     $form = $this->getPreferencesForm();
-    $form->bindRequest($request);
+    $form->bind($request);
     
     if ($form->isValid()) {
       $em = $this->getEntityManager();

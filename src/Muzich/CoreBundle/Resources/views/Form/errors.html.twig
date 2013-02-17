@@ -1,11 +1,24 @@
 {% block field_errors %}
 {% spaceless %}
-  {% if errors|length > 0 %}
-  <ul class="error_list">
-    {% for error in errors %}
-      <li>{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</li>
-    {% endfor %}
-  </ul>
+  
+  {% if compound %}
+    {# Edit du a migration to 2.1 #}
+      {% if errors|length > 0 %}
+      <ul class="error_list">
+        {% for error in errors %}
+          <li>{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+  {% else %}
+      {% if errors|length > 0 %}
+      <ul class="error_list">
+        {% for error in errors %}
+          <li>{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</li>
+        {% endfor %}
+      </ul>
   {% endif %}
+  {% endif %}
+  
 {% endspaceless %}
 {% endblock field_errors %}

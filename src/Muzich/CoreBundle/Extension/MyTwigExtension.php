@@ -196,7 +196,7 @@ class MyTwigExtension extends \Twig_Extension {
   {
     $form_vars = $form->getVars();
     $count_error = count($form_vars['errors']);
-    foreach ($form->getChildren() as $form_children)
+    foreach ($form as $form_children)
     {
       $form_children_vars = $form_children->getVars();
       $count_error += count($form_children_vars['errors']);

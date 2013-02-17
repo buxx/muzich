@@ -145,7 +145,7 @@ class FunctionalTest extends WebTestCase
       $pass2,
       $token
     );
-    $this->outputDebug();
+    
     $this->isResponseRedirection();
     $this->followRedirection();
     $this->isResponseSuccess();
@@ -326,7 +326,7 @@ class FunctionalTest extends WebTestCase
 
   /**
    *
-   * @return \Symfony\Bundle\DoctrineBundle\Registry
+   * @return \Doctrine\Bundle\DoctrineBundle\Registry
    */
   protected function getDoctrine()
   {

@@ -71,7 +71,7 @@ class DefaultController extends Controller
     $new_group->setOwner($user);
     $form_new = $this->getGroupForm($new_group);
     
-    $form_new->bindRequest($request);
+    $form_new->bind($request);
     
     if ($form_new->isValid())
     {
@@ -171,7 +171,7 @@ class DefaultController extends Controller
     $group->setTags($group->getTagsIdsJson());
     $form = $this->getGroupForm($group);
     
-    $form->bindRequest($request);
+    $form->bind($request);
     
     if ($form->isValid())
     {

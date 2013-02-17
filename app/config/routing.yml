@@ -2,18 +2,18 @@
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
-  
-admin:
-    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
-    prefix: /admin
-
-_sonata_admin:
-    resource: .
-    type: sonata_admin
-    prefix: /admin
-  
-MuzichAdminBundle:
-  resource: "@MuzichAdminBundle/Resources/config/routing.yml"
+# 
+#admin:
+#    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+#    prefix: /admin
+#
+#_sonata_admin:
+#    resource: .
+#    type: sonata_admin
+#    prefix: /admin
+#  
+#MuzichAdminBundle:
+#  resource: "@MuzichAdminBundle/Resources/config/routing.yml"
   
 MuzichIndexBundle:
   resource: "@MuzichIndexBundle/Resources/config/routing.yml"

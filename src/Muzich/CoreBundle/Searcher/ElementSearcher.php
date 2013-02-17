@@ -2,7 +2,7 @@
 
 namespace Muzich\CoreBundle\Searcher;
 
-use Symfony\Bundle\DoctrineBundle\Registry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class ElementSearcher extends Searcher implements SearcherInterface
 {

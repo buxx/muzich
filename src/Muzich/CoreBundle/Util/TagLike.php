@@ -2,7 +2,7 @@
 
 namespace Muzich\CoreBundle\Util;
 
-use Symfony\Bundle\DoctrineBundle\Registry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Muzich\CoreBundle\Util\StrictCanonicalizer;
 
 /**

@@ -1,12 +1,13 @@
 imports:
     - { resource: "@MuzichCoreBundle/Resources/config/security.yml" }
 
-security:
-    encoders:
-        'FOS\UserBundle\Model\UserInterface':
-            algorithm: sha512
-            encode_as_base64: false
-            iterations: 10
+#security:
+#    providers:
+#            in_memory:
+#                memory:
+#                    users:
+#                        user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+#                        admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
 
 #security:
 #    encoders:

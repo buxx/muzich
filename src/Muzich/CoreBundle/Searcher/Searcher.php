@@ -3,7 +3,7 @@
 namespace Muzich\CoreBundle\Searcher;
 
 use Doctrine\ORM\Query;
-use Symfony\Bundle\DoctrineBundle\Registry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 /**
  * Objet utiliser pour cadrer la recherche.

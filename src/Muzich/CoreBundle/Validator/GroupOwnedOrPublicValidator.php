@@ -39,13 +39,15 @@ class GroupOwnedOrPublicValidator extends ConstraintValidator
       ;
       if (!$group)
       {
-        $this->setMessage('Le groupe est invalide');
+        //$this->setMessage('Le groupe est invalide'); UPGRADE 2.1
+        $this->context->addViolation('group_invalid');
         return false;
       }
       
       if (!$group->userCanAddElement($user))
       {
-        $this->setMessage('Le groupe est invalide');
+        //$this->setMessage('Le groupe est invalide'); UPGRADE 2.1
+        $this->context->addViolation('group_invalid');
         return false;
       }
     }
