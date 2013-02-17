@@ -442,8 +442,8 @@ class ElementFactoryTest extends UnitTest
       'data_thumb_url' => 'http://imgjam.com/albums/s30/30661/covers/1.100.jpg',
       'data_artist' => 'Ptit lutin',
       'data_tags' => array(
-        0 => 'Bass guitar',
-        1 => 'Drums',
+        0 => 'Basse',
+        1 => 'Batterie',
         2 => 'Hardtek',
         3 => 'Tek',
         4 => 'Hardtechno',
