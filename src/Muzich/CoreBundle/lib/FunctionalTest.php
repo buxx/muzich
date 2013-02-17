@@ -125,6 +125,7 @@ class FunctionalTest extends WebTestCase
     // Un des mots de passe est incorrect
     $form['fos_user_registration_form[plainPassword][second]'] = $pass2;
     $form['fos_user_registration_form[token]'] = $token;
+    $form['fos_user_registration_form[cgu_accepted]']->tick();
     $this->submit($form);
   }
   
@@ -144,7 +145,7 @@ class FunctionalTest extends WebTestCase
       $pass2,
       $token
     );
-    
+    $this->outputDebug();
     $this->isResponseRedirection();
     $this->followRedirection();
     $this->isResponseSuccess();
