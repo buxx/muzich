@@ -3379,16 +3379,18 @@ function Autoplay()
   var _playlist = new Array();
   var _player = null;
   var _current_index = 0;
+  var _link = null;
   
-  this.start = function()
+  this.start = function(link)
   {
+    _link = link;
     open_popin_dialog('autoplay');
     initializePlaylist(this.play);
   }
   
   var initializePlaylist = function(callback)
   {
-    JQueryJson($('a#autoplay_launch').attr('href'), {}, function(response){
+    JQueryJson(_link.attr('href'), {}, function(response){
       if (response.status == 'success')
       {
         if (response.data.length)
@@ -3506,8 +3508,9 @@ $(document).ready(function() {
   
   window.autoplay = new Autoplay();
   
-  $('a#autoplay_launch').click(function(){
-    window.autoplay.start();
+  $('a.autoplay_link').live('click', function(){
+    window.autoplay.start($(this));
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
     return false;
   });
   
@@ -3901,7 +3904,11 @@ $(document).ready(function(){
       window.search_tag_prompt_connector.initializeTags([tag]);
       
       form.submit();
+      
     }
+    
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    return false;
   });
   
   function element_last_opened(li)
@@ -3913,7 +3920,7 @@ $(document).ready(function(){
   // Affichage un/des embed
   // 1328283150_media-playback-start.png
   // 1328283201_emblem-symbolic-link.png
-  $('a.element_embed_open_link').live("click", function(){
+  $('a.element_embed_open_link, a.element_name_embed_open_link').live("click", function(){
     
      var li = $(this).parents('li.element');
      
@@ -3936,17 +3943,17 @@ $(document).ready(function(){
      return false;
   });
   
-  $('a.element_name_embed_open_link').live("click", function(){
-    
-     var li = $(this).parents('li.element');
-     
-     element_last_opened(li);
-     li.find('a.element_embed_close_link').show();
-     li.find('a.element_embed_open_link_text').hide();
-     li.find('div.element_embed').show();
-     
-     return false;
-  });
+  //$('a.element_name_embed_open_link').live("click", function(){
+  //  
+  //   var li = $(this).parents('li.element');
+  //   
+  //   element_last_opened(li);
+  //   li.find('a.element_embed_close_link').show();
+  //   li.find('a.element_embed_open_link_text').hide();
+  //   li.find('div.element_embed').show();
+  //   
+  //   return false;
+  //});
 
   // Fermeture du embed si demandé
   $('a.element_embed_close_link').live("click", function(){
@@ -5130,7 +5137,14 @@ $(document).ready(function(){
     a_more.attr('href', $('input#more_elements_url').val()+'/'+array2json(tags_ids_for_filter));
     
     // On adapte aussi le lien de l'autoplay
-    $('a#autoplay_launch').attr('href', $('input#autoplay_url').val()+'/'+array2json(tags_ids_for_filter));
+    //$('a.autoplay_link').attr('href', $('input#autoplay_url').val()+'/'+array2json(tags_ids_for_filter));
+    //$('a.autoplay_link').each(function(){
+    //  console.debug($(this));
+    //  console.log(
+    //    str_replace('__ELEMENT_ID__', $(this).data('element_id'), $('input#autoplay_url').val()+'/'+array2json(tags_ids_for_filter))
+    //  );
+    //  $(this).attr('href', str_replace('__ELEMENT_ID__', $(this).data('element_id'), $('input#autoplay_url').val()+'/'+array2json(tags_ids_for_filter)));
+    //});
     
     return check_timelaps_and_find_with_tags(link, new Date().getTime(), false);
   }

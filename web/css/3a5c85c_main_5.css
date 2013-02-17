@@ -1675,3 +1675,10 @@ ul.element_thumb_actions li.score
 {
   color: black;
 }
+
+div#myaccount_preferences input[type="submit"]
+{
+  float: right;
+  margin-right: 7px;
+  margin-top: 5px;
+}

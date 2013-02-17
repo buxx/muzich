@@ -4,16 +4,18 @@ function Autoplay()
   var _playlist = new Array();
   var _player = null;
   var _current_index = 0;
+  var _link = null;
   
-  this.start = function()
+  this.start = function(link)
   {
+    _link = link;
     open_popin_dialog('autoplay');
     initializePlaylist(this.play);
   }
   
   var initializePlaylist = function(callback)
   {
-    JQueryJson($('a#autoplay_launch').attr('href'), {}, function(response){
+    JQueryJson(_link.attr('href'), {}, function(response){
       if (response.status == 'success')
       {
         if (response.data.length)
@@ -131,8 +133,9 @@ $(document).ready(function() {
   
   window.autoplay = new Autoplay();
   
-  $('a#autoplay_launch').click(function(){
-    window.autoplay.start();
+  $('a.autoplay_link').live('click', function(){
+    window.autoplay.start($(this));
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
     return false;
   });
   
