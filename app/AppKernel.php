@@ -28,6 +28,9 @@ class AppKernel extends Kernel
             //new Sonata\AdminBundle\SonataAdminBundle(),
             //new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Gregwar\ImageBundle\GregwarImageBundle(),
+            new Admingenerator\GeneratorBundle\AdmingeneratorGeneratorBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             
             new Muzich\CoreBundle\MuzichCoreBundle(),
             new Muzich\UserBundle\MuzichUserBundle(),

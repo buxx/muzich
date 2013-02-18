@@ -6130,3 +6130,272 @@ $(document).ready(function(){
       });
     $('#'+object_id).show();
   }
+  
+/*
+ * Isolated js files
+ */
+$(document).ready(function(){
+   // Ouverture de la zone "ajouter un group""
+   $('#group_add_link').click(function(){
+     $('#group_add_box').slideDown("slow");
+     $('#group_add_link').hide();
+     $('#group_add_close_link').show();
+     return false;
+   });   
+   
+   // Fermeture de la zone "ajouter un group""
+   $('#group_add_close_link').click(function(){
+     $('#group_add_box').slideUp("slow");
+     $('#group_add_link').show();
+     $(this).hide();
+     return false;
+   });
+ });
+
+$(document).ready(function(){
+   
+   // Ouverture de la zone "ajouter un element""
+   $('#element_add_link').click(function(){
+     $('#element_add_box').slideDown("slow");
+     $('#element_add_link').hide();
+     $('#element_add_close_link').show();
+     if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
+     {
+       $('div.top_tools').slideUp();
+     }
+     // Au cas ou firefox garde la valeur step 2:
+        $('input#form_add_step').val('1');
+    $('form[name="add"]').attr('action', url_datas_api);
+     return false;
+   });   
+   
+   // Fermeture de la zone "ajouter un element""
+   $('#element_add_close_link').click(function(){
+     $('#element_add_box').slideUp("slow");
+     $('#element_add_link').show();
+     $('#element_add_close_link').hide();
+     
+     if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
+     {
+       $('div.top_tools').slideDown();
+     }
+     
+     //form_add_reinit();
+     // copie du contenu de la fonction ci dessus, arrive pas a l'appeler ... huh
+     $('div#element_add_box').slideUp();
+    $('div#form_add_first_part').show();
+    $('div#form_add_second_part').hide();
+    $('ul#form_add_prop_tags').hide();
+    $('ul#form_add_prop_tags_text').hide();
+    $('input#element_add_url').val('');
+    $('input#element_add_name').val('');
+    $('form[name="add"]').attr('action', url_datas_api);
+     
+     return false;
+   }); 
+   
+   // Bouton suivre
+   $('div.show_options a.following').live({
+    mouseenter:
+      function()
+      {
+        $(this).html(string_follow_stop);
+      },
+    mouseleave:
+      function()
+      {
+       $(this).html(string_follow_following);
+      }
+    }
+  );
+    
+  $('div.show_options a.follow_link').live('click', function(){
+    link = $(this);
+    $.getJSON(link.attr('href'), function(response) {
+      
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+       if (response.status == 'success')
+       {
+         if (response.following)
+         {
+           link.html(string_follow_following);
+           link.removeClass('notfollowing');
+           link.addClass('following');
+         }
+         else
+         {
+           link.html(string_follow_follow);
+           link.addClass('notfollowing');
+           link.removeClass('following');
+         }
+       }
+     });
+     return false;
+  });
+   
+ });
+
+$(document).ready(function(){
+   
+   $('#registration_link').click(function(){
+     $('#registration_box').slideDown("slow");
+     $('#login_box').slideUp("slow");
+     $(this).hide();
+     $('#login_link').show();
+     return false;
+   });
+   
+   $('#login_link').click(function(){
+     $('#login_box').slideDown("slow");
+     $('#registration_box').slideUp("slow");
+     $('#registration_link').show();
+     $(this).hide();
+     return false;
+   });
+   
+   
+ });
+
+$(document).ready(function(){
+   
+  $('ul#moderate_tags li.tag a.accept, ul#moderate_tags li.tag a.refuse').click(function(){
+    var link = $(this);
+    $.getJSON($(this).attr('href'), function(response) {
+     
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      if (response.status == 'success')
+      {
+        link.parent('li').remove();
+      }
+      
+      if (response.status == 'error')
+      {
+        alert(response.message);
+      }
+      
+    });
+      
+    return false;
+  });
+  
+   
+  $('ul#moderate_tags li.tag a.replace').click(function(){
+    var link = $(this);
+    
+    var newtag = link.parent('li').find('input.tagBox_tags_ids').val();
+    
+    $.getJSON($(this).attr('href')+'/'+newtag, function(response) {
+     
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      if (response.status == 'error')
+      {
+        alert(response.message);
+      }
+      
+      if (response.status == 'success')
+      {
+        link.parent('li').remove();
+      }
+      
+    });
+      
+    return false;
+  });
+  
+  $('ul#moderate_elements li.element div.controls a.delete').live('click', function(){
+     var li = $(this).parent('div.controls').parent('li.element');
+     $.getJSON($(this).attr('href'), function(response) {
+       if (response.status == 'success')
+       {
+         li.slideUp(500, function(){li.remove();});
+       }
+       else
+       {
+         alert(response.status);
+       }
+     });
+     return false;
+  });
+  
+  $('ul#moderate_elements li.element div.controls a.clean').live('click', function(){
+    var li = $(this).parent('div.controls').parent('li.element');
+    $.getJSON($(this).attr('href'), function(response) {
+       if (response.status == 'success')
+       {
+         li.slideUp(500, function(){li.remove();});
+       }
+       else
+       {
+         alert(response.status);
+       }
+     });
+     return false;
+  });
+  
+  $('ul#moderate_comments li.comment a.accept, ul#moderate_comments li.comment a.refuse').click(function(){
+    var link = $(this);
+    $.getJSON($(this).attr('href'), function(response) {
+     
+      if (response.status == 'mustbeconnected')
+      {
+        $(location).attr('href', url_index);
+      }
+      
+      if (response.status == 'success')
+      {
+        link.parent('li').remove();
+      }
+      
+      if (response.status == 'error')
+      {
+        alert(response.message);
+      }
+      
+    });
+      
+    return false;
+  });
+   
+});
+
+/*  */
+
+$(document).ready(function(){
+    
+  $('form#address_update input[type="submit"]').click(function(){
+    $('form#address_update img.loader').show();
+  });
+    
+  $('form#address_update').ajaxForm(function(response){
+      
+      $('form#address_update img.loader').hide();
+      form = $('form#address_update');
+      
+      form.find('ul.error_list').remove();
+      if (response.status == 'error')
+      {
+        ul_errors = $('<ul>').addClass('error_list');
+
+        for (i in response.errors)
+        {
+          ul_errors.append($('<li>').append(response.errors[i]));
+        }
+
+        form.prepend(ul_errors);
+      }
+      
+  });
+   
+});

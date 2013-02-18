@@ -65,3 +65,6 @@ MuzichCommentBundle:
   resource: "@MuzichCommentBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
   
+AdmingeneratorGeneratorBundle_Dashboard:
+    resource: "@AdmingeneratorGeneratorBundle/Resources/config/routing.yml"
+    prefix:   /
