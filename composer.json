@@ -1,4 +1,5 @@
 {
+    "minimum-stability": "dev",
     "name": "symfony/framework-standard-edition",
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
@@ -20,11 +21,12 @@
         "jms/di-extra-bundle": "1.1.*",
         "kriswallsmith/assetic": "1.1.*@dev",
         
-        "friendsofsymfony/user-bundle": "*",
+        "friendsofsymfony/user-bundle": "v1.3.1",
         "doctrine/data-fixtures" : "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "stof/doctrine-extensions-bundle": "dev-master",
-        "gregwar/image-bundle": "dev-master"
+        "gregwar/image-bundle": "dev-master",
+        "cedriclombardot/admingenerator-generator-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
