@@ -3,6 +3,7 @@
 namespace Muzich\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping as ORM; // Corrige un bug en prod (assez etrange ...)
 
 class TagRepository extends EntityRepository
 {

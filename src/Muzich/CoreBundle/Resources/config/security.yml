@@ -10,7 +10,7 @@ security:
         "FOS\UserBundle\Model\UserInterface":
             algorithm: sha512
             encode_as_base64: false
-            iterations: 1
+            iterations: 10
 
     firewalls:
         main:
