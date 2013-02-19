@@ -102,7 +102,6 @@ class Element
    * 
    * @ORM\ManyToMany(targetEntity="Tag", inversedBy="elements")
    * @ORM\JoinTable(name="elements_tag")
-   * @MuzichAssert\Tags()
    */
   private $tags;
 
