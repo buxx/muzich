@@ -31,6 +31,7 @@ class MenuBuilder extends BaseMenu
   {
     $this->addNavLinkRoute($menu, 'Elements', 'Muzich_AdminBundle_Admin_element_list');
     $this->addNavLinkRoute($menu, 'Tags', 'Muzich_AdminBundle_Admin_tag_list');
+    $this->addNavLinkRoute($menu, 'Groups', 'Muzich_AdminBundle_Admin_group_list');
   }
   
   public function createAdminMenu(Request $request)

@@ -1,20 +1,3 @@
-# Internal routing configuration to handle ESI
-#_internal:
-#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
-#   prefix:   /_internal
-# 
-#admin:
-#    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
-#    prefix: /admin
-#
-#_sonata_admin:
-#    resource: .
-#    type: sonata_admin
-#    prefix: /admin
-#  
-#MuzichAdminBundle:
-#  resource: "@MuzichAdminBundle/Resources/config/routing.yml"
-  
 MuzichIndexBundle:
   resource: "@MuzichIndexBundle/Resources/config/routing.yml"
   prefix: /
@@ -79,3 +62,8 @@ MuzichAdminBundle_admin_muzich_admin_bundle_admin_tag:
     resource: "@MuzichAdminBundle/Controller/Admin_tag/"
     type:     admingenerator
     prefix:   /admin/muzich_admin_bundle/admin_tag
+
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin_group:
+    resource: "@MuzichAdminBundle/Controller/Admin_group/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Admin_group
