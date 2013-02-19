@@ -1,0 +1,46 @@
+generator: admingenerator.generator.doctrine
+
+params:
+  model: Muzich\CoreBundle\Entity\Tag
+  namespace_prefix: Muzich
+  bundle_name: AdminBundle
+  fields: ~
+
+builders:
+  list:
+    params:
+      title: List for Tag
+      display: [ id, name ]
+      actions:
+        new: ~
+      object_actions:
+        show: ~
+        edit: ~
+        delete: ~
+  filters:
+    params:
+      fields: ~
+      display: [ name ]
+  new:
+    params:
+      title: New Tag
+      display:
+        "General" : [ name ]
+      actions:
+        list: ~
+  edit:
+    params:
+      title: "You're editing element \"%object%\"|{ %object%: Tag.name }|"
+      display:
+        "General" : [ name ]
+      actions:
+        list: ~
+  show:
+    params:
+      title: "You're viewing element \"%object%\"|{ %object%: Tag.name }|"
+      display:
+        "General" : [ name ]
+      actions:
+        list: ~
+        new: ~
+  delete: ~

@@ -68,13 +68,14 @@ MuzichCommentBundle:
 AdmingeneratorGeneratorBundle_Dashboard:
     resource: "@AdmingeneratorGeneratorBundle/Resources/config/routing.yml"
     prefix:   /
-    
-#MuzichAdminBundle_admin_muzich_admin_bundle_admin:
-#    resource: "@MuzichAdminBundle/Controller/Admin/"
-#    type:     admingenerator
-#    prefix:   /admin/muzich_admin_bundle/admin
 
-MuzichElementAdminBundle_admin_muzich_element_admin_bundle_admin_element:
-    resource: "@MuzichElementAdminBundle/Controller/Admin_element/"
+########## ADMIN
+MuzichAdminBundle_admin_muzich_admin_bundle_admin_element:
+    resource: "@MuzichAdminBundle/Controller/Admin_element/"
     type:     admingenerator
-    prefix:   /admin/muzich_element_admin_bundle/admin_element
+    prefix:   /admin/muzich_admin_bundle/admin_element
+
+MuzichAdminBundle_admin_muzich_admin_bundle_admin_tag:
+    resource: "@MuzichAdminBundle/Controller/Admin_tag/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/admin_tag
