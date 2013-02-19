@@ -1,0 +1,59 @@
+generator: admingenerator.generator.doctrine
+
+params:
+  model: Muzich\CoreBundle\Entity\Element
+  namespace_prefix: Muzich
+  bundle_name: ElementAdminBundle
+  fields:
+    owner:
+      label: Owner name
+      sort_on: owner.name
+      getter: owner.name
+      addFormOptions:
+        property: name
+
+builders:
+  list:
+    params:
+      title: List for ElementAdminBundle
+      display: [ id, name, owner, type ]
+      actions:
+        new: ~
+      object_actions:
+        show: ~
+        edit: ~
+        delete: ~
+  filters:
+    params:
+      fields: ~
+      display: [ type, name, url, owner, created, updated, need_tags, count_report, count_comment_report ]
+  new:
+    params:
+      title: New Element
+      display:
+        "Media" : [name, type, url]
+        "Relations" : [owner, group]
+        "System" : [need_tags]
+      actions:
+        list: ~
+  edit:
+    params:
+      title: "You're editing element \"%object%\"|{ %object%: Element.name }|"
+      display:
+        "Media" : [name, type, url]
+        "Relations" : [owner, group]
+        "System" : [need_tags]
+      actions:
+        list: ~
+  show:
+    params:
+      title: "You're viewing element \"%object%\"|{ %object%: Element.name }|"
+      display:
+        "Media" : [name, type, url, embed]
+        "Relations" : [owner, group]
+        "System" : [need_tags]
+        "Moderation" : [count_report, count_comment_report]
+      actions:
+        list: ~
+        new: ~
+  delete: ~

@@ -1,0 +1,60 @@
+
+[TwigGenerator]
+    git=git://github.com/cedriclombardot/TwigGenerator.git
+    target=/twig-generator
+
+[twig-extensions]
+    git=git://github.com/fabpot/Twig-extensions.git
+    target=/twig-extensions
+
+[WhiteOctoberPagerfantaBundle]
+    git=git://github.com/whiteoctober/WhiteOctoberPagerfantaBundle.git
+    target=/bundles/WhiteOctober/PagerfantaBundle
+
+[KnpMenuBundle]
+    git=git://github.com/KnpLabs/KnpMenuBundle.git
+    target=/bundles/Knp/Bundle/MenuBundle
+
+[KnpMenu]
+    git=git://github.com/KnpLabs/KnpMenu.git
+    target=/KnpMenu
+
+[TwigGenerator]
+    git=git://github.com/cedriclombardot/TwigGenerator.git
+    target=/twig-generator
+
+[twig-extensions]
+    git=git://github.com/fabpot/Twig-extensions.git
+    target=/twig-extensions
+
+[WhiteOctoberPagerfantaBundle]
+    git=git://github.com/whiteoctober/WhiteOctoberPagerfantaBundle.git
+    target=/bundles/WhiteOctober/PagerfantaBundle
+
+[KnpMenuBundle]
+    git=git://github.com/KnpLabs/KnpMenuBundle.git
+    target=/bundles/Knp/Bundle/MenuBundle
+
+[KnpMenu]
+    git=git://github.com/KnpLabs/KnpMenu.git
+    target=/KnpMenu
+
+[doctrine-common]
+    git=git://github.com/doctrine/common.git
+    target=/doctrine-common
+
+[doctrine-dbal]
+    git=git://github.com/doctrine/dbal.git
+    target=/doctrine-dbal
+
+[doctrine-fixtures]
+    git=git://github.com/doctrine/data-fixtures.git
+    target=/doctrine-fixtures
+
+[DoctrineFixturesBundle]
+    git=git://github.com/doctrine/DoctrineFixturesBundle.git
+    target=/bundles/Doctrine/Bundle/FixturesBundle
+
+[DoctrineBundle]
+    git=git://github.com/doctrine/DoctrineBundle.git
+    target=/bundles/Doctrine/Bundle/DoctrineBundle

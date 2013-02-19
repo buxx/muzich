@@ -960,4 +960,18 @@ class Element
     return $this->getData(self::DATA_REF_ID);
   }
   
+  public function hasTagsProposition()
+  {
+    if (count($this->tags_propositions))
+    {
+      return true;
+    }
+    return false;
+  }
+  
+  public function getHasTagsProposition()
+  {
+    return $this->hasTagsProposition();
+  }
+  
 }
