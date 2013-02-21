@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Muzich\CoreBundle\Searcher\ElementSearcherQueryBuilder;
+use Doctrine\ORM\Mapping as ORM;
 
 class ElementRepository extends EntityRepository
 {

@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Mapping as ORM;
 
 class UserRepository extends EntityRepository
 {
