@@ -1,0 +1,35 @@
+generator: admingenerator.generator.doctrine
+
+params:
+  model: Muzich\CoreBundle\Entity\Element
+  namespace_prefix: Muzich
+  bundle_name: AdminBundle
+  fields: ~
+
+builders:
+  list:
+    params:
+      title: List for Element
+      display: [ id, name, owner, type, count_report ]
+      actions: []
+      object_actions:
+        show: ~
+      sort: [ count_report, DESC ]
+  filters:
+    params:
+      fields: ~
+      display: [ type, name, url, owner, created ]
+  show:
+    params:
+      title: "You're viewing element \"%object%\"|{ %object%: Element.name }|"
+      display: [name, url, thumbnail_url, embed, count_report, count_comment_report]
+      actions:
+        accept:
+          route: Muzich_AdminBundle_Moderate_element_accept
+          params:
+            pk: "{{ Element.id }}"
+        refuse:
+          route: Muzich_AdminBundle_Moderate_element_refuse
+          params:
+            pk: "{{ Element.id }}"
+        list: ~

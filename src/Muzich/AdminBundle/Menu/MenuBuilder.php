@@ -23,6 +23,8 @@ class MenuBuilder extends BaseMenu
      $this->addNavLinkUri($menu, 'Wiki', 'http://work.bux.fr/projects/muzich/wiki', array('document' => 'filters'))->setExtra('icon', 'icon-filter');
      $this->addNavHeader($menu, 'Administration');
      $this->addAdministrationLinksToMenu($menu);
+     $this->addNavHeader($menu, 'Moderation');
+     $this->addModerationLinksToMenu($menu);
      
      return $menu;
   }
@@ -43,12 +45,29 @@ class MenuBuilder extends BaseMenu
     $this->addNavLinkRoute($menu, 'Pre-subscriptions', 'Muzich_AdminBundle_Admin_presubscription_list');
   }
   
+  protected function addModerationLinksToMenu($menu)
+  {
+    $this->addNavLinkRoute($menu, 'Element', 'Muzich_AdminBundle_Moderate_element_list');
+    $this->addNavLinkRoute($menu, 'Tag', 'Muzich_AdminBundle_Moderate_tag_list');
+    $this->addNavLinkRoute($menu, 'Comment', 'Muzich_AdminBundle_Moderate_comment_list');
+  }
+  
   public function createAdminMenu(Request $request)
   {
     $menu = parent::createAdminMenu($request);
     $menu->setExtra('translation_domain', 'Admingenerator');
     $administration = $this->addDropdownMenu($menu, 'Administration');
     $this->addAdministrationLinksToMenu($administration);
+    
+    return $menu;
+  }
+  
+  public function createModerationMenu(Request $request)
+  {
+    $menu = parent::createAdminMenu($request);
+    $menu->setExtra('translation_domain', 'Admingenerator');
+    $moderation = $this->addDropdownMenu($menu, 'Moderation');
+    $this->addModerationLinksToMenu($moderation);
     
     return $menu;
   }

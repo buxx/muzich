@@ -116,3 +116,8 @@ MuzichAdminBundle_admin_muzich_admin_bundle_Admin_element_tags_proposition:
 MuzichAdminBundle_admin_muzich_admin_bundle_Admin:
     resource: "@MuzichAdminBundle/Resources/config/routing.yml"
     prefix:   /admin/muzich_admin_bundle
+
+MuzichAdminBundle_admin_muzich_admin_bundle_Moderate_element:
+    resource: "@MuzichAdminBundle/Controller/Moderate_element/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Moderate_element

@@ -15,3 +15,27 @@ Muzich_AdminBundle_Admin_element_regenerate:
   defaults: { _controller:Muzich\AdminBundle\Controller\Admin_element\EditController::regenerateAction }
   requirements:
     _method:  GET
+    
+Muzich_AdminBundle_Moderate_element_accept:
+  pattern:  /Moderate_element/{pk}/accept
+  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate_element\EditController::acceptAction }
+  requirements:
+    _method:  GET
+    
+Muzich_AdminBundle_Moderate_element_refuse:
+  pattern:  /Moderate_element/{pk}/refuse
+  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate_element\EditController::refuseAction }
+  requirements:
+    _method:  GET
+    
+Muzich_AdminBundle_Moderate_tag_list:
+  pattern:  /Moderate_tag/list
+  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate\TagController::listAction }
+  requirements:
+    _method:  GET
+    
+Muzich_AdminBundle_Moderate_comment_list:
+  pattern:  /Moderate_comment/list
+  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate\CommentController::listAction }
+  requirements:
+    _method:  GET

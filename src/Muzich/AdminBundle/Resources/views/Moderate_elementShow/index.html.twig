@@ -1,0 +1,15 @@
+{% extends_admingenerated "MuzichAdminBundle:Moderate_elementShow:index.html.twig" %}
+
+{% block show_column_url %}
+  <a href="{{ Element.url }}" target="_blank" >{{ Element.url }}</a>
+{% endblock %}
+
+{% block show_column_embed %}
+  {% autoescape false %}
+    {{ Element.embed }}
+  {% endautoescape %}
+{% endblock %}
+
+{% block show_column_thumbnail_url %}
+  <img src="{{ Element.thumbnailUrl }}" alt="thumbnail" />
+{% endblock %}
