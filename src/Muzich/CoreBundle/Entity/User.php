@@ -1015,4 +1015,19 @@ class User extends BaseUser
     }
   }
   
+  public function getCguAccepted()
+  {
+    return $this->cgu_accepted;
+  }
+  
+  public function getMailNewsletter()
+  {
+    return $this->mail_newsletter;
+  }
+  
+  public function getMailPartner()
+  {
+    return $this->mail_partner;
+  }
+  
 }

@@ -1,0 +1,40 @@
+generator: admingenerator.generator.doctrine
+params:
+  model: Muzich\CoreBundle\Entity\UsersTagsFavorites
+  namespace_prefix: Muzich
+  bundle_name: AdminBundle
+  fields: ~
+
+builders:
+  list:
+    params:
+      title: List for User Tags Favorites
+      display: [ user, tag ]
+      actions:
+        new: ~
+      object_actions:
+        edit: ~
+        delete: ~
+  filters:
+    params:
+      display: [ user, tag ]
+  new:
+    params:
+      title: New object for AdminBundle
+      display: ~
+      actions:
+        list: ~
+  edit:
+    params:
+      title: "You're editing the object \"%object%\"|{ %object%: YourModel.title }|"
+      display: ~
+      actions:
+        list: ~
+  show:
+    params:
+      title: "You're viewing the object \"%object%\"|{ %object%: YourModel.title }|"
+      display: ~
+      actions:
+        list: ~
+        new: ~
+  delete: ~

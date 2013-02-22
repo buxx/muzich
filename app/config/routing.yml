@@ -67,3 +67,52 @@ MuzichAdminBundle_admin_muzich_admin_bundle_Admin_group:
     resource: "@MuzichAdminBundle/Controller/Admin_group/"
     type:     admingenerator
     prefix:   /admin/muzich_admin_bundle/Admin_group
+
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin_user:
+    resource: "@MuzichAdminBundle/Controller/Admin_user/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Admin_user
+    
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin_follow_user:
+    resource: "@MuzichAdminBundle/Controller/Admin_follow_user/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Admin_follow_user
+
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin_follow_group:
+    resource: "@MuzichAdminBundle/Controller/Admin_follow_group/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Admin_follow_group
+
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin_groups_tags_favorites:
+    resource: "@MuzichAdminBundle/Controller/Admin_groups_tags_favorites/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Admin_groups_tags_favorites
+
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin_users_tags_favorites:
+    resource: "@MuzichAdminBundle/Controller/Admin_users_tags_favorites/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Admin_users_tags_favorites
+
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin_presubscription:
+    resource: "@MuzichAdminBundle/Controller/Admin_presubscription/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Admin_presubscription
+
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin_registration_token:
+    resource: "@MuzichAdminBundle/Controller/Admin_registration_token/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Admin_registration_token
+
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin_event_archive:
+    resource: "@MuzichAdminBundle/Controller/Admin_event_archive/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Admin_event_archive
+
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin_element_tags_proposition:
+    resource: "@MuzichAdminBundle/Controller/Admin_element_tags_proposition/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Admin_element_tags_proposition
+
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin:
+    resource: "@MuzichAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin/muzich_admin_bundle

@@ -8,32 +8,33 @@ params:
 builders:
   list:
     params:
-      title: List for AdminBundle
-      display: ~
+      title: List for Groups
+      display: [name, owner, open]
       actions:
         new: ~
       object_actions:
+        show: ~
         edit: ~
         delete: ~
   filters:
     params:
-      display: ~
+      display: [owner, name, open]
   new:
     params:
-      title: New object for AdminBundle
-      display: ~
+      title: New Group
+      display: [name, owner, description, open]
       actions:
         list: ~
   edit:
     params:
-      title: "You're editing the object \"%object%\"|{ %object%: YourModel.title }|"
-      display: ~
+      title: "You're editing the object \"%object%\"|{ %object%: Group.name }|"
+      display: [name, owner, description, open]
       actions:
         list: ~
   show:
     params:
-      title: "You're viewing the object \"%object%\"|{ %object%: YourModel.title }|"
-      display: ~
+      title: "You're viewing the object \"%object%\"|{ %object%: Group.name }|"
+      display: [name, owner, description, open]
       actions:
         list: ~
         new: ~

@@ -1,0 +1,54 @@
+generator: admingenerator.generator.doctrine
+params:
+  model: Muzich\CoreBundle\Entity\User
+  namespace_prefix: Muzich
+  bundle_name: AdminBundle
+
+builders:
+  list:
+    params:
+      title: List for Users
+      display: [ id, username, email, reputation, enabled ]
+      actions:
+        new: ~
+      object_actions:
+        show: ~
+        password:
+          route: Muzich_AdminBundle_Admin_user_password
+        edit: ~
+        delete: ~
+  filters:
+    params:
+      display: [ username, email, enabled ]
+  new:
+    params:
+      title: New User
+      display:
+        "General": [ username, email, town, country ]
+        "Resettings": [ email_requested, email_requested_datetime ]
+        "Moderation": [ bad_report_count, moderated_element_count, moderated_tag_count, moderated_comment_count ]
+        "System": [ cgu_accepted, mail_newsletter, mail_partner, enabled ]
+      actions:
+        list: ~
+  edit:
+    params:
+      title: "You're editing the object \"%object%\"|{ %object%: User.username }|"
+      display: 
+        "General": [ username, email, town, country ]
+        "Resettings": [ email_requested, email_requested_datetime ]
+        "Moderation": [ bad_report_count, moderated_element_count, moderated_tag_count, moderated_comment_count ]
+        "System": [ cgu_accepted, mail_newsletter, mail_partner, enabled ]
+      actions:
+        list: ~
+  show:
+    params:
+      title: "You're viewing the object \"%object%\"|{ %object%: User.username }|"
+      display:
+        "General": [ username, email, town, country ]
+        "Resettings": [ email_requested, email_requested_datetime ]
+        "Moderation": [ bad_report_count, moderated_element_count, moderated_tag_count, moderated_comment_count ]
+        "System": [ cgu_accepted, mail_newsletter, mail_partner ]
+      actions:
+        list: ~
+        new: ~
+  delete: ~

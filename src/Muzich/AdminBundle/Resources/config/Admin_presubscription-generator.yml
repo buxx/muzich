@@ -1,0 +1,40 @@
+generator: admingenerator.generator.doctrine
+params:
+  model: Muzich\CoreBundle\Entity\Presubscription
+  namespace_prefix: Muzich
+  bundle_name: AdminBundle
+  fields: ~
+
+builders:
+  list:
+    params:
+      title: List for Presbscriptions
+      display: [ email ]
+      actions:
+        new: ~
+      object_actions:
+        edit: ~
+        delete: ~
+  filters:
+    params:
+      display: [ email ]
+  new:
+    params:
+      title: New Presubscription
+      display: [ email ]
+      actions:
+        list: ~
+  edit:
+    params:
+      title: "You're editing the object \"%object%\"|{ %object%: Presubscription.email }|"
+      display: [ email ]
+      actions:
+        list: ~
+  show:
+    params:
+      title: "You're viewing the object \"%object%\"|{ %object%: Presubscription.email }|"
+      display: [ email ]
+      actions:
+        list: ~
+        new: ~
+  delete: ~

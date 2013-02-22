@@ -1,0 +1,40 @@
+generator: admingenerator.generator.doctrine
+params:
+  model: Muzich\CoreBundle\Entity\RegistrationToken
+  namespace_prefix: Muzich
+  bundle_name: AdminBundle
+  fields: ~
+
+builders:
+  list:
+    params:
+      title: List for Token Registration
+      display: [ token, count, count_max ]
+      actions:
+        new: ~
+      object_actions:
+        edit: ~
+        delete: ~
+  filters:
+    params:
+      display: [token]
+  new:
+    params:
+      title: New Registration Token
+      display: [ token, count, count_max ]
+      actions:
+        list: ~
+  edit:
+    params:
+      title: "You're editing the object \"%object%\"|{ %object%: RegistrationToken.token }|"
+      display: [ token, count, count_max ]
+      actions:
+        list: ~
+  show:
+    params:
+      title: "You're viewing the object \"%object%\"|{ %object%: RegistrationToken.token }|"
+      display: [ token, count, count_max ]
+      actions:
+        list: ~
+        new: ~
+  delete: ~
