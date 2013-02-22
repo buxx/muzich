@@ -6,15 +6,31 @@ use Admingenerated\MuzichAdminBundle\BaseAdmin_elementController\EditController 
 use Symfony\Component\Form\Form;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Managers\ElementManager;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class EditController extends BaseEditController
 {
   
-  public function preSave(Form $form, Element $Element)
+  protected function getElementContext($pk)
   {
-    //$em = $this->get('doctrine')->getEntityManager();
-    //$factory = new ElementManager($Element, $em, $this->container);
-    //$factory->proceedFill($Element->getOwner(), false);
+    $Element = $this->getObject($pk);
+    if (!$Element) {
+        throw new NotFoundHttpException("The Muzich\CoreBundle\Entity\Element with id $pk can't be found");
+    }
+    return $Element;
+  }
+  
+  public function regenerateAction($pk)
+  {
+    $Element = $this->getElementContext($pk);
+    $em = $this->getDoctrine()->getManager();
+    $factory = new ElementManager($Element, $em, $this->container);
+    $factory->regenerate();
+    $em->persist($Element);
+    $em->flush();
+    
+    $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
+    return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Admin_element_list" ));
   }
   
 }

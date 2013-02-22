@@ -9,3 +9,9 @@ Muzich_AdminBundle_Admin_user_password_update:
   defaults: { _controller:Muzich\AdminBundle\Controller\Admin_user\EditController::passwordUpdateAction }
   requirements:
     _method:  POST
+
+Muzich_AdminBundle_Admin_element_regenerate:
+  pattern:  /Admin_element/{pk}/regenerate
+  defaults: { _controller:Muzich\AdminBundle\Controller\Admin_element\EditController::regenerateAction }
+  requirements:
+    _method:  GET

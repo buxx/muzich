@@ -173,7 +173,13 @@ class ElementManager
     }
     
   }
-    
+  
+  public function regenerate()
+  {
+    $this->determineType();
+    $this->proceedExtraFields();
+  }
+  
 }
 
 ?>

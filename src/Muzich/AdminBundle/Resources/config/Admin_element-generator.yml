@@ -21,6 +21,8 @@ builders:
         new: ~
       object_actions:
         show: ~
+        regenerate:
+          route: Muzich_AdminBundle_Admin_element_regenerate
         edit: ~
         delete: ~
   filters:
