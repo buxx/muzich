@@ -42,7 +42,7 @@ class GroupsTagsFavorites
    * L'attribut position permet de connaitre l'ordre de préfèrence du 
    * groupe.
    * 
-   * @ORM\Column(type="integer")
+   * @ORM\Column(type="integer",nullable=true)
    * @var type int
    */
   protected $position;

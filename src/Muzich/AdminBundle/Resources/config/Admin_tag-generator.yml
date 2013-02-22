@@ -38,8 +38,7 @@ builders:
   show:
     params:
       title: "You're viewing element \"%object%\"|{ %object%: Tag.name }|"
-      display:
-        "General" : [ name ]
+      display: [ name, slug ]
       actions:
         list: ~
         new: ~

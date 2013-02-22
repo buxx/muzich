@@ -13,6 +13,7 @@ builders:
       actions:
         new: ~
       object_actions:
+        show: ~
         edit: ~
         delete: ~
   filters:
@@ -20,20 +21,20 @@ builders:
       display: [ follower, followed ]
   new:
     params:
-      title: New object for AdminBundle
-      display: ~
+      title: New object for User Follow
+      display: [ follower, followed ]
       actions:
         list: ~
   edit:
     params:
-      title: "You're editing the object \"%object%\"|{ %object%: YourModel.title }|"
-      display: ~
+      title: "You're editing following for the object \"%object%\"|{ %object%: FollowUser.followed.username }|"
+      display: [ follower, followed ]
       actions:
         list: ~
   show:
     params:
-      title: "You're viewing the object \"%object%\"|{ %object%: YourModel.title }|"
-      display: ~
+      title: "You're viewing following for the object \"%object%\"|{ %object%: FollowUser.followed.username }|"
+      display: [ follower, followed ]
       actions:
         list: ~
         new: ~

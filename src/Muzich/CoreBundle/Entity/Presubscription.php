@@ -31,4 +31,9 @@ class Presubscription
    */
   public $email;
   
+  public function getId()
+  {
+    return $this->id;
+  }
+  
 }

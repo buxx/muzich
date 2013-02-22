@@ -48,7 +48,6 @@ class ElementTagsProposition
    * 
    * @ORM\ManyToMany(targetEntity="Tag", inversedBy="propositions")
    * @ORM\JoinTable(name="element_tags_proposition_tags_rel")
-   * @MuzichAssert\Tags()
    */
   protected $tags;
   
