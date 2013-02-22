@@ -49,7 +49,7 @@ class MenuBuilder extends BaseMenu
   {
     $this->addNavLinkRoute($menu, 'Element', 'Muzich_AdminBundle_Moderate_element_list');
     $this->addNavLinkRoute($menu, 'Tag', 'Muzich_AdminBundle_Moderate_tag_list');
-    $this->addNavLinkRoute($menu, 'Comment', 'Muzich_AdminBundle_Moderate_comment_list');
+    //$this->addNavLinkRoute($menu, 'Comment', 'Muzich_AdminBundle_Moderate_comment_list');
   }
   
   public function createAdminMenu(Request $request)

@@ -1,0 +1,31 @@
+generator: admingenerator.generator.doctrine
+params:
+  model: Muzich\CoreBundle\Entity\Tag
+  namespace_prefix: Muzich
+  bundle_name: AdminBundle
+  fields: ~
+
+builders:
+  list:
+    params:
+      title: List for Tag
+      display: [ id, name, arguments, tomoderate ]
+      actions: []
+      object_actions:
+        accept:
+          route: Muzich_AdminBundle_Moderate_tag_accept
+          confirm: Sure to ACCEPT ?
+        refuse:
+          route: Muzich_AdminBundle_Moderate_tag_refuse
+          confirm: Sure to REFUSE ?
+      sort: [ tomoderate, DESC ]
+      scopes:
+        moderation: 
+          ToModerate: 
+            default: true
+            filters: 
+              tomoderate: true
+  filters:
+    params:
+      fields: ~
+      display: [ id, name ]

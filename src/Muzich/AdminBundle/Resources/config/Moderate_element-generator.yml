@@ -15,6 +15,12 @@ builders:
       object_actions:
         show: ~
       sort: [ count_report, DESC ]
+      scopes:
+        moderation: 
+          ToModerate: 
+            default: true
+            filters: 
+              count_report: true
   filters:
     params:
       fields: ~
@@ -28,8 +34,10 @@ builders:
           route: Muzich_AdminBundle_Moderate_element_accept
           params:
             pk: "{{ Element.id }}"
+          confirm: Sure to ACCEPT and CLEAN ?
         refuse:
           route: Muzich_AdminBundle_Moderate_element_refuse
           params:
             pk: "{{ Element.id }}"
+          confirm: Sure to REFUSE and REMOVE ?
         list: ~

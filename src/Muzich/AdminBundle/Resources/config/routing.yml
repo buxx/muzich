@@ -28,14 +28,14 @@ Muzich_AdminBundle_Moderate_element_refuse:
   requirements:
     _method:  GET
     
-Muzich_AdminBundle_Moderate_tag_list:
-  pattern:  /Moderate_tag/list
-  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate\TagController::listAction }
+Muzich_AdminBundle_Moderate_tag_accept:
+  pattern:  /Moderate_tag/{pk}/accept
+  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate_tag\EditController::acceptAction }
   requirements:
     _method:  GET
     
-Muzich_AdminBundle_Moderate_comment_list:
-  pattern:  /Moderate_comment/list
-  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate\CommentController::listAction }
+Muzich_AdminBundle_Moderate_tag_refuse:
+  pattern:  /Moderate_tag/{pk}/refuse
+  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate_tag\EditController::refuseAction }
   requirements:
     _method:  GET
