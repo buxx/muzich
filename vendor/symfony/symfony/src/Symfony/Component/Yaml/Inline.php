@@ -50,23 +50,21 @@ class Inline
             mb_internal_encoding('ASCII');
         }
 
-        $i = 0;
         switch ($value[0]) {
             case '[':
-                $result = self::parseSequence($value, $i);
-                ++$i;
+                $result = self::parseSequence($value);
                 break;
             case '{':
-                $result = self::parseMapping($value, $i);
-                ++$i;
+                $result = self::parseMapping($value);
                 break;
             default:
+                $i = 0;
                 $result = self::parseScalar($value, null, array('"', "'"), $i);
-        }
 
-        // some comments are allowed at the end
-        if (preg_replace('/\s+#.*$/A', '', substr($value, $i))) {
-            throw new ParseException(sprintf('Unexpected characters near "%s".', substr($value, $i)));
+                // some comment can end the scalar
+                if (preg_replace('/\s+#.*$/A', '', substr($value, $i))) {
+                    throw new ParseException(sprintf('Unexpected characters near "%s".', substr($value, $i)));
+                }
         }
 
         if (isset($mbEncoding)) {
@@ -413,11 +411,6 @@ class Inline
                 $cast = intval($scalar);
 
                 return '0' == $scalar[0] ? octdec($scalar) : (((string) $raw == (string) $cast) ? $cast : $raw);
-            case '-' === $scalar[0] && ctype_digit(substr($scalar, 1)):
-                $raw = $scalar;
-                $cast = intval($scalar);
-
-                return '0' == $scalar[1] ? octdec($scalar) : (((string) $raw == (string) $cast) ? $cast : $raw);
             case 'true' === strtolower($scalar):
                 return true;
             case 'false' === strtolower($scalar):

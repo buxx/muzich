@@ -361,70 +361,6 @@
         ]
     },
     {
-        "name": "stof/doctrine-extensions-bundle",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "target-dir": "Stof/DoctrineExtensionsBundle",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/stof/StofDoctrineExtensionsBundle.git",
-            "reference": "4a17550d8b101c5aafc56c9950149aa189b8402d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/4a17550d8b101c5aafc56c9950149aa189b8402d",
-            "reference": "4a17550d8b101c5aafc56c9950149aa189b8402d",
-            "shasum": ""
-        },
-        "require": {
-            "gedmo/doctrine-extensions": "2.3.*",
-            "php": ">=5.3.2",
-            "symfony/framework-bundle": ">=2.1,<2.3-dev"
-        },
-        "suggest": {
-            "doctrine/doctrine-bundle": "*",
-            "doctrine/mongodb-odm-bundle": "2.1.*"
-        },
-        "time": "2012-12-13 17:58:07",
-        "type": "symfony-bundle",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.1.x-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Stof\\DoctrineExtensionsBundle": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Christophe Coevoet",
-                "email": "stof@notk.org"
-            }
-        ],
-        "description": "Integration of the gedmo/doctrine-extensions with Symfony2",
-        "homepage": "https://github.com/stof/StofDoctrineExtensionsBundle",
-        "keywords": [
-            "behaviors",
-            "doctrine2",
-            "extensions",
-            "gedmo",
-            "loggable",
-            "nestedset",
-            "sluggable",
-            "sortable",
-            "timestampable",
-            "translatable",
-            "tree"
-        ]
-    },
-    {
         "name": "gregwar/image-bundle",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -517,79 +453,6 @@
             "debug",
             "i18n",
             "text"
-        ]
-    },
-    {
-        "name": "kriswallsmith/assetic",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "http://github.com/kriswallsmith/assetic.git",
-            "reference": "504c9e8a6357583c20c9d9967ec2febea3157324"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/504c9e8a6357583c20c9d9967ec2febea3157324",
-            "reference": "504c9e8a6357583c20c9d9967ec2febea3157324",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.1",
-            "symfony/process": ">=2.1.0,<2.3-dev"
-        },
-        "require-dev": {
-            "cssmin/cssmin": "*",
-            "joliclic/javascript-packer": "*",
-            "kamicane/packager": "*",
-            "leafo/lessphp": "*",
-            "leafo/scssphp": "*",
-            "leafo/scssphp-compass": "*",
-            "mrclay/minify": "*",
-            "phpunit/phpunit": "3.7.*",
-            "ptachoire/cssembed": "*",
-            "twig/twig": ">=1.6.0,<2.0"
-        },
-        "suggest": {
-            "leafo/lessphp": "Assetic provides the integration with the lessphp LESS compiler",
-            "leafo/scssphp": "Assetic provides the integration with the scssphp SCSS compiler",
-            "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin",
-            "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
-            "twig/twig": "Assetic provides the integration with the Twig templating engine"
-        },
-        "time": "2013-02-11 18:18:06",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.1-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Assetic": "src/"
-            },
-            "files": [
-                "src/functions.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Kris Wallsmith",
-                "email": "kris.wallsmith@gmail.com",
-                "homepage": "http://kriswallsmith.net/"
-            }
-        ],
-        "description": "Asset Management for PHP",
-        "homepage": "https://github.com/kriswallsmith/assetic",
-        "keywords": [
-            "assets",
-            "compression",
-            "minification"
         ]
     },
     {
@@ -777,96 +640,6 @@
         "homepage": "http://twig.sensiolabs.org",
         "keywords": [
             "templating"
-        ]
-    },
-    {
-        "name": "symfony/symfony",
-        "version": "2.1.x-dev",
-        "version_normalized": "2.1.9999999.9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/symfony.git",
-            "reference": "75c61944a3e43b9efb5a195fd79416ff43ca09e7"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/symfony/zipball/75c61944a3e43b9efb5a195fd79416ff43ca09e7",
-            "reference": "75c61944a3e43b9efb5a195fd79416ff43ca09e7",
-            "shasum": ""
-        },
-        "require": {
-            "doctrine/common": ">2.2,<2.4-dev",
-            "php": ">=5.3.3",
-            "twig/twig": ">=1.9.1,<2.0-dev"
-        },
-        "replace": {
-            "symfony/browser-kit": "self.version",
-            "symfony/class-loader": "self.version",
-            "symfony/config": "self.version",
-            "symfony/console": "self.version",
-            "symfony/css-selector": "self.version",
-            "symfony/dependency-injection": "self.version",
-            "symfony/doctrine-bridge": "self.version",
-            "symfony/dom-crawler": "self.version",
-            "symfony/event-dispatcher": "self.version",
-            "symfony/filesystem": "self.version",
-            "symfony/finder": "self.version",
-            "symfony/form": "self.version",
-            "symfony/framework-bundle": "self.version",
-            "symfony/http-foundation": "self.version",
-            "symfony/http-kernel": "self.version",
-            "symfony/locale": "self.version",
-            "symfony/monolog-bridge": "self.version",
-            "symfony/options-resolver": "self.version",
-            "symfony/process": "self.version",
-            "symfony/propel1-bridge": "self.version",
-            "symfony/routing": "self.version",
-            "symfony/security": "self.version",
-            "symfony/security-bundle": "self.version",
-            "symfony/serializer": "self.version",
-            "symfony/swiftmailer-bridge": "self.version",
-            "symfony/templating": "self.version",
-            "symfony/translation": "self.version",
-            "symfony/twig-bridge": "self.version",
-            "symfony/twig-bundle": "self.version",
-            "symfony/validator": "self.version",
-            "symfony/web-profiler-bundle": "self.version",
-            "symfony/yaml": "self.version"
-        },
-        "require-dev": {
-            "doctrine/data-fixtures": "1.0.*",
-            "doctrine/dbal": ">=2.2,<2.4-dev",
-            "doctrine/orm": ">=2.2.3,<2.4-dev",
-            "monolog/monolog": ">=1.0,<1.3-dev",
-            "propel/propel1": "dev-master"
-        },
-        "time": "2013-02-17 12:59:26",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Symfony": "src/",
-                "SessionHandlerInterface": "src/Symfony/Component/HttpFoundation/Resources/stubs"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            }
-        ],
-        "description": "The Symfony PHP framework",
-        "homepage": "http://symfony.com",
-        "keywords": [
-            "framework"
         ]
     },
     {
@@ -1603,128 +1376,6 @@
         ]
     },
     {
-        "name": "knplabs/knp-menu",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/KnpLabs/KnpMenu.git",
-            "reference": "730bc37232f5f813822acf80edfbd89381ea5971"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/730bc37232f5f813822acf80edfbd89381ea5971",
-            "reference": "730bc37232f5f813822acf80edfbd89381ea5971",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "pimple/pimple": "1.0.*",
-            "silex/silex": "1.0.*",
-            "twig/twig": ">=1.2,<2.0-dev"
-        },
-        "suggest": {
-            "pimple/pimple": "for the built-in implementations of the menu provider and renderer provider",
-            "silex/silex": "for the integration with your silex application",
-            "twig/twig": "for the TwigRenderer and the integration with your templates"
-        },
-        "time": "2012-12-27 13:04:16",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0.x-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Knp\\Menu\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Christophe Coevoet",
-                "email": "stof@notk.org"
-            },
-            {
-                "name": "KnpLabs",
-                "homepage": "http://knplabs.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://github.com/KnpLabs/KnpMenu/contributors"
-            }
-        ],
-        "description": "An object oriented menu library",
-        "homepage": "http://knplabs.com",
-        "keywords": [
-            "menu",
-            "tree"
-        ]
-    },
-    {
-        "name": "knplabs/knp-menu-bundle",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "target-dir": "Knp/Bundle/MenuBundle",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/KnpLabs/KnpMenuBundle.git",
-            "reference": "bfaa9f1a74ee590c5e6460a3139b268fce1f1885"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/KnpLabs/KnpMenuBundle/zipball/bfaa9f1a74ee590c5e6460a3139b268fce1f1885",
-            "reference": "bfaa9f1a74ee590c5e6460a3139b268fce1f1885",
-            "shasum": ""
-        },
-        "require": {
-            "knplabs/knp-menu": "2.0.*",
-            "symfony/framework-bundle": ">=2.0,<2.3-dev"
-        },
-        "time": "2012-12-29 08:47:58",
-        "type": "symfony-bundle",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0.x-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Knp\\Bundle\\MenuBundle": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Christophe Coevoet",
-                "email": "stof@notk.org"
-            },
-            {
-                "name": "Knplabs",
-                "homepage": "http://knplabs.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://github.com/KnpLabs/KnpMenuBundle/contributors"
-            }
-        ],
-        "description": "This bundle provides an integration of the KnpMenu library",
-        "keywords": [
-            "menu"
-        ]
-    },
-    {
         "name": "pagerfanta/pagerfanta",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -1870,73 +1521,6 @@
         ]
     },
     {
-        "name": "cedriclombardot/admingenerator-generator-bundle",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "target-dir": "Admingenerator/GeneratorBundle",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony2admingenerator/AdmingeneratorGeneratorBundle.git",
-            "reference": "d50c391562cae6560e8d8003d3bd3a855d467490"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony2admingenerator/AdmingeneratorGeneratorBundle/zipball/d50c391562cae6560e8d8003d3bd3a855d467490",
-            "reference": "d50c391562cae6560e8d8003d3bd3a855d467490",
-            "shasum": ""
-        },
-        "require": {
-            "cedriclombardot/twig-generator": "dev-master",
-            "knplabs/knp-menu-bundle": ">1.0,<2.1",
-            "symfony/symfony": "2.1.*",
-            "twig/extensions": "dev-master",
-            "twig/twig": ">= 1.9.0",
-            "white-october/pagerfanta-bundle": "dev-master"
-        },
-        "require-dev": {
-            "doctrine/common": "2.3.*",
-            "doctrine/dbal": "2.3.*",
-            "doctrine/orm": "2.3.*"
-        },
-        "suggest": {
-            "cedriclombardot/admingenerator-user-bundle": "Help you to overwrite the base layout of FOSUserBundle or others giving a parameter key of the container"
-        },
-        "time": "2013-02-17 18:17:44",
-        "type": "symfony-bundle",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Admingenerator\\GeneratorBundle": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Cedric LOMBARDOT",
-                "email": "cedric.lombardot@gmail.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "http://github.com/cedriclombardot/AdmingeneratorGeneratorBundle/contributors"
-            }
-        ],
-        "description": "Admingenerator for Symfony2 based on YAML configuration and Twig templating",
-        "homepage": "http://symfony2admingenerator.org/",
-        "keywords": [
-            "admin",
-            "generator",
-            "yaml"
-        ]
-    },
-    {
         "name": "friendsofsymfony/user-bundle",
         "version": "v1.3.1",
         "version_normalized": "1.3.1.0",
@@ -2001,6 +1585,755 @@
         "homepage": "http://friendsofsymfony.github.com",
         "keywords": [
             "User management"
+        ]
+    },
+    {
+        "name": "symfony/symfony",
+        "version": "v2.1.7",
+        "version_normalized": "2.1.7.0",
+        "source": {
+            "type": "git",
+            "url": "git://github.com/symfony/symfony.git",
+            "reference": "v2.1.7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/symfony/symfony/archive/v2.1.7.zip",
+            "reference": "v2.1.7",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/common": ">2.2,<2.4-dev",
+            "php": ">=5.3.3",
+            "twig/twig": ">=1.9.1,<2.0-dev"
+        },
+        "replace": {
+            "symfony/browser-kit": "self.version",
+            "symfony/class-loader": "self.version",
+            "symfony/config": "self.version",
+            "symfony/console": "self.version",
+            "symfony/css-selector": "self.version",
+            "symfony/dependency-injection": "self.version",
+            "symfony/doctrine-bridge": "self.version",
+            "symfony/dom-crawler": "self.version",
+            "symfony/event-dispatcher": "self.version",
+            "symfony/filesystem": "self.version",
+            "symfony/finder": "self.version",
+            "symfony/form": "self.version",
+            "symfony/framework-bundle": "self.version",
+            "symfony/http-foundation": "self.version",
+            "symfony/http-kernel": "self.version",
+            "symfony/locale": "self.version",
+            "symfony/monolog-bridge": "self.version",
+            "symfony/options-resolver": "self.version",
+            "symfony/process": "self.version",
+            "symfony/propel1-bridge": "self.version",
+            "symfony/routing": "self.version",
+            "symfony/security": "self.version",
+            "symfony/security-bundle": "self.version",
+            "symfony/serializer": "self.version",
+            "symfony/swiftmailer-bridge": "self.version",
+            "symfony/templating": "self.version",
+            "symfony/translation": "self.version",
+            "symfony/twig-bridge": "self.version",
+            "symfony/twig-bundle": "self.version",
+            "symfony/validator": "self.version",
+            "symfony/web-profiler-bundle": "self.version",
+            "symfony/yaml": "self.version"
+        },
+        "require-dev": {
+            "doctrine/data-fixtures": "1.0.*",
+            "doctrine/dbal": ">=2.2,<2.4-dev",
+            "doctrine/orm": ">=2.2.3,<2.4-dev",
+            "monolog/monolog": ">=1.0,<1.3-dev",
+            "propel/propel1": "dev-master"
+        },
+        "time": "2013-01-17 21:21:51",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Symfony": "src/",
+                "SessionHandlerInterface": "src/Symfony/Component/HttpFoundation/Resources/stubs"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "The Symfony PHP framework",
+        "homepage": "http://symfony.com",
+        "keywords": [
+            "framework"
+        ]
+    },
+    {
+        "name": "shtumi/useful-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Shtumi/UsefulBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/shtumi/ShtumiUsefulBundle.git",
+            "reference": "8f3c99e5dfbcf8e5500779510d0ec2ebea3a2474"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/shtumi/ShtumiUsefulBundle/zipball/8f3c99e5dfbcf8e5500779510d0ec2ebea3a2474",
+            "reference": "8f3c99e5dfbcf8e5500779510d0ec2ebea3a2474",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2",
+            "symfony/framework-bundle": ">=2.1.0,<2.1.x-dev"
+        },
+        "suggest": {
+            "sonata-project/admin-bundle": "master-dev",
+            "sonata-project/doctrine-orm-admin-bundle": "master-dev"
+        },
+        "time": "2013-02-06 08:13:55",
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Shtumi\\UsefulBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Mikhail Shtukin",
+                "email": "shtumi@tut.by"
+            }
+        ],
+        "description": "Symfony ShtumiUsefulBundle",
+        "keywords": [
+            "Ajax Autocomplete form type",
+            "Dependent filtered form type",
+            "daterange",
+            "shtumi"
+        ]
+    },
+    {
+        "name": "stof/doctrine-extensions-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Stof/DoctrineExtensionsBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/stof/StofDoctrineExtensionsBundle.git",
+            "reference": "ba84426a47e555fdf346fc9f8434c2a25b3cee9d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/ba84426a47e555fdf346fc9f8434c2a25b3cee9d",
+            "reference": "ba84426a47e555fdf346fc9f8434c2a25b3cee9d",
+            "shasum": ""
+        },
+        "require": {
+            "gedmo/doctrine-extensions": "2.3.*",
+            "php": ">=5.3.2",
+            "symfony/framework-bundle": ">=2.1,<2.3-dev"
+        },
+        "suggest": {
+            "doctrine/doctrine-bundle": "*",
+            "doctrine/mongodb-odm-bundle": "2.1.*"
+        },
+        "time": "2013-02-19 23:30:04",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.1.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Stof\\DoctrineExtensionsBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Christophe Coevoet",
+                "email": "stof@notk.org"
+            }
+        ],
+        "description": "Integration of the gedmo/doctrine-extensions with Symfony2",
+        "homepage": "https://github.com/stof/StofDoctrineExtensionsBundle",
+        "keywords": [
+            "behaviors",
+            "doctrine2",
+            "extensions",
+            "gedmo",
+            "loggable",
+            "nestedset",
+            "sluggable",
+            "sortable",
+            "timestampable",
+            "translatable",
+            "tree"
+        ]
+    },
+    {
+        "name": "kriswallsmith/assetic",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kriswallsmith/assetic.git",
+            "reference": "v1.1.0-alpha3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/v1.1.0-alpha3",
+            "reference": "v1.1.0-alpha3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.1",
+            "symfony/process": ">=2.1.0,<2.3-dev"
+        },
+        "require-dev": {
+            "cssmin/cssmin": "*",
+            "joliclic/javascript-packer": "*",
+            "kamicane/packager": "*",
+            "leafo/lessphp": "*",
+            "leafo/scssphp": "*",
+            "leafo/scssphp-compass": "*",
+            "mrclay/minify": "*",
+            "phpunit/phpunit": "3.7.*",
+            "ptachoire/cssembed": "*",
+            "twig/twig": ">=1.6.0,<2.0"
+        },
+        "suggest": {
+            "leafo/lessphp": "Assetic provides the integration with the lessphp LESS compiler",
+            "leafo/scssphp": "Assetic provides the integration with the scssphp SCSS compiler",
+            "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin",
+            "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
+            "twig/twig": "Assetic provides the integration with the Twig templating engine"
+        },
+        "time": "2013-02-18 16:17:57",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.1-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Assetic": "src/"
+            },
+            "files": [
+                "src/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kris Wallsmith",
+                "email": "kris.wallsmith@gmail.com",
+                "homepage": "http://kriswallsmith.net/"
+            }
+        ],
+        "description": "Asset Management for PHP",
+        "homepage": "https://github.com/kriswallsmith/assetic",
+        "keywords": [
+            "assets",
+            "compression",
+            "minification"
+        ]
+    },
+    {
+        "name": "cedriclombardot/admingenerator-generator-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Admingenerator/GeneratorBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony2admingenerator/AdmingeneratorGeneratorBundle.git",
+            "reference": "bc8c823b758c834c953cdfc50f023e82cebe2321"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony2admingenerator/AdmingeneratorGeneratorBundle/zipball/bc8c823b758c834c953cdfc50f023e82cebe2321",
+            "reference": "bc8c823b758c834c953cdfc50f023e82cebe2321",
+            "shasum": ""
+        },
+        "require": {
+            "cedriclombardot/twig-generator": "dev-master",
+            "knplabs/knp-menu-bundle": ">1.0,<2.1",
+            "symfony/symfony": "2.1.*",
+            "twig/extensions": "dev-master",
+            "twig/twig": ">= 1.9.0",
+            "white-october/pagerfanta-bundle": "dev-master"
+        },
+        "require-dev": {
+            "doctrine/common": "2.3.*",
+            "doctrine/dbal": "2.3.*",
+            "doctrine/orm": "2.3.*"
+        },
+        "suggest": {
+            "cedriclombardot/admingenerator-user-bundle": "Help you to overwrite the base layout of FOSUserBundle or others giving a parameter key of the container"
+        },
+        "time": "2013-02-22 20:40:09",
+        "type": "symfony-bundle",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Admingenerator\\GeneratorBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Cedric LOMBARDOT",
+                "email": "cedric.lombardot@gmail.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://github.com/cedriclombardot/AdmingeneratorGeneratorBundle/contributors"
+            }
+        ],
+        "description": "Admingenerator for Symfony2 based on YAML configuration and Twig templating",
+        "homepage": "http://symfony2admingenerator.org/",
+        "keywords": [
+            "admin",
+            "generator",
+            "yaml"
+        ]
+    },
+    {
+        "name": "knplabs/knp-menu",
+        "version": "v1.1.2",
+        "version_normalized": "1.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "http://github.com/KnpLabs/KnpMenu.git",
+            "reference": "v1.1.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/KnpLabs/KnpMenu/zipball/v1.1.2",
+            "reference": "v1.1.2",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "pimple/pimple": "*",
+            "silex/silex": "1.0.*",
+            "twig/twig": ">=1.2,<2.0-dev"
+        },
+        "suggest": {
+            "pimple/pimple": "for the built-in implementations of the menu provider and renderer provider",
+            "silex/silex": "for the integration with your silex application",
+            "twig/twig": "for the TwigRenderer and the integration with your templates"
+        },
+        "time": "2012-06-10 09:20:40",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.1.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Knp\\Menu\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Christophe Coevoet",
+                "email": "stof@notk.org"
+            },
+            {
+                "name": "KnpLabs",
+                "homepage": "http://knplabs.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://github.com/KnpLabs/KnpMenu/contributors"
+            }
+        ],
+        "description": "An object oriented menu library",
+        "homepage": "http://knplabs.com",
+        "keywords": [
+            "menu",
+            "tree"
+        ]
+    },
+    {
+        "name": "sonata-project/exporter",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sonata-project/exporter",
+            "reference": "1.1.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sonata-project/exporter/zipball/1.1.0",
+            "reference": "1.1.0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "php": ">=5.3.0",
+            "symfony/routing": "*"
+        },
+        "suggest": {
+            "ext-curl": "*",
+            "symfony/routing": "*"
+        },
+        "time": "2013-02-09 15:12:27",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Exporter": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thomas Rabaix",
+                "email": "thomas.rabaix@gmail.com",
+                "homepage": "http://sonata-project.org/"
+            }
+        ],
+        "description": "Lightweight Exporter library",
+        "homepage": "https://github.com/sonata-project/Exporter",
+        "keywords": [
+            "client",
+            "csv",
+            "data",
+            "export",
+            "xls"
+        ]
+    },
+    {
+        "name": "knplabs/knp-menu-bundle",
+        "version": "v1.1.0",
+        "version_normalized": "1.1.0.0",
+        "target-dir": "Knp/Bundle/MenuBundle",
+        "source": {
+            "type": "git",
+            "url": "http://github.com/KnpLabs/KnpMenuBundle.git",
+            "reference": "v1.1.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/KnpLabs/KnpMenuBundle/zipball/v1.1.0",
+            "reference": "v1.1.0",
+            "shasum": ""
+        },
+        "require": {
+            "knplabs/knp-menu": "1.1.*",
+            "symfony/framework-bundle": ">=2.0,<2.2-dev"
+        },
+        "time": "2012-05-17 04:56:49",
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Knp\\Bundle\\MenuBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Christophe Coevoet",
+                "email": "stof@notk.org"
+            },
+            {
+                "name": "KnpLabs",
+                "homepage": "http://knplabs.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://github.com/KnpLabs/KnpMenuBundle/contributors"
+            }
+        ],
+        "description": "This bundle provides an integration of the KnpMenu library",
+        "keywords": [
+            "menu"
+        ]
+    },
+    {
+        "name": "sonata-project/block-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Sonata/BlockBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sonata-project/SonataBlockBundle.git",
+            "reference": "23c04147b54ab93432a1ae2a044eca2edbdf27a5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/23c04147b54ab93432a1ae2a044eca2edbdf27a5",
+            "reference": "23c04147b54ab93432a1ae2a044eca2edbdf27a5",
+            "shasum": ""
+        },
+        "require": {
+            "symfony/form": ">=2.1,<2.3-dev",
+            "symfony/http-foundation": ">=2.1,<2.3-dev"
+        },
+        "require-dev": {
+            "sonata-project/admin-bundle": "dev-master",
+            "sonata-project/cache-bundle": "dev-master"
+        },
+        "suggest": {
+            "sonata-project/admin-bundle": "dev-master",
+            "sonata-project/cache-bundle": "dev-master"
+        },
+        "time": "2013-02-16 14:05:06",
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Sonata\\BlockBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thomas Rabaix",
+                "email": "thomas.rabaix@sonata-project.org",
+                "homepage": "http://sonata-project.org"
+            },
+            {
+                "name": "Sonata Community",
+                "homepage": "https://github.com/sonata-project/SonataBlockBundle/contributors"
+            }
+        ],
+        "description": "Symfony SonataBlockBundle",
+        "homepage": "http://sonata-project.org/bundles/block",
+        "keywords": [
+            "block",
+            "sonata"
+        ]
+    },
+    {
+        "name": "sonata-project/jquery-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Sonata/jQueryBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sonata-project/SonatajQueryBundle.git",
+            "reference": "5f87a761302e6c78304e071416f75d41eb1fb3c2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sonata-project/SonatajQueryBundle/zipball/5f87a761302e6c78304e071416f75d41eb1fb3c2",
+            "reference": "5f87a761302e6c78304e071416f75d41eb1fb3c2",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2",
+            "symfony/framework-bundle": "2.*"
+        },
+        "time": "2012-08-29 23:34:42",
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Sonata\\jQueryBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thomas Rabaix",
+                "email": "thomas.rabaix@sonata-project.org",
+                "homepage": "http://sonata-project.org"
+            },
+            {
+                "name": "Sonata Community",
+                "homepage": "https://github.com/sonata-project/SonatajQueryBundle/contributors"
+            }
+        ],
+        "description": "Symfony SonatajQueryBundle",
+        "homepage": "http://sonata-project.org/bundles/jquery",
+        "keywords": [
+            "jquery",
+            "sonata"
+        ]
+    },
+    {
+        "name": "sonata-project/admin-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Sonata/AdminBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sonata-project/SonataAdminBundle.git",
+            "reference": "785475567dad895f5ee7434570de0de3c06ea1b6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/785475567dad895f5ee7434570de0de3c06ea1b6",
+            "reference": "785475567dad895f5ee7434570de0de3c06ea1b6",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/common": ">=2.2,<3.0",
+            "knplabs/knp-menu-bundle": ">=1.1.0,<2.0.x-dev",
+            "sonata-project/block-bundle": "dev-master",
+            "sonata-project/exporter": "1.1.*",
+            "sonata-project/jquery-bundle": "dev-master",
+            "symfony/config": ">=2.1,<2.3-dev",
+            "symfony/console": ">=2.1,<2.3-dev",
+            "symfony/form": ">=2.1,<2.3-dev",
+            "symfony/http-foundation": ">=2.1,<2.3-dev",
+            "symfony/routing": ">=2.1,<2.3-dev",
+            "symfony/security-bundle": ">=2.1,<2.3-dev",
+            "symfony/twig-bridge": ">=2.1,<2.3-dev",
+            "symfony/validator": ">=2.1,<2.3-dev",
+            "twig/twig": ">=1.10,<2.0-dev"
+        },
+        "require-dev": {
+            "jms/translation-bundle": "*"
+        },
+        "suggest": {
+            "sonata-project/doctrine-orm-admin-bundle": "dev-master",
+            "sonata-project/intl-bundle": "dev-master"
+        },
+        "time": "2013-02-22 18:37:53",
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Sonata\\AdminBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thomas Rabaix",
+                "email": "thomas.rabaix@sonata-project.org",
+                "homepage": "http://sonata-project.org"
+            },
+            {
+                "name": "Sonata Community",
+                "homepage": "https://github.com/sonata-project/SonataAdminBundle/contributors"
+            }
+        ],
+        "description": "Symfony SonataAdminBundle",
+        "homepage": "http://sonata-project.org/bundles/admin",
+        "keywords": [
+            "Admin Generator",
+            "admin",
+            "bootstrap",
+            "sonata"
+        ]
+    },
+    {
+        "name": "sonata-project/doctrine-orm-admin-bundle",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Sonata/DoctrineORMAdminBundle",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git",
+            "reference": "344ac471d779d198a858e0c6783990516eef0fe7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/344ac471d779d198a858e0c6783990516eef0fe7",
+            "reference": "344ac471d779d198a858e0c6783990516eef0fe7",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/orm": ">=2.2,<2.4-dev",
+            "sonata-project/admin-bundle": "dev-master",
+            "symfony/symfony": ">=2.1,<2.3-dev"
+        },
+        "time": "2013-02-22 18:34:33",
+        "type": "symfony-bundle",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Sonata\\DoctrineORMAdminBundle": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thomas Rabaix",
+                "email": "thomas.rabaix@sonata-project.org",
+                "homepage": "http://sonata-project.org"
+            },
+            {
+                "name": "Sonata Community",
+                "homepage": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle/contributors"
+            }
+        ],
+        "description": "Symfony Sonata / Integrate Doctrine ORM into the SonataAdminBundle",
+        "homepage": "http://sonata-project.org/bundles/admin",
+        "keywords": [
+            "Admin Generator",
+            "admin",
+            "bootstrap",
+            "generator",
+            "sonata"
         ]
     }
 ]

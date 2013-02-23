@@ -334,10 +334,8 @@ class Container implements IntrospectableContainerInterface
             unset($this->scopedServices[$name]);
 
             foreach ($this->scopeChildren[$name] as $child) {
-                if (isset($this->scopedServices[$child])) {
-                    $services[$child] = $this->scopedServices[$child];
-                    unset($this->scopedServices[$child]);
-                }
+                $services[$child] = $this->scopedServices[$child];
+                unset($this->scopedServices[$child]);
             }
 
             // update global map

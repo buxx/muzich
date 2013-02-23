@@ -25,7 +25,6 @@ class TestMultipleHttpKernel extends HttpKernel implements ControllerResolverInt
     protected $headers;
     protected $catch;
     protected $call;
-    protected $backendRequest;
 
     public function __construct($responses)
     {
@@ -43,15 +42,8 @@ class TestMultipleHttpKernel extends HttpKernel implements ControllerResolverInt
         parent::__construct(new EventDispatcher(), $this);
     }
 
-    public function getBackendRequest()
-    {
-        return $this->backendRequest;
-    }
-
     public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = false)
     {
-        $this->backendRequest = $request;
-
         return parent::handle($request, $type, $catch);
     }
 

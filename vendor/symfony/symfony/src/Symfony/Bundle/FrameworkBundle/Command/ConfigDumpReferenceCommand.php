@@ -236,12 +236,10 @@ EOF
         $default = (string) $default != '' ? ' '.$default : '';
         $comments = count($comments) ? '# '.implode(', ', $comments) : '';
 
-        $text = rtrim(sprintf('%-20s %s %s', $node->getName() . ':', $default, $comments), ' ');
+        $text = sprintf('%-20s %s %s', $node->getName().':', $default, $comments);
 
         if ($info = $node->getInfo()) {
             $this->outputLine('');
-            // indenting multi-line info
-            $info = str_replace("\n", sprintf("\n%" . $depth * 4 . "s# ", ' '), $info);
             $this->outputLine('# '.$info, $depth * 4);
         }
 

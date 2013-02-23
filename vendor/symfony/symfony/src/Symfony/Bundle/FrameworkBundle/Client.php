@@ -78,7 +78,7 @@ class Client extends BaseClient
             $this->hasPerformedRequest = true;
         }
 
-        return parent::doRequest($request);
+        return $this->kernel->handle($request);
     }
 
     /**
