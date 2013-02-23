@@ -244,6 +244,12 @@ class Element
   protected $count_report;
   
   /**
+   * @ORM\Column(type="boolean", nullable=false)
+   * @var int 
+   */
+  protected $reported = false;
+  
+  /**
    * array json des id users ayant reporté l'élément
    * 
    * @ORM\Column(type="text", nullable=true)
@@ -581,6 +587,24 @@ class Element
   public function setCountReport($count)
   {
     $this->count_report = $count;
+    if ($count)
+    {
+      $this->setReported(true);
+    }
+    else
+    {
+      $this->setReported(false);
+    }
+  }
+  
+  public function setReported($reported)
+  {
+    $this->reported = $reported;
+  }
+  
+  public function getReported()
+  {
+    return $this->reported;
   }
   
   public function getReportIds()

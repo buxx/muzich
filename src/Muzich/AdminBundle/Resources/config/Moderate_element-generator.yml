@@ -20,7 +20,7 @@ builders:
           ToModerate: 
             default: true
             filters: 
-              count_report: true
+              reported: true
   filters:
     params:
       fields: ~

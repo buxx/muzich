@@ -11,7 +11,8 @@ class EditController extends BaseEditController
   
   protected function getElementContext($pk)
   {
-    $Element = $this->getObject($pk);
+    $Element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($pk);
     if (!$Element) {
         throw new NotFoundHttpException("The Muzich\CoreBundle\Entity\Element with id $pk can't be found");
     }

@@ -60,7 +60,7 @@ class CheckModerateCommand extends ContainerAwareCommand
             'tags'     => $count_tags,
             'elements' => $count_elements,
             'comments' => $count_comments,
-            'url'      => $website_url.$this->getContainer()->get('router')->generate('MuzichAdminBundle_moderate_index', array(), false)
+            'url'      => $website_url.$this->getContainer()->get('router')->generate('AdmingeneratorDashboard_welcome', array(), false)
           )))
       ;
       $this->getContainer()->get('mailer')->send($message);
