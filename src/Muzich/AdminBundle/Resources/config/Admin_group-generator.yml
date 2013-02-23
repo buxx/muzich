@@ -3,7 +3,11 @@ params:
   model: Muzich\CoreBundle\Entity\Group
   namespace_prefix: Muzich
   bundle_name: AdminBundle
-  fields: ~
+  fields:
+    owner:
+      formType: shtumi_ajax_autocomplete
+      formOptions:
+        entity_alias: users
 
 builders:
   list:
@@ -24,12 +28,14 @@ builders:
       title: New Group
       display: [name, owner, description, open]
       actions:
+        save: ~
         list: ~
   edit:
     params:
       title: "You're editing the object \"%object%\"|{ %object%: Group.name }|"
       display: [name, owner, description, open]
       actions:
+        save: ~
         list: ~
   show:
     params:

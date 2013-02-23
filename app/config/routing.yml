@@ -52,6 +52,10 @@ AdmingeneratorGeneratorBundle_Dashboard:
     resource: "@AdmingeneratorGeneratorBundle/Resources/config/routing.yml"
     prefix:   /
 
+shtumi_useful:
+    resource: '@ShtumiUsefulBundle/Resources/config/routing.xml'
+    prefix:   /system/search/
+
 ########## ADMIN
 MuzichAdminBundle_admin_muzich_admin_bundle_admin_element:
     resource: "@MuzichAdminBundle/Controller/Admin_element/"

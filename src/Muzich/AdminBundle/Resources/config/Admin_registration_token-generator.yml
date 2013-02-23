@@ -23,12 +23,14 @@ builders:
       title: New Registration Token
       display: [ token, count, count_max ]
       actions:
+        save: ~
         list: ~
   edit:
     params:
       title: "You're editing the object \"%object%\"|{ %object%: RegistrationToken.token }|"
       display: [ token, count, count_max ]
       actions:
+        save: ~
         list: ~
   show:
     params:

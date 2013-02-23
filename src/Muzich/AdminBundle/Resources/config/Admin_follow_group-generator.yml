@@ -3,7 +3,15 @@ params:
   model: Muzich\CoreBundle\Entity\FollowGroup
   namespace_prefix: Muzich
   bundle_name: AdminBundle
-  fields: ~
+  fields:
+    follower:
+      formType: shtumi_ajax_autocomplete
+      formOptions:
+        entity_alias: users
+    group:
+      formType: shtumi_ajax_autocomplete
+      formOptions:
+        entity_alias: groups
 
 builders:
   list:
@@ -24,12 +32,14 @@ builders:
       title: New object for Group Follow
       display: [ follower, group ]
       actions:
+        save: ~
         list: ~
   edit:
     params:
       title: "You're editing the object \"%object%\"|{ %object%: FollowGroup.group.name }|"
       display: [ follower, group ]
       actions:
+        save: ~
         list: ~
   show:
     params:

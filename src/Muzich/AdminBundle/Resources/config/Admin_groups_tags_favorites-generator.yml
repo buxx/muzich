@@ -3,7 +3,15 @@ params:
   model: Muzich\CoreBundle\Entity\GroupsTagsFavorites
   namespace_prefix: Muzich
   bundle_name: AdminBundle
-  fields: ~
+  fields:
+    group:
+      formType: shtumi_ajax_autocomplete
+      formOptions:
+        entity_alias: groups
+    tag:
+      formType: shtumi_ajax_autocomplete
+      formOptions:
+        entity_alias: tags
 
 builders:
   list:
@@ -23,12 +31,14 @@ builders:
       title: New Group tag favorite
       display: [ group, tag ]
       actions:
+        save: ~
         list: ~
   edit:
     params:
       title: "You're editing the object \"%object%\"|{ %object%: GroupsTagsFavorites.group.name }|"
       display: [ group, tag ]
       actions:
+        save: ~
         list: ~
   show:
     params:

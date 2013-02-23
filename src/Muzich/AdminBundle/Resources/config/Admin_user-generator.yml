@@ -29,6 +29,7 @@ builders:
         "Moderation": [ bad_report_count, moderated_element_count, moderated_tag_count, moderated_comment_count ]
         "System": [ cgu_accepted, mail_newsletter, mail_partner, enabled ]
       actions:
+        save: ~
         list: ~
   edit:
     params:
@@ -39,6 +40,7 @@ builders:
         "Moderation": [ bad_report_count, moderated_element_count, moderated_tag_count, moderated_comment_count ]
         "System": [ cgu_accepted, mail_newsletter, mail_partner, enabled ]
       actions:
+        save: ~
         list: ~
   show:
     params:

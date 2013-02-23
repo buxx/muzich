@@ -6,11 +6,9 @@ params:
   bundle_name: AdminBundle
   fields:
     owner:
-      label: Owner name
-      sort_on: owner.name
-      getter: owner.name
-      addFormOptions:
-        property: name
+      formType: shtumi_ajax_autocomplete
+      formOptions:
+        entity_alias: users
 
 builders:
   list:
@@ -37,6 +35,7 @@ builders:
         "Relations" : [owner, group]
         "System" : [need_tags]
       actions:
+        save: ~
         list: ~
   edit:
     params:
@@ -46,6 +45,7 @@ builders:
         "Relations" : [owner, group]
         "System" : [need_tags]
       actions:
+        save: ~
         list: ~
   show:
     params:

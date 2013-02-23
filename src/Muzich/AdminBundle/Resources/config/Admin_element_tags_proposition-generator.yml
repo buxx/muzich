@@ -3,15 +3,21 @@ params:
   model: Muzich\CoreBundle\Entity\ElementTagsProposition
   namespace_prefix: Muzich
   bundle_name: AdminBundle
-  fields: ~
+  fields:
+    element:
+      formType: shtumi_ajax_autocomplete
+      formOptions:
+        entity_alias: elements
+    user:
+      formType: shtumi_ajax_autocomplete
+      formOptions:
+        entity_alias: users
 
 builders:
   list:
     params:
       title: List for elements tags propositions
       display: [ id, element, user, tags ]
-      actions:
-        new: ~
       object_actions:
         show: ~
         edit: ~
@@ -24,12 +30,14 @@ builders:
       title: New object for AdminBundle
       display: [ element, user, tags ]
       actions:
+        save: ~
         list: ~
   edit:
     params:
       title: "You're editing tags propotions for \"%object%\"|{ %object%: ElementTagsProposition.element.name }|"
       display: [ element, user, tags ]
       actions:
+        save: ~
         list: ~
   show:
     params:

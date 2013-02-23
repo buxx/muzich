@@ -23,12 +23,14 @@ builders:
       title: New Presubscription
       display: [ email ]
       actions:
+        save: ~
         list: ~
   edit:
     params:
       title: "You're editing the object \"%object%\"|{ %object%: Presubscription.email }|"
       display: [ email ]
       actions:
+        save: ~
         list: ~
   show:
     params:

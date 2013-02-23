@@ -3,7 +3,11 @@ params:
   model: Muzich\CoreBundle\Entity\EventArchive
   namespace_prefix: Muzich
   bundle_name: AdminBundle
-  fields: ~
+  fields:
+    user:
+      formType: shtumi_ajax_autocomplete
+      formOptions:
+        entity_alias: users
 
 builders:
   list:
@@ -23,12 +27,14 @@ builders:
       title: New Event archive
       display: [ type, user, count]
       actions:
+        save: ~
         list: ~
   edit:
     params:
       title: "You're editing event archive for \"%object%\"|{ %object%: EventArchive.user.username }|"
       display: [ type, user, count]
       actions:
+        save: ~
         list: ~
   show:
     params:
