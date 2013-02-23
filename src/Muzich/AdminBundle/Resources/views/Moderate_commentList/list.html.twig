@@ -1,0 +1,105 @@
+{% extends "AdmingeneratorGeneratorBundle::base_admin_assetic_less.html.twig" %}
+
+{% block stylesheets %}{{ parent() }}{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset("bundles/admingeneratorgenerator/js/admingenerator/general.js") }}"></script>
+{% endblock %}
+
+{% block title %}
+  {{ parent() }} - {% trans from "Admin" %}List for Comments{% endtrans %}
+{% endblock %}
+
+{% block body %}
+  
+  {% block page_title %}
+    <header>
+      <h1>{% trans from "Admin" %}List for Comments{% endtrans %}</h1>
+    </header>
+  {% endblock %}
+  
+  <div class="row-fluid">
+    <div class=" span9 ">
+
+      {% block list_scopes %}
+      {% endblock %}
+  
+      {% block list_nbresults %}
+      {% endblock %}
+      
+      {% block form_batch_actions %}
+      {% endblock %}
+  
+      <table class="table table-striped table-hover table-condensed">
+        {% block list_thead %}
+          <thead>
+            <tr class="list_thead">
+              
+              <th class="list_thead_column">
+                Username
+              </th>
+              
+              <th class="list_thead_column">
+                Comment
+              </th>
+              
+              <th class="actions">{% trans from "Admingenerator" %}list.header.actions{% endtrans %}</th>
+            </tr>
+          </thead>
+        {% endblock %}
+  
+      {% block list_tbody %}
+        <tbody>
+          {% if Comments|length > 0 %}
+  
+            {% for Comment in Comments %}
+            <tr class="list_trow">
+              {% block list_row %}
+                <td class="td_integer td_username">
+                  {% block list_td_column_id %}{{ Comment.username }}{% endblock %}
+                </td>
+                <td class="td_string td_comment">
+                  {% block list_td_column_name %}{{ Comment.comment }}{% endblock %}
+                </td>
+              {% endblock %}
+              {% block list_object_actions %}
+                <td class="actions">
+                  
+                  <a class="" href="{{ path("Muzich_AdminBundle_Moderate_comment_accept", { 'element_id': Comment.element_id, 'date' : Comment.date }) }}"
+                     data-confirm="{% trans from "Admingenerator" %}Sure to ACCEPT ?{% endtrans %}"
+                     rel="tooltip" data-original-title="{% trans from "Admingenerator" %}Accept{% endtrans %}">
+                    <i class="icon-asterisk"></i>
+                  </a>
+                  
+                                              
+                  <a class="" href="{{ path("Muzich_AdminBundle_Moderate_comment_refuse", { 'element_id': Comment.element_id, 'date' : Comment.date }) }}"
+                     data-confirm="{% trans from "Admingenerator" %}Sure to REFUSE ?{% endtrans %}"
+                     rel="tooltip" data-original-title="{% trans from "Admingenerator" %}Refuse{% endtrans %}">
+                    <i class="icon-asterisk"></i>
+                  </a>
+                
+                </td>
+              {% endblock %}
+  
+            </tr>
+          {% endfor %}
+  
+        {% else %}
+          <tr class="list_trow no_results_row">
+            <td colspan="5">{% trans from "Admingenerator" %}list.no.results{% endtrans %}</td>
+          </tr>
+        {% endif %}
+      </tbody>
+      {% endblock %}
+  
+      </table>
+      
+      <div class="form-actions">
+        {% block list_paginator %}
+        {% endblock %}
+      </div>
+  
+    </div>
+  </div>
+{% endblock %}

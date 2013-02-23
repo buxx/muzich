@@ -39,3 +39,22 @@ Muzich_AdminBundle_Moderate_tag_refuse:
   defaults: { _controller:Muzich\AdminBundle\Controller\Moderate_tag\EditController::refuseAction }
   requirements:
     _method:  GET
+    
+Muzich_AdminBundle_Moderate_comment_list:
+  pattern:  /Moderate_comment/
+  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate_comment\ListController::listAction }
+  requirements:
+    _method:  GET
+    
+Muzich_AdminBundle_Moderate_comment_accept:
+  pattern:  /Moderate_comment/{element_id}/{date}/accept
+  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate_comment\EditController::acceptAction }
+  requirements:
+    _method:  GET
+    
+Muzich_AdminBundle_Moderate_comment_refuse:
+  pattern:  /Moderate_comment/{element_id}/{date}/refuse
+  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate_comment\EditController::refuseAction }
+  requirements:
+    _method:  GET
+
