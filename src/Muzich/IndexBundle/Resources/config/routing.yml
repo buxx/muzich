@@ -6,6 +6,12 @@ presubscription_register:
   requirements:
     _method:  POST
 
+presubscription_register_confirm:
+  pattern:  /hello/{_locale}/presubscription/confirm/{token}
+  defaults: { _controller: MuzichIndexBundle:Index:presubscriptionConfirm }
+  requirements:
+    _method:  GET
+
 index_without_locale:
     pattern:  /hello/
     defaults: { _controller: MuzichCoreBundle:Core:automaticLanguage }

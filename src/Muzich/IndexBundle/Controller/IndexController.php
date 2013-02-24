@@ -76,9 +76,29 @@ class IndexController extends Controller
     $form->bind($request);
     if ($form->isValid())
     {
+      $message = \Swift_Message::newInstance()
+        ->setSubject($this->trans('mail.presubscription.subject', array(), 'text'))
+        ->setFrom(array(
+          $this->container->getParameter('emails_from') => $this->container->getParameter('emails_from_name')
+        ))
+        ->setTo($form->getData()->getEmail())
+        ->setBody(
+          $this->renderView(
+            'MuzichIndexBundle:Presubscription:confirm.txt.twig',
+            array(
+              'url' => $this->generateUrl('presubscription_register_confirm', array(
+                'token' => $form->getData()->getToken()
+              ), true)
+            )
+          )
+        )
+      ;
+      $this->get('mailer')->send($message);
+      
+      
       $this->persist($form->getData());
       $this->flush();
-      $this->setFlash('success', 'presubscription.success');
+      $this->setFlash('info', 'presubscription.success');
       return $this->redirect($this->generateUrl('index'));
     }
     
@@ -90,6 +110,26 @@ class IndexController extends Controller
       'error'         => '',
       'registration_errors_pers' => array()
     ));
+  }
+  
+  public function presubscriptionConfirmAction($token)
+  {
+    $presubscription = $this->getDoctrine()->getRepository('MuzichCoreBundle:Presubscription')->findOneBy(array(
+      'token'     => $token,
+      'confirmed' => false
+    ));
+    
+    if (!$presubscription)
+    {
+      throw $this->createNotFoundException();
+    }
+    
+    $presubscription->setConfirmed(true);
+    $this->persist($presubscription);
+    $this->flush();
+    
+    $this->setFlash('success', 'presubscription.confirmed');
+    return $this->redirect($this->generateUrl('index'));
   }
   
 }

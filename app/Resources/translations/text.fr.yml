@@ -27,7 +27,7 @@ mail:
                   Une demande de réinitialisation de votre mot de passe a été demandé. Si vous
                   n'êtes pas a l'origine de cette demande, ne tenez pas compte de cet email.
                   
-                  Si au contraire, vous souhaitez changer le mot de passe de votre accès a Muzi.ch
+                  Si au contraire vous souhaitez changer le mot de passe de votre accès a Muzi.ch
                   rendez-vous à cette adresse: %url%
                   
                   Cordialement,
@@ -41,9 +41,23 @@ mail:
                   Une demande de changement d'email a été demandé. Si vous
                   n'êtes pas a l'origine de cette demande, ne tenez pas compte de cet email.
                   
-                  Si au contraire, vous souhaitez définir cette nouvelle adresse email
+                  Si au contraire vous souhaitez définir cette nouvelle adresse email
                   rendez-vous à cette adresse: %url%
                   
                   Cordialement,
                   
                   l'équipe de Muzi.ch
+  presubscription:
+    subject:         Muzi.ch: Inscription pour l'ouverture
+    text:            >
+                      Bonjour,
+                      
+                      Une demande d'inscription de cet email a Muzi.ch pour son ouverture oficielle a été demandé.
+                      Si vous n'êtes pas a l'origine de cette demande, ne tenez pas compte de cet email.
+                      
+                      Si au contraire vous souhaitez être avertis de l'ouverture officielle de
+                      Muzi.ch, rendez vous à cette adresse: %url%
+                      
+                      Cordialement,
+                      
+                      l'équipe de Muzi.ch

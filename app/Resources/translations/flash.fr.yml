@@ -33,5 +33,6 @@ user:
   session_expired: Vous avez été déconnecté, veuillez vous ré-identifier
 
 presubscription:
-  success:         Nous avons bien pris note de votre demande !
+  success:         Un email a été envoyé a votre adresse email pour confirmation
   error:           Une erreur est survenue, veuillez réessayer
+  confirmed:       Votre email a bien été pris en compte, merci !

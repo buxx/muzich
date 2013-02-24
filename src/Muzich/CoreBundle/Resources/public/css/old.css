@@ -359,6 +359,12 @@ ul.inline li
 		 border-color: #55a12c;
 }
 
+.message.info
+{
+  background-color: #4ea5cd;
+  border-color: #3b8eb5;
+}
+
 .message h3
 {
 		 margin: 0 0 5px 0;													 
