@@ -93,6 +93,8 @@ class IndexController extends Controller
           )
         )
       ;
+      $message->getHeaders()->addTextHeader('List-Unsubscribe', 'unsubscribe@muzi.ch');
+      
       $this->get('mailer')->send($message);
       
       
