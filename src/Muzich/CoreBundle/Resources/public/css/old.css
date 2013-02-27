@@ -1333,13 +1333,13 @@ a#autoplay_launch
   float: right;
   margin-top: -25px;
 }
-
+/*
 div#autoplay.popin_block
 {
   width: 500px;
-}
+}*/
 
-a#autoplay_previous
+/*a#autoplay_previous
 {
   float: left;
   text-decoration: none;
@@ -1361,11 +1361,11 @@ a#autoplay_previous, a#autoplay_next, a#autoplay_close
   padding: 5px;
   border: 10px solid #ddd;
   z-index: 99999;
-  /*--Les différentes définitions de Box Shadow en CSS3--*/
+  --Les différentes définitions de Box Shadow en CSS3--
   -webkit-box-shadow: 0px 0px 20px #000;
   -moz-box-shadow: 0px 0px 20px #000;
   box-shadow: 0px 0px 20px #000;
-  /*--Coins arrondis en CSS3--*/
+  --Coins arrondis en CSS3--
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -1378,7 +1378,7 @@ a#autoplay_close
   margin-top: 130px;
   margin-left: -110px;
   z-index: 99;
-}
+}*/
 
 div#autoplay_title
 {

@@ -52,4 +52,20 @@ class InfoController extends Controller
     return array();
   }
   
+  public function helpboxAction($ressource_id)
+  {
+    if (!in_array($ressource_id, array(
+      'element_add_url'
+    )))
+    {
+      return $this->jsonNotFoundResponse();
+    }
+    
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'data'     => $this->render('MuzichCoreBundle:Helpbox:'.$ressource_id.'.html.twig')
+                      ->getContent()
+    ));
+  }
+  
 }

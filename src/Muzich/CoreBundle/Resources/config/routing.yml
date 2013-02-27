@@ -86,6 +86,12 @@ info_cgu:
   pattern: /info/cgu
   defaults: { _controller: MuzichCoreBundle:Info:cgu }
   
+### helper
+
+helpbox_bootstrap:
+  pattern: /info/help/{ressource_id}
+  defaults: { _controller: MuzichCoreBundle:Info:helpbox }
+
 ####
 
 element_edit:
@@ -195,3 +201,4 @@ element_get_stream_data:
 url_get_embed_for_element:
   pattern: /ajax/element/data/get/embed/{element_id}
   defaults: { _controller: MuzichCoreBundle:Element:getEmbedCode, element_id: null }
+

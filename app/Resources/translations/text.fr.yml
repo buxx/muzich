@@ -61,3 +61,16 @@ mail:
                       Cordialement,
                       
                       l'équipe de Muzi.ch
+
+help:
+  element_add_url:
+    title1:            Ajouter un partage: Adresse HTTP
+    text1:            |
+                      Vous devez mettre dans ce champ l'adresse de la page internet
+                      contenant la musique à partager. Faites bien attention a vous 
+                      trouver sur la page représentant la musique que vous souahitez 
+                      partager. Evitez par exemple de partager une adresse après 
+                      avoir effectué une recherche.
+    title2:           Exemple avec Youtube
+    title3:           Exemple avec Soundcloud
+                      

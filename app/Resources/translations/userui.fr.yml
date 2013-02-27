@@ -148,6 +148,8 @@ element_add:
     help:     |
               Copier ici le lien internet (http://) pointant sur la ressource 
               que vous souhaitez partager.
+    more_help: Cliquez ici pour plus de détails
+              
   need_tags:
     name:     Demander de l'aide pour tagger votre partage
   name:

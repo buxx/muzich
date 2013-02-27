@@ -12,7 +12,13 @@
 
 <div id="form_add_first_part">
 
-  <span class="help">{{ 'element_add.url.help'|trans({}, 'userui') }}</span>
+  <span class="help">
+    {{ 'element_add.url.help'|trans({}, 'userui') }}
+    <a href="{{ path('helpbox_bootstrap', {'ressource_id':'element_add_url'}) }}" class="helpbox">
+      {{ 'element_add.url.more_help'|trans({}, 'userui') }}
+    </a>
+  </span>
+  
 
   <div class="field fom_add_url">
     {{ form_errors(form.url) }}
