@@ -48,6 +48,8 @@ class User extends BaseUser
    */
   const DATA_DIFF_UPDATED        = "data_diff_updated";
   
+  const HELP_TOUR_HOME = "home";
+  
  /**
   * @ORM\Id
   * @ORM\Column(type="integer")
@@ -264,8 +266,7 @@ class User extends BaseUser
     $this->groups = new ArrayCollection();
     $this->groups_owned = new ArrayCollection();
     $this->help_tour = json_encode(array(
-      'home' => true,
-      
+      self::HELP_TOUR_HOME => true
     ));
     parent::__construct();
   }
@@ -1028,6 +1029,36 @@ class User extends BaseUser
   public function getMailPartner()
   {
     return $this->mail_partner;
+  }
+  
+  public function getHelpTour()
+  {
+    return json_decode($this->help_tour, true);
+}
+  
+  public function setHelpTour($help_tour)
+  {
+    $this->help_tour = json_encode($help_tour);
+  }
+  
+  public function wantSeeHelp($help_id)
+  {
+    $help_tour_status = $this->getHelpTour();
+    if (array_key_exists($help_id, $help_tour_status))
+    {
+      return $help_tour_status[$help_id];
+    }
+    return false;
+  }
+  
+  public function setSeeHelp($help_id, $boolean)
+  {
+    $help_tour_status = $this->getHelpTour();
+    if (array_key_exists($help_id, $help_tour_status))
+    {
+      $help_tour_status[$help_id] = ($boolean)?true:false;
+    }
+    $this->setHelpTour($help_tour_status);
   }
   
 }

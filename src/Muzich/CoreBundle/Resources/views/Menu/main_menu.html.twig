@@ -5,13 +5,13 @@
   {% endif %}
   
   <li class="{% if network_public == '1' and not ids_display %}selected{% endif %}">
-    <a href="{{ path('home') }}" class="all_network">
+    <a id="link_all_network" href="{{ path('home') }}" class="all_network">
       {{ 'filter.network_all'|trans({}, 'userui') }}
     </a>
   </li>
   <li class="separator"></li>
   <li class="{% if network_public == '0' and not ids_display %}selected{% endif %}">
-    <a href="{{ path('mynetwork_home') }}" class="my_network" >
+    <a id="link_my_network" href="{{ path('mynetwork_home') }}" class="my_network" >
       {{ 'filter.network_my'|trans({}, 'userui') }}
     </a>
   </li>

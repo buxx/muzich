@@ -1952,3 +1952,27 @@ a#helpbox_close
 {
   margin-top: 10px;
 }
+
+div#tourtip, div#tourControls
+{
+  z-index: 999;
+  border: 10px solid #CD0B1A;
+  background: #fff;
+}
+
+div#tourtip
+{
+  width: 450px;
+}
+
+div#tourtip h1, div#tourControls h1
+{
+  font-size: 1.55em;
+  margin-top: 0;
+}
+
+div#tourControls a#tourEnd
+{
+  margin-top: 10px;
+  float: right;
+}

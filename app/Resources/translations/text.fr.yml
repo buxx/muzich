@@ -73,4 +73,84 @@ help:
                       avoir effectué une recherche.
     title2:           Exemple avec Youtube
     title3:           Exemple avec Soundcloud
+
+help_tour:
+  buttons:
+    next:             Suivant
+    prev:             Précédent
+    start:            Démarrer
+    end:              Ne plus voir
+  home:
+    welcome:
+      tour:           |
+                      "<h1>Un petit tour de démonstration ?</h1>"+
+                      "<p>Appuyez sur le bouton \"Démarrer\" pour voir une petite "+
+                      "démonstration de ce que vous pouvez faire sur Muzi.ch</p>"
+    elements:
+      tour:           |
+                      "<h1>Le flux</h1>"+
+                      "<p>L'élément central de Muzi.ch est son flux de partages. "+
+                      "C'est ici que l'on retrouve les musiques partagés par les "+
+                      "différents utilisateurs.</p>"
+      tooltip:        |
+                      "<p>Les musiques apparaissent des plus récentes aux plus "+
+                      "anciennes.</p>"
+    element:
+      tour:           |
+                      "<h1>Les partages</h1>"+
+                      "<p>Différentes actions sont possibles avec les partages ...</p>"
+      play:           |
+                      "<p>En cliquant sur la miniature vous pouvez lancer la lecture de "+
+                      "la musique si le partage "+
+                      "est issue d'un site supporté, ou ouvrir la page partagé par "+
+                      "l'utilisateur.</p>"
+      actions:        |
+                      "<p>Vous pouvez, sur chaques partages: "+
+                      "<strong>Ouvrir la page d'origine</strong>, "+
+                      "<strong>lancer la lecture automatique</strong> (si le lien est supporté), "+
+                      "<strong>Proposer des tags</strong>, "+
+                      "<strong>re-partager</strong> et "+
+                      "<strong>signaler le partage comme innaproprié.</strong> "+
+                      "</p>"
+      likefav:        |
+                      "<p>Si cette musique vous a plu: récompensez l'utilisateur avec un pouce ! "+
+                      " Vous pouvez égallement ajouter ce partage a votre liste de musiques favorites.</p>"
+    filters:
+      tour:           |
+                      "<h1>Filtres</h1>"+
+                      "<p>Vous pouvez filtrer les partages a l'aide de tags.</p>"
+      notags:         |
+                      "<p>Sans tags, comme maintenant.</p>"
+      withtags:       |
+                      "<p>Ou avec tags !</p>"
+    
+    network:
+      tour:           |
+                      "<h1>Les réseaux</h1>"+
+                      "<p>Vous pouvez aussi filtrer les partages en fonction du réseau.</p>"
+      public:         |
+                      "<p>Le réseau public (Réseau global), ce sont tous les partages.</p>"
+      private:        |
+                      "<p>Le réseau personel (Mon réseau) représente les partages effectués par les "+
+                      "utilisateurs et les groupes que vous avez décidé de suivre.</p>"
                       
+    addelement:
+      tour:           |
+                      "<h1>Ajouter un partage</h1>"+
+                      "<p>Le deuxième point principale de Muzi.ch est l'ajout de partages. "+
+                      "Plus votre partage sera apprécié, plus vous gagnerez en réputation "+
+                      "et plus vous partagerez avec des tags précis, plus vos partages seront écoutés.</p>"
+      url:            |
+                      "<p>La première étape sera de saisir l'adresse http:// de la page "+
+                      "contenant la musique que vous souhaitez partager.</p>"
+      form:           |
+                      "<p>Si l'adresse que vous avez saisis représente une ressource sur un site géré "+
+                      "par Muzi.ch, des informations préalables vous seront proposés. Sinon "+
+                      "il faudra simplement les entrer vous même. <strong>Pensez à saisir "+
+                      "des tags pour être précis dans votre partage !</strong></p>"
+    end:
+      tour:           |
+                      "<h1>C'est parti !</h1>"+
+                      "<p>Amusez vous bien !</p>"
+      go:             |
+                      "<p>C'est parti !</p>"

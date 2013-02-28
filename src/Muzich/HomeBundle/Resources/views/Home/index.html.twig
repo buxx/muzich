@@ -12,6 +12,10 @@
     'box_title': 'home.add_element_box.title'|trans({}, 'navigationui')
   } %}
 
+  {% if app.user.wantSeeHelp('home') %}
+    {% include 'MuzichCoreBundle:HelpTour:home.html.twig' %}
+  {% endif %}
+
   {# TODO: Cette partie de javascript ne devra plus exister après la réecriture du code javascript #}
   {% if from_url is defined %}
   {% if from_url %}
@@ -45,12 +49,14 @@
   
   </div>
 
+  <div id="elements_list">
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {
     'noelements_filter'    : true,
     'display_new_elements' : true,
     'display_autoplay'     : true,
     'autoplay_context'     : 'home'
   }%}
+  </div>
   
   {% if elements|length %}
     {% include "MuzichCoreBundle:SearchElement:more_button.html.twig" with {

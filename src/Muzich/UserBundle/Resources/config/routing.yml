@@ -55,3 +55,8 @@ user_update_preferences:
   requirements:
     _method:  POST
   
+user_hide_help:
+  pattern: /account/update-help/hide/{help_id}/{token}
+  defaults: { _controller: MuzichUserBundle:User:updateHelpViewed }
+  requirements:
+    _method:  POST

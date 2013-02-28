@@ -1,0 +1,104 @@
+{% autoescape false %}
+  <script>
+    $(document).ready(function(){ 
+      $.aSimpleTour({
+        data : [
+          { 
+            element: '#elements_list', 
+            tooltip : {{ 'help_tour.home.elements.tooltip'|trans({}, 'text') }},
+            position : 'T',
+            text : {{ 'help_tour.home.elements.tour'|trans({}, 'text') }},
+            tooltipCallback : function(){ $('#tabs_tag_search_no_tags').trigger('click'); }
+          },
+          { 
+            element: 'ul.elements li:first td.element_thumbnail', 
+            text : {{ 'help_tour.home.element.tour'|trans({}, 'text') }},
+            tooltip: {{ 'help_tour.home.element.play'|trans({}, 'text') }},
+            position : 'R'
+          },
+          { 
+            element: 'ul.elements li:first ul.element_links_actions',
+            text : {{ 'help_tour.home.element.tour'|trans({}, 'text') }},
+            tooltip: {{ 'help_tour.home.element.actions'|trans({}, 'text') }},
+            position : 'L'
+          },
+          { 
+            element: 'ul.elements li:first ul.element_thumb_actions',
+            text : {{ 'help_tour.home.element.tour'|trans({}, 'text') }},
+            tooltip: {{ 'help_tour.home.element.likefav'|trans({}, 'text') }},
+            position : 'R'
+          },
+          { 
+            element: '#tabs_tag_search_no_tags',
+            text : {{ 'help_tour.home.filters.tour'|trans({}, 'text') }},
+            tooltip: {{ 'help_tour.home.filters.notags'|trans({}, 'text') }},
+            position : 'B'
+          },
+          { 
+            element: '#tabs_tag_search_with_tags',
+            text : {{ 'help_tour.home.filters.tour'|trans({}, 'text') }},
+            tooltip: {{ 'help_tour.home.filters.withtags'|trans({}, 'text') }},
+            position : 'T',
+            tooltipCallback : function(){ $('#tabs_tag_search_with_tags').trigger('click'); }
+          },
+          { 
+            element: '#header_menu a.all_network',
+            text : {{ 'help_tour.home.network.tour'|trans({}, 'text') }},
+            tooltip: {{ 'help_tour.home.network.public'|trans({}, 'text') }},
+            position : 'B'
+          },
+          { 
+            element: '#link_all_network',
+            text : {{ 'help_tour.home.network.tour'|trans({}, 'text') }},
+            tooltip: {{ 'help_tour.home.network.private'|trans({}, 'text') }},
+            position : 'B'
+          },
+          { 
+            element: '#mainbox',
+            text : {{ 'help_tour.home.addelement.tour'|trans({}, 'text') }},
+            tooltip: {{ 'help_tour.home.addelement.url'|trans({}, 'text') }},
+            position : 'T',
+            tooltipCallback : function(){ 
+              $('#element_add_link').trigger('click'); 
+              $('#element_add_url').val('http://www.jamendo.com/fr/list/a114042/falling-apart');
+            }
+          },
+          { 
+            element: '#mainbox',
+            text : {{ 'help_tour.home.addelement.tour'|trans({}, 'text') }},
+            tooltip: {{ 'help_tour.home.addelement.form'|trans({}, 'text') }},
+            position : 'T',
+            tooltipCallback : function(){ 
+              $('#element_add_url').val('http://www.jamendo.com/fr/list/a114042/falling-apart');
+              $('#form_add_first_part input[type="submit"]').trigger('click');
+            }
+          },
+          { 
+            element: '#header_logo',
+            tooltip : {{ 'help_tour.home.end.go'|trans({}, 'text') }},
+            text : {{ 'help_tour.home.end.tour'|trans({}, 'text') }}
+          }
+        ],
+        controlsPosition : 'TR',
+        welcomeMessage : {{ 'help_tour.home.welcome.tour'|trans({}, 'text') }},
+        tooltipColors:  { 'color' : 'black', 'backgroud' : ''},
+        controlsColors: { 'color' : 'black', 'backgroud' : ''},
+        buttons : { 
+          next:   '{{ 'help_tour.buttons.next'|trans({}, 'text') }}', 
+          prev:   '{{ 'help_tour.buttons.prev'|trans({}, 'text') }}', 
+          start:  '{{ 'help_tour.buttons.start'|trans({}, 'text') }}', 
+          end:    '{{ 'help_tour.buttons.end'|trans({}, 'text') }}' 
+        },
+        endCallback: function(){ 
+          $('#element_add_close_link').trigger('click');
+          JQueryJson("{{ path('user_hide_help', {
+            'help_id' : 'home',
+            'token'   :  app.user.getPersonalHash('updateHelpAction')
+          }) }}", {}, $.noop);
+        }
+      }
+
+      );
+    });
+  </script>
+{% endautoescape %}

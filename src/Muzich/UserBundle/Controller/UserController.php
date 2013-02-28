@@ -590,4 +590,20 @@ class UserController extends Controller
     return $this->redirect($this->generateUrl('my_account'));
   }
   
+  public function updateHelpViewedAction($help_id, $token)
+  {
+    if ($this->getUser()->getPersonalHash('updateHelpAction') != $token)
+    {
+      return $this->jsonNotFoundResponse();
+    }
+    
+    $this->getUser()->setSeeHelp($help_id, false);
+    $this->persist($this->getUser());
+    $this->flush();
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
+    ));
+  }
+  
 }
