@@ -54,8 +54,8 @@ my_account:
     title:          Mon adresse
     description:    Avec votre adresse Muzi.ch pourra vous avertir plus aisément des événements à venirs dans votre région.
     form:
-      ilivenear:    J'habite vers
-      in:           en
+      ilivenear:    J'habite vers (ex Paris)
+      in:           en (ex France)
       submit:       Mettre a jour
       errors:
         notown:     Veuillez saisir la ville

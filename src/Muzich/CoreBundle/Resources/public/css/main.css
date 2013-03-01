@@ -60,7 +60,7 @@ div#header div#hgroup
   padding: 0px;
   height: 80px;
   margin-left: 200px;
-  width: 580px;
+  width: 780px;
 }
 
 #header_menu li a, #register_and_login li a, #parameters li a
@@ -110,7 +110,7 @@ div#header div#hgroup
   float: right;
   margin: 0px;
   margin-top: 42px;
-  margin-right: 15px;
+  margin-right: 0px;
   padding: 0px;
 }
 
@@ -1983,4 +1983,9 @@ a.tags_prompt_helpbox
   margin-bottom: 0;
   margin-left: -6px;
   margin-top: -11px;
+}
+
+form#address_update input.intext
+{
+  width: 90px;
 }
