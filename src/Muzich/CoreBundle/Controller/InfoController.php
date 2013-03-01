@@ -55,7 +55,8 @@ class InfoController extends Controller
   public function helpboxAction($ressource_id)
   {
     if (!in_array($ressource_id, array(
-      'element_add_url'
+      'element_add_url',
+      'tags_prompt'
     )))
     {
       return $this->jsonNotFoundResponse();

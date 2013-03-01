@@ -1976,3 +1976,11 @@ div#tourControls a#tourEnd
   margin-top: 10px;
   float: right;
 }
+
+a.tags_prompt_helpbox
+{
+  float: left;
+  margin-bottom: 0;
+  margin-left: -6px;
+  margin-top: -11px;
+}

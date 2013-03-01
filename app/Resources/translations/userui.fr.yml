@@ -16,14 +16,17 @@ start:
   title:       Inscription terminé
   titleh2:     Bienvenue sur Muzich !
   description: |
-                 Cette plate-forme vous permettra de découvrir et partager vos trouvailles musicales
-                 du web. A l'aide de tags représentant genres musaicaux, instruments de musique et autres
-                 vous pouvez classifier ce que vous partagez et filtrer vos recherches. Vous pourez
-                 egallement suivre des utilisateurs et des groupes afin de créer votre propre réseau.
+               Muzi.ch est une plate-forme sur laquelle découvrir et partager vos découvertes 
+               musicales sur le web. Un clip officiel sur youtube, un nouveau mix sur soundcloud, ou 
+               un album qui vous plaît sur deezer ? Partagez l'adresse de ces pages sur le réseau
+               afin que le monde puisse profiter de votre découverte ! Vous souhaitez simplement 
+               écouter les dernières trouvaille ? Afficher le flux de ces découvertes sur votre page.
+               Vous pourrez filtrer les résultat avec les tags de vos styles de musiques préférés 
+               ainsi que créer votre propre réseau constitué de vos utilisateurs et groupes préférés.
                
   tags:
-    title:     Choisissez vos tags préférés
-    remind:    Vous pourrez egallement modifier vos tags préféré dans la partie 'mon compte'.
+    title:     Choisissez des tags représentant vos goûts
+    remind:    Vous pourrez bien entendu modifier cette liste ultérieurement.
    
 title:
   myaccount:     Mon compte
@@ -77,6 +80,7 @@ connexion:
 more:    Plus de résultats
 tags:
   prompt:
+    help_box_title: Afficher de l'aide pour la siasie de tags
     help:  |
             Choissiez un tag dans la liste ci-dessous en cliquant dessus. Pour saisir plusieurs tags
             renouvellez l'opération pour chacuns d'entre eux.

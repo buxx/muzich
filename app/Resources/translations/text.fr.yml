@@ -73,6 +73,17 @@ help:
                       avoir effectué une recherche.
     title2:           Exemple avec Youtube
     title3:           Exemple avec Soundcloud
+  tags_prompt:
+    title:            Liste de tags
+    text:             |
+                      Les liste de tags vont vous permettre à différents endroits du site
+                      de pouvoir filtrer le flux ou de spécifié le style de votre partage.
+                      pour cela vous allez devoir saisir les tags un à un comme ceci:
+    subtitle1:        Commencez par saisir votre premier tag
+    subtitle2:        Choisissez le tag souhaité dans la liste en cliquant dessus
+    subtitle3:        Vous pouvez saisir un tag supplémentaire
+    subtitle4:        Saisissez autant de tags que vous voulez !
+    
 
 help_tour:
   buttons:
