@@ -14,5 +14,16 @@ web_profiler:
 swiftmailer:
     disable_delivery: true
 
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   muzich_test
+        user:     %database_user%
+        password: %database_password%
+        charset:  utf8
+
 parameters:
     env: test
