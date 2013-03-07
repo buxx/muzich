@@ -521,6 +521,20 @@ class ElementFactoryTest extends UnitTest
       'http://www.deezer.com/fr/music/playlist/18701350'
     ));
     
+    /*
+     * Vimeo
+     *
+     */
+    
+    $this->assertEquals(array(
+      'data_ref_id' => '43258820',
+      'data_title'  => 'Punish Yourself',
+      'data_thumb_url' => 'http://b.vimeocdn.com/ts/301/282/301282081_200.jpg'
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://vimeo.com/43258820'
+    ));
+    
   }
   
 }

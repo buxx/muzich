@@ -1981,11 +1981,17 @@ a.tags_prompt_helpbox
 {
   float: left;
   margin-bottom: 0;
-  margin-left: -6px;
-  margin-top: -11px;
+  margin-left: 0px;
+  margin-top: 5px;
 }
 
 form#address_update input.intext
 {
   width: 90px;
+}
+
+div#form_add_thumb img
+{
+  width: 100px;
+  height: 100px;
 }
