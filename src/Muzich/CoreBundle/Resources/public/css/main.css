@@ -306,7 +306,9 @@ td.element_thumbnail
   background-color: #d5d5d5;
   padding: 4px;
   text-align: center;
-  width: 140px;
+  width: 126px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; 
 }
 
 li.element img.element_thumbnail
