@@ -20,18 +20,20 @@
         "jms/security-extra-bundle": "1.2.*",
         "jms/di-extra-bundle": "1.1.*",
         "kriswallsmith/assetic": "1.1.*@dev",
-        
         "friendsofsymfony/user-bundle": "v1.3.1",
-        "doctrine/data-fixtures" : "dev-master",
+        "doctrine/data-fixtures" : "dev-master", 
         "doctrine/doctrine-fixtures-bundle": "dev-master",
-        "stof/doctrine-extensions-bundle": "dev-master",
+        "stof/doctrine-extensions-bundle": "dev-master",  
         "gregwar/image-bundle": "dev-master",
-        "cedriclombardot/admingenerator-generator-bundle": "dev-master",
+        "cedriclombardot/admingenerator-generator-bundle": "1.0.*@dev",
+        "cedriclombardot/twig-generator": "dev-master",
+        "white-october/pagerfanta-bundle": "1.0.*@dev",
+        "pagerfanta/pagerfanta": "1.0.*@dev",
         "shtumi/useful-bundle": "dev-master",
-        "sonata-project/doctrine-orm-admin-bundle": "dev-master",
-        "sonata-project/admin-bundle": "dev-master",
-        "sonata-project/jquery-bundle": "dev-master",
-        "sonata-project/block-bundle": "dev-master"
+        "sonata-project/doctrine-orm-admin-bundle": "2.1.*@dev",
+        "sonata-project/admin-bundle": "2.1.*@dev",
+        "sonata-project/jquery-bundle": "1.8.*@dev",
+        "sonata-project/block-bundle": "2.1.*@dev"
     },
     "scripts": {
         "post-install-cmd": [
