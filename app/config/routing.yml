@@ -48,9 +48,9 @@ MuzichCommentBundle:
   resource: "@MuzichCommentBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
   
-AdmingeneratorGeneratorBundle_Dashboard:
-    resource: "@AdmingeneratorGeneratorBundle/Resources/config/routing.yml"
-    prefix:   /
+AdmingeneratorDashboard_welcome:
+    pattern: /admin/dashboard
+    defaults: { _controller: AdmingeneratorGeneratorBundle:Dashboard:welcome }
 
 shtumi_useful:
     resource: '@ShtumiUsefulBundle/Resources/config/routing.xml'
