@@ -60,7 +60,7 @@ div#header div#hgroup
   padding: 0px;
   height: 80px;
   margin-left: 200px;
-  width: 580px;
+  width: 780px;
 }
 
 #header_menu li a, #register_and_login li a, #parameters li a
@@ -110,7 +110,7 @@ div#header div#hgroup
   float: right;
   margin: 0px;
   margin-top: 42px;
-  margin-right: 15px;
+  margin-right: 0px;
   padding: 0px;
 }
 
@@ -306,7 +306,9 @@ td.element_thumbnail
   background-color: #d5d5d5;
   padding: 4px;
   text-align: center;
-  width: 140px;
+  width: 126px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px; 
 }
 
 li.element img.element_thumbnail
@@ -1884,4 +1886,114 @@ ul#moderate_elements div.controls
   font-weight: bold;
   text-decoration: none;
   color: black;
+}
+
+div#autoplay.popin_block
+{
+  width: 500px;
+}
+
+div#helpbox
+{
+  width: 500px;
+}
+
+div#helpbox h1
+{
+  margin-top: 0px;
+}
+
+div#helpbox h2
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+a#autoplay_previous
+{
+  float: left;
+  text-decoration: none;
+  margin-left: -120px;
+  margin-top: 25px;
+}
+
+a#autoplay_next
+{
+  float: right;
+  text-decoration: none;
+  margin-right: -120px;
+  margin-top: 25px;
+}
+
+a#autoplay_previous, a#autoplay_next, a#autoplay_close, a#helpbox_close
+{
+  background: #fff;
+  padding: 5px;
+  border: 10px solid #ddd;
+  z-index: 99999;
+  /*--Les différentes définitions de Box Shadow en CSS3--*/
+  -webkit-box-shadow: 0px 0px 20px #000;
+  -moz-box-shadow: 0px 0px 20px #000;
+  box-shadow: 0px 0px 20px #000;
+  /*--Coins arrondis en CSS3--*/
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+a#autoplay_close, a#helpbox_close
+{
+  float: left;
+  text-decoration: none;
+  margin-top: 130px;
+  margin-left: -110px;
+  z-index: 99;
+}
+
+a#helpbox_close
+{
+  margin-top: 10px;
+}
+
+div#tourtip, div#tourControls
+{
+  z-index: 999;
+  border: 10px solid #CD0B1A;
+  background: #fff;
+}
+
+div#tourtip
+{
+  width: 450px;
+}
+
+div#tourtip h1, div#tourControls h1
+{
+  font-size: 1.55em;
+  margin-top: 0;
+}
+
+div#tourControls a#tourEnd
+{
+  margin-top: 10px;
+  float: right;
+}
+
+a.tags_prompt_helpbox
+{
+  float: left;
+  margin-bottom: 0;
+  margin-left: 0px;
+  margin-top: 5px;
+}
+
+form#address_update input.intext
+{
+  width: 90px;
+}
+
+div#form_add_thumb img
+{
+  width: 100px;
+  height: 100px;
 }
