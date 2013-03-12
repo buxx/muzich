@@ -37,7 +37,7 @@ change_password:
 
 # Registration
 registration:
-    check_email: Un e-mail a été envoyé. Veuillez suivre les instructions indiquées.
+    check_email: Un e-mail a été envoyé. Veuillez suivre les instructions indiquées (vérifiez aussi dans vos SPAM).
     confirmed: Félicitations %username%, votre compte est maintenant activé.
     back: Retour à la page d'origine.
     submit: Enregistrer
@@ -55,7 +55,7 @@ registration:
 # Password resetting
 resetting:
     password_already_requested: Un nouveau mot de passe a déjà été demandé pour cet utilisateur dans les dernières 24 heures.
-    check_email: Un e-mail a été envoyé. Veuillez suivre les instructions indiquées.
+    check_email: Un e-mail a été envoyé. Veuillez suivre les instructions indiquées (vérifiez aussi dans vos SPAM).
     request:
         invalid_username: Le nom d'utilisateur ou l'adresse e-mail "%username%" n'existe pas.
         username: "Nom d'utilisateur ou adresse e-mail:"
