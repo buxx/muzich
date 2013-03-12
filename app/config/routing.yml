@@ -50,7 +50,7 @@ MuzichCommentBundle:
   
 AdmingeneratorDashboard_welcome:
     pattern: /admin/dashboard
-    defaults: { _controller: AdmingeneratorGeneratorBundle:Dashboard:welcome }
+    defaults: { _controller: MuzichAdminBundle:Dashboard:welcome }
 
 shtumi_useful:
     resource: '@ShtumiUsefulBundle/Resources/config/routing.xml'
