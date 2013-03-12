@@ -59,7 +59,8 @@
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);
         (function() {
-          var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics.muzi.ch//";
+          //var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics.muzi.ch//"; # pas de certif sur analytics.muzi.ch pour le moment
+          var u=(("https:" == document.location.protocol) ? "http" : "http") + "://analytics.muzi.ch//";
           _paq.push(['setTrackerUrl', u+'piwik.php']);
           _paq.push(['setSiteId', 1]);
           var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
