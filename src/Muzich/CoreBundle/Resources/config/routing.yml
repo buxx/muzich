@@ -86,6 +86,10 @@ info_cgu:
   pattern: /info/cgu
   defaults: { _controller: MuzichCoreBundle:Info:cgu }
   
+test_errors:
+  pattern: /info/test-error/{code}
+  defaults: { _controller: MuzichCoreBundle:Info:testError }
+  
 ### helper
 
 helpbox_bootstrap:
