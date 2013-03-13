@@ -19,6 +19,19 @@ about:
                   sur ce même réseau.
 
 mail:
+  general:
+    footer:       >
+                  
+                  
+                  --------------------------------
+                  
+                  Pour nous contacter: contact@muzi.ch
+                  
+                  Pour demander à ne plus jamais être contacté par email: unsubscribe@muzi.ch
+                  
+                  Muzi.ch - Découvrez et partagez vos découvertes musicales !
+                  
+                  Bastien Sévajol, 12b avenue de la roche, 04310 Peyruis, FRANCE.
   resetting_password:
     subject:      Muzi.ch: Réinitialisation du mot de passe
     content:      >
