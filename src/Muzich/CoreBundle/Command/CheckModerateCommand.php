@@ -54,7 +54,7 @@ class CheckModerateCommand extends ContainerAwareCommand
       
       $message = \Swift_Message::newInstance()
           ->setSubject('Muzi.ch: Contrôle modération')
-          ->setFrom('noreply@muzi.ch')
+          ->setFrom('contact@muzi.ch')
           ->setTo('sevajol.bastien@gmail.com')
           ->setBody($this->getContainer()->get('templating')->render('MuzichCoreBundle:Email:checkmoderate.txt.twig', array(
             'tags'     => $count_tags,

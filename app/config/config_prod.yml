@@ -26,7 +26,7 @@ monolog:
             handler: swift
         swift:
             type:       swift_mailer
-            from_email: noreply@muzi.ch
+            from_email: contact@muzi.ch
             to_email:   sevajol.bastien@gmail.com
             subject:    An Error Occurred (muzi.ch)!
             level:      debug
