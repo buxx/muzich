@@ -21,17 +21,18 @@ about:
 mail:
   general:
     footer:       >
-                  
-                  
+                   
+                   
                   --------------------------------
                   
-                  Pour nous contacter: contact@muzi.ch
+                  Pour nous contacter directement : contact@muzi.ch
                   
-                  Pour demander à ne plus jamais être contacté par email: unsubscribe@muzi.ch
-                  
+                  Pour supprimer tout contact futur envoyez simplement un mail à : unsubscribe@muzi.ch
+                   
+                   
                   Muzi.ch - Découvrez et partagez vos découvertes musicales !
                   
-                  Bastien Sévajol, 12b avenue de la roche, 04310 Peyruis, FRANCE.
+                  12b avenue de la roche, 04310 Peyruis, FRANCE.
   resetting_password:
     subject:      Muzi.ch: Réinitialisation du mot de passe
     content:      >
@@ -43,9 +44,10 @@ mail:
                   Si au contraire vous souhaitez changer le mot de passe de votre accès a Muzi.ch
                   rendez-vous à cette adresse: %url%
                   
+                  
                   Cordialement,
                   
-                  l'équipe de Muzi.ch
+                  L'équipe de Muzi.ch
   change_email:
     subject:      Muzi.ch: Changement de courriel
     content:      >
@@ -59,21 +61,25 @@ mail:
                   
                   Cordialement,
                   
-                  l'équipe de Muzi.ch
+                  L'équipe de Muzi.ch
   presubscription:
-    subject:         Muzi.ch: Inscription pour l'ouverture
-    text:            >
-                      Bonjour,
-                      
-                      Une demande d'inscription de cet email a Muzi.ch pour son ouverture oficielle a été demandé.
-                      Si vous n'êtes pas a l'origine de cette demande, ne tenez pas compte de cet email.
-                      
-                      Si au contraire vous souhaitez être avertis de l'ouverture officielle de
-                      Muzi.ch, rendez vous à cette adresse: %url%
-                      
-                      Cordialement,
-                      
-                      l'équipe de Muzi.ch
+    subject:        Muzi.ch: Confirmation de demande d'incription 
+    text:           >
+                    Ceci est un émail automatique, merci d'utiliser contact@muzi.ch pour nous répondre.
+                    
+                    
+                    Une demande d'inscription à Muzi.ch a été demandée.
+                    
+                    Si vous n'êtes pas à l'origine de cette demande, ne tenez pas compte de cet email.
+                    
+                    Sinon, pour confirmer votre demande d'inscription il vous suffit de suivre ce lien : %url%
+                    
+                    Nous vous remercions pour votre intérêt.
+                    
+                    
+                    Cordialement,
+                    
+                    L'équipe de Muzi.ch
 
 help:
   element_add_url:
