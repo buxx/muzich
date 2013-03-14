@@ -12,10 +12,10 @@ function YoutubePlayer(ref_id, object_for_player, finish_callback)
   
   var create_player = function()
   {
-    var div_for_iframe = $('<div>').attr('id', _object_for_player.attr('id')+'_iframe');
+    var div_for_iframe = $('<div>').attr('id', _object_for_player.attr('id')+'_iframe_'+ref_id);
     _object_for_player.append(div_for_iframe);
     
-    _yt_player = new YT.Player(_object_for_player.attr('id')+'_iframe', {
+    _yt_player = new YT.Player(_object_for_player.attr('id')+'_iframe_'+ref_id, {
       height  : config_player_youtube_height,
       width   : '100%',
       videoId : _ref_id,
