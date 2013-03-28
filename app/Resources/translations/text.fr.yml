@@ -83,7 +83,32 @@ help:
     subtitle2:        Choisissez le tag souhaité dans la liste en cliquant dessus
     subtitle3:        Vous pouvez saisir un tag supplémentaire
     subtitle4:        Saisissez autant de tags que vous voulez !
-    
+  know_more:
+    presentation:
+      title:          Découvrez et partagez la musique!
+      text:           |
+                      Muzi.ch est une plate-forme sur laquelle vous pourrez découvrir et partager
+                      la musique disponible sur les sites comme SoundCloud, Deezer, Jamendo ou encore
+                      Youtube. A l'aide de tags représentant les styles de musiques, vous pouvez
+                      partager et découvrir avec précision les nouveaux sont qui vous correspondent.
+    flux:
+      title:          Flux de partages
+      text:           |
+                      Un flux que vous pouvez filtrer a l'aide de tags représente les partages de
+                      la communauté.
+    autoplay:
+      title:          La lecture automatique
+      text:           |
+                      Jouez en liste de lecture les partages ou de vos favoris issues 
+                      de Youtube, de SoundCloud etc ...
+    reputation:
+      title:          Faites-vous une réputation
+      text:           |
+                      Plus vos partages plaisent, plus vous gagnez de réputation !
+                      Fiez-vous à la réputation des utilisateur pour chosir quels profils
+                      suivre et créer votre réseau personel
+              
+        
 
 help_tour:
   buttons:

@@ -946,7 +946,7 @@ ul#favorite_tags li
   margin-right: 0px;
 }
 
-#element_add_link, #element_add_close_link, #group_add_link, #group_add_close_link, #registration_link, #login_link
+#element_add_link, #element_add_close_link, #group_add_link, #group_add_close_link, #registration_link, #login_link, #know_more
 {
   float: right;
   margin-top: -58px;
@@ -1988,4 +1988,21 @@ a.tags_prompt_helpbox
 form#address_update input.intext
 {
   width: 90px;
+}
+
+#know_more
+{
+  float: left;
+  margin-left: -11px;
+  margin-top: -67px;
+}
+
+div.helpbox_image_container
+{
+  text-align: center;
+}
+
+div.helpbox_image_container img
+{
+  border: 3px solid #DDDDDD;
 }

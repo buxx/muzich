@@ -56,7 +56,8 @@ class InfoController extends Controller
   {
     if (!in_array($ressource_id, array(
       'element_add_url',
-      'tags_prompt'
+      'tags_prompt',
+      'know_more'
     )))
     {
       return $this->jsonNotFoundResponse();

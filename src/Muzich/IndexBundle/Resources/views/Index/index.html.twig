@@ -9,6 +9,10 @@
 
 {% block content %}
     
+    <a id="know_more" class="helpbox button" href="{{ path('helpbox_bootstrap', {'ressource_id':'know_more'}) }}" title="{{ 'help.know_more'|trans({}, 'navigationui') }}">
+      {{ 'help.know_more'|trans({}, 'navigationui') }}
+    </a>
+
     <a href="#" id="registration_link" class="button gradient">
       {{ 'registration.display'|trans({}, 'navigationui') }}
       <img src="{{ asset('/img/icon_dart_right_white.png') }}" alt="" />

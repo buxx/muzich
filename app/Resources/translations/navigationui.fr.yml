@@ -61,3 +61,6 @@ error_page:
   error:
     title:              Erreur
     text:               Une erreur est survenue. Notre équipe technique en a été avertis et tantera de procéder a sa correction.
+
+help:
+    know_more:          Muzi.ch: Qu'est-ce que c'est ?
