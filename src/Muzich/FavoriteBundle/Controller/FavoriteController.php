@@ -254,6 +254,7 @@ class FavoriteController extends Controller
     $search_object = new ElementSearcher();
     $tags = null;
     
+    //die(var_dump($tag_ids));
     if (count($tag_ids))
     {
       $tags = array();

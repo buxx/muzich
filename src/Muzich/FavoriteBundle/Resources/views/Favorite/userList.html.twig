@@ -32,7 +32,7 @@
     {% include "MuzichCoreBundle:SearchElement:more_button.html.twig" with {
       'more_path'     : path('favorite_get', {
         'user_id': viewed_user.id,
-        'tags_ids_json' : ''
+        'tags_ids_json' : '[]'
       }),
       'more_url_path' : path('favorite_get', {
         'user_id': viewed_user.id,
