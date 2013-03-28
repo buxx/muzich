@@ -1275,7 +1275,18 @@ class Request
             return $locales[0];
         }
 
-        $preferredLanguages = array_values(array_intersect($preferredLanguages, $locales));
+        $extendedPreferredLanguages = array();
+        foreach ($preferredLanguages as $language) {
+            $extendedPreferredLanguages[] = $language;
+            if (false !== $position = strpos($language, '_')) {
+                $superLanguage = substr($language, 0, $position);
+                if (!in_array($superLanguage, $preferredLanguages)) {
+                    $extendedPreferredLanguages[] = $superLanguage;
+                }
+            }
+        }
+
+        $preferredLanguages = array_values(array_intersect($extendedPreferredLanguages, $locales));
 
         return isset($preferredLanguages[0]) ? $preferredLanguages[0] : $locales[0];
     }
@@ -1427,12 +1438,16 @@ class Request
         if ($this->headers->has('X_ORIGINAL_URL') && false !== stripos(PHP_OS, 'WIN')) {
             // IIS with Microsoft Rewrite Module
             $requestUri = $this->headers->get('X_ORIGINAL_URL');
+            $this->headers->remove('X_ORIGINAL_URL');
         } elseif ($this->headers->has('X_REWRITE_URL') && false !== stripos(PHP_OS, 'WIN')) {
             // IIS with ISAPI_Rewrite
             $requestUri = $this->headers->get('X_REWRITE_URL');
+            $this->headers->remove('X_REWRITE_URL');
         } elseif ($this->server->get('IIS_WasUrlRewritten') == '1' && $this->server->get('UNENCODED_URL') != '') {
             // IIS7 with URL Rewrite: make sure we get the unencoded url (double slash problem)
             $requestUri = $this->server->get('UNENCODED_URL');
+            $this->server->remove('UNENCODED_URL');
+            $this->server->remove('IIS_WasUrlRewritten');
         } elseif ($this->server->has('REQUEST_URI')) {
             $requestUri = $this->server->get('REQUEST_URI');
             // HTTP proxy reqs setup request uri with scheme and host [and port] + the url path, only use url path
@@ -1446,7 +1461,11 @@ class Request
             if ('' != $this->server->get('QUERY_STRING')) {
                 $requestUri .= '?'.$this->server->get('QUERY_STRING');
             }
+            $this->server->remove('ORIG_PATH_INFO');
         }
+
+        // normalize the request URI to ease creating sub-requests from this request
+        $this->server->set('REQUEST_URI', $requestUri);
 
         return $requestUri;
     }

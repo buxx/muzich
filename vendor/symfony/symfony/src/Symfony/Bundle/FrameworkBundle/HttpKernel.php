@@ -153,12 +153,12 @@ class HttpKernel extends BaseHttpKernel
 
         // controller or URI or path?
         if (0 === strpos($controller, 'http://') || 0 === strpos($controller, 'https://')) {
-            $subRequest = Request::create($controller, 'get', array(), $request->cookies->all(), array(), $request->server->all());
+            $subRequest = $request::create($controller, 'get', array(), $request->cookies->all(), array(), $request->server->all());
             if ($session = $request->getSession()) {
                 $subRequest->setSession($session);
             }
         } elseif (0 === strpos($controller, '/')) {
-            $subRequest = Request::create($request->getUriForPath($controller), 'get', array(), $request->cookies->all(), array(), $request->server->all());
+            $subRequest = $request::create($request->getUriForPath($controller), 'get', array(), $request->cookies->all(), array(), $request->server->all());
             if ($session = $request->getSession()) {
                 $subRequest->setSession($session);
             }

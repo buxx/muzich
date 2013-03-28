@@ -48,15 +48,19 @@ MuzichCommentBundle:
   resource: "@MuzichCommentBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
   
-AdmingeneratorGeneratorBundle_Dashboard:
-    resource: "@AdmingeneratorGeneratorBundle/Resources/config/routing.yml"
-    prefix:   /
-
 shtumi_useful:
     resource: '@ShtumiUsefulBundle/Resources/config/routing.xml'
     prefix:   /system/search/
 
 ########## ADMIN
+MuzichAdminBundle:
+    resource: "@MuzichAdminBundle/Resources/config/routing.yml"
+    prefix: /admin/
+    
+AdmingeneratorDashboard_welcome:
+    pattern: /admin/dashboard
+    defaults: { _controller: MuzichAdminBundle:Dashboard:welcome }
+
 MuzichAdminBundle_admin_muzich_admin_bundle_admin_element:
     resource: "@MuzichAdminBundle/Controller/Admin_element/"
     type:     admingenerator

@@ -2600,6 +2600,7 @@ $(document).ready(function(){
         top: '10%'
       });
     $('#'+object_id).show();
+    return 'fade';
   }
   
 /*
@@ -2867,6 +2868,33 @@ $(document).ready(function(){
         form.prepend(ul_errors);
       }
       
+  });
+  
+  /* HELPBOX */
+  $('.helpbox').live('click', function(){
+    $('body').append(
+      '<div id="helpbox" class="popin_block"><img src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>'
+    );
+    open_popin_dialog('helpbox');
+    JQueryJson($(this).attr('href'), {}, function(response){
+      if (response.status == 'success')
+      {
+        $('div#helpbox').html(
+          '<a href="javascript:void(0);" id="helpbox_close" >'+
+            '<img src="/bundles/muzichcore/img/1317386146_cancel.png" alt="close" />'+
+          '</a>'+
+          response.data
+        );
+      }
+    });
+    
+    return false;
+  });
+  $('a#helpbox_close').live('click', function(){
+    // Fond gris
+    $('#fade').fadeOut(1000, function(){$('#fade').remove();});
+    // On cache le lecteur
+    $('#helpbox').remove();
   });
    
 });
