@@ -2006,3 +2006,14 @@ div.helpbox_image_container img
 {
   border: 3px solid #DDDDDD;
 }
+
+#register_beta_closed
+{
+  text-align: center;
+  padding: 15px;
+  font-weight: bold;
+  background-color: #F19191;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}

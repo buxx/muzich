@@ -28,9 +28,22 @@
     
     <div id="registration_box" style="{% if registration_page is not defined %}display: none;{% endif %}">
       <h1>{{ 'register.title'|trans({}, 'userui') }}</h1>
-      <span class="sinfo">{{ 'index.beta.warning'|trans({}, 'userui') }}</span>
+      
+      <p id="register_beta_closed">
+        {{ 'index.beta.warning'|trans({}, 'userui') }}
+      </p>
+      
       {% include "MuzichUserBundle:Registration:register.html.twig" %}
     </div>
-    
+  
+{% if app.request.get('campain') %}
+  <script>
+    $(document).ready(function(){  
+      $('#registration_link').trigger('click');
+      $('#fos_user_registration_form_token').val('29izvSk');
+    });
+  </script>
+{% endif %}
+
 {% endblock %}
 

@@ -183,7 +183,10 @@ tags_filter:
   
 index:
   beta:
-    warning:  L'accès au service est privé pendant le développement de l'application
+    warning:       |
+                    Les inscriptions sur Muzi.ch sont actuellement limités. Le service 
+                    est actuellement en beta fermé ! Vous pouvez nanmoins vous inscrire si vous
+                    possédez un code d'inscription
     
 system:
   infos:
