@@ -63,7 +63,23 @@ abstract class ElementFactory
   
   public function proceedThumbnailUrl()
   {
-    $this->element->setThumbnailUrl(null);
+    if (($thumb_url = $this->element->getData(Element::DATA_THUMB_URL)))
+    {
+      $this->element->setThumbnailUrl($thumb_url);
+    }
+  }
+  
+  protected function getJsonDataFromApiWithUrl($url)
+  {
+    $api_url = curl_init($url);
+    
+    $options = array(
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_HTTPHEADER => array('Content-type: application/json')
+    );
+      
+    curl_setopt_array($api_url, $options);
+    return json_decode(curl_exec($api_url), true);
   }
   
 }

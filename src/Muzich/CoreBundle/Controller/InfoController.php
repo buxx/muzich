@@ -70,4 +70,14 @@ class InfoController extends Controller
     ));
   }
   
+  public function testErrorAction($code)
+  {
+    if (!is_numeric($code))
+    {
+      throw new HttpException(404);
+    }
+    
+    return $this->render('TwigBundle:Exception:error'.$code.'.html.twig');
+  }
+  
 }

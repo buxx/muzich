@@ -48,6 +48,10 @@ MuzichCommentBundle:
   resource: "@MuzichCommentBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
   
+AdmingeneratorDashboard_welcome:
+    pattern: /admin/dashboard
+    defaults: { _controller: MuzichAdminBundle:Dashboard:welcome }
+
 shtumi_useful:
     resource: '@ShtumiUsefulBundle/Resources/config/routing.xml'
     prefix:   /system/search/

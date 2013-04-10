@@ -417,7 +417,7 @@ class UserController extends Controller
 
       $message = \Swift_Message::newInstance()
         ->setSubject($subject)
-        ->setFrom('noreply@muzi.ch')
+        ->setFrom('contact@muzi.ch')
         ->setTo($email)
         ->setBody($body);
 

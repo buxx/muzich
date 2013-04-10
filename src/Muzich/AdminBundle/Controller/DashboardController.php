@@ -3,7 +3,6 @@
 namespace Muzich\AdminBundle\Controller;
 
 use Muzich\CoreBundle\lib\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 class DashboardController extends Controller
 {
@@ -13,5 +12,4 @@ class DashboardController extends Controller
       'base_admin_template' => $this->container->getParameter('admingenerator.base_admin_template'),
     ));
   }
-  
 }
