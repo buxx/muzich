@@ -948,7 +948,7 @@ ul#favorite_tags li
   margin-right: 0px;
 }
 
-#element_add_link, #element_add_close_link, #group_add_link, #group_add_close_link, #registration_link, #login_link
+#element_add_link, #element_add_close_link, #group_add_link, #group_add_close_link, #registration_link, #login_link, #know_more
 {
   float: right;
   margin-top: -58px;
@@ -1996,4 +1996,36 @@ div#form_add_thumb img
 {
   width: 100px;
   height: 100px;
+}
+  
+#know_more
+{
+  float: left;
+  margin-left: -11px;
+  margin-top: -67px;
+}
+
+div.helpbox_image_container
+{
+  text-align: center;
+}
+
+div.helpbox_image_container img
+{
+  border: 3px solid #DDDDDD;
+}
+
+#register_beta_closed
+{
+  text-align: center;
+  padding: 15px;
+  font-weight: bold;
+  background-color: #F19191;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.fotter_muzich_little{
+  font-size: 9px;
 }
