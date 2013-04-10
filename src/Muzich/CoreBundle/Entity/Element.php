@@ -80,6 +80,8 @@ class Element
    */
   const DATA_GIFT_URL       = "data_gift_url";
   
+  const DATA_PLAYLIST_AUTHOR = "data_playlist_author";
+  
   /**
    * @ORM\Id
    * @ORM\Column(type="integer")

@@ -14,6 +14,7 @@ use Muzich\CoreBundle\Factory\Elements\Jamendocom;
 use Muzich\CoreBundle\Factory\Elements\Soundcloudcom;
 use Muzich\CoreBundle\Factory\Elements\Deezercom;
 use Muzich\CoreBundle\Factory\Elements\Vimeocom;
+use Muzich\CoreBundle\Factory\Elements\Spotifycom;
 
 /**
  * 
@@ -170,6 +171,9 @@ class ElementManager
       break;
       case 'vimeo.com':
         return new Vimeocom($this->element, $this->container);
+      break;
+      case 'spotify.com':
+        return new Spotifycom($this->element, $this->container);
       break;
       default:
         throw new \Exception("La Factory n'est pas prise en charge pour ce type.");

@@ -36,7 +36,7 @@ abstract class ElementFactory
    * 
    * @return string
    */
-  protected function getCleanedUrl($decode = false)
+  protected function getCleanedUrl($decode = false, $force_base_url = null)
   {
     // Procèdures de nettoyages après constat d'erreurs
     $url = $this->element->getUrl();
@@ -45,9 +45,15 @@ abstract class ElementFactory
       $url = urldecode($url);  
     }
     
+    $base_url = $this->element->getType();
+    if ($force_base_url)
+    {
+      $base_url = $force_base_url;
+    }
+    
     $url = str_replace('www.', '', $url);
-    $url = str_replace('http://'.$this->element->getType(), '', $url);
-    $url = str_replace('https://'.$this->element->getType(), '', $url);
+    $url = str_replace('http://'.$base_url, '', $url);
+    $url = str_replace('https://'.$base_url, '', $url);
     return $url;
   }
   
