@@ -1,11 +1,260 @@
+login:
+  remember_me:
+    label:     Rester connecté
+  presubscription:
+    info:       |
+                Vous souhaitez être informé de l'ouverture officielle de muzi.ch ?
+                Saisissez votre email et nous vous ferons part de cette nouvelle le moment venu !
+    submit:     Enregistrer mon email
 
+security:
+  login:
+    username: "Identifiant (adresse email)"
+    password: "Mot de passe"
+
+start:
+  title:       Inscription terminé
+  titleh2:     Bienvenue sur Muzich !
+  description: |
+               Muzi.ch est une plate-forme sur laquelle découvrir et partager vos découvertes 
+               musicales sur le web. Un clip officiel sur youtube, un nouveau mix sur soundcloud, ou 
+               un album qui vous plaît sur deezer ? Partagez l'adresse de ces pages sur le réseau
+               afin que le monde puisse profiter de votre découverte ! Vous souhaitez simplement 
+               écouter les dernières trouvaille ? Afficher le flux de ces découvertes sur votre page.
+               Vous pourrez filtrer les résultat avec les tags de vos styles de musiques préférés 
+               ainsi que créer votre propre réseau constitué de vos utilisateurs et groupes préférés.
+               
+  tags:
+    title:     Choisissez des tags représentant vos goûts
+    remind:    Vous pourrez bien entendu modifier cette liste ultérieurement.
+   
+title:
+  myaccount:     Mon compte
+  mynetwork:     Mon réseau
+  home:          Le réseau
+  editgroup:     Modification du groupe %group_name%
+  favoriteof:    Favoris de %name%
+  myfavorites:   Mes favoris
+  sites:         Sites supportés
+  devvers:       En développement
+  about:         A propos
+  search:        Recherche
+  cgu:           Informations légales
+    
 my_account: 
-  title:          My account
-  username:         Username
-  email:            Email
-  favorite_tags:    Favorite tags
-  change_password:  Change my password
-  change_email:     Change my email
+  title:          Mon compte
+  username:         Nom d'utilisateur
+  email:            Adresse email
+  favorite_tags:    Vos tags préférés
+  change_password:  Changer mon mot de passe
+  change_password_submit: Mettre à jour mon mot de passe
+  change_email:     Changer mon adresse email
+  change_email_submit: Mettre à jour mon email
+  address:
+    title:          Mon adresse
+    description:    Avec votre adresse Muzi.ch pourra vous avertir plus aisément des événements à venirs dans votre région.
+    form:
+      ilivenear:    J'habite vers
+      in:           en
+      submit:       Mettre a jour
+      errors:
+        notown:     Veuillez saisir la ville
+        nocountry:  Veuillez saisir le pays
+  help_clicks:      |
+                    Cliquez sur les titres ci-dessous pour accèder aux autres paramètres
+  avatar:
+    title:          Mon avatar
+    submit:         Mettre à jour
+    help:           'Choisissez une image puis préssez le bouton "Mettre à jour"'
+    success:        Votre avatar a bien été mis à jour
+    error:          Une erreur est survenue lors de la mise à jour de votre avatar
+  preferences:
+    title:         Mes préférences
+    submit:         Enregistrer mes préférences
+    success:        Vos préférences ont bien été mises à jour
+    error:          Une erreur est survenue lors de la mise à jour de vos préférences
   
 connexion:
-  password_lost:    Password lost ?
+  password_lost:    Mot de passe perdu ?
+  
+more:    Plus de résultats
+tags:
+  prompt:
+    help_box_title: Afficher de l'aide pour la siasie de tags
+    help:  |
+            Choissiez un tag dans la liste ci-dessous en cliquant dessus. Pour saisir plusieurs tags
+            renouvellez l'opération pour chacuns d'entre eux.
+  help:  |
+           Saisissez <strong>une liste de tags</strong> ci-dessous: Entrez 
+           <strong>un tag a la fois</strong> et choisissez les a l'aide de 
+           la liste.
+  inputtext:
+    help:      Saisissez vos tags ici (un par un)
+  search:
+    message_found:  "Tags correspondant à \"%string%\":"
+    display_more:   Afficher les autres résultats
+  add:
+    title:          Ajouter un nouveau tag
+    text:           Ce tag n'est pas encore connu de Muzi.ch, mais vous pouvez proposer son ajout. Cependant sa validation sera soumise a l'équipe de modération du site.
+    argument:       "Vous pouvez argumenter votre demande:"
+    inputs:
+      cancel:       Annuler
+      submit:       Faire la demande
+    errors:
+      min:              Le tag doit être de %limit% caractéres minimum
+      max:              Le tag doit être de %limit% caractéres maximum
+      unknow:           Une erreur est survenue
+  new:
+    has_news:       %count% éléments viennent d'être ajoutés, %link%
+    has_news_one:   %count% élément vient d'être ajouté, %link%
+    has_news_link:  cliquez ici pour les afficher
+    has_news_link_one:  cliquez ici pour l'afficher
+    has_news_link_more_x:  cliquez ici pour en afficher %x%
+  cloud:
+    display_more:           Des tags ont été cachés, cliquez ici pour les afficher tous
+    filter:
+      text:                 Chercher un tag parmis la liste
+  favorites:
+    submit:                 Enregistrer ces tags
+
+submenu:
+  followed_users:
+    title:                  Utilisateurs suivis
+    nouser:                Aucun
+  followed_groups:
+    title:                  Groupes suivis
+    nouser:                Aucun
+  follower_users:
+    title:                  Suivis par
+    nouser:                Aucun
+  otherpages:
+    title:                 Pages spéciales
+    needtags:
+      title:               Partages en demandes de tags
+
+filter:
+  network: "Résultats de "
+  submit:  Filtrer
+  clear:   Aucun filtre
+  mytags:  Avec filtre
+  network_all:   Réseau global
+  network_my:    Mon réseau
+  new_comments:     Nvx commentaires
+  new_favoriteds:   Nvx favoris
+  new_tags:         Propositions de tags
+  tag_strict:       Chaques tag doit être trouvé
+  
+element_add:
+  prop_tags:
+    text:     "Proposition de tags:"
+  url:
+    name:     http://
+    help:     |
+              Copier ici le lien internet (http://) pointant sur la ressource 
+              que vous souhaitez partager.
+    more_help: Cliquez ici pour plus de détails
+              
+  need_tags:
+    name:     Demander de l'aide pour tagger votre partage
+  name:
+    name:     Titre de la piste - Artiste
+    
+  added_to_group:
+    sentence:       |
+                     L'élément que vous venez d'ajouter semble correspondre
+                     a un des groupes que vous gérez. Cliquez sur le nom d'un groupe
+                     pour diffuser cet élément dans le groupe.
+                     
+    nothanks:       Non, ne pas diffuser cet élément dans un de mes groupes
+  
+element_edit:
+  title:      Modifier un partage
+  url:
+    name:     Lien
+  name:
+    name:     Nom
+  submit:
+    value:    Mettre à jour
+  cancel:
+    value:    Annuler
+    
+tags_filter:
+  help:       Pour ne pas filtrer avec des tags, supprimez les tous de la liste.
+  
+index:
+  beta:
+    warning:  L'accès au service est privé pendant le développement de l'application
+    
+system:
+  infos:
+    normally_js:   |
+                    Vous avez ouvert cette page dans un nouvel onglet/nouvelle page
+                    Sachez qu'avez le clic gauche de votre souris la modification
+                    de l'élément est intégré dans la page.
+                    
+date:
+  instant:               a l'instant
+  less_than_minute:      il y a moins d'une minute
+ 
+element:
+  report:
+    link_title:          Signaler cet élément
+    confirm: 
+      sentence:          Signaler ce contenu comme inapproprié ?
+      yes:               Oui
+      no:                Non
+  proposition_tags:
+    link_title:        Proposer des tags
+  reshare:
+    link_title:        Re-partager
+    confirm: 
+      sentence:          Re-partager ce partage dans votre flux ?
+      yes:               Oui
+      no:                Non
+  share:
+    share_button:        Partager
+    
+comment:
+  report:
+    link_title:          Signaler ce commentaire
+    confirm: 
+      sentence:          Signaler ce commentaire comme inapproprié ?
+      yes:               Oui
+      no:                Non
+      
+search_tag:
+  title:                 Recherche de tag correspondant à \"%string_search%\" ...
+  
+global_search:
+  no_results:            Il n'y a aucun résultat a votre recherche.
+  
+need_tags:
+  text_help:             |
+                         Les utilisateurs ayant partagés leurs découvertes ont
+                         demandé de l'aide pour tagger correctement leurs partages.
+                         Gagnez en réputation en leurs proposants les tags qui conviennent !
+register:
+  title:                 Création d'un compte
+registration:
+  submit:                Procéder a l'inscription
+
+autoplay:
+  limitations_players:   La lecture automatique ne supporte actuellement que les lecteurs youtube, soundcloud et jamendo.
+
+events:
+  view:
+    link_delete:         Considérer comme vu(s)
+    title:
+      comments:          Commentaires
+      nvxfav:            Mis en favoris
+      tagsprop:          Proposition de tags
+    text:
+      comments:          |
+                          Sont affichés ci-dessous vos partages qui ont été commentés, ainsi que les
+                          partages sur lesquels vous avez rédigé un commentaire et souhaité être avertis des nouveaux
+                          commentaires.
+      nvxfav:            |
+                          Sont affichés ci-dessous vos partages qui ont été mis en favoris par d'autres utilisateurs
+      tagsprop:          |
+                          Sont affichés ci-dessous vos partages pour lesquels ont vous propose une nouvelle liste de tags
+      

@@ -1,5 +1,46 @@
 
+'The credentials were changed from another session.' :  "It's been a while without activity, please load again (F5 on most browser)."
+'The presented password cannot be empty.'            :  "Please, enter a valid password."
+'The presented password is invalid.'                 :  "Invalid password."
+'Bad credentials'                                    :  "Invalid login."
+
+'The username is already used'   :   This username is already used.
+'The email is already used'      :   This email address is already used.
+
+
 error:
-  element:
+  group:
     name:
-      notblank:          Choose a name please
+      unique:            This name is already used for another group.
+  registration:
+    username:
+      min:               Your username must content, at least, %limit% letters.
+      max:               Your username must content less than %limit% letters.
+    password:
+      notsame:           The two password you enter were differents.
+  changepassword:
+    new:
+      notsame:           The two password you enter were differents.
+  changeemail:
+    email:
+      invalid:           Invalid email address.
+  element:
+    url:
+      notblank:          You must enter a URL (starting like http://).
+      tolong:            The URL (adresse http://) is too long.
+      invalid:           The URL (adresse http://) is not correct.
+    name:
+      notblank:          You must enter a name.
+      toshort:           The name is too short.
+      tolong:            The name is too long.
+  url:
+    invalid:             The URL is not a valid one.
+  
+      
+registration:
+  token:
+    error:               The code entered for validation is not valid anymore.
+    
+group_malchoisis:        The group is not well choosen.
+group_invalid:           Not a valid group.
+tags_saisinco:           Not a correct tag.

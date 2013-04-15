@@ -2,7 +2,61 @@
 container_menu:
   the_network:          The network
   my_network:           My network
+  my_favorites:         My faves
+  my_feeds:             My feeds
+  return:               Back
+  need_tags:            Demands
   
 top_bar:
   my_account:           My account
-  logout:              Logout
+  logout:               Logout
+  
+network:
+  mygroups:             My groups
+  
+registration:
+  display:              Create new account
+  
+login:
+  display:              Already an account
+  
+home:
+  add_element:          Add a sharing
+  add_element_box:
+    close:              Close the add window
+    title:              Add a sharing
+  check_url:            Add
+  
+group:
+  add_element:          Add an element in this group
+  add_group:            Add a group
+  add_element_box:
+    close:              Close
+  add_group_box:
+    close:              Close
+  
+my_groups:
+  title:                My groups
+  
+title:
+  hello:                Discover and share new music!
+  element:
+    edit:               Modify an element.
+  need_tags:            Share asking tags
+  
+bottom_menu:
+  about:                About
+  development:          Beta version, development in progress
+  sites:                Supported sites
+  cgu:                  TOS
+  
+error_page:
+  notfound:
+    title:              Cannot find this ressource
+    text:               Sorry, I can't find the thing you asked for
+  forbidden:
+    title:              Access forbidden
+    text:               You do not have access to this page.
+  error:
+    title:              Error.
+    text:               Oops, an error occured. Our ants are working on it, they will correct it soon.

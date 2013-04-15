@@ -1,9 +1,38 @@
 
 # FOS
-group.flash.updated: Group has been updated
-group.flash.created: Group has been created
-group.flash.deleted: Group has been deleted
-profile.flash.updated: Profile updated
-change_password.flash.success: Password updated
-registration.flash.user_created: User created
-resetting.flash.success: Password has been initialized
+group.flash.updated: The group has been updated.
+group.flash.created: The group has been created.
+group.flash.deleted: The group has been deleted.
+profile.flash.updated: The profile has been updated.
+change_password.flash.success: The password has been modified.
+registration.flash.user_created: Account has been created with success!
+resetting.flash.success: The password has been set up to default.
+
+# muzich
+group:
+  create:
+    success:      The group has been created with success.
+    failure:      An error occured while creating the group.
+  update:
+    success:      Update successful.
+    failure:      An error occured while update.
+    
+element:
+  add:
+    error:        An error occured during the process.
+  remove:
+    success:      Remove success.
+    error:        An error occured while removing.
+    
+user:
+  changeemail:
+    mail_send:     An email has been sent for confirmation.
+    token_invalid: The link is overdated, please, ask for another one.
+    success:       Your address has been updated.
+    wait:          You must wait to change your email again.
+  session_expired: You have been disconnecter, please, log in again.
+
+presubscription:
+  success:         An email has been sent for confirmation.
+  error:           An error occured, please, try again.
+  confirmed:       Your email is registered, THANKS!

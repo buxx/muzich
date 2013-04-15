@@ -13,7 +13,7 @@ use Muzich\CoreBundle\Entity\Element;
 class Deezercom extends ElementFactory
 {
   
-  protected function getCleanedUrl($decode = false)
+  protected function getCleanedUrl($decode = false, $force_base_url = null)
   {
     $data = parent::getCleanedUrl($decode);
     $data = str_replace(' ', '-', $data);

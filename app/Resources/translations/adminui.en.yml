@@ -1,0 +1,15 @@
+
+moderate:
+  title:            Moderation
+  tags:
+    title:          Tags
+    to_moderate:      %count% to check
+  elements:
+    to_moderate:      %count% to check
+    title:          Elements
+    action:
+      delete:       Delete
+      clean:         Everything ok
+  comments:
+    title:          Comments
+    to_moderate:    %count% elements concerned

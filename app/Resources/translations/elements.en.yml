@@ -1,0 +1,115 @@
+
+noelements:
+  sentence:             Nothing to display
+  sentence_filter:      |
+                         Nothin to displya, this may due because of an heavy filter.<br />You can add tags or 
+                         <a class="filter_clear_url" href="#" >%link_string%</a>.
+  sentence_filter_link_string: delete them.
+  
+element:
+  favorite:
+    add:                Add to faves
+    remove:             Remove from faves
+  add:
+    group:
+      will_be_in:       This element will be add to the group.
+    url_title_step2:    Ressource
+  show:
+    close_embed:        Close the player
+    open_embed:         Display the player
+    open_link:          Open the page
+  name:
+    who:                sent by <a href="%owner_url%">%owner_name%</a>
+    whoandgroup:        sent by <a href="%owner_url%">%owner_name%</a> in the group <a href="%group_url%">%group_name%</a>
+    reshare:            (reshare from the initial share of <a href="%owner_url%">%owner_name%</a>)
+  link:                 Open the original page
+  edit:
+    link:               Modify
+  autoplay:
+    title:              Launch with autoplay
+  remove:
+    link:               Delete
+    confirm:
+      sentence:         Are your sure?
+      yes:              Yes, I am...
+      no:               No, please, don't!
+  group:
+    remove_from:
+      title:            Remove from the group %group_name%
+      confirm:
+        title:          Are you sure?
+        yes:           	Yes, I am...
+        no:             No, please, don't!
+  tag:
+    addtofav:
+      title:            Add to you faves tags.
+      confirm:
+        sentence:       Add to faves?
+        yes:            Of course!
+        no:             What? No!
+    isfav:
+      title:            The tag "%tagname%" is already in your faves!
+  comments: 
+    add:                Add comments
+    thereis:            Display comment
+    thereare:           Display <strong>%count%</strong> comments
+    hideis:             Hide comment
+    hideare:            Hide comments
+    add_submit:         Comment
+    add_cancel:         Cancel
+    edit_submit:        Send
+    edit_cancel:        Cancel
+    errors:
+      min:              Comment must at least have %limit% letters
+      max:              Comment must not have more than %limit% letters
+      unknow:           An error occured
+    follow:
+      label:            Tell me when there is a new comment.
+  vote:
+    good:               This share deserve a point more! (Clic again to delete this point)
+  tag_proposition:
+    form:
+      submit:           propose tags
+      cancel:           Cancel
+      description:      Propose below tags you think are great for this one!
+      error:
+        empty:          Please, type tags to make a proposal.
+  view_propositions:
+    link:               See tags proposal
+    description_one:    A user suggests those tags
+    description_x:      Some users suggest those tages
+    link_accept:        Accept suggestion
+    link_refuse_one:    Refuse proposal
+    link_refuse_x:      Refuse proposals
+  
+comment:
+  edit:
+    link:               Modify your comment
+  remove:
+    link:               Delete your comment
+    confirm:
+      sentence:         Are you sure?
+      yes:              Of course!
+      no:               No, please...
+  
+elements:
+  ajax:
+    more:
+      noelements:       No other element
+  autoplay:
+    launch:             Auto play.
+    noelements:
+      text:             No share to read
+      
+show:
+  user:
+    followers:
+      zero_count:       nobody follow %name%
+      one_count:        %count% person follow %name%
+      x_count:          %count% persons follow %name%
+    elements:
+      no_count:         No share
+      count:            %count_owned% shares (with %count_favorited% faves by %count_favorited_users% users)
+
+tag_favorites:
+  help:                 Filter sharings selecting tags below(you can choose more than one).

@@ -1,13 +1,21 @@
 
 search:
-  search:               Search
-  return:               Return
-  search_u_n_g:         Search users and groups
+  search:               Search.
+  return:               Back.
+  search_u_n_g:         Search users and groups.
   users:                Users
   groups:               Groups
-  no_result:            No result
+  no_result:            No results... Sorry.
+  elements:             Music.
   form:
-    submit_value:       Search
+    submit_value:     Search.
 users:                Users
 groups:               Groups
-followed_by:          You're followed by
+followed_by:          Those users are now following your publications.
+
+favorites:
+  your_favorites:     Your faves.
+  user_favorites:     %name%'s faves.
+  
+nothing:    |
+              Your network does not exist, yet. Use the search to find people and groups you may like !

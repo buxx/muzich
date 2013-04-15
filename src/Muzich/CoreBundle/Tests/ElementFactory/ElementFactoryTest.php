@@ -433,25 +433,25 @@ class ElementFactoryTest extends UnitTest
      *   - jamendo.com
      */
     
-    // 'http://www.jamendo.com/fr/album/30661'
+    // 'http://www.jamendo.com/fr/list/a120468/6-00-am'
     
     $this->assertEquals(array(
-      'data_ref_id' => '30661',
-      'data_title' => 'ZwaNe 01',
+      'data_ref_id' => '120468',
+      'data_title' => '6:00 AM',
       'data_type' => 'album',
-      'data_thumb_url' => 'http://imgjam.com/albums/s30/30661/covers/1.100.jpg',
-      'data_artist' => 'Ptit lutin',
+      'data_thumb_url' => 'http://imgjam.com/albums/s120/120468/covers/1.100.jpg',
+      'data_artist' => 'Azyd Azylum',
       'data_tags' => array(
-        0 => 'Basse',
-        1 => 'Batterie',
-        2 => 'Hardtek',
-        3 => 'Tek',
-        4 => 'Hardtechno',
+        0 => 'Metal',
+        1 => 'Hardcore',
+        2 => 'Metalcore',
+        3 => 'Azyd',
+        4 => 'Azylum',
       ),
       'data_download' => true,
     ),$this->proceed_element_datas_api(
       $bux, 
-      'http://www.jamendo.com/fr/album/30661'
+      'http://www.jamendo.com/fr/list/a120468/6-00-am'
     ));
     
     // 'http://www.jamendo.com/fr/track/207079'

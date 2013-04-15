@@ -35,7 +35,7 @@ class CoreController extends Controller
     if($language != null)
     {
       $old = $this->container->get('request')->getLocale();
-      $this->get('session')->setLocale($language);
+      $this->getRequest()->setLocale($language);
     }
     
     $url_referer = $this->container->get('request')->headers->get('referer');
