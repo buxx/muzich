@@ -17,11 +17,15 @@ share_form:
 MuzichCoreBundle:
   resource: "@MuzichCoreBundle/Resources/config/routing.yml"
   prefix: /{_locale}/
+  requirements:
+    _locale: fr|en
 
   
 MuzichHomeBundle:
   resource: "@MuzichHomeBundle/Resources/config/routing.yml"
   prefix: /{_locale}/
+  requirements:
+    _locale: fr|en
     
 # On doit rajouter une route au cas ou la langue n'est pas précisé.
 home_bis:
@@ -31,22 +35,32 @@ home_bis:
 MuzichUserBundle:
   resource: "@MuzichUserBundle/Resources/config/routing.yml"
   prefix: /{_locale}/
+  requirements:
+    _locale: fr|en
 
 MuzichMynetworkBundle:
   resource: "@MuzichMynetworkBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
+  requirements:
+    _locale: fr|en
   
 MuzichGroupBundle:
   resource: "@MuzichGroupBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
+  requirements:
+    _locale: fr|en
   
 MuzichFavoriteBundle:
   resource: "@MuzichFavoriteBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
+  requirements:
+    _locale: fr|en
   
 MuzichCommentBundle:
   resource: "@MuzichCommentBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/
+  requirements:
+    _locale: fr|en
   
 AdmingeneratorDashboard_welcome:
     pattern: /admin/dashboard
