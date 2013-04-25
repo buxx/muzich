@@ -169,7 +169,7 @@ class Element
    * 
    * @ORM\Column(type="string", length=1024)
    * @Assert\NotBlank(message = "error.element.url.notblank")
-   * @Assert\Length(max = 1024, maxMessage="error.element.url.tolong|error.element.url.tolong")
+   * @Assert\Length(max = 1024, maxMessage="error.element.url.tolong")
    * @Assert\Url(message = "error.element.url.invalid")
    * @var type string
    */
