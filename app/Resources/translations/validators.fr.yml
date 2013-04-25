@@ -32,7 +32,9 @@ error:
     name:
       notblank:          Vous devez saisir un nom
       toshort:           Le nom est trop court
+      toshort|error.element.name.toshort: Le nom est trop court
       tolong:            Le nom est trop long
+      tolong|error.element.name.tolong: Le nom est trop long
   url:
     invalid:             L'adresse fournie est invalide
   

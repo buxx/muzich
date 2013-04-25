@@ -180,7 +180,7 @@ class Element
    * 
    * @ORM\Column(type = "string", length = 128)
    * @Assert\NotBlank(message = "error.element.name.notblank")
-   * @Assert\Length(min = 3, max = 84, minMessage = "error.element.name.toshort", maxMessage = "error.element.name.tolong")
+   * @Assert\Length(min = 3, max = 84, minMessage = "error.element.name.toshort|error.element.name.toshort", maxMessage = "error.element.name.tolong|error.element.name.tolong")
    * @var type string
    */
   protected $name;
