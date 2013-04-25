@@ -719,4 +719,9 @@ class CoreController extends Controller
     );
   }
   
+  public function testErrorAction()
+  {
+    throw new \Exception('test error');
+  }
+  
 }

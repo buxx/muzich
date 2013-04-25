@@ -152,3 +152,7 @@ MuzichAdminBundle_admin_muzich_admin_bundle_Moderate_tag:
     resource: "@MuzichAdminBundle/Controller/Moderate_tag/"
     type:     admingenerator
     prefix:   /admin/muzich_admin_bundle/Moderate_tag
+
+test_error:
+  pattern:  /test-error
+  defaults: { _controller: MuzichCoreBundle:Core:testError }
