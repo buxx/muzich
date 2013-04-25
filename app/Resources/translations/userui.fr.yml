@@ -9,7 +9,7 @@ login:
 
 security:
   login:
-    username: "Identifiant (adresse email)"
+    username: "Identifiant (pseudo ou email)"
     password: "Mot de passe"
 
 start:
