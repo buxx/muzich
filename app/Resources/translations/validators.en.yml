@@ -31,10 +31,8 @@ error:
       invalid:           The URL (adresse http://) is not correct.
     name:
       notblank:          You must enter a name.
-      toshort:           The name is too short.
-      toshort|error.element.name.toshort: The name is too short.
-      tolong:            The name is too long.
-      tolong|error.element.name.tolong: The name is too long.
+      toshort:           The name is too short.|The name is too short.
+      tolong:            The name is too long.|The name is too long.
   url:
     invalid:             The URL is not a valid one.
   

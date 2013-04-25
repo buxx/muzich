@@ -1,6 +1,7 @@
 {% form_theme form 'MuzichCoreBundle:Form:errors.html.twig' %}
 
-{{ form_errors(form) }}
+{#{ form_errors(form) }#}
+
 <input type="hidden" id="form_add_step" value="1" />
 <script type="text/javascript">
   // bugfix: lors du rechargement du navigateur, il se peut que input#form_add_step
