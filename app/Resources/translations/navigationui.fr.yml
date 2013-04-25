@@ -46,7 +46,7 @@ title:
   
   
 bottom_menu:
-  about:                A propos
+  about:                À propos
   development:          Version en développement
   sites:                Sites supportés
   cgu:                  CGU
@@ -60,7 +60,7 @@ error_page:
     text:               L'accès a cette page vous a été refusé
   error:
     title:              Erreur
-    text:               Une erreur est survenue. Notre équipe technique en a été avertis et tantera de procéder a sa correction.
+    text:               Une erreur est survenue. Notre équipe technique en a été avertie et tentera de procéder à sa correction.
 
 help:
     know_more:          Muzi.ch: Qu'est-ce que c'est ?

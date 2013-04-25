@@ -1,15 +1,15 @@
 
 noelements:
-  sentence:             Aucun élément a afficher
+  sentence:             Aucun élément à afficher
   sentence_filter:      |
-                         Aucun élément a afficher, ceci est peut-être du a un
+                         Aucun élément a afficher, ceci est peut-être dû a un
                          filtre trop restrictif.<br />Vous pouvez ajouter des tags ou
                          <a class="filter_clear_url" href="#" >%link_string%</a>.
   sentence_filter_link_string: les retirer
   
 element:
   favorite:
-    add:                Ajouter a mes favoris
+    add:                Ajouter à mes favoris
     remove:             Retirer de mes favoris
   add:
     group:
@@ -49,7 +49,7 @@ element:
         yes:            Oui
         no:             Non
     isfav:
-      title:            Le tag "%tagname%" fait partis de vos tags favoris
+      title:            Le tag "%tagname%" fait partie de vos tags favoris
   comments: 
     add:                Ajouter un commentaire
     thereis:            Afficher le commentaire
@@ -61,8 +61,8 @@ element:
     edit_submit:        Envoyer
     edit_cancel:        Annuler
     errors:
-      min:              Le commentaire doit être de %limit% caractéres minimum
-      max:              Le commentaire doit être de %limit% caractéres maximum
+      min:              Le commentaire doit être de %limit% caractères minimum
+      max:              Le commentaire doit être de %limit% caractères maximum
       unknow:           Une erreur est survenue
     follow:
       label:            M'avertir en cas de nouveaux commentaires
@@ -78,7 +78,7 @@ element:
   view_propositions:
     link:               Voir les propositions de tags
     description_one:    Un utilisateur vous propose cette configuration de tags
-    description_x:      Des utilisateurs vous propose ces configurations de tags
+    description_x:      Des utilisateurs vous proposent ces configurations de tags
     link_accept:        Accepter cette proposition
     link_refuse_one:    Refuser la proposition
     link_refuse_x:      Refuser les propositions
@@ -100,7 +100,7 @@ elements:
   autoplay:
     launch:             Lecture automatique
     noelements:
-      text:             Aucun partage a lire
+      text:             Aucun partage à lire
       
 show:
   user:

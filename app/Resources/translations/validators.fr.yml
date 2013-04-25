@@ -1,11 +1,11 @@
 
-'The credentials were changed from another session.' :  "La page a été innactive trop longtemps, cuillez recharger la page."
+'The credentials were changed from another session.' :  "La page a été inactive trop longtemps, veuillez recharger la page."
 'The presented password cannot be empty.'            :  "Vous devez saisir un mot de passe."
 'The presented password is invalid.'                 :  "Le mot de passe est invalide."
 'Bad credentials'                                    :  "Vos identifiants sont incorrects."
 
 'The username is already used'   :   Le nom d'utilisateur est déjà utilisé.
-'The email is already used'      :   Cette adresse email est déjà utilisé.
+'The email is already used'      :   Cette adresse email est déjà utilisée.
 
 
 error:
@@ -17,13 +17,13 @@ error:
       min:               Votre nom d'utilisateur doit contenir au moins %limit% caractères.
       max:               Votre nom d'utilisateur doit contenir au maximum %limit% caractères.
     password:
-      notsame:           Vous avez saisie deux mot de passes différents.
+      notsame:           Vous avez saisi deux mots de passes différents.
   changepassword:
     new:
-      notsame:           Vous avez saisie deux nouveaux mot de passes différents.
+      notsame:           Vous avez saisi deux nouveaux mots de passes différents.
   changeemail:
     email:
-      invalid:           L'email saisie n'est pas valide.
+      invalid:           L'email saisi n'est pas valide.
   element:
     url:
       notblank:          Vous devez saisir une url (adresse http://)
@@ -39,8 +39,8 @@ error:
       
 registration:
   token:
-    error:               Le code saisie pour l'inscription est incorrect ou n'est plus utilisable
+    error:               Le code saisi pour l'inscription est incorrect ou n'est plus utilisable
     
-group_malchoisis:        Le groupe est mal choisis
+group_malchoisis:        Le groupe est mal choisi
 group_invalid:           Le groupe est invalide
 tags_saisinco:           Tags saisis incorrects

@@ -9,21 +9,21 @@ user:
   show:
     title:                      Diffusions de %name%
   reputation:
-    name:                       Reputation
+    name:                       Réputation
     txt:                        points
     
 events:
   new_comments:
     no:                         Pas de nouveaux commentaires sur vos partages
-    one:                        %count% nouveaux commentaire sur un de vos partages
+    one:                        %count% nouveau commentaire sur l'un de vos partages
     yes:                        %count% nouveaux commentaires sur vos partages
   new_favoriteds:
     no:                         Pas de nouveaux partages mis en favoris
-    one:                        %count% de vos partage a été mis en favoris
+    one:                        %count% de vos partages a été mis en favoris
     yes:                        %count% de vos partages ont été mis en favoris
   new_follows:
     no:                         Pas de nouveaux utilisateurs qui vous suivent
-    one:                        %count% nouvel utilisateur vous suis
+    one:                        %count% nouvel utilisateur vous suit
     yes:                        %count% nouveaux utilisateurs vous suivent
   new_tags:
     no:                         Pas de nouvelle proposition de tags

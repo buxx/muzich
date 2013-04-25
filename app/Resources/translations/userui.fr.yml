@@ -13,15 +13,15 @@ security:
     password: "Mot de passe"
 
 start:
-  title:       Inscription terminé
+  title:       Inscription terminée
   titleh2:     Bienvenue sur Muzich !
   description: |
                Muzi.ch est une plate-forme sur laquelle découvrir et partager vos découvertes 
                musicales sur le web. Un clip officiel sur youtube, un nouveau mix sur soundcloud, ou 
                un album qui vous plaît sur deezer ? Partagez l'adresse de ces pages sur le réseau
                afin que le monde puisse profiter de votre découverte ! Vous souhaitez simplement 
-               écouter les dernières trouvaille ? Afficher le flux de ces découvertes sur votre page.
-               Vous pourrez filtrer les résultat avec les tags de vos styles de musiques préférés 
+               écouter les dernières trouvailles ? Affichez le flux de ces découvertes sur votre page.
+               Vous pourrez filtrer les résultats avec les tags de vos styles de musiques préférés 
                ainsi que créer votre propre réseau constitué de vos utilisateurs et groupes préférés.
                
   tags:
@@ -37,7 +37,7 @@ title:
   myfavorites:   Mes favoris
   sites:         Sites supportés
   devvers:       En développement
-  about:         A propos
+  about:         À propos
   search:        Recherche
   cgu:           Informations légales
     
@@ -52,20 +52,20 @@ my_account:
   change_email_submit: Mettre à jour mon email
   address:
     title:          Mon adresse
-    description:    Avec votre adresse Muzi.ch pourra vous avertir plus aisément des événements à venirs dans votre région.
+    description:    Avec votre adresse Muzi.ch pourra vous avertir plus aisément des événements à venir dans votre région.
     form:
       ilivenear:    J'habite vers (ex Paris)
       in:           en (ex France)
-      submit:       Mettre a jour
+      submit:       Mettre à jour
       errors:
         notown:     Veuillez saisir la ville
         nocountry:  Veuillez saisir le pays
   help_clicks:      |
-                    Cliquez sur les titres ci-dessous pour accèder aux autres paramètres
+                    Cliquez sur les titres ci-dessous pour accéder aux autres paramètres
   avatar:
     title:          Mon avatar
     submit:         Mettre à jour
-    help:           'Choisissez une image puis préssez le bouton "Mettre à jour"'
+    help:           'Choisissez une image puis pressez le bouton "Mettre à jour"'
     success:        Votre avatar a bien été mis à jour
     error:          Une erreur est survenue lors de la mise à jour de votre avatar
   preferences:
@@ -80,13 +80,13 @@ connexion:
 more:    Plus de résultats
 tags:
   prompt:
-    help_box_title: Afficher de l'aide pour la siasie de tags
+    help_box_title: Afficher de l'aide pour la saisie de tags
     help:  |
             Choissiez un tag dans la liste ci-dessous en cliquant dessus. Pour saisir plusieurs tags
-            renouvellez l'opération pour chacuns d'entre eux.
+            renouvellez l'opération pour chacun d'entre eux.
   help:  |
            Saisissez <strong>une liste de tags</strong> ci-dessous: Entrez 
-           <strong>un tag a la fois</strong> et choisissez les a l'aide de 
+           <strong>un tag à la fois</strong> et choisissez les à l'aide de 
            la liste.
   inputtext:
     help:      Saisissez vos tags ici (un par un)
@@ -95,7 +95,7 @@ tags:
     display_more:   Afficher les autres résultats
   add:
     title:          Ajouter un nouveau tag
-    text:           Ce tag n'est pas encore connu de Muzi.ch, mais vous pouvez proposer son ajout. Cependant sa validation sera soumise a l'équipe de modération du site.
+    text:           Ce tag n'est pas encore connu de Muzi.ch, mais vous pouvez proposer son ajout. Cependant sa validation sera soumise à l'équipe de modération du site.
     argument:       "Vous pouvez argumenter votre demande:"
     inputs:
       cancel:       Annuler
@@ -185,7 +185,7 @@ index:
   beta:
     warning:       |
                     Les inscriptions sur Muzi.ch sont actuellement limités. Le service 
-                    est actuellement en beta fermé ! Vous pouvez nanmoins vous inscrire si vous
+                    est actuellement en bêta fermée ! Vous pouvez néanmoins vous inscrire si vous
                     possédez un code d'inscription
     
 system:
@@ -193,10 +193,10 @@ system:
     normally_js:   |
                     Vous avez ouvert cette page dans un nouvel onglet/nouvelle page
                     Sachez qu'avez le clic gauche de votre souris la modification
-                    de l'élément est intégré dans la page.
+                    de l'élément est intégrée dans la page.
                     
 date:
-  instant:               a l'instant
+  instant:               à l'instant
   less_than_minute:      il y a moins d'une minute
  
 element:
@@ -229,7 +229,7 @@ search_tag:
   title:                 Recherche de tag correspondant à \"%string_search%\" ...
   
 global_search:
-  no_results:            Il n'y a aucun résultat a votre recherche.
+  no_results:            Il n'y a aucun résultat à votre recherche.
   
 need_tags:
   text_help:             |
@@ -259,5 +259,5 @@ events:
       nvxfav:            |
                           Sont affichés ci-dessous vos partages qui ont été mis en favoris par d'autres utilisateurs
       tagsprop:          |
-                          Sont affichés ci-dessous vos partages pour lesquels ont vous propose une nouvelle liste de tags
+                          Sont affichés ci-dessous vos partages pour lesquels on vous propose une nouvelle liste de tags
       

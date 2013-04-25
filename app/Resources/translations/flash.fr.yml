@@ -5,30 +5,30 @@ group.flash.created: Le groupe a été créé.
 group.flash.deleted: Le groupe a été supprimé.
 profile.flash.updated: Le profil a été mis à jour.
 change_password.flash.success: Le mot de passe a été modifié.
-registration.flash.user_created: Compte créé avec succés !
+registration.flash.user_created: Compte créé avec succès !
 resetting.flash.success: Le mot de passe a été réinitialisé avec succès.
 
 # muzich
 group:
   create:
-    success:      Le groupe a été créé avec succés.
+    success:      Le groupe a été créé avec succès.
     failure:      Un erreur est survenue lors de la création du groupe.
   update:
-    success:      La mise a jour a été un succés.
+    success:      La mise a jour a été un succès.
     failure:      Une erreur est survenue lors de la mise a jour du groupe.
     
 element:
   add:
-    error:        Une erreur est survenus lors de l'ajout.
+    error:        Une erreur est survenue lors de l'ajout.
   remove:
-    success:      Element supprimé avec succés.
+    success:      Element supprimé avec succès.
     error:        Une erreur est survenue durant la suppression de l'élément.
     
 user:
   changeemail:
-    mail_send:     Un email a été envoyé a l'adresse communiqué pour confirmation (vérifiez aussi dans vos SPAM).
+    mail_send:     Un email a été envoyé a l'adresse communiquée pour confirmation (vérifiez aussi dans vos SPAM).
     token_invalid: Le lien pour mettre a jour votre email est périmé, veuillez relancer la procédure.
-    success:       Votre email a correctement été mis a jour.
+    success:       Votre email a correctement été mis à jour.
     wait:          Vous devez attendre avant de pouvoir faire une nouvelle demande de changement d'email.
   session_expired: Vous avez été déconnecté, veuillez vous ré-identifier
 
