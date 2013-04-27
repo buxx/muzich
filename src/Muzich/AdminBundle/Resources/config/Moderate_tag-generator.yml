@@ -14,10 +14,12 @@ builders:
       object_actions:
         accept:
           route: Muzich_AdminBundle_Moderate_tag_accept
-          confirm: Sure to ACCEPT ?
+          icon: icon-ok-sign
+          class: moderate_accept
         refuse:
           route: Muzich_AdminBundle_Moderate_tag_refuse
-          confirm: Sure to REFUSE ?
+          icon: icon-trash
+          class: moderate_refuse
       sort: [ tomoderate, DESC ]
       scopes:
         moderation: 

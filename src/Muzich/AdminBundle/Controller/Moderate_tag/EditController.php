@@ -5,6 +5,7 @@ namespace Muzich\AdminBundle\Controller\Moderate_tag;
 use Admingenerated\MuzichAdminBundle\BaseModerate_tagController\EditController as BaseEditController;
 use Muzich\CoreBundle\Managers\TagManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class EditController extends BaseEditController
 {
@@ -28,8 +29,19 @@ class EditController extends BaseEditController
     $tagManager = new TagManager();
     $tagManager->moderateTag($this->getDoctrine(), $tag, true);
     
-    $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
-    return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_tag_list" ));
+    if (!$this->getRequest()->isXmlHttpRequest())
+    {
+      $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
+      return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_tag_list" ));
+    }
+    return $this->getJsonEmptyResponse();
+  }
+  
+  protected function getJsonEmptyResponse()
+  {
+    $response = new Response(json_encode(array()));
+    $response->headers->set('Content-Type', 'application/json; charset=utf-8');
+    return $response;
   }
   
   public function refuseAction($pk)
@@ -57,8 +69,12 @@ class EditController extends BaseEditController
     
     $this->getDoctrine()->getEntityManager()->flush();
     
-    $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
-    return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_tag_list" ));
+    if (!$this->getRequest()->isXmlHttpRequest())
+    {
+      $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
+      return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_tag_list" ));
+    }
+    return $this->getJsonEmptyResponse();
   }
   
 }

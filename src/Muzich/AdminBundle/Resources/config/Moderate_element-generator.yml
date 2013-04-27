@@ -35,9 +35,11 @@ builders:
           params:
             pk: "{{ Element.id }}"
           confirm: Sure to ACCEPT and CLEAN ?
-        refuse:
+          icon: icon-ok-sign
+        reject:
           route: Muzich_AdminBundle_Moderate_element_refuse
           params:
             pk: "{{ Element.id }}"
           confirm: Sure to REFUSE and REMOVE ?
+          icon: icon-trash
         list: ~

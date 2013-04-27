@@ -66,17 +66,14 @@
               {% block list_object_actions %}
                 <td class="actions">
                   
-                  <a class="" href="{{ path("Muzich_AdminBundle_Moderate_comment_accept", { 'element_id': Comment.element_id, 'date' : Comment.date }) }}"
-                     data-confirm="{% trans from "Admingenerator" %}Sure to ACCEPT ?{% endtrans %}"
+                  <a class="moderate_accept" href="{{ path("Muzich_AdminBundle_Moderate_comment_accept", { 'element_id': Comment.element_id, 'date' : Comment.date }) }}"
                      rel="tooltip" data-original-title="{% trans from "Admingenerator" %}Accept{% endtrans %}">
-                    <i class="icon-asterisk"></i>
+                    <i class="icon-ok-sign"></i>
                   </a>
                   
-                                              
-                  <a class="" href="{{ path("Muzich_AdminBundle_Moderate_comment_refuse", { 'element_id': Comment.element_id, 'date' : Comment.date }) }}"
-                     data-confirm="{% trans from "Admingenerator" %}Sure to REFUSE ?{% endtrans %}"
+                  <a class="moderate_refuse" href="{{ path("Muzich_AdminBundle_Moderate_comment_refuse", { 'element_id': Comment.element_id, 'date' : Comment.date }) }}"
                      rel="tooltip" data-original-title="{% trans from "Admingenerator" %}Refuse{% endtrans %}">
-                    <i class="icon-asterisk"></i>
+                    <i class="icon-trash"></i>
                   </a>
                 
                 </td>

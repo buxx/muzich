@@ -5,6 +5,7 @@ namespace Muzich\AdminBundle\Controller\Moderate_comment;
 use Muzich\CoreBundle\lib\Controller as BaseController;
 use Muzich\CoreBundle\Managers\CommentsManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class EditController extends BaseController
 {
@@ -49,8 +50,19 @@ class EditController extends BaseController
     
     $this->getDoctrine()->getEntityManager()->flush();
     
-    $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
-    return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_comment_list" ));
+    if (!$this->getRequest()->isXmlHttpRequest())
+    {
+      $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
+      return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_comment_list" ));
+    }
+    return $this->getJsonEmptyResponse();
+  }
+  
+  protected function getJsonEmptyResponse()
+  {
+    $response = new Response(json_encode(array()));
+    $response->headers->set('Content-Type', 'application/json; charset=utf-8');
+    return $response;
   }
   
   public function refuseAction($element_id, $date)
@@ -76,8 +88,12 @@ class EditController extends BaseController
     $this->getDoctrine()->getEntityManager()->persist($element);
     $this->getDoctrine()->getEntityManager()->flush();
     
-    $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
-    return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_comment_list" ));
+    if (!$this->getRequest()->isXmlHttpRequest())
+    {
+      $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
+      return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_comment_list" ));
+    }
+    return $this->getJsonEmptyResponse();
   }
   
 }
