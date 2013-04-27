@@ -35,4 +35,4 @@ reputation:
     title:                      Votre réputation
 
 login:
-  fail:                         L'authentification a échoué
+  fail:                         Authentication fail
