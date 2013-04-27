@@ -2897,4 +2897,10 @@ $(document).ready(function(){
     $('#helpbox').remove();
   });
    
+    // Hide add_tag
+    $('div#add_tag div.inputs input[type="submit"]').live('click', function(){
+      $('#fade').fadeOut(1000, function(){$('#fade').remove();});
+      $('div#add_tag').fadeOut();
+    });
+   
 });
