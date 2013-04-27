@@ -1178,6 +1178,23 @@ div#footer_logo img
   padding-right: 10px;
 }
 
+div#footer_logo_2
+{
+  line-height: 18px;
+  margin-top: 25px;
+  padding-left: 0;
+  padding-right: 40px;
+  text-align: left;
+  width: 135px;
+  float: left;
+}
+
+div#footer_logo_2 img
+{
+  float: none;
+  padding-right: 0px;
+}
+
 span.fotter_muzich_big
 {
   font-size: 22px;
