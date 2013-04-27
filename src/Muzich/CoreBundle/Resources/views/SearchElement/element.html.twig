@@ -55,25 +55,27 @@
         <li class="score">
           {{ element.points|format_score }}
         </li>
-          {% if element.owner.id != app.user.id %}
             <li class="vote thumb">
-              {% if element.hasVoteGood(app.user.id) %}
-                <a class="vote" href="{{ path('ajax_element_remove_vote_good', {
-                  'element_id' : element.id,
-                  'token'      : app.user.getPersonalHash(element.id)
-                }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
-                  <img src="{{ asset('img/icon_thumb_red.png') }}" alt="vote" />
-                </a>
+              {% if element.owner.id != app.user.id %}
+                {% if element.hasVoteGood(app.user.id) %}
+                  <a class="vote" href="{{ path('ajax_element_remove_vote_good', {
+                    'element_id' : element.id,
+                    'token'      : app.user.getPersonalHash(element.id)
+                  }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
+                    <img src="{{ asset('img/icon_thumb_red.png') }}" alt="vote" />
+                  </a>
+                {% else %}
+                  <a class="vote" href="{{ path('ajax_element_add_vote_good', {
+                    'element_id' : element.id,
+                    'token'      : app.user.getPersonalHash(element.id)
+                  }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
+                    <img src="{{ asset('img/icon_thumb.png') }}" alt="vote" />
+                  </a>
+                {% endif %}
               {% else %}
-                <a class="vote" href="{{ path('ajax_element_add_vote_good', {
-                  'element_id' : element.id,
-                  'token'      : app.user.getPersonalHash(element.id)
-                }) }}" title="{{ 'element.vote.good'|trans({}, 'elements') }}">
-                  <img src="{{ asset('img/icon_thumb.png') }}" alt="vote" />
-                </a>
+                <img src="{{ asset('img/icon_thumb_gray.png') }}" alt="vote" />
               {% endif %}
             </li>
-        {% endif %}
         <li class="star">
           {% if element.hasFavoriteUser(app.user.id) %}
             <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash(element.id) }) }}" >
