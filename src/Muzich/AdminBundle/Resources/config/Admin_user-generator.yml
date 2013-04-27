@@ -3,6 +3,10 @@ params:
   model: Muzich\CoreBundle\Entity\User
   namespace_prefix: Muzich
   bundle_name: AdminBundle
+  fields:
+    plain_password:
+      formType: text
+      dbType: text
 
 builders:
   list:
@@ -13,8 +17,6 @@ builders:
         new: ~
       object_actions:
         show: ~
-        password:
-          route: Muzich_AdminBundle_Admin_user_password
         edit: ~
         delete: ~
   filters:
@@ -24,7 +26,7 @@ builders:
     params:
       title: New User
       display:
-        "General": [ username, email, town, country ]
+        "General": [ username, plain_password, email, town, country ]
         "Resettings": [ email_requested, email_requested_datetime ]
         "Moderation": [ bad_report_count, moderated_element_count, moderated_tag_count, moderated_comment_count ]
         "System": [ cgu_accepted, mail_newsletter, mail_partner, enabled ]
@@ -35,7 +37,7 @@ builders:
     params:
       title: "You're editing the object \"%object%\"|{ %object%: User.username }|"
       display: 
-        "General": [ username, email, town, country ]
+        "General": [ username, plain_password, email, town, country ]
         "Resettings": [ email_requested, email_requested_datetime ]
         "Moderation": [ bad_report_count, moderated_element_count, moderated_tag_count, moderated_comment_count ]
         "System": [ cgu_accepted, mail_newsletter, mail_partner, enabled ]

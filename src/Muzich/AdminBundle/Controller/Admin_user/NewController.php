@@ -8,11 +8,8 @@ use Muzich\CoreBundle\Entity\User;
 
 class NewController extends BaseNewController
 {
-  
   public function preSave(Form $form, User $User)
   {
-    $User->setPlainPassword('k?F69*Cmh35nnK63~%KVDc^');
     $this->container->get('fos_user.user_manager')->updateUser($User);
   }
-  
 }
