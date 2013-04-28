@@ -5,6 +5,7 @@ namespace Muzich\AdminBundle\Controller\Moderate_element;
 use Admingenerated\MuzichAdminBundle\BaseModerate_elementController\EditController as BaseEditController;
 use Muzich\CoreBundle\Propagator\EventElement;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EditController extends BaseEditController
 {

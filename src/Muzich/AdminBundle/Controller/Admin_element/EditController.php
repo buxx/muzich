@@ -7,6 +7,7 @@ use Symfony\Component\Form\Form;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Managers\ElementManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EditController extends BaseEditController
 {

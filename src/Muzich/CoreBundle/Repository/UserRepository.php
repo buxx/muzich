@@ -16,7 +16,7 @@ class UserRepository extends EntityRepository
    * @param array $join
    * @return  Doctrine\ORM\Query
    */
-  public function findOneById($user_id, $join_list)
+  public function findOneById($user_id, $join_list = array())
   {
     $select = 'u';
     $join = '';

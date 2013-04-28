@@ -12,7 +12,7 @@ builders:
   list:
     params:
       title: List for Users
-      display: [ id, username, email, reputation, enabled ]
+      display: [ id, username, email, reputation, bad_count, enabled ]
       actions:
         new: ~
       object_actions:
@@ -50,9 +50,15 @@ builders:
       display:
         "General": [ username, email, town, country ]
         "Resettings": [ email_requested, email_requested_datetime ]
-        "Moderation": [ bad_report_count, moderated_element_count, moderated_tag_count, moderated_comment_count ]
+        "Moderation": [ enabled, bad_report_count, moderated_element_count, moderated_tag_count, moderated_comment_count ]
         "System": [ cgu_accepted, mail_newsletter, mail_partner ]
       actions:
+        Disable_and_delete_elements:
+          route: Muzich_AdminBundle_Moderate_user_disable_and_delete_elements
+          params:
+            pk: "{{ User.id }}"
+          confirm: Sure to DISABLE user and DELETE ALL HIS ELEMENTS ?
+          icon: icon-trash
         list: ~
         new: ~
   delete: ~

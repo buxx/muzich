@@ -6,6 +6,7 @@ use Admingenerated\MuzichAdminBundle\BaseModerate_tagController\EditController a
 use Muzich\CoreBundle\Managers\TagManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EditController extends BaseEditController
 {

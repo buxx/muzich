@@ -46,3 +46,8 @@ Muzich_AdminBundle_Moderate_comment_refuse:
   requirements:
     _method:  GET
 
+Muzich_AdminBundle_Moderate_user_disable_and_delete_elements:
+  pattern:  /Moderate_user/{pk}/disable-and-delete-elements
+  defaults: { _controller:Muzich\AdminBundle\Controller\Moderate_user\EditController::disableAndDeleteAllHisElementsAction }
+  requirements:
+    _method:  GET

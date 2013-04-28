@@ -151,7 +151,7 @@ class Element
   /**
    * Propositions de tags
    * 
-   * @ORM\OneToMany(targetEntity="ElementTagsProposition", mappedBy="element")
+   * @ORM\OneToMany(targetEntity="ElementTagsProposition", mappedBy="element", cascade={"remove"})
    */
   protected $tags_propositions;
   

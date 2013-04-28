@@ -1,9 +1,8 @@
 <?php
 
-namespace Muzich\AdminBundle\Controller\Moderate_comment;
+namespace Muzich\AdminBundle\Controller\Moderate_user;
 
 use Muzich\CoreBundle\lib\Controller as BaseController;
-use Muzich\CoreBundle\Managers\CommentsManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -11,14 +10,41 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class EditController extends BaseController
 {
   
-  protected function getElementContext($element_id)
+  protected function getUserContext($user_id)
   {
-    $Element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id);
-    if (!$Element) {
-        throw new NotFoundHttpException("The Muzich\CoreBundle\Entity\Element with id $element_id can't be found");
+    $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+      ->findOneById($user_id)->getSingleResult();
+    
+    if (!$user) {
+        throw new NotFoundHttpException("The Muzich\CoreBundle\Entity\User with id $user_id can't be found");
     }
-    return $Element;
+    return $user;
+  }
+  
+  public function disableAndDeleteAllHisElementsAction($pk)
+  {
+    $user = $this->getUserContext($pk);
+    $user->setEnabled(false);
+    $this->persist($user);
+    foreach ($user->getElements() as $element)
+    {
+      $this->remove($element);
+    }
+    
+    try
+    {
+      $this->flush();
+      $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
+    }
+    catch (\Exception $e)
+    {
+      throw $e;
+      $this->get('session')->setFlash('error', $this->get('translator')->trans("object.edit.error", array(), 'Admingenerator') );
+    }
+    
+    return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Admin_user_show", array(
+      'pk' => $pk
+    )));
   }
   
   public function acceptAction($element_id, $date)

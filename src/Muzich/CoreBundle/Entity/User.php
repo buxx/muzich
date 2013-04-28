@@ -134,6 +134,12 @@ class User extends BaseUser
   protected $groups_owned;
   
   /**
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int 
+   */
+  protected $bad_count;
+  
+  /**
    * Compteur de signalements inutiles
    * 
    * @ORM\Column(type="integer", nullable=true)
@@ -494,6 +500,7 @@ class User extends BaseUser
   public function setBadReportCount($count)
   {
     $this->bad_report_count = $count;
+    $this->updateBadCount();
   }
   
   public function addBadReport()
@@ -557,6 +564,7 @@ class User extends BaseUser
   public function setModeratedElementCount($count)
   {
     $this->moderated_element_count = $count;
+    $this->updateBadCount();
   }
   
   public function addModeratedElementCount()
@@ -576,6 +584,7 @@ class User extends BaseUser
   public function setModeratedTagCount($count)
   {
     $this->moderated_tag_count = $count;
+    $this->updateBadCount();
   }
   
   public function addModeratedTagCount()
@@ -595,6 +604,7 @@ class User extends BaseUser
   public function setModeratedCommentCount($count)
   {
     $this->moderated_comment_count = $count;
+    $this->updateBadCount();
   }
   
   public function addModeratedCommentCount()
@@ -1059,6 +1069,25 @@ class User extends BaseUser
       $help_tour_status[$help_id] = ($boolean)?true:false;
     }
     $this->setHelpTour($help_tour_status);
+  }
+  
+  public function getBadCount()
+  {
+    if (is_null($this->bad_count))
+    {
+      return 0;
+    }
+    
+    return $this->bad_count;
+  }
+  
+  public function updateBadCount()
+  {
+    $this->bad_count = $this->getBadReportCount()
+      + $this->getModeratedCommentCount()
+      + $this->getModeratedElementCount()
+      + $this->getModeratedTagCount()
+    ;
   }
   
 }
