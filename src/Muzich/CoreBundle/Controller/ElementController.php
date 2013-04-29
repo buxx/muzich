@@ -933,7 +933,7 @@ class ElementController extends Controller
   
   protected function findTagsWithProposeds($tags)
   {
-    $tag_like = new TagLike($this->getDoctrine());
+    $tag_like = new TagLike($this->getDoctrine()->getEntityManager());
     $tags_with_likes = array();
     foreach ($tags as $tag_name)
     {

@@ -41,7 +41,7 @@ class UserTest extends UnitTest
         $jungle->getId() => 'Jungle',
         $hardtek->getId()  => 'Hardtek',
         array_search('Nouveau 1', $bux->getTagsFavoritesQuick())  => 'Nouveau 1'
-      ), $bux->getTagsFavoritesQuick());
+      ), array_unique($bux->getTagsFavoritesQuick()));
     }
     else
     {

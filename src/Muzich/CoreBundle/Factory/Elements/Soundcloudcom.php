@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Factory\Elements;
 
 use Muzich\CoreBundle\Factory\ElementFactory;
 use Muzich\CoreBundle\Entity\Element;
+use Muzich\CoreBundle\Util\TagLike;
 
 /**
  * 
@@ -186,16 +187,49 @@ class Soundcloudcom extends ElementFactory
         {
           $this->element->setData(Element::DATA_ARTIST, $result['user']['username']);
         }
-
+        
+        $genres = '';
         if (array_key_exists('genre', $result) )
         {
           if (strlen($result['genre']))
           {
-            $this->element->setData(Element::DATA_TAGS, array($result['genre']));
+            $genres = $result['genre'];
           }
         }
+        
+        $tags_list = '';
+        if (array_key_exists('tag_list', $result) )
+        {
+          if (strlen($result['tag_list']))
+          {
+            $tags_list = $result['tag_list'];
+          }
+        }
+        
+        $tags_string = $genres.' '.$tags_list.' '.str_replace(' ', '-', $genres);
+        $tags_like = array();
+        if (strlen($tags_string))
+        {
+          $tag_like = new TagLike($this->entity_manager);
+          foreach (explode(' ', $tags_string) as $word)
+          {
+            $similar_tags = $tag_like->getSimilarTags($word, $this->element->getOwner()->getId());
+            if (count($similar_tags))
+            {
+              if ($similar_tags['same_found'])
+              {
+                $tags_like[] = $similar_tags['tags'][0]['name'];
+              }
+            }
+          }
+          $tags_like[] = $genres;
+          if (count($tags_like))
+          {
+            $this->element->setData(Element::DATA_TAGS, array_unique($tags_like));
+          }
+        }
+        
       }
-            
     }
   }
   

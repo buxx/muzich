@@ -373,8 +373,34 @@ class ElementFactoryTest extends UnitTest
       'data_download' => null,
       'data_download_url' => 'http://soundcloud.com/matas/sets/library-project/download',
       'data_artist' => 'matas',
-      'data_normalized_url' => 'http://api.soundcloud.com/playlists/3770'
+      'data_normalized_url' => 'http://api.soundcloud.com/playlists/3770',
+      'data_tags' => array(0 => '')
     ),$datas);
+    
+    // Test des tags récupérés
+    $datas = $this->proceed_element_datas_api(
+      $bux, 
+      'https://soundcloud.com/mixessss3/white-stripes-vs-led-zeppelin-icky-kinky-love-rock-mashup-dj-zebra'
+    );
+    
+    $this->assertTrue(array_key_exists('data_thumb_url', $datas));
+    if (array_key_exists('data_thumb_url', $datas))
+    {
+      unset($datas['data_thumb_url']);
+    }
+    
+    $this->assertEquals(array(
+      'data_ref_id' => 2215186,
+      'data_title' => 'White Stripes Vs Led Zeppelin - Icky Kinky Love (Rock Mashup) DJ Zebra',
+      //'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000000514203-fsvbcj-large.jpg?51826bf',
+      'data_type' => 'track',
+      'data_download' => false,
+      'data_download_url' => 'https://soundcloud.com/mixessss3/white-stripes-vs-led-zeppelin-icky-kinky-love-rock-mashup-dj-zebra/download',
+      'data_artist' => 'Mixes and Mashups #3',
+      'data_normalized_url' => 'http://api.soundcloud.com/tracks/2215186',
+      'data_tags' => array(0 => 'Rock', 1 => 'rock  ')
+    ),$datas);
+    
     
     // 'http://soundcloud.com/matas/above-hyperion-redux'
     $datas = $this->proceed_element_datas_api(

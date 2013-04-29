@@ -5,6 +5,7 @@ namespace Muzich\CoreBundle\Factory;
 use Muzich\CoreBundle\Entity\Element;
 use Symfony\Component\DependencyInjection\Container;
 use \Exception;
+use Doctrine\ORM\EntityManager;
 
 /**
  *
@@ -19,16 +20,18 @@ abstract class ElementFactory
    */
   protected $element;
   protected $container;
+  protected $entity_manager;
   
   /**
    *
    * @param Element $element
    * @param Container $container 
    */
-  public function __construct(Element $element, Container $container)
+  public function __construct(Element $element, Container $container, EntityManager $entity_manager)
   {
     $this->element   = $element;
     $this->container = $container;
+    $this->entity_manager = $entity_manager;
   }
   
   /**

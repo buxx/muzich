@@ -152,28 +152,28 @@ class ElementManager
     switch ($this->element->getType())
     {
       case 'youtube.com':
-        return new Youtubecom($this->element, $this->container);
+        return new Youtubecom($this->element, $this->container, $this->em);
       break;
       case 'youtu.be':
-        return new Youtube($this->element, $this->container);
+        return new Youtube($this->element, $this->container, $this->em);
       break;
       case 'soundcloud.com':
-        return new Soundcloudcom($this->element, $this->container);
+        return new Soundcloudcom($this->element, $this->container, $this->em);
       break;
       case 'jamendo.com':
-        return new Jamendocom($this->element, $this->container);
+        return new Jamendocom($this->element, $this->container, $this->em);
       break;
       case 'dailymotion.com':
-        return new Dailymotioncom($this->element, $this->container);
+        return new Dailymotioncom($this->element, $this->container, $this->em);
       break;
       case 'deezer.com':
-        return new Deezercom($this->element, $this->container);
+        return new Deezercom($this->element, $this->container, $this->em);
       break;
       case 'vimeo.com':
-        return new Vimeocom($this->element, $this->container);
+        return new Vimeocom($this->element, $this->container, $this->em);
       break;
       case 'spotify.com':
-        return new Spotifycom($this->element, $this->container);
+        return new Spotifycom($this->element, $this->container, $this->em);
       break;
       default:
         throw new \Exception("La Factory n'est pas prise en charge pour ce type.");

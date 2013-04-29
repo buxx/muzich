@@ -2,8 +2,8 @@
 
 namespace Muzich\CoreBundle\Util;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Muzich\CoreBundle\Util\StrictCanonicalizer;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Cette classe permet d'aider a la recherche de mot similaires a un mot
@@ -13,11 +13,11 @@ use Muzich\CoreBundle\Util\StrictCanonicalizer;
 class TagLike
 {
   
-  protected $registry;
+  protected $entity_manager;
   
-  public function __construct(Registry $registry)
+  public function __construct(EntityManager $entity_manager)
   {
-    $this->registry = $registry;
+    $this->entity_manager = $entity_manager;
   }
   
   /**
@@ -168,7 +168,7 @@ class TagLike
     }
 
     $params['uid'] = '%"'.$user_id.'"%';
-    $tags_query = $this->registry->getEntityManager()->createQuery("
+    $tags_query = $this->entity_manager->createQuery("
       SELECT t.name, t.slug, t.id FROM MuzichCoreBundle:Tag t
       $where
 

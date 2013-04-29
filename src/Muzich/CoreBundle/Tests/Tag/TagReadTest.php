@@ -49,7 +49,7 @@ class TagReadTest extends UnitTest
         'Punk rock', 'Ska-punk', 'Skate punk', 'Synthpunk' 
     );
     
-    $TagLike = new TagLike($this->getDoctrine());
+    $TagLike = new TagLike($this->getDoctrine()->getEntityManager());
     $response = $TagLike->getSimilarTags('punk', $bux->getId());
     
     $this->assertEquals(count($cresults), count($response['tags']));
@@ -73,7 +73,7 @@ class TagReadTest extends UnitTest
         'Punk rock', 'Ska-punk', 'Skate punk', 'Synthpunk' 
     );
     
-    $TagLike = new TagLike($this->getDoctrine());
+    $TagLike = new TagLike($this->getDoctrine()->getEntityManager());
     $tags = $this->getTagsNames($result = $TagLike->getSimilarTags('punk', $bux->getId()));
     
     $this->assertEquals($cresults, $tags);
@@ -85,7 +85,7 @@ class TagReadTest extends UnitTest
         'Punk rock', 'Ska-punk', 'Skate punk', 'Synthpunk' 
     );
     
-    $TagLike = new TagLike($this->getDoctrine());
+    $TagLike = new TagLike($this->getDoctrine()->getEntityManager());
     $tags = $this->getTagsNames($result = $TagLike->getSimilarTags('anarcho punk', $bux->getId()));
     
     $this->assertEquals($cresults, $tags);
@@ -97,7 +97,7 @@ class TagReadTest extends UnitTest
         'Punk rock', 'Ska-punk', 'Skate punk', 'Synthpunk' 
     );
     
-    $TagLike = new TagLike($this->getDoctrine());
+    $TagLike = new TagLike($this->getDoctrine()->getEntityManager());
     $tags = $this->getTagsNames($result = $TagLike->getSimilarTags('punk anarcho', $bux->getId()));
     
     $this->assertEquals($cresults, $tags);
@@ -109,7 +109,7 @@ class TagReadTest extends UnitTest
         'Punk rock', 'Ska-punk', 'Skate punk', 'Synthpunk' 
     );
     
-    $TagLike = new TagLike($this->getDoctrine());
+    $TagLike = new TagLike($this->getDoctrine()->getEntityManager());
     $tags = $this->getTagsNames($result = $TagLike->getSimilarTags('punk anar', $bux->getId()));
     
     $this->assertEquals($cresults, $tags);
@@ -121,7 +121,7 @@ class TagReadTest extends UnitTest
         'Pop-punk', 'Post-Punk', 'Punk rock', 'Ska-jazz', 'Skacore',  'Synthpunk' 
     );
     
-    $TagLike = new TagLike($this->getDoctrine());
+    $TagLike = new TagLike($this->getDoctrine()->getEntityManager());
     $tags = $this->getTagsNames($result = $TagLike->getSimilarTags('ska punk', $bux->getId()));
     
     $this->assertEquals($cresults, $tags);
@@ -132,7 +132,7 @@ class TagReadTest extends UnitTest
       'Horror punk'
     );
     
-    $TagLike = new TagLike($this->getDoctrine());
+    $TagLike = new TagLike($this->getDoctrine()->getEntityManager());
     $tags = $this->getTagsNames($result = $TagLike->getSimilarTags('horror', $bux->getId()));
     
     $this->assertEquals($cresults, $tags);

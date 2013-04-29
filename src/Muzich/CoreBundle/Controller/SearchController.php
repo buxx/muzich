@@ -258,7 +258,7 @@ class SearchController extends Controller
       if (strlen(trim($string_search)) > 1)
       {
         // On utilise l'objet TagLike
-        $TagLike = new TagLike($this->getDoctrine());
+        $TagLike = new TagLike($this->getDoctrine()->getEntityManager());
         // Pour trier nos tags d'une manière plus humaine
         $sort_response = $TagLike->getSimilarTags($string_search, $this->getUserId());
       
