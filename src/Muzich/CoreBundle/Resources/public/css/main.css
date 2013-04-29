@@ -544,7 +544,7 @@ img.tag_add_to_favorites
   margin-left: 1px;
 }
 
-td.element_content a.display_comments, td.element_content a.add_comment, td.element_content a.hide_comments, div.comments a.add_comment
+td.element_content a.display_comments, td.element_content a.add_comment, td.element_content a.add_comment_disabled, td.element_content a.hide_comments, div.comments a.add_comment
 {
   color: #404040;
 }
@@ -2045,4 +2045,9 @@ div.helpbox_image_container img
 
 .fotter_muzich_little{
   font-size: 9px;
+}
+
+div.side_margin_top
+{
+  margin-top: 25px;
 }

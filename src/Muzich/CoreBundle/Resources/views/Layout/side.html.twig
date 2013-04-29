@@ -4,13 +4,16 @@
       {% render "MuzichUserBundle:Event:infoBar" %}
     {% endif %}
   </div>
+{% else %}
+  <div class="side_margin_top"></div>
+{% endif %}
 
   <div id="searchbox" class="nicebox">
     {% render "MuzichCoreBundle:Search:renderGlobalSearchForm" %}
   </div>
   
   {% include 'MuzichCoreBundle:Layout:social.html.twig' %}
-  
-  {% render 'MuzichCoreBundle:Core:renderSideMenu' %}
 
+{% if app.user %}
+  {% render 'MuzichCoreBundle:Core:renderSideMenu' %}
 {% endif %}

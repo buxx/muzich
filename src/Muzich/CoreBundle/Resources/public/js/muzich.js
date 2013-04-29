@@ -6,7 +6,8 @@
  */
 
 // Messages flashs
-var myMessages = ['info','warning','error','success']; // define the messages types	
+var myMessages = ['info','warning','error','success']; // define the messages types
+var window_login_or_subscription_opened = false;
 
 function hideAllMessages()
 {
@@ -1697,7 +1698,7 @@ $(document).ready(function(){
           
             if (response.status == 'mustbeconnected')
             {
-              $(location).attr('href', url_index);
+              alert('pouet!');
             }
 
             if (response.status == 'success' && response.count)
@@ -2077,7 +2078,7 @@ $(document).ready(function(){
         }
       }
     );
-      
+  
   $('a.tag_to_favorites').jConfirmAction({
     question : string_tag_addtofav_confirm_sentence, 
     yesAnswer : string_tag_addtofav_confirm_yes, 
@@ -2628,6 +2629,12 @@ $(document).ready(function(){
    
    // Ouverture de la zone "ajouter un element""
    $('#element_add_link').click(function(){
+    
+    if ($(this).hasClass('mustbeconnected'))
+    {
+      return false;
+    }
+    
      $('#element_add_box').slideDown("slow");
      $('#element_add_link').hide();
      $('#element_add_close_link').show();
@@ -2903,4 +2910,22 @@ $(document).ready(function(){
       $('div#add_tag').fadeOut();
     });
    
+  /*
+    * MUSTBECONNECTED links
+    */
+   
+    $('a.mustbeconnected').live('click', function(){open_connection_or_subscription_window();});
+    $('a.mustbeconnected').off('click').on('click',function(){
+      open_connection_or_subscription_window();
+    });
+   
 });
+
+function open_connection_or_subscription_window()
+{
+  if (window_login_or_subscription_opened == false)
+  {
+    window_login_or_subscription_opened = true;
+    alert('must be connected');
+  }
+}

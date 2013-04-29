@@ -167,13 +167,19 @@ class TagLike
       $params['str'.$i] = '%'.$word.'%';
     }
 
-    $params['uid'] = '%"'.$user_id.'"%';
+    $private_tags_sql = '';
+    if ($user_id)
+    {
+      $params['uid'] = '%"'.$user_id.'"%';
+      $private_tags_sql = 'OR t.privateids LIKE :uid';
+    }
+    
     $tags_query = $this->entity_manager->createQuery("
       SELECT t.name, t.slug, t.id FROM MuzichCoreBundle:Tag t
       $where
 
       AND (t.tomoderate = '0' OR t.tomoderate IS NULL
-      OR t.privateids LIKE :uid)
+      $private_tags_sql)
 
       ORDER BY t.name ASC"
     )

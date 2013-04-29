@@ -143,7 +143,7 @@ class ElementSearcherQueryBuilder
   
   private function buildNetwork()
   {
-    if ($this->es->getNetwork() == ElementSearcher::NETWORK_PERSONAL)
+    if ($this->es->getNetwork() == ElementSearcher::NETWORK_PERSONAL && $this->user_id)
     {
       $this->query_ids
         ->join('e.owner', 'o')
@@ -222,15 +222,18 @@ class ElementSearcherQueryBuilder
       // On a besoin de récupérer la liste des element_id qui ont les tags
       // demandés.
       $tag_ids = '';
-      foreach ($tags as $tag_id => $tag_name)
+      if (count($tags))
       {
-        if ($tag_ids === '')
+        foreach ($tags as $tag_id => $tag_name)
         {
-          $tag_ids .= (int)$tag_id;
-        }
-        else
-        {
-          $tag_ids .= ','.(int)$tag_id;
+          if ($tag_ids === '')
+          {
+            $tag_ids .= (int)$tag_id;
+          }
+          else
+          {
+            $tag_ids .= ','.(int)$tag_id;
+          }
         }
       }
       
@@ -383,21 +386,46 @@ class ElementSearcherQueryBuilder
     }
     
     // On prépare des paramètres de la requete d'éléments
-    $this->parameters_elements['uidt'] = '%"'. $this->user_id.'"%';
-    $this->parameters_elements['uid']  =  $this->user_id;
     $this->parameters_elements['ids']  = $element_ids;
     
     // On prépare la requete des elements
-    $this->query_elements = $this->em->createQueryBuilder()
-      ->select('e', 'p', 'po', 't', 'o', 'g', 'fav')
+    $this->query_elements = $this->em->createQueryBuilder();
+    
+    if ($this->user_id)
+    {
+      $this->query_elements->select('e', 'p', 'po', 't', 'o', 'g', 'fav');
+    }
+    else{
+      $this->query_elements->select('e', 'p', 'po', 't', 'o', 'g');
+    }
+    
+    $this->query_elements
       ->from('MuzichCoreBundle:Element', 'e')
       ->leftJoin('e.group', 'g')
       ->leftJoin('e.parent', 'p')
       ->leftJoin('p.owner', 'po')
-      ->leftJoin('e.tags', 't', Join::WITH, 
-        "(t.tomoderate = 'FALSE' OR t.tomoderate IS NULL OR t.privateids LIKE :uidt)")
-      ->leftJoin('e.elements_favorites', 'fav', Join::WITH,
-        'fav.user = :uid')
+    ;
+    
+    if ($this->user_id)
+    {
+      $this->parameters_elements['uidt'] = '%"'. $this->user_id.'"%';
+      $this->parameters_elements['uid']  =  $this->user_id;
+      $this->query_elements
+        ->leftJoin('e.tags', 't', Join::WITH, 
+          "(t.tomoderate = 'FALSE' OR t.tomoderate IS NULL OR t.privateids LIKE :uidt)")
+        ->leftJoin('e.elements_favorites', 'fav', Join::WITH,
+          'fav.user = :uid')
+      ;
+    }
+    else
+    {
+      $this->query_elements
+        ->leftJoin('e.tags', 't', Join::WITH, 
+          "(t.tomoderate = 'FALSE' OR t.tomoderate IS NULL)")
+      ;
+    }
+    
+    $this->query_elements
       ->join('e.owner', 'o')
       ->where('e.id IN (:ids)')
       ->orderBy("e.created", 'DESC')

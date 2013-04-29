@@ -329,11 +329,6 @@ class ElementController extends Controller
       return $this->redirect($this->generateUrl('index'));
     }
     
-    if (($response = $this->mustBeConnected()))
-    {
-      return $response;
-    }
-    
     if ($this->getRequest()->getMethod() != 'POST')
     {
       throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
@@ -358,7 +353,7 @@ class ElementController extends Controller
       'id_limit'  => $refid
     ));
     
-    $count = $es->getElements($this->getDoctrine(), $this->getUserId(), 'count');
+    $count = $es->getElements($this->getDoctrine(), $this->getUserId(true), 'count');
     
     return $this->jsonResponse(array(
       'status'   => 'success',
@@ -1028,11 +1023,6 @@ class ElementController extends Controller
    */
   public function getDatasAutoplayAction(Request $request, $element_id, $type, $data, $show_type = null, $show_id = null)
   {
-    if (($response = $this->mustBeConnected(true)))
-    {
-      return $response;
-    }
-    
     $elements = array();
     $elements_json = array();
     
@@ -1044,7 +1034,7 @@ class ElementController extends Controller
         'count' => $this->container->getParameter('autoplay_max_elements'),
         'id_limit' => $element_id+1
       ));
-      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
     }
     elseif ($type == 'show')
     {
@@ -1098,7 +1088,7 @@ class ElementController extends Controller
         'id_limit' => $element_id+1
       ));
       
-      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
     }
     
     if (count($elements))
@@ -1116,11 +1106,6 @@ class ElementController extends Controller
   
   public function getOneDomAction(Request $request, $element_id, $type)
   {
-    if (($response = $this->mustBeConnected()))
-    {
-      return $response;
-    }
-    
     if (!in_array($type, array('autoplay')))
     {
       return $this->jsonResponse(array(
@@ -1147,7 +1132,7 @@ class ElementController extends Controller
       'ids' => array($element_id)
     ));
     
-    if (!($element = $es->getElements($this->getDoctrine(), $this->getUserId(), 'single')))
+    if (!($element = $es->getElements($this->getDoctrine(), $this->getUserId(true), 'single')))
     {
       throw $this->createNotFoundException('Not found');
     }
@@ -1165,15 +1150,8 @@ class ElementController extends Controller
     ));
   }
   
-  
-  
   public function geJamendotStreamDatasAction(Request $request, $element_id)
   {
-    if (($response = $this->mustBeConnected(true)))
-    {
-      return $response;
-    }
-    
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
       ->findOneById($element_id)))
     {

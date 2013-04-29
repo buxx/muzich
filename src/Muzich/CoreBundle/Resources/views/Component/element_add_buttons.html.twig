@@ -5,7 +5,7 @@
   {% set close_class = ''%}
 {% endif %}
 
-<a href="#" id="element_add_link" class="button gradient {{ add_class }}">
+<a href="#" id="element_add_link" class="button gradient {{ add_class }} {% if not app.user %}mustbeconnected{% endif %}">
   {{ 'home.add_element'|trans({}, 'navigationui') }}
   <img src="{{ asset('/img/icon_dart_right_white.png') }}" alt="" />
 </a>

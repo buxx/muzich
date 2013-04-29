@@ -438,12 +438,7 @@ class CoreController extends Controller
    * @return Response 
    */
   public function getFavoriteTagsAction()
-  {
-    if (($response = $this->mustBeConnected()))
-    {
-      return $response;
-    }
-    
+  {    
     // On construit l'element searcher avec les tags favoris
     $es = $this->getElementSearcher(null, true);
     // Et on retourne les tags

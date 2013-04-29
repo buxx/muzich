@@ -64,11 +64,6 @@ class SearchController extends Controller
    */
   public function searchElementsAction($context, $id_limit = null, $session_id = null)
   {
-    if (($response = $this->mustBeConnected()))
-    {
-      return $response;
-    }
-    
     $request = $this->getRequest();
     $search_object = $this->getElementSearcher(null, false, $session_id);
     
@@ -126,7 +121,7 @@ class SearchController extends Controller
         'id_limit' => $id_limit
       ));
       
-      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
       
       return $this->searchElementsMore($context, null, $elements, $message, $session_id);      
     }
@@ -246,11 +241,6 @@ class SearchController extends Controller
    */
   public function searchTagAction($timestamp)
   {
-    if (($response = $this->mustBeConnected()))
-    {
-      return $response;
-    }
-    
     $string_search = $this->getRequest()->request->get('string_search');
     
     if ($this->getRequest()->isXmlHttpRequest())
@@ -260,7 +250,7 @@ class SearchController extends Controller
         // On utilise l'objet TagLike
         $TagLike = new TagLike($this->getDoctrine()->getEntityManager());
         // Pour trier nos tags d'une manière plus humaine
-        $sort_response = $TagLike->getSimilarTags($string_search, $this->getUserId());
+        $sort_response = $TagLike->getSimilarTags($string_search, $this->getUserId(true));
       
         $status = 'success';
         $error  = '';

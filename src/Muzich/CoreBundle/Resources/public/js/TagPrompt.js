@@ -35,7 +35,14 @@ function TagPrompt(select_tag_callback, tag_prompt_connector)
   {
     if (!tag_id)
     {
-      openTagSubmission(tag_name);
+      if (!visitor)
+      {
+        openTagSubmission(tag_name);
+      }
+      else
+      {
+        open_connection_or_subscription_window();
+      }
     }
     else
     {

@@ -12,8 +12,10 @@
     'box_title': 'home.add_element_box.title'|trans({}, 'navigationui')
   } %}
 
-  {% if app.user.wantSeeHelp('home') %}
-    {% include 'MuzichCoreBundle:HelpTour:home.html.twig' %}
+  {% if app.user %}
+    {% if app.user.wantSeeHelp('home') %}
+      {% include 'MuzichCoreBundle:HelpTour:home.html.twig' %}
+    {% endif %}
   {% endif %}
 
   {# TODO: Cette partie de javascript ne devra plus exister après la réecriture du code javascript #}

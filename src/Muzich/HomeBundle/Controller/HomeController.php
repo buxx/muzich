@@ -25,7 +25,7 @@ class HomeController extends Controller
     $search_form = $this->getSearchForm($search_object);
     $add_form = $this->getAddForm();
     
-    $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+    $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
     //$count_elements = count($elements);
         
     return array(

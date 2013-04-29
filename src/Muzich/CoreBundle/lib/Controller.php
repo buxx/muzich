@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Muzich\CoreBundle\Searcher\GlobalSearcher;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Entity\Presubscription;
+use Muzich\CoreBundle\Entity\User;
 
 class Controller extends BaseController
 {
@@ -46,6 +47,21 @@ class Controller extends BaseController
     $this->get("session")->set('user.element_search.params'.$session_id, $params);
   }
   
+  protected function isVisitor()
+  {
+    $user = $this->getUser();
+    if ($user === 'anon.')
+    {
+      return true;
+    }
+    elseif ($user instanceof User)
+    {
+      return true;
+    }
+    
+    throw new \Exception('Unable to determine user type');
+  }
+  
   /**
    * Retourn l'objet ElementSearcher en cours.
    * 
@@ -70,11 +86,7 @@ class Controller extends BaseController
       // Premièrement on récupère les tags favoris de l'utilisateur
       $this->ElementSearcher = new ElementSearcher();
       $this->ElementSearcher->init(array(
-        'tags' => $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-          ->getTagsFavorites(
-            $this->getUserId(),
-            $this->container->getParameter('search_default_favorites_tags_count')
-          ),
+        'tags' => $this->getUserFavoriteTags(),
         'count' => ($count)?$count:$this->container->getParameter('search_default_count')
       ));
 
@@ -95,6 +107,21 @@ class Controller extends BaseController
     
     // on le retourne
     return $this->ElementSearcher;
+  }
+  
+  protected function getUserFavoriteTags()
+  {
+    if (!$this->isVisitor())
+    {
+      return $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
+        ->getTagsFavorites(
+          $this->getUserId(),
+          $this->container->getParameter('search_default_favorites_tags_count')
+        )
+      ;
+    }
+    
+    return array();
   }
   
   protected function getNewElementSearcher()
@@ -142,11 +169,19 @@ class Controller extends BaseController
       // on va le récupérer en base.
       if ($force_refresh || !self::$user_personal_query)
       {
-        self::$user_personal_query = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-          $this->container->get('security.context')->getToken()->getUser()->getId(),
-          array_key_exists('join', $params) ? $params['join'] : array()
-        )->getSingleResult();
-        return self::$user_personal_query;
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        if ($user !== 'anon.')
+        {
+          self::$user_personal_query = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+            $this->container->get('security.context')->getToken()->getUser()->getId(),
+            array_key_exists('join', $params) ? $params['join'] : array()
+          )->getSingleResult();
+          return self::$user_personal_query;
+        }
+        else
+        {
+          return 'anon.';
+        }
       }
       return self::$user_personal_query;
     }
@@ -155,25 +190,40 @@ class Controller extends BaseController
   /**
    *  Retourne l'id de l'utilisateur en cours
    */
-  protected function getUserId()
+  protected function getUserId($return_null_if_visitor = false)
   {
+    
     /**
      * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
      * Docrine le voit si on faire une requete directe.
      */
     if ($this->container->getParameter('env') == 'test')
     {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
-      return $user->getId();
+      $user_context = $this->container->get('security.context')->getToken()->getUser();
+      
+      if ($user_context !== 'anon.')
+      {
+        $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
+          $user_context,
+          array()
+        )->getSingleResult();
+      }
+    }
+    else
+    {
+      $user = $this->getUser();
     }
     
-    if (($user = $this->getUser()) != 'anon.')
+    if ($user !== 'anon.')
     {
       return $user->getId();
     }
+    
+    if ($return_null_if_visitor)
+    {
+      return null;
+    }
+    
     throw new \Exception('User not connected');
   }
   

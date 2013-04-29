@@ -17,7 +17,7 @@ security:
             pattern:      .*
             form_login:
                 provider:       fos_userbundle
-                login_path:     index
+                login_path:     home
                 use_forward:    false
                 check_path:     /login_check
                 failure_path:   null
@@ -25,7 +25,7 @@ security:
                 
             logout:
                 path:   /logout
-                target: /hello
+                target: /home
             anonymous:  ~
             remember_me:
               key:      %secret%
@@ -89,6 +89,11 @@ security:
         - { path: ^/(?:fr|en)/event/view/elements, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/test-error, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/share-from, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        
+        ## New public roads for visitors
+        - { path: ^/(?:fr|en)$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/$, role: IS_AUTHENTICATED_ANONYMOUSLY }
                                         
         - { path: ^/, roles: ROLE_USER }
         

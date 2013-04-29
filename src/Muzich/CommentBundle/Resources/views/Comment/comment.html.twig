@@ -5,31 +5,41 @@
    {{ date_or_relative_date(comment.e, 'comment.edited') }}{% endif %})
 </span>
 
-{% if app.user.id != comment.u.i %}
+{% if app.user %}
+  {% if app.user.id != comment.u.i %}
+    <a title="{{ 'comment.report.link_title'|trans({}, 'userui') }}" 
+      class="comment_report" 
+      href="{{ path('ajax_alert_comment', {'element_id':element_id, 'date': comment.d, 'token':app.user.getPersonalHash(element_id)}) }}">
+      <img src="{{ asset('bundles/muzichcore/img/1331832708_comment_alert.png') }}" alt="report" />
+    </a>
+  {% endif %}
+{% else %}
   <a title="{{ 'comment.report.link_title'|trans({}, 'userui') }}" 
-    class="comment_report" 
-    href="{{ path('ajax_alert_comment', {'element_id':element_id, 'date': comment.d, 'token':app.user.getPersonalHash(element_id)}) }}">
+    class="mustbeconnected" 
+    href="#">
     <img src="{{ asset('bundles/muzichcore/img/1331832708_comment_alert.png') }}" alt="report" />
   </a>
 {% endif %}
 
-{% if app.user.id == comment.u.i %}
-  <a title="{{ 'comment.edit.link'|trans({}, 'elements') }}" class="comment_edit_link" 
-     href="{{ path('ajax_edit_comment', {'element_id': element_id, 'date':comment.d, 'token':app.user.getPersonalHash(element_id)})  }}" style="display: none;"
-  >
-    <img src="{{ asset('bundles/muzichcore/img/1327151338_desktop.png') }}" alt="edit" />
-  </a>
-
-  <a title="{{ 'comment.remove.link'|trans({}, 'elements') }}" class="comment_remove_link" 
-     href="{{ path('ajax_delete_comment', {'element_id': element_id, 'date':comment.d, 'token':app.user.getPersonalHash(element_id)})  }}" style="display: none;"
-  >
-    <img src="{{ asset('bundles/muzichcore/img/1327168960_fileclose.png') }}" alt="delete" />
-  </a>
-
-  <img 
-    class="comment_loader" 
-    style="display: none;" 
-    src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" 
-    alt="loading"
-  />
+{% if app.user %}
+  {% if app.user.id == comment.u.i %}
+    <a title="{{ 'comment.edit.link'|trans({}, 'elements') }}" class="comment_edit_link" 
+       href="{{ path('ajax_edit_comment', {'element_id': element_id, 'date':comment.d, 'token':app.user.getPersonalHash(element_id)})  }}" style="display: none;"
+    >
+      <img src="{{ asset('bundles/muzichcore/img/1327151338_desktop.png') }}" alt="edit" />
+    </a>
+  
+    <a title="{{ 'comment.remove.link'|trans({}, 'elements') }}" class="comment_remove_link" 
+       href="{{ path('ajax_delete_comment', {'element_id': element_id, 'date':comment.d, 'token':app.user.getPersonalHash(element_id)})  }}" style="display: none;"
+    >
+      <img src="{{ asset('bundles/muzichcore/img/1327168960_fileclose.png') }}" alt="delete" />
+    </a>
+  
+    <img 
+      class="comment_loader" 
+      style="display: none;" 
+      src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" 
+      alt="loading"
+    />
+  {% endif %}
 {% endif %}
