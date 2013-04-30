@@ -22,6 +22,8 @@
         placeholder="{{ 'security.login.password'|trans({}, 'userui') }}""
       />
 
+      
+  <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
       <input type="submit" class="button" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
       
       <div class="textcenter">

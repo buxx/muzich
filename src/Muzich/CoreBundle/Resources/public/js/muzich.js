@@ -2720,7 +2720,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
    
-   $('#registration_link').click(function(){
+   $('#registration_link').live('click', function(){
      $('#registration_box').slideDown("slow");
      $('#login_box').slideUp("slow");
      $(this).hide();
@@ -2728,14 +2728,13 @@ $(document).ready(function(){
      return false;
    });
    
-   $('#login_link').click(function(){
+   $('#login_link').live('click', function(){
      $('#login_box').slideDown("slow");
      $('#registration_box').slideUp("slow");
      $('#registration_link').show();
      $(this).hide();
      return false;
    });
-   
    
  });
 
@@ -2944,17 +2943,23 @@ function open_connection_or_subscription_window(open_login_part)
       if (open_login_part)
       {
         $('div#helpbox div#login_box').show();
+        $('a#registration_link').show();
       }
       else
       {
         $('div#helpbox div#registration_box').show();
+        $('a#login_link').show();
       }
       
       $('a#helpbox_close').click(function(){
         window_login_or_subscription_opened = false;
       });
       
+      $('div.login form').submit(function(){
+        $(this).find('img.loader').show();
+      });
       $('div.login form').ajaxForm(function(response) {
+        $('div.login form').find('img.loader').hide();
         if (response.status == 'success')
         {
           $(location).attr('href', url_home);
@@ -2966,8 +2971,19 @@ function open_connection_or_subscription_window(open_login_part)
         }
       });
       
+      $('div.register form.fos_user_registration_register').submit(function(){
+        $(this).find('img.loader').show();
+      });
       $('div.register form.fos_user_registration_register').ajaxForm(function(response) {
-        
+        $('div.register form.fos_user_registration_register').find('img.loader').hide();
+        if (response.status == 'success')
+        {
+          $(location).attr('href', url_home);
+        }
+        else if (response.status == 'error')
+        {
+          $('div.register form').html(response.data.html);
+        }
       });
       
     });

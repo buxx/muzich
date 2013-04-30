@@ -141,7 +141,7 @@ class UserController extends Controller
     if ($process)
     {
       $user = $form->getData();
-
+      
       $authUser = false;
       if ($confirmationEnabled) {
           $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
@@ -150,13 +150,10 @@ class UserController extends Controller
           $authUser = true;
           $route = 'start';
       }
-
-      $this->setFlash('fos_user_success', 'registration.flash.user_created');
-      $url = $this->container->get('router')->generate($route);
-      $response = new RedirectResponse($url);
-
+      
+      $response = $this->getSuccessRegistrationResponse();
       if ($authUser) {
-          $this->authenticateUser($user, $response);
+        $this->authenticateUser($user, $response);
       }
       
       $formHandler->getToken()->addUseCount();
@@ -167,18 +164,51 @@ class UserController extends Controller
       return $response;
     }
     
-    return $this->container->get('templating')->renderResponse(
-      'MuzichIndexBundle:Index:index.html.twig',
-      array(
-        'form'                     => $form->createView(),
-        'error'                    => null,
-        'registration_errors'      => $form->getErrors(),
-        'registration_errors_pers' => $formHandler->getErrors(),
-        'last_username'            => null,
-        'registration_page'        => true,
-        'presubscription_form'     => $this->getPreSubscriptionForm()->createView()
-      )
+    return $this->getFailureRegistrationResponse($form, $formHandler);
+  }
+  
+  protected function getSuccessRegistrationResponse()
+  {
+    if (!$this->getRequest()->isXmlHttpRequest())
+    {
+      $url = $this->container->get('router')->generate($route);
+      return new RedirectResponse($url);
+    }
+    
+    return $this->jsonResponse(array(
+      'status' => 'success'
+    ));
+  }
+  
+  protected function getFailureRegistrationResponse($form, $formHandler)
+  {
+    $parameters = array(
+      'form'                     => $form->createView(),
+      'error'                    => null,
+      'registration_errors'      => $form->getErrors(),
+      'registration_errors_pers' => $formHandler->getErrors(),
+      'last_username'            => null,
+      'registration_page'        => true,
+      'presubscription_form'     => $this->getPreSubscriptionForm()->createView()
     );
+    
+    if (!$this->getRequest()->isXmlHttpRequest())
+    {
+      return $this->render(
+        'MuzichIndexBundle:Index:index.html.twig',
+        $parameters
+      );
+    }
+    
+    return $this->jsonResponse(array(
+      'status' => 'error',
+      'data'   => array(
+        'html' => $this->render(
+          'MuzichUserBundle:Registration:register_form_content.html.twig',
+          $parameters
+        )->getContent()
+      )
+    ));
   }
   
   /**

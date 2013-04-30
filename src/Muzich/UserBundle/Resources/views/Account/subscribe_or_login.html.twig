@@ -1,3 +1,13 @@
+
+<a href="#" id="registration_link" class="button gradient" style="display: none;">
+  {{ 'registration.display'|trans({}, 'navigationui') }}
+  <img src="{{ asset('/img/icon_dart_right_white.png') }}" alt="" />
+</a>
+<a href="#" id="login_link" class="button gradient" style="display: none;">
+  {{ 'login.display'|trans({}, 'navigationui') }}
+  <img src="{{ asset('/img/icon_dart_left_white.png') }}" alt="" />
+</a>
+
 <div id="login_box" style="display: none;">
   
   {% include "MuzichUserBundle:Security:login.html.twig" %}
