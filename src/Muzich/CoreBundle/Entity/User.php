@@ -1031,6 +1031,14 @@ class User extends BaseUser
     return $this->cgu_accepted;
   }
   
+  public function setCguAccepted($accepted)
+  {
+    if ($accepted)
+      $this->cgu_accepted = true;
+    else
+      $this->cgu_accepted = false;
+  }
+  
   public function getMailNewsletter()
   {
     return $this->mail_newsletter;

@@ -11,7 +11,8 @@ use Muzich\CoreBundle\Form\Tag\TagFavoritesForm;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\HttpFoundation\Request;
-
+use Muzich\UserBundle\Form\Type\RegistrationFormType;
+use Muzich\CoreBundle\Entity\User;
 
 class UserController extends Controller
 {
@@ -130,8 +131,58 @@ class UserController extends Controller
     ;
   }
   
-      
-  public function registerAction()
+  public function registerAction(Request $request)
+  {
+    $userManager = $this->container->get('fos_user.user_manager');
+    $user = $this->getNewUser($userManager);
+    $form = $this->createForm(new RegistrationFormType(), $user);
+    $form->bindRequest($request);
+    
+    if ($form->isValid())
+    {
+      $response = $this->getSuccessRegistrationResponse();
+      $userManager->updateUser($user);
+      $this->authenticateUser($user, $response);
+      return $response;
+    }
+    
+    return $this->getFailureRegistrationResponse($form);
+  }
+  
+  /** @return User */
+  protected function getNewUser($userManager)
+  {
+    $user = $userManager->createUser();
+    $user->setUsername($this->generateUsername());
+    $user->setPlainPassword($this->generatePassword(32));
+    $user->setEnabled(true);
+    $user->setCguAccepted(true);
+    return $user;
+  }
+  
+  protected function generateUsername()
+  {
+    $qb = $this->getEntityManager()->createQueryBuilder();
+    $qb->select('count(id)');
+    $qb->from('MuzichCoreBundle:User','id');
+    $count = $qb->getQuery()->getSingleScalarResult();
+    return 'User'.$count;
+  }
+  
+  protected function generatePassword($length = 8)
+  {
+    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $count = mb_strlen($chars);
+    
+    for ($i = 0, $result = ''; $i < $length; $i++) {
+        $index = rand(0, $count - 1);
+        $result .= mb_substr($chars, $index, 1);
+    }
+    
+    return $result;
+  }
+  
+  public function registerOldAction()
   {
     $form = $this->container->get('fos_user.registration.form');
     $formHandler = $this->container->get('fos_user.registration.form.handler');
@@ -180,13 +231,13 @@ class UserController extends Controller
     ));
   }
   
-  protected function getFailureRegistrationResponse($form, $formHandler)
+  protected function getFailureRegistrationResponse($form)//, $formHandler)
   {
     $parameters = array(
       'form'                     => $form->createView(),
       'error'                    => null,
       'registration_errors'      => $form->getErrors(),
-      'registration_errors_pers' => $formHandler->getErrors(),
+      //'registration_errors_pers' => $formHandler->getErrors(),
       'last_username'            => null,
       'registration_page'        => true,
       'presubscription_form'     => $this->getPreSubscriptionForm()->createView()
