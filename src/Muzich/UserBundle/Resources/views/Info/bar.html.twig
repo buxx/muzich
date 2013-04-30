@@ -15,7 +15,9 @@
 <ul class="user_events_infos">
 
   <li class="user_name">
-    {{ app.user.name }}
+    <a href="{{ path('my_account') }}">
+      {{ app.user.name }}
+    </a>
   </li>
 
   <li class="user_messages">

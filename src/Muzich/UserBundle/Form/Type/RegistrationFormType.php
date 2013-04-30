@@ -10,18 +10,15 @@ class RegistrationFormType  extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-    $builder->add('email', 'email', array(
-      'label' => 'form.email',
-      'translation_domain' => 'FOSUserBundle'
-    ));
+    $builder->add('email', 'email');
   }
   
-  //public function setDefaultOptions(OptionsResolverInterface $resolver)
-  //{
-  //  $resolver->setDefaults(array(
-  //    'data_class' => 'Muzich\CoreBundle\Entity\User'
-  //  ));
-  //}
+  public function setDefaultOptions(OptionsResolverInterface $resolver)
+  {
+    $resolver->setDefaults(array(
+      'data_class' => 'Muzich\CoreBundle\Entity\User'
+    ));
+  }
   
   public function getName()
   {

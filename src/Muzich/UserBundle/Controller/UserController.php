@@ -137,8 +137,9 @@ class UserController extends Controller
     $user = $this->getNewUser($userManager);
     $form = $this->getRegistrationForm($user);
     $form->bindRequest($request);
+    $errors = $this->checkRegistrationValues($form);
     
-    if ($form->isValid())
+    if ($form->isValid() && !count($errors))
     {
       $response = $this->getSuccessRegistrationResponse();
       $userManager->updateUser($user);
@@ -146,7 +147,7 @@ class UserController extends Controller
       return $response;
     }
     
-    return $this->getFailureRegistrationResponse($form);
+    return $this->getFailureRegistrationResponse($form, $errors);
   }
   
   protected function getRegistrationForm(User $user)
@@ -163,6 +164,7 @@ class UserController extends Controller
     $user->setPlainPassword($this->generatePassword(32));
     $user->setEnabled(true);
     $user->setCguAccepted(true);
+    $user->setUsernameUpdatable(true);
     return $user;
   }
   
@@ -188,6 +190,22 @@ class UserController extends Controller
     return $result;
   }
   
+  protected function checkRegistrationValues($form)
+  {
+    $count = $this->getEntityManager()->createQuery("SELECT count(u.id) "
+      ."FROM MuzichCoreBundle:User u "
+      ."WHERE UPPER(u.email) = :email_canonical")
+      ->setParameter('email_canonical', strtoupper($form->getData()->getEmailCanonical()))
+      ->getSingleScalarResult()
+    ;
+    
+    if ($count)
+    {
+      return array($this->trans('error.registration.email.duplicate', array(), 'validators'));
+    }
+    return array();
+  }
+  
   protected function getSuccessRegistrationResponse()
   {
     if (!$this->getRequest()->isXmlHttpRequest())
@@ -201,13 +219,13 @@ class UserController extends Controller
     ));
   }
   
-  protected function getFailureRegistrationResponse($form)//, $formHandler)
+  protected function getFailureRegistrationResponse($form, $errors = array())//, $formHandler)
   {
     $parameters = array(
       'form'                     => $form->createView(),
       'error'                    => null,
       'registration_errors'      => $form->getErrors(),
-      //'registration_errors_pers' => $formHandler->getErrors(),
+      'registration_errors_pers' => $errors,
       'last_username'            => null,
       'registration_page'        => true,
       'presubscription_form'     => $this->getPreSubscriptionForm()->createView()

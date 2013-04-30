@@ -259,6 +259,12 @@ class User extends BaseUser
   public $mail_partner = true;
   
   /**
+   * @ORM\Column(type="boolean", nullable=true)
+   * @var type boolean
+   */
+  private $username_updatable = false;
+  
+  /**
    * 
    */
   public function __construct()
@@ -1096,6 +1102,21 @@ class User extends BaseUser
       + $this->getModeratedElementCount()
       + $this->getModeratedTagCount()
     ;
+  }
+  
+  public function setUsernameUpdatable($updatable)
+  {
+    if ($updatable)
+      $this->username_updatable = true;
+    else
+      $this->username_updatable = false;
+  }
+  
+  public function isUsernameUpdateable()
+  {
+    if ($this->username_updatable)
+      return true;
+    return false;
   }
   
 }

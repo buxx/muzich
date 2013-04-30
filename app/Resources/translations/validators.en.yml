@@ -35,6 +35,9 @@ error:
       tolong:            The name is too long.|The name is too long.
   url:
     invalid:             The URL is not a valid one.
+  registration:
+    email:
+      duplicate:         Email address is already in use on muzi.ch
   
       
 registration:
