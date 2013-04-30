@@ -17,3 +17,5 @@ help:
   token:   |
             Rentrez ici le code qui vous à été fourni afin de vous inscrire 
             à la version non publique.
+
+accept_cgu_registration: En procédant à l'inscription vous acceptez les <a href="%link%">conditions générales d'utilisation</a> de muzi.ch

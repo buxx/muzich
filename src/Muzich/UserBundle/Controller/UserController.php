@@ -135,7 +135,7 @@ class UserController extends Controller
   {
     $userManager = $this->container->get('fos_user.user_manager');
     $user = $this->getNewUser($userManager);
-    $form = $this->createForm(new RegistrationFormType(), $user);
+    $form = $this->getRegistrationForm($user);
     $form->bindRequest($request);
     
     if ($form->isValid())
@@ -149,9 +149,15 @@ class UserController extends Controller
     return $this->getFailureRegistrationResponse($form);
   }
   
-  /** @return User */
-  protected function getNewUser($userManager)
+  protected function getRegistrationForm(User $user)
   {
+    return $this->createForm(new RegistrationFormType(), $user);
+  }
+  
+  /** @return User */
+  protected function getNewUser()
+  {
+    $userManager = $this->container->get('fos_user.user_manager');
     $user = $userManager->createUser();
     $user->setUsername($this->generateUsername());
     $user->setPlainPassword($this->generatePassword(32));
@@ -180,42 +186,6 @@ class UserController extends Controller
     }
     
     return $result;
-  }
-  
-  public function registerOldAction()
-  {
-    $form = $this->container->get('fos_user.registration.form');
-    $formHandler = $this->container->get('fos_user.registration.form.handler');
-    $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
-    
-    $process = $formHandler->process($confirmationEnabled);
-    if ($process)
-    {
-      $user = $form->getData();
-      
-      $authUser = false;
-      if ($confirmationEnabled) {
-          $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
-          $route = 'fos_user_registration_check_email';
-      } else {
-          $authUser = true;
-          $route = 'start';
-      }
-      
-      $response = $this->getSuccessRegistrationResponse();
-      if ($authUser) {
-        $this->authenticateUser($user, $response);
-      }
-      
-      $formHandler->getToken()->addUseCount();
-      $em = $this->getDoctrine()->getEntityManager();
-      $em->persist($formHandler->getToken());
-      $em->flush();
-      
-      return $response;
-    }
-    
-    return $this->getFailureRegistrationResponse($form, $formHandler);
   }
   
   protected function getSuccessRegistrationResponse()
@@ -692,7 +662,7 @@ class UserController extends Controller
     return $this->jsonResponse(array(
       'status' => 'success',
       'data'   => $this->render('MuzichUserBundle:Account:subscribe_or_login.html.twig', array(
-        'form' => $this->container->get('fos_user.registration.form')->createView()
+        'form' => $this->getRegistrationForm($this->getNewUser())->createView()
       ))->getContent()
     ));
   }

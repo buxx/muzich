@@ -8,6 +8,8 @@ use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\HttpFoundation\Request;
+use Muzich\UserBundle\Form\Type\RegistrationFormType;
+use Muzich\CoreBundle\Entity\User;
 
 class IndexController extends Controller
 {
@@ -25,12 +27,17 @@ class IndexController extends Controller
     }
     
     $vars = $this->proceedLogin();
-    $form = $this->container->get('fos_user.registration.form');
+    $form = $this->getRegistrationForm();
     
     return $this->render('MuzichIndexBundle:Index:index.html.twig', array_merge($vars, array(
       'form' => $form->createView(),
       'presubscription_form' => $this->getPreSubscriptionForm()->createView()
     )));
+  }
+  
+  protected function getRegistrationForm()
+  {
+    return $this->createForm(new RegistrationFormType(), new User());
   }
   
   /**
@@ -104,7 +111,7 @@ class IndexController extends Controller
     
     $this->setFlash('error', 'presubscription.error');
     return $this->render('MuzichIndexBundle:Index:index.html.twig', array(
-      'form' => $this->container->get('fos_user.registration.form')->createView(),
+      'form' => $this->getRegistrationForm()->createView(),
       'presubscription_form' => $form->createView(),
       'last_username' => '',
       'error'         => '',

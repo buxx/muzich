@@ -20,9 +20,17 @@
   {{ form_widget(form.email, {'attr':{'class':'niceinput'}}) }}
 </div> 
 
-{{ form_rest(form) }}
+{{ form_widget(form._token) }}
 
 <div class="alignright">
   <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
   <input type="submit" class="button" value="{{ 'registration.submit'|trans({}, 'userui') }}" />
 </div>
+
+<p class="accept_cgu">
+  {% autoescape false %}
+    {{ 'accept_cgu_registration'|trans({
+      '%link%' : path('info_cgu')
+    }, 'userform' )}}
+  {% endautoescape %}
+</p>

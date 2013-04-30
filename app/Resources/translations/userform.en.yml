@@ -2,3 +2,5 @@
 password.actual: Actual
 password.new.first: New
 password.new.second: New (check)
+
+accept_cgu_registration: By processing registration you accept <a href="%link%">terms of service</a> of muzi.ch

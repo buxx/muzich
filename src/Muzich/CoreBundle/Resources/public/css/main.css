@@ -2051,3 +2051,8 @@ div.side_margin_top
 {
   margin-top: 25px;
 }
+
+p.accept_cgu
+{
+  font-size: 11px;
+}
