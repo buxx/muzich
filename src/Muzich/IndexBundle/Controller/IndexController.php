@@ -14,7 +14,6 @@ class IndexController extends Controller
   
   /**
    * 
-   * @Template()
    */
   public function indexAction()
   {
@@ -28,10 +27,10 @@ class IndexController extends Controller
     $vars = $this->proceedLogin();
     $form = $this->container->get('fos_user.registration.form');
     
-    return array_merge($vars, array(
+    return $this->render('MuzichIndexBundle:Index:index.html.twig', array_merge($vars, array(
       'form' => $form->createView(),
       'presubscription_form' => $this->getPreSubscriptionForm()->createView()
-    ));
+    )));
   }
   
   /**
@@ -57,7 +56,6 @@ class IndexController extends Controller
     }
 
     if ($error) {
-        // TODO: this is a potential security risk (see http://trac.symfony-project.org/ticket/9523)
         $error = $this->trans('login.fail', array(), 'users');
     }
     // last username entered by the user

@@ -606,4 +606,14 @@ class UserController extends Controller
     ));
   }
   
+  public function subscribeOrLoginAction(Request $request)
+  {
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'data'   => $this->render('MuzichUserBundle:Account:subscribe_or_login.html.twig', array(
+        'form' => $this->container->get('fos_user.registration.form')->createView()
+      ))->getContent()
+    ));
+  }
+  
 }

@@ -1,0 +1,13 @@
+<div id="login_box" style="display: none;">
+  
+  {% include "MuzichUserBundle:Security:login.html.twig" %}
+  
+</div>
+
+<div id="registration_box" style="display: none;">
+  
+  <h1>{{ 'register.title'|trans({}, 'userui') }}</h1>
+  
+  {% include "MuzichUserBundle:Registration:register.html.twig" %}
+  
+</div>

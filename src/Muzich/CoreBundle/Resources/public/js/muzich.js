@@ -2879,24 +2879,10 @@ $(document).ready(function(){
   
   /* HELPBOX */
   $('.helpbox').live('click', function(){
-    $('body').append(
-      '<div id="helpbox" class="popin_block"><img src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>'
-    );
-    open_popin_dialog('helpbox');
-    JQueryJson($(this).attr('href'), {}, function(response){
-      if (response.status == 'success')
-      {
-        $('div#helpbox').html(
-          '<a href="javascript:void(0);" id="helpbox_close" >'+
-            '<img src="/bundles/muzichcore/img/1317386146_cancel.png" alt="close" />'+
-          '</a>'+
-          response.data
-        );
-      }
-    });
-    
+    open_ajax_popin($(this).attr('href'));
     return false;
   });
+  
   $('a#helpbox_close').live('click', function(){
     // Fond gris
     $('#fade').fadeOut(1000, function(){$('#fade').remove();});
@@ -2918,14 +2904,72 @@ $(document).ready(function(){
     $('a.mustbeconnected').off('click').on('click',function(){
       open_connection_or_subscription_window();
     });
+    
+    $('a.open_login').click(function(){
+      open_connection_or_subscription_window(true);
+    });
    
 });
 
-function open_connection_or_subscription_window()
+function open_ajax_popin(url, callback)
+{
+  $('body').append(
+    '<div id="helpbox" class="popin_block"><img src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>'
+  );
+  open_popin_dialog('helpbox');
+  JQueryJson(url, {}, function(response){
+    if (response.status == 'success')
+    {
+      $('div#helpbox').html(
+        '<a href="javascript:void(0);" id="helpbox_close" >'+
+          '<img src="/bundles/muzichcore/img/1317386146_cancel.png" alt="close" />'+
+        '</a>'+
+        response.data
+      );
+      
+      if (callback)
+      {
+        callback();
+      }
+    }
+  });
+}
+
+function open_connection_or_subscription_window(open_login_part)
 {
   if (window_login_or_subscription_opened == false)
   {
     window_login_or_subscription_opened = true;
-    alert('must be connected');
+    open_ajax_popin(url_subscription_or_login, function(){
+      if (open_login_part)
+      {
+        $('div#helpbox div#login_box').show();
+      }
+      else
+      {
+        $('div#helpbox div#registration_box').show();
+      }
+      
+      $('a#helpbox_close').click(function(){
+        window_login_or_subscription_opened = false;
+      });
+      
+      $('div.login form').ajaxForm(function(response) {
+        if (response.status == 'success')
+        {
+          $(location).attr('href', url_home);
+        }
+        else if (response.status == 'error')
+        {
+          $('div.login form').prepend('<ul class="error_list"><li>'+response.data.error+'</li></ul>');
+          $('div.login form input#password').val('');
+        }
+      });
+      
+      $('div.register form.fos_user_registration_register').ajaxForm(function(response) {
+        
+      });
+      
+    });
   }
 }

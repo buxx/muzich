@@ -60,3 +60,7 @@ user_hide_help:
   defaults: { _controller: MuzichUserBundle:User:updateHelpViewed }
   requirements:
     _method:  POST
+
+subscribe_or_login:
+  pattern: /ajax/subscribe-or-login
+  defaults: { _controller: MuzichUserBundle:User:subscribeOrLogin }

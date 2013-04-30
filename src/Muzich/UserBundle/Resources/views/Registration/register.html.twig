@@ -1,3 +1,7 @@
+{% if registration_errors_pers is not defined %}
+  {% set registration_errors_pers = null %}
+{% endif %}
+
 <div class="register">
   <form action="{{ path('register') }}" {{ form_enctype(form) }} 
     method="POST" 

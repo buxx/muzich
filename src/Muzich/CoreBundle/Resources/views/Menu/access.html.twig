@@ -1,6 +1,15 @@
 <ul id="register_and_login">
   {% if not app.user %}
-    
+    <li>
+      <a href="#" class="left mustbeconnected">
+        {{ 'top_bar.subscribe'|trans({}, 'navigationui') }}
+      </a>
+    </li>
+    <li>
+      <a class="right open_login" href="#">
+          {{ 'top_bar.login'|trans({}, 'navigationui') }}
+      </a>
+    </li>
   {% else %}
     <li>
       <a href="{{ path('my_account') }}" class="left">

@@ -11,7 +11,7 @@ security:
             algorithm: sha512
             encode_as_base64: false
             iterations: 10
-
+    
     firewalls:
         main:
             pattern:      .*
@@ -22,10 +22,12 @@ security:
                 check_path:     /login_check
                 failure_path:   null
                 default_target_path: home
+                success_handler: security.authentication.success_handler
+                failure_handler: security.authentication.failure_handler
                 
             logout:
                 path:   /logout
-                target: /home
+                target: /
             anonymous:  ~
             remember_me:
               key:      %secret%

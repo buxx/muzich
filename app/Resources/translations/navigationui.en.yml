@@ -10,6 +10,8 @@ container_menu:
 top_bar:
   my_account:           My account
   logout:               Logout
+  subscribe:            Subscribe
+  login:                Connexion
   
 network:
   mygroups:             My groups
