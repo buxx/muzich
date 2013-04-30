@@ -31,6 +31,9 @@ user:
     success:       Your address has been updated.
     wait:          You must wait to change your email again.
   session_expired: You have been disconnecter, please, log in again.
+  change_username:
+    success:       Your username has been updated.
+    failure:       An error occured.
 
 presubscription:
   success:         An email has been sent for confirmation.

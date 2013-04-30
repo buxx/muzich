@@ -31,6 +31,9 @@ user:
     success:       Votre email a correctement été mis à jour.
     wait:          Vous devez attendre avant de pouvoir faire une nouvelle demande de changement d'email.
   session_expired: Vous avez été déconnecté, veuillez vous ré-identifier
+  change_username:
+    success:       Votre nom d'utilisateur a bien été modifié
+    failure:       Une erreur s'est produite
 
 presubscription:
   success:         Un email a été envoyé a votre adresse email pour confirmation (vérifiez aussi dans vos SPAM)

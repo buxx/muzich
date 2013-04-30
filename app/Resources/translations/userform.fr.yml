@@ -3,7 +3,8 @@ password.actual: Actuel
 password.new.first: Nouveau
 password.new.second: Nouveau (vérification)
 
-username:  Nom d'utilisateur
+username:      Nom d'utilisateur
+new_username:  Nouveau nom d'utilisateur
 email:     Email
 password:
   first:   Mot de passe

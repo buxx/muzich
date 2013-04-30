@@ -12,6 +12,9 @@
     <ul>
       <li>
         <b>{{ 'my_account.username'|trans({}, 'userui') }}</b>: {{ user.name }}
+        {% if app.user.isUsernameUpdatable %}
+          (<a href="{{ path('change_username') }}">{{ 'my_account.change_username'|trans({}, 'userui') }}</a>)
+        {% endif %}
       </li>
       <li>
         <b>{{ 'my_account.email'|trans({}, 'userui') }}</b>: {{ user.email }}

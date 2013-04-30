@@ -7,7 +7,6 @@
 'The username is already used'   :   Le nom d'utilisateur est déjà utilisé.
 'The email is already used'      :   Cette adresse email est déjà utilisée.
 
-
 error:
   group:
     name:
@@ -38,8 +37,11 @@ error:
   registration:
     email:
       duplicate:         L'adresse email est déjà utilisé sur muzi.ch
+  change_username:
+    duplicate:           Le nom d'utilisateur est déjà utilisé sur muzi.ch
+    min:               Votre nom d'utilisateur doit contenir au moins %limit% caractères.
+    max:               Votre nom d'utilisateur doit contenir au maximum %limit% caractères.
   
-      
 registration:
   token:
     error:               Le code saisi pour l'inscription est incorrect ou n'est plus utilisable

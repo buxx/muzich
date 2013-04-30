@@ -1112,7 +1112,7 @@ class User extends BaseUser
       $this->username_updatable = false;
   }
   
-  public function isUsernameUpdateable()
+  public function isUsernameUpdatable()
   {
     if ($this->username_updatable)
       return true;

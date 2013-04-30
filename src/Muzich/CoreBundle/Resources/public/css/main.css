@@ -2056,3 +2056,12 @@ p.accept_cgu
 {
   font-size: 11px;
 }
+
+li.user_name a
+{
+  color: inherit;
+}
+
+li.user_name a:hover
+{
+text-decoration: underline;

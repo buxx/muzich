@@ -1,0 +1,40 @@
+{% extends "MuzichUserBundle::layout.html.twig" %}
+
+{% block title %}{{ 'title.change_username'|trans({}, 'userui') }}{% endblock %}
+{% block mainbox_classes %}mainbox_padding{% endblock %}
+
+{% block content %}
+
+<h1>{{ 'title.change_username'|trans({}, 'userui') }}</h1>
+
+  <form id="change_username_update" action="{{ path('change_username') }}" method="post">
+    
+    <p class="warning">
+      {{ 'change_username.warning'|trans({}, 'userui') }}
+    </p>
+    
+    {{ form_errors(form) }}
+    
+    {% if errors|length > 0 %}
+    <ul class="error_list">
+      {% for error in errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <div class="field">
+      {{ form_errors(form.username) }}
+      {{ form_label(form.username, 'new_username'|trans({}, 'userform')) }}:
+      {{ form_widget(form.username, {'attr':{'class':'niceinput'}}) }}
+    </div>
+    
+    {{ form_widget(form._token) }}
+    
+    <div class="alignright">
+      <input type="submit" class="button" value="{{ 'change_username.submit'|trans({}, 'userui') }}" />
+    </div>
+    
+  </form>
+
+{% endblock %}

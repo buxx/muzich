@@ -40,10 +40,12 @@ title:
   about:         À propos
   search:        Recherche
   cgu:           Informations légales
-    
+  change_username: Change son nom d'utilisateur
+  
 my_account: 
   title:          Mon compte
   username:         Nom d'utilisateur
+  change_username:  modifier
   email:            Adresse email
   favorite_tags:    Vos tags préférés
   change_password:  Changer mon mot de passe
@@ -73,7 +75,11 @@ my_account:
     submit:         Enregistrer mes préférences
     success:        Vos préférences ont bien été mises à jour
     error:          Une erreur est survenue lors de la mise à jour de vos préférences
-  
+
+change_username:
+  submit:           Changer
+  warning:          Attention: une fois votre nom d'utilisateur modifié vous ne pourrez plus en changer !
+
 connexion:
   password_lost:    Mot de passe perdu ?
   

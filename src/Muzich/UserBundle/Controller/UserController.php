@@ -685,4 +685,74 @@ class UserController extends Controller
     ));
   }
   
+  public function changeUsernameAction(Request $request)
+  {
+    if (!$this->getUser()->isUsernameUpdatable())
+    {
+      return new RedirectResponse($this->generateUrl('my_account'));
+    }
+    $errors = array();
+    $form = $this->getChangeUsernameForm($this->getUser());
+    if ($request->getMethod() == 'POST')
+    {
+      $form->bind($request);
+      $errors = $this->checkChangeUsernameValues($form);
+      if ($form->isValid() && !count($errors))
+      {
+        $form->getData()->setUsernameUpdatable(false);
+        $this->persist($form->getData());
+        $this->flush();
+        $this->setFlash('success', 'user.change_username.success');
+        return new RedirectResponse($this->generateUrl('my_account'));
+      }
+      else
+      {
+        $this->setFlash('error', 'user.change_username.failure');
+      }
+    }
+    
+    return $this->render('MuzichUserBundle:User:change_username.html.twig', array(
+      'form'   => $form->createView(),
+      'errors' => $errors
+    ));
+  }
+  
+  protected function checkChangeUsernameValues($form)
+  {
+    $errors = array();
+    $userManager = $this->container->get('fos_user.user_manager');
+    if ($userManager->findUserByUsername($form->getData()->getUsername()))
+    {
+      $errors[] = $this->trans('error.change_username.duplicate', array(), 'validators');
+    }
+    
+    if (strlen($form->getData()->getUsername()) < 3)
+    {
+      $errors[] = $this->trans(
+        'error.change_username.min', 
+        array('%limit%' => 3),
+        'validators'
+      );
+    }
+  
+    if (strlen($form->getData()->getUsername()) > 32)
+    {
+      $errors[] = $this->trans(
+        'error.change_username.max', 
+        array('%limit%' => 32),
+        'validators'
+      );
+    }
+    
+    return $errors;
+  }
+  
+  protected function getChangeUsernameForm(User $user)
+  {
+    return $this->createFormBuilder($user)
+      ->add('username', 'text')
+      ->getForm()
+    ;
+  }
+  
 }

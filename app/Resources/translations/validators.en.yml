@@ -38,8 +38,9 @@ error:
   registration:
     email:
       duplicate:         Email address is already in use on muzi.ch
+  change_username:
+    duplicate:           Username is already in use on muzi.ch
   
-      
 registration:
   token:
     error:               The code entered for validation is not valid anymore.

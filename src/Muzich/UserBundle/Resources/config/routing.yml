@@ -64,3 +64,7 @@ user_hide_help:
 subscribe_or_login:
   pattern: /ajax/subscribe-or-login
   defaults: { _controller: MuzichUserBundle:User:subscribeOrLogin }
+
+change_username:
+  pattern: /account/username/update
+  defaults: { _controller: MuzichUserBundle:User:changeUsername }
