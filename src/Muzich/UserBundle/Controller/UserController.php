@@ -144,6 +144,7 @@ class UserController extends Controller
       $response = $this->getSuccessRegistrationResponse();
       $userManager->updateUser($user);
       $this->authenticateUser($user, $response);
+      $this->sendEmailconfirmationEmail();
       return $response;
     }
     
@@ -753,6 +754,69 @@ class UserController extends Controller
       ->add('username', 'text')
       ->getForm()
     ;
+  }
+  
+  public function sendEmailConfirmAction(Request $request)
+  {
+    $user = $this->getUser();
+    if ($user->isEmailConfirmed())
+    {
+      if ($request->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'success',
+          'result' => 'already_confirmed',
+          'message' => $this->trans('user.confirm_email.alreaydy', array(), 'flash')
+        ));
+      }
+      
+      $this->setFlash('success', 'user.confirm_email.alreaydy');
+      return new RedirectResponse($this->generateUrl('home'));
+    }
+    if ((time() - $user->getEmailConfirmationSentTimestamp() < $this->getParameter('email_confirmation_email_interval')))
+    {
+      if ($request->isXmlHttpRequest())
+      {
+        return $this->jsonResponse(array(
+          'status' => 'error',
+          'result' => 'already_sent_recently',
+          'message' => $this->trans('user.confirm_email.sent_recently', array(), 'flash')
+        ));
+      }
+      
+      $this->setFlash('success', 'user.confirm_email.sent_recently');
+      return new RedirectResponse($this->generateUrl('my_account'));
+    }
+    
+    $this->sendEmailconfirmationEmail();
+    
+    if ($request->isXmlHttpRequest())
+    {
+      return $this->jsonResponse(array(
+        'status' => 'success',
+        'result' => 'sent',
+        'message' => $this->trans('user.confirm_email.sent', array(), 'flash')
+      ));
+    }
+    
+    $this->setFlash('success', 'user.confirm_email.sent');
+    return new RedirectResponse($this->generateUrl('my_account'));
+  }
+  
+  public function confirmEmailAction(Request $request, $token)
+  {
+    $user = $this->getUser();
+    if ($token == hash('sha256', $user->getConfirmationToken().$user->getEmail()))
+    {
+      $user->setEmailConfirmed(true);
+      $this->persist($user);
+      $this->flush();
+      $this->setFlash('success', 'user.confirm_email.confirmed');
+      return new RedirectResponse($this->generateUrl('home'));
+    }
+    
+    $this->setFlash('success', 'user.confirm_email.failtoken');
+    return new RedirectResponse($this->generateUrl('my_account'));
   }
   
 }

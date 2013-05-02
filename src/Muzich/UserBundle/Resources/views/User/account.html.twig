@@ -18,6 +18,9 @@
       </li>
       <li>
         <b>{{ 'my_account.email'|trans({}, 'userui') }}</b>: {{ user.email }}
+        {% if not app.user.emailConfirmed %}
+          (<a href="{{ path('send_email_confirm') }}">{{ 'my_account.send_email_confirm'|trans({}, 'userui') }}</a>)
+        {% endif %}
       </li>
     </ul>
 

@@ -566,4 +566,44 @@ class Controller extends BaseController
     return false;
   }
   
+  protected function sendEmailconfirmationEmail()
+  {
+    $user = $this->getUser();
+    
+    $tokenGenerator = $this->container->get('fos_user.util.token_generator');
+    $user->setConfirmationToken($tokenGenerator->generateToken());
+    $user->setEmailConfirmationSentTimestamp(time());
+    
+    $token = hash('sha256', $user->getConfirmationToken().$user->getEmail());
+    $url = $this->get('router')->generate('email_confirm', array('token' => $token), true);
+    $rendered = $this->get('templating')->render('MuzichUserBundle:User:confirm_email_email.txt.twig', array(
+      'confirmation_url' => $url
+    ));
+    
+    //$this->sendEmailMessage($rendered, $this->parameters['from_email']['resetting'], $user->getEmail());
+    
+    // Render the email, use the first line as the subject, and the rest as the body
+    $renderedLines = explode("\n", trim($rendered));
+    $subject = $renderedLines[0];
+    $body = implode("\n", array_slice($renderedLines, 1));
+
+    $message = \Swift_Message::newInstance()
+      ->setSubject($subject)
+      ->setFrom('contact@muzi.ch')
+      ->setTo($user->getEmail())
+      ->setBody($body);
+    $message->getHeaders()->addTextHeader('List-Unsubscribe', 'unsubscribe@muzi.ch');
+
+    $mailer = $this->get('mailer');
+    $mailer->send($message);
+    
+    $this->persist($user);
+    $this->flush();
+  }
+  
+  protected function getParameter($key)
+  {
+    return $this->container->getParameter($key);
+  }
+  
 }

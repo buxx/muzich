@@ -265,6 +265,17 @@ class User extends BaseUser
   private $username_updatable = false;
   
   /**
+   * @ORM\Column(type="boolean", nullable=false)
+   * @var type boolean
+   */
+  private $email_confirmed = false;
+  
+ /**
+  * @ORM\Column(type="integer")
+  */
+  protected $email_confirmation_sent_timestamp = 0;
+  
+  /**
    * 
    */
   public function __construct()
@@ -1117,6 +1128,26 @@ class User extends BaseUser
     if ($this->username_updatable)
       return true;
     return false;
+  }
+  
+  public function isEmailConfirmed()
+  {
+    return ($this->email_confirmed)?true:false;
+  }
+  
+  public function setEmailConfirmed($confirmed)
+  {
+    $this->email_confirmed = ($confirmed)?true:false;
+  }
+  
+  public function setEmailConfirmationSentTimestamp($timestamp)
+  {
+    $this->email_confirmation_sent_timestamp = $timestamp;
+  }
+  
+  public function getEmailConfirmationSentTimestamp()
+  {
+    return $this->email_confirmation_sent_timestamp;
   }
   
 }

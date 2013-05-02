@@ -1,0 +1,9 @@
+{% block subject %}{{ 'mail.confirm_email.subject'|trans({}, 'text') }}{% endblock %}
+
+{% block body_text %}
+  {% autoescape false %}
+    {{ 'mail.confirm_email.text'|trans({
+      '%url%'      : confirmation_url
+    }, 'text') }}
+  {% endautoescape %}
+{% endblock %}

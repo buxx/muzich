@@ -80,6 +80,22 @@ mail:
                     Cordialement,
                     
                     L'équipe de Muzi.ch
+  confirm_email:
+    subject:        Muzi.ch: Confirmer votre email
+    text:           >
+                    Vous venez de vous inscrire sur http://muzi.ch:
+                    
+                    
+                    Si vous n'êtes pas à l'origine de cette inscription, ne tenez pas compte de cet email.
+                    
+                    Sinon, pour confirmer que vous êtes bien le propriétaire de cet email veuillez suivre ce lien : %url%
+                    
+                    Nous vous remercions pour votre intérêt.
+                    
+                    
+                    Cordialement,
+                    
+                    L'équipe de Muzi.ch
 
 help:
   element_add_url:

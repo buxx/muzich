@@ -44,6 +44,7 @@ title:
 my_account: 
   title:          Mon compte
   username:         Nom d'utilisateur
+  change_username:  Change
   email:            Adresse email
   favorite_tags:    Vos tags préférés
   change_password:  Changer mon mot de passe
@@ -73,6 +74,7 @@ my_account:
     submit:         Enregistrer mes préférences
     success:        Vos préférences ont bien été mises à jour
     error:          Une erreur est survenue lors de la mise à jour de vos préférences
+  send_email_confirm: Renvoyer l'email de confirmation
   
 connexion:
   password_lost:    Mot de passe perdu ?

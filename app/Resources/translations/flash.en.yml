@@ -34,6 +34,12 @@ user:
   change_username:
     success:       Your username has been updated.
     failure:       An error occured.
+  confirm_email:
+    alreaydy:      Your email is already confirmed
+    sent:          Email sent on your email address for confirmation (check your SPAM to)
+    sent_recently: Confirmation email already sent recently
+    confirmed:     Email confirmed
+    failtoken:     Your confirmation query is too old, please re-ask confirmation
 
 presubscription:
   success:         An email has been sent for confirmation.

@@ -27,7 +27,15 @@ change_email_request:
 change_email_confirm:
   pattern: /account/change-email/confirm/{token}
   defaults: { _controller: MuzichUserBundle:User:changeEmailConfirm }
-  
+
+email_confirm:
+  pattern: /account/email/confirm/{token}
+  defaults: { _controller: MuzichUserBundle:User:confirmEmail }
+
+send_email_confirm:
+  pattern: /account/email/send-confirm
+  defaults: { _controller: MuzichUserBundle:User:sendEmailConfirm }
+
 update_address:
   pattern: /ajax/update-address/{token}
   defaults: { _controller: MuzichUserBundle:User:updateAddress }

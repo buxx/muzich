@@ -34,6 +34,12 @@ user:
   change_username:
     success:       Votre nom d'utilisateur a bien été modifié
     failure:       Une erreur s'est produite
+  confirm_email:
+    alreaydy:      Votre email est déjà confirmé
+    sent:          Un email a été envoyé sur votre adresse pour confirmation (pensez à vérifier votre boite SPAM)
+    sent_recently: Un email de confirmation a déjà été envoyé récemment (pensez à vérifier votre boite SPAM)
+    confirmed:     Votre email est maintenant confirmé
+    failtoken:     La demande de confirmation est trop ancienne, veuillez en demander une nouvelle
 
 presubscription:
   success:         Un email a été envoyé a votre adresse email pour confirmation (vérifiez aussi dans vos SPAM)

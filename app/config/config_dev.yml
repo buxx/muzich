@@ -10,13 +10,13 @@ web_profiler:
     intercept_redirects: false
     
 swiftmailer:
-    transport:  smtp
-    username:   contact@muzi.ch
-    password:   ***REMOVED***
-    host:       mx.muzi.ch
-    port:       587
-    encryption: tls
-    auth_mode:  login
+    #transport:  smtp
+    #username:   contact@muzi.ch
+    #password:   ***REMOVED***
+    #host:       mx.muzi.ch
+    #port:       587
+    #encryption: tls
+    #auth_mode:  login
     delivery_address: sevajol.bastien@gmail.com
     
 monolog:
