@@ -52,6 +52,7 @@ my_account:
   change_password_submit: Mettre à jour mon mot de passe
   change_email:     Changer mon adresse email
   change_email_submit: Mettre à jour mon email
+  choose_password:  Choisir un mot de passe pour mon compte
   address:
     title:          Mon adresse
     description:    Avec votre adresse Muzi.ch pourra vous avertir plus aisément des événements à venir dans votre région.

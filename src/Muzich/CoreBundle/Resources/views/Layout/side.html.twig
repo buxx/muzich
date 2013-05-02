@@ -1,9 +1,19 @@
 {% if app.user %}
+  
   <div id="user_statusbox" class="nicebox">
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
       {% render "MuzichUserBundle:Event:infoBar" %}
     {% endif %}
   </div>
+
+  {% if not app.user.PasswordSet and not app.request.get('open') == 'change_password' %}
+    <div class="nicebox choose_password flashing">
+      <a href="{{ path('my_account', {'open':'change_password'}) }}">
+        {{ 'my_account.choose_password'|trans({}, 'userui') }}
+      </a>
+    </div>
+  {% endif %}
+
 {% else %}
   <div class="side_margin_top"></div>
 {% endif %}

@@ -56,12 +56,12 @@
 
     <h2 data-open="myaccount_favorites_password">{{ 'my_account.change_password'|trans({}, 'userui') }}</h2>
 
-    <div id="myaccount_favorites_password" class="myaccount_part" 
-      {% if not form_password|form_has_errors %}
+    <div id="myaccount_favorites_password" class="myaccount_part {% if app.request.get('open') == 'change_password' %}flashing{% endif %}" 
+      {% if not form_password|form_has_errors and not app.request.get('open') == 'change_password' %}
        style="display: none;"
       {% endif %}
      >
-      <form class="nicelabels changepassword" action="{{ path('change_password') }}" method="post" {{ form_enctype(form_password) }}>
+      <form class="nicelabels changepassword" action="{{ path('change_password', {'open':'change_password'}) }}" method="post" {{ form_enctype(form_password) }}>
 
         {% include "MuzichUserBundle:Security:change_password_form.html.twig" with { 
           'form': form_password

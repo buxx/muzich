@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use Muzich\UserBundle\Form\Type\RegistrationFormType;
 use Muzich\CoreBundle\Entity\User;
+use Muzich\CoreBundle\Form\User\PasswordForm;
 
 class UserController extends Controller
 {
@@ -107,7 +108,7 @@ class UserController extends Controller
   public function accountAction()
   {
     $user = $this->getUser();
-    $form_password = $this->container->get('fos_user.change_password.form');
+    $form_password = $this->getChangePasswordForm();
     $form_tags_favorites = $this->getTagsFavoritesForm($user);
     $change_email_form = $this->getChangeEmailForm();
     
@@ -121,6 +122,11 @@ class UserController extends Controller
       'avatar_form'              => $this->getAvatarForm()->createView(),
       'preferences_form'         => $this->getPreferencesForm()->createView()
     );
+  }
+  
+  protected function getChangePasswordForm()
+  {
+    return $this->createForm(new PasswordForm(), $this->getUser());
   }
   
   protected function getAvatarForm()
@@ -166,6 +172,7 @@ class UserController extends Controller
     $user->setEnabled(true);
     $user->setCguAccepted(true);
     $user->setUsernameUpdatable(true);
+    $user->setPasswordSet(false);
     return $user;
   }
   
@@ -280,7 +287,7 @@ class UserController extends Controller
     return $errors;
   }
     
-  public function changePasswordAction()
+  public function changePasswordAction(Request $request)
   {
     $user = $this->getUser();
     
@@ -296,40 +303,37 @@ class UserController extends Controller
       )->getSingleResult();
     }
     
-    if (!is_object($user) || !$user instanceof UserInterface) {
-        throw new AccessDeniedException('This user does not have access to this section.');
-    }
-
-    $form = $this->container->get('fos_user.change_password.form');
-    $formHandler = $this->container->get('fos_user.change_password.form.handler');
+    $form = $this->getChangePasswordForm();
+    $form->bind($request);
     
-    $process = $formHandler->process($user);
-    if (count(($errors = $this->checkChangePasswordInformations($form))) < 1 && $process)
+    if ($form->isValid())
     {
+      $userManager = $this->container->get('fos_user.user_manager');
+      $userManager->updateUser($form->getData());
+      $form->getData()->setPasswordSet(true);
+      $this->persist($form->getData());
+      $this->flush();
       $this->container->get('session')->setFlash('fos_user_success', 'change_password.flash.success');
-      return new RedirectResponse($this->generateUrl('my_account'));
+      return new RedirectResponse($this->generateUrl('home'));
     }
-    else
-    {
-      $form_tags_favorites = $this->getTagsFavoritesForm($user);
-      $change_email_form = $this->getChangeEmailForm();
-      
-      return $this->container->get('templating')->renderResponse(
-        'MuzichUserBundle:User:account.html.twig',
-        array(
-          'form_password'            => $form->createView(),
-          'errors_pers'              => $errors,
-          'user'                     => $user,
-          'form_tags_favorites'      => $form_tags_favorites->createView(),
-          'form_tags_favorites_name' => $form_tags_favorites->getName(),
-          'favorite_tags_id'         => $this->getTagsFavorites(),
-          'change_email_form'        => $change_email_form->createView(),
-          'avatar_form'              => $this->getAvatarForm()->createView()
-        )
-      );
-    }
-
     
+    $form_tags_favorites = $this->getTagsFavoritesForm($user);
+    $change_email_form = $this->getChangeEmailForm();
+
+    return $this->container->get('templating')->renderResponse(
+      'MuzichUserBundle:User:account.html.twig',
+      array(
+        'form_password'            => $form->createView(),
+        'errors_pers'              => array(),
+        'user'                     => $user,
+        'form_tags_favorites'      => $form_tags_favorites->createView(),
+        'form_tags_favorites_name' => $form_tags_favorites->getName(),
+        'favorite_tags_id'         => $this->getTagsFavorites(),
+        'change_email_form'        => $change_email_form->createView(),
+        'avatar_form'              => $this->getAvatarForm()->createView(),
+        'preferences_form'         => $this->getPreferencesForm()->createView()
+      )
+    );
   }
   
   /**
@@ -500,7 +504,7 @@ class UserController extends Controller
     }
     
     // En cas d'échec
-    $form_password = $this->container->get('fos_user.change_password.form');
+    $form_password = $this->getChangePasswordForm();
     $form_tags_favorites = $this->getTagsFavoritesForm($user);
     
     return $this->container->get('templating')->renderResponse(

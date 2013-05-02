@@ -276,6 +276,12 @@ class User extends BaseUser
   protected $email_confirmation_sent_timestamp = 0;
   
   /**
+   * @ORM\Column(type="boolean", nullable=false)
+   * @var type boolean
+   */
+  private $password_set = true;
+  
+  /**
    * 
    */
   public function __construct()
@@ -1148,6 +1154,16 @@ class User extends BaseUser
   public function getEmailConfirmationSentTimestamp()
   {
     return $this->email_confirmation_sent_timestamp;
+  }
+  
+  public function isPasswordSet()
+  {
+    return ($this->password_set)?true:false;
+  }
+  
+  public function setPasswordSet($set)
+  {
+    $this->password_set = ($set)?true:false;
   }
   
 }
