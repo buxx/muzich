@@ -268,7 +268,7 @@ class User extends BaseUser
    * @ORM\Column(type="boolean", nullable=false)
    * @var type boolean
    */
-  private $email_confirmed = false;
+  private $email_confirmed = true;
   
  /**
   * @ORM\Column(type="integer")

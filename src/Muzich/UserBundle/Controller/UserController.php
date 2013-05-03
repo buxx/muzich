@@ -150,7 +150,7 @@ class UserController extends Controller
       $response = $this->getSuccessRegistrationResponse();
       $userManager->updateUser($user);
       $this->authenticateUser($user, $response);
-      $this->sendEmailconfirmationEmail();
+      $this->sendEmailconfirmationEmail(false);
       return $response;
     }
     
@@ -165,12 +165,15 @@ class UserController extends Controller
   /** @return User */
   protected function getNewUser()
   {
+    // Ce serais mieux d'appeler notre user manager et d'utiliser notre createUser
+    // avec ce code.
     $userManager = $this->container->get('fos_user.user_manager');
     $user = $userManager->createUser();
     $user->setUsername($this->generateUsername());
     $user->setPlainPassword($this->generatePassword(32));
     $user->setEnabled(true);
     $user->setCguAccepted(true);
+    $user->setEmailConfirmed(false);
     $user->setUsernameUpdatable(true);
     $user->setPasswordSet(false);
     return $user;
@@ -760,7 +763,7 @@ class UserController extends Controller
     ;
   }
   
-  public function sendEmailConfirmAction(Request $request)
+  public function sendEmailConfirmAction(Request $request, $set_send_time = true)
   {
     $user = $this->getUser();
     if ($user->isEmailConfirmed())
@@ -792,7 +795,7 @@ class UserController extends Controller
       return new RedirectResponse($this->generateUrl('my_account'));
     }
     
-    $this->sendEmailconfirmationEmail();
+    $this->sendEmailconfirmationEmail($set_send_time);
     
     if ($request->isXmlHttpRequest())
     {
@@ -821,6 +824,14 @@ class UserController extends Controller
     
     $this->setFlash('success', 'user.confirm_email.failtoken');
     return new RedirectResponse($this->generateUrl('my_account'));
+  }
+  
+  public function showEmailNotConfirmedAction()
+  {
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'data' => $this->render('MuzichUserBundle:Account:email_not_confirmed.html.twig')->getContent()
+    ));
   }
   
 }

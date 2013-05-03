@@ -52,6 +52,13 @@ my_account:
   change_email:     Changer mon adresse email
   change_email_submit: Mettre à jour mon email
   choose_password:  Choisir un mot de passe pour mon compte
+  email_not_confirmed:
+    title:          Veuillez confirmer votre adresse email
+    text:           |
+                    Cette action nécéssite que vous confirmiez votre adresse mail.
+                    Pour cela veuillez cliquer sur le lien que nous vous avons envoyé par email.
+    button:         Renvoyer l'email de confirmation
+    help:           Pensez à vérifier le contenu de votre dossier SPAM
   address:
     title:          Mon adresse
     description:    Avec votre adresse Muzi.ch pourra vous avertir plus aisément des événements à venirs dans votre région.

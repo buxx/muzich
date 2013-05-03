@@ -2141,3 +2141,30 @@ div.choose_password
 {
   text-align: center;
 }
+
+div.center
+{
+  text-align: center;
+}
+
+div#email_not_confirmed_box input
+{
+  margin: 10px;
+}
+
+div#email_not_confirmed_box p.info
+{
+  font-style: italic;
+}
+
+span.message_success
+{
+  font-weight: bold;
+  color: green;
+}
+
+span.message_error
+{
+  font-weight: bold;
+  color: red;
+}

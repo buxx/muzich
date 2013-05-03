@@ -20,6 +20,41 @@ function hideAllMessages()
  }
 }
 
+function ResponseController()
+{
+  var propagate = function(response)
+  {
+    if (response.status === 'error')
+    {
+      if (response.error === 'UserEmailNotConfirmed')
+      {
+        open_ajax_popin(url_email_not_confirmed, function(){
+          
+        });
+      }
+      else if (response.error === 'UserNotConnected')
+      {
+        open_connection_or_subscription_window();
+      }
+    }
+  }
+  
+  this.execute = function(response, success_callback, failure_callback)
+  {
+    propagate(response);
+    if (response.status === 'success')
+    {
+      success_callback();
+    }
+    else
+    {
+      failure_callback();
+    }
+  }
+}
+
+window.ResponseController = new ResponseController();
+
 $(document).ready(function(){
 		 
   // Initially, hide them all
@@ -2238,7 +2273,7 @@ $(document).ready(function(){
    * 
    */
   
- // Ouverture du formulaire de modification
+ // Ouverture du formulaire de proposition de tags
   $('a.element_propose_tags').live('click', function(){
     
     var link = $(this);
@@ -2248,68 +2283,72 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
-      
       li.find('img.element_loader').hide();
-      
-      if (response.status == 'success')
-      {
-        
-        // On prépare le tagBox
-        var table = li.find('table:first');
-        li.find('div.tag_proposition').remove();
-        table.after(response.html);
-
-        // Pour le click sur l'input de saisie de tag
-        //li.find('ul.tagbox li.input input[type="text"]').formDefaults();
-
-        var options = new Array();
-        options.form_name  = response.form_name;
-        options.tag_init   = response.tags;
-
-        ajax_query_timestamp = null;
-
-        //$("#tags_prompt_list_"+response.form_name).tagBox(options);
-      
-      // On rend ce formulaire ajaxFormable
-      $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){
-        li = $(this).parents('li.element');
-        li.find('img.element_loader').show();
-      });
-      $('form[name="'+response.form_name+'"]').ajaxForm(function(response){
-        
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
-                
-        if (response.status == 'success')
-        {
-          li = $('li#'+response.dom_id);
-          li.find('img.element_loader').hide();
-          li.find('form')
+      window.ResponseController.execute(
+        response,
+        function(){
+          // On prépare le tagBox
+          var table = li.find('table:first');
           li.find('div.tag_proposition').remove();
-        }
-        else if (response.status == 'error')
-        {
-          li.find('img.element_loader').hide();
-          li.find('ul.error_list').remove();
-          var ul_errors = $('<ul>').addClass('error_list');
-          
-          for (i in response.errors)
+          table.after(response.html);
+
+          // Pour le click sur l'input de saisie de tag
+          //li.find('ul.tagbox li.input input[type="text"]').formDefaults();
+
+          var options = new Array();
+          options.form_name  = response.form_name;
+          options.tag_init   = response.tags;
+
+          ajax_query_timestamp = null;
+
+          //$("#tags_prompt_list_"+response.form_name).tagBox(options);
+
+        // On rend ce formulaire ajaxFormable
+        $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){
+          li = $(this).parents('li.element');
+          li.find('img.element_loader').show();
+        });
+        $('form[name="'+response.form_name+'"]').ajaxForm(function(response){
+
+          if (response.status == 'mustbeconnected')
           {
-            ul_errors.append($('<li>').append(response.errors[i]));
+            $(location).attr('href', url_index);
           }
+
+          if (response.status == 'success')
+          {
+            li = $('li#'+response.dom_id);
+            li.find('img.element_loader').hide();
+            li.find('form')
+            li.find('div.tag_proposition').remove();
+          }
+          else if (response.status == 'error')
+          {
+            li.find('img.element_loader').hide();
+            li.find('ul.error_list').remove();
+            var ul_errors = $('<ul>').addClass('error_list');
+
+            for (i in response.errors)
+            {
+              ul_errors.append($('<li>').append(response.errors[i]));
+            }
+
+            li.find('div.tag_proposition div.tags_prompt').prepend(ul_errors);
+          }
+
+        });
+        },
+        function(){
           
-          li.find('div.tag_proposition div.tags_prompt').prepend(ul_errors);
         }
-        
-      });
+      );
       
-      }
+//      if (response.status === 'mustbeconnected')
+//      {
+//        $(location).attr('href', url_index);
+//      }
+      
+      
     });
     return false;
   });
@@ -2907,6 +2946,20 @@ $(document).ready(function(){
     $('a.open_login').click(function(){
       open_connection_or_subscription_window(true);
     });
+   
+   /*
+    * Confirm email ajax
+    */
+   
+   $('div#email_not_confirmed_box input').live('click', function(){
+     $('div#email_not_confirmed_box img.loader').show();
+     $.getJSON(url_send_email_confirmation, function(response) {
+       $('div#email_not_confirmed_box img.loader').hide();
+       $('div#email_not_confirmed_box div.center').html(
+         '<span class="message_'+response.status+'">'+response.message+'</span>'      
+       );
+     });
+   });
    
 });
 

@@ -22,44 +22,88 @@ class Context
   const AFFECT_NO_SCORING = 1;
   
   const CONDITION_USER_EMAIL_NOT_CONFIRMED = 'UserEmailNotConfirmed';
+  const CONDITION_USER_NOT_CONNECTED = 'UserNotConnected';
   
   static $affecteds_actions = array(
     self::AFFECT_CANT_MAKE => array(
-      self::ACTION_ELEMENT_ADD,
-      self::ACTION_ELEMENT_NOTE,
-      self::ACTION_COMMENT_ALERT,
-      self::ACTION_ELEMENT_ALERT,
-      self::ACTION_TAG_ADD,
-      self::ACTION_ELEMENT_TAGS_PROPOSITION,
-      self::ACTION_GROUP_ADD
+      self::ACTION_ELEMENT_ADD => array(
+        self::CONDITION_USER_NOT_CONNECTED,
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_ELEMENT_NOTE => array(
+        self::CONDITION_USER_NOT_CONNECTED,
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_COMMENT_ALERT => array(
+        self::CONDITION_USER_NOT_CONNECTED,
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_ELEMENT_ALERT => array(
+        self::CONDITION_USER_NOT_CONNECTED,
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_TAG_ADD => array(
+        self::CONDITION_USER_NOT_CONNECTED,
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_ELEMENT_TAGS_PROPOSITION => array(
+        self::CONDITION_USER_NOT_CONNECTED,
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_GROUP_ADD => array(
+        self::CONDITION_USER_NOT_CONNECTED,
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_ELEMENT_ADD_TO_FAVORITES => array(
+        self::CONDITION_USER_NOT_CONNECTED
+      ),
+      self::ACTION_COMMENT_ADD => array(
+        self::CONDITION_USER_NOT_CONNECTED,
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_USER_FOLLOW => array(
+        self::CONDITION_USER_NOT_CONNECTED
+      )
     ),
     self::AFFECT_NO_SCORING => array(
-      self::ACTION_ELEMENT_NOTE,
-      self::ACTION_ELEMENT_ADD_TO_FAVORITES,
-      self::ACTION_ELEMENT_TAGS_PROPOSITION,
-      self::ACTION_USER_FOLLOW
-    )
-  );
-  
-  static $affecteds_conditions = array(
-    self::AFFECT_CANT_MAKE => array(
-      self::CONDITION_USER_EMAIL_NOT_CONFIRMED
-    ),
-    self::AFFECT_NO_SCORING => array(
-      self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      self::ACTION_ELEMENT_NOTE => array(
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_ELEMENT_ADD_TO_FAVORITES => array(
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_ELEMENT_TAGS_PROPOSITION => array(
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_USER_FOLLOW => array(
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      )
     )
   );
   
   private $user;
+  private $anonymous = false;
   
-  public function __construct(User $user)
+  public function __construct($user)
   {
-    $this->user = $user;
+    if ($user instanceof User)
+    {
+      $this->user = $user;
+    }
+    else if ($user == 'anon.')
+    {
+      $this->user = new User();
+      $this->anonymous = true;
+    }
+    else
+    {
+      throw new \Exception('Unable to determine type of user');
+    }
   }
   
   public function canMakeAction($action)
   {
-    if ($this->actionIsAffectedBy(self::AFFECT_CANT_MAKE, $action))
+    if ($this->actionIsAffectedBy(self::AFFECT_CANT_MAKE, $action) !== false)
       return false;
     return true;
   }
@@ -69,7 +113,7 @@ class Context
     if (!array_key_exists($affect, self::$affecteds_actions))
       throw new \Exception("Unknow action $action");
     
-    if (in_array($action, self::$affecteds_actions[$affect]))
+    if (array_key_exists($action, self::$affecteds_actions[$affect]))
       return true;
     return false;
   }
@@ -78,16 +122,25 @@ class Context
   {
     if ($this->actionCanBeAffectedBy($affect, $action))
     {
-      foreach (self::$affecteds_conditions[$affect] as $affected_condition)
+      foreach (self::$affecteds_actions[$affect][$action] as $affected_condition)
       {
         $affected_condition_method = 'is'.$affected_condition;
         if ($this->$affected_condition_method())
         {
-          return true;
+          return $affected_condition;
         }
       }
     }
     
+    return false;
+  }
+  
+  protected function isUserNotConnected()
+  {
+    if ($this->anonymous)
+    {
+      return true;
+    }
     return false;
   }
   
@@ -98,6 +151,11 @@ class Context
       return false;
     }
     return true;
+  }
+  
+  public function getConditionForAffectedAction($action)
+  {
+    
   }
   
 }

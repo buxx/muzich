@@ -76,3 +76,12 @@ subscribe_or_login:
 change_username:
   pattern: /account/username/update
   defaults: { _controller: MuzichUserBundle:User:changeUsername }
+
+email_not_confirmed:
+  pattern: /account/email-not-confirmed
+  defaults: { _controller: MuzichUserBundle:User:showEmailNotConfirmed }
+
+send_email_confirmation:
+  pattern: /account/send-email-confirmation
+  defaults: { _controller: MuzichUserBundle:User:sendEmailConfirm }
+    

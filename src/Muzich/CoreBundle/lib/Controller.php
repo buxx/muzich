@@ -12,6 +12,7 @@ use Muzich\CoreBundle\Searcher\GlobalSearcher;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Entity\Presubscription;
 use Muzich\CoreBundle\Entity\User;
+use Muzich\CoreBundle\Security\Context as SecurityContext;
 
 class Controller extends BaseController
 {
@@ -19,6 +20,8 @@ class Controller extends BaseController
   protected static $user = null;
   protected static $user_personal_query = null;
   protected static $tags = array();
+  /** @var SecurityContext */
+  protected $security_context;
   
   /**
    * Authenticate a user with Symfony Security
@@ -405,6 +408,15 @@ class Controller extends BaseController
     return $response;
   }
   
+  protected function jsonResponseError($error_type, $error_content = array())
+  {
+    return $this->jsonResponse(array(
+      'status' => 'error',
+      'error'  => $error_type,
+      'data'   => $error_content
+    ));
+  }
+  
   protected function jsonNotFoundResponse()
   {
     $response = new Response(json_encode(array(
@@ -566,13 +578,14 @@ class Controller extends BaseController
     return false;
   }
   
-  protected function sendEmailconfirmationEmail()
+  protected function sendEmailconfirmationEmail($set_send_time = true)
   {
     $user = $this->getUser();
     
     $tokenGenerator = $this->container->get('fos_user.util.token_generator');
     $user->setConfirmationToken($tokenGenerator->generateToken());
-    $user->setEmailConfirmationSentTimestamp(time());
+    if ($set_send_time)
+      $user->setEmailConfirmationSentTimestamp(time());
     
     $token = hash('sha256', $user->getConfirmationToken().$user->getEmail());
     $url = $this->get('router')->generate('email_confirm', array('token' => $token), true);
@@ -604,6 +617,26 @@ class Controller extends BaseController
   protected function getParameter($key)
   {
     return $this->container->getParameter($key);
+  }
+  
+  protected function userHaveNonConditionToMakeAction($action)
+  {
+    $secutity_context = $this->getSecurityContext();
+    if (($condition = $secutity_context->actionIsAffectedBy(SecurityContext::AFFECT_CANT_MAKE, $action)) !== false)
+    {
+      return $condition;
+    }
+    
+    return false;
+  }
+  
+  /** @return SecurityContext */
+  protected function getSecurityContext()
+  {
+    if ($this->security_context == null)
+      $this->security_context = new SecurityContext($this->getUser());
+    
+    return $this->security_context;
   }
   
 }

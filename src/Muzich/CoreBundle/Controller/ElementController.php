@@ -14,6 +14,7 @@ use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\lib\AutoplayManager;
 use Muzich\CoreBundle\Searcher\ElementSearcher;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Muzich\CoreBundle\Security\Context as SecurityContext;
 
 class ElementController extends Controller
 {
@@ -570,6 +571,11 @@ class ElementController extends Controller
     if (($response = $this->mustBeConnected(true)))
     {
       return $response;
+    }
+    
+    if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_ELEMENT_TAGS_PROPOSITION)) !== false)
+    {
+      return $this->jsonResponseError($non_condition);
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
