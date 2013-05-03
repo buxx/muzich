@@ -7,14 +7,21 @@
 
   <div class="top_tools">
     
-    <a href="#" id="group_add_link" class="button gradient justtopright">
-      {{ 'group.add_group'|trans({}, 'navigationui') }}
-      <img src="{{ asset('/img/icon_dart_right_white.png') }}" alt="" />
-    </a>
-    <a href="#" id="group_add_close_link" class="button gradient justtopright" style="display: none;">
-      {{ 'group.add_group_box.close'|trans({}, 'navigationui') }}
-      <img src="{{ asset('/img/icon_dart_left_white.png') }}" alt="" />
-    </a>
+    {% if app.user.emailConfirmed %}
+      <a href="#" id="group_add_link" class="button gradient justtopright">
+        {{ 'group.add_group'|trans({}, 'navigationui') }}
+        <img src="{{ asset('/img/icon_dart_right_white.png') }}" alt="" />
+      </a>
+      <a href="#" id="group_add_close_link" class="button gradient justtopright" style="display: none;">
+        {{ 'group.add_group_box.close'|trans({}, 'navigationui') }}
+        <img src="{{ asset('/img/icon_dart_left_white.png') }}" alt="" />
+      </a>
+    {% else %}
+      <a href="#" id="group_add_link_disabled" class="button gradient justtopright mustconfirmemail">
+        {{ 'group.add_group'|trans({}, 'navigationui') }}
+        <img src="{{ asset('/img/icon_dart_right_white.png') }}" alt="" />
+      </a>
+    {% endif %}
     
   </div>
   

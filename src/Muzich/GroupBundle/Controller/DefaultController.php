@@ -8,6 +8,7 @@ use Muzich\CoreBundle\Entity\Group;
 use Muzich\CoreBundle\Form\Group\GroupForm;
 use Symfony\Component\HttpFoundation\Request;
 use Muzich\CoreBundle\Managers\GroupManager;
+use Muzich\CoreBundle\Security\Context as SecurityContext;
 
 class DefaultController extends Controller
 {
@@ -52,6 +53,11 @@ class DefaultController extends Controller
   public function addAction(Request $request)
   {
     $user = $this->getUser();
+    
+if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_GROUP_ADD)) !== false)
+    {
+      throw $this->createNotFoundException();
+    }
     
     /**
      * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.

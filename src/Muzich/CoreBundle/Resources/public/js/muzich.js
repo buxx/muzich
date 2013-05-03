@@ -44,11 +44,11 @@ function ResponseController()
     propagate(response);
     if (response.status === 'success')
     {
-      success_callback();
+      success_callback(response);
     }
     else
     {
-      failure_callback();
+      failure_callback(response);
     }
   }
 }
@@ -1518,54 +1518,57 @@ $(document).ready(function(){
     $('form[name="add"]').find('img.tag_loader').show();
   });
   $('form[name="add"]').ajaxForm(function(response) {
-    if (response.status == 'mustbeconnected')
-    {
-      $(location).attr('href', url_index);
-    }
     
     $('form[name="add"] img.tag_loader').hide();
+    window.ResponseController.execute(
+      response,
+      function(){},
+      function(){}
+    );
     
-    // Si on en est a la promière étape la réponse sera des données récupérés auprès
-    // des apis
-    if ($('input#form_add_step').val() == '1')
+    if (response.status === 'success')
     {
-      if (element_add_proceed_data_apis(response))
+      // Si on en est a la première étape la réponse sera des données récupérés auprès
+      // des apis
+      if ($('input#form_add_step').val() == '1')
       {
-        // On a plus qu'a afficher les champs
-        $('div#form_add_second_part').slideDown();
-        $('div#form_add_first_part').slideUp();
-        form_add_hide_errors();
-        $('#form_add_loader').hide();
-        $('input#form_add_step').val('2');
-        
-        // On doit avoir le slug du groupe si on ajoute a un groupe
-        if (!$('input#add_element_group_page').length)
+        if (element_add_proceed_data_apis(response))
         {
-          $('form[name="add"]').attr('action', url_element_add);
+          // On a plus qu'a afficher les champs
+          $('div#form_add_second_part').slideDown();
+          $('div#form_add_first_part').slideUp();
+          form_add_hide_errors();
+          $('#form_add_loader').hide();
+          $('input#form_add_step').val('2');
+
+          // On doit avoir le slug du groupe si on ajoute a un groupe
+          if (!$('input#add_element_group_page').length)
+          {
+            $('form[name="add"]').attr('action', url_element_add);
+          }
+          else
+          {
+            $('form[name="add"]').attr('action', url_element_add+'/'+$('input#add_element_group_page').val());
+          }
+          $('span#add_url_title_url').html($('input#element_add_url').val());
+          // Mise a zero des tags
+          window.add_tag_prompt_connector.initializeTags([]);
+          $('input#element_add_need_tags').attr('checked', false);
         }
         else
         {
-          $('form[name="add"]').attr('action', url_element_add+'/'+$('input#add_element_group_page').val());
+          form_add_display_errors(response.errors);
+          $('#form_add_loader').hide();
         }
-        $('span#add_url_title_url').html($('input#element_add_url').val());
-        // Mise a zero des tags
-        window.add_tag_prompt_connector.initializeTags([]);
-        $('input#element_add_need_tags').attr('checked', false);
       }
-      else
+      else if ($('input#form_add_step').val() == '2')
       {
-        form_add_display_errors(response.errors);
-        $('#form_add_loader').hide();
+        if (element_add_proceed_json_response(response))
+        {
+          form_add_reinit();
+        }
       }
     }
-    else if ($('input#form_add_step').val() == '2')
-    {
-      if (element_add_proceed_json_response(response))
-      {
-        form_add_reinit();
-      }
-    }
-
     
     return false;
   });
@@ -2193,10 +2196,12 @@ $(document).ready(function(){
       
       $.getJSON(link.attr('href'), function(response){
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+          response,
+          function(){},
+          function(){}
+        );
+          
       });
       
       $('div.question').fadeOut();
@@ -2218,20 +2223,27 @@ $(document).ready(function(){
     
     var img = $(this).find('img');
     var link = $(this);
+    var old_img_url = img.attr('src');
     img.attr('src', url_img_ajax_loader);
     
     $.getJSON(link.attr('href'), function(response){
-        
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
       
-      if (response.status == 'success')
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+        
+      if (response.status === 'success')
       {
         link.attr('href', response.data.a.href);
         img.attr('src', response.data.img.src);
         link.parents('ul.element_thumb_actions').find('li.score').text(response.data.element.points);
+      }
+        
+      if (response.status === 'error')
+      {
+        img.attr('src', old_img_url);
       }
       
     });
@@ -2286,22 +2298,27 @@ $(document).ready(function(){
       li.find('img.element_loader').hide();
       window.ResponseController.execute(
         response,
-        function(){
-          // On prépare le tagBox
-          var table = li.find('table:first');
-          li.find('div.tag_proposition').remove();
-          table.after(response.html);
+        function(){},
+        function(){}
+      );
+      
+      if (response.status === 'success')
+      {
+        // On prépare le tagBox
+        var table = li.find('table:first');
+        li.find('div.tag_proposition').remove();
+        table.after(response.html);
 
-          // Pour le click sur l'input de saisie de tag
-          //li.find('ul.tagbox li.input input[type="text"]').formDefaults();
+        // Pour le click sur l'input de saisie de tag
+        //li.find('ul.tagbox li.input input[type="text"]').formDefaults();
 
-          var options = new Array();
-          options.form_name  = response.form_name;
-          options.tag_init   = response.tags;
+        var options = new Array();
+        options.form_name  = response.form_name;
+        options.tag_init   = response.tags;
 
-          ajax_query_timestamp = null;
+        ajax_query_timestamp = null;
 
-          //$("#tags_prompt_list_"+response.form_name).tagBox(options);
+        //$("#tags_prompt_list_"+response.form_name).tagBox(options);
 
         // On rend ce formulaire ajaxFormable
         $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){
@@ -2335,13 +2352,8 @@ $(document).ready(function(){
 
             li.find('div.tag_proposition div.tags_prompt').prepend(ul_errors);
           }
-
         });
-        },
-        function(){
-          
-        }
-      );
+      }
       
 //      if (response.status === 'mustbeconnected')
 //      {
@@ -2453,10 +2465,12 @@ $(document).ready(function(){
       
       $.getJSON(link.attr('href'), function(response){
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+          response,
+          function(){},
+          function(){}
+        );
+        
       });
       
       $('div.question').fadeOut();
@@ -2961,6 +2975,14 @@ $(document).ready(function(){
      });
    });
    
+   /*
+    * Buttons for open email confirmation request
+    */
+   
+   $('a#group_add_link_disabled.mustconfirmemail').click(function(){
+     open_ajax_popin(url_email_not_confirmed, function(){});
+   });
+   
 });
 
 function open_ajax_popin(url, callback)
@@ -2985,6 +3007,7 @@ function open_ajax_popin(url, callback)
       }
     }
   });
+  $('html, body').animate({ scrollTop: 0 }, 'fast');
 }
 
 function open_connection_or_subscription_window(open_login_part)

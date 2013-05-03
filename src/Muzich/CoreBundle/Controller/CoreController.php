@@ -20,6 +20,7 @@ use Muzich\CoreBundle\Managers\ElementReportManager;
 use Muzich\CoreBundle\Propagator\EventUser;
 use Muzich\CoreBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
+use Muzich\CoreBundle\Security\Context as SecurityContext;
 
 class CoreController extends Controller
 {
@@ -211,14 +212,14 @@ class CoreController extends Controller
    */
   public function elementAddAction($group_slug)
   {
-    if (($response = $this->mustBeConnected()))
+    if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_ELEMENT_ADD)) !== false)
     {
-      return $response;
+      return $this->jsonResponseError($non_condition);
     }
     
     if ($this->getRequest()->getMethod() != 'POST')
     {
-      throw $this->createNotFoundException('Cette ressource n\'est pas accessible');
+      throw $this->createNotFoundException();
     }
     
     $user = $this->getUser(true, array('join' => array('groups_owned_groups_tags')));
@@ -453,9 +454,9 @@ class CoreController extends Controller
    */
   public function addTagAction()
   {
-    if (($response = $this->mustBeConnected(true)))
+    if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_TAG_ADD)) !== false)
     {
-      return $response;
+      return $this->jsonResponseError($non_condition);
     }
     
     if (strlen((($tag_name = $this->getRequest()->request->get('tag_name')))) 
@@ -625,9 +626,9 @@ class CoreController extends Controller
    */
   public function reportElementAction($element_id, $token)
   {
-    if (($response = $this->mustBeConnected(true)))
+    if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_ELEMENT_ALERT)) !== false)
     {
-      return $response;
+      return $this->jsonResponseError($non_condition);
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')

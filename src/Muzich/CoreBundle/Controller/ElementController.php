@@ -450,9 +450,9 @@ class ElementController extends Controller
    */
   public function addVoteGoodAction($element_id, $token)
   {
-    if (($response = $this->mustBeConnected(true)))
+    if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_ELEMENT_NOTE)) !== false)
     {
-      return $response;
+      return $this->jsonResponseError($non_condition);
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
@@ -509,9 +509,9 @@ class ElementController extends Controller
    */
   public function removeVoteGoodAction($element_id, $token)
   {
-    if (($response = $this->mustBeConnected(true)))
+    if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_ELEMENT_NOTE)) !== false)
     {
-      return $response;
+      return $this->jsonResponseError($non_condition);
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
@@ -568,11 +568,6 @@ class ElementController extends Controller
    */
   public function proposeTagsOpenAction($element_id)
   {
-    if (($response = $this->mustBeConnected(true)))
-    {
-      return $response;
-    }
-    
     if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_ELEMENT_TAGS_PROPOSITION)) !== false)
     {
       return $this->jsonResponseError($non_condition);

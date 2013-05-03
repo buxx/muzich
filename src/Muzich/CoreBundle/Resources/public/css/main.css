@@ -948,7 +948,7 @@ ul#favorite_tags li
   margin-right: 0px;
 }
 
-#element_add_link, #element_add_close_link, #group_add_link, #group_add_close_link, #registration_link, #login_link, #know_more
+#element_add_link, #element_add_close_link, #group_add_link, #group_add_link_disabled, #group_add_close_link, #registration_link, #login_link, #know_more
 {
   float: right;
   margin-top: -58px;
@@ -975,13 +975,13 @@ ul#favorite_tags li
   margin-top: -68px;
 }
 
-#element_add_link img, #element_add_close_link img, #group_add_link img, #group_add_close_link img, #registration_link img, #login_link img
+#element_add_link img, #element_add_close_link img, #group_add_link img, #group_add_link_disabled img, #group_add_close_link img, #registration_link img, #login_link img
 {
   margin-bottom: -5px;
     margin-right: -5px;
 }
 
-#element_add_link.justtopright, #element_add_close_link.justtopright, #group_add_link.justtopright, #group_add_close_link.justtopright
+#element_add_link.justtopright, #element_add_close_link.justtopright, #group_add_link.justtopright, #group_add_link_disabled.justtopright, #group_add_close_link.justtopright
 {
   margin-top: 0px;
   margin-right: 0px;
@@ -1707,7 +1707,7 @@ div.show_options {
     float: right;
 }
 
-#container #group_add_link, #container #group_add_close_link
+#container #group_add_link, #container #group_add_link_disabled, #container #group_add_close_link
 {
   font-size: 120%;
   float: right;
