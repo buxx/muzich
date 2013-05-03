@@ -12,6 +12,7 @@ use Muzich\CoreBundle\Managers\CommentsManager;
 use Muzich\CoreBundle\Entity\ElementTagsProposition;
 use Muzich\CoreBundle\Managers\EventArchiveManager;
 use Muzich\CoreBundle\Entity\EventArchive;
+use Muzich\CoreBundle\Security\Context as SecurityContext;
 
 /**
  * Propagateur d'événement concernant les éléments
@@ -102,12 +103,16 @@ class EventElement extends EventPropagator
    * 
    * @param Element $element 
    */
-  public function addedToFavorites(Element $element)
+  public function addedToFavorites(Element $element, User $added_by_user)
   {
     $ur = new UserReputation($element->getOwner());
-    $ur->addPoints(
-      $this->container->getParameter('reputation_element_favorite_value')
-    );
+    $security_context = new SecurityContext($added_by_user);
+    if (!$security_context->actionIsAffectedBy(SecurityContext::AFFECT_NO_SCORING, SecurityContext::ACTION_ELEMENT_ADD_TO_FAVORITES))
+    {
+      $ur->addPoints(
+        $this->container->getParameter('reputation_element_favorite_value')
+      );
+    }
     
     $uea = new UserEventAction($element->getOwner(), $this->container);
     $event = $uea->proceed(Event::TYPE_FAV_ADDED_ELEMENT, $element->getId());
@@ -119,12 +124,16 @@ class EventElement extends EventPropagator
    * 
    * @param Element $element 
    */
-  public function removedFromFavorites(Element $element)
+  public function removedFromFavorites(Element $element, User $removed_by_user)
   {
     $ur = new UserReputation($element->getOwner());
-    $ur->removePoints(
-      $this->container->getParameter('reputation_element_favorite_value')
-    );
+    $security_context = new SecurityContext($removed_by_user);
+    if (!$security_context->actionIsAffectedBy(SecurityContext::AFFECT_NO_SCORING, SecurityContext::ACTION_ELEMENT_ADD_TO_FAVORITES))
+    {
+      $ur->removePoints(
+        $this->container->getParameter('reputation_element_favorite_value')
+      );
+    }
   }
   
   /**

@@ -7,6 +7,7 @@ use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\Actions\User\Event as UserEventAction;
 use Muzich\CoreBundle\Actions\User\Reputation as UserReputation;
 use Muzich\CoreBundle\Entity\Event;
+use Muzich\CoreBundle\Security\Context as SecurityContext;
 
 /**
  * Propagateur d'événement concernant les users
@@ -25,9 +26,13 @@ class EventUser extends EventPropagator
   {
     // Points de réputation
     $ur = new UserReputation($user);
-    $ur->addPoints(
-      $this->container->getParameter('reputation_element_follow_value')
-    );
+    $security_context = new SecurityContext($follower);
+    if (!$security_context->actionIsAffectedBy(SecurityContext::AFFECT_NO_SCORING, SecurityContext::ACTION_USER_FOLLOW))
+    {
+      $ur->addPoints(
+        $this->container->getParameter('reputation_element_follow_value')
+      );
+    }
     
     // Event de suivis
     $uea = new UserEventAction($user, $this->container);
@@ -40,12 +45,16 @@ class EventUser extends EventPropagator
    * 
    * @param User $user Utilisateur plus suivis
    */
-  public function removeFromFollow(User $user)
+  public function removeFromFollow(User $user, User $old_follower)
   {
     $ur = new UserReputation($user);
-    $ur->removePoints(
-      $this->container->getParameter('reputation_element_follow_value')
-    );
+    $security_context = new SecurityContext($old_follower);
+    if (!$security_context->actionIsAffectedBy(SecurityContext::AFFECT_NO_SCORING, SecurityContext::ACTION_USER_FOLLOW))
+    {
+      $ur->removePoints(
+        $this->container->getParameter('reputation_element_follow_value')
+      );
+    }
   }
   
 }

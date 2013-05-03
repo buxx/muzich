@@ -88,8 +88,8 @@ class RecalculateReputationCommand extends ContainerAwareCommand
       $count_favs = 0;
       $fav = $em->createQuery(
         "SELECT COUNT(f) FROM MuzichCoreBundle:UsersElementsFavorites f"
-        . " JOIN f.element e"
-        . " WHERE e.owner = :uid AND f.user != :uid"
+        . " JOIN f.element e JOIN f.user fu"
+        . " WHERE e.owner = :uid AND f.user != :uid AND fu.email_confirmed = 1"
       )->setParameter('uid', $user->getId())
        ->getScalarResult()      
       ;
@@ -109,7 +109,8 @@ class RecalculateReputationCommand extends ContainerAwareCommand
       $count_follow = 0;
       $fol = $em->createQuery(
         "SELECT COUNT(f) FROM MuzichCoreBundle:FollowUser f"
-        . " WHERE f.followed = :uid"
+        . " JOIN f.follower fu"
+        . " WHERE f.followed = :uid AND fu.email_confirmed = 1"
       )->setParameter('uid', $user->getId())
        ->getScalarResult()      
       ;

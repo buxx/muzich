@@ -157,7 +157,7 @@ class CoreController extends Controller
       {
         // L'utilisateur suis déjà, on doit détruire l'entité
         $event = new EventUser($this->container);
-        $event->removeFromFollow($Follow->getFollowed());
+        $event->removeFromFollow($Follow->getFollowed(), $this->getUser());
         $em->persist($Follow->getFollowed());
       }
       

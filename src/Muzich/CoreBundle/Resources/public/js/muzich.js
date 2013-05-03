@@ -1526,8 +1526,6 @@ $(document).ready(function(){
       function(){}
     );
     
-    if (response.status === 'success')
-    {
       // Si on en est a la première étape la réponse sera des données récupérés auprès
       // des apis
       if ($('input#form_add_step').val() == '1')
@@ -1568,7 +1566,7 @@ $(document).ready(function(){
           form_add_reinit();
         }
       }
-    }
+    
     
     return false;
   });

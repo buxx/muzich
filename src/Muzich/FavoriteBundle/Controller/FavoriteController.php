@@ -70,7 +70,7 @@ class FavoriteController extends Controller
       {
         // On déclenche les événements liés a cette action
         $event = new EventElement($this->container);
-        $event->addedToFavorites($element);
+        $event->addedToFavorites($element, $user);
         $em->persist($user);
       }
       
@@ -134,7 +134,7 @@ class FavoriteController extends Controller
       {
         // On déclenche les événements liés a cette action
         $event = new EventElement($this->container);
-        $event->removedFromFavorites($element);
+        $event->removedFromFavorites($element, $user);
       }
       
       // On signale que cet user a modifié sa liste de favoris
