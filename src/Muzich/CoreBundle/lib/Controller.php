@@ -47,6 +47,15 @@ class Controller extends BaseController
     {
       $session_id = '.'.$session_id;
     }
+    
+    if (!count($params['tags']))
+    {
+      if (count($this->getElementSearcher()->getTags()))
+      {
+        $this->get("session")->set('user.element_search.last_tags', $this->getElementSearcher()->getTags());
+      }
+    }
+    
     $this->get("session")->set('user.element_search.params'.$session_id, $params);
   }
   
@@ -59,7 +68,7 @@ class Controller extends BaseController
     }
     elseif ($user instanceof User)
     {
-      return true;
+      return false;
     }
     
     throw new \Exception('Unable to determine user type');

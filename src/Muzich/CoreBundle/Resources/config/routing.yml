@@ -50,7 +50,7 @@ filter_mytags:
 
 ajax_get_favorites_tags:
   pattern: /ajax/my-favorites-tags
-  defaults: { _controller: MuzichCoreBundle:Core:getFavoriteTags }
+  defaults: { _controller: MuzichCoreBundle:Core:getDefaultTags }
 
 ajax_add_tag:
   pattern: /ajax/add-tag

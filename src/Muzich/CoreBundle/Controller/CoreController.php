@@ -438,15 +438,22 @@ class CoreController extends Controller
    * 
    * @return Response 
    */
-  public function getFavoriteTagsAction()
+  public function getDefaultTagsAction()
   {    
-    // On construit l'element searcher avec les tags favoris
-    $es = $this->getElementSearcher(null, true);
-    // Et on retourne les tags
+    $last_tags = $this->get("session")->get('user.element_search.last_tags');
+    if (!count($last_tags))
+    {
+      $es = $this->getElementSearcher(null, true);
+      return $this->jsonResponse(array(
+        'response' => 'success',
+        'tags'     => $es->getTags()
+      ));
+    }
+    
     return $this->jsonResponse(array(
-      'response' => 'success',
-      'tags'     => $es->getTags()
-    ));
+        'response' => 'success',
+        'tags'     => $last_tags
+      ));
   }
   
   /**
