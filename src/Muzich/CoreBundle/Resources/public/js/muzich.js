@@ -3040,6 +3040,7 @@ function open_connection_or_subscription_window(open_login_part)
         }
         else if (response.status == 'error')
         {
+          $('div.login form').find('ul.error_list').remove();
           $('div.login form').prepend('<ul class="error_list"><li>'+response.data.error+'</li></ul>');
           $('div.login form input#password').val('');
         }
