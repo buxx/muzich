@@ -10,7 +10,9 @@ class ContextTest extends \PHPUnit_Framework_TestCase
   
   public function testActionsWithNotConfirmedEmailUser()
   {
-    $secutiry_context = new SecurityContext(new User());
+    $user_not_confirmed_email = new User();
+    $user_not_confirmed_email->setEmailConfirmed(false);
+    $secutiry_context = new SecurityContext($user_not_confirmed_email);
     
     $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_ELEMENT_ADD));
     $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_ELEMENT_NOTE));

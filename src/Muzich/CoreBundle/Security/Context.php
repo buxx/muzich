@@ -58,8 +58,7 @@ class Context
         self::CONDITION_USER_NOT_CONNECTED
       ),
       self::ACTION_COMMENT_ADD => array(
-        self::CONDITION_USER_NOT_CONNECTED,
-        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+        self::CONDITION_USER_NOT_CONNECTED
       ),
       self::ACTION_USER_FOLLOW => array(
         self::CONDITION_USER_NOT_CONNECTED
@@ -124,14 +123,23 @@ class Context
     {
       foreach (self::$affecteds_actions[$affect][$action] as $affected_condition)
       {
-        $affected_condition_method = 'is'.$affected_condition;
-        if ($this->$affected_condition_method())
+        if ($this->userIsInThisCondition($affected_condition))
         {
           return $affected_condition;
         }
       }
     }
     
+    return false;
+  }
+  
+  public function userIsInThisCondition($condition)
+  {
+    $affected_condition_method = 'is'.$condition;
+    if ($this->$affected_condition_method())
+    {
+      return true;
+    }
     return false;
   }
   

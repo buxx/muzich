@@ -108,7 +108,7 @@ class UserController extends Controller
   public function accountAction()
   {
     $user = $this->getUser();
-    $form_password = $this->getChangePasswordForm();
+    $form_password = $this->getChangePasswordForm($user);
     $form_tags_favorites = $this->getTagsFavoritesForm($user);
     $change_email_form = $this->getChangeEmailForm();
     
@@ -124,9 +124,9 @@ class UserController extends Controller
     );
   }
   
-  protected function getChangePasswordForm()
+  protected function getChangePasswordForm(User $user)
   {
-    return $this->createForm(new PasswordForm(), $this->getUser());
+    return $this->createForm(new PasswordForm(), $user);
   }
   
   protected function getAvatarForm()
@@ -294,19 +294,13 @@ class UserController extends Controller
   {
     $user = $this->getUser();
     
-    /**
-     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-     * Docrine le voit si on faire une requete directe.
-     */
+    /** Bug */
     if ($this->container->getParameter('env') == 'test')
     {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
+      $user = $this->getUserRefreshed();
     }
     
-    $form = $this->getChangePasswordForm();
+    $form = $this->getChangePasswordForm($user);
     $form->bind($request);
     
     if ($form->isValid())
@@ -507,7 +501,7 @@ class UserController extends Controller
     }
     
     // En cas d'échec
-    $form_password = $this->getChangePasswordForm();
+    $form_password = $this->getChangePasswordForm($user);
     $form_tags_favorites = $this->getTagsFavoritesForm($user);
     
     return $this->container->get('templating')->renderResponse(
@@ -519,7 +513,8 @@ class UserController extends Controller
         'form_tags_favorites_name' => $form_tags_favorites->getName(),
         'favorite_tags_id'         => $this->getTagsFavorites(),
         'change_email_form'        => $change_email_form->createView(),
-        'avatar_form'              => $this->getAvatarForm()->createView()
+        'avatar_form'              => $this->getAvatarForm()->createView(),
+        'preferences_form'         => $this->getPreferencesForm()->createView()
       )
     );
   }
@@ -813,6 +808,13 @@ class UserController extends Controller
   public function confirmEmailAction(Request $request, $token)
   {
     $user = $this->getUser();
+    
+    /** Bug */
+    if ($this->container->getParameter('env') == 'test')
+    {
+      $user = $this->getUserRefreshed();
+    }
+    
     if ($token == hash('sha256', $user->getConfirmationToken().$user->getEmail()))
     {
       $user->setEmailConfirmed(true);

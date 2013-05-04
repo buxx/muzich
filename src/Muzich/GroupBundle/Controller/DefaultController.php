@@ -56,6 +56,11 @@ class DefaultController extends Controller
     
 if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_GROUP_ADD)) !== false)
     {
+      if ($request->isXmlHttpRequest())
+      {
+        return $this->jsonResponseError($non_condition);
+      }
+      
       throw $this->createNotFoundException();
     }
     

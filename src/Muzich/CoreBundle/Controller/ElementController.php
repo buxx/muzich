@@ -607,6 +607,11 @@ class ElementController extends Controller
   
   public function proposeTagsProceedAction($element_id, $token)
   {
+    if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_ELEMENT_TAGS_PROPOSITION)) !== false)
+    {
+      return $this->jsonResponseError($non_condition);
+    }
+    
     if (($response = $this->mustBeConnected(true)))
     {
       return $response;

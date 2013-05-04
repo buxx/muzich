@@ -109,9 +109,9 @@ class CoreController extends Controller
    */
   public function followAction($type, $id, $token)
   {
-    if (($response = $this->mustBeConnected()))
+    if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_USER_FOLLOW)) !== false)
     {
-      return $response;
+      return $this->jsonResponseError($non_condition);
     }
     
     $user = $this->getUser();

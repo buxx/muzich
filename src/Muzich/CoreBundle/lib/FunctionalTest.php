@@ -24,6 +24,16 @@ class FunctionalTest extends WebTestCase
    */
   protected $crawler;
   
+  public function getClient()
+  {
+    return $this->client;
+  }
+  
+  public function getCrawler()
+  {
+    return $this->crawler;
+  }
+  
   protected function outputDebug($content = null)
   {
     $time = time();
@@ -48,11 +58,17 @@ class FunctionalTest extends WebTestCase
    * 
    * @return \Muzich\CoreBundle\Entity\User 
    */
-  protected function getUser($username = null)
+  public function getUser($username = null)
   {
     if (!$username)
     {
-      return $this->client->getContainer()->get('security.context')->getToken()->getUser();
+      $token = $this->client->getContainer()->get('security.context')->getToken();
+      if ($token)
+      {
+        return $token->getUser();
+      }
+      
+      return 'anon.';
     }
     else
     {
@@ -117,47 +133,41 @@ class FunctionalTest extends WebTestCase
     $this->crawler = $this->client->request('GET', $this->generateUrl('fos_user_security_logout'));
   }
   
-  protected function validate_registrate_user_form($form, $username, $email, $pass1, $pass2, $token)
+  protected function validate_registrate_user_form($email)
   {
-    $form['fos_user_registration_form[username]'] = $username;
-    $form['fos_user_registration_form[email]'] = $email;
-    $form['fos_user_registration_form[plainPassword][first]'] = $pass1;
-    // Un des mots de passe est incorrect
-    $form['fos_user_registration_form[plainPassword][second]'] = $pass2;
-    $form['fos_user_registration_form[token]'] = $token;
-    $form['fos_user_registration_form[cgu_accepted]']->tick();
-    $this->submit($form);
+    $extract = $this->crawler->filter('input[name="muzich_user_registration[_token]"]')
+      ->extract(array('value'));
+    $csrf = $extract[0];
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('register'),
+      array(
+        'muzich_user_registration' => array(
+          'email' => $email,
+          '_token' => $csrf
+        )
+      ), 
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
   }
   
-  protected function procedure_registration_success($username, $email, $pass1, $pass2, $token)
+  protected function procedure_registration_success($email)
   {
     $this->crawler = $this->client->request('GET', $this->generateUrl('index'));
     $this->isResponseSuccess();
     $this->assertEquals('anon.', $this->getUser());
     
-    $url = $this->generateUrl('register');
     // Les mots de passes sont différents
     $this->validate_registrate_user_form(
-      $this->selectForm('form[action="'.$url.'"] input[type="submit"]'), 
-      $username, 
-      $email, 
-      $pass1,
-      $pass2,
-      $token
+      $email
     );
     
-    $this->isResponseRedirection();
-    $this->followRedirection();
-    $this->isResponseSuccess();
-
     if ('anon.' != ($user = $this->getUser()))
     {
-      // Nous ne sommes pas identifiés
-      $this->assertEquals($username, $user->getUsername());
-
-      // L'utilisateur n'est pas enregistré, il ne doit donc pas être en base
+      $this->assertEquals($email, $user->getEmail());
       $db_user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-        ->findOneByUsername($username)
+        ->findOneByEmail($email)
       ;
 
       $this->assertTrue(!is_null($db_user));
@@ -168,21 +178,15 @@ class FunctionalTest extends WebTestCase
     }
   }
   
-  protected function procedure_registration_failure($username, $email, $pass1, $pass2, $token)
+  protected function procedure_registration_failure($email)
   {
     $this->crawler = $this->client->request('GET', $this->generateUrl('index'));
     $this->isResponseSuccess();
     $this->assertEquals('anon.', $this->getUser());
     
-    $url = $this->generateUrl('register');
     // Les mots de passes sont différents
     $this->validate_registrate_user_form(
-      $this->selectForm('form[action="'.$url.'"] input[type="submit"]'), 
-      $username, 
-      $email, 
-      $pass1,
-      $pass2,
-      $token
+      $email
     );
     
     $this->isResponseSuccess();
@@ -194,7 +198,7 @@ class FunctionalTest extends WebTestCase
 
       // L'utilisateur n'est pas enregistré, il ne doit donc pas être en base
       $db_user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-        ->findOneByUsername($username)
+        ->findOneByEmail($email)
       ;
 
       $this->assertTrue(is_null($db_user));
@@ -267,7 +271,7 @@ class FunctionalTest extends WebTestCase
    * 
    * @return string (url generated)
    */
-  protected function generateUrl($route, $parameters = array(), $absolute = false)
+  public function generateUrl($route, $parameters = array(), $absolute = false)
   {
     
     /**
@@ -425,7 +429,7 @@ class FunctionalTest extends WebTestCase
   /**
    * Contrôle que le CodeStatus de la Response correspond bien a celle d'un Ok
    */
-  protected function isResponseSuccess()
+  public function isResponseSuccess()
   {
     $this->assertTrue($this->client->getResponse()->isSuccessful());
   }
@@ -532,7 +536,7 @@ class FunctionalTest extends WebTestCase
       ->findOneBy($params);
   }
   
-  protected function goToPage($url)
+  public function goToPage($url)
   {
     $this->crawler = $this->client->request('GET', $url);
   }

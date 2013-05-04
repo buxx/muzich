@@ -6,6 +6,7 @@ use Muzich\CoreBundle\lib\Controller;
 use Muzich\CoreBundle\Managers\CommentsManager;
 use Muzich\CoreBundle\Propagator\EventElement;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
+use Symfony\Component\HttpFoundation\Request;
 
 class CommentController extends Controller
 {
@@ -19,9 +20,9 @@ class CommentController extends Controller
    */
   public function addAction($element_id, $token)
   {
-    if (($response = $this->mustBeConnected(true)))
+    if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_COMMENT_ADD)) !== false)
     {
-      return $response;
+      return $this->jsonResponseError($non_condition);
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')

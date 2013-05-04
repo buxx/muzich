@@ -9,6 +9,7 @@ use Muzich\CoreBundle\Searcher\ElementSearcher;
 use Muzich\CoreBundle\Propagator\EventElement;
 use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\lib\Tag as TagLib;
+use Muzich\CoreBundle\Security\Context as SecurityContext;
 
 //use Muzich\CoreBundle\Entity\Group;
 //use Muzich\CoreBundle\Form\Group\GroupForm;
@@ -26,6 +27,11 @@ class FavoriteController extends Controller
    */
   public function addAction($id, $token)
   {
+    if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_ELEMENT_ADD_TO_FAVORITES)) !== false)
+    {
+      return $this->jsonResponseError($non_condition);
+    }
+    
     if (($response = $this->mustBeConnected()))
     {
       return $response;

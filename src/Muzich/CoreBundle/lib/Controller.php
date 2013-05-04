@@ -230,6 +230,11 @@ class Controller extends BaseController
     throw new \Exception('User not connected');
   }
   
+  protected function getUserRefreshed()
+  {
+    return $this->getUser(false, array(), true);
+  }
+  
   /**
    * Retourne un tabeau avec les tags connus.
    * TODO: Voir pour que cette info soit stocké (par exemple) dans un champs
@@ -580,7 +585,7 @@ class Controller extends BaseController
   
   protected function sendEmailconfirmationEmail($set_send_time = true)
   {
-    $user = $this->getUser();
+    $user = $this->getUserRefreshed();
     
     $tokenGenerator = $this->container->get('fos_user.util.token_generator');
     $user->setConfirmationToken($tokenGenerator->generateToken());
