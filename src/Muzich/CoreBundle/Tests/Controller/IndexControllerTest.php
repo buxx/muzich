@@ -87,18 +87,11 @@ class IndexControllerTest extends FunctionalTest
     
     $this->exist('div.register');
     $this->exist('form[action="'.($url = $this->generateUrl('register')).'"]');
-    $this->exist('form[action="'.$url.'"] input[id="fos_user_registration_form_username"]');
-    $this->exist('form[action="'.$url.'"] input[id="fos_user_registration_form_email"]');
-    $this->exist('form[action="'.$url.'"] input[id="fos_user_registration_form_plainPassword_first"]');
-    $this->exist('form[action="'.$url.'"] input[id="fos_user_registration_form_plainPassword_second"]');
+    $this->exist('form[action="'.$url.'"] input[id="muzich_user_registration_email"]');
     $this->exist('form[action="'.$url.'"] input[type="submit"]');
     
     $this->procedure_registration_success(
-      'raoula', 
-      'raoula.def4v65sds@gmail.com', 
-      'toor', 
-      'toor',
-      '4vcsdv54svqcc3q1v54sdv6qs'
+      'raoula.def4v65sds@gmail.com'
     );
   }
   
@@ -118,42 +111,9 @@ class IndexControllerTest extends FunctionalTest
     $em->persist($token);
     $em->flush();
     
-    // Mots de passe différents
-    $this->procedure_registration_failure(
-      'raoulb'.time(), 
-      'raoulb.def4v65sds@gmail.com', 
-      'toor', 
-      'toorr',
-      $token_name
-    );
-  
-    // Pseudo trop court
-    $this->procedure_registration_failure(
-      'rb', 
-      'raoulb.def4v65sds@gmail.com', 
-      'toor', 
-      'toor',
-      $token_name
-    );
-    
     // Pseudo trop long
     $this->procedure_registration_failure(
-      'raouuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
-         .'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
-         .'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuul'.time(), 
-      'raoulb.def4v65sds@gmail.com', 
-      'toor', 
-      'toor',
-      $token_name
-    );
-  
-    // Email invalide
-    $this->procedure_registration_failure(
-      'raoulc'.time(), 
-      'raoulb.def4v65sds@gmail', 
-      'toor', 
-      'toor',
-      $token_name
+      'raoulb.def4v65sdsgmail.com'
     );
   }
   

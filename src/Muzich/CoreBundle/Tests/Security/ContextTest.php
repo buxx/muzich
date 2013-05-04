@@ -19,9 +19,9 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_COMMENT_ALERT));
     $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_ELEMENT_ALERT));
     $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_TAG_ADD));
-    $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_COMMENT_ADD));
     $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_ELEMENT_TAGS_PROPOSITION));
     $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_GROUP_ADD));
+    $this->assertTrue($secutiry_context->canMakeAction(SecurityContext::ACTION_COMMENT_ADD));
     $this->assertTrue($secutiry_context->canMakeAction(SecurityContext::ACTION_USER_FOLLOW));
     $this->assertTrue($secutiry_context->canMakeAction(SecurityContext::ACTION_ELEMENT_ADD_TO_FAVORITES));
     

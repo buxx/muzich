@@ -41,10 +41,12 @@ error:
     duplicate:           Le nom d'utilisateur est déjà utilisé sur muzi.ch
     min:               Votre nom d'utilisateur doit contenir au moins %limit% caractères.
     max:               Votre nom d'utilisateur doit contenir au maximum %limit% caractères.
-  
+
 registration:
   token:
     error:               Le code saisi pour l'inscription est incorrect ou n'est plus utilisable
+  email:
+    invalid:             L'email saisi n'est pas valide.
     
 group_malchoisis:        Le groupe est mal choisi
 group_invalid:           Le groupe est invalide

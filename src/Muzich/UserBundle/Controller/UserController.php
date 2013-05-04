@@ -203,6 +203,11 @@ class UserController extends Controller
   
   protected function checkRegistrationValues($form)
   {
+    if(!filter_var($form->getData()->getEmailCanonical(), FILTER_VALIDATE_EMAIL))
+    {
+      return array($this->trans('registration.email.invalid', array(), 'validators'));
+    }
+    
     $count = $this->getEntityManager()->createQuery("SELECT count(u.id) "
       ."FROM MuzichCoreBundle:User u "
       ."WHERE UPPER(u.email) = :email_canonical")
@@ -221,8 +226,7 @@ class UserController extends Controller
   {
     if (!$this->getRequest()->isXmlHttpRequest())
     {
-      $url = $this->container->get('router')->generate($route);
-      return new RedirectResponse($url);
+      return new RedirectResponse($this->generateUrl('home'));
     }
     
     return $this->jsonResponse(array(
