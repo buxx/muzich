@@ -690,12 +690,15 @@ class UserController extends Controller
   
   public function changeUsernameAction(Request $request)
   {
-    if (!$this->getUser()->isUsernameUpdatable())
+    $user = $this->getUserRefreshed();
+    
+    if (!$user->isUsernameUpdatable())
     {
       return new RedirectResponse($this->generateUrl('my_account'));
     }
+    
     $errors = array();
-    $form = $this->getChangeUsernameForm($this->getUser());
+    $form = $this->getChangeUsernameForm($user);
     if ($request->getMethod() == 'POST')
     {
       $form->bind($request);
@@ -703,7 +706,7 @@ class UserController extends Controller
       if ($form->isValid() && !count($errors))
       {
         $form->getData()->setUsernameUpdatable(false);
-        $this->persist($form->getData());
+        $this->persist($user);
         $this->flush();
         $this->setFlash('success', 'user.change_username.success');
         return new RedirectResponse($this->generateUrl('my_account'));

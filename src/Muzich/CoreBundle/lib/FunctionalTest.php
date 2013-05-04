@@ -120,7 +120,14 @@ class FunctionalTest extends WebTestCase
     $user = $this->getUser();
     if ('anon.' != $user)
     {
-      $this->assertEquals($login, $user->getUsername());
+      if (strpos($login, '@') === false)
+      {
+        $this->assertEquals($login, $user->getUsername());
+      }
+      else
+      {
+        $this->assertEquals($login, $user->getEmail());
+      }
     }
     else
     {

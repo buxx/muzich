@@ -45,22 +45,41 @@ class NoPassTest extends FunctionalTest
   
   protected function checkUserProhibedActionStatus($match)
   {
-    foreach (array(
+    $this->security_context_test->testUserCantMakeActionStatus( 
       SecurityContext::ACTION_ELEMENT_ADD, 
-      SecurityContext::ACTION_ELEMENT_NOTE,
-      SecurityContext::ACTION_COMMENT_ALERT,
-      SecurityContext::ACTION_ELEMENT_ALERT,
-      SecurityContext::ACTION_TAG_ADD,
-      SecurityContext::ACTION_ELEMENT_TAGS_PROPOSITION,
-      SecurityContext::ACTION_GROUP_ADD
-    ) as $action)
-    {
-      $this->security_context_test->testUserCantMakeActionStatus( 
-        $action, 
-        SecurityContext::CONDITION_USER_EMAIL_NOT_CONFIRMED,
-        $match
-      );
-    }
+      SecurityContext::CONDITION_USER_EMAIL_NOT_CONFIRMED,
+      $match
+    );
+    $this->security_context_test->testUserCantMakeActionStatus( 
+      SecurityContext::ACTION_ELEMENT_NOTE, 
+      SecurityContext::CONDITION_USER_EMAIL_NOT_CONFIRMED,
+      $match
+    );
+    $this->security_context_test->testUserCantMakeActionStatus( 
+      SecurityContext::ACTION_COMMENT_ALERT, 
+      SecurityContext::CONDITION_USER_EMAIL_NOT_CONFIRMED,
+      $match
+    );
+    $this->security_context_test->testUserCantMakeActionStatus( 
+      SecurityContext::ACTION_ELEMENT_ALERT, 
+      SecurityContext::CONDITION_USER_EMAIL_NOT_CONFIRMED,
+      $match
+    );
+    $this->security_context_test->testUserCantMakeActionStatus( 
+      SecurityContext::ACTION_TAG_ADD, 
+      SecurityContext::CONDITION_USER_EMAIL_NOT_CONFIRMED,
+      $match
+    );
+    $this->security_context_test->testUserCantMakeActionStatus( 
+      SecurityContext::ACTION_ELEMENT_TAGS_PROPOSITION, 
+      SecurityContext::CONDITION_USER_EMAIL_NOT_CONFIRMED,
+      $match
+    );
+    $this->security_context_test->testUserCantMakeActionStatus( 
+      SecurityContext::ACTION_GROUP_ADD, 
+      SecurityContext::CONDITION_USER_EMAIL_NOT_CONFIRMED,
+      $match
+    );
   }
   
   protected function confirmEmail()
@@ -82,12 +101,118 @@ class NoPassTest extends FunctionalTest
   
   public function testSetPassword()
   {
+    $this->init();
+    $this->registerUser('trolita@mail.com');
+    $this->checkUserPasswordHasNotBeenSet();
+    $this->updatePasswordMessageExist();
+    $this->updatePassword();
+    $this->checkUserPasswordHasBeenSet();
+    $this->updatePasswordMessageNotExist();
+  }
+  
+  protected function checkUserPasswordHasNotBeenSet()
+  {
+    $this->assertFalse($this->getUser()->isPasswordSet());
+  }
+  
+  protected function updatePasswordMessageExist()
+  {
+    $this->goToPage($this->generateUrl('home'));
+    $this->exist('div.choose_password');
+  }
+  
+  protected function updatePassword()
+  {
+    $this->goToPage($this->generateUrl('my_account'));
     
+    $this->exist('form[action="'.($url = $this->generateUrl(
+      'change_password', array('open' => 'change_password')
+    )).'"]');
+    $this->exist('form[action="'.$url.'"] input[id="user_password_plain_password_first"]');
+    $this->exist('form[action="'.$url.'"] input[id="user_password_plain_password_second"]');
+    $this->exist('form[action="'.$url.'"] input[type="submit"]');
+    
+    $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
+    $form['user_password[plain_password][first]'] = 'trololo';
+    $form['user_password[plain_password][second]'] = 'trololo';
+    $this->submit($form);
+    
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+    
+    // On se déconnecte
+    $this->disconnectUser();
+    
+    // Et on se connecte avec le nouveau mot de passe
+    $this->connectUser('trolita@mail.com', 'trololo');
+  }
+  
+  protected function checkUserPasswordHasBeenSet()
+  {
+    $this->assertTrue($this->getUser()->isPasswordSet());
+  }
+  
+  protected function updatePasswordMessageNotExist()
+  {
+    $this->goToPage($this->generateUrl('home'));
+    $this->notExist('div.choose_password');
   }
   
   public function testSetUsername()
   {
+    $this->init();
+    $this->registerUser('boulouduf@mail.com');
+    $this->userHasNotDefinedUsername();
+    $this->updateUserNameLinkExist();
+    $this->updateUsername('boulouduf');
+    $this->userHasDefinedUsername('boulouduf');
+    $this->updateUserNameLinkNotExist();
+  }
+  
+  protected function userHasNotDefinedUsername()
+  {
+    $this->assertTrue($this->getUser()->isUsernameUpdatable());
+  }
+  
+  protected function updateUserNameLinkExist()
+  {
+    $this->goToPage($this->generateUrl('my_account'));
+    $this->exist('a.username_update');
+  }
+  
+  protected function updateUsername($username)
+  {
+    $this->goToPage($this->generateUrl('change_username'));
+    $extract = $this->crawler->filter('input[name="form[_token]"]')
+      ->extract(array('value'));
+    $csrf = $extract[0];
+    $this->crawler = $this->client->request(
+      'POST', 
+      $this->generateUrl('change_username'), 
+      array(
+        'form' => array(
+          'username' => $username,
+          '_token' => $csrf
+        )
+      ), 
+      array(), 
+      array()
+    );
     
+    $this->isResponseRedirection();
+  }
+  
+  protected function userHasDefinedUsername($username)
+  {
+    $this->assertEquals($username, $this->getUser()->getUsername());
+    $this->assertFalse($this->getUser()->isUsernameUpdatable());
+  }
+  
+  protected function updateUserNameLinkNotExist()
+  {
+    $this->goToPage($this->generateUrl('my_account'));
+    $this->notExist('a.username_update');
   }
   
 }
