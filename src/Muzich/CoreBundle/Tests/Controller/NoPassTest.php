@@ -215,4 +215,62 @@ class NoPassTest extends FunctionalTest
     $this->notExist('a.username_update');
   }
   
+  public function testNoScoringAffections()
+  {
+    $this->init();
+    $this->registerUser('giboulet@mail.com');
+    $bux_score = $this->getBuxScore();
+    $this->addBuxElementToFavorite();
+    $this->followBux();
+    $this->assertEquals($bux_score, $this->getBuxScore());
+  }
+  
+  protected function getBuxScore()
+  {
+    return $this->getUser('bux')->getReputation();
+  }
+  
+  protected function addBuxElementToFavorite()
+  {
+    $bux = $this->getUser('bux');
+    $element = $this->findOneBy('Element', 'Ed Cox - La fanfare des teuffeurs (Hardcordian)');
+    $url = $this->generateUrl('favorite_add', array(
+      'id'    => $element->getId(),
+      'token' => $bux->getPersonalHash($element->getId())
+    ));
+    
+    $this->client->request(
+      'GET', 
+      $this->generateUrl('favorite_add', array(
+        'id'    => $element->getId(),
+        'token' => $this->getUser()->getPersonalHash($element->getId())
+      )), array(), array(), array(
+        'HTTP_X-Requested-With' => 'XMLHttpRequest',
+    ));
+    $fav = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+      ->findOneBy(array(
+        'user'    => $this->getUser()->getId(),
+        'element' => $element->getId()
+      ));
+    $this->assertTrue(!is_null($fav));
+  }
+  
+  protected function followBux()
+  {
+    $bux = $this->getUser('bux');
+    $this->goToPage($this->generateUrl('follow', array(
+      'type' => 'user', 
+      'id' => $bux->getId(),
+      'token' => $this->getUser()->getPersonalHash($bux->getId())
+    )));
+    
+    $FollowUser = $this->getDoctrine()->getRepository('MuzichCoreBundle:FollowUser')
+      ->findOneBy(array(
+        'follower' => $this->getUser()->getId(),
+        'followed' => $bux->getId()
+      ))
+    ;
+    $this->assertTrue(!is_null($FollowUser));
+  }
+  
 }
