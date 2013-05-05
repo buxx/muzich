@@ -19,14 +19,16 @@
         </a>
       {% endif %}
       
-      <a href="{{ path('follow', { 'type': 'group', 'id': group.id, 'token': user.personalHash(group.id) }) }}" 
-         class="follow_link button darkbutton {% if following %}following{% else %}notfollowing{% endif %}">
-        {% if following %}
-          {{ 'group.following'|trans({}, 'groups') }}
-        {% else %}
-          {{ 'group.follow'|trans({}, 'groups') }}
-        {% endif %}
-      </a>
+      {% if app.user %}
+        <a href="{{ path('follow', { 'type': 'group', 'id': group.id, 'token': app.user.personalHash(group.id) }) }}" 
+           class="follow_link button darkbutton {% if following %}following{% else %}notfollowing{% endif %}">
+          {% if following %}
+            {{ 'group.following'|trans({}, 'groups') }}
+          {% else %}
+            {{ 'group.follow'|trans({}, 'groups') }}
+          {% endif %}
+        </a>
+      {% endif %}
       
     </div>
       

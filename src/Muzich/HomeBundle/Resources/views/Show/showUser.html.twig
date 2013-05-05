@@ -7,21 +7,25 @@
 
   <div class="top_tools">
     
-    {% if app.user.id == viewed_user.id %}
-      {% include 'MuzichCoreBundle:Component:element_add_buttons_topright.html.twig' %}
-    {% endif %}
+    {% if app.user %}
+      {% if app.user.id == viewed_user.id %}
+        {% include 'MuzichCoreBundle:Component:element_add_buttons_topright.html.twig' %}
+      {% endif %}
+    {% endif  %}
     
     <div class="show_options">
             
-      {% if app.user.id != viewed_user.id %}
-        <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash(viewed_user.id) }) }}" 
-           class="follow_link button darkbutton {% if following %}following{% else %}notfollowing{% endif %}" >
-          {% if following %}
-            {{ 'user.following'|trans({}, 'users') }}
-          {% else %}
-            {{ 'user.follow'|trans({}, 'users') }}
-          {% endif %}
-        </a>
+      {% if app.user %}
+        {% if app.user.id != viewed_user.id %}
+          <a href="{{ path('follow', { 'type': 'user', 'id': viewed_user.id, 'token': user.personalHash(viewed_user.id) }) }}" 
+             class="follow_link button darkbutton {% if following %}following{% else %}notfollowing{% endif %}" >
+            {% if following %}
+              {{ 'user.following'|trans({}, 'users') }}
+            {% else %}
+              {{ 'user.follow'|trans({}, 'users') }}
+            {% endif %}
+          </a>
+        {% endif %}
       {% endif %}
       
       <a class="button darkbutton" href="{{ path('favorite_user_list', {'slug' : viewed_user.slug}) }}" >
@@ -32,9 +36,11 @@
     
     <h1>{{ 'user.show.title'|trans({'%name%' : viewed_user.name}, 'users') }}</h1>
   
-    {% if app.user.id == viewed_user.id %}
-      {% include 'MuzichCoreBundle:Component:element_add_box.html.twig'  %}
-    {% endif %}
+    {% if app.user %}
+      {% if app.user.id == viewed_user.id %}
+        {% include 'MuzichCoreBundle:Component:element_add_box.html.twig'  %}
+      {% endif %}
+    {% endif  %}
     
     <div class="reputation">
       

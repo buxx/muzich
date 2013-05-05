@@ -29,7 +29,7 @@ class ShowController extends Controller
     ));
     
     $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
-      ->getElementsTags($viewed_user->getId(), $this->getUserId())      
+      ->getElementsTags($viewed_user->getId(), $this->getUserId(true))      
     ;
     
     // Organisation des tags en fonction de leurs utilisation
@@ -63,17 +63,17 @@ class ShowController extends Controller
       'tags'            => $tags,
       'tags_id_json'    => json_encode($tags_id),
       'viewed_user'     => $viewed_user,
-      'elements'        => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
-      'following'       => $this->getUser()->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()),
+      'elements'        => $search_object->getElements($this->getDoctrine(), $this->getUserId(true)),
+      'following'       => (!$this->isVisitor())?$this->getUser()->isFollowingUserByQuery($this->getDoctrine(), $viewed_user->getId()):false,
       'user'            => $this->getUser(),
       'more_count'      => ($count)?$count+$this->container->getParameter('search_default_count'):$this->container->getParameter('search_default_count')*2,
       'more_route'      => 'show_user_more',
-      'topmenu_active'  => ($viewed_user->getId() == $this->getUserId()) ? 'myfeeds' : 'public',
+      'topmenu_active'  => ($viewed_user->getId() == $this->getUserId(true)) ? 'myfeeds' : 'public',
       'count_owned'     => count($element_ids_owned),
       'count_favorited' => $count_favorited,
       'count_favorited_users' => $count_favorited_users,
       'count_followers' => $count_followers,
-      'add_form'        => ($this->getUserId() == $viewed_user->getId())?$this->getAddForm()->createView():null,
+      'add_form'        => ($this->getUserId(true) == $viewed_user->getId())?$this->getAddForm()->createView():null,
       'add_form_name'   => 'add'
     );
   }
@@ -93,14 +93,14 @@ class ShowController extends Controller
       'count'     => ($count)?$count:$this->container->getParameter('search_default_count')
     ));
     
-    ($group->getOwner()->getId() == $this->getUserId()) ? $his = true : $his = false;
+    ($group->getOwner()->getId() == $this->getUserId(true)) ? $his = true : $his = false;
     if ($his || $group->getOpen())
     {      
       $add_form = $this->getAddForm();
     }
     
     $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
-      ->getElementsTags($group->getId(), $this->getUserId())      
+      ->getElementsTags($group->getId(), $this->getUserId(true))      
     ;
     
     $tags_id = array();
@@ -129,9 +129,9 @@ class ShowController extends Controller
       'tags'          => $tags,
       'tags_id_json'  => json_encode($tags_id),
       'group'         => $group,
-      'his_group'     => ($group->getOwner()->getId() == $this->getUserId()) ? true : false,
-      'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId()),
-      'following'     => $this->getUser()->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()),
+      'his_group'     => ($group->getOwner()->getId() == $this->getUserId(true)) ? true : false,
+      'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId(true)),
+      'following'     => (!$this->isVisitor())?$this->getUser()->isFollowingGroupByQuery($this->getDoctrine(), $group->getId()):false,
       'user'          => $this->getUser(),
       'add_form'      => (isset($add_form)) ? $add_form->createView() : null,
       'add_form_name' => (isset($add_form)) ? 'add' : null,
@@ -145,19 +145,14 @@ class ShowController extends Controller
   }
   
   public function getElementsAction($type, $object_id, $tags_ids_json, $id_limit = null)
-  {
-    if (($response = $this->mustBeConnected()))
-    {
-      return $response;
-    }
-    
+  { 
     if ($type != 'user' && $type != 'group')
     {
       throw new \Exception("Wrong Type.");
     }
     
     $viewed_user = null;
-    if ($type == 'user' && $object_id == $this->getUserId())
+    if ($type == 'user' && $object_id == $this->getUserId(true))
     {
       $object = $viewed_user = $this->getUser();
     }
@@ -199,7 +194,7 @@ class ShowController extends Controller
       'elements'
     );
     
-    $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+    $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
     $count = count($elements);
     $html = '';
     if ($count)

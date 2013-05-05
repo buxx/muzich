@@ -26,7 +26,7 @@
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "stof/doctrine-extensions-bundle": "dev-master",  
         "gregwar/image-bundle": "dev-master",
-        "cedriclombardot/admingenerator-generator-bundle": "1.0.*@dev",
+        "cedriclombardot/admingenerator-generator-bundle": "2.1.*@dev",
         "cedriclombardot/twig-generator": "dev-master",
         "white-october/pagerfanta-bundle": "1.0.*@dev",
         "pagerfanta/pagerfanta": "1.0.*@dev",

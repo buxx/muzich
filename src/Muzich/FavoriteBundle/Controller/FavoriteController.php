@@ -212,7 +212,7 @@ class FavoriteController extends Controller
     ));
     
     $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
-      ->getTags($viewed_user->getId(), $this->getUserId())      
+      ->getTags($viewed_user->getId(), $this->getUserId(true))      
     ;
     
     $tags_id = array();
@@ -226,19 +226,14 @@ class FavoriteController extends Controller
       'tags_id_json'  => json_encode($tags_id),
       'user'          => $this->getUser(),
       'viewed_user'   => $viewed_user,
-      'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId())
+      'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId(true))
     );
   }
   
   public function getElementsAction($user_id, $tags_ids_json, $id_limit = null)
   {
-    if (($response = $this->mustBeConnected()))
-    {
-      return $response;
-    }
-    
     $autoplay_context = 'favorite_user';
-    if ($user_id == $this->getUserId())
+    if ($user_id == $this->getUserId(true))
     {
       $autoplay_context = 'favorite_my';
     }
@@ -272,13 +267,13 @@ class FavoriteController extends Controller
     );
     
     $viewed_user = $this->getUser();
-    if ($user_id != $this->getUserId())
+    if ($user_id != $this->getUserId(true))
     {
       $viewed_user = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:User')
         ->findOneById($user_id, array())->getSingleResult();
     }
     
-    $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+    $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
     $count = count($elements);
     $html = '';
     if ($count)
