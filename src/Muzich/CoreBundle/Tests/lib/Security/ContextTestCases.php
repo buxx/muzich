@@ -224,4 +224,18 @@ class ContextTestCases
     );
   }
   
+  public function getFavoritesTagsResponseIs($success, $condition)
+  {
+    return $this->responseSatisfyConditions(
+      $this->getAjaxRequestContentResponse(
+        'GET',
+        $this->test->generateUrl('ajax_get_favorites_tags', array(
+          'favorites' => true
+        ))
+      ), 
+      $success, 
+      $condition
+    );
+  }
+  
 }

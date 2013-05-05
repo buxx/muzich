@@ -68,6 +68,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_GROUP_ADD));
     $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_USER_FOLLOW));
     $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_ELEMENT_ADD_TO_FAVORITES));
+    $this->assertFalse($secutiry_context->canMakeAction(SecurityContext::ACTION_GET_FAVORITES_TAGS));
     
     $this->assertEquals('UserNotConnected', $secutiry_context->actionIsAffectedBy(SecurityContext::AFFECT_CANT_MAKE, SecurityContext::ACTION_ELEMENT_ADD));
     $this->assertEquals('UserNotConnected', $secutiry_context->actionIsAffectedBy(SecurityContext::AFFECT_CANT_MAKE, SecurityContext::ACTION_ELEMENT_NOTE));
@@ -79,6 +80,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals('UserNotConnected', $secutiry_context->actionIsAffectedBy(SecurityContext::AFFECT_CANT_MAKE, SecurityContext::ACTION_ELEMENT_TAGS_PROPOSITION));
     $this->assertEquals('UserNotConnected', $secutiry_context->actionIsAffectedBy(SecurityContext::AFFECT_CANT_MAKE, SecurityContext::ACTION_GROUP_ADD));
     $this->assertEquals('UserNotConnected', $secutiry_context->actionIsAffectedBy(SecurityContext::AFFECT_CANT_MAKE, SecurityContext::ACTION_ELEMENT_ADD_TO_FAVORITES));
+    $this->assertEquals('UserNotConnected', $secutiry_context->actionIsAffectedBy(SecurityContext::AFFECT_CANT_MAKE, SecurityContext::ACTION_GET_FAVORITES_TAGS));
   }
   
 }

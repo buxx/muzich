@@ -17,6 +17,7 @@ class Context
   const ACTION_COMMENT_ALERT = 7;
   const ACTION_USER_FOLLOW = 8;
   const ACTION_TAG_ADD = 9;
+  const ACTION_GET_FAVORITES_TAGS = 10;
   
   const AFFECT_CANT_MAKE = 0;
   const AFFECT_NO_SCORING = 1;
@@ -61,6 +62,9 @@ class Context
         self::CONDITION_USER_NOT_CONNECTED
       ),
       self::ACTION_USER_FOLLOW => array(
+        self::CONDITION_USER_NOT_CONNECTED
+      ),
+      self::ACTION_GET_FAVORITES_TAGS => array(
         self::CONDITION_USER_NOT_CONNECTED
       )
     ),

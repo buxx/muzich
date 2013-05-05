@@ -75,6 +75,9 @@ class Context
       case SecurityContext::ACTION_USER_FOLLOW:
         return $this->security_context_tests->followUserResponseIs($success, $condition);
       break;
+      case SecurityContext::ACTION_GET_FAVORITES_TAGS:
+        return $this->security_context_tests->getFavoritesTagsResponseIs($success, $condition);
+      break;
       default:
         throw new \Exception('Action unknow');
     }

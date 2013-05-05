@@ -88,6 +88,11 @@ class NoPassTest extends FunctionalTest
       SecurityContext::CONDITION_USER_NOT_CONNECTED,
       $match
     );
+    $this->security_context_test->testUserCantMakeActionStatus( 
+      SecurityContext::ACTION_GET_FAVORITES_TAGS, 
+      SecurityContext::CONDITION_USER_NOT_CONNECTED,
+      $match
+    );
   }
   
   protected function registerUser($email)

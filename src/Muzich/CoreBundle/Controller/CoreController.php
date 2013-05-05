@@ -433,18 +433,25 @@ class CoreController extends Controller
    */
   public function getDefaultTagsAction($favorites = false)
   {    
+    if ($favorites && ($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_GET_FAVORITES_TAGS)) !== false)
+    {
+      return $this->jsonResponseError($non_condition);
+    }
+    
     $last_tags = $this->get("session")->get('user.element_search.last_tags');
     if (!count($last_tags) || $favorites)
     {
       $es = $this->getElementSearcher(null, true);
       return $this->jsonResponse(array(
         'response' => 'success',
+        'status' => 'success',
         'tags'     => $es->getTags()
       ));
     }
     
     return $this->jsonResponse(array(
         'response' => 'success',
+        'status' => 'success',
         'tags'     => $last_tags
       ));
   }
