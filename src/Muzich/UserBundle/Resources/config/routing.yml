@@ -84,4 +84,8 @@ email_not_confirmed:
 send_email_confirmation:
   pattern: /account/send-email-confirmation
   defaults: { _controller: MuzichUserBundle:User:sendEmailConfirm }
+
+helpbox_tags_favorites:
+  pattern: /account/favorites-tags
+  defaults: { _controller: MuzichUserBundle:User:favoriteTagsHelpbox }
     

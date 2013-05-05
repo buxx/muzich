@@ -84,6 +84,12 @@ my_account:
     success:        Vos préférences ont bien été mises à jour
     error:          Une erreur est survenue lors de la mise à jour de vos préférences
   send_email_confirm: Renvoyer l'email de confirmation
+  favorite_tags_helpbox:
+    title:          Choisissez vos tags favoris
+    text:           |
+                    La configuration de vos tags favoris permettrons de filtrer
+                    la liste de partage selon vos goûts musicaux lors de chacunes de vos
+                    visites. N'hésitez pas à en configurer beaucoups !
 
 change_username:
   submit:           Changer

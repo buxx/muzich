@@ -3002,19 +3002,53 @@ $(document).ready(function(){
         function(){}
       );
       
+      
       var tags = [];
       for (i in response.tags)
       {
         var tag = new Tag(i, response.tags[i]);
         tags.push(tag);
       }
-      
+
       window.search_tag_prompt_connector.initializeTags(tags);
+      
+      if (!tags.length)
+      {
+        open_ajax_popin(url_helpbox_tags_favorites, function(){
+          $('div#helpbox form[name="favorites_tags_helpbox"] input[type="submit"]').click(function(){
+            $('div#helpbox img.loader').show();
+          });
+          $('div#helpbox form[name="favorites_tags_helpbox"]').ajaxForm(function(response) {
+            
+            $('div#helpbox img.loader').hide();
+            window.ResponseController.execute(
+              response,
+              function(){},
+              function(){}
+            );
+             
+            if (response.status === 'error')
+            {
+              $('div#helpbox').html(response.data);
+            }
+             
+            if (response.status === 'success')
+            {
+              $('#fade').fadeOut(1000, function(){$('#fade').remove();});
+              $('#helpbox').remove();
+              $('a.tags_prompt_favorites').trigger('click');
+            }
+
+          });
+        });
+      }
       
     });
     
     return false;
    });
+   
+   
    
 });
 

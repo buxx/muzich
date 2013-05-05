@@ -359,7 +359,7 @@ class UserController extends Controller
    *
    * @param string $redirect 
    */
-  public function updateTagFavoritesAction($redirect)
+  public function updateTagFavoritesAction(Request $request, $redirect)
   {
     $request = $this->getRequest();
     $user = $this->getUser(true, array('join' => array('favorites_tags')));
@@ -389,11 +389,20 @@ class UserController extends Controller
         // On réinitialise l'eventuel session de recherche en mémoire
         $session = $this->get("session");
         $session->remove('user.element_search.params');
-        
-        $this->container->get('session')->setFlash('success', 'Vos tags péférés ont correctements été mis a jour.');
       }
       else
       {
+        if ($request->isXmlHttpRequest())
+        {
+          return $this->jsonResponse(array(
+            'status' => 'error',
+            'data'   => $this->render('MuzichUserBundle:User:helpbox_favorite_tags.html.twig', array( 
+              'form'      => $form->createView(),
+              'form_name' => 'favorites_tags_helpbox'
+            ))->getContent()
+          ));
+        }
+        
         return $this->container->get('templating')->renderResponse(
           'MuzichUserBundle:User:start.html.twig',
           array(
@@ -403,6 +412,14 @@ class UserController extends Controller
       }
     }
     
+    if ($request->isXmlHttpRequest())
+    {
+      return $this->jsonResponse(array(
+        'status' => 'success'
+      ));
+    }
+    
+    $this->container->get('session')->setFlash('success', 'Vos tags péférés ont correctements été mis a jour.');
     // (Il y aura aussi une redirection vers "mon compte / tags")
     if ($redirect == 'home')
     {
@@ -840,6 +857,17 @@ class UserController extends Controller
     return $this->jsonResponse(array(
       'status' => 'success',
       'data' => $this->render('MuzichUserBundle:Account:email_not_confirmed.html.twig')->getContent()
+    ));
+  }
+  
+  public function favoriteTagsHelpboxAction()
+  {
+    return $this->jsonResponse(array(
+      'status' => 'success',
+      'data' => $this->render('MuzichUserBundle:User:helpbox_favorite_tags.html.twig', array( 
+        'form'             => $this->getTagsFavoritesForm($this->getUser())->createView(),
+        'form_name'        => 'favorites_tags_helpbox'
+      ))->getContent()
     ));
   }
   

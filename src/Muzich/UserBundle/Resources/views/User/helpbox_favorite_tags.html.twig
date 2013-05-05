@@ -1,0 +1,11 @@
+
+<h1>{{ 'my_account.favorite_tags_helpbox.title'|trans({}, 'userui') }}</h1>
+
+<p>{{ 'my_account.favorite_tags_helpbox.text'|trans({}, 'userui') }}</p>
+
+{% include "MuzichCoreBundle:Tag:tagFavoritesForm.html.twig" with { 
+  'form'             : form,
+  'redirect'         : null,
+  'form_name'        : form_name,
+  'favorite_tags_id' : null
+} %}

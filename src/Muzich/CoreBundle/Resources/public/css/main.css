@@ -1261,6 +1261,11 @@ div.search_tag_list ul.search_tag_list li.new
 {
   color: black;
 }
+
+#helpbox div.search_tag_list ul.search_tag_list li.new a
+{
+  color: black;
+}
   
 
 div.search_tag_list ul.search_tag_list li:hover
@@ -2183,4 +2188,16 @@ span.message_error
 {
   font-weight: bold;
   color: red;
+}
+
+div#helpbox input.tag_prompt
+{
+  width: 480px;
+}
+
+div#helpbox  input.button
+{
+  float: right;
+  margin-right: 11px;
+  margin-top: 5px;
 }

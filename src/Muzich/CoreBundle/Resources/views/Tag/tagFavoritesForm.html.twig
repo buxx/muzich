@@ -11,5 +11,6 @@
 
   {{ form_row(form._token) }}
 
+  <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
   <input type="submit" class="button" value="{{ 'tags.favorites.submit'|trans([], 'userui') }}" />
 </form>
