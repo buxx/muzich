@@ -18,14 +18,12 @@
   {{ form_errors(form.email) }}
   {{ form_label(form.email, 'email'|trans({}, 'userform')) }}
   {{ form_widget(form.email, {'attr':{'class':'niceinput'}}) }}
+  
+  <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
+  <input type="submit" class="button" value="{{ 'registration.submit'|trans({}, 'userui') }}" />
 </div> 
 
 {{ form_widget(form._token) }}
-
-<div class="alignright">
-  <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
-  <input type="submit" class="button" value="{{ 'registration.submit'|trans({}, 'userui') }}" />
-</div>
 
 <p class="accept_cgu">
   {% autoescape false %}

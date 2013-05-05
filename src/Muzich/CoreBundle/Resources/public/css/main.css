@@ -1510,12 +1510,17 @@ div#group_add_box input[type="submit"]
 
 div#registration_box input.niceinput
 {
-  width: 430px;
+  width: 260px;
 }
 
 div#registration_box label
 {
-  width: 170px;
+  width: 70px;
+}
+
+div#registration_box input[type="submit"]
+{
+  float: right;
 }
 
 div#registration_box div.field
@@ -1857,7 +1862,17 @@ p.group_description
 
 #login_box input[id="username"], #login_box input[id="password"]
 {
-  width: 230px;
+  width: 228px;
+}
+
+#login_box div.login
+{
+  margin-top: 8px;
+}
+
+#login_box div.textcenter
+{
+  margin-top: 12px;
 }
 
 /*#registration_link, #login_link

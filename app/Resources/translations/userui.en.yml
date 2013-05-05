@@ -85,7 +85,7 @@ my_account:
   send_email_confirm: Renvoyer l'email de confirmation
   
 connexion:
-  password_lost:    Mot de passe perdu ?
+  password_lost:    Récupérer mon mot de passe
   
 more:    Plus de résultats
 tags:
@@ -248,7 +248,7 @@ need_tags:
 register:
   title:                 Création d'un compte
 registration:
-  submit:                Procéder a l'inscription
+  submit:                M'enregistrer
 
 autoplay:
   limitations_players:   La lecture automatique ne supporte actuellement que les lecteurs youtube, soundcloud et jamendo.

@@ -12,25 +12,26 @@
 
   <form action="{{ path("fos_user_security_check") }}" method="post">
     
-      <input type="text" id="username" name="_username" value="{{ last_username }}"
-        class="niceinput"
-        placeholder="{{ 'security.login.username'|trans({}, 'userui') }}"
-      />
+    <input type="text" id="username" name="_username" value="{{ last_username }}"
+      class="niceinput"
+      placeholder="{{ 'security.login.username'|trans({}, 'userui') }}"
+    />
 
-      <input type="password" id="password" name="_password"
-        class="niceinput"
-        placeholder="{{ 'security.login.password'|trans({}, 'userui') }}""
-      />
+    <input type="password" id="password" name="_password"
+      class="niceinput"
+      placeholder="{{ 'security.login.password'|trans({}, 'userui') }}""
+    />
 
-      
-  <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
-      <input type="submit" class="button" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
-      
-      <div class="textcenter">
-        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-        <label for="remember_me">{{ 'login.remember_me.label'|trans({}, 'userui') }}</label>
-        - <a href="{{ path('fos_user_resetting_request') }}">{{ 'connexion.password_lost'|trans({}, 'userui') }}</a>
-      </div>
+    <div class="textcenter">
+
+      <img class="loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading" />
+    <input type="submit" class="button" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+
+    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+    <label for="remember_me">{{ 'login.remember_me.label'|trans({}, 'userui') }}</label>
+    - <a href="{{ path('fos_user_resetting_request') }}">{{ 'connexion.password_lost'|trans({}, 'userui') }}</a>
+
+    </div>
 
   </form>
 </div>
