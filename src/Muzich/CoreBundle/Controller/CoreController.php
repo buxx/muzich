@@ -438,10 +438,10 @@ class CoreController extends Controller
    * 
    * @return Response 
    */
-  public function getDefaultTagsAction()
+  public function getDefaultTagsAction($favorites = false)
   {    
     $last_tags = $this->get("session")->get('user.element_search.last_tags');
-    if (!count($last_tags))
+    if (!count($last_tags) || $favorites)
     {
       $es = $this->getElementSearcher(null, true);
       return $this->jsonResponse(array(

@@ -99,6 +99,8 @@ tags:
     help:  |
             Choissiez un tag dans la liste ci-dessous en cliquant dessus. Pour saisir plusieurs tags
             renouvellez l'opération pour chacun d'entre eux.
+    remove_all: Enlever tous les tags
+    favorites:  Mettre mes tags favoris
   help:  |
            Saisissez <strong>une liste de tags</strong> ci-dessous: Entrez 
            <strong>un tag à la fois</strong> et choisissez les à l'aide de 

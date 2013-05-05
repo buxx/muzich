@@ -1996,12 +1996,13 @@ div#tourControls a#tourEnd
   float: right;
 }
 
-a.tags_prompt_helpbox
+a.tag_prompt_tool
 {
-  float: left;
+  float: right;
   margin-bottom: 0;
   margin-left: 0px;
   margin-top: 5px;
+  margin-right: 11px;
 }
 
 form#address_update input.intext

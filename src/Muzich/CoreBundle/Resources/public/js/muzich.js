@@ -2981,6 +2981,41 @@ $(document).ready(function(){
      open_ajax_popin(url_email_not_confirmed, function(){});
    });
    
+   /*
+    * Tag prompte tools
+    */
+   
+   $('a.tags_prompt_remove_all').click(function(){
+     window.search_tag_prompt_connector.initializeTags([]);
+   });
+   
+   $('a.tags_prompt_favorites').click(function(){
+     
+    $('img#tag_prompt_loader_search').show();
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      
+      $('img#tag_prompt_loader_search').hide();
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+      
+      var tags = [];
+      for (i in response.tags)
+      {
+        var tag = new Tag(i, response.tags[i]);
+        tags.push(tag);
+      }
+      
+      window.search_tag_prompt_connector.initializeTags(tags);
+      
+    });
+    
+    return false;
+   });
+   
 });
 
 function open_ajax_popin(url, callback)

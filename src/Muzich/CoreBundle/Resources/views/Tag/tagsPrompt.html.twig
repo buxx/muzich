@@ -1,12 +1,28 @@
+{% if display_tools is not defined %}
+  {% set display_tools = false %}
+{% endif %}
 
-<a title="{{ 'tags.prompt.help_box_title'|trans({}, 'userui') }}" href="{{ path('helpbox_bootstrap', {'ressource_id':'tags_prompt'}) }}" class="helpbox tags_prompt_helpbox">
+
+<a title="{{ 'tags.prompt.help_box_title'|trans({}, 'userui') }}" href="{{ path('helpbox_bootstrap', {'ressource_id':'tags_prompt'}) }}" class="helpbox tag_prompt_tool tags_prompt_helpbox">
   <img alt="help ?" src="{{ asset('img/1362157855_help.png') }}" />
 </a>
 
+{% if display_tools %}
+
+  <a title="{{ 'tags.prompt.remove_all'|trans({}, 'userui') }}" href="#" class="tag_prompt_tool tags_prompt_remove_all">
+    <img alt="remove_all" src="{{ asset('img/icon_close_red.png') }}" />
+  </a>
+
+  <a title="{{ 'tags.prompt.favorites'|trans({}, 'userui') }}" href="{{ path('ajax_get_favorites_tags', {'favorites' : true}) }}" class="tag_prompt_tool tags_prompt_favorites">
+    <img alt="favorites" src="{{ asset('img/icon_heart.png') }}" />
+  </a>
+
+{% endif %}
+
 <div class="tags_prompt" id="tags_prompt_{{ form_name }}">
    
-  
   <ul class="tagbox"></ul>
+  <div style="clear: both;"></div>
   
   <input
     class="tag_prompt niceinput"
