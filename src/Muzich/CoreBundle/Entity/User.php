@@ -1166,4 +1166,10 @@ class User extends BaseUser
     $this->password_set = ($set)?true:false;
   }
   
+  public function setPlainPassword($password)
+  {
+    parent::setPlainPassword($password);
+    $this->setPasswordSet(true);
+  }
+  
 }

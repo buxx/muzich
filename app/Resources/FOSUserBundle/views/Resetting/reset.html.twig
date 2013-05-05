@@ -1,5 +1,6 @@
 {% extends "MuzichUserBundle::layout.not_connected.html.twig" %}
 
+{% block mainbox_classes %}mainbox_padding{% endblock %}
 {% block fos_user_content %}
 {% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
 {% endblock fos_user_content %}
