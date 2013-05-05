@@ -156,7 +156,25 @@ class UserController extends Controller
     $qb->select('count(id)');
     $qb->from('MuzichCoreBundle:User','id');
     $count = $qb->getQuery()->getSingleScalarResult();
+    
+    while ($this->usernameExist($count))
+    {
+      $count++;
+    }
+    
     return 'User'.$count;
+  }
+  
+  protected function usernameExist($count)
+  {
+    $username = 'User'.$count;
+    if ($this->getEntityManager()->getRepository('MuzichCoreBundle:User')
+      ->findOneByUsername($username))
+    {
+      return true;
+    }
+    
+    return false;
   }
   
   protected function generatePassword($length = 8)
