@@ -8,6 +8,7 @@
 // Messages flashs
 var myMessages = ['info','warning','error','success']; // define the messages types
 var window_login_or_subscription_opened = false;
+var popin_opened = false;
 
 function hideAllMessages()
 {
@@ -2934,10 +2935,7 @@ $(document).ready(function(){
   });
   
   $('a#helpbox_close').live('click', function(){
-    // Fond gris
-    $('#fade').fadeOut(1000, function(){$('#fade').remove();});
-    // On cache le lecteur
-    $('#helpbox').remove();
+    close_popin();
   });
    
     // Hide add_tag
@@ -3034,8 +3032,7 @@ $(document).ready(function(){
              
             if (response.status === 'success')
             {
-              $('#fade').fadeOut(1000, function(){$('#fade').remove();});
-              $('#helpbox').remove();
+              close_popin();
               $('a.tags_prompt_favorites').trigger('click');
             }
 
@@ -3054,27 +3051,31 @@ $(document).ready(function(){
 
 function open_ajax_popin(url, callback)
 {
-  $('body').append(
-    '<div id="helpbox" class="popin_block"><img src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>'
-  );
-  open_popin_dialog('helpbox');
-  JQueryJson(url, {}, function(response){
-    if (response.status == 'success')
-    {
-      $('div#helpbox').html(
-        '<a href="javascript:void(0);" id="helpbox_close" >'+
-          '<img src="/bundles/muzichcore/img/1317386146_cancel.png" alt="close" />'+
-        '</a>'+
-        response.data
-      );
-      
-      if (callback)
+  if (!popin_opened)
+  {
+    popin_opened = true;
+    $('body').append(
+      '<div id="helpbox" class="popin_block"><img src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>'
+    );
+    open_popin_dialog('helpbox');
+    JQueryJson(url, {}, function(response){
+      if (response.status == 'success')
       {
-        callback();
+        $('div#helpbox').html(
+          '<a href="javascript:void(0);" id="helpbox_close" >'+
+            '<img src="/bundles/muzichcore/img/1317386146_cancel.png" alt="close" />'+
+          '</a>'+
+          response.data
+        );
+
+        if (callback)
+        {
+          callback();
+        }
       }
-    }
-  });
-  $('html, body').animate({ scrollTop: 0 }, 'fast');
+    });
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+  }
 }
 
 function open_connection_or_subscription_window(open_login_part)
@@ -3132,4 +3133,13 @@ function open_connection_or_subscription_window(open_login_part)
       
     });
   }
+}
+
+function close_popin()
+{
+  // Fond gris
+  $('#fade').fadeOut(1000, function(){$('#fade').remove();});
+  // On cache le lecteur
+  $('#helpbox').remove();
+  popin_opened = false;
 }
