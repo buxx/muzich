@@ -163,9 +163,25 @@ class Soundcloudcom extends ElementFactory
 
         if (array_key_exists('artwork_url', $result) )
         {
-          $this->element->setData(Element::DATA_THUMB_URL, $result['artwork_url']);
+          if ($result['artwork_url'])
+          {
+            $this->element->setData(Element::DATA_THUMB_URL, $result['artwork_url']);
+          }
+          else
+          {
+            if (array_key_exists('user', $result) )
+            {
+              if (array_key_exists('avatar_url', $result['user']) )
+              {
+                if ($result['user']['avatar_url'])
+                {
+                  $this->element->setData(Element::DATA_THUMB_URL, $result['user']['avatar_url']);
+                }
+              }
+            }
+          }
         }
-
+        
         if (array_key_exists('kind', $result) )
         {
           $this->element->setData(Element::DATA_TYPE, $result['kind']);
