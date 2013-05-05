@@ -43,7 +43,7 @@ class AuthenticationFailureHandler implements AuthenticationFailureHandlerInterf
         return $response;
       }
       
-      return new RedirectResponse($this->router->generate('index'));
+      return new RedirectResponse($this->router->generate('home'));
    }
    
    protected function getResponseParameters(Request $request)

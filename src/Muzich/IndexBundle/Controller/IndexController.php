@@ -75,68 +75,68 @@ class IndexController extends Controller
     );
   }
   
-  public function presubscriptionAction(Request $request)
-  {
-    $form = $this->getPreSubscriptionForm();
-    $form->bind($request);
-    if ($form->isValid())
-    {
-      $message = \Swift_Message::newInstance()
-        ->setSubject($this->trans('mail.presubscription.subject', array(), 'text'))
-        ->setFrom(array(
-          $this->container->getParameter('emails_from') => $this->container->getParameter('emails_from_name')
-        ))
-        ->setTo($form->getData()->getEmail())
-        ->setBody(
-          $this->renderView(
-            'MuzichIndexBundle:Presubscription:confirm.txt.twig',
-            array(
-              'url' => $this->generateUrl('presubscription_register_confirm', array(
-                'token' => $form->getData()->getToken()
-              ), true)
-            )
-          )
-        )
-      ;
-      $message->getHeaders()->addTextHeader('List-Unsubscribe', 'unsubscribe@muzi.ch');
-      
-      $this->get('mailer')->send($message);
-      
-      
-      $this->persist($form->getData());
-      $this->flush();
-      $this->setFlash('info', 'presubscription.success');
-      return $this->redirect($this->generateUrl('index'));
-    }
-    
-    $this->setFlash('error', 'presubscription.error');
-    return $this->render('MuzichIndexBundle:Index:index.html.twig', array(
-      'form' => $this->getRegistrationForm()->createView(),
-      'presubscription_form' => $form->createView(),
-      'last_username' => '',
-      'error'         => '',
-      'registration_errors_pers' => array()
-    ));
-  }
-  
-  public function presubscriptionConfirmAction($token)
-  {
-    $presubscription = $this->getDoctrine()->getRepository('MuzichCoreBundle:Presubscription')->findOneBy(array(
-      'token'     => $token,
-      'confirmed' => false
-    ));
-    
-    if (!$presubscription)
-    {
-      throw $this->createNotFoundException();
-    }
-    
-    $presubscription->setConfirmed(true);
-    $this->persist($presubscription);
-    $this->flush();
-    
-    $this->setFlash('success', 'presubscription.confirmed');
-    return $this->redirect($this->generateUrl('index'));
-  }
+//  public function presubscriptionAction(Request $request)
+//  {
+//    $form = $this->getPreSubscriptionForm();
+//    $form->bind($request);
+//    if ($form->isValid())
+//    {
+//      $message = \Swift_Message::newInstance()
+//        ->setSubject($this->trans('mail.presubscription.subject', array(), 'text'))
+//        ->setFrom(array(
+//          $this->container->getParameter('emails_from') => $this->container->getParameter('emails_from_name')
+//        ))
+//        ->setTo($form->getData()->getEmail())
+//        ->setBody(
+//          $this->renderView(
+//            'MuzichIndexBundle:Presubscription:confirm.txt.twig',
+//            array(
+//              'url' => $this->generateUrl('presubscription_register_confirm', array(
+//                'token' => $form->getData()->getToken()
+//              ), true)
+//            )
+//          )
+//        )
+//      ;
+//      $message->getHeaders()->addTextHeader('List-Unsubscribe', 'unsubscribe@muzi.ch');
+//      
+//      $this->get('mailer')->send($message);
+//      
+//      
+//      $this->persist($form->getData());
+//      $this->flush();
+//      $this->setFlash('info', 'presubscription.success');
+//      return $this->redirect($this->generateUrl('index'));
+//    }
+//    
+//    $this->setFlash('error', 'presubscription.error');
+//    return $this->render('MuzichIndexBundle:Index:index.html.twig', array(
+//      'form' => $this->getRegistrationForm()->createView(),
+//      'presubscription_form' => $form->createView(),
+//      'last_username' => '',
+//      'error'         => '',
+//      'registration_errors_pers' => array()
+//    ));
+//  }
+//  
+//  public function presubscriptionConfirmAction($token)
+//  {
+//    $presubscription = $this->getDoctrine()->getRepository('MuzichCoreBundle:Presubscription')->findOneBy(array(
+//      'token'     => $token,
+//      'confirmed' => false
+//    ));
+//    
+//    if (!$presubscription)
+//    {
+//      throw $this->createNotFoundException();
+//    }
+//    
+//    $presubscription->setConfirmed(true);
+//    $this->persist($presubscription);
+//    $this->flush();
+//    
+//    $this->setFlash('success', 'presubscription.confirmed');
+//    return $this->redirect($this->generateUrl('index'));
+//  }
   
 }

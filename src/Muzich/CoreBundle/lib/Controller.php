@@ -493,7 +493,7 @@ class Controller extends BaseController
       }
       else
       {
-        return $this->redirect($this->generateUrl('index'));
+        return $this->redirect($this->generateUrl('home'));
       }
     }
   }

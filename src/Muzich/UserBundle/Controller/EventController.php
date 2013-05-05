@@ -38,7 +38,7 @@ class EventController extends Controller
           'errors' => array('NotFound')
         ));
       }
-      return $this->redirect($this->generateUrl('index'));
+      return $this->redirect($this->generateUrl('home'));
     }
     
     if ($event->getUser()->getId() != $this->getUserId())

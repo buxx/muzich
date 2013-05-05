@@ -176,10 +176,11 @@ function TagPrompt(select_tag_callback, tag_prompt_connector)
         *
         */
   
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+          response,
+          function(){},
+          function(){}
+        );
   
         if (response.status == 'success')
         {

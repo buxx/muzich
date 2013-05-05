@@ -327,7 +327,7 @@ class ElementController extends Controller
   {
     if (!$this->getRequest()->isXmlHttpRequest())
     { 
-      return $this->redirect($this->generateUrl('index'));
+      return $this->redirect($this->generateUrl('home'));
     }
     
     if ($this->getRequest()->getMethod() != 'POST')
@@ -375,7 +375,7 @@ class ElementController extends Controller
   {
     if (!$this->getRequest()->isXmlHttpRequest())
     { 
-      return $this->redirect($this->generateUrl('index'));
+      return $this->redirect($this->generateUrl('home'));
     }
     
     if (($response = $this->mustBeConnected()))

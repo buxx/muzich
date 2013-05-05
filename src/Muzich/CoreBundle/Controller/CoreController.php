@@ -89,14 +89,7 @@ class CoreController extends Controller
   public function automaticLanguageAction()
   {
     $lang = $this->determineLocale();
-    if ($this->getUser() != 'anon.')
-    {
-      return $this->redirect($this->generateUrl('home', array('_locale' => $lang)));
-    }
-    else
-    {
-      return $this->redirect($this->generateUrl('index', array('_locale' => $lang)));
-    }
+    return $this->redirect($this->generateUrl('home', array('_locale' => $lang)));
   }
   
   /**

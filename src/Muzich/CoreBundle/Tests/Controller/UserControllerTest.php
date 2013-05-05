@@ -18,7 +18,7 @@ class UserControllerTest extends FunctionalTest
     $hardtek_id = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Hardtek')->getId();
     $tribe_id   = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')->findOneByName('Tribe')->getId();
     
-    $this->crawler = $this->client->request('GET', $this->generateUrl('index'));
+    $this->crawler = $this->client->request('GET', $this->generateUrl('home'));
     $this->isResponseSuccess();
   
     $this->procedure_registration_success(

@@ -1,20 +1,20 @@
 ## Routing du Bundle Index
 
-presubscription_register:
-  pattern:  /hello/{_locale}/presubscription
-  defaults: { _controller: MuzichIndexBundle:Index:presubscription }
-  requirements:
-    _method:  POST
-
-presubscription_register_confirm:
-  pattern:  /hello/{_locale}/presubscription/confirm/{token}
-  defaults: { _controller: MuzichIndexBundle:Index:presubscriptionConfirm }
-  requirements:
-    _method:  GET
-
-index_without_locale:
-    pattern:  /hello/
-    defaults: { _controller: MuzichCoreBundle:Core:automaticLanguage }
+#presubscription_register:
+#  pattern:  /hello/{_locale}/presubscription
+#  defaults: { _controller: MuzichIndexBundle:Index:presubscription }
+#  requirements:
+#    _method:  POST
+#
+#presubscription_register_confirm:
+#  pattern:  /hello/{_locale}/presubscription/confirm/{token}
+#  defaults: { _controller: MuzichIndexBundle:Index:presubscriptionConfirm }
+#  requirements:
+#    _method:  GET
+#
+#index_without_locale:
+#    pattern:  /hello/
+#    defaults: { _controller: MuzichCoreBundle:Core:automaticLanguage }
     
 index:
     pattern:  /hello/{_locale}
