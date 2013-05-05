@@ -2195,9 +2195,14 @@ div#helpbox input.tag_prompt
   width: 480px;
 }
 
-div#helpbox  input.button
+div#helpbox input.button
 {
   float: right;
   margin-right: 11px;
   margin-top: 5px;
+}
+
+div#helpbox div.center input.button
+{
+  float: none;
 }

@@ -109,18 +109,6 @@ class CoreController extends Controller
     
     $user = $this->getUser();
     
-    /**
-     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-     * Docrine le voit si on faire une requete directe.
-     */
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
-    }
-    
     // Vérifications préléminaires
     if ($user->getPersonalHash($id) != $token 
         || !in_array($type, array('user', 'group')) 
@@ -239,19 +227,6 @@ class CoreController extends Controller
         
     if ($form->isValid())
     {
-
-      /**
-       * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-       * Docrine le voit si on faire une requete directe.
-       */
-      if ($this->container->getParameter('env') == 'test')
-      {
-        $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-          $this->container->get('security.context')->getToken()->getUser()->getId(),
-          array()
-        )->getSingleResult();
-      }
-
       // On utilise le gestionnaire d'élément
       $factory = new ElementManager($element, $em, $this->container);
       $factory->proceedFill($user);
@@ -535,17 +510,6 @@ class CoreController extends Controller
     }
     
     $user = $this->getUser();
-    /**
-     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-     * Docrine le voit si on faire une requete directe.
-     */
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
-    }
     
     // On contrôle au préalable que le tag ne fait pas déjà partie des favoris de 
     // l'utilisateur

@@ -62,10 +62,6 @@ class Controller extends BaseController
   protected function isVisitor()
   {
     $user = $this->getUser();
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getUserRefreshed();
-    }
     if ($user === 'anon.')
     {
       return true;
@@ -162,6 +158,11 @@ class Controller extends BaseController
    */
   public function getUser($personal_query = false, $params = array(), $force_refresh = false)
   {
+    if ($this->container->getParameter('env') == 'test')
+    {
+      return $this->container->get('security.context')->getToken()->getUser();
+    }
+    
     if (!$personal_query)
     {
       // Si on demande l'utilisateur sans forcer la réactualisation et que l'utilisateur
@@ -208,15 +209,7 @@ class Controller extends BaseController
    */
   protected function getUserId($return_null_if_visitor = false)
   {
-    /** Bug */
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getUserRefreshed();
-    }
-    else
-    {
-      $user = $this->getUser();
-    }
+    $user = $this->getUser();
     
     if ($user !== 'anon.')
     {

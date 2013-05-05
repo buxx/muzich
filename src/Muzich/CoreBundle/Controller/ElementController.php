@@ -116,13 +116,6 @@ class ElementController extends Controller
      * Docrine le voit si on faire une requete directe.
      */
     $user = $this->getUser();
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
-    }
     
     $element = $this->checkExistingAndOwned($element_id);
     // Si il y a un groupe on le retire pour le bind
@@ -230,13 +223,6 @@ class ElementController extends Controller
       * Docrine le voit si on faire une requete directe.
       */
       $user = $this->getUser();
-      if ($this->container->getParameter('env') == 'test')
-      {
-        $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-          $this->container->get('security.context')->getToken()->getUser()->getId(),
-          array()
-        )->getSingleResult();
-      }
       
       // On signale que cet user a modifié ses diffusions
       $user->setData(User::DATA_DIFF_UPDATED, true);
@@ -660,13 +646,6 @@ class ElementController extends Controller
      * Docrine le voit si on faire une requete directe.
      */
     $user = $this->getUser();
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
-    }
     
     $proposition = new ElementTagsProposition();
     $proposition->setElement($element);
@@ -897,13 +876,6 @@ class ElementController extends Controller
       * Docrine le voit si on faire une requete directe.
       */
     $user = $this->getUser();
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
-    }
     
     // Pour le repartage on crée un nouvel élément
     $element_reshared = new Element();

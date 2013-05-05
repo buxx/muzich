@@ -37,23 +37,7 @@ class UserController extends Controller
   
   protected function getPreferencesForm()
   {
-    /**
-     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-     * Docrine le voit si on faire une requete directe.
-     */
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
-    }
-    else
-    {
-      $user = $this->getUser();
-    }
-     
-    return $this->createFormBuilder($user)
+    return $this->createFormBuilder($this->getUser())
       ->add('mail_newsletter', 'checkbox', array('required' => false))
       ->add('mail_partner', 'checkbox', array('required' => false))
       ->getForm()
@@ -79,19 +63,6 @@ class UserController extends Controller
     if ($this->tags_favorites === null || $force)
     {
       $user = $this->getUser();
-      
-      /**
-       * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-       * Docrine le voit si on faire une requete directe.
-       */
-      if ($this->container->getParameter('env') == 'test')
-      {
-        $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-          $this->container->get('security.context')->getToken()->getUser()->getId(),
-          array()
-        )->getSingleResult();
-      }
-      
       $this->tags_favorites = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')
         ->getTagsFavorites($user->getId())
       ;
@@ -297,13 +268,6 @@ class UserController extends Controller
   public function changePasswordAction(Request $request)
   {
     $user = $this->getUser();
-    
-    /** Bug */
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getUserRefreshed();
-    }
-    
     $form = $this->getChangePasswordForm($user);
     $form->bind($request);
     
@@ -363,19 +327,6 @@ class UserController extends Controller
   {
     $request = $this->getRequest();
     $user = $this->getUser(true, array('join' => array('favorites_tags')));
-    
-    /**
-     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-     * Docrine le voit si on faire une requete directe.
-     */
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
-    }
-    
     $form = $this->getTagsFavoritesForm($user);
     
     if ($request->getMethod() == 'POST')
@@ -452,18 +403,6 @@ class UserController extends Controller
   {
     $em = $this->getDoctrine()->getEntityManager();
     $user = $this->getUser();
-    
-    /**
-     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-     * Docrine le voit si on faire une requete directe.
-     */
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
-    }
     
     $request = $this->getRequest();
     $change_email_form = $this->getChangeEmailForm();
@@ -551,18 +490,6 @@ class UserController extends Controller
     $um = $this->get('muzich_user_manager');
     $user = $this->getUser();
     
-    /**
-     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-     * Docrine le voit si on faire une requete directe.
-     */
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
-    }
-    
     $token_ = hash('sha256', $user->getConfirmationToken().($email = $user->getEmailRequested()));
     
     // Le token est-il valide
@@ -595,18 +522,7 @@ class UserController extends Controller
       return $response;
     }
     
-    /**
-     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-     * Docrine le voit si on faire une requete directe.
-     */
     $user = $this->getUser();
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-        $this->container->get('security.context')->getToken()->getUser()->getId(),
-        array()
-      )->getSingleResult();
-    }
     
     $errors = array();
     if ($user->getPersonalHash() != $token)
@@ -832,12 +748,6 @@ class UserController extends Controller
   public function confirmEmailAction(Request $request, $token)
   {
     $user = $this->getUser();
-    
-    /** Bug */
-    if ($this->container->getParameter('env') == 'test')
-    {
-      $user = $this->getUserRefreshed();
-    }
     
     if ($token == hash('sha256', $user->getConfirmationToken().$user->getEmail()))
     {
