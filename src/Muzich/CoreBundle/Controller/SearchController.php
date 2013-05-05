@@ -351,7 +351,7 @@ class SearchController extends Controller
       {
         $results = $searcher->getResults(
           $this->getDoctrine(), 
-          $this->getUserId(),
+          $this->getUserId(true),
           $this->container->getParameter('search_default_count'),
           $this->container->getParameter('search_global_elements_word_min_length')
         );

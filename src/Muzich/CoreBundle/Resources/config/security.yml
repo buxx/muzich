@@ -96,10 +96,9 @@ security:
         - { path: ^/(?:fr|en)$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^//user, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/user, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^//group, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/group, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/search, role: IS_AUTHENTICATED_ANONYMOUSLY }
                                         
         - { path: ^/, roles: ROLE_USER }
         
