@@ -62,6 +62,10 @@ class Controller extends BaseController
   protected function isVisitor()
   {
     $user = $this->getUser();
+    if ($this->container->getParameter('env') == 'test')
+    {
+      $user = $this->getUserRefreshed();
+    }
     if ($user === 'anon.')
     {
       return true;
@@ -204,22 +208,10 @@ class Controller extends BaseController
    */
   protected function getUserId($return_null_if_visitor = false)
   {
-    
-    /**
-     * Bug lors des tests: L'user n'est pas 'lié' a celui en base par doctrine.
-     * Docrine le voit si on faire une requete directe.
-     */
+    /** Bug */
     if ($this->container->getParameter('env') == 'test')
     {
-      $user_context = $this->container->get('security.context')->getToken()->getUser();
-      
-      if ($user_context !== 'anon.')
-      {
-        $user = $this->getDoctrine()->getRepository('MuzichCoreBundle:User')->findOneById(
-          $user_context,
-          array()
-        )->getSingleResult();
-      }
+      $user = $this->getUserRefreshed();
     }
     else
     {

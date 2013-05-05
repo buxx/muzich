@@ -62,7 +62,6 @@ class IndexControllerTest extends FunctionalTest
     $this->followRedirection();
     $this->isResponseSuccess();
 
-    $user = $this->getUser();
     $this->assertEquals('anon.', $this->getUser());
   }
   
