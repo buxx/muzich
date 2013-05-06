@@ -911,7 +911,7 @@ class ElementController extends Controller
     foreach ($tags as $tag_name)
     {
       // On va determiner si on connais ces tags
-      $tag_like_tag = $tag_like->getSimilarTags($tag_name, $this->getUserId());
+      $tag_like_tag = $tag_like->getSimilarTags($tag_name, $this->getUserId(true));
       
       // Premièrement: Si on a trouvé des équivalents en base
       if (array_key_exists('tags', $tag_like_tag))
@@ -947,12 +947,7 @@ class ElementController extends Controller
   }
   
   public function getDatasApiAction(Request $request)
-  {
-    if (($response = $this->mustBeConnected(true)))
-    {
-      return $response;
-    }
-    
+  { 
     $url =  null;
     if (count(($element_add_values = $request->get('element_add'))))
     {
@@ -975,7 +970,7 @@ class ElementController extends Controller
     $element->setUrl($url);
     
     $factory = new ElementManager($element, $this->getEntityManager(), $this->container);
-    $factory->proceedFill($this->getUser());
+    $factory->proceedFill((!$this->isVisitor())?$this->getUser():null);
     
     // On gère les tags proposés
     $tags_propositions = array();

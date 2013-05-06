@@ -12,7 +12,7 @@
     </li>
   {% else %}
     <li class="{% if network_public == '1' and not ids_display %}selected{% endif %}">
-      <a href="{{ path('home') }}" >
+      <a href="{{ path('home') }}" class="all_network">
         {{ 'filter.network_all'|trans({}, 'userui') }}
       </a>
     </li>
@@ -26,7 +26,7 @@
     </li>
   {% else %}
     <li>
-      <a id="link_my_network" href="#" class="mustbeconnected" >
+      <a id="link_my_network" href="#" class="mustbeconnected my_network" >
         {{ 'filter.network_my'|trans({}, 'userui') }}
       </a>
     </li>

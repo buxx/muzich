@@ -62,3 +62,7 @@ error_page:
   error:
     title:              Error.
     text:               Oops, an error occured. Our ants are working on it, they will correct it soon.
+
+help:
+    know_more:          "Muzi.ch: What is it ?"
+    launch_tour:        Launch demo

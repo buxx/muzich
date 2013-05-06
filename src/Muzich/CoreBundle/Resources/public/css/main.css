@@ -948,7 +948,7 @@ ul#favorite_tags li
   margin-right: 0px;
 }
 
-#element_add_link, #element_add_close_link, #group_add_link, #group_add_link_disabled, #group_add_close_link, #registration_link, #login_link, #know_more
+#element_add_link, #element_add_close_link, #group_add_link, #group_add_link_disabled, #group_add_close_link, #registration_link, #login_link, #know_more, #launch_tour
 {
   float: right;
   margin-top: -58px;
@@ -2036,11 +2036,12 @@ div#form_add_thumb img
   height: 100px;
 }
   
-#know_more
+#know_more, #launch_tour
 {
   float: none;
   margin-bottom: 16px;
   margin-top: 0;
+  width: 269px;
 }
 
 div.helpbox_image_container

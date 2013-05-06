@@ -2,20 +2,20 @@
 sites:
   subtitle:      Support des sites externes
   text:          |
-                  Lorsque vous ajouter un lien sur le réseau Muzi.ch celui-ci est
+                  Lorsque vous ajoutez un lien sur le réseau Muzi.ch celui-ci est
                   interprété afin d'intégrer directement le contenu que vous souhaitez 
                   partager. Ci-dessous la liste des sites dont certaines ressources sont
-                  actuellement supportés.
+                  actuellement supportées.
 dev:
   subtitle:       Muzich est en cours de construction
   text:           |
                   Actuellement vous utilisez une version de test. De nombreuses 
-                  fonctionnalités doivent voir le jours au fur et a mesure du développement.
+                  fonctionnalités doivent voir le jour au fur et a mesure du développement.
 about:
   subtitle:       Découvrez et partagez la musique d'internet
   text:           |
-                  Grâce au réseau de Muzi.ch découvrez chaque jours de nouveaux son partagés
-                  par les autres membres de ce réseau. Partagez egallement vos coup de coeurs 
+                  Grâce au réseau de Muzi.ch découvrez chaque jour de nouvelles musiques partagés
+                  par les autres membres de ce réseau. Partagez également vos coups de cœurs 
                   sur ce même réseau.
 
 mail:
@@ -38,7 +38,7 @@ mail:
     content:      >
                   Bonjour %username%,
 
-                  Une demande de réinitialisation de votre mot de passe a été demandé. Si vous
+                  Une demande de réinitialisation de votre mot de passe a été faite. Si vous
                   n'êtes pas a l'origine de cette demande, ne tenez pas compte de cet email.
                   
                   Si au contraire vous souhaitez changer le mot de passe de votre accès a Muzi.ch
@@ -53,7 +53,7 @@ mail:
     content:      >
                   Bonjour %username%,
 
-                  Une demande de changement d'email a été demandé. Si vous
+                  Une demande de changement d'email a été faite. Si vous
                   n'êtes pas a l'origine de cette demande, ne tenez pas compte de cet email.
                   
                   Si au contraire vous souhaitez définir cette nouvelle adresse email
@@ -65,10 +65,10 @@ mail:
   presubscription:
     subject:        Muzi.ch: Confirmation de demande d'incription 
     text:           >
-                    Ceci est un émail automatique, merci d'utiliser contact@muzi.ch pour nous répondre.
+                    Ceci est un email automatique, merci d'utiliser contact@muzi.ch pour nous répondre.
                     
                     
-                    Une demande d'inscription à Muzi.ch a été demandée.
+                    Une demande d'inscription à Muzi.ch a été faite.
                     
                     Si vous n'êtes pas à l'origine de cette demande, ne tenez pas compte de cet email.
                     
@@ -112,7 +112,7 @@ help:
     title:            Liste de tags
     text:             |
                       Les liste de tags vont vous permettre à différents endroits du site
-                      de pouvoir filtrer le flux ou de spécifié le style de votre partage.
+                      de pouvoir filtrer le flux ou de spécifier le style de votre partage.
                       pour cela vous allez devoir saisir les tags un à un comme ceci:
     subtitle1:        Commencez par saisir votre premier tag
     subtitle2:        Choisissez le tag souhaité dans la liste en cliquant dessus
@@ -125,23 +125,23 @@ help:
                       Muzi.ch est une plate-forme sur laquelle vous pourrez découvrir et partager
                       la musique disponible sur les sites comme SoundCloud, Deezer, Jamendo ou encore
                       Youtube. A l'aide de tags représentant les styles de musiques, vous pouvez
-                      partager et découvrir avec précision les nouveaux sont qui vous correspondent.
+                      partager et découvrir avec précision les nouveaux sons qui vous correspondent.
     flux:
       title:          Flux de partages
       text:           |
-                      Un flux que vous pouvez filtrer a l'aide de tags représente les partages de
+                      Un flux, que vous pouvez filtrer a l'aide de tags, représente les partages de
                       la communauté.
     autoplay:
       title:          La lecture automatique
       text:           |
-                      Jouez en liste de lecture les partages ou de vos favoris issues 
+                      Jouez en liste de lecture les partages ou vos favoris issus 
                       de Youtube, de SoundCloud etc ...
     reputation:
       title:          Faites-vous une réputation
       text:           |
                       Plus vos partages plaisent, plus vous gagnez de réputation !
-                      Fiez-vous à la réputation des utilisateur pour chosir quels profils
-                      suivre et créer votre réseau personel
+                      Fiez-vous à la réputation des utilisateurs pour chosir quels profils
+                      suivre et créer votre réseau personnel.
               
         
 
@@ -151,6 +151,7 @@ help_tour:
     prev:             Précédent
     start:            Démarrer
     end:              Ne plus voir
+    close:            Fermer
   home:
     welcome:
       tour:           |
@@ -173,10 +174,10 @@ help_tour:
       play:           |
                       "<p>En cliquant sur la miniature vous pouvez lancer la lecture de "+
                       "la musique si le partage "+
-                      "est issue d'un site supporté, ou ouvrir la page partagé par "+
+                      "est issu d'un site supporté, ou ouvrir la page partagée par "+
                       "l'utilisateur.</p>"
       actions:        |
-                      "<p>Vous pouvez, sur chaques partages: "+
+                      "<p>Vous pouvez, sur chaque partage: "+
                       "<strong>Ouvrir la page d'origine</strong>, "+
                       "<strong>lancer la lecture automatique</strong> (si le lien est supporté), "+
                       "<strong>Proposer des tags</strong>, "+
@@ -185,11 +186,11 @@ help_tour:
                       "</p>"
       likefav:        |
                       "<p>Si cette musique vous a plu: récompensez l'utilisateur avec un pouce ! "+
-                      " Vous pouvez égallement ajouter ce partage a votre liste de musiques favorites.</p>"
+                      " Vous pouvez également ajouter ce partage à votre liste de musiques favorites.</p>"
     filters:
       tour:           |
                       "<h1>Filtres</h1>"+
-                      "<p>Vous pouvez filtrer les partages a l'aide de tags.</p>"
+                      "<p>Vous pouvez filtrer les partages à l'aide de tags.</p>"
       notags:         |
                       "<p>Sans tags, comme maintenant.</p>"
       withtags:       |
@@ -208,15 +209,15 @@ help_tour:
     addelement:
       tour:           |
                       "<h1>Ajouter un partage</h1>"+
-                      "<p>Le deuxième point principale de Muzi.ch est l'ajout de partages. "+
+                      "<p>Le deuxième point principal de Muzi.ch est l'ajout de partages. "+
                       "Plus votre partage sera apprécié, plus vous gagnerez en réputation "+
                       "et plus vous partagerez avec des tags précis, plus vos partages seront écoutés.</p>"
       url:            |
                       "<p>La première étape sera de saisir l'adresse http:// de la page "+
                       "contenant la musique que vous souhaitez partager.</p>"
       form:           |
-                      "<p>Si l'adresse que vous avez saisis représente une ressource sur un site géré "+
-                      "par Muzi.ch, des informations préalables vous seront proposés. Sinon "+
+                      "<p>Si l'adresse que vous avez saisie représente une ressource sur un site géré "+
+                      "par Muzi.ch, des informations préalables vous seront proposées. Sinon "+
                       "il faudra simplement les entrer vous même. <strong>Pensez à saisir "+
                       "des tags pour être précis dans votre partage !</strong></p>"
     end:

@@ -229,7 +229,7 @@ class Soundcloudcom extends ElementFactory
           $tag_like = new TagLike($this->entity_manager);
           foreach (explode(' ', $tags_string) as $word)
           {
-            $similar_tags = $tag_like->getSimilarTags($word, $this->element->getOwner()->getId());
+            $similar_tags = $tag_like->getSimilarTags($word, ($this->element->getOwner())?$this->element->getOwner()->getId():null);
             if (count($similar_tags))
             {
               if ($similar_tags['same_found'])

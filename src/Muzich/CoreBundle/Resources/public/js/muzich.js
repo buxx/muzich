@@ -38,6 +38,10 @@ function ResponseController()
         open_connection_or_subscription_window();
       }
     }
+    else if (response.status === 'mustbeconnected')
+    {
+      open_connection_or_subscription_window(true);
+    }
   }
   
   this.execute = function(response, success_callback, failure_callback)
@@ -281,10 +285,11 @@ function JQueryJson(url, data, callback_success)
     data: data,
     success: function(response)
     {
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       callback_success(response);
     }
@@ -360,10 +365,11 @@ $(document).ready(function(){
     var form = $('form[name="search"]');
     
     $.getJSON(url_get_favorites_tags, function(response) {
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
         var tags = [];
         for (i in response.tags)
@@ -540,10 +546,11 @@ $(document).ready(function(){
     link.addClass('loading');
     
     $.getJSON($(this).attr('href'), function(response) {
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       var img = link.find('img');
       link.attr('href', response.link_new_url);
@@ -615,10 +622,11 @@ $(document).ready(function(){
        url: url,
        data: data,
        success: function(response) {
-          if (response.status == 'mustbeconnected')
-           {
-             $(location).attr('href', url_home);
-           }
+          window.ResponseController.execute(
+            response,
+            function(){},
+            function(){}
+          );
 
           if (response.count)
           {
@@ -661,10 +669,11 @@ $(document).ready(function(){
   
   $('form[name="search"]').ajaxForm(function(response) { 
     
-    if (response.status == 'mustbeconnected')
-    {
-      $(location).attr('href', url_home);
-    }
+    window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
     
     $('ul.elements').html(response.html);
     
@@ -698,10 +707,11 @@ $(document).ready(function(){
       var li = link.parents('li.element');
       li.find('img.element_loader').show();
       $.getJSON(link.attr('href'), function(response){
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_home);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         if (response.status == 'success')
         {
@@ -741,10 +751,11 @@ $(document).ready(function(){
       var li = link.parents('li.element');
       li.find('img.element_loader').show();
       $.getJSON(link.attr('href'), function(response){
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_home);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         if (response.status == 'success')
         {
@@ -775,10 +786,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       // On prépare le tagBox
       li.html(response.html);
@@ -801,10 +813,11 @@ $(document).ready(function(){
       });
       $('form[name="'+response.form_name+'"]').ajaxForm(function(response){
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_home);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         var li = $('li#'+response.dom_id);
         
@@ -1419,10 +1432,11 @@ $(document).ready(function(){
   
   function element_add_proceed_data_apis(response)
   {
-    if (response.status == 'mustbeconnected')
-    {
-      $(location).attr('href', url_home);
-    }
+    window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
 
     if (response.status == 'success')
     {
@@ -1599,10 +1613,11 @@ $(document).ready(function(){
     $('img.elements_more_loader').show();
     $.getJSON($('input#get_elements_url').val()+'/'+array2json(tags_ids_for_filter), function(response){
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       $('ul.elements').html(response.html);
       
@@ -1733,10 +1748,11 @@ $(document).ready(function(){
           data: $('form[name="search"]').serialize(),
           success: function(response){
           
-            if (response.status == 'mustbeconnected')
-            {
-              alert('pouet!');
-            }
+            window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
 
             if (response.status == 'success' && response.count)
             {
@@ -1791,10 +1807,11 @@ $(document).ready(function(){
       data: $('form[name="search"]').serialize(),
       success: function(response){
       
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_home);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
 
         if (response.status == 'success')
         {
@@ -1916,10 +1933,11 @@ $(document).ready(function(){
       li_element.find('form.add_comment').show();
       
       li_element.find('form.add_comment').ajaxForm(function(response) {
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_home);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
 
         li_element.find('img.comments_loader').hide();
         
@@ -1997,10 +2015,11 @@ $(document).ready(function(){
         
         li.find('img.comment_loader').hide();
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_home);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         if (response.status == 'success')
         {
@@ -2040,10 +2059,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       li.html(response.html);
       // On rend ce formulaire ajaxFormable
@@ -2058,10 +2078,11 @@ $(document).ready(function(){
         li = $('li#'+response.dom_id);
         li.find('img.comment_loader').hide();
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_home);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         if (response.status == 'success')
         {
@@ -2124,10 +2145,11 @@ $(document).ready(function(){
       
       $.getJSON(link.attr('href'), function(response){
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_home);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       });
       
       $('div.question').fadeOut();
@@ -2158,10 +2180,11 @@ $(document).ready(function(){
       
       loader.hide();
     
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       if (response.status == 'success')
       {
@@ -2260,10 +2283,11 @@ $(document).ready(function(){
     
     $.getJSON(link.attr('href'), function(response){
         
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       if (response.status == 'success')
       {
@@ -2326,10 +2350,11 @@ $(document).ready(function(){
         });
         $('form[name="'+response.form_name+'"]').ajaxForm(function(response){
 
-          if (response.status == 'mustbeconnected')
-          {
-            $(location).attr('href', url_home);
-          }
+          window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
 
           if (response.status == 'success')
           {
@@ -2379,10 +2404,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       li.find('img.element_loader').hide();
       
@@ -2406,10 +2432,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       li.find('img.element_loader').hide();
       
@@ -2432,10 +2459,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       li.find('img.element_loader').hide();
       
@@ -2497,10 +2525,11 @@ $(document).ready(function(){
       $('div.question').fadeOut();
       $.getJSON(link.attr('href'), function(response){
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_home);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         // On affiche l'élément que si on voit que le formulaire est sur la page
         // Sinon c'est qu'on est sur une page ou on a pas normalement la possibilité
@@ -2744,10 +2773,11 @@ $(document).ready(function(){
     link = $(this);
     $.getJSON(link.attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
        if (response.status == 'success')
        {
@@ -2796,10 +2826,11 @@ $(document).ready(function(){
     var link = $(this);
     $.getJSON($(this).attr('href'), function(response) {
      
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       if (response.status == 'success')
       {
@@ -2824,10 +2855,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href')+'/'+newtag, function(response) {
      
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       if (response.status == 'error')
       {
@@ -2878,10 +2910,11 @@ $(document).ready(function(){
     var link = $(this);
     $.getJSON($(this).attr('href'), function(response) {
      
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_home);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       if (response.status == 'success')
       {
@@ -3045,6 +3078,13 @@ $(document).ready(function(){
     return false;
    });
    
+   /*
+    * tour launch manually
+    */
+   
+   $('a#launch_tour').click(function(){
+     window.start_visit_tour();
+   });
    
    
 });

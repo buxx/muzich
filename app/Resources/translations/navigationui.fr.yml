@@ -65,4 +65,5 @@ error_page:
     text:               Une erreur est survenue. Notre équipe technique en a été avertie et tentera de procéder à sa correction.
 
 help:
-    know_more:          Muzi.ch: Qu'est-ce que c'est ?
+    know_more:          "Muzi.ch: Qu'est-ce que c'est ?"
+    launch_tour:        Lancer une démonstration

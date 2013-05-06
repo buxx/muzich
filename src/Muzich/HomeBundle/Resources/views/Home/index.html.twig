@@ -14,8 +14,10 @@
 
   {% if app.user %}
     {% if app.user.wantSeeHelp('home') %}
-      {% include 'MuzichCoreBundle:HelpTour:home.html.twig' %}
+      {% include 'MuzichCoreBundle:HelpTour:home.html.twig' with {'start' : true} %}
     {% endif %}
+  {% else %}
+    {% include 'MuzichCoreBundle:HelpTour:home.html.twig' with {'start' : false} %}
   {% endif %}
 
   {# TODO: Cette partie de javascript ne devra plus exister après la réecriture du code javascript #}
