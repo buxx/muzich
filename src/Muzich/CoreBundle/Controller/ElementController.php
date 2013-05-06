@@ -1041,7 +1041,7 @@ class ElementController extends Controller
         'id_limit' => $element_id+1
       ));
       
-      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId());
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
     }
     elseif ($type == 'favorite')
     {

@@ -75,9 +75,11 @@
   </div>
   
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {
-    'no_group_name' : true,
-    'his_group'     : his_group,
-    'group'         : group
+    'no_group_name'    : true,
+    'his_group'        : his_group,
+    'group'            : group,
+    'display_autoplay' : true,
+    'autoplay_context' : 'show_group'
   }%}
   
   {% if more_count is defined %} 
