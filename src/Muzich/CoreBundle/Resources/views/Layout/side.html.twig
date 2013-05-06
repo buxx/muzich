@@ -1,3 +1,7 @@
+{% if display_launch_demo is not defined %}
+  {% set display_launch_demo = false %}
+{% endif %}
+
 {% if app.user %}
   
   <div id="user_statusbox" class="nicebox">
@@ -22,9 +26,11 @@
     <a id="know_more" class="helpbox button" href="{{ path('helpbox_bootstrap', {'ressource_id':'know_more'}) }}" title="{{ 'help.know_more'|trans({}, 'navigationui') }}">
       {{ 'help.know_more'|trans({}, 'navigationui') }}
     </a>
-    <a id="launch_tour" class="button" href="#" title="{{ 'help.maunch_tour'|trans({}, 'navigationui') }}">
-      {{ 'help.launch_tour'|trans({}, 'navigationui') }}
-    </a>
+    {% if display_launch_demo %}
+      <a id="launch_tour" class="button" href="#" title="{{ 'help.maunch_tour'|trans({}, 'navigationui') }}">
+        {{ 'help.launch_tour'|trans({}, 'navigationui') }}
+      </a>
+    {% endif %}
   </div>
   
 {% endif %}

@@ -38,7 +38,8 @@ class HomeController extends Controller
       'search_form_name' => 'search',
       'network_public'   => $search_object->isNetworkPublic(),
       'elements'         => $elements,
-      'from_url'         => $this->getRequest()->get('from_url')
+      'from_url'         => $this->getRequest()->get('from_url'),
+      'display_launch_demo' => true
     );
   }
   
