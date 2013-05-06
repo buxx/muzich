@@ -2038,9 +2038,9 @@ div#form_add_thumb img
   
 #know_more
 {
-  float: left;
-  margin-left: -11px;
-  margin-top: -67px;
+  float: none;
+  margin-bottom: 16px;
+  margin-top: 0;
 }
 
 div.helpbox_image_container
