@@ -1079,11 +1079,10 @@ class ElementController extends Controller
   
   public function getOneDomAction(Request $request, $element_id, $type)
   {
-    if (!in_array($type, array('autoplay')))
+    if (!in_array($type, array('autoplay')) || !$element_id)
     {
       return $this->jsonResponse(array(
-        'status' => 'error',
-        'errors' => array('NotAllowed')
+        'status' => 'error'
       ));
     }
     

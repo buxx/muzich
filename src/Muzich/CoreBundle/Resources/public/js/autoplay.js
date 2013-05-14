@@ -73,10 +73,15 @@ function Autoplay()
   {
     $('#autoplay_element_loader').show();
     JQueryJson(url_element_dom_get_one_autoplay+'/'+element_id, {}, function(response){
+      
+      $('#autoplay_element_loader').hide();
       if (response.status == 'success')
       {
         $('li#autoplay_element_container').html(response.data);
-        $('#autoplay_element_loader').hide();
+      }
+      else
+      {
+        $('li#autoplay_element_container').html('');
       }
     });
   }
