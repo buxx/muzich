@@ -72,7 +72,7 @@ class InfoController extends Controller
   
   public function testErrorAction($code)
   {
-    if (!is_numeric($code))
+    if (!in_array($code, array('404', '403', '')))
     {
       throw new HttpException(404);
     }

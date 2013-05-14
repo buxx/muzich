@@ -88,7 +88,7 @@ info_cgu:
   
 test_errors:
   pattern: /info/test-error/{code}
-  defaults: { _controller: MuzichCoreBundle:Info:testError }
+  defaults: { _controller: MuzichCoreBundle:Info:testError, code: null }
   
 ### helper
 

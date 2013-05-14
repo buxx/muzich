@@ -1,6 +1,9 @@
 {% if display_launch_demo is not defined %}
   {% set display_launch_demo = false %}
 {% endif %}
+{% if display_help is not defined %}
+  {% set display_help = true %}
+{% endif %}
 
 {% if app.user %}
   
@@ -22,16 +25,18 @@
 
   <div class="side_margin_top"></div>
   
-  <div class="center">
-    <a id="know_more" class="helpbox button" href="{{ path('helpbox_bootstrap', {'ressource_id':'know_more'}) }}" title="{{ 'help.know_more'|trans({}, 'navigationui') }}">
-      {{ 'help.know_more'|trans({}, 'navigationui') }}
-    </a>
-    {% if display_launch_demo %}
-      <a id="launch_tour" class="button" href="#" title="{{ 'help.maunch_tour'|trans({}, 'navigationui') }}">
-        {{ 'help.launch_tour'|trans({}, 'navigationui') }}
+  {% if display_help %}
+    <div class="center">
+      <a id="know_more" class="helpbox button" href="{{ path('helpbox_bootstrap', {'ressource_id':'know_more'}) }}" title="{{ 'help.know_more'|trans({}, 'navigationui') }}">
+        {{ 'help.know_more'|trans({}, 'navigationui') }}
       </a>
-    {% endif %}
-  </div>
+      {% if display_launch_demo %}
+        <a id="launch_tour" class="button" href="#" title="{{ 'help.maunch_tour'|trans({}, 'navigationui') }}">
+          {{ 'help.launch_tour'|trans({}, 'navigationui') }}
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
   
 {% endif %}
 
