@@ -371,7 +371,7 @@ class ElementFactoryTest extends UnitTest
       //'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000000514203-fsvbcj-large.jpg?51826bf',
       'data_type' => 'playlist',
       'data_download' => null,
-      'data_download_url' => 'http://soundcloud.com/matas/sets/library-project/download',
+      'data_download_url' => null,
       'data_artist' => 'matas',
       'data_normalized_url' => 'http://api.soundcloud.com/playlists/3770',
       'data_tags' => array(0 => '')
@@ -394,8 +394,8 @@ class ElementFactoryTest extends UnitTest
       'data_title' => 'White Stripes Vs Led Zeppelin - Icky Kinky Love (Rock Mashup) DJ Zebra',
       //'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000000514203-fsvbcj-large.jpg?51826bf',
       'data_type' => 'track',
-      'data_download' => false,
-      'data_download_url' => 'https://soundcloud.com/mixessss3/white-stripes-vs-led-zeppelin-icky-kinky-love-rock-mashup-dj-zebra/download',
+      'data_download' => null,
+      'data_download_url' => null,
       'data_artist' => 'Mixes and Mashups #3',
       'data_normalized_url' => 'http://api.soundcloud.com/tracks/2215186',
       'data_tags' => array(0 => 'Rock', 1 => 'rock  ')
@@ -419,8 +419,8 @@ class ElementFactoryTest extends UnitTest
       'data_title' => 'Above Hyperion (redux)',
       //'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000001536693-gb1n5v-large.jpg?51826bf',
       'data_type' => 'track',
-      'data_download' => false,
-      'data_download_url' => 'http://soundcloud.com/matas/above-hyperion-redux/download',
+      'data_download' => null,
+      'data_download_url' => null,
       'data_artist' => 'matas',
       'data_tags' => array(
         0 => 'Spacestep'
@@ -465,7 +465,7 @@ class ElementFactoryTest extends UnitTest
       'data_ref_id' => '120468',
       'data_title' => '6:00 AM',
       'data_type' => 'album',
-      'data_thumb_url' => 'http://imgjam.com/albums/s120/120468/covers/1.100.jpg',
+      'data_thumb_url' => 'https://imgjam.com/albums/s120/120468/covers/1.100.jpg',
       'data_artist' => 'Azyd Azylum',
       'data_tags' => array(
         0 => 'Metal',
@@ -486,7 +486,7 @@ class ElementFactoryTest extends UnitTest
       'data_ref_id' => '207079',
       'data_title' => 'Insanity',
       'data_type' => 'track',
-      'data_thumb_url' => 'http://imgjam.com/albums/s30/30661/covers/1.100.jpg',
+      'data_thumb_url' => 'https://imgjam.com/albums/s30/30661/covers/1.100.jpg',
       'data_artist' => 'Ptit lutin',
       'data_tags' => array(
         0 => 'Techno',

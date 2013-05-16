@@ -4,8 +4,8 @@ namespace Muzich\CoreBundle\Factory;
 
 use Muzich\CoreBundle\Entity\Element;
 use Symfony\Component\DependencyInjection\Container;
-use \Exception;
 use Doctrine\ORM\EntityManager;
+use Muzich\CoreBundle\lib\Api\Connector as ApiConnector;
 
 /**
  *
@@ -14,13 +14,10 @@ use Doctrine\ORM\EntityManager;
 abstract class ElementFactory
 {
   
-  /**
-   *
-   * @var Element 
-   */
   protected $element;
   protected $container;
   protected $entity_manager;
+  protected $api_connector;
   
   /**
    *
@@ -32,6 +29,12 @@ abstract class ElementFactory
     $this->element   = $element;
     $this->container = $container;
     $this->entity_manager = $entity_manager;
+    $this->api_connector = new ApiConnector($element);
+  }
+  
+  protected function getApiConnector()
+  {
+    return $this->api_connector;
   }
   
   /**
@@ -89,6 +92,11 @@ abstract class ElementFactory
       
     curl_setopt_array($api_url, $options);
     return json_decode(curl_exec($api_url), true);
+  }
+  
+  protected function configureApiConnector()
+  {
+    
   }
   
 }
