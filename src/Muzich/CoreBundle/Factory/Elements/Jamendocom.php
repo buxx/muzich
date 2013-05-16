@@ -4,6 +4,7 @@ namespace Muzich\CoreBundle\Factory\Elements;
 
 use Muzich\CoreBundle\Factory\ElementFactory;
 use Muzich\CoreBundle\Entity\Element;
+use Muzich\CoreBundle\Factory\UrlMatchs;
 
 /**
  * 
@@ -13,43 +14,10 @@ use Muzich\CoreBundle\Entity\Element;
 class Jamendocom extends ElementFactory
 {
   
-  protected function proceedTypeAndId()
+  public function __construct(Element $element, Container $container, EntityManager $entity_manager)
   {
-    $url_clean = $this->getCleanedUrl();
-        
-    // album
-    // http://www.jamendo.com/fr/album/3409
-    $type   = null;
-    $ref_id = null;
-    if (preg_match("#^\/[a-zA-Z0-9_-]+\/album\/([0-9]+)#", $url_clean, $chaines))
-    {
-      $type   = 'album';
-      $ref_id = $chaines[1];
-    }
-    // track
-    // http://www.jamendo.com/fr/track/894974
-    else if (preg_match("#^\/[a-zA-Z0-9_-]+\/track\/([0-9]+)#", $url_clean, $chaines))
-    {
-      $type = 'track';
-      $ref_id = $chaines[1];
-    }
-    // album new ver
-    // http://www.jamendo.com/fr/list/a45666/proceed-positron...
-    else if (preg_match("#^\/[a-zA-Z0-9_-]+\/list\/a([0-9]+)\/.#", $url_clean, $chaines))
-    {
-      $type   = 'album';
-      $ref_id = $chaines[1];
-    }
-    // track new ver
-    // http://www.jamendo.com/fr/track/347602/come-come
-    else if (preg_match("#^\/[a-zA-Z0-9_-]+\/track\/([0-9]+)\/.#", $url_clean, $chaines))
-    {
-      $type = 'track';
-      $ref_id = $chaines[1];
-    }
-    
-    $this->element->setData(Element::DATA_TYPE  , $type);
-    $this->element->setData(Element::DATA_REF_ID, $ref_id);
+    parent::__construct($element, $container, $entity_manager);
+    $this->url_matchs = UrlMatchs::$jamendo;
   }
   
   public function getStreamData()
@@ -106,9 +74,6 @@ class Jamendocom extends ElementFactory
    */
   public function retrieveDatas()
   {
-    // On determine le type et l'url
-    $this->proceedTypeAndId();
-    
     $type = $this->element->getData(Element::DATA_TYPE);
     $ref_id = $this->element->getData(Element::DATA_REF_ID);
     

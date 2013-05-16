@@ -136,6 +136,7 @@ class ElementManager
     {
       $site_factory = $this->getFactory();
       // On récupères les datas de l'élément
+      $site_factory->setUrlDatas();
       $site_factory->retrieveDatas();
       // On procède a la construction de nos informations
       $site_factory->proceedEmbedCode();

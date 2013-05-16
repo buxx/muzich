@@ -6,6 +6,7 @@ use Muzich\CoreBundle\Entity\Element;
 use Symfony\Component\DependencyInjection\Container;
 use Doctrine\ORM\EntityManager;
 use Muzich\CoreBundle\lib\Api\Connector as ApiConnector;
+use Muzich\CoreBundle\lib\Element\UrlAnalyzer;
 
 /**
  *
@@ -18,6 +19,9 @@ abstract class ElementFactory
   protected $container;
   protected $entity_manager;
   protected $api_connector;
+  protected $url_analyzer;
+  
+  protected $url_matchs = array();
   
   /**
    *
@@ -30,11 +34,21 @@ abstract class ElementFactory
     $this->container = $container;
     $this->entity_manager = $entity_manager;
     $this->api_connector = new ApiConnector($element);
+    $this->url_analyzer = new UrlAnalyzer($element, $this->url_matchs);
   }
   
   protected function getApiConnector()
   {
     return $this->api_connector;
+  }
+  
+  public function setUrlDatas()
+  {
+    if ($this->url_analyzer->haveMatch())
+    {
+      $this->element->setData(Element::DATA_TYPE  , $this->url_analyzer->getType());
+      $this->element->setData(Element::DATA_REF_ID, $this->url_analyzer->getRefId());
+    }
   }
   
   /**

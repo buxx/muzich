@@ -82,6 +82,12 @@ class Element
   
   const DATA_PLAYLIST_AUTHOR = "data_playlist_author";
   
+  
+  const TYPE_TRACK = 'track';
+  const TYPE_ALBUM = 'album';
+  const TYPE_PLAYLIST =  'playlist';
+  
+  
   /**
    * @ORM\Id
    * @ORM\Column(type="integer")
@@ -997,6 +1003,35 @@ class Element
   public function getHasTagsProposition()
   {
     return $this->hasTagsProposition();
+  }
+  
+  // TODO: Pas booo ! Ecrit comme ca pour le moment lors de la refacto de UrlAnalyzer
+  public function getCleanedUrl()
+  {
+    // Procèdures de nettoyages après constat d'erreurs
+    $url = $this->getUrl();
+    if ($this->getType() == 'deezer.com')
+    {
+      $url = urldecode($url);  
+    }
+    
+    $base_url = $this->getType();
+    if ($this->getType() == 'spotify.com')
+    {
+      $base_url = 'open.spotify.com';
+    }
+    
+    $url = str_replace('www.', '', $url);
+    $url = str_replace('http://'.$base_url, '', $url);
+    $url = str_replace('https://'.$base_url, '', $url);
+    
+    if ($this->getType() == 'deezer.com')
+    {
+      $url = str_replace(' ', '-', $url);
+      $url = strtolower($url);
+    }
+    
+    return $url;
   }
   
 }
