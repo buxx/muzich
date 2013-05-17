@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
     <title>Muzi.ch - {% block title %}{% endblock %}</title>
     {% include 'MuzichCoreBundle:Layout:head.html.twig' %}
@@ -8,6 +8,7 @@
   </head>
   <body>
     
+    {% include 'MuzichCoreBundle:Component:facebook.html.twig' %}
     {% include 'MuzichCoreBundle:Layout:noscript.html.twig' %}
     {% include 'MuzichCoreBundle:Autoplay:autoplay.html.twig' %}
   

@@ -281,6 +281,9 @@ class User extends BaseUser
    */
   private $password_set = true;
   
+  /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
+  protected $facebook_id;
+  
   /**
    * 
    */
@@ -1170,6 +1173,33 @@ class User extends BaseUser
   {
     parent::setPlainPassword($password);
     $this->setPasswordSet(true);
+  }
+  
+  /** @return void */
+  public function setFacebookId($facebook_id)
+  {
+    $this->facebook_id = $facebook_id;
+    $this->setUsername($facebook_id);
+    $this->setUsernameUpdatable(true);
+    $this->salt = '';
+  }
+
+  /** @return string */
+  public function getFacebookId()
+  {
+    return $this->facebook_id;
+  }
+  
+  /** @param Array */
+  public function setFBData($fbdata) // C'est dans cette méthode que vous ajouterez vos informations
+  {
+    if (isset($fbdata['id'])) {
+      $this->setFacebookId($fbdata['id']);
+      $this->addRole('ROLE_FACEBOOK');
+    }
+    if (isset($fbdata['email'])) {
+      $this->setEmail($fbdata['email']);
+    }
   }
   
 }

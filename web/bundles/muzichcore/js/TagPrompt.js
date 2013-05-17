@@ -35,7 +35,14 @@ function TagPrompt(select_tag_callback, tag_prompt_connector)
   {
     if (!tag_id)
     {
-      openTagSubmission(tag_name);
+      if (!visitor)
+      {
+        openTagSubmission(tag_name);
+      }
+      else
+      {
+        open_connection_or_subscription_window();
+      }
     }
     else
     {
@@ -64,37 +71,32 @@ function TagPrompt(select_tag_callback, tag_prompt_connector)
       .attr('method', 'post')
       .attr('name', 'add_tag')
       .ajaxForm(function(response) {
-        /*
-        *
-        */
+       
+        window.ResponseController.execute(
+          response,
+          function(){},
+          function(response){
+            $('form[name="add_tag"]').find('ul.error_list').remove();
+            var ul_errors = $('<ul>').addClass('error_list');
+
+            for (i in response.errors)
+            {
+              ul_errors.append($('<li>').append(response.errors[i]));
+            }
+
+            $('form[name="add_tag"]').prepend(ul_errors);
+          }
+        );
   
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
-  
-        if (response.status == 'success')
+        if (response.status === 'success')
         {
           var tag = new Tag(response.tag_id, response.tag_name);
           addTagToProposedTags(tag);
           addTagToSelectedTags(tag);
           _tag_prompt_connector.updateOutput(tags_selected);
-  
+
           $('#fade').fadeOut(400, function(){$('#fade').remove();});
           $('#add_tag').remove();
-        }
-  
-        if (response.status == 'error')
-        {
-          $('form[name="add_tag"]').find('ul.error_list').remove();
-          var ul_errors = $('<ul>').addClass('error_list');
-  
-          for (i in response.errors)
-          {
-            ul_errors.append($('<li>').append(response.errors[i]));
-          }
-  
-          $('form[name="add_tag"]').prepend(ul_errors);
         }
   
         return false;
@@ -174,10 +176,11 @@ function TagPrompt(select_tag_callback, tag_prompt_connector)
         *
         */
   
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+          response,
+          function(){},
+          function(){}
+        );
   
         if (response.status == 'success')
         {

@@ -3171,12 +3171,17 @@ function open_connection_or_subscription_window(open_login_part)
         }
       });
       
+      $('div#facebook_login').prependTo('div#helpbox');
+      $('div#facebook_login').show();
+      
     });
   }
 }
 
 function close_popin()
 {
+  $('div#facebook_login').hide();
+  $('div#facebook_login').appendTo('body');
   // Fond gris
   $('#fade').fadeOut(1000, function(){$('#fade').remove();});
   // On cache le lecteur

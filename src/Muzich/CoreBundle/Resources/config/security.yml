@@ -1,4 +1,4 @@
-parameters:
+#parameters:
     # ... other parameters
     #security.acl.permission.map.class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
     
@@ -6,6 +6,8 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username_email
+        my_facebook_provider:
+            id: my_user.facebook_provider
     encoders:
         "FOS\UserBundle\Model\UserInterface":
             algorithm: sha512
@@ -22,8 +24,13 @@ security:
                 check_path:     /login_check
                 failure_path:   null
                 default_target_path: home
-                success_handler: security.authentication.success_handler
-                failure_handler: security.authentication.failure_handler
+                success_handler: muzich.security.authentication.success_handler
+                failure_handler: muzich.security.authentication.failure_handler
+            fos_facebook:
+                app_url: "%api_facebook_name%"
+                server_url: "%api_facebook_server%"
+                check_path: /login_facebook_check
+                provider: my_facebook_provider
                 
             logout:
                 path:   /logout
