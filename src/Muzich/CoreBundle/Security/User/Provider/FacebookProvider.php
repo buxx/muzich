@@ -12,69 +12,66 @@ use \FacebookApiException;
 
 class FacebookProvider implements UserProviderInterface
 {
-    /**
-     * @var \Facebook
-     */
-    protected $facebook;
-    protected $userManager;
-    protected $validator;
+  /**
+   * @var \Facebook
+   */
+  protected $facebook;
+  protected $userManager;
+  protected $validator;
 
-    public function __construct(BaseFacebook $facebook, $userManager, $validator)
-    {
-        $this->facebook = $facebook;
-        $this->userManager = $userManager;
-        $this->validator = $validator;
+  public function __construct(BaseFacebook $facebook, $userManager, $validator)
+  {
+    $this->facebook = $facebook;
+    $this->userManager = $userManager;
+    $this->validator = $validator;
+  }
+
+  public function supportsClass($class)
+  {
+    return $this->userManager->supportsClass($class);
+  }
+
+  public function findUserByFbId($fbId)
+  {
+    return $this->userManager->findUserBy(array('facebook_id' => $fbId));
+  }
+
+  public function loadUserByUsername($username)
+  {
+    $user = $this->findUserByFbId($username);
+
+    try {
+      $fbdata = $this->facebook->api('/me');
+    } catch (FacebookApiException $e) {
+      throw new UsernameNotFoundException('The user is not authenticated on facebook');
+      $fbdata = null;
     }
 
-    public function supportsClass($class)
-    {
-        return $this->userManager->supportsClass($class);
+    if (!empty($fbdata)) {
+      if (empty($user)) {
+        $user = $this->userManager->getNewReadyUser();
+        $user->setFBData($fbdata);
+      }
+
+      if (count($this->validator->validate($user, 'Facebook'))) {
+        throw new UsernameNotFoundException('The facebook user could not be stored');
+      }
+      $this->userManager->updateUser($user);
     }
 
-    public function findUserByFbId($fbId)
-    {
-        return $this->userManager->findUserBy(array('facebook_id' => $fbId));
+    if (empty($user)) {
+      throw new UsernameNotFoundException('The user is not authenticated on facebook');
     }
 
-    public function loadUserByUsername($username)
-    {
-        $user = $this->findUserByFbId($username);
+    return $user;
+  }
 
-        try {
-            $fbdata = $this->facebook->api('/me');
-        } catch (FacebookApiException $e) {
-            throw new UsernameNotFoundException('The user is not authenticated on facebook');
-            $fbdata = null;
-        }
-
-        if (!empty($fbdata)) {
-            if (empty($user)) {
-                $user = $this->userManager->createUser();
-                $user->setEnabled(true);
-                $user->setPassword('');
-
-                $user->setFBData($fbdata); // Ici on passe les données Facebook à notre classe User afin de la mettre à jour
-            }
-
-            if (count($this->validator->validate($user, 'Facebook'))) {
-                throw new UsernameNotFoundException('The facebook user could not be stored');
-            }
-            $this->userManager->updateUser($user);
-        }
-
-        if (empty($user)) {
-            throw new UsernameNotFoundException('The user is not authenticated on facebook');
-        }
-
-        return $user;
+  public function refreshUser(UserInterface $user)
+  {
+    if (!$this->supportsClass(get_class($user)) || !$user->getFacebookId()) {
+      throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
     }
 
-    public function refreshUser(UserInterface $user)
-    {
-        if (!$this->supportsClass(get_class($user)) || !$user->getFacebookId()) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
-        }
-
-        return $this->loadUserByUsername($user->getFacebookId());
-    }
+    return $this->loadUserByUsername($user->getFacebookId());
+  }
 }

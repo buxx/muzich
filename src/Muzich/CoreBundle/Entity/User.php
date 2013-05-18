@@ -1179,9 +1179,7 @@ class User extends BaseUser
   public function setFacebookId($facebook_id)
   {
     $this->facebook_id = $facebook_id;
-    $this->setUsername($facebook_id);
-    $this->setUsernameUpdatable(true);
-    $this->salt = '';
+    $this->password_set = true;
   }
 
   /** @return string */
