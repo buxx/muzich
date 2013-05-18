@@ -36,6 +36,11 @@ class FacebookProvider implements UserProviderInterface
     return $this->userManager->findUserBy(array('facebook_id' => $fbId));
   }
 
+  public function findUserByEmail($email)
+  {
+    return $this->userManager->findUserBy(array('email' => $this->userManager->canonicalizeEmailLocal($email)));
+  }
+
   public function loadUserByUsername($username)
   {
     $user = $this->findUserByFbId($username);
@@ -46,7 +51,9 @@ class FacebookProvider implements UserProviderInterface
       throw new UsernameNotFoundException('The user is not authenticated on facebook');
       $fbdata = null;
     }
-
+    
+    $user = $this->findUserByEmail($fbdata['email']);
+    
     if (!empty($fbdata)) {
       if (empty($user)) {
         $user = $this->userManager->getNewReadyUser();
@@ -71,7 +78,7 @@ class FacebookProvider implements UserProviderInterface
     if (!$this->supportsClass(get_class($user)) || !$user->getFacebookId()) {
       throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
     }
-
+    
     return $this->loadUserByUsername($user->getFacebookId());
   }
 }

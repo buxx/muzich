@@ -80,5 +80,10 @@ class UserManager extends UserManagerBase
     
     return $result;
   }
+  
+  public function canonicalizeEmailLocal($email)
+  {
+    return $this->emailCanonicalizer->canonicalize($email);
+  }
 
 }
