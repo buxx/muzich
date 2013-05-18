@@ -266,4 +266,12 @@ class UserRepository extends EntityRepository
     ;
   }
   
+  public function countUsers()
+  {
+    return $this->getEntityManager()
+      ->createQuery("SELECT COUNT(u.id) FROM MuzichCoreBundle:User u")
+      ->getSingleScalarResult()
+    ;
+  }
+  
 }  

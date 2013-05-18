@@ -971,8 +971,8 @@ ul#favorite_tags li
 
 #registration_link, #login_link
 {
-  margin-right: -10px;
-  margin-top: -68px;
+  margin-right: -112px;
+  margin-top: -76px;
 }
 
 #element_add_link img, #element_add_close_link img, #group_add_link img, #group_add_link_disabled img, #group_add_close_link img, #registration_link img, #login_link img
@@ -2206,4 +2206,17 @@ div#helpbox input.button
 div#helpbox div.center input.button
 {
   float: none;
+}
+
+div#facebook_login
+{
+  float: right;
+  margin-bottom: 0;
+  margin-right: 0;
+  margin-top: -5px;
+}
+
+div#login_box
+{
+  margin-top: 23px;
 }

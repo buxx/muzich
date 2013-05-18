@@ -1,0 +1,23 @@
+{{ facebook_initialize({'xfbml': true, 'culture': 'fr_FR', 'fbAsyncInit': 'onFbInit();'}) }}
+<script type="text/javascript" > // Script for FOSFacebookBundle
+function goLogIn(){
+    window.location = "{{ path('_security_check') }}";
+}
+
+function onFbInit() {
+    if (typeof(FB) != 'undefined' && FB != null ) {
+        FB.Event.subscribe('auth.statusChange', function(response) {
+            if (response.session || response.authResponse) {
+                setTimeout(goLogIn, 50);
+            } else {
+                window.location = "{{ path('_security_logout') }}";
+            }
+        });
+    }
+}
+</script>
+
+<div id="facebook_login" style="display: none;">
+  {{ facebook_login_button({'autologoutlink': false}) }}
+</div>
+  
