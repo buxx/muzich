@@ -364,11 +364,6 @@ class ElementController extends Controller
       return $this->redirect($this->generateUrl('home'));
     }
     
-    if (($response = $this->mustBeConnected()))
-    {
-      return $response;
-    }
-    
     if ($this->getRequest()->getMethod() != 'POST')
     {
       throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
@@ -396,7 +391,7 @@ class ElementController extends Controller
     ));
     
     // Récupération de ces nouveaux élméents
-    $elements = $es->getElements($this->getDoctrine(), $this->getUserId());
+    $elements = $es->getElements($this->getDoctrine(), $this->getUserId(true));
     
     // On en fait un rendu graphique
     $html_elements = $this->render('MuzichCoreBundle:SearchElement:default.html.twig', array(
@@ -416,7 +411,7 @@ class ElementController extends Controller
         // On n'en récupère que x
         'count'     => $this->container->getParameter('search_default_count')
       ));
-      $count = $es->getElements($this->getDoctrine(), $this->getUserId(), 'count');
+      $count = $es->getElements($this->getDoctrine(), $this->getUserId(true), 'count');
     }
     
     return $this->jsonResponse(array(
