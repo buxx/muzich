@@ -1180,6 +1180,7 @@ class User extends BaseUser
   {
     $this->facebook_id = $facebook_id;
     $this->password_set = true;
+    $this->setEmailConfirmed(true);
   }
 
   /** @return string */
