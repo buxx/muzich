@@ -14,10 +14,14 @@ builders:
       object_actions:
         accept:
           route: Muzich_AdminBundle_Moderate_tag_accept
+          params:
+            pk: "{{ Tag.id }}"
           icon: icon-ok-sign
           class: moderate_accept
         refuse:
           route: Muzich_AdminBundle_Moderate_tag_refuse
+          params:
+            pk: "{{ Tag.id }}"
           icon: icon-trash
           class: moderate_refuse
       sort: [ tomoderate, DESC ]
