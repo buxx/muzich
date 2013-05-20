@@ -28,7 +28,7 @@
         "gregwar/image-bundle": "dev-master",
         "cedriclombardot/admingenerator-generator-bundle": "2.1.*@dev",
         "cedriclombardot/twig-generator": "dev-master",
-        "white-october/pagerfanta-bundle": "1.0.*@dev",
+        "white-october/pagerfanta-bundle": "2.1.*@dev",
         "pagerfanta/pagerfanta": "1.0.*@dev",
         "shtumi/useful-bundle": "dev-master",
         "sonata-project/doctrine-orm-admin-bundle": "2.1.*@dev",
