@@ -32,6 +32,13 @@ class UrlAnalyzer
               Element::DATA_REF_ID => $preg_result[$ref_id_position]
             );
           }
+          elseif ($ref_id_position === null)
+          {
+            return array(
+              Element::DATA_TYPE => $type,
+              Element::DATA_REF_ID => null
+            );
+          }
         }
       }
     }

@@ -6,11 +6,6 @@ use Muzich\CoreBundle\Factory\ElementFactory;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Factory\UrlMatchs;
 
-/**
- * 
- *
- * @author bux
- */
 class Jamendocom extends ElementFactory
 {
   
@@ -22,36 +17,13 @@ class Jamendocom extends ElementFactory
   
   public function getStreamData()
   {
-    // On determine le type et l'url
-    $this->proceedTypeAndId();
-    
-    $type = $this->element->getData(Element::DATA_TYPE);
     $ref_id = $this->element->getData(Element::DATA_REF_ID);
+    $api_url = "http://api.jamendo.com/get2/name+stream/track/json/?". $this->element->getData(Element::DATA_TYPE)."_id=".$ref_id;
     
-    // Récupération de données avec l'API
-    $api_url = null;
-    switch ($type)
+    if ($ref_id)
     {
-      case 'track':
-        $api_url = "http://api.jamendo.com/get2/name+stream/track/json/?track_id=".$ref_id;
-      break;
-    
-      case 'album':
-        $api_url = "http://api.jamendo.com/get2/name+stream/track/json/?album_id=".$ref_id;
-      break;
-    }
-    
-    if ($api_url)
-    {
-      $ch = curl_init($api_url);
-      $options = array(
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => array('Content-type: text/plain')
-      );
-      curl_setopt_array( $ch, $options );
-      $result = json_decode(curl_exec($ch), true);
-      
-      if (count($result))
+      $response = $this->getApiConnector()->getResponseForUrl($api_url);
+      if (count($response->getContent()))
       {
         $data_return = array();
         foreach ($result as $song)
@@ -66,12 +38,6 @@ class Jamendocom extends ElementFactory
     }
   }
   
-  /**
-   *  ALBUM = http://www.jamendo.com/fr/album/30661
-   *  TRACK = http://www.jamendo.com/fr/track/207079
-   * 
-   * API: http://developer.jamendo.com/fr/wiki/Musiclist2ApiFields
-   */
   public function retrieveDatas()
   {
     $type = $this->element->getData(Element::DATA_TYPE);
@@ -81,13 +47,13 @@ class Jamendocom extends ElementFactory
     $api_url = null;
     switch ($type)
     {
-      case 'album':
+      case Element::TYPE_ALBUM:
         $api_url = "http://api.jamendo.com/get2/"
           ."id+name+url+image+artist_name+artist_url/album/json/?album_id=".$ref_id;
         $api_tag_url = "http://api.jamendo.com/get2/name+weight/tag/json/album_tag/?album_id=".$ref_id;
       break;
     
-      case 'track':
+      case Element::TYPE_TRACK:
         $api_url = "http://api.jamendo.com/get2/"
           ."id+name+url+image+artist_name+artist_url+track_name/album/json/?track_id=".$ref_id;
         $api_tag_url = "http://api.jamendo.com/get2/name+weight/tag/json/track_tag/?track_id=".$ref_id;
@@ -96,53 +62,28 @@ class Jamendocom extends ElementFactory
     
     if ($api_url)
     {
-      $ch = curl_init($api_url);
-      $options = array(
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => array('Content-type: text/plain')
-      );
-      curl_setopt_array( $ch, $options );
-      $result = json_decode(curl_exec($ch), true);
-      
-      if (count($result))
+      if (($response = $this->getApiConnector()->getResponseForUrl($api_url)))
       {
-        // Thumb
-        if (array_key_exists('image', $result[0]))
+        // Check si tout se passe bien si pas de retour de l'api
+        $this->getApiConnector()->setElementDatasWithResponse($response, array(
+          Element::DATA_THUMB_URL      => array(0 => 'image'),
+          Element::DATA_ARTIST         => array(0 => 'artist_name'),
+        ));
+        
+        if ($this->url_analyzer->getType() == Element::TYPE_ALBUM)
         {
-          $this->element->setData(Element::DATA_THUMB_URL, $result[0]['image']);
+          $this->element->setData(Element::DATA_TITLE, $response->get(array(0 => 'name')));
+        }
+        if ($this->url_analyzer->getType() == Element::TYPE_TRACK)
+        {
+          $this->element->setData(Element::DATA_TITLE, $response->get(array(0 => 'track_name')));
         }
         
-        // Album name
-        if (array_key_exists('name', $result[0]) && $type == 'album')
+        if (($response = $this->getApiConnector()->getResponseForUrl($api_url)))
         {
-          $this->element->setData(Element::DATA_TITLE, $result[0]['name']);
-        }
-        
-        // Artist name
-        if (array_key_exists('artist_name', $result[0]))
-        {
-          $this->element->setData(Element::DATA_ARTIST, $result[0]['artist_name']);
-        }
-        
-        // track name
-        if (array_key_exists('track_name', $result[0])  && $type == 'track')
-        {
-          $this->element->setData(Element::DATA_TITLE, $result[0]['track_name']);
-        }
-        
-        // Maintenant au tour des tags (deuxième requete a l'api)
-        $ch = curl_init($api_tag_url);
-        $options = array(
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_HTTPHEADER => array('Content-type: text/plain')
-        );
-        curl_setopt_array( $ch, $options );
-        $result = json_decode(curl_exec($ch), true);
-      
-        if (count($result))
-        {
+          // TODO: Check si tout ce passe bien avec pas de tags en retour de l'api
           $tags = array();
-          foreach ($result as $tag)
+          foreach ($result->getContent() as $tag)
           {
             $tags[] = $tag['name'];
           }

@@ -82,4 +82,9 @@ class Response
     return null;
   }
   
+  public function getContent()
+  {
+    return $this->content;
+  }
+  
 }

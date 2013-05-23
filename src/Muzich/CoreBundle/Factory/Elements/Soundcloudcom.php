@@ -6,47 +6,23 @@ use Muzich\CoreBundle\Factory\ElementFactory;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Util\TagLike;
 use Muzich\CoreBundle\lib\Api\Response as ApiResponse;
+use Muzich\CoreBundle\Factory\UrlMatchs;
 
-/**
- * 
- *
- * @author bux
- */
 class Soundcloudcom extends ElementFactory
-{  
-  /**
-   * ??SET = http://soundcloud.com/matas/sets/library-project
-   * ??    = http://soundcloud.com/matas/anadrakonic-waltz
-   */
+{
+  
+  public function __construct(Element $element, Container $container, EntityManager $entity_manager)
+  {
+    parent::__construct($element, $container, $entity_manager);
+    $this->url_matchs = UrlMatchs::$soundcloud;
+  }
+  
   public function retrieveDatas()
   {
-    $url_clean = $this->getCleanedUrl();
-    
-    $match = false;
-    //
-    if (preg_match("#^\/[a-zA-Z0-9_-]+\/sets\/[a-zA-Z0-9_-]+#", $url_clean, $chaines))
-    {
-      $match = true;
-    }
-    // /noisia/black-sun-empire-noisia-feed
-    // /user4818423/mechanika-crew-andrew-dj-set
-    else if (preg_match("#^\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+#", $url_clean, $chaines))
-    {
-      $match = true;
-    }
-    
-    // On en gère pas encore les recherches
-    if (preg_match("#\/search\?q#", $url_clean, $chaines))
-    {
-      $match = false;
-    }
-    
-    /////////////
-    if ($match)
+    if ($this->url_analyzer->haveMatch())
     {
       $this->setElementDatasWithApi();
     }
-    
   }
   
   protected function setElementDatasWithApi()
@@ -158,12 +134,6 @@ class Soundcloudcom extends ElementFactory
           .'width="100%" name="embed_'.$embed_id.'"></embed>
         </object>'
       );
-//      $this->element->setEmbed(
-//        '<iframe id="sc-widget_'.$this->element->getData(Element::DATA_REF_ID).
-//          '" src="http://w.soundcloud.com/player/?url='.
-//          $ref_id.'" width="100%" '.
-//          'height="'.$height.'" scrolling="no" frameborder="no"></iframe>'
-//      );
     }
   }
   

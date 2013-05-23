@@ -20,4 +20,14 @@ class UrlMatchs
       "#^\/[a-zA-Z0-9_-]+\/list\/a([0-9]+)\/.#" => 1
     )
   );
+  
+  public static $soundcloud = array(
+    Element::TYPE_OTHER => array(
+      // http://soundcloud.com/matas/sets/library-project
+      "#^\/[a-zA-Z0-9_-]+\/sets\/[a-zA-Z0-9_-]+#" => null,
+      // http://soundcloud.com/noisia/black-sun-empire-noisia-feed
+      // http://soundcloud.com/user4818423/mechanika-crew-andrew-dj-set
+      "#^\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+#" => null
+    )
+  );
 }

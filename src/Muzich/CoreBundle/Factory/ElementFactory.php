@@ -108,11 +108,6 @@ abstract class ElementFactory
     return json_decode(curl_exec($api_url), true);
   }
   
-  protected function configureApiConnector()
-  {
-    
-  }
-  
 }
 
 ?>
