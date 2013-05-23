@@ -17,12 +17,12 @@ class Soundcloudcom extends ElementFactory
     $this->url_matchs = UrlMatchs::$soundcloud;
   }
   
-  public function retrieveDatas()
+  public function proceedDatas()
   {
-    if ($this->url_analyzer->haveMatch())
-    {
-      $this->setElementDatasWithApi();
-    }
+    $this->setElementDatasWithApi();
+    // TODO: Embed code ne devrais plus être necessaire (on créer les lecteurs avec JS)
+    $this->proceedEmbedCode();
+    $this->proceedThumbnailUrl();
   }
   
   protected function setElementDatasWithApi()

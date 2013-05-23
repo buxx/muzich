@@ -137,10 +137,11 @@ class ElementManager
       $site_factory = $this->getFactory();
       // On récupères les datas de l'élément
       $site_factory->setUrlDatas();
-      $site_factory->retrieveDatas();
-      // On procède a la construction de nos informations
-      $site_factory->proceedEmbedCode();
-      $site_factory->proceedThumbnailUrl();
+      if ($site_factory->url_analyzer->haveMatch())
+      {
+        $site_factory->proceedDatas();
+      }
+      
     }
     
   }
@@ -177,7 +178,7 @@ class ElementManager
         return new Spotifycom($this->element, $this->container, $this->em);
       break;
       default:
-        throw new \Exception("La Factory n'est pas prise en charge pour ce type.");
+        throw new \Exception("La Factory n'est pas prise en charge pour le type \"".$this->element->getType()."\".");
       break;
     }
     

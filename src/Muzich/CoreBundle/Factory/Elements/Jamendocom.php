@@ -38,58 +38,65 @@ class Jamendocom extends ElementFactory
     }
   }
   
-  public function retrieveDatas()
+  
+  public function proceedDatas()
   {
-    $type = $this->element->getData(Element::DATA_TYPE);
-    $ref_id = $this->element->getData(Element::DATA_REF_ID);
-    
-    // Récupération de données avec l'API
-    $api_url = null;
-    switch ($type)
+    $this->retrieveDatas();
+    // TODO: A t-on toujours besoin du code embed ou on génrère le player générique a la volée ?
+    $this->proceedEmbedCode();
+    $this->proceedThumbnailUrl();
+  }
+  
+  protected function getApiUrl()
+  {
+    switch ($this->url_analyzer->getType())
     {
       case Element::TYPE_ALBUM:
-        $api_url = "http://api.jamendo.com/get2/"
-          ."id+name+url+image+artist_name+artist_url/album/json/?album_id=".$ref_id;
-        $api_tag_url = "http://api.jamendo.com/get2/name+weight/tag/json/album_tag/?album_id=".$ref_id;
+        return "http://api.jamendo.com/get2/id+name+url+image+artist_name+artist_url/album/json/?album_id="
+          .$this->url_analyzer->getRefId();
       break;
-    
       case Element::TYPE_TRACK:
-        $api_url = "http://api.jamendo.com/get2/"
-          ."id+name+url+image+artist_name+artist_url+track_name/album/json/?track_id=".$ref_id;
-        $api_tag_url = "http://api.jamendo.com/get2/name+weight/tag/json/track_tag/?track_id=".$ref_id;
+        return "http://api.jamendo.com/get2/id+name+url+image+artist_name+artist_url+track_name/album/json/?track_id="
+          .$this->url_analyzer->getRefId();
       break;
     }
-    
-    if ($api_url)
+  }
+  
+  protected function getApiTagUrl()
+  {
+    return "http://api.jamendo.com/get2/name+weight/tag/json/album_tag/?".$this->url_analyzer->getType()."_id="
+      .$this->url_analyzer->getRefId();
+  }
+  
+  public function retrieveDatas()
+  {
+    if (($response = $this->getApiConnector()->getResponseForUrl($this->getApiUrl())))
     {
-      if (($response = $this->getApiConnector()->getResponseForUrl($api_url)))
+      // Check si tout se passe bien si pas de retour de l'api
+      $this->getApiConnector()->setElementDatasWithResponse($response, array(
+        Element::DATA_THUMB_URL      => array(0 => 'image'),
+        Element::DATA_ARTIST         => array(0 => 'artist_name'),
+      ));
+      
+      if ($this->url_analyzer->getType() == Element::TYPE_ALBUM)
       {
-        // Check si tout se passe bien si pas de retour de l'api
-        $this->getApiConnector()->setElementDatasWithResponse($response, array(
-          Element::DATA_THUMB_URL      => array(0 => 'image'),
-          Element::DATA_ARTIST         => array(0 => 'artist_name'),
-        ));
+        $this->element->setData(Element::DATA_TITLE, $response->get(array(0 => 'name')));
+      }
+      if ($this->url_analyzer->getType() == Element::TYPE_TRACK)
+      {
+        $this->element->setData(Element::DATA_TITLE, $response->get(array(0 => 'track_name')));
+      }
+      
+      if (($response = $this->getApiConnector()->getResponseForUrl($this->getApiTagUrl())))
+      {
+        // TODO: Check si tout ce passe bien avec pas de tags en retour de l'api
+        $tags = array();
+        foreach ($result->getContent() as $tag)
+        {
+          $tags[] = $tag['name'];
+        }
         
-        if ($this->url_analyzer->getType() == Element::TYPE_ALBUM)
-        {
-          $this->element->setData(Element::DATA_TITLE, $response->get(array(0 => 'name')));
-        }
-        if ($this->url_analyzer->getType() == Element::TYPE_TRACK)
-        {
-          $this->element->setData(Element::DATA_TITLE, $response->get(array(0 => 'track_name')));
-        }
-        
-        if (($response = $this->getApiConnector()->getResponseForUrl($api_url)))
-        {
-          // TODO: Check si tout ce passe bien avec pas de tags en retour de l'api
-          $tags = array();
-          foreach ($result->getContent() as $tag)
-          {
-            $tags[] = $tag['name'];
-          }
-          
-          $this->element->setData(Element::DATA_TAGS, $tags);
-        }
+        $this->element->setData(Element::DATA_TAGS, $tags);
       }
     }
     
