@@ -4,48 +4,33 @@ namespace Muzich\CoreBundle\Factory\Elements;
 
 use Muzich\CoreBundle\Factory\ElementFactory;
 use Muzich\CoreBundle\Entity\Element;
+use Muzich\CoreBundle\Factory\UrlMatchs;
+use Symfony\Component\DependencyInjection\Container;
+use Doctrine\ORM\EntityManager;
 
-/**
- * 
- *
- * @author bux
- */
 class Vimeocom extends ElementFactory
 {
   
-  public function retrieveDatas()
+  public function __construct(Element $element, Container $container, EntityManager $entity_manager)
   {
-    $url_clean = $this->getCleanedUrl();
-    $ref_id = null;
-    
-    // http://vimeo.com/43258820
-    if (preg_match("#\/([0-9]+)#", $url_clean, $chaines))
-    {
-      $ref_id = $chaines[1];
-    }
-    
-    if ($ref_id)
-    {
-      $this->element->setData(Element::DATA_REF_ID, $ref_id);
-      $this->getDataFromApi($ref_id);
-    }
+    $this->url_matchs = UrlMatchs::$vimeo;
+    parent::__construct($element, $container, $entity_manager);
   }
   
-  protected function getDataFromApi($ref_id)
+  public function proceedDatas()
   {
-    $data = $this->getJsonDataFromApiWithUrl('http://vimeo.com/api/v2/video/'.$ref_id.'.json');
-    
-    if (count($data))
-    {
-      if (array_key_exists('title', $data[0]))
-      {
-        $this->element->setData(Element::DATA_TITLE, $data[0]['title']);
-      }
-      if (array_key_exists('thumbnail_medium', $data[0]))
-      {
-        $this->element->setData(Element::DATA_THUMB_URL, $data[0]['thumbnail_medium']);
-      }
-    }
+    $this->setElementDatasWithApi();
+    $this->proceedEmbedCode();
+    $this->proceedThumbnailUrl();
+  }
+  
+  protected function setElementDatasWithApi()
+  {
+    $response = $this->getApiConnector()->getResponseForUrl('http://vimeo.com/api/v2/video/'.$this->url_analyzer->getRefId().'.json');
+    $this->getApiConnector()->setElementDatasWithResponse($response, array(
+      Element::DATA_TITLE       => array(0 => 'title'),
+      Element::DATA_THUMB_URL   => array(0 => 'thumbnail_medium')
+    ));
   }
   
   public function proceedEmbedCode()
@@ -59,6 +44,14 @@ class Vimeocom extends ElementFactory
         .'width="'.$width.'" height="'.$height.'" frameborder="0" '
         .'webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>'
       );
+    }
+  }
+  
+  public function proceedThumbnailUrl()
+  {
+    if (($thumb = $this->element->getData(Element::DATA_THUMB_URL)))
+    {
+      $this->element->setThumbnailUrl($thumb);
     }
   }
 }

@@ -76,4 +76,11 @@ class UrlMatchs
       "#^\/user\/([a-zA-Z0-9_-]+)\/playlist\/([a-zA-Z0-9]+)#" => 2
     )
   );
+  
+  public static $vimeo = array(
+    Element::TYPE_OTHER => array(
+      // http://vimeo.com/43258820
+      "#\/([0-9]+)#" => 1
+    )
+  );
 }
