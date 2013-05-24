@@ -4,6 +4,9 @@ namespace Muzich\CoreBundle\Factory\Elements;
 
 use Muzich\CoreBundle\Factory\ElementFactory;
 use Muzich\CoreBundle\Entity\Element;
+use Symfony\Component\DependencyInjection\Container;
+use Doctrine\ORM\EntityManager;
+use Muzich\CoreBundle\Factory\UrlMatchs;
 
 /**
  * 
@@ -13,42 +16,38 @@ use Muzich\CoreBundle\Entity\Element;
 class Dailymotioncom extends ElementFactory
 {
   
+  public function __construct(Element $element, Container $container, EntityManager $entity_manager)
+  {
+    $this->url_matchs = UrlMatchs::$dailymotion;
+    parent::__construct($element, $container, $entity_manager);
+  }
+  
+  public function proceedDatas()
+  {
+    $this->setElementDatasWithApi();
+    $this->proceedEmbedCode();
+    $this->proceedThumbnailUrl();
+  }
+  
   /**
    * URL_API: http://www.dailymotion.com/doc/api/obj-video.html
-   * URL_TYPE: /video/xnqcwx_le-nazisme-dans-le-couple_fun#hp-v-v2 (c'est quoi cette url ^^ ?) 
+   * URL_TYPE: /video/xnqcwx_le-nazisme-dans-le-couple_fun#hp-v-v2 
    */
-  public function retrieveDatas()
+  public function setElementDatasWithApi()
   {
-    $url_clean = $this->getCleanedUrl();
-    $ref_id = null;
+    $response = $this->getApiConnector()->getResponseForUrl('https://api.dailymotion.com/video/'
+      .$this->url_analyzer->getRefId().'&fields=thumbnail_medium_url,title,tags');
     
-    // Récupération de l'id
-    if (preg_match("#\/(video\/)([a-zA-Z0-9]+)([a-zA-Z0-9_-]*)#", $url_clean, $preg_result))
+    $this->getApiConnector()->setElementDatasWithResponse($response, array(
+      Element::DATA_THUMB_URL      => 'thumbnail_medium_url',
+      Element::DATA_TITLE          => 'title',
+    ));
+    
+    if ($response->have('tags'))
     {
-      $ref_id = $preg_result[2];
-      $this->element->setData(Element::DATA_REF_ID, $ref_id);
+      $this->setDataTagsForElement(implode(' ', $response->get('tags')));
     }
     
-    // Récupération de données auprés de l'API
-    if ($ref_id)
-    {
-      $api_url = curl_init('https://api.dailymotion.com/video/'.$ref_id
-        .'&fields=thumbnail_medium_url');
-      
-      $options = array(
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => array('Content-type: application/json')
-      );
-      
-      curl_setopt_array($api_url, $options);
-      $api_result = json_decode(curl_exec($api_url));
-            
-      // On récupère l'url du thumbnail
-      if (isset($api_result->thumbnail_medium_url))
-      {
-        $this->element->setData(Element::DATA_THUMB_URL, $api_result->thumbnail_medium_url);
-      }
-    }
   }
   
   public function proceedEmbedCode()

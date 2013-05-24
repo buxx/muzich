@@ -329,21 +329,39 @@ class ElementFactoryTest extends UnitTest
 //    ));
 //    
 //    
-//    /*
-//     *   - dailymotion.com
-//     */
-//    
-//      // 'http://www.dailymotion.com/video/xafj1q_black-bomb-a-tales-from-the-old-sch_music', 
-//    
-//      // TODO: l'url est pas toujours la même pour le thumb :/
-////    $this->assertEquals(array(
-////      'data_ref_id' => 'xafj1q',
-////      'data_thumb_url'  => 'http://static2.dmcdn.net/static/video/686/025/17520686:jpeg_preview_medium.jpg?20110820212502'
-////    ),$this->proceed_element_datas_api(
-////      $bux, 
-////      'http://www.dailymotion.com/video/xafj1q_black-bomb-a-tales-from-the-old-sch_music'
-////    ));
-//    
+    ///*
+    // *   - dailymotion.com
+    // */
+    //
+    //  // 'http://www.dailymotion.com/video/xafj1q_black-bomb-a-tales-from-the-old-sch_music'
+    //$this->assertEquals(array(
+    //  'data_ref_id' => 'xafj1q',
+    //  'data_thumb_url'  => 'http://s1.dmcdn.net/kcSK/160x120-si6.jpg',
+    //  'data_type' => 'other',
+    //  'data_title' => 'Black Bomb A - Tales From The Old School',
+    //  'data_tags' => array(
+    //    0 => 'Metal'
+    //  )
+    //),$this->proceed_element_datas_api(
+    //  $bux, 
+    //  'http://www.dailymotion.com/video/xafj1q_black-bomb-a-tales-from-the-old-sch_music'
+    //));
+    //
+    //// http://www.dailymotion.com/video/x4om5b_punish-yourself-gimme-cocaine-live_music?search_algo=2
+    //$this->assertEquals(array(
+    //  'data_ref_id' => 'x4om5b',
+    //  'data_thumb_url'  => 'http://s1.dmcdn.net/sRiY/160x120-BYy.jpg',
+    //  'data_type' => 'other',
+    //  'data_title' => 'Punish yourself - gimme cocaine (live à nancy, azimut854)',
+    //  'data_tags' => array(
+    //    0 => 'Metal',
+    //    1 => 'Electro'
+    //  )
+    //),$this->proceed_element_datas_api(
+    //  $bux, 
+    //  'http://www.dailymotion.com/video/x4om5b_punish-yourself-gimme-cocaine-live_music?search_algo=2'
+    //));
+    //    
     ///*
     // * - soundcloud.com
     // */

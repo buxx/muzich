@@ -4,7 +4,6 @@ namespace Muzich\CoreBundle\Factory\Elements;
 
 use Muzich\CoreBundle\Factory\ElementFactory;
 use Muzich\CoreBundle\Entity\Element;
-use Muzich\CoreBundle\Util\TagLike;
 use Muzich\CoreBundle\lib\Api\Response as ApiResponse;
 use Muzich\CoreBundle\Factory\UrlMatchs;
 use Symfony\Component\DependencyInjection\Container;
@@ -22,8 +21,6 @@ class Soundcloudcom extends ElementFactory
   public function proceedDatas()
   {
     $this->setElementDatasWithApi();
-    // TODO: Embed code ne devrais plus être necessaire (on créer les lecteurs avec JS)
-    $this->proceedEmbedCode();
     $this->proceedThumbnailUrl();
   }
   
@@ -86,27 +83,7 @@ class Soundcloudcom extends ElementFactory
   protected function setTagsData(ApiResponse $response)
   {
     $tags_string = $response->get('genre').' '.$response->get('tag_list').' '.str_replace(' ', '-', $response->get('genre'));
-    $tags_like = array();
-    if (strlen($tags_string))
-    {
-      $tag_like = new TagLike($this->entity_manager);
-      foreach (explode(' ', $tags_string) as $word)
-      {
-        $similar_tags = $tag_like->getSimilarTags($word, ($this->element->getOwner())?$this->element->getOwner()->getId():null);
-        if (count($similar_tags))
-        {
-          if ($similar_tags['same_found'])
-          {
-            $tags_like[] = $similar_tags['tags'][0]['name'];
-          }
-        }
-      }
-      $tags_like[] = $response->get('genre');
-      if (count($tags_like))
-      {
-        $this->element->setData(Element::DATA_TAGS, array_unique($tags_like));
-      }
-    }
+    $this->setDataTagsForElement($tags_string, array($response->get('genre')));
   }
   
   protected function setElementEmbeddableData($response)
@@ -114,29 +91,6 @@ class Soundcloudcom extends ElementFactory
     $this->getApiConnector()->setElementDatasWithResponse($response, array(
       Element::DATA_REF_ID => 'id'
     ));
-  }
-  
-  public function proceedEmbedCode()
-  {
-    if (($ref_id = $this->element->getData(Element::DATA_REF_ID)) 
-      && ($this->element->getData(Element::DATA_TYPE) == 'track' || $this->element->getData(Element::DATA_TYPE) == 'playlist' ))
-    {
-      $ref_id = $this->element->getUrl();
-      $embed_id = md5($ref_id);
-      $height = $this->container->getParameter('soundcloud_player_height');
-      $this->element->setEmbed(
-        '<object height="'.$height.'" width="100%" id="embed_'.$embed_id.'" '
-          .'classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
-          <param name="movie" value="http://player.soundcloud.com/player.swf?url='.$ref_id.'&amp;'
-          .'enable_api=true&amp;object_id=embed_'.$embed_id.'"></param>
-          <param name="allowscriptaccess" value="always"></param>
-          <embed allowscriptaccess="always" height="'.$height.'" '
-          .'src="http://player.soundcloud.com/player.swf?url='.$ref_id.'&amp;enable_api=true'
-          .'&amp;object_id=embed_'.$embed_id.'" type="application/x-shockwave-flash" '
-          .'width="100%" name="embed_'.$embed_id.'"></embed>
-        </object>'
-      );
-    }
   }
   
   public function proceedThumbnailUrl()

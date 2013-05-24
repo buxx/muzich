@@ -28,7 +28,7 @@ class Jamendocom extends ElementFactory
       if (count($response->getContent()))
       {
         $data_return = array();
-        foreach ($result as $song)
+        foreach ($response->getContent() as $song)
         {
           $data_return[] = array(
             'name' => $song['name'],
@@ -44,8 +44,6 @@ class Jamendocom extends ElementFactory
   public function proceedDatas()
   {
     $this->retrieveDatas();
-    // TODO: A t-on toujours besoin du code embed ou on génrère le player générique a la volée ?
-    $this->proceedEmbedCode();
     $this->proceedThumbnailUrl();
   }
   
@@ -103,33 +101,6 @@ class Jamendocom extends ElementFactory
     
     // Un contenu jamendo est toujours téléchargeable
     $this->element->setData(Element::DATA_DOWNLOAD, true);
-  }
-  
-  public function proceedEmbedCode()
-  {
-    if (($ref_id = $this->element->getData(Element::DATA_REF_ID)) 
-      && ($type = $this->element->getData(Element::DATA_TYPE)))
-    {
-      $height = $this->container->getParameter('jamendo_player_height');
-      $width = $this->container->getParameter('jamendo_player_width');
-      $embed_url = "http://widgets.jamendo.com/fr/$type/?".$type."_id=$ref_id&playertype=2008";
-      $this->element->setEmbed(
-        '<object width="'.$width.'" height="'.$height.'" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"'
-            .' codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" align="middle">
-            <param name="allowScriptAccess" value="always" />
-            <param name="wmode" value="transparent" />
-            <param name="movie" value="'.$embed_url.'" />
-            <param name="quality" value="high" />
-            <param name="bgcolor" value="#FFFFFF" />
-            <embed src="'.$embed_url.'" quality="high" wmode="transparent" bgcolor="#FFFFFF"'
-            .' width="'.$width.'" height="'.$height.'" align="middle" allowScriptAccess="always"'
-            .' type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
-              &nbsp;
-            </embed>
-            &nbsp;
-          </object>'  
-      );
-    }
   }
   
   public function proceedThumbnailUrl()

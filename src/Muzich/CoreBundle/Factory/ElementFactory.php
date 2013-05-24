@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Doctrine\ORM\EntityManager;
 use Muzich\CoreBundle\lib\Api\Connector as ApiConnector;
 use Muzich\CoreBundle\lib\Element\UrlAnalyzer;
+use Muzich\CoreBundle\Util\TagLike;
 
 /**
  *
@@ -111,6 +112,32 @@ abstract class ElementFactory
   public function getUrlAnalyzer()
   {
     return $this->url_analyzer;
+  }
+  
+  protected function setDataTagsForElement($tags_string, $merge = array())
+  {
+    $tags_like = array();
+    if (strlen(trim($tags_string)))
+    {
+      $tag_like = new TagLike($this->entity_manager);
+      foreach (explode(' ', $tags_string) as $word)
+      {
+        $similar_tags = $tag_like->getSimilarTags($word, ($this->element->getOwner())?$this->element->getOwner()->getId():null);
+        if (count($similar_tags))
+        {
+          if ($similar_tags['same_found'])
+          {
+            $tags_like[] = $similar_tags['tags'][0]['name'];
+          }
+        }
+      }
+    }
+    
+    $tags_like = array_merge($tags_like, $merge);
+    if (count($tags_like))
+    {
+      $this->element->setData(Element::DATA_TAGS, array_unique($tags_like));
+    }
   }
   
 }

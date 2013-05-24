@@ -37,4 +37,11 @@ class UrlMatchs
       "#^\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+#" => null
     )
   );
+  
+  public static $dailymotion = array(
+    Element::TYPE_OTHER => array(
+      // http://dailymotion.com/video/xnqcwx_le-nazisme-dans-le-couple_fun#hp-v-v2
+      "#\/(video\/)([a-zA-Z0-9]+)([a-zA-Z0-9_-]*)#" => 2
+    )
+  );
 }
