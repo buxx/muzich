@@ -31,7 +31,10 @@ class Connector
   {
     foreach ($parameters as $data_id => $searched)
     {
-      $this->element->setData($data_id, $response->get($searched));
+      if ($response->have($searched))
+      {
+        $this->element->setData($data_id, $response->get($searched));
+      }
     }
   }
   

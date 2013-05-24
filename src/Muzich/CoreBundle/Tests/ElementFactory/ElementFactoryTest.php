@@ -553,7 +553,8 @@ class ElementFactoryTest extends UnitTest
     //
     //$this->assertEquals(array(
     //  'data_ref_id' => '18701350',
-    //  'data_type' => 'playlist',
+    //  'data_type'   => 'playlist',
+    //  'data_title'  => 'Trucs Cools'
     //),$this->proceed_element_datas_api(
     //  $bux, 
     //  'http://www.deezer.com/fr/music/playlist/18701350'
