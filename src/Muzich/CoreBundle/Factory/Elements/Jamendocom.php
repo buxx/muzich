@@ -5,14 +5,16 @@ namespace Muzich\CoreBundle\Factory\Elements;
 use Muzich\CoreBundle\Factory\ElementFactory;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Factory\UrlMatchs;
+use Symfony\Component\DependencyInjection\Container;
+use Doctrine\ORM\EntityManager;
 
 class Jamendocom extends ElementFactory
 {
   
   public function __construct(Element $element, Container $container, EntityManager $entity_manager)
   {
-    parent::__construct($element, $container, $entity_manager);
     $this->url_matchs = UrlMatchs::$jamendo;
+    parent::__construct($element, $container, $entity_manager);
   }
   
   public function getStreamData()
@@ -64,7 +66,7 @@ class Jamendocom extends ElementFactory
   
   protected function getApiTagUrl()
   {
-    return "http://api.jamendo.com/get2/name+weight/tag/json/album_tag/?".$this->url_analyzer->getType()."_id="
+    return "http://api.jamendo.com/get2/name+weight/tag/json/".$this->url_analyzer->getType()."_tag/?".$this->url_analyzer->getType()."_id="
       .$this->url_analyzer->getRefId();
   }
   
@@ -87,17 +89,16 @@ class Jamendocom extends ElementFactory
         $this->element->setData(Element::DATA_TITLE, $response->get(array(0 => 'track_name')));
       }
       
-      if (($response = $this->getApiConnector()->getResponseForUrl($this->getApiTagUrl())))
+      $tags = array();
+      $response = $this->getApiConnector()->getResponseForUrl($this->getApiTagUrl());
+      if (count($response->getContent()))
       {
-        // TODO: Check si tout ce passe bien avec pas de tags en retour de l'api
-        $tags = array();
-        foreach ($result->getContent() as $tag)
+        foreach ($response->getContent() as $tag)
         {
           $tags[] = $tag['name'];
         }
-        
-        $this->element->setData(Element::DATA_TAGS, $tags);
       }
+      $this->element->setData(Element::DATA_TAGS, $tags);
     }
     
     // Un contenu jamendo est toujours téléchargeable

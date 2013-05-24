@@ -137,7 +137,7 @@ class ElementManager
       $site_factory = $this->getFactory();
       // On récupères les datas de l'élément
       $site_factory->setUrlDatas();
-      if ($site_factory->url_analyzer->haveMatch())
+      if ($site_factory->getUrlAnalyzer()->haveMatch())
       {
         $site_factory->proceedDatas();
       }

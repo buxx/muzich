@@ -6,6 +6,10 @@ use Muzich\CoreBundle\Entity\Element;
 
 class UrlMatchs
 {
+  /*
+   * Si il y a un Element::TYPE_NOTMATCH le placer en début de tableau !
+   */
+  
   public static $jamendo = array(
     Element::TYPE_TRACK => array(
       // http://www.jamendo.com/fr/track/894974
@@ -22,6 +26,9 @@ class UrlMatchs
   );
   
   public static $soundcloud = array(
+    Element::TYPE_NOTMATCH => array(
+      "#\/search\?q#" => null
+    ),
     Element::TYPE_OTHER => array(
       // http://soundcloud.com/matas/sets/library-project
       "#^\/[a-zA-Z0-9_-]+\/sets\/[a-zA-Z0-9_-]+#" => null,

@@ -21,7 +21,7 @@ abstract class ElementFactory
   protected $api_connector;
   protected $url_analyzer;
   
-  protected $url_matchs = array();
+  public $url_matchs = array();
   
   /**
    *
@@ -106,6 +106,11 @@ abstract class ElementFactory
       
     curl_setopt_array($api_url, $options);
     return json_decode(curl_exec($api_url), true);
+  }
+  
+  public function getUrlAnalyzer()
+  {
+    return $this->url_analyzer;
   }
   
 }

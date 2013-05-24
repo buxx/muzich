@@ -7,14 +7,16 @@ use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Util\TagLike;
 use Muzich\CoreBundle\lib\Api\Response as ApiResponse;
 use Muzich\CoreBundle\Factory\UrlMatchs;
+use Symfony\Component\DependencyInjection\Container;
+use Doctrine\ORM\EntityManager;
 
 class Soundcloudcom extends ElementFactory
 {
   
   public function __construct(Element $element, Container $container, EntityManager $entity_manager)
   {
-    parent::__construct($element, $container, $entity_manager);
     $this->url_matchs = UrlMatchs::$soundcloud;
+    parent::__construct($element, $container, $entity_manager);
   }
   
   public function proceedDatas()

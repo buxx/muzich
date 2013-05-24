@@ -25,6 +25,11 @@ class UrlAnalyzer
       {
         if (preg_match($expression, $this->url, $preg_result))
         {
+          if ($type == Element::TYPE_NOTMATCH)
+          {
+            return false;
+          }
+          
           if (array_key_exists($ref_id_position, $preg_result))
           {
             return array(

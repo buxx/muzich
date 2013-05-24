@@ -46,4 +46,19 @@ class UrlAnalyzerTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals(null, $url_analyzer->getRefId());
   }
   
+  public function testSoundCloud()
+  {
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('soundcloud.com', 'http://soundcloud.com/matas/sets/library-project'), UrlMatchs::$soundcloud);
+    $this->assertTrue($url_analyzer->haveMatch());
+    
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('soundcloud.com', 'http://soundcloud.com/noisia/black-sun-empire-noisia-feed'), UrlMatchs::$soundcloud);
+    $this->assertTrue($url_analyzer->haveMatch());
+    
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('soundcloud.com', 'http://soundcloud.com/user4818423/mechanika-crew-andrew-dj-set'), UrlMatchs::$soundcloud);
+    $this->assertTrue($url_analyzer->haveMatch());
+    
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('soundcloud.com', 'https://soundcloud.com/search?q=toto'), UrlMatchs::$soundcloud);
+    $this->assertFalse($url_analyzer->haveMatch());
+  }
+  
 }

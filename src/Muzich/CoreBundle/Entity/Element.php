@@ -87,6 +87,7 @@ class Element
   const TYPE_ALBUM = 'album';
   const TYPE_PLAYLIST =  'playlist';
   const TYPE_OTHER = 'other';
+  const TYPE_NOTMATCH = 'not_match';
   
   
   /**
