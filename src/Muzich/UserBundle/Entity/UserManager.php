@@ -32,5 +32,58 @@ class UserManager extends UserManagerBase
 
     $this->objectManager->getEventManager()->addEventSubscriber($sluggableListener);
   }
+  
+  public function getNewReadyUser()
+  {
+    $user = $this->createUser();
+    $user->setUsername($this->generateUsername());
+    $user->setPlainPassword($this->generatePassword(32));
+    $user->setEnabled(true);
+    $user->setCguAccepted(true);
+    $user->setEmailConfirmed(false);
+    $user->setUsernameUpdatable(true);
+    $user->setPasswordSet(false);
+    return $user;
+  }
+  
+  protected function generateUsername()
+  {
+    $count = $this->repository->countUsers();
+    while ($this->usernameExist($count))
+    {
+      $count++;
+    }
+    
+    return 'User'.$count;
+  }
+  
+  protected function usernameExist($count)
+  {
+    $username = 'User'.$count;
+    if ($this->repository->findOneByUsername($username))
+    {
+      return true;
+    }
+    
+    return false;
+  }
+  
+  protected function generatePassword($length = 8)
+  {
+    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $count = mb_strlen($chars);
+    
+    for ($i = 0, $result = ''; $i < $length; $i++) {
+        $index = rand(0, $count - 1);
+        $result .= mb_substr($chars, $index, 1);
+    }
+    
+    return $result;
+  }
+  
+  public function canonicalizeEmailLocal($email)
+  {
+    return $this->emailCanonicalizer->canonicalize($email);
+  }
 
 }

@@ -544,7 +544,7 @@ img.tag_add_to_favorites
   margin-left: 1px;
 }
 
-td.element_content a.display_comments, td.element_content a.add_comment, td.element_content a.hide_comments, div.comments a.add_comment
+td.element_content a.display_comments, td.element_content a.add_comment, td.element_content a.add_comment_disabled, td.element_content a.hide_comments, div.comments a.add_comment
 {
   color: #404040;
 }
@@ -948,7 +948,7 @@ ul#favorite_tags li
   margin-right: 0px;
 }
 
-#element_add_link, #element_add_close_link, #group_add_link, #group_add_close_link, #registration_link, #login_link, #know_more
+#element_add_link, #element_add_close_link, #group_add_link, #group_add_link_disabled, #group_add_close_link, #registration_link, #login_link, #know_more, #launch_tour
 {
   float: right;
   margin-top: -58px;
@@ -971,17 +971,17 @@ ul#favorite_tags li
 
 #registration_link, #login_link
 {
-  margin-right: -10px;
-  margin-top: -68px;
+  margin-right: -112px;
+  margin-top: -76px;
 }
 
-#element_add_link img, #element_add_close_link img, #group_add_link img, #group_add_close_link img, #registration_link img, #login_link img
+#element_add_link img, #element_add_close_link img, #group_add_link img, #group_add_link_disabled img, #group_add_close_link img, #registration_link img, #login_link img
 {
   margin-bottom: -5px;
     margin-right: -5px;
 }
 
-#element_add_link.justtopright, #element_add_close_link.justtopright, #group_add_link.justtopright, #group_add_close_link.justtopright
+#element_add_link.justtopright, #element_add_close_link.justtopright, #group_add_link.justtopright, #group_add_link_disabled.justtopright, #group_add_close_link.justtopright
 {
   margin-top: 0px;
   margin-right: 0px;
@@ -1261,6 +1261,11 @@ div.search_tag_list ul.search_tag_list li.new
 {
   color: black;
 }
+
+#helpbox div.search_tag_list ul.search_tag_list li.new a
+{
+  color: black;
+}
   
 
 div.search_tag_list ul.search_tag_list li:hover
@@ -1510,12 +1515,17 @@ div#group_add_box input[type="submit"]
 
 div#registration_box input.niceinput
 {
-  width: 430px;
+  width: 250px;
 }
 
 div#registration_box label
 {
-  width: 170px;
+  width: 70px;
+}
+
+div#registration_box input[type="submit"]
+{
+  float: right;
 }
 
 div#registration_box div.field
@@ -1707,7 +1717,7 @@ div.show_options {
     float: right;
 }
 
-#container #group_add_link, #container #group_add_close_link
+#container #group_add_link, #container #group_add_link_disabled, #container #group_add_close_link
 {
   font-size: 120%;
   float: right;
@@ -1857,7 +1867,17 @@ p.group_description
 
 #login_box input[id="username"], #login_box input[id="password"]
 {
-  width: 230px;
+  width: 228px;
+}
+
+#login_box div.login
+{
+  margin-top: 8px;
+}
+
+#login_box div.textcenter
+{
+  margin-top: 12px;
 }
 
 /*#registration_link, #login_link
@@ -1996,12 +2016,13 @@ div#tourControls a#tourEnd
   float: right;
 }
 
-a.tags_prompt_helpbox
+a.tag_prompt_tool
 {
-  float: left;
+  float: right;
   margin-bottom: 0;
   margin-left: 0px;
   margin-top: 5px;
+  margin-right: 11px;
 }
 
 form#address_update input.intext
@@ -2015,11 +2036,12 @@ div#form_add_thumb img
   height: 100px;
 }
   
-#know_more
+#know_more, #launch_tour
 {
-  float: left;
-  margin-left: -11px;
-  margin-top: -67px;
+  float: none;
+  margin-bottom: 16px;
+  margin-top: 0;
+  width: 269px;
 }
 
 div.helpbox_image_container
@@ -2045,4 +2067,156 @@ div.helpbox_image_container img
 
 .fotter_muzich_little{
   font-size: 9px;
+}
+
+div.side_margin_top
+{
+  margin-top: 25px;
+}
+
+p.accept_cgu
+{
+  font-size: 11px;
+}
+
+li.user_name a
+{
+  color: inherit;
+}
+
+li.user_name a:hover
+{
+  text-decoration: underline;
+}
+
+@-webkit-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@-moz-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@-ms-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@-o-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+
+.flashing
+{
+  font-weight: bold;
+  text-shadow: 0 1px 0 white;
+  border-radius: 3px;
+  padding: 5px 10px;
+  box-shadow:0px 0px 10px #909090;
+  
+  -webkit-animation-name: clignote;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count:infinite;
+  
+  -moz-animation-name: clignote;
+  -moz-animation-duration: 1s;
+  -moz-animation-iteration-count:infinite;
+  
+  -ms-animation-name: clignote;
+  -ms-animation-duration: 1s;
+  -ms-animation-iteration-count:infinite;
+  
+  -o-animation-name: clignote;
+  -o-animation-duration: 1s;
+  -o-animation-iteration-count:infinite;
+  
+  animation-name: clignote;
+  animation-duration: 1s;
+  animation-iteration-count:infinite;
+}
+
+div.myaccount_part.flashing
+{
+  padding: 2px;
+}
+
+div.choose_password
+{
+  text-align: center;
+}
+
+div.center
+{
+  text-align: center;
+}
+
+div#email_not_confirmed_box input
+{
+  margin: 10px;
+}
+
+div#email_not_confirmed_box p.info
+{
+  font-style: italic;
+}
+
+span.message_success
+{
+  font-weight: bold;
+  color: green;
+}
+
+span.message_error
+{
+  font-weight: bold;
+  color: red;
+}
+
+div#helpbox input.tag_prompt
+{
+  width: 480px;
+}
+
+div#helpbox input.button
+{
+  float: right;
+  margin-right: 11px;
+  margin-top: 5px;
+}
+
+div#helpbox div.center input.button
+{
+  float: none;
+}
+
+div#facebook_login
+{
+  float: right;
+  margin-bottom: 0;
+  margin-right: 0;
+  margin-top: -5px;
+}
+
+div#login_box
+{
+  margin-top: 23px;
 }

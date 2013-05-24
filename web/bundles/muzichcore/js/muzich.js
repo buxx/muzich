@@ -6,7 +6,9 @@
  */
 
 // Messages flashs
-var myMessages = ['info','warning','error','success']; // define the messages types	
+var myMessages = ['info','warning','error','success']; // define the messages types
+var window_login_or_subscription_opened = false;
+var popin_opened = false;
 
 function hideAllMessages()
 {
@@ -18,6 +20,45 @@ function hideAllMessages()
     $('.' + myMessages[i]).css('top', -messagesHeights[i]); //move element outside viewport	  
  }
 }
+
+function ResponseController()
+{
+  var propagate = function(response)
+  {
+    if (response.status === 'error')
+    {
+      if (response.error === 'UserEmailNotConfirmed')
+      {
+        open_ajax_popin(url_email_not_confirmed, function(){
+          
+        });
+      }
+      else if (response.error === 'UserNotConnected')
+      {
+        open_connection_or_subscription_window();
+      }
+    }
+    else if (response.status === 'mustbeconnected')
+    {
+      open_connection_or_subscription_window(true);
+    }
+  }
+  
+  this.execute = function(response, success_callback, failure_callback)
+  {
+    propagate(response);
+    if (response.status === 'success')
+    {
+      success_callback(response);
+    }
+    else
+    {
+      failure_callback(response);
+    }
+  }
+}
+
+window.ResponseController = new ResponseController();
 
 $(document).ready(function(){
 		 
@@ -244,10 +285,11 @@ function JQueryJson(url, data, callback_success)
     data: data,
     success: function(response)
     {
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       callback_success(response);
     }
@@ -323,10 +365,11 @@ $(document).ready(function(){
     var form = $('form[name="search"]');
     
     $.getJSON(url_get_favorites_tags, function(response) {
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
         var tags = [];
         for (i in response.tags)
@@ -503,10 +546,11 @@ $(document).ready(function(){
     link.addClass('loading');
     
     $.getJSON($(this).attr('href'), function(response) {
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       var img = link.find('img');
       link.attr('href', response.link_new_url);
@@ -578,10 +622,11 @@ $(document).ready(function(){
        url: url,
        data: data,
        success: function(response) {
-          if (response.status == 'mustbeconnected')
-           {
-             $(location).attr('href', url_index);
-           }
+          window.ResponseController.execute(
+            response,
+            function(){},
+            function(){}
+          );
 
           if (response.count)
           {
@@ -624,10 +669,11 @@ $(document).ready(function(){
   
   $('form[name="search"]').ajaxForm(function(response) { 
     
-    if (response.status == 'mustbeconnected')
-    {
-      $(location).attr('href', url_index);
-    }
+    window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
     
     $('ul.elements').html(response.html);
     
@@ -661,10 +707,11 @@ $(document).ready(function(){
       var li = link.parents('li.element');
       li.find('img.element_loader').show();
       $.getJSON(link.attr('href'), function(response){
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         if (response.status == 'success')
         {
@@ -704,10 +751,11 @@ $(document).ready(function(){
       var li = link.parents('li.element');
       li.find('img.element_loader').show();
       $.getJSON(link.attr('href'), function(response){
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         if (response.status == 'success')
         {
@@ -738,10 +786,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       // On prépare le tagBox
       li.html(response.html);
@@ -764,10 +813,11 @@ $(document).ready(function(){
       });
       $('form[name="'+response.form_name+'"]').ajaxForm(function(response){
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         var li = $('li#'+response.dom_id);
         
@@ -872,7 +922,7 @@ $(document).ready(function(){
   //      success: function(data) {
   //      if (data.status == 'mustbeconnected')
   //      {
-  //        $(location).attr('href', url_index);
+  //        $(location).attr('href', url_home);
   //      }
   //      
   //      // Ce contrôle permet de ne pas continuer si une requete
@@ -1026,7 +1076,7 @@ $(document).ready(function(){
   //
   //      if (response.status == 'mustbeconnected')
   //      {
-  //        $(location).attr('href', url_index);
+  //        $(location).attr('href', url_home);
   //      }
   //
   //      if (response.status == 'success')
@@ -1311,7 +1361,7 @@ $(document).ready(function(){
 //        
 //        if (response.status == 'mustbeconnected')
 //        {
-//          $(location).attr('href', url_index);
+//          $(location).attr('href', url_home);
 //        }
 //
 //        if (response.status == 'success')
@@ -1382,10 +1432,11 @@ $(document).ready(function(){
   
   function element_add_proceed_data_apis(response)
   {
-    if (response.status == 'mustbeconnected')
-    {
-      $(location).attr('href', url_index);
-    }
+    window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
 
     if (response.status == 'success')
     {
@@ -1482,54 +1533,55 @@ $(document).ready(function(){
     $('form[name="add"]').find('img.tag_loader').show();
   });
   $('form[name="add"]').ajaxForm(function(response) {
-    if (response.status == 'mustbeconnected')
-    {
-      $(location).attr('href', url_index);
-    }
     
     $('form[name="add"] img.tag_loader').hide();
+    window.ResponseController.execute(
+      response,
+      function(){},
+      function(){}
+    );
     
-    // Si on en est a la promière étape la réponse sera des données récupérés auprès
-    // des apis
-    if ($('input#form_add_step').val() == '1')
-    {
-      if (element_add_proceed_data_apis(response))
+      // Si on en est a la première étape la réponse sera des données récupérés auprès
+      // des apis
+      if ($('input#form_add_step').val() == '1')
       {
-        // On a plus qu'a afficher les champs
-        $('div#form_add_second_part').slideDown();
-        $('div#form_add_first_part').slideUp();
-        form_add_hide_errors();
-        $('#form_add_loader').hide();
-        $('input#form_add_step').val('2');
-        
-        // On doit avoir le slug du groupe si on ajoute a un groupe
-        if (!$('input#add_element_group_page').length)
+        if (element_add_proceed_data_apis(response))
         {
-          $('form[name="add"]').attr('action', url_element_add);
+          // On a plus qu'a afficher les champs
+          $('div#form_add_second_part').slideDown();
+          $('div#form_add_first_part').slideUp();
+          form_add_hide_errors();
+          $('#form_add_loader').hide();
+          $('input#form_add_step').val('2');
+
+          // On doit avoir le slug du groupe si on ajoute a un groupe
+          if (!$('input#add_element_group_page').length)
+          {
+            $('form[name="add"]').attr('action', url_element_add);
+          }
+          else
+          {
+            $('form[name="add"]').attr('action', url_element_add+'/'+$('input#add_element_group_page').val());
+          }
+          $('span#add_url_title_url').html($('input#element_add_url').val());
+          // Mise a zero des tags
+          window.add_tag_prompt_connector.initializeTags([]);
+          $('input#element_add_need_tags').attr('checked', false);
         }
         else
         {
-          $('form[name="add"]').attr('action', url_element_add+'/'+$('input#add_element_group_page').val());
+          form_add_display_errors(response.errors);
+          $('#form_add_loader').hide();
         }
-        $('span#add_url_title_url').html($('input#element_add_url').val());
-        // Mise a zero des tags
-        window.add_tag_prompt_connector.initializeTags([]);
-        $('input#element_add_need_tags').attr('checked', false);
       }
-      else
+      else if ($('input#form_add_step').val() == '2')
       {
-        form_add_display_errors(response.errors);
-        $('#form_add_loader').hide();
+        if (element_add_proceed_json_response(response))
+        {
+          form_add_reinit();
+        }
       }
-    }
-    else if ($('input#form_add_step').val() == '2')
-    {
-      if (element_add_proceed_json_response(response))
-      {
-        form_add_reinit();
-      }
-    }
-
+    
     
     return false;
   });
@@ -1561,10 +1613,11 @@ $(document).ready(function(){
     $('img.elements_more_loader').show();
     $.getJSON($('input#get_elements_url').val()+'/'+array2json(tags_ids_for_filter), function(response){
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       $('ul.elements').html(response.html);
       
@@ -1695,10 +1748,11 @@ $(document).ready(function(){
           data: $('form[name="search"]').serialize(),
           success: function(response){
           
-            if (response.status == 'mustbeconnected')
-            {
-              $(location).attr('href', url_index);
-            }
+            window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
 
             if (response.status == 'success' && response.count)
             {
@@ -1716,7 +1770,7 @@ $(document).ready(function(){
 //          
 //          if (response.status == 'mustbeconnected')
 //          {
-//            $(location).attr('href', url_index);
+//            $(location).attr('href', url_home);
 //          }
 //
 //          if (response.status == 'success' && response.count)
@@ -1753,10 +1807,11 @@ $(document).ready(function(){
       data: $('form[name="search"]').serialize(),
       success: function(response){
       
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
 
         if (response.status == 'success')
         {
@@ -1783,7 +1838,7 @@ $(document).ready(function(){
 //      
 //      if (response.status == 'mustbeconnected')
 //      {
-//        $(location).attr('href', url_index);
+//        $(location).attr('href', url_home);
 //      }
 //      
 //      if (response.status == 'success')
@@ -1878,10 +1933,11 @@ $(document).ready(function(){
       li_element.find('form.add_comment').show();
       
       li_element.find('form.add_comment').ajaxForm(function(response) {
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
 
         li_element.find('img.comments_loader').hide();
         
@@ -1959,10 +2015,11 @@ $(document).ready(function(){
         
         li.find('img.comment_loader').hide();
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         if (response.status == 'success')
         {
@@ -2002,10 +2059,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       li.html(response.html);
       // On rend ce formulaire ajaxFormable
@@ -2020,10 +2078,11 @@ $(document).ready(function(){
         li = $('li#'+response.dom_id);
         li.find('img.comment_loader').hide();
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         if (response.status == 'success')
         {
@@ -2077,7 +2136,7 @@ $(document).ready(function(){
         }
       }
     );
-      
+  
   $('a.tag_to_favorites').jConfirmAction({
     question : string_tag_addtofav_confirm_sentence, 
     yesAnswer : string_tag_addtofav_confirm_yes, 
@@ -2086,10 +2145,11 @@ $(document).ready(function(){
       
       $.getJSON(link.attr('href'), function(response){
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       });
       
       $('div.question').fadeOut();
@@ -2120,10 +2180,11 @@ $(document).ready(function(){
       
       loader.hide();
     
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       if (response.status == 'success')
       {
@@ -2157,10 +2218,12 @@ $(document).ready(function(){
       
       $.getJSON(link.attr('href'), function(response){
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+          response,
+          function(){},
+          function(){}
+        );
+          
       });
       
       $('div.question').fadeOut();
@@ -2182,20 +2245,27 @@ $(document).ready(function(){
     
     var img = $(this).find('img');
     var link = $(this);
+    var old_img_url = img.attr('src');
     img.attr('src', url_img_ajax_loader);
     
     $.getJSON(link.attr('href'), function(response){
-        
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
       
-      if (response.status == 'success')
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+        
+      if (response.status === 'success')
       {
         link.attr('href', response.data.a.href);
         img.attr('src', response.data.img.src);
         link.parents('ul.element_thumb_actions').find('li.score').text(response.data.element.points);
+      }
+        
+      if (response.status === 'error')
+      {
+        img.attr('src', old_img_url);
       }
       
     });
@@ -2213,10 +2283,11 @@ $(document).ready(function(){
     
     $.getJSON(link.attr('href'), function(response){
         
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       if (response.status == 'success')
       {
@@ -2237,7 +2308,7 @@ $(document).ready(function(){
    * 
    */
   
- // Ouverture du formulaire de modification
+ // Ouverture du formulaire de proposition de tags
   $('a.element_propose_tags').live('click', function(){
     
     var link = $(this);
@@ -2247,16 +2318,15 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
-      
       li.find('img.element_loader').hide();
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
-      if (response.status == 'success')
+      if (response.status === 'success')
       {
-        
         // On prépare le tagBox
         var table = li.find('table:first');
         li.find('div.tag_proposition').remove();
@@ -2272,43 +2342,49 @@ $(document).ready(function(){
         ajax_query_timestamp = null;
 
         //$("#tags_prompt_list_"+response.form_name).tagBox(options);
-      
-      // On rend ce formulaire ajaxFormable
-      $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){
-        li = $(this).parents('li.element');
-        li.find('img.element_loader').show();
-      });
-      $('form[name="'+response.form_name+'"]').ajaxForm(function(response){
-        
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
-                
-        if (response.status == 'success')
-        {
-          li = $('li#'+response.dom_id);
-          li.find('img.element_loader').hide();
-          li.find('form')
-          li.find('div.tag_proposition').remove();
-        }
-        else if (response.status == 'error')
-        {
-          li.find('img.element_loader').hide();
-          li.find('ul.error_list').remove();
-          var ul_errors = $('<ul>').addClass('error_list');
-          
-          for (i in response.errors)
+
+        // On rend ce formulaire ajaxFormable
+        $('form[name="'+response.form_name+'"] input[type="submit"]').live('click', function(){
+          li = $(this).parents('li.element');
+          li.find('img.element_loader').show();
+        });
+        $('form[name="'+response.form_name+'"]').ajaxForm(function(response){
+
+          window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+
+          if (response.status == 'success')
           {
-            ul_errors.append($('<li>').append(response.errors[i]));
+            li = $('li#'+response.dom_id);
+            li.find('img.element_loader').hide();
+            li.find('form')
+            li.find('div.tag_proposition').remove();
           }
-          
-          li.find('div.tag_proposition div.tags_prompt').prepend(ul_errors);
-        }
-        
-      });
-      
+          else if (response.status == 'error')
+          {
+            li.find('img.element_loader').hide();
+            li.find('ul.error_list').remove();
+            var ul_errors = $('<ul>').addClass('error_list');
+
+            for (i in response.errors)
+            {
+              ul_errors.append($('<li>').append(response.errors[i]));
+            }
+
+            li.find('div.tag_proposition div.tags_prompt').prepend(ul_errors);
+          }
+        });
       }
+      
+//      if (response.status === 'mustbeconnected')
+//      {
+//        $(location).attr('href', url_home);
+//      }
+      
+      
     });
     return false;
   });
@@ -2328,10 +2404,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       li.find('img.element_loader').hide();
       
@@ -2355,10 +2432,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       li.find('img.element_loader').hide();
       
@@ -2381,10 +2459,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       li.find('img.element_loader').hide();
       
@@ -2413,10 +2492,12 @@ $(document).ready(function(){
       
       $.getJSON(link.attr('href'), function(response){
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+          response,
+          function(){},
+          function(){}
+        );
+        
       });
       
       $('div.question').fadeOut();
@@ -2444,10 +2525,11 @@ $(document).ready(function(){
       $('div.question').fadeOut();
       $.getJSON(link.attr('href'), function(response){
         
-        if (response.status == 'mustbeconnected')
-        {
-          $(location).attr('href', url_index);
-        }
+        window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
         
         // On affiche l'élément que si on voit que le formulaire est sur la page
         // Sinon c'est qu'on est sur une page ou on a pas normalement la possibilité
@@ -2628,6 +2710,12 @@ $(document).ready(function(){
    
    // Ouverture de la zone "ajouter un element""
    $('#element_add_link').click(function(){
+    
+    if ($(this).hasClass('mustbeconnected'))
+    {
+      return false;
+    }
+    
      $('#element_add_box').slideDown("slow");
      $('#element_add_link').hide();
      $('#element_add_close_link').show();
@@ -2685,10 +2773,11 @@ $(document).ready(function(){
     link = $(this);
     $.getJSON(link.attr('href'), function(response) {
       
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
        if (response.status == 'success')
        {
@@ -2713,7 +2802,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
    
-   $('#registration_link').click(function(){
+   $('#registration_link').live('click', function(){
      $('#registration_box').slideDown("slow");
      $('#login_box').slideUp("slow");
      $(this).hide();
@@ -2721,14 +2810,13 @@ $(document).ready(function(){
      return false;
    });
    
-   $('#login_link').click(function(){
+   $('#login_link').live('click', function(){
      $('#login_box').slideDown("slow");
      $('#registration_box').slideUp("slow");
      $('#registration_link').show();
      $(this).hide();
      return false;
    });
-   
    
  });
 
@@ -2738,10 +2826,11 @@ $(document).ready(function(){
     var link = $(this);
     $.getJSON($(this).attr('href'), function(response) {
      
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       if (response.status == 'success')
       {
@@ -2766,10 +2855,11 @@ $(document).ready(function(){
     
     $.getJSON($(this).attr('href')+'/'+newtag, function(response) {
      
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       if (response.status == 'error')
       {
@@ -2820,10 +2910,11 @@ $(document).ready(function(){
     var link = $(this);
     $.getJSON($(this).attr('href'), function(response) {
      
-      if (response.status == 'mustbeconnected')
-      {
-        $(location).attr('href', url_index);
-      }
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
       
       if (response.status == 'success')
       {
@@ -2872,11 +2963,142 @@ $(document).ready(function(){
   
   /* HELPBOX */
   $('.helpbox').live('click', function(){
+    open_ajax_popin($(this).attr('href'));
+    return false;
+  });
+  
+  $('a#helpbox_close').live('click', function(){
+    close_popin();
+  });
+   
+    // Hide add_tag
+    $('div#add_tag div.inputs input[type="submit"]').live('click', function(){
+      $('#fade').fadeOut(1000, function(){$('#fade').remove();});
+      $('div#add_tag').fadeOut();
+    });
+   
+  /*
+    * MUSTBECONNECTED links
+    */
+   
+    $('a.mustbeconnected').live('click', function(){open_connection_or_subscription_window();});
+    $('a.mustbeconnected').off('click').on('click',function(){
+      open_connection_or_subscription_window();
+    });
+    
+    $('a.open_login').click(function(){
+      open_connection_or_subscription_window(true);
+    });
+   
+   /*
+    * Confirm email ajax
+    */
+   
+   $('div#email_not_confirmed_box input').live('click', function(){
+     $('div#email_not_confirmed_box img.loader').show();
+     $.getJSON(url_send_email_confirmation, function(response) {
+       $('div#email_not_confirmed_box img.loader').hide();
+       $('div#email_not_confirmed_box div.center').html(
+         '<span class="message_'+response.status+'">'+response.message+'</span>'      
+       );
+     });
+   });
+   
+   /*
+    * Buttons for open email confirmation request
+    */
+   
+   $('a#group_add_link_disabled.mustconfirmemail').click(function(){
+     open_ajax_popin(url_email_not_confirmed, function(){});
+   });
+   
+   /*
+    * Tag prompte tools
+    */
+   
+   $('a.tags_prompt_remove_all').click(function(){
+     window.search_tag_prompt_connector.initializeTags([]);
+   });
+   
+   $('a.tags_prompt_favorites').click(function(){
+     
+    $('img#tag_prompt_loader_search').show();
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      
+      $('img#tag_prompt_loader_search').hide();
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+      
+      
+      var tags = [];
+      for (i in response.tags)
+      {
+        var tag = new Tag(i, response.tags[i]);
+        tags.push(tag);
+      }
+
+      window.search_tag_prompt_connector.initializeTags(tags);
+      
+      if (!tags.length)
+      {
+        open_ajax_popin(url_helpbox_tags_favorites, function(){
+          $('div#helpbox form[name="favorites_tags_helpbox"] input[type="submit"]').click(function(){
+            $('div#helpbox img.loader').show();
+          });
+          $('div#helpbox form[name="favorites_tags_helpbox"]').ajaxForm(function(response) {
+            
+            $('div#helpbox img.loader').hide();
+            window.ResponseController.execute(
+              response,
+              function(){},
+              function(){}
+            );
+             
+            if (response.status === 'error')
+            {
+              $('div#helpbox').html(response.data);
+            }
+             
+            if (response.status === 'success')
+            {
+              close_popin();
+              $('a.tags_prompt_favorites').trigger('click');
+            }
+
+          });
+        });
+      }
+      
+    });
+    
+    return false;
+   });
+   
+   /*
+    * tour launch manually
+    */
+   
+   $('a#launch_tour').click(function(){
+     window.start_visit_tour();
+   });
+   
+   
+});
+
+function open_ajax_popin(url, callback)
+{
+  if (!popin_opened)
+  {
+    popin_opened = true;
     $('body').append(
       '<div id="helpbox" class="popin_block"><img src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>'
     );
     open_popin_dialog('helpbox');
-    JQueryJson($(this).attr('href'), {}, function(response){
+    JQueryJson(url, {}, function(response){
       if (response.status == 'success')
       {
         $('div#helpbox').html(
@@ -2885,16 +3107,84 @@ $(document).ready(function(){
           '</a>'+
           response.data
         );
+
+        if (callback)
+        {
+          callback();
+        }
       }
     });
-    
-    return false;
-  });
-  $('a#helpbox_close').live('click', function(){
-    // Fond gris
-    $('#fade').fadeOut(1000, function(){$('#fade').remove();});
-    // On cache le lecteur
-    $('#helpbox').remove();
-  });
-   
-});
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+  }
+}
+
+function open_connection_or_subscription_window(open_login_part)
+{
+  if (window_login_or_subscription_opened == false)
+  {
+    window_login_or_subscription_opened = true;
+    open_ajax_popin(url_subscription_or_login, function(){
+      if (open_login_part)
+      {
+        $('div#helpbox div#login_box').show();
+        $('a#registration_link').show();
+      }
+      else
+      {
+        $('div#helpbox div#registration_box').show();
+        $('a#login_link').show();
+      }
+      
+      $('a#helpbox_close').click(function(){
+        window_login_or_subscription_opened = false;
+      });
+      
+      $('div.login form').submit(function(){
+        $(this).find('img.loader').show();
+      });
+      $('div.login form').ajaxForm(function(response) {
+        $('div.login form').find('img.loader').hide();
+        if (response.status == 'success')
+        {
+          $(location).attr('href', url_home);
+        }
+        else if (response.status == 'error')
+        {
+          $('div.login form').find('ul.error_list').remove();
+          $('div.login form').prepend('<ul class="error_list"><li>'+response.data.error+'</li></ul>');
+          $('div.login form input#password').val('');
+        }
+      });
+      
+      $('div.register form.fos_user_registration_register').submit(function(){
+        $(this).find('img.loader').show();
+      });
+      $('div.register form.fos_user_registration_register').ajaxForm(function(response) {
+        $('div.register form.fos_user_registration_register').find('img.loader').hide();
+        if (response.status == 'success')
+        {
+          $(location).attr('href', url_home);
+        }
+        else if (response.status == 'error')
+        {
+          $('div.register form').html(response.data.html);
+        }
+      });
+      
+      $('div#facebook_login').prependTo('div#helpbox');
+      $('div#facebook_login').show();
+      
+    });
+  }
+}
+
+function close_popin()
+{
+  $('div#facebook_login').hide();
+  $('div#facebook_login').appendTo('body');
+  // Fond gris
+  $('#fade').fadeOut(1000, function(){$('#fade').remove();});
+  // On cache le lecteur
+  $('#helpbox').remove();
+  popin_opened = false;
+}

@@ -217,8 +217,20 @@ class ElementSearcherQueryBuilder
   private function buildStrict()
   {
     // Recherche strict ou non ?
-    if ($this->es->getTagStrict() && count(($tags = $this->es->getTags())))
+    if ($this->es->getTagStrict() && count(($tags = $this->es->getTags())) && $this->es->getTags() != '[]')
     {
+      if (is_null($tags) && !count($tags))
+      {
+        return;
+      }
+      
+      if (is_string($tags))
+      {
+        if (is_null(trim($tags)))
+        {
+          return;
+        }
+      }
       // On a besoin de récupérer la liste des element_id qui ont les tags
       // demandés.
       $tag_ids = '';

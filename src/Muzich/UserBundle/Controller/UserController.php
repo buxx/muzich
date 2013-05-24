@@ -136,58 +136,7 @@ class UserController extends Controller
   /** @return User */
   protected function getNewUser()
   {
-    // Ce serais mieux d'appeler notre user manager et d'utiliser notre createUser
-    // avec ce code.
-    $userManager = $this->container->get('fos_user.user_manager');
-    $user = $userManager->createUser();
-    $user->setUsername($this->generateUsername());
-    $user->setPlainPassword($this->generatePassword(32));
-    $user->setEnabled(true);
-    $user->setCguAccepted(true);
-    $user->setEmailConfirmed(false);
-    $user->setUsernameUpdatable(true);
-    $user->setPasswordSet(false);
-    return $user;
-  }
-  
-  protected function generateUsername()
-  {
-    $qb = $this->getEntityManager()->createQueryBuilder();
-    $qb->select('count(id)');
-    $qb->from('MuzichCoreBundle:User','id');
-    $count = $qb->getQuery()->getSingleScalarResult();
-    
-    while ($this->usernameExist($count))
-    {
-      $count++;
-    }
-    
-    return 'User'.$count;
-  }
-  
-  protected function usernameExist($count)
-  {
-    $username = 'User'.$count;
-    if ($this->getEntityManager()->getRepository('MuzichCoreBundle:User')
-      ->findOneByUsername($username))
-    {
-      return true;
-    }
-    
-    return false;
-  }
-  
-  protected function generatePassword($length = 8)
-  {
-    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    $count = mb_strlen($chars);
-    
-    for ($i = 0, $result = ''; $i < $length; $i++) {
-        $index = rand(0, $count - 1);
-        $result .= mb_substr($chars, $index, 1);
-    }
-    
-    return $result;
+    return $this->container->get('muzich_user_manager')->getNewReadyUser();
   }
   
   protected function checkRegistrationValues($form)
