@@ -33,52 +33,7 @@ class Youtubecom extends ElementFactory
       Element::DATA_THUMB_URL  => array('items' => array(0 => array('thumbnails' => 'medium'))),
       Element::DATA_TITLE      => array('items' => array(0 => array('snippet' => 'title'))),
     ));
-    //
-    //die(var_dump($response->getContent()));
-    //
-    //$video_data_dom = new \DOMDocument;
-    //try {
-    //  $video_data_dom->load("http://gdata.youtube.com/feeds/api/videos/". $ref_id);
-    //
-    //  if ($video_data_dom->getElementsByTagName("title"))
-    //  {
-    //    if ($video_data_dom->getElementsByTagName("title")->item(0))
-    //    {
-    //      if (($title = $video_data_dom->getElementsByTagName("title")->item(0)->nodeValue))
-    //      {
-    //        $this->element->setData(Element::DATA_TITLE, $title);
-    //      }
-    //    }
-    //  }
-    //}
-    //catch (\ErrorException $e)
-    //{
-    //  // Api injoignable
-    //}
   }
-  
-  //public function retrieveDatas()
-  //{
-  //  $url_clean = $this->getCleanedUrl();
-  //  $ref_id = null;
-  //  
-  //  if (preg_match("#(v\/|watch\?v=)([\w\-]+)#", $url_clean, $chaines))
-  //  {
-  //    $ref_id = $chaines[2];
-  //  }
-  //  else if (preg_match("#(v=|watch\?v=)([\w\-]+)#", $url_clean, $chaines))
-  //  {
-  //    $ref_id = $chaines[2];
-  //  }
-  //  
-  //  $this->element->setData(Element::DATA_REF_ID, $ref_id);
-  //  
-  //  // Données API TODO: REFACTORISER
-  //  if ($ref_id)
-  //  {
-  //    $this->proceedAPIDatas($ref_id);
-  //  }
-  //}
   
   public function proceedEmbedCode()
   {
