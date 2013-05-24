@@ -61,4 +61,19 @@ class UrlMatchs
       "#^\/track\/([0-9]+)#" => 1
     )
   );
+  
+  public static $spotify = array(
+    Element::TYPE_TRACK => array(
+      // http://open.spotify.com/track/7ylMdCOkqumPAwIMb6j2D5
+      "#^\/track\/([a-zA-Z0-9]+)#" => 1
+    ),
+    Element::TYPE_ALBUM => array(
+      // http://open.spotify.com/album/1VAB3Xn92dPKPWzocgQqkh
+      "#^\/album\/([a-zA-Z0-9]+)#" => 1
+    ),
+    Element::TYPE_PLAYLIST => array(
+      // http://open.spotify.com/user/bux/playlist/2kNeCiQaATbUi3lixhNwco
+      "#^\/user\/([a-zA-Z0-9_-]+)\/playlist\/([a-zA-Z0-9]+)#" => 2
+    )
+  );
 }

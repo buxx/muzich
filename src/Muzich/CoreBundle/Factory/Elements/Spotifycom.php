@@ -4,6 +4,9 @@ namespace Muzich\CoreBundle\Factory\Elements;
 
 use Muzich\CoreBundle\Factory\ElementFactory;
 use Muzich\CoreBundle\Entity\Element;
+use Muzich\CoreBundle\Factory\UrlMatchs;
+use Symfony\Component\DependencyInjection\Container;
+use Doctrine\ORM\EntityManager;
 
 /**
  * 
@@ -12,6 +15,18 @@ use Muzich\CoreBundle\Entity\Element;
  */
 class Spotifycom extends ElementFactory
 {
+  
+  public function __construct(Element $element, Container $container, EntityManager $entity_manager)
+  {
+    $this->url_matchs = UrlMatchs::$spotify;
+    parent::__construct($element, $container, $entity_manager);
+  }
+  
+  public function proceedDatas()
+  {
+    $this->setElementDatasWithApi();
+    $this->proceedEmbedCode();
+  }
   
   /**
    * 
@@ -59,66 +74,104 @@ class Spotifycom extends ElementFactory
     }
   }
   
-  protected function getDataFromApi($ref_id)
+  protected function setElementDatasWithApi()
   {
-    if ($this->element->getData(Element::DATA_TYPE) == 'track')
+    if ($this->url_analyzer->getType() == Element::TYPE_TRACK)
     {
-      $data = $this->getJsonDataFromApiWithUrl('http://ws.spotify.com/lookup/1/.json?uri=spotify:track:'.$ref_id);
+      $response = $this->getApiConnector()->getResponseForUrl('http://ws.spotify.com/lookup/1/.json?uri=spotify:track:'
+        .$this->url_analyzer->getRefId()
+      );
+      $this->getApiConnector()->setElementDatasWithResponse($response, array(
+        Element::DATA_ARTIST   => array('track' => 'artist'),
+        Element::DATA_TITLE    => array('track' => 'name')
+      ));
       
-      if (array_key_exists('track', $data))
+      if (!$this->element->getData(Element::DATA_ARTIST))
       {
-        if (array_key_exists('available', $data['track']))
-        {
-          if ($data['track']['available'])
-          {
-            if (array_key_exists('artist', $data['track']))
-            {
-              $this->element->setData(Element::DATA_ARTIST, $data['track']['artist']);
-            }
-            if (array_key_exists('artists', $data['track']))
-            {
-              if (count($data['track']['artists']))
-              {
-                if (array_key_exists('name', $data['track']['artists'][0]))
-                {
-                  $this->element->setData(Element::DATA_ARTIST, $data['track']['artists'][0]['name']);
-                }
-              }
-            }
-            if (array_key_exists('name', $data['track']))
-            {
-              $this->element->setData(Element::DATA_TITLE, $data['track']['name']);
-            }
-          }
-        }
+        $this->getApiConnector()->setElementDatasWithResponse($response, array(
+          Element::DATA_ARTIST         => array('track' => array('artists' => array(0 => 'name'))),
+        ));
       }
     }
-    if ($this->element->getData(Element::DATA_TYPE) == 'album')
+    if ($this->url_analyzer->getType() == Element::TYPE_ALBUM)
     {
-      $data = $this->getJsonDataFromApiWithUrl('http://ws.spotify.com/lookup/1/.json?uri=spotify:album:'.$ref_id);
+      $response = $this->getApiConnector()->getResponseForUrl('http://ws.spotify.com/lookup/1/.json?uri=spotify:album:'
+        .$this->url_analyzer->getRefId()
+      );
+      $this->getApiConnector()->setElementDatasWithResponse($response, array(
+        Element::DATA_ARTIST   => array('album' => 'artist'),
+        Element::DATA_TITLE    => array('album' => 'name')
+      ));
       
-      if (array_key_exists('album', $data))
+      if (!$this->element->getData(Element::DATA_ARTIST))
       {
-        if (array_key_exists('artist', $data['album']))
-        {
-          $this->element->setData(Element::DATA_ARTIST, $data['album']['artist']);
-        }
-        if (array_key_exists('artists', $data['album']))
-        {
-          if (count($data['album']['artists']))
-          {
-            if (array_key_exists('name', $data['album']['artists'][0]))
-            {
-              $this->element->setData(Element::DATA_ARTIST, $data['album']['artists'][0]['name']);
-            }
-          }
-        }
-        if (array_key_exists('name', $data['album']))
-        {
-          $this->element->setData(Element::DATA_TITLE, $data['album']['name']);
-        }
+        $this->getApiConnector()->setElementDatasWithResponse($response, array(
+          Element::DATA_ARTIST         => array('album' => array('artists' => array(0 => 'name'))),
+        ));
       }
     }
+    
+    
+    
+    
+    //if ($this->element->getData(Element::DATA_TYPE) == 'track')
+    //{
+    //  $data = $this->getJsonDataFromApiWithUrl('http://ws.spotify.com/lookup/1/.json?uri=spotify:track:'.$ref_id);
+    //  
+    //  if (array_key_exists('track', $data))
+    //  {
+    //    if (array_key_exists('available', $data['track']))
+    //    {
+    //      if ($data['track']['available'])
+    //      {
+    //        if (array_key_exists('artist', $data['track']))
+    //        {
+    //          $this->element->setData(Element::DATA_ARTIST, $data['track']['artist']);
+    //        }
+    //        if (array_key_exists('artists', $data['track']))
+    //        {
+    //          if (count($data['track']['artists']))
+    //          {
+    //            if (array_key_exists('name', $data['track']['artists'][0]))
+    //            {
+    //              $this->element->setData(Element::DATA_ARTIST, $data['track']['artists'][0]['name']);
+    //            }
+    //          }
+    //        }
+    //        if (array_key_exists('name', $data['track']))
+    //        {
+    //          $this->element->setData(Element::DATA_TITLE, $data['track']['name']);
+    //        }
+    //      }
+    //    }
+    //  }
+    //}
+    //if ($this->element->getData(Element::DATA_TYPE) == 'album')
+    //{
+    //  $data = $this->getJsonDataFromApiWithUrl('http://ws.spotify.com/lookup/1/.json?uri=spotify:album:'.$ref_id);
+    //  
+    //  if (array_key_exists('album', $data))
+    //  {
+    //    if (array_key_exists('artist', $data['album']))
+    //    {
+    //      $this->element->setData(Element::DATA_ARTIST, $data['album']['artist']);
+    //    }
+    //    if (array_key_exists('artists', $data['album']))
+    //    {
+    //      if (count($data['album']['artists']))
+    //      {
+    //        if (array_key_exists('name', $data['album']['artists'][0]))
+    //        {
+    //          $this->element->setData(Element::DATA_ARTIST, $data['album']['artists'][0]['name']);
+    //        }
+    //      }
+    //    }
+    //    if (array_key_exists('name', $data['album']))
+    //    {
+    //      $this->element->setData(Element::DATA_TITLE, $data['album']['name']);
+    //    }
+    //  }
+    //}
     
   }
   

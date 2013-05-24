@@ -573,6 +573,31 @@ class ElementFactoryTest extends UnitTest
     //  $bux, 
     //  'http://vimeo.com/43258820'
     //));
+    //
+    ///*
+    // * Spotify
+    // *
+    // */
+    //
+    //$this->assertEquals(array(
+    //  'data_ref_id' => '1Uz3BDNxgLI0S6ACV7yXlT',
+    //  'data_title'  => 'Narkotek Old School Tracks',
+    //  'data_artist' => 'Guigoo Narkotek',
+    //  'data_type'   => 'album'
+    //),$this->proceed_element_datas_api(
+    //  $bux, 
+    //  'http://open.spotify.com/album/1Uz3BDNxgLI0S6ACV7yXlT'
+    //));
+    //
+    //$this->assertEquals(array(
+    //  'data_ref_id' => '3d5FWJe19DkUJaO2wDEQHY',
+    //  'data_title'  => 'Outta space',
+    //  'data_artist' => 'Guigoo Narkotek',
+    //  'data_type'   => 'track'
+    //),$this->proceed_element_datas_api(
+    //  $bux, 
+    //  'http://open.spotify.com/track/3d5FWJe19DkUJaO2wDEQHY'
+    //));
     
   }
   
