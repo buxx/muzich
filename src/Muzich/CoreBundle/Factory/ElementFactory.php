@@ -38,6 +38,11 @@ abstract class ElementFactory
     $this->url_analyzer = new UrlAnalyzer($element, $this->url_matchs);
   }
   
+  protected function setUrlAnalyzer($url_matchs)
+  {
+    $this->url_analyzer = new UrlAnalyzer($this->element, $url_matchs);
+  }
+  
   protected function getApiConnector()
   {
     return $this->api_connector;
