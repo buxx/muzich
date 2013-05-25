@@ -1,1 +1,17 @@
 {% extends_admingenerated "MuzichAdminBundle:Moderate_tagList:index.html.twig" %}
+
+{% block list_object_actions %}
+  <td class="actions">
+    <div class="btn-group">
+      
+       <a class="moderate_accept" href="{{ path("Muzich_AdminBundle_Moderate_tag_accept", {'pk':Tag.id}) }}" rel="tooltip" title="{% trans from "Admingenerator" %}Accept{% endtrans %}">
+           <i class="icon-ok-sign"></i>
+       </a>
+      
+       <a class="moderate_refuse" href="{{ path("Muzich_AdminBundle_Moderate_tag_refuse", {'pk':Tag.id}) }}" rel="tooltip" title="{% trans from "Admingenerator" %}Refuse{% endtrans %}">
+          <i class="icon-trash"></i>
+       </a>
+    
+    </div>
+  </td>
+{% endblock %}
