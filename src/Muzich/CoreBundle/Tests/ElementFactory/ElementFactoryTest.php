@@ -354,6 +354,32 @@ class ElementFactoryTest extends UnitTest
       'data_normalized_url' => 'http://api.soundcloud.com/tracks/3154252'
     ),$datas);
     
+    
+    // https://soundcloud.com/sinkane/okay-africa-mixtape-2011#play
+    $datas = $this->proceed_element_datas_api(
+      $bux, 
+      'https://soundcloud.com/sinkane/okay-africa-mixtape-2011#play'
+    );
+    
+    $this->assertTrue(array_key_exists('data_thumb_url', $datas));
+    
+    if (array_key_exists('data_thumb_url', $datas))
+    {
+      unset($datas['data_thumb_url']);
+    }
+    
+    $this->assertEquals(array(
+      'data_ref_id' => 29186819,
+      'data_title' => 'Okay Africa Mixtape 2011',
+      //'data_thumb_url' => 'http://i1.sndcdn.com/artworks-000001536693-gb1n5v-large.jpg?51826bf',
+      'data_type' => 'track',
+      'data_artist' => 'Sinkane',
+      'data_tags' => array(
+        0 => null
+      ),
+      'data_normalized_url' => 'http://api.soundcloud.com/tracks/29186819',
+    ),$datas);
+    
     // 'http://soundcloud.com/tracks/search?q%5Bfulltext%5D=EEK+A+MOUSSE&q%5Btype%5D=&q%5Bduration%5D='
     
     $this->assertEquals(array(

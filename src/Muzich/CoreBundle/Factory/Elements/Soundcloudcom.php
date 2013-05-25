@@ -20,8 +20,17 @@ class Soundcloudcom extends ElementFactory
   
   public function proceedDatas()
   {
+    $this->cleanUrl();
     $this->setElementDatasWithApi();
     $this->proceedThumbnailUrl();
+  }
+  
+  protected function cleanUrl()
+  {
+    if (strpos($this->element->getUrl(), '#') !== false)
+    {
+      $this->element->setUrl(substr($this->element->getUrl(), 0, strpos($this->element->getUrl(), '#')));
+    }
   }
   
   protected function setElementDatasWithApi()
