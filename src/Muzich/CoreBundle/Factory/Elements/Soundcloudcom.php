@@ -23,6 +23,7 @@ class Soundcloudcom extends ElementFactory
     $this->cleanUrl();
     $this->setElementDatasWithApi();
     $this->proceedThumbnailUrl();
+    $this->proceedEmbedCode();
   }
   
   protected function cleanUrl()
@@ -109,5 +110,29 @@ class Soundcloudcom extends ElementFactory
       $this->element->setThumbnailUrl($thumb);
     }
   }
+  
+  public function proceedEmbedCode()
+  {
+    if (($ref_id = $this->element->getData(Element::DATA_REF_ID)) 
+      && ($this->element->getData(Element::DATA_TYPE) == 'track' || $this->element->getData(Element::DATA_TYPE) == 'playlist' ))
+    {
+      $ref_id = $this->element->getUrl();
+      $embed_id = md5($ref_id);
+      $height = $this->container->getParameter('soundcloud_player_height');
+      $this->element->setEmbed(
+        '<object height="'.$height.'" width="100%" id="embed_'.$embed_id.'" '
+          .'classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+          <param name="movie" value="http://player.soundcloud.com/player.swf?url='.$ref_id.'&amp;'
+          .'enable_api=true&amp;object_id=embed_'.$embed_id.'"></param>
+          <param name="allowscriptaccess" value="always"></param>
+          <embed allowscriptaccess="always" height="'.$height.'" '
+          .'src="http://player.soundcloud.com/player.swf?url='.$ref_id.'&amp;enable_api=true'
+          .'&amp;object_id=embed_'.$embed_id.'" type="application/x-shockwave-flash" '
+          .'width="100%" name="embed_'.$embed_id.'"></embed>
+        </object>'
+      );
+    }
+  }
+
   
 }

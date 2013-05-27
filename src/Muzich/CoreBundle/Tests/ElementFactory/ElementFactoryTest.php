@@ -118,6 +118,48 @@ class ElementFactoryTest extends UnitTest
         .'height="'.$this->getParam('dailymotion_player_height').'" '
         .'src="http://www.dailymotion.com/embed/video/xafj1q?autoPlay=1"></iframe>'
     );
+    
+    /*
+     * - soundcloud.com
+     */
+    $url_id = 'http://soundcloud.com/matas/sets/library-project';
+    $embed_id = md5($url_id);
+    $this->proceed_elementAndFill(
+      $bux, 
+      'faez7tf8re9h4gf5j64dssz', 
+      'http://soundcloud.com/matas/sets/library-project', 
+      array($hardtek->getId(), $tribe->getId()), 
+      '<object height="'.$this->getParam('soundcloud_player_height').'" width="100%" id="embed_'.$embed_id.'" '
+          .'classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+          <param name="movie" value="http://player.soundcloud.com/player.swf?url='.$url_id.'&amp;'
+          .'enable_api=true&amp;object_id=embed_'.$embed_id.'"></param>
+          <param name="allowscriptaccess" value="always"></param>
+          <embed allowscriptaccess="always" height="'.$this->getParam('soundcloud_player_height').'" '
+          .'src="http://player.soundcloud.com/player.swf?url='.$url_id.'&amp;enable_api=true'
+          .'&amp;object_id=embed_'.$embed_id.'" type="application/x-shockwave-flash" '
+          .'width="100%" name="embed_'.$embed_id.'"></embed>
+        </object>'
+    );
+    
+    $url_id = 'http://soundcloud.com/matas/above-hyperion-redux';
+    $embed_id = md5($url_id);
+    $this->proceed_elementAndFill(
+      $bux, 
+      'faez7tf8re9h4gf5j64dssz', 
+      'http://soundcloud.com/matas/above-hyperion-redux', 
+      array($hardtek->getId(), $tribe->getId()), 
+      
+        '<object height="'.$this->getParam('soundcloud_player_height').'" width="100%" id="embed_'.$embed_id.'" '
+          .'classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+          <param name="movie" value="http://player.soundcloud.com/player.swf?url='.$url_id.'&amp;'
+          .'enable_api=true&amp;object_id=embed_'.$embed_id.'"></param>
+          <param name="allowscriptaccess" value="always"></param>
+          <embed allowscriptaccess="always" height="'.$this->getParam('soundcloud_player_height').'" '
+          .'src="http://player.soundcloud.com/player.swf?url='.$url_id.'&amp;enable_api=true'
+          .'&amp;object_id=embed_'.$embed_id.'" type="application/x-shockwave-flash" '
+          .'width="100%" name="embed_'.$embed_id.'"></embed>
+        </object>'
+    );
         
     $this->proceed_elementAndFill(
       $bux, 
@@ -142,6 +184,55 @@ class ElementFactoryTest extends UnitTest
       array($hardtek->getId(), $tribe->getId()), 
       null
     );
+     
+    /*
+     *   - jamendo.com
+     */
+    
+    $this->proceed_elementAndFill(
+      $bux, 
+      'gthyk456+liszz', 
+      'http://www.jamendo.com/fr/album/30661', 
+      array($hardtek->getId(), $tribe->getId()), 
+      
+        '<object width="'.$this->getParam('jamendo_player_width').'" height="'.$this->getParam('jamendo_player_height').'" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"'
+            .' codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" align="middle">
+            <param name="allowScriptAccess" value="always" />
+            <param name="wmode" value="transparent" />
+            <param name="movie" value="http://widgets.jamendo.com/fr/album/?album_id=30661&playertype=2008" />
+            <param name="quality" value="high" />
+            <param name="bgcolor" value="#FFFFFF" />
+            <embed src="http://widgets.jamendo.com/fr/album/?album_id=30661&playertype=2008" quality="high" wmode="transparent" bgcolor="#FFFFFF"'
+            .' width="'.$this->getParam('jamendo_player_width').'" height="'.$this->getParam('jamendo_player_height').'" align="middle" allowScriptAccess="always"'
+            .' type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+              &nbsp;
+            </embed>
+            &nbsp;
+          </object>' 
+    );
+    
+    $this->proceed_elementAndFill(
+      $bux, 
+      'gthyk456+liszz', 
+      'http://www.jamendo.com/fr/track/207079', 
+      array($hardtek->getId(), $tribe->getId()), 
+      
+      '<object width="'.$this->getParam('jamendo_player_width').'" height="'.$this->getParam('jamendo_player_height').'" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"'
+      .' codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" align="middle">
+            <param name="allowScriptAccess" value="always" />
+            <param name="wmode" value="transparent" />
+            <param name="movie" value="http://widgets.jamendo.com/fr/track/?track_id=207079&playertype=2008" />
+            <param name="quality" value="high" />
+            <param name="bgcolor" value="#FFFFFF" />
+            <embed src="http://widgets.jamendo.com/fr/track/?track_id=207079&playertype=2008" quality="high" wmode="transparent" bgcolor="#FFFFFF"'
+      .' width="'.$this->getParam('jamendo_player_width').'" height="'.$this->getParam('jamendo_player_height').'" align="middle" allowScriptAccess="always"'
+      .' type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+              &nbsp;
+            </embed>
+            &nbsp;
+          </object>' 
+    );
+
      
     $this->proceed_elementAndFill(
       $bux, 
