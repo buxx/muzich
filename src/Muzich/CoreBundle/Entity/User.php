@@ -5,6 +5,7 @@ namespace Muzich\CoreBundle\Entity;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
+use \Doctrine\Common\Collections\Collection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\EntityManager;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
@@ -83,6 +84,11 @@ class User extends BaseUser
   protected $tags_favorites;
   
   /**
+   * @ORM\OneToMany(targetEntity="UserPlaylistPicked", mappedBy="user")
+   */
+  protected $user_playlists_pickeds;
+  
+  /**
    * Cet attribut contient les enregistrements UsersElementsFavorites lié 
    * a cet utilisateur dans le cadre des éléments Favoris.
    * 
@@ -132,6 +138,11 @@ class User extends BaseUser
    * @ORM\OneToMany(targetEntity="Group", mappedBy="owner")
    */
   protected $groups_owned;
+  
+  /**
+   * @ORM\OneToMany(targetEntity="Playlist", mappedBy="owner")
+   */
+  protected $playlists_owneds;
   
   /**
    * @ORM\Column(type="integer", nullable=true)
@@ -297,6 +308,8 @@ class User extends BaseUser
     $this->followed_groups = new ArrayCollection();
     $this->groups = new ArrayCollection();
     $this->groups_owned = new ArrayCollection();
+    $this->user_playlists_pickeds = new ArrayCollection();
+    $this->playlists_owneds = new ArrayCollection();
     $this->help_tour = json_encode(array(
       self::HELP_TOUR_HOME => true
     ));
@@ -1199,6 +1212,50 @@ class User extends BaseUser
     if (isset($fbdata['email'])) {
       $this->setEmail($fbdata['email']);
     }
+  }
+  
+  public function getUserPlaylistsPickeds()
+  {
+    return $this->user_playlists_pickeds;
+  }
+  
+  public function setUserPlaylistsPickeds(Collection $user_playlists_pickeds)
+  {
+    $this->user_playlists_pickeds = $user_playlists_pickeds;
+  }
+  
+  public function havePlaylistPicked(Playlist $playlist)
+  {
+    foreach ($this->getPickedsPlaylists() as $playlist_picked)
+    {
+      if ($playlist_picked->getId() == $playlist->getId())
+      {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  public function getPickedsPlaylists()
+  {
+    $playlists = new ArrayCollection();
+    foreach ($this->user_playlists_pickeds as $user_playlist_picked)
+    {
+      $playlists->add($user_playlist_picked->getPlaylist());
+    }
+    
+    return $playlists;
+  }
+  
+  public function getPlaylistsOwneds()
+  {
+    return $this->playlists_owneds;
+  }
+  
+  public function setPlaylistsOwneds(Collection $playlists_owneds)
+  {
+    $this->playlists_owneds = $playlists_owneds;
   }
   
 }
