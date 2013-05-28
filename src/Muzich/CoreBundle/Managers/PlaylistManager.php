@@ -37,12 +37,20 @@ class PlaylistManager
     ;
   }
   
-  public function getPlaylistElements(Playlist $playlist)
+  public function getPlaylistElements(Playlist $playlist, $offset = null)
   {
-    return $this->entity_manager->getRepository('MuzichCoreBundle:Element')
-      ->getElementsWithIdsOrderingQueryBuilder($playlist->getElementsIds())
-      ->getQuery()->getResult()
+    $element_ids = $playlist->getElementsIds();
+    $query_builder = $this->entity_manager->getRepository('MuzichCoreBundle:Element')
+      ->getElementsWithIdsOrderingQueryBuilder($element_ids)
     ;
+    
+    if ($offset)
+    {
+      $query_builder->setFirstResult( $offset-1 )
+        ->setMaxResults( count($element_ids) );
+    }
+    
+    return  $query_builder->getQuery()->getResult();
   }
   
   public function getNewPlaylist(User $owner)

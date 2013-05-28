@@ -7,5 +7,5 @@ playlist:
   defaults: { _controller: MuzichPlaylistBundle:Show:show }
 
 playlist_datas_for_autoplay:
-  pattern: /ajax/autoplay/playlist/datas/{playlist_id}
-  defaults: { _controller: MuzichPlaylistBundle:Show:getAutoplayData }
+  pattern: /ajax/autoplay/playlist/datas/{playlist_id}/{offset}
+  defaults: { _controller: MuzichPlaylistBundle:Show:getAutoplayData, offset: null }

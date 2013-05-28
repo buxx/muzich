@@ -32,14 +32,14 @@ class ShowController extends Controller
     ));
   }
   
-  public function getAutoplayDataAction($playlist_id)
+  public function getAutoplayDataAction($playlist_id, $offset = null)
   {
     $playlist_manager = $this->getPlaylistManager();
     
     if (!($playlist = $playlist_manager->findOneAccessiblePlaylistWithId($playlist_id, $this->getUser(true))))
       throw $this->createNotFoundException();
     
-    $autoplaym = new AutoplayManager($playlist_manager->getPlaylistElements($playlist), $this->container);
+    $autoplaym = new AutoplayManager($playlist_manager->getPlaylistElements($playlist, $offset), $this->container);
     
     return $this->jsonResponse(array(
       'status'    => 'success',
