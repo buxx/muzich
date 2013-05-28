@@ -13,6 +13,7 @@ use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Entity\Presubscription;
 use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
+use Muzich\CoreBundle\Managers\PlaylistManager;
 
 class Controller extends BaseController
 {
@@ -636,6 +637,20 @@ class Controller extends BaseController
       $this->security_context = new SecurityContext($this->getUser());
     
     return $this->security_context;
+  }
+  
+  /** @return PlaylistManager */
+  protected function getPlaylistManager()
+  {
+    return new PlaylistManager($this->getEntityManager());
+  }
+  
+  protected function getLastDisplayedElementId($elements)
+  {
+    if (count($elements))
+      return $elements[count($elements)-1]->getId();
+    
+    return null;
   }
   
 }

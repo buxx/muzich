@@ -68,6 +68,12 @@ MuzichCommentBundle:
   requirements:
     _locale: fr|en
   
+MuzichPlaylistBundle:
+  resource: "@MuzichPlaylistBundle/Resources/config/routing.yml"
+  prefix:   /{_locale}/
+  requirements:
+    _locale: fr|en
+  
 AdmingeneratorDashboard_welcome:
     pattern: /admin/dashboard
     defaults: { _controller: MuzichAdminBundle:Dashboard:welcome }

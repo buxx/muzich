@@ -5,8 +5,10 @@ namespace Muzich\CoreBundle\Managers;
 use Doctrine\ORM\EntityManager;
 use Muzich\CoreBundle\Entity\Playlist;
 use Muzich\CoreBundle\Entity\User;
+use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Entity\UserPlaylistPicked;
 use \Doctrine\Common\Collections\ArrayCollection;
+use Muzich\CoreBundle\lib\Tag as TagLib;
 
 class PlaylistManager
 {
@@ -19,24 +21,28 @@ class PlaylistManager
     $this->entity_manager = $entity_manager;
   }
   
-  public function findOnePlaylistWithId($playlist_id, User $user = null)
+  public function getUserPublicsOrOwnedPlaylists(User $user_viewed, User $user = null)
   {
-    $query_builder = $this->entity_manager->createQueryBuilder()
-      ->select('p')
-      ->from('MuzichCoreBundle:Playlist', 'p')
-      ->where('p.id = :playlist_id')
+    return $this->entity_manager->getRepository('MuzichCoreBundle:Playlist')
+      ->getUserPublicPlaylistsOrOwnedQueryBuilder($user_viewed, $user)
+      ->getQuery()->getResult()
     ;
-    
-    if ($user)
-    {
-      $query_builder->andWhere('p.public = 1 OR p.owner = :user_id');
-    }
-    else
-    {
-      $query_builder->andWhere('p.public = 1');
-    }
-    
-    return $query_builder->getWuery()->getResult();
+  }
+  
+  public function findOneAccessiblePlaylistWithId($playlist_id, User $user = null)
+  {
+    return $this->entity_manager->getRepository('MuzichCoreBundle:Playlist')
+      ->findOnePlaylistOwnedOrPublic($playlist_id, $user)
+      ->getQuery()->getOneOrNullResult()
+    ;
+  }
+  
+  public function getPlaylistElements(Playlist $playlist)
+  {
+    return $this->entity_manager->getRepository('MuzichCoreBundle:Element')
+      ->getElementsWithIdsOrderingQueryBuilder($playlist->getElementsIds())
+      ->getQuery()->getResult()
+    ;
   }
   
   public function getNewPlaylist(User $owner)
@@ -90,6 +96,38 @@ class PlaylistManager
     $user->getPlaylistsOwneds()->add($playlist_copied);
     $this->entity_manager->persist($playlist_copied);
     $this->entity_manager->persist($user);
+  }
+  
+  public function addElementToPlaylist(Element $element, Playlist $playlist)
+  {
+    $playlist->addElement($element);
+    $this->actualizePlaylistTags($playlist);
+  }
+  
+  public function addElementsToPlaylist($elements, Playlist $playlist)
+  {
+    foreach ($elements as $element)
+    {
+      $playlist->addElement($element);
+    }
+    $this->actualizePlaylistTags($playlist);
+  }
+  
+  public function removeElementFromPlaylist(Element $element, Playlist $playlist)
+  {
+    $playlist->removeElement($element);
+    $this->actualizePlaylistTags($playlist);
+  }
+  
+  protected function actualizePlaylistTags(Playlist $playlist)
+  {
+    $tag_lib = new TagLib();
+    $playlist->cleanTags();
+    foreach ($tag_lib->getOrderedEntityTagsWithElements($this->getPlaylistElements($playlist)) as $tag)
+    {
+      $playlist->addTag($tag);
+    }
+    $this->entity_manager->persist($playlist);
   }
   
 }

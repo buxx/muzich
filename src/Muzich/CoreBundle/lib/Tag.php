@@ -50,6 +50,32 @@ class Tag
     return $tags_ordered;
   }
   
+  public function getOrderedEntityTagsWithElements($elements)
+  {
+    $tag_ordered_reference = $this->getOrderedTagsWithElements($elements);
+    return $this->populateOrderedReferenceWithElementTags($elements, $tag_ordered_reference);
+  }
+  
+  public function populateOrderedReferenceWithElementTags($elements, $ordered_reference)
+  {
+    $tags = array();
+    $tags_ordered = array();
+    foreach ($elements as $element)
+    {
+      foreach ($element->getTags() as $tag)
+      {
+        $tags[$tag->getId()] = $tag;
+      }
+    }
+    
+    foreach ($ordered_reference as $tag_id)
+    {
+      $tags_ordered[] = $tags[$tag_id];
+    }
+    
+    return $tags_ordered;
+  }
+  
   /**
    * Range une liste de tags [0 => Tag] en fonction d'une
    * réfèrence sous la forme [0 => tag_id, 1 => tag_id]

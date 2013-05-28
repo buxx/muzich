@@ -1,0 +1,11 @@
+playlists_user:
+  pattern: /user/{user_slug}/playlists
+  defaults: { _controller: MuzichPlaylistBundle:Show:user }
+
+playlist:
+  pattern: /user/{user_slug}/playlist/{playlist_id}
+  defaults: { _controller: MuzichPlaylistBundle:Show:show }
+
+playlist_datas_for_autoplay:
+  pattern: /ajax/autoplay/playlist/datas/{playlist_id}
+  defaults: { _controller: MuzichPlaylistBundle:Show:getAutoplayData }

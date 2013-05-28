@@ -510,4 +510,21 @@ class ElementRepository extends EntityRepository
     ;
   }
   
+  /**
+   * WARNING: Seulement compatibel avec MySQL !!
+   */
+  public function getElementsWithIdsOrderingQueryBuilder($element_ids)
+  {
+    $doctrineConfig = $this->getEntityManager()->getConfiguration();
+    $doctrineConfig->addCustomStringFunction('FIELD', 'Muzich\CoreBundle\DoctrineExtensions\Query\Mysql\Field');
+    
+    return $this->getEntityManager()->createQueryBuilder()
+      ->select('e, field(e.id, ' . implode(', ', $element_ids) . ') as HIDDEN field')
+      ->from('MuzichCoreBundle:Element', 'e')
+      ->where('e.id IN (:element_ids)')
+      ->setParameter('element_ids', $element_ids)
+      ->orderBy('field')
+    ;
+  }
+  
 }

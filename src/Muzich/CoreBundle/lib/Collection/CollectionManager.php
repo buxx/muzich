@@ -10,6 +10,7 @@ abstract class CollectionManager
   protected $content;
   protected $schema = array();
   protected $object_reference_attribute;
+  protected $allow_duplicates = false;
   
   public function __construct($content)
   {
@@ -27,13 +28,13 @@ abstract class CollectionManager
   
   public function add($object)
   {
-    if (!$this->have($object))
+    if (!$this->have($object) || $this->allow_duplicates)
     {
       $content_line = array();
       foreach ($this->schema as $attribute)
       {
         $method_name = 'get' . $attribute;
-        $content_line[$attribute] = (string)$object->$method_name();
+        $content_line[lcfirst($attribute)] = (string)$object->$method_name();
       }
       
       $this->content[] = $content_line;
@@ -45,7 +46,7 @@ abstract class CollectionManager
     $method_name = 'get' . $this->object_reference_attribute;
     foreach ($this->content as $content_line)
     {
-      if ($object->$method_name() == $content_line[$this->object_reference_attribute])
+      if ($object->$method_name() == $content_line[lcfirst($this->object_reference_attribute)])
       {
         return true;
       }
@@ -60,7 +61,7 @@ abstract class CollectionManager
     $method_name = 'get' . $this->object_reference_attribute;
     foreach ($this->content as $content_line)
     {
-      if ($object->$method_name() != $content_line[$this->object_reference_attribute])
+      if ($object->$method_name() != $content_line[lcfirst($this->object_reference_attribute)])
       {
         $new_content[] = $content_line;
       }
@@ -77,7 +78,7 @@ abstract class CollectionManager
     $attributes = array();
     foreach ($this->content as $content_line)
     {
-      $attributes[] = $content_line[$attribute];
+      $attributes[] = $content_line[lcfirst($attribute)];
     }
     
     return $attributes;

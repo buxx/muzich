@@ -455,7 +455,7 @@ ul.element_links_actions li:last-child
   margin-left: 0px;
 }
   
-.elements ul.element_tags li, ul#autoplay_element ul.element_tags li
+.elements ul.element_tags li, ul#autoplay_element ul.element_tags li, ul.elements ul.element_tags li
 {
   display: inline;
   font-size: 90%;
@@ -493,7 +493,7 @@ ul.element_tags .button
 
 }
 
-a.button.element_tag, ul.tagbox li.tag, ul.search_tag_list li, ul#favorite_tags li
+a.button.element_tag, ul.tagbox li.tag, ul.search_tag_list li, ul#favorite_tags li, ul.tags_cloud li
 {
   padding: 6px;
   border: none;
@@ -915,7 +915,7 @@ ul.tagbox li.tag
   padding-right: 18px;
 }
 
-ul.tagbox li.tag, ul#favorite_tags li
+ul.tagbox li.tag, ul#favorite_tags li, ul.tags_cloud li
 {
   border-radius: 3px 3px 3px 3px;
   display: inline-block;
@@ -1382,7 +1382,7 @@ ul#autoplay_element
   padding: 0px;
 }
 
-ul#autoplay_element li
+ul#autoplay_element li, ul.elements li
 {
   list-style-type: none;
 }
@@ -1399,7 +1399,7 @@ ul.tagbox li {
 margin:0;
 }
 
-ul#favorite_tags
+ul#favorite_tags, ul.tags_cloud
 {
   padding:0;
   margin-top:10px;
@@ -1408,7 +1408,7 @@ ul#favorite_tags
   list-style-type:none;
 }
 
-ul#favorite_tags li a
+ul#favorite_tags li a, ul.tags_cloud li a
 {
   color: white;
 }
@@ -2219,4 +2219,17 @@ div#facebook_login
 div#login_box
 {
   margin-top: 23px;
+}
+
+ul.playlists ul.tags_cloud
+{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+ul.playlists ul.tags_cloud li
+{
+  font-size: 11px;
+  font-weight: normal;
+  padding: 4px;
 }

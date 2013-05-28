@@ -1,0 +1,25 @@
+{% extends "MuzichHomeBundle::layout.html.twig" %}
+
+{% block title %}{% endblock %}
+{% block mainbox_classes %}{% endblock %}
+
+{% block content %}
+  
+  {% if playlists|length %}
+  <ul class="playlists">
+    {% for playlist in playlists %}
+      <li>
+        <a href="{{ path('playlist', { 'user_slug' : viewed_user.slug, 'playlist_id' : playlist.id }) }}">
+          {{ playlist.name }}
+        </a>
+        
+        {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
+          'tags' : playlist.tags
+        } %}
+        
+      </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  
+{% endblock %}

@@ -1072,6 +1072,34 @@ class ElementController extends Controller
     ));
   }
   
+  
+  public function getOneAction($element_id)
+  {
+    $es = new ElementSearcher();
+    $es->init(array(
+      'ids' => array($element_id)
+    ));
+    
+    if (!($element = $es->getElements($this->getDoctrine(), $this->getUserId(true), 'single')))
+    {
+      return $this->jsonResponse(array(
+      'status'  => 'error'
+    ));
+    }
+    
+    $html = $this->render('MuzichCoreBundle:SearchElement:element.html.twig', array(
+      'element'               => $element,
+      'display_edit_actions'  => true,
+      'display_player'        => true,
+      'display_comments'      => true
+    ))->getContent();
+    
+    return $this->jsonResponse(array(
+      'status'  => 'success',
+      'data'    => $html
+    ));
+  }
+  
   public function getOneDomAction(Request $request, $element_id, $type)
   {
     if (!in_array($type, array('autoplay')) || !$element_id)

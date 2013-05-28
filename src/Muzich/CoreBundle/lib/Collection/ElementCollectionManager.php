@@ -10,6 +10,7 @@ class ElementCollectionManager extends CollectionManager
   const ATTRIBUTE_ID   = 'Id';
   const ATTRIBUTE_NAME = 'Name';
   
+  protected $allow_duplicates = true;
   protected $schema = array(
     self::ATTRIBUTE_ID,
     self::ATTRIBUTE_NAME

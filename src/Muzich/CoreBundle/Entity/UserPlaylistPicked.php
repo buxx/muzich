@@ -25,7 +25,7 @@ class UserPlaylistPicked
   protected $user;
   
   /**
-   * @ORM\ManyToOne(targetEntity="Tag", inversedBy="users_favorites")
+   * @ORM\ManyToOne(targetEntity="Playlist", inversedBy="users_favorites")
    * @ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="CASCADE")
    */
   protected $playlist;

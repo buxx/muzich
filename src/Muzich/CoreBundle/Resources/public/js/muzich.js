@@ -3087,6 +3087,36 @@ $(document).ready(function(){
    });
    
    
+   /**
+    *PLAYLISTS
+    */
+   
+  $('ul.playlist_elements li a.open_element').live('click', function(){
+    
+    var line = $(this).parents('li.playlist_element');
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+      
+      if (response.status == 'success')
+      {
+        line.append('<ul class="elements"><li class="element">' + response.data + '</li></ul>');
+      }
+      
+    });
+    
+    return false;
+  });
+  
+  $('a.autoplay_playlist').live('click', function(){
+    
+  });
+   
 });
 
 function open_ajax_popin(url, callback)

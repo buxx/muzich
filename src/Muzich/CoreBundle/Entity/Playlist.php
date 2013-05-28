@@ -13,6 +13,7 @@ use Muzich\CoreBundle\lib\Collection\TagCollectionManager;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Muzich\CoreBundle\Repository\PlaylistRepository")
  */
 class Playlist
 {
@@ -161,14 +162,19 @@ class Playlist
   {
     $tags_manager = new TagCollectionManager(json_decode($this->tags, true));
     $tags_manager->add($tag);
-    $this->tags = json_encode($tags_manager->getContent(), true);
+    $this->setTags($tags_manager->getContent());
   }
   
   public function removeTag(Tag $tag)
   {
     $tags_manager = new TagCollectionManager(json_decode($this->tags, true));
     $tags_manager->remove($tag);
-    $this->tags = json_encode($tags_manager->getContent(), true);
+    $this->setTags($tags_manager->getContent());
+  }
+  
+  public function cleanTags()
+  {
+    $this->setTags(array());
   }
   
   public function getTagsIds()
@@ -193,14 +199,14 @@ class Playlist
   {
     $elements_manager = new ElementCollectionManager(json_decode($this->elements, true));
     $elements_manager->add($element);
-    $this->elements = json_encode($elements_manager->getContent(), true);
+    $this->setElements($elements_manager->getContent());
   }
   
   public function removeElement(Element $element)
   {
     $elements_manager = new ElementCollectionManager(json_decode($this->elements, true));
     $elements_manager->remove($element);
-    $this->elements = json_encode($elements_manager->getContent(), true);
+    $this->setElements($elements_manager->getContent());
   }
   
   public function getElementsIds()

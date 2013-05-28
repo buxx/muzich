@@ -144,6 +144,12 @@ $(document).ready(function() {
     return false;
   });
   
+  $('a.autoplay_playlist').live('click', function(){
+    window.autoplay.start($(this));
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    return false;
+  });
+  
   $('a#autoplay_previous').click(function(){window.autoplay.playPrevious()});
   
   $('a#autoplay_next').click(function(){window.autoplay.playNext()});

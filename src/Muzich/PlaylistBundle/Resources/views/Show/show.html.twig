@@ -1,0 +1,34 @@
+{% extends "MuzichFavoriteBundle::layout.html.twig" %}
+
+{% block title %}{% endblock %}
+{% block mainbox_classes %}{% endblock %}
+
+{% block content %}
+  
+  <div class="top_tools">
+    
+    <a class="autoplay_playlist" href="{{ path('playlist_datas_for_autoplay', { 'playlist_id' : playlist.id }) }}" >
+      Lire
+    </a>
+    
+    <h2>{{ playlist.name }}</h2>
+    
+    {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
+      'tags' : playlist.tags
+    } %}
+    
+    {% if playlist.elements|length %}
+      <ul class="playlist_elements">
+        {% for element in playlist.elements %}
+          <li class="playlist_element">
+            <a class="open_element" href="{{ path('element_get_one', { 'element_id' : element.id }) }}" data-id="{{ element.id }}">
+              {{ element.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  
+  </div>
+  
+{% endblock %}
