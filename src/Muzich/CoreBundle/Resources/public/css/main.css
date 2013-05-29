@@ -2233,3 +2233,11 @@ ul.playlists ul.tags_cloud li
   font-weight: normal;
   padding: 4px;
 }
+
+div.playlists_prompt
+{
+  padding: 10px;
+  border: 1px solid red;
+  width: 320px;
+  background-color: white;
+}

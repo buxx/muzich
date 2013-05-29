@@ -29,10 +29,25 @@ class PlaylistManager
     ;
   }
   
+  public function getOwnedsPlaylists(User $user)
+  {
+    return $this->getUserPublicsOrOwnedPlaylists($user, $user);
+  }
+  
+  /** @return Playlist */
   public function findOneAccessiblePlaylistWithId($playlist_id, User $user = null)
   {
     return $this->entity_manager->getRepository('MuzichCoreBundle:Playlist')
       ->findOnePlaylistOwnedOrPublic($playlist_id, $user)
+      ->getQuery()->getOneOrNullResult()
+    ;
+  }
+  
+  /** @return Playlist */
+  public function findOwnedPlaylistWithId($playlist_id, User $user)
+  {
+    return $this->entity_manager->getRepository('MuzichCoreBundle:Playlist')
+      ->findOnePlaylistOwned($playlist_id, $user)
       ->getQuery()->getOneOrNullResult()
     ;
   }
@@ -53,7 +68,7 @@ class PlaylistManager
     return  $query_builder->getQuery()->getResult();
   }
   
-  public function getNewPlaylist(User $owner)
+  public function getNewPlaylist(User $owner = null)
   {
     $playlist = new Playlist();
     $playlist->setOwner($owner);
@@ -121,10 +136,11 @@ class PlaylistManager
     $this->actualizePlaylistTags($playlist);
   }
   
-  public function removeElementFromPlaylist(Element $element, Playlist $playlist)
+  public function removePlaylistElementWithId(Playlist $playlist, $element_id)
   {
-    $playlist->removeElement($element);
+    $playlist->removeElementWithId($element_id);
     $this->actualizePlaylistTags($playlist);
+    $this->entity_manager->persist($playlist);
   }
   
   protected function actualizePlaylistTags(Playlist $playlist)
@@ -136,6 +152,35 @@ class PlaylistManager
       $playlist->addTag($tag);
     }
     $this->entity_manager->persist($playlist);
+  }
+  
+  public function updatePlaylistElementsOrder(Playlist $playlist, $elements_ids_ordereds)
+  {
+    $elements_origin_order = $playlist->getElements();
+    $elements_ordereds = array();
+    foreach ($elements_ids_ordereds as $element_id)
+    {
+      if (($element_record_match = $this->findElementRecordWithId($elements_origin_order, $element_id)))
+      {
+        $elements_ordereds[] = $element_record_match;
+      }
+    }
+    
+    $playlist->setElements($elements_ordereds);
+    $this->entity_manager->persist($playlist);
+  }
+  
+  protected function findElementRecordWithId($elements, $searched_id)
+  {
+    foreach ($elements as $element_record)
+    {
+      if ($element_record['id'] == $searched_id)
+      {
+        return $element_record;
+      }
+    }
+    
+    return null;
   }
   
 }

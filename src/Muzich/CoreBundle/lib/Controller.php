@@ -205,6 +205,16 @@ class Controller extends BaseController
     }
   }
   
+  protected function getUserOrNullIfVisitor()
+  {
+    if (($user = $this->getUser()) === 'anon.')
+    {
+      return null;
+    }
+    
+    return $user;
+  }
+  
   /**
    *  Retourne l'id de l'utilisateur en cours
    */
@@ -422,6 +432,16 @@ class Controller extends BaseController
     $response = new Response(json_encode(array(
       'status' => 'error',
       'errors' => array('NotFound')
+    )));
+    $response->headers->set('Content-Type', 'application/json; charset=utf-8');
+    return $response;
+  }
+  
+  protected function jsonSuccessResponse($data = array())
+  {
+    $response = new Response(json_encode(array(
+      'status' => 'success',
+      'data'   => $data
     )));
     $response->headers->set('Content-Type', 'application/json; charset=utf-8');
     return $response;
@@ -651,6 +671,12 @@ class Controller extends BaseController
       return $elements[count($elements)-1]->getId();
     
     return null;
+  }
+  
+  protected function getElementWithId($element_id)
+  {
+    return $this->getEntityManager()->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_id);
   }
   
 }

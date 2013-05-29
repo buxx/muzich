@@ -3093,6 +3093,9 @@ $(document).ready(function(){
    
   $('ul.playlist_elements li a.open_element').live('click', function(){
     
+    // Pour le moment
+    return false;
+    
     var line = $(this).parents('li.playlist_element');
     
     $.getJSON($(this).attr('href'), function(response) {
@@ -3113,8 +3116,96 @@ $(document).ready(function(){
     return false;
   });
   
-  $('a.autoplay_playlist').live('click', function(){
+  $('ul.playlist_elements').sortable({
+    update: function( event, ui ) {
+      
+      var form = ui.item.parents('form')
+      
+      $.ajax({
+       type: 'POST',
+       url: form.attr('action'),
+       data: form.serialize(),
+       success: function(response) {
+        
+          window.ResponseController.execute(
+            response,
+            function(){},
+            function(){}
+          );
+          
+          
+        },
+       dataType: "json"
+     });
+      
+    }
+  });
+  
+  $('html').click(function() {
+    if ($("div.playlists_prompt").is(':visible'))
+    {
+      $("div.playlists_prompt").hide();
+    }
+  });
+  $("div.playlists_prompt, div.playlists_prompt div, div.playlists_prompt a, div.playlists_prompt input").live('click', function(event){
+    event.stopPropagation();
+    $("div.playlists_prompt").show();
+  });
+  
+  $('ul.elements a.add_to_playlist').live('click', function(event){
     
+    var prompt = $('<div class="playlists_prompt"><img class="loader" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>');
+    $('body').append(prompt);
+    
+    prompt.position({
+      my: "left+3 bottom+0",
+      of: event,
+      collision: "fit"
+    });
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+      
+      prompt.find('img.loader').hide();
+      if (response.status == 'success')
+      {
+        prompt.append(response.data);
+      }
+      
+    });
+    
+    return false;
+  });
+  
+  $('a.add_element_to_playlist').live('click', function(){
+    $.getJSON($(this).attr('href'), function(response) {
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+    });
+    
+    $(this).parents('div.playlists_prompt').remove();
+    return false;
+  });
+  
+  $('ul.playlist_elements a.remove_element').live('click', function () {
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+    });
+    
+    $(this).parents('li.playlist_element').remove();
+    return false;
   });
    
 });

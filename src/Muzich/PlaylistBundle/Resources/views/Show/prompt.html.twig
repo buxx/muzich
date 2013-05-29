@@ -1,0 +1,33 @@
+
+<div class="create_playlist">
+  <form action="{{ path('playlist_add_element_and_create', { 'element_id' : element_id }) }}" method="post">
+    
+    <div class="field">
+      {{ form_widget(form.name, {'attr':{'class':'niceinput'}}) }}
+      {{ form_widget(form.public) }}
+    </div>
+    
+    {{ form_rest(form) }}
+    
+    <input type="submit" value="CREATE" />
+  </form>
+</div>
+
+<div class="playlists_for_element">
+  {% if playlists|length %}
+    <ul>
+      {% for playlist in playlists %}
+        <li>
+          <a class="add_element_to_playlist" href="{{ path('playlists_add_element', {
+            'playlist_id' : playlist.id,
+            'element_id'  : element_id
+          }) }}">
+            {{ playlist.name }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>NO PLAYLIST</p>
+  {% endif %}
+</div>

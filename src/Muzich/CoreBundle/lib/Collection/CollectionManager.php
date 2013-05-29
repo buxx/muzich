@@ -70,6 +70,20 @@ abstract class CollectionManager
     $this->content = $new_content;
   }
   
+  public function removeWithReference($reference)
+  {
+    $new_content = array();
+    foreach ($this->content as $content_line)
+    {
+      if ($reference != $content_line[lcfirst($this->object_reference_attribute)])
+      {
+        $new_content[] = $content_line;
+      }
+    }
+    
+    $this->content = $new_content;
+  }
+  
   public function getAttributes($attribute)
   {
     if (!in_array($attribute, $this->schema))

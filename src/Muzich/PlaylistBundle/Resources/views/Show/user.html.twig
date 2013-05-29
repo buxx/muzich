@@ -9,6 +9,11 @@
   <ul class="playlists">
     {% for playlist in playlists %}
       <li>
+        
+        <a class="autoplay_playlist" href="{{ path('playlist_datas_for_autoplay', { 'playlist_id' : playlist.id }) }}" >
+          Lire
+        </a>
+        
         <a href="{{ path('playlist', { 'user_slug' : viewed_user.slug, 'playlist_id' : playlist.id }) }}">
           {{ playlist.name }}
         </a>

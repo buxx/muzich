@@ -209,6 +209,13 @@ class Playlist
     $this->setElements($elements_manager->getContent());
   }
   
+  public function removeElementWithId($element_id)
+  {
+    $elements_manager = new ElementCollectionManager(json_decode($this->elements, true));
+    $elements_manager->removeWithReference($element_id);
+    $this->setElements($elements_manager->getContent());
+  }
+  
   public function getElementsIds()
   {
     $elements_manager = new ElementCollectionManager(json_decode($this->elements, true));

@@ -5,6 +5,7 @@ namespace Muzich\PlaylistBundle\Controller;
 use Muzich\CoreBundle\lib\Controller;
 use Muzich\CoreBundle\Entity\Playlist;
 use Muzich\CoreBundle\lib\AutoplayManager;
+use Muzich\CoreBundle\Form\Playlist\PlaylistForm;
 
 class ShowController extends Controller
 {
@@ -45,6 +46,22 @@ class ShowController extends Controller
       'status'    => 'success',
       'data'      => $autoplaym->getList()
     ));
+  }
+  
+  public function getAddElementPromptAction($element_id)
+  {
+    return $this->jsonSuccessResponse(
+      $this->render('MuzichPlaylistBundle:Show:prompt.html.twig', array(
+        'form'       => $this->getPlaylistForm()->createView(),
+        'element_id' => $element_id,
+        'playlists'  => (!$this->isVisitor())?$this->getPlaylistManager()->getOwnedsPlaylists($this->getUser()):array()
+      ))->getContent()
+    );
+  }
+  
+  protected function getPlaylistForm()
+  {
+    return $this->createForm(new PlaylistForm(), $this->getPlaylistManager()->getNewPlaylist($this->getUserOrNullIfVisitor()));
   }
   
 }

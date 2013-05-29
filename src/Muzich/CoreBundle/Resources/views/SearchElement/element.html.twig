@@ -266,6 +266,13 @@
             </a>
           </li>
         {% endif %}
+        
+        <li>
+          <a class="add_to_playlist" href="{{ path('playlists_add_element_prompt', { 'element_id' : element.id }) }}">
+            +
+          </a>
+        </li>
+        
       </ul>
       
       <span class="element_name">

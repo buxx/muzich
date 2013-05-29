@@ -50,6 +50,17 @@ class PlaylistRepository extends EntityRepository
     ;
   }
   
+  public function findOnePlaylistOwned($playlist_id, User $user)
+  {
+    return $this->getPlaylistsQueryBuilder()
+      ->andWhere('p.owner = :owner_id AND p.id = :playlist_id')
+      ->setParameters(array(
+        'owner_id'    => $user->getId(),
+        'playlist_id' => $playlist_id
+      ))
+    ;
+  }
+  
   public function findOnePlaylistOwnedOrPublic($playlist_id, User $user = null)
   {
     $query_builder = $this->getPlaylistsQueryBuilder()
