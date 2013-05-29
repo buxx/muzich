@@ -28,5 +28,5 @@ playlists_add_element:
 
 playlist_add_element_and_create:
   pattern: /ajax/playlist/element/add-and-create/{element_id}
-  defaults: { _controller: MuzichPlaylistBundle:Edit:addElementAndcreate }
+  defaults: { _controller: MuzichPlaylistBundle:Edit:addElementAndCreate }
   

@@ -1,15 +1,7 @@
 
 <div class="create_playlist">
   <form action="{{ path('playlist_add_element_and_create', { 'element_id' : element_id }) }}" method="post">
-    
-    <div class="field">
-      {{ form_widget(form.name, {'attr':{'class':'niceinput'}}) }}
-      {{ form_widget(form.public) }}
-    </div>
-    
-    {{ form_rest(form) }}
-    
-    <input type="submit" value="CREATE" />
+    {% include 'MuzichPlaylistBundle:Show:form.html.twig' %}
   </form>
 </div>
 

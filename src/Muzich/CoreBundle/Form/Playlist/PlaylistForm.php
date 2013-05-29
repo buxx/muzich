@@ -27,7 +27,7 @@ class PlaylistForm extends AbstractType
   {
     $resolver->setDefaults(array(
       'name'   => '',
-      'public' => true,
+      'public' => false,
     ));
   
     $resolver->setAllowedValues(array(

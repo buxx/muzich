@@ -44,4 +44,26 @@ class EditController extends Controller
     return $this->jsonSuccessResponse();
   }
   
+  public function addElementAndCreateAction(Request $request, $element_id)
+  {
+    if (!($element = $this->getElementWithId($element_id)))
+      return $this->jsonNotFoundResponse();
+    
+    $form = $this->getPlaylistForm();
+    $form->bind($request);
+    if ($form->isValid())
+    {
+      $this->getPlaylistManager()->addElementToPlaylist($element, $form->getData());
+      $this->flush();
+      return $this->jsonSuccessResponse();
+    }
+    
+    return $this->jsonResponseError('form_error',
+      $this->render('MuzichPlaylistBundle:Show:form.html.twig', array(
+        'form'       => $form->createView(),
+        'element_id' => $element_id
+      ))->getContent()
+    );
+  }
+  
 }

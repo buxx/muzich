@@ -3141,19 +3141,9 @@ $(document).ready(function(){
     }
   });
   
-  $('html').click(function() {
-    if ($("div.playlists_prompt").is(':visible'))
-    {
-      $("div.playlists_prompt").hide();
-    }
-  });
-  $("div.playlists_prompt, div.playlists_prompt div, div.playlists_prompt a, div.playlists_prompt input").live('click', function(event){
-    event.stopPropagation();
-    $("div.playlists_prompt").show();
-  });
-  
   $('ul.elements a.add_to_playlist').live('click', function(event){
     
+    $('div.playlists_prompt').remove();
     var prompt = $('<div class="playlists_prompt"><img class="loader" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>');
     $('body').append(prompt);
     
@@ -3174,6 +3164,24 @@ $(document).ready(function(){
       if (response.status == 'success')
       {
         prompt.append(response.data);
+        prompt.find('div.create_playlist form').ajaxForm(function(response){
+          window.ResponseController.execute(
+            response,
+            function(){},
+            function(){}
+          );
+          
+          if (response.status == 'success')
+          {
+            $('div.playlists_prompt').remove();
+          }
+          
+          if (response.status == 'error')
+          {
+            prompt.find('div.create_playlist form').html(response.data);
+          }
+          
+        });
       }
       
     });

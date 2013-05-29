@@ -5,7 +5,6 @@ namespace Muzich\PlaylistBundle\Controller;
 use Muzich\CoreBundle\lib\Controller;
 use Muzich\CoreBundle\Entity\Playlist;
 use Muzich\CoreBundle\lib\AutoplayManager;
-use Muzich\CoreBundle\Form\Playlist\PlaylistForm;
 
 class ShowController extends Controller
 {
@@ -57,11 +56,6 @@ class ShowController extends Controller
         'playlists'  => (!$this->isVisitor())?$this->getPlaylistManager()->getOwnedsPlaylists($this->getUser()):array()
       ))->getContent()
     );
-  }
-  
-  protected function getPlaylistForm()
-  {
-    return $this->createForm(new PlaylistForm(), $this->getPlaylistManager()->getNewPlaylist($this->getUserOrNullIfVisitor()));
   }
   
 }

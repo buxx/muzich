@@ -1,0 +1,12 @@
+{{ form_errors(form) }}
+{{ form_errors(form.name) }}
+{{ form_errors(form.public) }}
+
+<div class="field">
+  {{ form_widget(form.name, {'attr':{'class':'niceinput'}}) }}
+  {{ form_widget(form.public) }}
+</div>
+
+{{ form_rest(form) }}
+
+<input type="submit" value="CREATE" />

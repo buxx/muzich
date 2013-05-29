@@ -14,6 +14,7 @@ use Muzich\CoreBundle\Entity\Presubscription;
 use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
 use Muzich\CoreBundle\Managers\PlaylistManager;
+use Muzich\CoreBundle\Form\Playlist\PlaylistForm;
 
 class Controller extends BaseController
 {
@@ -677,6 +678,11 @@ class Controller extends BaseController
   {
     return $this->getEntityManager()->getRepository('MuzichCoreBundle:Element')
       ->findOneById($element_id);
+  }
+  
+  protected function getPlaylistForm()
+  {
+    return $this->createForm(new PlaylistForm(), $this->getPlaylistManager()->getNewPlaylist($this->getUserOrNullIfVisitor()));
   }
   
 }

@@ -54,7 +54,7 @@ class Playlist
   /**
    * @ORM\Column(type="boolean")
    */
-  protected $public = true;
+  protected $public = false;
   
   /**
    * @ORM\OneToMany(targetEntity="UserPlaylistPicked", mappedBy="user")
