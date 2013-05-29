@@ -18,13 +18,13 @@ class ShowController extends Controller
     
     return $this->render('MuzichPlaylistBundle:Show:user.html.twig', array(
       'viewed_user' => $viewed_user,
-      'playlists'   => $this->getPlaylistManager()->getUserPublicsOrOwnedPlaylists($viewed_user, $this->getUser(true))
+      'playlists'   => $this->getPlaylistManager()->getUserPublicsOrOwnedorPickedPlaylists($viewed_user, $this->getUserOrNullIfVisitor())
     ));
   }
   
   public function showAction($user_slug, $playlist_id)
   {
-    if (!($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id, $this->getUser(true))))
+    if (!($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id, $this->getUserOrNullIfVisitor())))
       throw $this->createNotFoundException();
     
     return $this->render('MuzichPlaylistBundle:Show:show.html.twig', array(
@@ -36,7 +36,7 @@ class ShowController extends Controller
   {
     $playlist_manager = $this->getPlaylistManager();
     
-    if (!($playlist = $playlist_manager->findOneAccessiblePlaylistWithId($playlist_id, $this->getUser(true))))
+    if (!($playlist = $playlist_manager->findOneAccessiblePlaylistWithId($playlist_id, $this->getUserOrNullIfVisitor())))
       throw $this->createNotFoundException();
     
     $autoplaym = new AutoplayManager($playlist_manager->getPlaylistElements($playlist, $offset), $this->container);

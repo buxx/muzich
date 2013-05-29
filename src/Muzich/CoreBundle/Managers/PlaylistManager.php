@@ -29,6 +29,14 @@ class PlaylistManager
     ;
   }
   
+  public function getUserPublicsOrOwnedOrPickedPlaylists(User $user_viewed, User $user = null)
+  {
+    return $this->entity_manager->getRepository('MuzichCoreBundle:Playlist')
+      ->getUserPublicPlaylistsOrOwnedOrPickedQueryBuilder($user_viewed, $user)
+      ->getQuery()->getResult()
+    ;
+  }
+  
   public function getOwnedsPlaylists(User $user)
   {
     return $this->getUserPublicsOrOwnedPlaylists($user, $user);

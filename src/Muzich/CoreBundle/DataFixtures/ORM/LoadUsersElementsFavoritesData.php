@@ -58,6 +58,7 @@ class LoadUsersElementsFavoritesData  extends AbstractFixture implements Ordered
     // favoris de bux
     $bux = $this->entity_manager->merge($this->getReference('user_bux'));
     $paul = $this->entity_manager->merge($this->getReference('user_paul'));
+    $bob = $this->entity_manager->merge($this->getReference('user_bob'));
     
     $youtube_heretik_1 = $this->getReference('element_youtube_heretik_1');
     $youtube_djfab_1 = $this->getReference('element_youtube_djfab_1');
@@ -114,8 +115,17 @@ class LoadUsersElementsFavoritesData  extends AbstractFixture implements Ordered
     $playlist2 = $this->createPlaylist("Ma playlist perso",
     $bux, false, array($youtube_heretik_1, $youtube_djfab_1));
     
+    $playlist_bob = $this->createPlaylist("A travers l'espace",
+    $bob, true, array(
+      $this->getReference('element_infected_psycho'),
+      $this->getReference('element_infected_muse'),
+      $this->getReference('element_joelle_1'),
+      $this->getReference('element_joelle_2')
+    ));
+    
     $playlist_manager = new PlaylistManager($this->entity_manager);
     $playlist_manager->addPickedPlaylistToUser($paul, $playlist1);
+    $playlist_manager->addPickedPlaylistToUser($bux, $playlist_bob);
     
     $this->entity_manager->flush();
   }
