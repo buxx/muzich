@@ -45,3 +45,7 @@ presubscription:
   success:         An email has been sent for confirmation.
   error:           An error occured, please, try again.
   confirmed:       Your email is registered, THANKS!
+
+playlist:
+  delete:
+    success:       Playlist deleted

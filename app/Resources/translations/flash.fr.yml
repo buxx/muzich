@@ -45,3 +45,7 @@ presubscription:
   success:         Un email a été envoyé a votre adresse email pour confirmation (vérifiez aussi dans vos SPAM)
   error:           Une erreur est survenue, veuillez réessayer
   confirmed:       Votre email a bien été pris en compte, merci !
+
+playlist:
+  delete:
+    success:       Playlist supprimée

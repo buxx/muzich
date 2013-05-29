@@ -66,4 +66,15 @@ class EditController extends Controller
     );
   }
   
+  public function deleteAction($playlist_id)
+  {
+    if (!($playlist = $this->getPlaylistManager()->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
+      throw $this->createNotFoundException();
+    
+    $this->remove($playlist);
+    $this->flush();
+    $this->setFlash('success', 'playlist.delete.success');
+    return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $this->getUser()->getSlug())));
+  }
+  
 }

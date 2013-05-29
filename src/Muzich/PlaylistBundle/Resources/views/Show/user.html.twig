@@ -18,6 +18,10 @@
           {{ playlist.name }}
         </a>
         
+        <a class="" href="{{ path('playlist_delete', { 'playlist_id' : playlist.id }) }}" >
+          X
+        </a>
+        
         {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
           'tags' : playlist.tags
         } %}
