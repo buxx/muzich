@@ -31,7 +31,8 @@ class ShowController extends Controller
       return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $user_slug)));
     
     return $this->render('MuzichPlaylistBundle:Show:show.html.twig', array(
-      'playlist' => $playlist
+      'playlist'    => $playlist,
+      'viewed_user' => $viewed_user
     ));
   }
   

@@ -14,6 +14,10 @@ playlist_unpick:
   pattern: /playlist/unpick/{playlist_id}
   defaults: { _controller: MuzichPlaylistBundle:Edit:unpick }
 
+playlist_pick:
+  pattern: /playlist/pick/{playlist_id}
+  defaults: { _controller: MuzichPlaylistBundle:Edit:pick }
+
 playlist_datas_for_autoplay:
   pattern: /ajax/autoplay/playlist/datas/{playlist_id}/{offset}
   defaults: { _controller: MuzichPlaylistBundle:Show:getAutoplayData, offset: null }

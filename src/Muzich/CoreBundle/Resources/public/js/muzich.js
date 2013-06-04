@@ -3202,6 +3202,19 @@ $(document).ready(function(){
     return false;
   });
   
+  $('a.playlist_pick').live('click', function(){
+    $.getJSON($(this).attr('href'), function(response) {
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+    });
+    
+    return false;
+  });
+  
+  
   $('ul.playlist_elements a.remove_element').live('click', function () {
     
     $.getJSON($(this).attr('href'), function(response) {

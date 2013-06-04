@@ -106,4 +106,15 @@ class EditController extends Controller
     return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $this->getUser()->getSlug())));
   }
   
+  public function pickAction($playlist_id)
+  {
+    if (!($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id)))
+      return $this->jsonNotFoundResponse();
+    
+    $this->getPlaylistManager()->addPickedPlaylistToUser($this->getUser(), $playlist);
+    $this->flush();
+    
+    return $this->jsonSuccessResponse();
+  }
+  
 }

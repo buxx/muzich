@@ -11,6 +11,20 @@
       Lire
     </a>
     
+    {% if app.user %}
+      {% if not playlist.owned(app.user) and viewed_user.id != app.user.id %}
+        {% if not app.user.havePlaylistPicked(playlist) %}
+          <a class="playlist_pick" href="{{ path('playlist_pick', { 'playlist_id' : playlist.id }) }}" >
+            P
+          </a>
+        {% else %}
+          <a class="playlist_unpick" href="{{ path('playlist_unpick', { 'playlist_id' : playlist.id }) }}" >
+            uP
+          </a>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+    
     <h2>{{ playlist.name }}</h2>
     
     {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
