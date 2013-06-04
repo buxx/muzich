@@ -16,7 +16,7 @@ class ElementTest extends Element
   }
 }
 
-class PlaylistTest extends Playlist
+class PlaylistEntityTest extends Playlist
 {
   public function setId($id)
   {
@@ -24,7 +24,7 @@ class PlaylistTest extends Playlist
   }
 }
 
-class NoPassTest extends FunctionalTest
+class PlaylistTest extends FunctionalTest
 {
   
   protected $users = array();
@@ -45,7 +45,8 @@ class NoPassTest extends FunctionalTest
     
     $this->playlist_manager = new PlaylistManager($this->getEntityManager());
     
-    $this->playlists['bux'] = new PlaylistTest();
+    $this->playlists['bux'] = new PlaylistEntityTest();
+    $this->playlists['bux']->setName('Una playlist!');
     $this->playlists['bux']->setOwner($this->users['bux']);
     $this->playlists['bux']->setId(1);
   }
@@ -100,11 +101,11 @@ class NoPassTest extends FunctionalTest
     $this->assertEquals(count($playlists), count($this->users['bob']->getPickedsPlaylists()));
     foreach ($playlists as $playlist)
     {
-      $this->assertTrue($this->playlistIsInPickedPlaylists($playlist, $this->users['bob']->getPickedsPlaylists()));
+      $this->assertTrue($this->playlistIsInPlaylists($playlist, $this->users['bob']->getPickedsPlaylists()));
     }
   }
   
-  protected function playlistIsInPickedPlaylists($playlist_searched, $playlists)
+  protected function playlistIsInPlaylists($playlist_searched, $playlists)
   {
     foreach ($playlists as $playlist)
     {
@@ -129,17 +130,41 @@ class NoPassTest extends FunctionalTest
   
   protected function checkCopyedPlaylist()
   {
-    $this->assertEquals(1, count($this->users['bob']->getPlaylistsOwneds()));
+    $this->assertEquals(2, count($this->users['bob']->getPlaylistsOwneds()));
     $bob_playlists = $this->users['bob']->getPlaylistsOwneds();
-    
     $bux_playlist_copys = $this->playlists['bux']->getCopys();
+    
     $this->assertCount(1, $bux_playlist_copys);
-    $this->assertEquals($bux_playlist_copys[0], $bob_playlists[0]);
+    $this->assertEquals($bux_playlist_copys[0]->getName(), $bob_playlists[1]->getName());
     
     foreach (array($this->elements[1], $this->elements[2], $this->elements[4]) as $element)
     {
-      $this->assertTrue($bob_playlists[0]->haveElement($element));
+      $this->assertTrue($bob_playlists[1]->haveElement($element));
     }
   }
+  
+  //public function testPlaylistDeletion()
+  //{
+  //  $this->init();
+  //  
+  //  $this->bobPickBuxPlaylist();
+  //  $this->checkBobPickedPlaylists(array($this->playlists['bux']));
+  //  
+  //  $this->playlist_manager->deletePlaylist($this->playlists['bux']);
+  //  
+  //  $this->checkBobPickedPlaylists(array());
+  //  $this->checkBobCopyedPlaylist(array($this->playlists['bux']));
+  //}
+  //
+  //protected function checkBobCopyedPlaylist($playlists)
+  //{
+  //  $this->assertEquals(count($playlists), count($this->users['bob']->getPlaylistsOwneds()));
+  //  $bob_playlists = $this->users['bob']->getPlaylistsOwneds();
+  //  
+  //  foreach ($playlists as $playlist)
+  //  {
+  //    $this->assertTrue($this->playlistIsInPlaylists($playlist, $bob_playlists));
+  //  }
+  //}
   
 }

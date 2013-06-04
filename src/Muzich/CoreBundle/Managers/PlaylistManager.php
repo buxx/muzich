@@ -140,7 +140,22 @@ class PlaylistManager
     $playlist_copied->setElements($playlist->getElements());
     $playlist_copied->setCopied($playlist);
     $playlist->addCopy($playlist_copied);
+    
+    //foreach ($user->getPlaylistsOwneds() as $fuck)
+    //{
+    //  var_dump($fuck->getName());
+    //}
+    //
     $user->getPlaylistsOwneds()->add($playlist_copied);
+    //
+    //var_dump($playlist_copied->getOwner()->getUsername());
+    //
+    //foreach ($user->getPlaylistsOwneds() as $fuck)
+    //{
+    //  var_dump($fuck->getName());
+    //}
+    //die();
+    
     $this->entity_manager->persist($playlist_copied);
     $this->entity_manager->persist($user);
     
