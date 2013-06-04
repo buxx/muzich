@@ -66,12 +66,41 @@ class EditController extends Controller
     );
   }
   
+  public function addElementAndCopyAction($playlist_id, $element_id)
+  {
+    if (!($element = $this->getElementWithId($element_id)))
+      return $this->jsonNotFoundResponse();
+    
+    if (!($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id, $this->getUser())))
+      return $this->jsonNotFoundResponse();
+    
+    $new_playlist = $this->getPlaylistManager()->copyPlaylist($this->getUser(), $playlist);
+    $this->getPlaylistManager()->addElementToPlaylist($element, $new_playlist);
+    $this->getPlaylistManager()->removePickedPlaylistToUser($this->getUser(), $playlist);
+    $this->flush();
+    
+    return $this->jsonSuccessResponse();
+  }
+  
   public function deleteAction($playlist_id)
   {
     if (!($playlist = $this->getPlaylistManager()->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
       throw $this->createNotFoundException();
     
-    $this->remove($playlist);
+    $this->getPlaylistManager()->deletePlaylist($playlist);
+    $this->flush();
+    $this->setFlash('success', 'playlist.delete.success');
+    return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $this->getUser()->getSlug())));
+  }
+  
+  public function unpickAction($playlist_id)
+  {
+    $playlist_manager = $this->getPlaylistManager();
+    
+    if (!($playlist = $playlist_manager->findPlaylistWithId($playlist_id, $this->getUser())))
+      throw $this->createNotFoundException();
+    
+    $playlist_manager->removePickedPlaylistToUser($this->getUser(), $playlist);
     $this->flush();
     $this->setFlash('success', 'playlist.delete.success');
     return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $this->getUser()->getSlug())));

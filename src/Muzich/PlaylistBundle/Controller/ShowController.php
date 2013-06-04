@@ -24,8 +24,11 @@ class ShowController extends Controller
   
   public function showAction($user_slug, $playlist_id)
   {
-    if (!($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id, $this->getUserOrNullIfVisitor())))
+    if (!($viewed_user = $this->findUserWithSlug($user_slug)))
       throw $this->createNotFoundException();
+    
+    if (!($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id, $this->getUserOrNullIfVisitor())))
+      return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $user_slug)));
     
     return $this->render('MuzichPlaylistBundle:Show:show.html.twig', array(
       'playlist' => $playlist
@@ -53,7 +56,7 @@ class ShowController extends Controller
       $this->render('MuzichPlaylistBundle:Show:prompt.html.twig', array(
         'form'       => $this->getPlaylistForm()->createView(),
         'element_id' => $element_id,
-        'playlists'  => (!$this->isVisitor())?$this->getPlaylistManager()->getOwnedsPlaylists($this->getUser()):array()
+        'playlists'  => (!$this->isVisitor())?$this->getPlaylistManager()->getOwnedsOrPickedsPlaylists($this->getUser()):array()
       ))->getContent()
     );
   }

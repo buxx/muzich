@@ -10,6 +10,10 @@ playlist_delete:
   pattern: /playlist/delete/{playlist_id}
   defaults: { _controller: MuzichPlaylistBundle:Edit:delete }
 
+playlist_unpick:
+  pattern: /playlist/unpick/{playlist_id}
+  defaults: { _controller: MuzichPlaylistBundle:Edit:unpick }
+
 playlist_datas_for_autoplay:
   pattern: /ajax/autoplay/playlist/datas/{playlist_id}/{offset}
   defaults: { _controller: MuzichPlaylistBundle:Show:getAutoplayData, offset: null }
@@ -29,6 +33,10 @@ playlists_add_element_prompt:
 playlists_add_element:
   pattern: /ajax/playlist/element/add/{playlist_id}/{element_id}
   defaults: { _controller: MuzichPlaylistBundle:Edit:addElement }
+  
+playlists_add_element_and_copy:
+  pattern: /ajax/playlist/element/add-and-copy/{playlist_id}/{element_id}
+  defaults: { _controller: MuzichPlaylistBundle:Edit:addElementAndCopy }
 
 playlist_add_element_and_create:
   pattern: /ajax/playlist/element/add-and-create/{element_id}

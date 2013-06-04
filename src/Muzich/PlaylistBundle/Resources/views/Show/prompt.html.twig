@@ -10,10 +10,19 @@
     <ul>
       {% for playlist in playlists %}
         <li>
-          <a class="add_element_to_playlist" href="{{ path('playlists_add_element', {
-            'playlist_id' : playlist.id,
-            'element_id'  : element_id
-          }) }}">
+          <a class="add_element_to_playlist"
+            {% if playlist.owned(app.user) %}
+              href="{{ path('playlists_add_element', {
+                'playlist_id' : playlist.id,
+                'element_id'  : element_id
+              }) }}"
+            {% else %}
+              href="{{ path('playlists_add_element_and_copy', {
+                'playlist_id' : playlist.id,
+                'element_id'  : element_id
+              }) }}"
+            {% endif %}
+          >
             {{ playlist.name }}
           </a>
         </li>

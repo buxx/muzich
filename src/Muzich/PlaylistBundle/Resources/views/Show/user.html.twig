@@ -14,13 +14,19 @@
           Lire
         </a>
         
-        <a href="{{ path('playlist', { 'user_slug' : viewed_user.slug, 'playlist_id' : playlist.id }) }}">
+        <a href="{{ path('playlist', { 'user_slug' : playlist.owner.slug, 'playlist_id' : playlist.id }) }}">
           {{ playlist.name }}
         </a>
         
-        <a class="" href="{{ path('playlist_delete', { 'playlist_id' : playlist.id }) }}" >
-          X
-        </a>
+        {% if playlist.owned(app.user) %}
+          <a class="" href="{{ path('playlist_delete', { 'playlist_id' : playlist.id }) }}" >
+            X
+          </a>
+        {% else %}
+          <a class="" href="{{ path('playlist_unpick', { 'playlist_id' : playlist.id }) }}" >
+            X
+          </a>
+        {% endif %}
         
         {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
           'tags' : playlist.tags

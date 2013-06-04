@@ -45,7 +45,7 @@ class PlaylistRepository extends EntityRepository
     }
     
     return $this->getPlaylistsQueryBuilder()
-      ->where('p.owner = :owner_id OR pickers.user = :picker_id')
+      ->where('p.owner = :owner_id')
       ->setParameter('owner_id', $current_user->getId())
     ;
   }

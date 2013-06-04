@@ -42,7 +42,7 @@ class Playlist
   
   /**
    * @ORM\ManyToOne(targetEntity="Playlist", inversedBy="copys")
-   * @ORM\JoinColumn(name="copied_id", referencedColumnName="id")
+   * @ORM\JoinColumn(name="copied_id", referencedColumnName="id", onDelete="SET NULL")
    */
   protected $copied;
   
@@ -57,7 +57,7 @@ class Playlist
   protected $public = false;
   
   /**
-   * @ORM\OneToMany(targetEntity="UserPlaylistPicked", mappedBy="playlist")
+   * @ORM\OneToMany(targetEntity="UserPlaylistPicked", mappedBy="playlist", cascade={"remove"})
    */
   protected $user_playlists_pickeds;
   
@@ -119,6 +119,16 @@ class Playlist
   public function getUserPlaylistsPickeds()
   {
     return $this->user_playlists_pickeds;
+  }
+  
+  public function getPickedsUsers()
+  {
+    $users = new ArrayCollection();
+    foreach ($this->getUserPlaylistsPickeds() as $user_playlist_picked)
+    {
+      $users->add($user_playlist_picked->getUser());
+    }
+    return $users;
   }
   
   public function setUserPlaylistsPickeds(Collection $user_playlists_pickeds = null)
@@ -246,6 +256,21 @@ class Playlist
   public function getCopys()
   {
     return $this->copys;
+  }
+  
+  public function setCopys($copys)
+  {
+    $this->copys = $copys;
+  }
+  
+  public function isOwned(User $user)
+  {
+    if ($this->getOwner()->getId() == $user->getId())
+    {
+      return true;
+    }
+    
+    return false;
   }
   
 }

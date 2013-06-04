@@ -42,6 +42,11 @@ class PlaylistManager
     return $this->getUserPublicsOrOwnedPlaylists($user, $user);
   }
   
+  public function getOwnedsOrPickedsPlaylists(User $user)
+  {
+    return $this->getUserPublicsOrOwnedOrPickedPlaylists($user, $user);
+  }
+  
   /** @return Playlist */
   public function findOneAccessiblePlaylistWithId($playlist_id, User $user = null)
   {
@@ -57,6 +62,14 @@ class PlaylistManager
     return $this->entity_manager->getRepository('MuzichCoreBundle:Playlist')
       ->findOnePlaylistOwned($playlist_id, $user)
       ->getQuery()->getOneOrNullResult()
+    ;
+  }
+  
+  /** @return Playlist */
+  public function findPlaylistWithId($playlist_id, User $user)
+  {
+    return $this->entity_manager->getRepository('MuzichCoreBundle:Playlist')
+      ->findOneById($playlist_id)
     ;
   }
   
@@ -116,10 +129,13 @@ class PlaylistManager
     }
   }
   
+  /** @return Playlist */
   public function copyPlaylist(User $user, Playlist $playlist)
   {
     $playlist_copied = new Playlist();
     $playlist_copied->setOwner($user);
+    $playlist_copied->setName($playlist->getName());
+    $playlist_copied->setPublic(true);
     $playlist_copied->setTags($playlist->getTags());
     $playlist_copied->setElements($playlist->getElements());
     $playlist_copied->setCopied($playlist);
@@ -127,12 +143,15 @@ class PlaylistManager
     $user->getPlaylistsOwneds()->add($playlist_copied);
     $this->entity_manager->persist($playlist_copied);
     $this->entity_manager->persist($user);
+    
+    return $playlist_copied;
   }
   
   public function addElementToPlaylist(Element $element, Playlist $playlist)
   {
     $playlist->addElement($element);
     $this->actualizePlaylistTags($playlist);
+    $this->entity_manager->persist($playlist);
   }
   
   public function addElementsToPlaylist($elements, Playlist $playlist)
@@ -189,6 +208,20 @@ class PlaylistManager
     }
     
     return null;
+  }
+  
+  public function deletePlaylist(Playlist $playlist)
+  {
+    $this->copyPlaylistForPickedUsers($playlist);
+    $this->entity_manager->remove($playlist);
+  }
+  
+  protected function copyPlaylistForPickedUsers(Playlist $playlist)
+  {
+    foreach ($playlist->getPickedsUsers() as $user)
+    {
+      $this->entity_manager->persist($this->copyPlaylist($user, $playlist));
+    }
   }
   
 }
