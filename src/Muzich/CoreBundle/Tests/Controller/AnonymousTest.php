@@ -6,7 +6,7 @@ use Muzich\CoreBundle\lib\FunctionalTest;
 use Muzich\CoreBundle\Tests\lib\Security\Context as SecurityContextTest;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
 
-class NoPassTest extends FunctionalTest
+class AnonymousTest extends FunctionalTest
 {
   
   protected $security_context_test;
