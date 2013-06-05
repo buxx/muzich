@@ -251,17 +251,23 @@ class ContextTestCases
   
   public function playlistAddElementResponseIs($success, $condition)
   {
+    $this->playlistAddElement(0, 0);
     return $this->ajaxResponseSatisfyConditions(
-      $this->getAjaxRequestContentResponse(
-        'GET',
-        $this->test->generateUrl('playlists_add_element', array(
-          'playlist_id' => 0,
-          'element_id'  => 0,
-          '_locale'     => 'fr'
-        ))
-      ), 
+      $this->test->getClient()->getResponse()->getContent(), 
       $success, 
       $condition
+    );
+  }
+  
+  public function playlistAddElement($playlist_id, $element_id)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('playlists_add_element', array(
+        'playlist_id' => $playlist_id,
+        'element_id'  => $element_id,
+        '_locale'     => 'fr'
+      ))
     );
   }
   
@@ -297,17 +303,23 @@ class ContextTestCases
   
   public function playlistRemoveElementResponseIs($success, $condition)
   {
+    $this->playlistRemoveElement(0, 0);
     return $this->ajaxResponseSatisfyConditions(
-      $this->getAjaxRequestContentResponse(
-        'GET',
-        $this->test->generateUrl('playlist_remove_element', array(
-          'playlist_id' => 0,
-          'element_id'  => 0,
-          '_locale'     => 'fr'
-        ))
-      ), 
+      $this->test->getClient()->getResponse()->getContent(),
       $success, 
       $condition
+    );
+  }
+  
+  public function playlistRemoveElement($playlist_id, $element_id)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('playlist_remove_element', array(
+        'playlist_id' => $playlist_id,
+        'element_id'  => $element_id,
+        '_locale'     => 'fr'
+      ))
     );
   }
   

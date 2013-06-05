@@ -314,4 +314,58 @@ class PlaylistControllerTest extends FunctionalTest
     $this->jsonResponseIsSuccess($response);
   }
   
+  public function testAddAndRemoveElement()
+  {
+    $this->init();
+    $this->initAddRemoveContextData();
+    $this->connectUser('bux', 'toor');
+    
+    $this->tests_cases->playlistShow($this->users['bux']->getSlug(), $this->playlists['bux_2_priv']->getId());
+    $this->checkReadPlaylist($this->playlists['bux_2_priv'],
+      array($this->playlists['bux_2_priv']->getId() => array(
+        $this->elements['heretik'],
+        $this->elements['fab']
+      ))
+    );
+    
+    $this->addElementToPlaylist($this->playlists['bux_2_priv'], $this->elements['azyd']);
+    
+    $this->tests_cases->playlistShow($this->users['bux']->getSlug(), $this->playlists['bux_2_priv']->getId());
+    $this->checkReadPlaylist($this->playlists['bux_2_priv'],
+      array($this->playlists['bux_2_priv']->getId() => array(
+        $this->elements['heretik'],
+        $this->elements['fab'],
+        $this->elements['azyd']
+      ))
+    );
+    
+    $this->removeElementFromPlaylist($this->playlists['bux_2_priv'], $this->elements['fab']);
+    
+    $this->tests_cases->playlistShow($this->users['bux']->getSlug(), $this->playlists['bux_2_priv']->getId());
+    $this->checkReadPlaylist($this->playlists['bux_2_priv'],
+      array($this->playlists['bux_2_priv']->getId() => array(
+        $this->elements['heretik'],
+        $this->elements['azyd']
+      ))
+    );
+  }
+  
+  protected function initAddRemoveContextData()
+  {
+    $this->initOrderContextData();
+    $this->elements['heretik'] = $this->findOneBy('Element', 'Heretik System Popof - Resistance');
+    $this->elements['fab'] = $this->findOneBy('Element', 'DJ FAB');
+    $this->elements['azyd'] = $this->findOneBy('Element', 'AZYD AZYLUM Live au Café Provisoire'); 
+  }
+  
+  protected function addElementToPlaylist($playlist, $element)
+  {
+    $this->tests_cases->playlistAddElement($playlist->getId(), $element->getId());
+  }
+  
+  protected function removeElementFromPlaylist($playlist, $element)
+  {
+    $this->tests_cases->playlistremoveElement($playlist->getId(), $element->getId());
+  }
+  
 }
