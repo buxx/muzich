@@ -131,6 +131,19 @@ class Playlist
     return $users;
   }
   
+  public function havePickerUser(User $user)
+  {
+    foreach ($this->getPickedsUsers() as $user_picker)
+    {
+      if ($user_picker->getId() == $user->getId())
+      {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
   public function setUserPlaylistsPickeds(Collection $user_playlists_pickeds = null)
   {
     $this->user_playlists_pickeds = $user_playlists_pickeds;

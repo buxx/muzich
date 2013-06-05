@@ -310,7 +310,6 @@ class PlaylistControllerTest extends FunctionalTest
   protected function updatePlaylistOrder($playlist, $elements)
   {
     $response = $this->tests_cases->playlistUpdateOrder($playlist->getId(), $elements);
-    $this->outputDebug();
     $this->jsonResponseIsSuccess($response);
   }
   
@@ -366,6 +365,71 @@ class PlaylistControllerTest extends FunctionalTest
   protected function removeElementFromPlaylist($playlist, $element)
   {
     $this->tests_cases->playlistremoveElement($playlist->getId(), $element->getId());
+  }
+  
+  public function testCopyWhenAddingElementToPickedPlaylist()
+  {
+    $this->init();
+    $this->initCopysContextData();
+    $this->connectUser('bux', 'toor');
+    
+    $this->checkPlaylistPickedBy($this->playlists['bob_pub'], $this->users['bux']);
+    $this->addElementAndCopyPlaylist($this->playlists['bob_pub'], $this->elements['azyd']);
+    $this->playlists['bux_bob_pub'] = $this->findOneBy('Playlist', array(
+      'name' => 'A travers l\'espace',
+      'owner' => $this->users['bux']->getId()
+    ));
+    $this->assertTrue(!is_null($this->playlists['bux_bob_pub']));
+    $this->checkPlaylistOwnedBy($this->playlists['bux_bob_pub'], $this->users['bux']);
+  }
+  
+  protected function initCopysContextData()
+  {
+    $this->initReadContextData();
+    $this->elements['azyd'] = $this->findOneBy('Element', 'AZYD AZYLUM Live au Café Provisoire'); 
+  }
+  
+  protected function checkPlaylistPickedBy($playlist, $user)
+  {
+    $this->assertTrue($playlist->havePickerUser($user));
+  }
+  
+  protected function addElementAndCopyPlaylist($playlist, $element)
+  {
+    $response = $this->tests_cases->playlistAddElementAndCopy($playlist->getId(), $element->getId());
+    $this->jsonResponseIsSuccess($response);
+  }
+  
+  protected function checkPlaylistOwnedBy($playlist, $user)
+  {
+    $this->assertEquals($playlist->getOwner()->getId(), $user->getId());
+  }
+  
+  protected function checkPlaylistNotOwnedBy($playlist, $user)
+  {
+    $this->assertNotEquals($playlist->getOwner()->getId(), $user->getId());
+  }
+  
+  public function testCopyWhenPickedPlaylistDeleted()
+  {
+    $this->init();
+    $this->initCopysContextData();
+    $this->connectUser('bob', 'toor');
+    
+    $this->checkPlaylistPickedBy($this->playlists['bob_pub'], $this->users['bux']);
+    $this->checkPlaylistNotOwnedBy($this->playlists['bob_pub'], $this->users['bux']);
+    $this->deletePlaylist($this->playlists['bob_pub']);
+    $this->playlists['bux_bob_pub'] = $this->findOneBy('Playlist', array('name' => 'A travers l\'espace'));
+    $this->assertTrue(!is_null($this->playlists['bux_bob_pub']));
+    $this->checkPlaylistOwnedBy($this->playlists['bux_bob_pub'], $this->users['bux']);
+  }
+  
+  protected function deletePlaylist($playlist)
+  {
+    $this->tests_cases->playlistDelete($playlist->getId());
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
   }
   
 }

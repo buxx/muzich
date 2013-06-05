@@ -323,6 +323,18 @@ class ContextTestCases
     );
   }
   
+  public function playlistAddElementAndCopy($playlist_id, $element_id)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('playlists_add_element_and_copy', array(
+        'playlist_id' => $playlist_id,
+        'element_id'  => $element_id,
+        '_locale'     => 'fr'
+      ))
+    );
+  }
+  
   public function playlistCreateResponseIs($success, $condition)
   {
     $this->playlistCreate(0, 'my_super_playlist');
@@ -383,23 +395,26 @@ class ContextTestCases
   
   public function playlistDeleteResponseIs($success, $condition)
   {
-    $this->test->getClient()->request(
-      'GET', 
-      $this->test->generateUrl('playlist_delete', array(
-          'playlist_id' => 0,
-          'element_id'  => 0,
-          '_locale'     => 'fr'
-        )), 
-      array(), 
-      array(), 
-      array()
-    );
-    
+    $this->playlistDelete(0);
     return $this->responseSatisfyConditions(
       $this->test->getClient()->getResponse(), 
       $success, 
       $condition, 
       $this->test->getUser()
+    );
+  }
+  
+  public function playlistDelete($playlist_id)
+  {
+    $this->test->getClient()->request(
+      'GET', 
+      $this->test->generateUrl('playlist_delete', array(
+          'playlist_id' => $playlist_id,
+          '_locale'     => 'fr'
+        )), 
+      array(), 
+      array(), 
+      array()
     );
   }
   
