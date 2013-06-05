@@ -16,13 +16,13 @@ class FunctionalTest extends WebTestCase
    *
    * @var Client 
    */
-  protected $client;
+  public $client;
   
   /**
    *
    * @var Crawler 
    */
-  protected $crawler;
+  public $crawler;
   
   public function getClient()
   {
@@ -34,7 +34,7 @@ class FunctionalTest extends WebTestCase
     return $this->crawler;
   }
   
-  protected function outputDebug($content = null)
+  public function outputDebug($content = null)
   {
     $time = time();
     //unlink('.debug/out'.$time.'.html');
@@ -353,7 +353,7 @@ class FunctionalTest extends WebTestCase
   {
     $this->assertTrue($this->crawler->filter($filter)->count() > 0);
   }
-  
+    
   /**
    * Test l'inexistance d'un element
    * 

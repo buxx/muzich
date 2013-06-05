@@ -100,7 +100,7 @@ class EditController extends Controller
   public function deleteAction($playlist_id)
   {
     if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_DELETE)) !== false)
-      return $this->jsonResponseError($uncondition);
+      throw $this->createNotFoundException();
     
     if (!($playlist = $this->getPlaylistManager()->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
       throw $this->createNotFoundException();

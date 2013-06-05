@@ -8,7 +8,7 @@
   {% if playlists|length %}
   <ul class="playlists">
     {% for playlist in playlists %}
-      <li>
+      <li class="playlist">
         
         <a class="autoplay_playlist" href="{{ path('playlist_datas_for_autoplay', { 'playlist_id' : playlist.id }) }}" >
           Lire

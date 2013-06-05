@@ -5,6 +5,7 @@ namespace Muzich\CoreBundle\Tests\lib\Security;
 use Muzich\CoreBundle\lib\Test\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
+use Symfony\Component\DomCrawler\Crawler;
 
 class ContextTestCases
 {
@@ -18,7 +19,7 @@ class ContextTestCases
     $this->test = $test;
   }
   
-  private function responseSatisfyConditions($response, $success, $condition)
+  private function ajaxResponseSatisfyConditions($response, $success, $condition)
   {
     $response = json_decode($response, true);
     
@@ -45,6 +46,25 @@ class ContextTestCases
     return false;
   }
   
+  private function responseSatisfyConditions($response, $success, $condition, $user)
+  {
+    if (($response->getStatusCode() == 200 || $response->getStatusCode() == 302) && $success)
+    {
+      return true;
+    }
+    
+    if (($response->getStatusCode() != 302 && $response->getStatusCode() != 302) && !$success)
+    {
+      $security_context = new SecurityContext($user);
+      if ($condition && !$security_context->userIsInThisCondition($condition))
+      {
+        return false;
+      }
+      
+      return true;
+    }
+  }
+  
   public function getAjaxRequestContentResponse($method, $url, $parameters = array())
   {
     $this->test->getClient()->request(
@@ -56,7 +76,7 @@ class ContextTestCases
   
   public function addElementResponseIs($success, $condition)
   {
-    return $this->responseSatisfyConditions(
+    return $this->ajaxResponseSatisfyConditions(
       $this->getAjaxRequestContentResponse(
         'POST',
         $this->test->generateUrl('element_add', array('_locale' => 'fr'))
@@ -68,7 +88,7 @@ class ContextTestCases
   
   public function noteElementResponseIs($success, $condition)
   {
-    return $this->responseSatisfyConditions(
+    return $this->ajaxResponseSatisfyConditions(
       $this->getAjaxRequestContentResponse(
         'GET',
         $this->test->generateUrl('ajax_element_add_vote_good', array(
@@ -83,7 +103,7 @@ class ContextTestCases
   
   public function alertCommentResponseIs($success, $condition)
   {
-    return $this->responseSatisfyConditions(
+    return $this->ajaxResponseSatisfyConditions(
       $this->getAjaxRequestContentResponse(
         'GET',
         $this->test->generateUrl('ajax_alert_comment', array(
@@ -99,7 +119,7 @@ class ContextTestCases
   
   public function alertElementResponseIs($success, $condition)
   {
-    return $this->responseSatisfyConditions(
+    return $this->ajaxResponseSatisfyConditions(
       $this->getAjaxRequestContentResponse(
         'GET',
         $this->test->generateUrl('ajax_report_element', array(
@@ -114,7 +134,7 @@ class ContextTestCases
   
   public function addTagResponseIs($success, $condition)
   {
-    return $this->responseSatisfyConditions(
+    return $this->ajaxResponseSatisfyConditions(
       $this->getAjaxRequestContentResponse(
         'POST',
         $this->test->generateUrl('ajax_add_tag'),
@@ -127,7 +147,7 @@ class ContextTestCases
   
   public function proposeElementTagsResponseIs($success, $condition)
   {
-    return $this->responseSatisfyConditions(
+    return $this->ajaxResponseSatisfyConditions(
       $this->getAjaxRequestContentResponse(
         'POST',
         $this->test->generateUrl('ajax_element_propose_tags_proceed', 
@@ -161,26 +181,17 @@ class ContextTestCases
       array()
     );
     
-    if ($this->test->getClient()->getResponse()->getStatusCode() == 200 && $success)
-    {
-      return true;
-    }
-    
-    if ($this->test->getClient()->getResponse()->getStatusCode() != 200 && !$success)
-    {
-      $security_context = new SecurityContext($this->test->getUser());
-      if ($condition && !$security_context->userIsInThisCondition($condition))
-      {
-        return false;
-      }
-      
-      return true;
-    }
+    return $this->responseSatisfyConditions(
+      $this->test->getClient()->getResponse(), 
+      $success, 
+      $condition, 
+      $this->test->getUser()
+    );
   }
   
   public function addCommentResponseIs($success, $condition)
   {
-    return $this->responseSatisfyConditions(
+    return $this->ajaxResponseSatisfyConditions(
       $this->getAjaxRequestContentResponse(
         'POST',
         $this->test->generateUrl('ajax_add_comment', array(
@@ -195,7 +206,7 @@ class ContextTestCases
   
   public function addElementToFavoriteResponseIs($success, $condition)
   {
-    return $this->responseSatisfyConditions(
+    return $this->ajaxResponseSatisfyConditions(
       $this->getAjaxRequestContentResponse(
         'GET',
         $this->test->generateUrl('favorite_add', array(
@@ -210,7 +221,7 @@ class ContextTestCases
   
   public function followUserResponseIs($success, $condition)
   {
-    return $this->responseSatisfyConditions(
+    return $this->ajaxResponseSatisfyConditions(
       $this->getAjaxRequestContentResponse(
         'GET',
         $this->test->generateUrl('follow', array(
@@ -226,11 +237,227 @@ class ContextTestCases
   
   public function getFavoritesTagsResponseIs($success, $condition)
   {
-    return $this->responseSatisfyConditions(
+    return $this->ajaxResponseSatisfyConditions(
       $this->getAjaxRequestContentResponse(
         'GET',
         $this->test->generateUrl('ajax_get_favorites_tags', array(
           'favorites' => true
+        ))
+      ), 
+      $success, 
+      $condition
+    );
+  }
+  
+  public function playlistAddElementResponseIs($success, $condition)
+  {
+    return $this->ajaxResponseSatisfyConditions(
+      $this->getAjaxRequestContentResponse(
+        'GET',
+        $this->test->generateUrl('playlists_add_element', array(
+          'playlist_id' => 0,
+          'element_id'  => 0,
+          '_locale'     => 'fr'
+        ))
+      ), 
+      $success, 
+      $condition
+    );
+  }
+  
+  public function playlistUpdateOrderResponseIs($success, $condition)
+  {
+    return $this->ajaxResponseSatisfyConditions(
+      $this->getAjaxRequestContentResponse(
+        'GET',
+        $this->test->generateUrl('playlist_update_order', array(
+          'playlist_id' => 0,
+          '_locale'     => 'fr'
+        ))
+      ), 
+      $success, 
+      $condition
+    );
+  }
+  
+  public function playlistRemoveElementResponseIs($success, $condition)
+  {
+    return $this->ajaxResponseSatisfyConditions(
+      $this->getAjaxRequestContentResponse(
+        'GET',
+        $this->test->generateUrl('playlist_remove_element', array(
+          'playlist_id' => 0,
+          'element_id'  => 0,
+          '_locale'     => 'fr'
+        ))
+      ), 
+      $success, 
+      $condition
+    );
+  }
+  
+  public function playlistCreateResponseIs($success, $condition)
+  {
+    $this->playlistCreate(0, 'my_super_playlist');
+    return $this->ajaxResponseSatisfyConditions(
+      $this->test->getClient()->getResponse()->getContent(),
+      $success, 
+      $condition
+    );
+  }
+  
+  public function playlistCreate($element_id, $playlist_name)
+  {
+    $this->test->goToPage($this->test->generateUrl('playlists_add_element_prompt', array(
+      'element_id'  => $element_id,
+      '_locale'     => 'fr'
+    )));
+    
+    $response = json_decode($this->test->client->getResponse()->getContent(), true);
+    $crawler = new Crawler($response['data']);
+    
+    $extract = $crawler->filter('input[name="playlist[_token]"]')
+      ->extract(array('value'));
+    $csrf = $extract[0];
+    
+    $this->test->crawler = $this->test->client->request(
+      'POST', 
+      $this->test->generateUrl('playlist_add_element_and_create', array(
+        'element_id'  => $element_id,
+        '_locale'     => 'fr'
+      )), 
+      array(
+        'playlist' => array(
+          'name'   => $playlist_name,
+          '_token' => $csrf
+        )
+      ),
+      array(), 
+      array('HTTP_X-Requested-With' => 'XMLHttpRequest')
+    );
+  }
+
+
+  public function playlistCopyResponseIs($success, $condition)
+  {
+    return $this->ajaxResponseSatisfyConditions(
+      $this->getAjaxRequestContentResponse(
+        'GET',
+        $this->test->generateUrl('playlists_add_element_and_copy', array(
+          'playlist_id' => 0,
+          'element_id'  => 0,
+          '_locale'     => 'fr'
+        ))
+      ), 
+      $success, 
+      $condition
+    );
+  }
+  
+  public function playlistDeleteResponseIs($success, $condition)
+  {
+    $this->test->getClient()->request(
+      'GET', 
+      $this->test->generateUrl('playlist_delete', array(
+          'playlist_id' => 0,
+          'element_id'  => 0,
+          '_locale'     => 'fr'
+        )), 
+      array(), 
+      array(), 
+      array()
+    );
+    
+    return $this->responseSatisfyConditions(
+      $this->test->getClient()->getResponse(), 
+      $success, 
+      $condition, 
+      $this->test->getUser()
+    );
+  }
+  
+  public function playlistUnpickResponseIs($success, $condition)
+  {
+    return $this->ajaxResponseSatisfyConditions(
+      $this->getAjaxRequestContentResponse(
+        'GET',
+        $this->test->generateUrl('playlist_unpick', array(
+          'playlist_id' => 0,
+          '_locale'     => 'fr'
+        ))
+      ), 
+      $success, 
+      $condition
+    );
+  }
+  
+  public function playlistPickResponseIs($success, $condition)
+  {
+    return $this->ajaxResponseSatisfyConditions(
+      $this->getAjaxRequestContentResponse(
+        'GET',
+        $this->test->generateUrl('playlist_pick', array(
+          'playlist_id' => 0,
+          '_locale'     => 'fr'
+        ))
+      ), 
+      $success, 
+      $condition
+    );
+  }
+  
+  public function playlistShowResponseIs($success, $condition)
+  {
+    $this->playlistShow('bux', 0);
+    
+    return $this->responseSatisfyConditions(
+      $this->test->getClient()->getResponse(), 
+      $success, 
+      $condition, 
+      $this->test->getUser()
+    );
+  }
+  
+  public function playlistsShow($user_slug)
+  {
+    $this->test->goToPage($this->test->generateUrl('playlists_user', array(
+      'user_slug'   => $user_slug,
+      '_locale'     => 'fr'
+    )));
+  }
+  
+  public function playlistShow($user_slug, $playlist_id)
+  {
+    $this->test->goToPage($this->test->generateUrl('playlist', array(
+      'user_slug'   => $user_slug,
+      'playlist_id' => $playlist_id,
+      '_locale'     => 'fr'
+    )));
+  }
+  
+  public function playlistAutoplayResponseIs($success, $condition)
+  {
+    return $this->ajaxResponseSatisfyConditions(
+      $this->getAjaxRequestContentResponse(
+        'GET',
+        $this->test->generateUrl('playlist_datas_for_autoplay', array(
+          'playlist_id' => 0,
+          '_locale'     => 'fr'
+        ))
+      ), 
+      $success, 
+      $condition
+    );
+  }
+  
+  public function playlistPromptResponseIs($success, $condition)
+  {
+    return $this->ajaxResponseSatisfyConditions(
+      $this->getAjaxRequestContentResponse(
+        'GET',
+        $this->test->generateUrl('playlists_add_element_prompt', array(
+          'element_id' => 0,
+          '_locale'    => 'fr'
         ))
       ), 
       $success, 

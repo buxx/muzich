@@ -106,6 +106,7 @@ security:
         - { path: ^/(?:fr|en)/user, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/group, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/search, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/playlist, role: IS_AUTHENTICATED_ANONYMOUSLY }
                                         
         - { path: ^/, roles: ROLE_USER }
         

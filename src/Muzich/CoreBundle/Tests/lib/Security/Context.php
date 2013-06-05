@@ -78,6 +78,39 @@ class Context
       case SecurityContext::ACTION_GET_FAVORITES_TAGS:
         return $this->security_context_tests->getFavoritesTagsResponseIs($success, $condition);
       break;
+      case SecurityContext::ACTION_PLAYLIST_ADD_ELEMENT:
+        return $this->security_context_tests->playlistAddElementResponseIs($success, $condition);
+      break;
+      case SecurityContext::ACTION_PLAYLIST_UPDATE_ORDER:
+        return $this->security_context_tests->playlistUpdateOrderResponseIs($success, $condition);
+      break;
+      case SecurityContext::ACTION_PLAYLIST_REMOVE_ELEMENT:
+        return $this->security_context_tests->playlistRemoveElementResponseIs($success, $condition);
+      break;
+      case SecurityContext::ACTION_PLAYLIST_CREATE:
+        return $this->security_context_tests->playlistCreateResponseIs($success, $condition);
+      break;
+      case SecurityContext::ACTION_PLAYLIST_COPY:
+        return $this->security_context_tests->playlistCopyResponseIs($success, $condition);
+      break;
+      case SecurityContext::ACTION_PLAYLIST_DELETE:
+        return $this->security_context_tests->playlistDeleteResponseIs($success, $condition);
+      break;
+      case SecurityContext::ACTION_PLAYLIST_UNPICK:
+        return $this->security_context_tests->playlistUnpickResponseIs($success, $condition);
+      break;
+      case SecurityContext::ACTION_PLAYLIST_PICK:
+        return $this->security_context_tests->playlistPickResponseIs($success, $condition);
+      break;
+      case SecurityContext::ACTION_PLAYLIST_SHOW:
+        return $this->security_context_tests->playlistShowResponseIs($success, $condition);
+      break;
+      case SecurityContext::ACTION_PLAYLIST_DATA_AUTOPLAY:
+        return $this->security_context_tests->playlistAutoplayResponseIs($success, $condition);
+      break;
+      case SecurityContext::ACTION_PLAYLIST_ADD_PROMPT:
+        return $this->security_context_tests->playlistPromptResponseIs($success, $condition);
+      break;
       default:
         throw new \Exception('Action unknow');
     }
