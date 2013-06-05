@@ -6,6 +6,7 @@ use Muzich\CoreBundle\lib\FunctionalTest;
 use Muzich\CoreBundle\Tests\lib\Security\Context as SecurityContextTest;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
 use Muzich\CoreBundle\Tests\lib\Security\ContextTestCases;
+use Muzich\CoreBundle\lib\Collection\ElementCollectionManager;
 
 class PlaylistControllerTest extends FunctionalTest
 {
@@ -267,6 +268,50 @@ class PlaylistControllerTest extends FunctionalTest
     {
       $this->exist('a:contains("'.$playlist->getName().'")');
     }
+  }
+  
+  public function testUpdateOrder()
+  {
+    $this->init();
+    $this->initOrderContextData();
+    $this->connectUser('bux', 'toor');
+    
+    $this->checkPlaylistOrder($this->playlists['bux_2_priv'], array(
+      $this->elements['heretik'], $this->elements['fab']
+    ));
+    $this->updatePlaylistOrder($this->playlists['bux_2_priv'], array(
+      $this->elements['fab'], $this->elements['heretik']
+    ));
+    $this->playlists['bux_2_priv'] = $this->findOneBy('Playlist', 'Ma playlist perso');
+    $this->checkPlaylistOrder($this->playlists['bux_2_priv'], array(
+      $this->elements['fab'], $this->elements['heretik']
+    ));
+  }
+  
+  protected function initOrderContextData()
+  {
+    $this->initReadContextData();
+    $this->elements['heretik'] = $this->findOneBy('Element', 'Heretik System Popof - Resistance');
+    $this->elements['fab'] = $this->findOneBy('Element', 'DJ FAB');
+  }
+  
+  protected function checkPlaylistOrder($playlist, $elements)
+  {
+    $collection_manager = new ElementCollectionManager(array());
+    
+    foreach ($elements as $element)
+    {
+      $collection_manager->add($element);
+    }
+    
+    $this->assertEquals($collection_manager->getContent(), $playlist->getelements());
+  }
+  
+  protected function updatePlaylistOrder($playlist, $elements)
+  {
+    $response = $this->tests_cases->playlistUpdateOrder($playlist->getId(), $elements);
+    $this->outputDebug();
+    $this->jsonResponseIsSuccess($response);
   }
   
 }

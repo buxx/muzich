@@ -267,16 +267,31 @@ class ContextTestCases
   
   public function playlistUpdateOrderResponseIs($success, $condition)
   {
+    $this->playlistUpdateOrder(0, array());
     return $this->ajaxResponseSatisfyConditions(
-      $this->getAjaxRequestContentResponse(
-        'GET',
-        $this->test->generateUrl('playlist_update_order', array(
-          'playlist_id' => 0,
-          '_locale'     => 'fr'
-        ))
-      ), 
+      $this->test->getClient()->getResponse()->getContent(), 
       $success, 
       $condition
+    );
+  }
+  
+  public function playlistUpdateOrder($playlist_id, $elements)
+  {
+    $elements_ids = array();
+    foreach ($elements as $element)
+    {
+      $elements_ids[] = $element->getId();
+    }
+    
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('playlist_update_order', array(
+        'playlist_id' => $playlist_id,
+        '_locale'     => 'fr'
+      )),
+      array(
+        'elements' => $elements_ids
+      )
     );
   }
   

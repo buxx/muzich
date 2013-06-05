@@ -2,8 +2,6 @@
 
 namespace Muzich\CoreBundle\lib\Collection;
 
-use Muzich\CoreBundle\Entity\Element;
-
 class ElementCollectionManager extends CollectionManager
 {
   
