@@ -548,4 +548,24 @@ class FunctionalTest extends WebTestCase
     $this->crawler = $this->client->request('GET', $url);
   }
   
+  public function jsonResponseIsSuccess($json_response)
+  {
+    $response = json_decode($json_response, true);
+    $this->assertTrue(array_key_exists('status', $response));
+    $this->assertEquals('success', $response['status']);
+  }
+  
+  public function jsonResponseIsError($json_response)
+  {
+    $response = json_decode($json_response, true);
+    $this->assertTrue(array_key_exists('status', $response));
+    $this->assertEquals('error', $response['status']);
+  }
+  
+  public function setCrawlerWithJsonResponseData($json_response)
+  {
+    $response = json_decode($json_response, true);
+    $this->crawler = new Crawler($response['data']);
+  }
+  
 }

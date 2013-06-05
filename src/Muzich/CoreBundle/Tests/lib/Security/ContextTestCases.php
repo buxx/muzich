@@ -437,31 +437,43 @@ class ContextTestCases
   
   public function playlistAutoplayResponseIs($success, $condition)
   {
+    $this->playlistAutoplay(0);
     return $this->ajaxResponseSatisfyConditions(
-      $this->getAjaxRequestContentResponse(
-        'GET',
-        $this->test->generateUrl('playlist_datas_for_autoplay', array(
-          'playlist_id' => 0,
-          '_locale'     => 'fr'
-        ))
-      ), 
+      $this->test->getClient()->getResponse()->getContent(),
       $success, 
       $condition
     );
   }
   
+  public function playlistAutoplay($playlist_id)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('playlist_datas_for_autoplay', array(
+        'playlist_id' => $playlist_id,
+        '_locale'     => 'fr'
+      ))
+    );
+  }
+  
   public function playlistPromptResponseIs($success, $condition)
   {
+    $this->playlistPrompt(0);
     return $this->ajaxResponseSatisfyConditions(
-      $this->getAjaxRequestContentResponse(
-        'GET',
-        $this->test->generateUrl('playlists_add_element_prompt', array(
-          'element_id' => 0,
-          '_locale'    => 'fr'
-        ))
-      ), 
+      $this->test->getClient()->getResponse()->getContent(),
       $success, 
       $condition
+    );
+  }
+  
+  public function playlistPrompt($element_id)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('playlists_add_element_prompt', array(
+        'element_id' => $element_id,
+        '_locale'    => 'fr'
+      ))
     );
   }
   

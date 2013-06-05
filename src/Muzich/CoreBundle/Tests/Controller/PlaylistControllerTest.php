@@ -209,4 +209,64 @@ class PlaylistControllerTest extends FunctionalTest
     return $playlist;
   }
   
+  public function testAutoplayDatas()
+  {
+    $this->init();
+    $this->initReadContextData();
+    
+    $this->checkPublicPlaylist();
+    $this->checkPrivatePlaylist();
+    $this->connectUser('bob', 'toor');
+    $this->checkPublicPlaylist();
+    $this->checkPrivatePlaylist();
+    $this->disconnectUser();
+    $this->connectUser('bux', 'toor');
+    $this->checkPublicPlaylist();
+    $this->checkPrivatePlaylist(true);
+  }
+  
+  protected function checkPublicPlaylist()
+  {
+    $response = $this->tests_cases->playlistAutoplay($this->playlists['bux_1_pub']->getId());
+    $this->jsonResponseIsSuccess($response);
+  }
+  
+  protected function checkPrivatePlaylist($success = false)
+  {
+    $response = $this->tests_cases->playlistAutoplay($this->playlists['bux_2_priv']->getId());
+    
+    if (!$success)
+      $this->jsonResponseIsError($response);
+    if ($success)
+      $this->jsonResponseIsSuccess($response);
+  }
+  
+  public function testPrompt()
+  {
+    $this->init();
+    $this->initCreateContextData();
+    
+    $this->setCrawlerWithJsonResponseData($this->tests_cases->playlistPrompt($this->elements['babylon']->getId()));
+    $this->checkPlaylistsInPrompt(array());
+    
+    $this->connectUser('bux', 'toor');
+    
+    $this->setCrawlerWithJsonResponseData($this->tests_cases->playlistPrompt($this->elements['babylon']->getId()));
+    
+    $this->checkPlaylistsInPrompt(array(
+      $this->playlists['bux_1_pub'],
+      $this->playlists['bux_2_priv'],
+      $this->playlists['bob_pub'],
+    ));
+  }
+  
+  protected function checkPlaylistsInPrompt($playlists)
+  {
+    $this->assertEquals(count($playlists), $this->crawler->filter('ul.playlists_for_element li.playlist')->count());
+    foreach ($playlists as $playlist)
+    {
+      $this->exist('a:contains("'.$playlist->getName().'")');
+    }
+  }
+  
 }

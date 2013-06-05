@@ -5,11 +5,11 @@
   </form>
 </div>
 
-<div class="playlists_for_element">
+<div>
   {% if playlists|length %}
-    <ul>
+    <ul class="playlists_for_element">
       {% for playlist in playlists %}
-        <li>
+        <li class="playlist">
           <a class="add_element_to_playlist"
             {% if playlist.owned(app.user) %}
               href="{{ path('playlists_add_element', {

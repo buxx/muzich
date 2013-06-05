@@ -47,7 +47,7 @@ class ShowController extends Controller
     
     $playlist_manager = $this->getPlaylistManager();
     if (!($playlist = $playlist_manager->findOneAccessiblePlaylistWithId($playlist_id, $this->getUserOrNullIfVisitor())))
-      throw $this->createNotFoundException();
+      return $this->jsonNotFoundResponse();
     
     $autoplaym = new AutoplayManager($playlist_manager->getPlaylistElements($playlist, $offset), $this->container);
     
