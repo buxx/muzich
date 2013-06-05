@@ -420,31 +420,41 @@ class ContextTestCases
   
   public function playlistUnpickResponseIs($success, $condition)
   {
+    $this->playlistUnPick(0);
+    return $this->responseSatisfyConditions(
+      $this->test->getClient()->getResponse(), 
+      $success, 
+      $condition, 
+      $this->test->getUser()
+    );
+  }
+  
+  public function playlistUnPick($playlist_id)
+  {
+    $this->test->goToPage($this->test->generateUrl('playlist_unpick', array(
+      'playlist_id' => $playlist_id,
+      '_locale'     => 'fr'
+    )));
+  }
+  
+  public function playlistPickResponseIs($success, $condition)
+  {
+    $this->playlistPick(0);
     return $this->ajaxResponseSatisfyConditions(
-      $this->getAjaxRequestContentResponse(
-        'GET',
-        $this->test->generateUrl('playlist_unpick', array(
-          'playlist_id' => 0,
-          '_locale'     => 'fr'
-        ))
-      ), 
+      $this->test->getClient()->getResponse()->getContent(), 
       $success, 
       $condition
     );
   }
   
-  public function playlistPickResponseIs($success, $condition)
+  public function playlistPick($playlist_id)
   {
-    return $this->ajaxResponseSatisfyConditions(
-      $this->getAjaxRequestContentResponse(
-        'GET',
-        $this->test->generateUrl('playlist_pick', array(
-          'playlist_id' => 0,
-          '_locale'     => 'fr'
-        ))
-      ), 
-      $success, 
-      $condition
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('playlist_pick', array(
+        'playlist_id' => $playlist_id,
+        '_locale'     => 'fr'
+      ))
     );
   }
   

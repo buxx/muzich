@@ -51,17 +51,20 @@ class PlaylistRepository extends EntityRepository
   }
   
   public function getUserPublicPlaylistsOrOwnedOrPickedQueryBuilder(User $viewed_user, User $current_user = null)
-  {
-    if (!$current_user)
+  {    
+    if ($current_user)
     {
-      return $this->getUserPublicPlaylistsOrOwnedQueryBuilder($viewed_user, $current_user);
+      if ($viewed_user->getId() == $current_user->getId())
+      {
+        return $this->getUserPublicPlaylistsOrOwnedQueryBuilder($viewed_user, $current_user)
+          ->leftJoin('p.user_playlists_pickeds', 'pickers')
+          ->orWhere('pickers.user = :picker_id')
+          ->setParameter('picker_id', $current_user->getId())
+        ;
+      }
     }
     
-    return $this->getUserPublicPlaylistsOrOwnedQueryBuilder($viewed_user, $current_user)
-      ->leftJoin('p.user_playlists_pickeds', 'pickers')
-      ->orWhere('pickers.user = :picker_id')
-      ->setParameter('picker_id', $current_user->getId())
-    ;
+    return $this->getUserPublicPlaylistsOrOwnedQueryBuilder($viewed_user, $current_user);
   }
   
   public function findOnePlaylistOwned($playlist_id, User $user)

@@ -432,4 +432,32 @@ class PlaylistControllerTest extends FunctionalTest
     $this->isResponseSuccess();
   }
   
+  public function testPickAndUnpick()
+  {
+    $this->init();
+    $this->initReadContextData();
+    $this->users['jean'] = $this->findUserByUsername('jean');
+    $this->connectUser('jean', 'toor');
+    
+    $this->checkReadPlaylists($this->users['jean'], array());
+    $this->pickPlaylist($this->playlists['bob_pub']);
+    $this->checkReadPlaylists($this->users['jean'], array($this->playlists['bob_pub']));
+    $this->unPickPlaylist($this->playlists['bob_pub']);
+    $this->checkReadPlaylists($this->users['jean'], array());
+  }
+  
+  protected function pickPlaylist($playlist)
+  {
+    $response = $this->tests_cases->playlistPick($playlist->getId());
+    $this->jsonResponseIsSuccess($response);
+  }
+  
+  protected function unPickPlaylist($playlist)
+  {
+    $this->tests_cases->playlistUnPick($playlist->getId());
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
+  }
+  
 }

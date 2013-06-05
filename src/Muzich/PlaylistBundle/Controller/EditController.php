@@ -114,7 +114,7 @@ class EditController extends Controller
   public function unpickAction($playlist_id)
   {
     if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_UNPICK)) !== false)
-      return $this->jsonResponseError($uncondition);
+      throw $this->createNotFoundException();
     
     $playlist_manager = $this->getPlaylistManager();
     
