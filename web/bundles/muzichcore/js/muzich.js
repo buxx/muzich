@@ -3087,6 +3087,148 @@ $(document).ready(function(){
    });
    
    
+   /**
+    *PLAYLISTS
+    */
+   
+  $('ul.playlist_elements li a.open_element').live('click', function(){
+    
+    // Pour le moment
+    return false;
+    
+    var line = $(this).parents('li.playlist_element');
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+      
+      if (response.status == 'success')
+      {
+        line.append('<ul class="elements"><li class="element">' + response.data + '</li></ul>');
+      }
+      
+    });
+    
+    return false;
+  });
+  
+  $('ul.playlist_elements').sortable({
+    update: function( event, ui ) {
+      
+      var form = ui.item.parents('form')
+      
+      $.ajax({
+       type: 'POST',
+       url: form.attr('action'),
+       data: form.serialize(),
+       success: function(response) {
+        
+          window.ResponseController.execute(
+            response,
+            function(){},
+            function(){}
+          );
+          
+          
+        },
+       dataType: "json"
+     });
+      
+    }
+  });
+  
+  $('ul.elements a.add_to_playlist').live('click', function(event){
+    
+    $('div.playlists_prompt').remove();
+    var prompt = $('<div class="playlists_prompt"><img class="loader" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>');
+    $('body').append(prompt);
+    
+    prompt.position({
+      my: "left+3 bottom+0",
+      of: event,
+      collision: "fit"
+    });
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+      
+      prompt.find('img.loader').hide();
+      if (response.status == 'success')
+      {
+        prompt.append(response.data);
+        prompt.find('div.create_playlist form').ajaxForm(function(response){
+          window.ResponseController.execute(
+            response,
+            function(){},
+            function(){}
+          );
+          
+          if (response.status == 'success')
+          {
+            $('div.playlists_prompt').remove();
+          }
+          
+          if (response.status == 'error')
+          {
+            prompt.find('div.create_playlist form').html(response.data);
+          }
+          
+        });
+      }
+      
+    });
+    
+    return false;
+  });
+  
+  $('a.add_element_to_playlist').live('click', function(){
+    $.getJSON($(this).attr('href'), function(response) {
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+    });
+    
+    $(this).parents('div.playlists_prompt').remove();
+    return false;
+  });
+  
+  $('a.playlist_pick').live('click', function(){
+    $.getJSON($(this).attr('href'), function(response) {
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+    });
+    
+    return false;
+  });
+  
+  
+  $('ul.playlist_elements a.remove_element').live('click', function () {
+    
+    $.getJSON($(this).attr('href'), function(response) {
+      window.ResponseController.execute(
+        response,
+        function(){},
+        function(){}
+      );
+    });
+    
+    $(this).parents('li.playlist_element').remove();
+    return false;
+  });
+   
 });
 
 function open_ajax_popin(url, callback)

@@ -19,6 +19,18 @@ class Context
   const ACTION_TAG_ADD = 9;
   const ACTION_GET_FAVORITES_TAGS = 10;
   
+  const ACTION_PLAYLIST_SHOW = 11;
+  const ACTION_PLAYLIST_DATA_AUTOPLAY = 12;
+  const ACTION_PLAYLIST_ADD_ELEMENT = 13;
+  const ACTION_PLAYLIST_UPDATE_ORDER = 14;
+  const ACTION_PLAYLIST_REMOVE_ELEMENT = 15;
+  const ACTION_PLAYLIST_ADD_PROMPT = 16;
+  const ACTION_PLAYLIST_CREATE = 17;
+  const ACTION_PLAYLIST_COPY = 18;
+  const ACTION_PLAYLIST_DELETE = 19;
+  const ACTION_PLAYLIST_UNPICK = 20;
+  const ACTION_PLAYLIST_PICK = 21;
+  
   const AFFECT_CANT_MAKE = 0;
   const AFFECT_NO_SCORING = 1;
   
@@ -66,6 +78,30 @@ class Context
       ),
       self::ACTION_GET_FAVORITES_TAGS => array(
         self::CONDITION_USER_NOT_CONNECTED
+      ),
+      self::ACTION_PLAYLIST_ADD_ELEMENT => array(
+        self::CONDITION_USER_NOT_CONNECTED
+      ),
+      self::ACTION_PLAYLIST_UPDATE_ORDER => array(
+        self::CONDITION_USER_NOT_CONNECTED  
+      ),
+      self::ACTION_PLAYLIST_REMOVE_ELEMENT => array(
+        self::CONDITION_USER_NOT_CONNECTED  
+      ),
+      self::ACTION_PLAYLIST_CREATE => array(
+        self::CONDITION_USER_NOT_CONNECTED  
+      ),
+      self::ACTION_PLAYLIST_COPY => array(
+        self::CONDITION_USER_NOT_CONNECTED  
+      ),
+      self::ACTION_PLAYLIST_DELETE => array(
+        self::CONDITION_USER_NOT_CONNECTED  
+      ),
+      self::ACTION_PLAYLIST_UNPICK => array(
+        self::CONDITION_USER_NOT_CONNECTED  
+      ),
+      self::ACTION_PLAYLIST_PICK => array(
+        self::CONDITION_USER_NOT_CONNECTED  
       )
     ),
     self::AFFECT_NO_SCORING => array(

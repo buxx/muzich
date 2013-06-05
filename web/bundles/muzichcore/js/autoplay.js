@@ -73,10 +73,15 @@ function Autoplay()
   {
     $('#autoplay_element_loader').show();
     JQueryJson(url_element_dom_get_one_autoplay+'/'+element_id, {}, function(response){
+      
+      $('#autoplay_element_loader').hide();
       if (response.status == 'success')
       {
         $('li#autoplay_element_container').html(response.data);
-        $('#autoplay_element_loader').hide();
+      }
+      else
+      {
+        $('li#autoplay_element_container').html('');
       }
     });
   }
@@ -134,6 +139,12 @@ $(document).ready(function() {
   window.autoplay = new Autoplay();
   
   $('a.autoplay_link').live('click', function(){
+    window.autoplay.start($(this));
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+    return false;
+  });
+  
+  $('a.autoplay_playlist').live('click', function(){
     window.autoplay.start($(this));
     $('html, body').animate({ scrollTop: 0 }, 'fast');
     return false;

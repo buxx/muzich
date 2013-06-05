@@ -100,7 +100,7 @@ class Playlist
     return $this->owner;
   }
   
-  public function setOwner(User $owner)
+  public function setOwner(User $owner = null)
   {
     $this->owner = $owner;
   }

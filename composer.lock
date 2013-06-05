@@ -8,12 +8,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony2admingenerator/AdmingeneratorGeneratorBundle.git",
-                "reference": "294adb5a1766445e2f2fd3f28c28279084c38435"
+                "reference": "e9372a26ff8e84d20d37657aa0e9ea6d6d3d9387"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony2admingenerator/AdmingeneratorGeneratorBundle/zipball/294adb5a1766445e2f2fd3f28c28279084c38435",
-                "reference": "294adb5a1766445e2f2fd3f28c28279084c38435",
+                "url": "https://api.github.com/repos/symfony2admingenerator/AdmingeneratorGeneratorBundle/zipball/e9372a26ff8e84d20d37657aa0e9ea6d6d3d9387",
+                "reference": "e9372a26ff8e84d20d37657aa0e9ea6d6d3d9387",
                 "shasum": ""
             },
             "require": {
@@ -33,7 +33,7 @@
                 "avalanche123/imagine-bundle": "Image manipulation using Imagine and Twig Filters",
                 "cedriclombardot/admingenerator-user-bundle": "Help you to overwrite the base layout of FOSUserBundle or others giving a parameter key of the container"
             },
-            "time": "2013-05-14 12:00:41",
+            "time": "2013-06-01 07:47:44",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -546,27 +546,27 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSFacebookBundle.git",
-                "reference": "9c93669fd8f93941602d348daa58273c29be229f"
+                "reference": "7baeffd6b998a9e365e36ae2ff32675b32c84170"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSFacebookBundle/zipball/9c93669fd8f93941602d348daa58273c29be229f",
-                "reference": "9c93669fd8f93941602d348daa58273c29be229f",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSFacebookBundle/zipball/7baeffd6b998a9e365e36ae2ff32675b32c84170",
+                "reference": "7baeffd6b998a9e365e36ae2ff32675b32c84170",
                 "shasum": ""
             },
             "require": {
                 "facebook/php-sdk": "3.2.*",
                 "php": ">=5.3.2",
-                "symfony/http-foundation": ">=2.1,<2.3",
-                "symfony/security": ">=2.1,<2.3"
+                "symfony/http-foundation": ">=2.1,<2.4",
+                "symfony/security": ">=2.1,<2.4"
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*",
-                "symfony/framework-bundle": ">=2.1,<2.3",
-                "symfony/security-bundle": ">=2.1,<2.3",
-                "symfony/twig-bundle": ">=2.1,<2.3"
+                "symfony/framework-bundle": ">=2.1,<2.4",
+                "symfony/security-bundle": ">=2.1,<2.4",
+                "symfony/twig-bundle": ">=2.1,<2.4"
             },
-            "time": "2013-05-14 18:06:07",
+            "time": "2013-06-05 01:23:11",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -666,16 +666,16 @@
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v2.3.5",
+            "version": "v2.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "v2.3.5"
+                "reference": "v2.3.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/v2.3.5",
-                "reference": "v2.3.5",
+                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/v2.3.6",
+                "reference": "v2.3.6",
                 "shasum": ""
             },
             "require": {
@@ -683,10 +683,11 @@
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "doctrine/dbal": ">=2.2",
-                "doctrine/mongodb": "1.0.1",
-                "doctrine/mongodb-odm": "1.0.0-BETA7",
-                "doctrine/orm": ">=2.2",
+                "doctrine/common": ">=2.4.0-BETA2",
+                "doctrine/dbal": ">=2.4.0-BETA2",
+                "doctrine/mongodb": ">=1.0.2",
+                "doctrine/mongodb-odm": ">=1.0.0-BETA8",
+                "doctrine/orm": ">=2.4.0-BETA2",
                 "symfony/yaml": "2.*"
             },
             "suggest": {
@@ -695,7 +696,7 @@
                 "doctrine/mongodb-odm": ">=1.0.0-BETA7",
                 "doctrine/orm": ">=2.3.2"
             },
-            "time": "2013-03-05 06:32:22",
+            "time": "2013-05-21 12:09:55",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -750,19 +751,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gregwar/ImageBundle.git",
-                "reference": "d6d8c1aa8c4fe03a9b8470d2bf195c4dbf89643b"
+                "reference": "ae746b296768cc63c7f3478446dc5bf5d36812d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Gregwar/ImageBundle/zipball/d6d8c1aa8c4fe03a9b8470d2bf195c4dbf89643b",
-                "reference": "d6d8c1aa8c4fe03a9b8470d2bf195c4dbf89643b",
+                "url": "https://api.github.com/repos/Gregwar/ImageBundle/zipball/ae746b296768cc63c7f3478446dc5bf5d36812d4",
+                "reference": "ae746b296768cc63c7f3478446dc5bf5d36812d4",
                 "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
                 "php": ">=5.3.0"
             },
-            "time": "2013-05-09 10:44:43",
+            "time": "2013-06-02 20:38:56",
             "type": "symfony-bundle",
             "autoload": {
                 "psr-0": {
@@ -1158,24 +1159,24 @@
         },
         {
             "name": "knplabs/knp-menu-bundle",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "target-dir": "Knp/Bundle/MenuBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenuBundle.git",
-                "reference": "v1.1.1"
+                "reference": "v1.1.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenuBundle/zipball/v1.1.1",
-                "reference": "v1.1.1",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenuBundle/zipball/v1.1.2",
+                "reference": "v1.1.2",
                 "shasum": ""
             },
             "require": {
-                "knplabs/knp-menu": "1.1.*",
-                "symfony/framework-bundle": ">=2.0,<2.3-dev"
+                "knplabs/knp-menu": ">=1.1,<2.0",
+                "symfony/framework-bundle": ">=2.0,<3.0"
             },
-            "time": "2012-11-28 20:05:09",
+            "time": "2013-05-25 10:20:03",
             "type": "symfony-bundle",
             "autoload": {
                 "psr-0": {
@@ -1207,16 +1208,16 @@
         },
         {
             "name": "kriswallsmith/assetic",
-            "version": "dev-master",
+            "version": "1.1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "5441014f28b8fe024c547fb7a15cd737c6cb1a05"
+                "reference": "1b4b9ab32355b0d377b8baba73d37ab9872ab60b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/5441014f28b8fe024c547fb7a15cd737c6cb1a05",
-                "reference": "5441014f28b8fe024c547fb7a15cd737c6cb1a05",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/1b4b9ab32355b0d377b8baba73d37ab9872ab60b",
+                "reference": "1b4b9ab32355b0d377b8baba73d37ab9872ab60b",
                 "shasum": ""
             },
             "require": {
@@ -1242,11 +1243,11 @@
                 "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
                 "twig/twig": "Assetic provides the integration with the Twig templating engine"
             },
-            "time": "2013-05-18 16:31:41",
+            "time": "2013-06-04 03:51:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -1396,17 +1397,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v2.1.10",
+            "version": "v2.1.11",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sensio/SensioDistributionBundle.git",
-                "reference": "v2.1.10"
+                "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
+                "reference": "v2.1.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioDistributionBundle/zipball/v2.1.10",
-                "reference": "v2.1.10",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/v2.1.11",
+                "reference": "v2.1.11",
                 "shasum": ""
             },
             "require": {
@@ -1442,17 +1443,17 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v2.1.10",
+            "version": "v2.1.11",
             "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sensio/SensioFrameworkExtraBundle.git",
-                "reference": "v2.1.10"
+                "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
+                "reference": "v2.1.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioFrameworkExtraBundle/zipball/v2.1.10",
-                "reference": "v2.1.10",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/v2.1.11",
+                "reference": "v2.1.11",
                 "shasum": ""
             },
             "require": {
@@ -1489,17 +1490,17 @@
         },
         {
             "name": "sensio/generator-bundle",
-            "version": "v2.1.10",
+            "version": "v2.1.11",
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sensio/SensioGeneratorBundle.git",
-                "reference": "v2.1.10"
+                "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
+                "reference": "v2.1.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioGeneratorBundle/zipball/v2.1.10",
-                "reference": "v2.1.10",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/v2.1.11",
+                "reference": "v2.1.11",
                 "shasum": ""
             },
             "require": {
@@ -1992,37 +1993,37 @@
         },
         {
             "name": "symfony/assetic-bundle",
-            "version": "v2.1.2",
+            "version": "v2.1.3",
             "target-dir": "Symfony/Bundle/AsseticBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/AsseticBundle.git",
-                "reference": "v2.1.2"
+                "reference": "v2.1.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/AsseticBundle/zipball/v2.1.2",
-                "reference": "v2.1.2",
+                "url": "https://api.github.com/repos/symfony/AsseticBundle/zipball/v2.1.3",
+                "reference": "v2.1.3",
                 "shasum": ""
             },
             "require": {
-                "kriswallsmith/assetic": "1.1.*",
+                "kriswallsmith/assetic": ">=1.1.0-alpha4,<1.2-dev",
                 "php": ">=5.3.0",
-                "symfony/framework-bundle": ">=2.1.0,<2.3-dev"
+                "symfony/framework-bundle": ">=2.1,<3.0"
             },
             "require-dev": {
-                "symfony/class-loader": ">=2.1.0,<2.3-dev",
-                "symfony/console": ">=2.1.0,<2.3-dev",
-                "symfony/css-selector": ">=2.1.0,<2.3-dev",
-                "symfony/dom-crawler": ">=2.1.0,<2.3-dev",
-                "symfony/form": ">=2.1.0,<2.3-dev",
-                "symfony/twig-bundle": ">=2.1.0,<2.3-dev",
-                "symfony/yaml": ">=2.1.0,<2.3-dev"
+                "symfony/class-loader": ">=2.1,<3.0",
+                "symfony/console": ">=2.1,<3.0",
+                "symfony/css-selector": ">=2.1,<3.0",
+                "symfony/dom-crawler": ">=2.1,<3.0",
+                "symfony/form": ">=2.1,<3.0",
+                "symfony/twig-bundle": ">=2.1,<3.0",
+                "symfony/yaml": ">=2.1,<3.0"
             },
             "suggest": {
-                "symfony/twig-bundle": ">=2.1.0,<2.3-dev"
+                "symfony/twig-bundle": "~2.1"
             },
-            "time": "2013-02-23 22:29:21",
+            "time": "2013-03-25 20:16:21",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -2114,17 +2115,17 @@
         },
         {
             "name": "symfony/swiftmailer-bundle",
-            "version": "v2.1.10",
+            "version": "v2.1.11",
             "target-dir": "Symfony/Bundle/SwiftmailerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/SwiftmailerBundle.git",
-                "reference": "v2.1.10"
+                "reference": "v2.1.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/v2.1.10",
-                "reference": "v2.1.10",
+                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/v2.1.11",
+                "reference": "v2.1.11",
                 "shasum": ""
             },
             "require": {

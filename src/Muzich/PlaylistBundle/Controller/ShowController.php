@@ -3,18 +3,19 @@
 namespace Muzich\PlaylistBundle\Controller;
 
 use Muzich\CoreBundle\lib\Controller;
-use Muzich\CoreBundle\Entity\Playlist;
 use Muzich\CoreBundle\lib\AutoplayManager;
+use Muzich\CoreBundle\Security\Context as SecurityContext;
 
 class ShowController extends Controller
 {
   
   public function userAction($user_slug)
   {
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_SHOW)) !== false)
+      return $this->jsonResponseError($uncondition);
+    
     if (!($viewed_user = $this->findUserWithSlug($user_slug)))
-    {
       throw $this->createNotFoundException();
-    }
     
     return $this->render('MuzichPlaylistBundle:Show:user.html.twig', array(
       'viewed_user' => $viewed_user,
@@ -24,6 +25,9 @@ class ShowController extends Controller
   
   public function showAction($user_slug, $playlist_id)
   {
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_SHOW)) !== false)
+      return $this->jsonResponseError($uncondition);
+    
     if (!($viewed_user = $this->findUserWithSlug($user_slug)))
       throw $this->createNotFoundException();
     
@@ -38,8 +42,10 @@ class ShowController extends Controller
   
   public function getAutoplayDataAction($playlist_id, $offset = null)
   {
-    $playlist_manager = $this->getPlaylistManager();
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_DATA_AUTOPLAY)) !== false)
+      return $this->jsonResponseError($uncondition);
     
+    $playlist_manager = $this->getPlaylistManager();
     if (!($playlist = $playlist_manager->findOneAccessiblePlaylistWithId($playlist_id, $this->getUserOrNullIfVisitor())))
       throw $this->createNotFoundException();
     
@@ -53,6 +59,9 @@ class ShowController extends Controller
   
   public function getAddElementPromptAction($element_id)
   {
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_ADD_PROMPT)) !== false)
+      return $this->jsonResponseError($uncondition);
+    
     return $this->jsonSuccessResponse(
       $this->render('MuzichPlaylistBundle:Show:prompt.html.twig', array(
         'form'       => $this->getPlaylistForm()->createView(),

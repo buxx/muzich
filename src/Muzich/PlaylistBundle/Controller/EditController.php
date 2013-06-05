@@ -3,8 +3,8 @@
 namespace Muzich\PlaylistBundle\Controller;
 
 use Muzich\CoreBundle\lib\Controller;
-use Muzich\CoreBundle\Entity\Playlist;
 use Symfony\Component\HttpFoundation\Request;
+use Muzich\CoreBundle\Security\Context as SecurityContext;
 
 class EditController extends Controller
 {
@@ -12,6 +12,9 @@ class EditController extends Controller
   // TODO: Cette méthode ET les autres: Mettre à jour avec le gestionnaire d'accès (Security)
   public function updateOrderAction(Request $request, $playlist_id)
   {
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_UPDATE_ORDER)) !== false)
+      return $this->jsonResponseError($uncondition);
+    
     $playlist_manager = $this->getPlaylistManager();
     if (!($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser())) || !$request->get('elements'))
       return $this->jsonNotFoundResponse();
@@ -23,6 +26,9 @@ class EditController extends Controller
   
   public function removeElementAction($playlist_id, $element_id)
   {
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_REMOVE_ELEMENT)) !== false)
+      return $this->jsonResponseError($uncondition);
+    
     $playlist_manager = $this->getPlaylistManager();
     if (!($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
       return $this->jsonNotFoundResponse();
@@ -34,6 +40,9 @@ class EditController extends Controller
   
   public function addElementAction($playlist_id, $element_id)
   {
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_ADD_ELEMENT)) !== false)
+      return $this->jsonResponseError($uncondition);
+    
     $playlist_manager = $this->getPlaylistManager();
     if (!($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser()))
         || !($element = $this->getElementWithId($element_id)))
@@ -46,6 +55,9 @@ class EditController extends Controller
   
   public function addElementAndCreateAction(Request $request, $element_id)
   {
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_CREATE)) !== false)
+      return $this->jsonResponseError($uncondition);
+    
     if (!($element = $this->getElementWithId($element_id)))
       return $this->jsonNotFoundResponse();
     
@@ -68,6 +80,9 @@ class EditController extends Controller
   
   public function addElementAndCopyAction($playlist_id, $element_id)
   {
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_COPY)) !== false)
+      return $this->jsonResponseError($uncondition);
+    
     if (!($element = $this->getElementWithId($element_id)))
       return $this->jsonNotFoundResponse();
     
@@ -84,6 +99,9 @@ class EditController extends Controller
   
   public function deleteAction($playlist_id)
   {
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_DELETE)) !== false)
+      return $this->jsonResponseError($uncondition);
+    
     if (!($playlist = $this->getPlaylistManager()->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
       throw $this->createNotFoundException();
     
@@ -95,6 +113,9 @@ class EditController extends Controller
   
   public function unpickAction($playlist_id)
   {
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_UNPICK)) !== false)
+      return $this->jsonResponseError($uncondition);
+    
     $playlist_manager = $this->getPlaylistManager();
     
     if (!($playlist = $playlist_manager->findPlaylistWithId($playlist_id, $this->getUser())))
@@ -108,6 +129,9 @@ class EditController extends Controller
   
   public function pickAction($playlist_id)
   {
+    if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_PICK)) !== false)
+      return $this->jsonResponseError($uncondition);
+    
     if (!($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id)))
       return $this->jsonNotFoundResponse();
     
