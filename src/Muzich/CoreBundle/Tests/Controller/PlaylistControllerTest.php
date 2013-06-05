@@ -20,12 +20,12 @@ class PlaylistControllerTest extends FunctionalTest
     $this->tests_cases = new ContextTestCases($this->client, $this);
   }
   
-//  public function testActionsSecurityRoles()
-//  {
-//    $this->init();
-//    $this->checkProhibedActionsForAnonymous();
-//    $this->checkAutorizedsActionsForAnonymous();
-//  }
+  public function testActionsSecurityRoles()
+  {
+    $this->init();
+    $this->checkProhibedActionsForAnonymous();
+    $this->checkAutorizedsActionsForAnonymous();
+  }
   
   protected function checkProhibedActionsForAnonymous()
   {
@@ -99,15 +99,15 @@ class PlaylistControllerTest extends FunctionalTest
     );
   }
   
-//  public function testPlaylistsRead()
-//  {
-//    $this->init();
-//    $this->initReadContextData();
-//    
-//    $this->checkReadablePlaylistsForAnonymous();
-//    $this->checkReadablePlaylistsForConnected();
-//    $this->checkReadablePlaylistsForOwner();
-//  }
+  public function testPlaylistsRead()
+  {
+    $this->init();
+    $this->initReadContextData();
+    
+    $this->checkReadablePlaylistsForAnonymous();
+    $this->checkReadablePlaylistsForConnected();
+    $this->checkReadablePlaylistsForOwner();
+  }
   
   protected function initReadContextData()
   {
@@ -122,7 +122,7 @@ class PlaylistControllerTest extends FunctionalTest
     $this->checkReadPlaylists($this->users['bux'], array($this->playlists['bux_1_pub']));
   }
   
-  protected function checkReadPlaylists($user, $playlists)
+  protected function checkReadPlaylists($user, $playlists, $elements = null)
   {
     $this->tests_cases->playlistsShow($user->getSlug());
     $this->isResponseSuccess();
@@ -132,13 +132,12 @@ class PlaylistControllerTest extends FunctionalTest
     {
       $this->tests_cases->playlistShow($user->getSlug(), $playlist->getId());
       $this->isResponseSuccess();
-      $this->checkReadPlaylist($playlist);
+      $this->checkReadPlaylist($playlist, $elements);
     }
   }
   
   protected function checkReadPlaylistsDom($playlists)
   {
-    $this->outputDebug();
     $this->assertEquals(count($playlists), $this->crawler->filter('ul.playlists li.playlist')->count());
     foreach ($playlists as $playlist)
     {
@@ -146,9 +145,23 @@ class PlaylistControllerTest extends FunctionalTest
     }
   }
   
-  protected function checkReadPlaylist($playlist)
+  protected function checkReadPlaylist($playlist, $elements = null)
   {
     $this->exist('h2:contains("'.$playlist->getName().'")');
+    
+    if ($elements !== null)
+    {
+      $this->checkPlaylistElements($playlist, $elements[$playlist->getId()]);
+    }
+  }
+  
+  protected function checkPlaylistElements($playlist, $elements)
+  {
+    $this->assertEquals(count($elements), $this->crawler->filter('li.playlist_element')->count());
+    foreach ($elements as $element)
+    {
+      $this->exist('a[data-id="'.$element->getId().'"]');
+    }
   }
   
   protected function checkReadablePlaylistsForConnected()
@@ -175,7 +188,10 @@ class PlaylistControllerTest extends FunctionalTest
     $this->connectUser('joelle', 'toor');
     
     $this->playlists['joelle_1'] = $this->createPlaylistWithElement($this->elements['babylon']);
-    $this->checkReadPlaylists($this->users['joelle'], array($this->playlists['joelle_1']));
+    $this->checkReadPlaylists($this->users['joelle'], 
+      array($this->playlists['joelle_1']),
+      array($this->playlists['joelle_1']->getId() => array($this->elements['babylon']))
+    );
   }
   
   protected function initCreateContextData()
