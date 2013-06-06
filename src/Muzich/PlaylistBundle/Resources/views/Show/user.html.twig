@@ -21,11 +21,11 @@
         {% if app.user %}
           {% if viewed_user.id == app.user.id %}
             {% if playlist.owned(app.user) %}
-              <a class="playlist_delete" href="{{ path('playlist_delete', { 'playlist_id' : playlist.id }) }}" >
+              <a class="playlist_delete" href="{{ path_token('playlist_delete', { 'playlist_id' : playlist.id }) }}" >
                 X
               </a>
             {% else %}
-              <a class="playlist_unpick" href="{{ path('playlist_unpick', { 'playlist_id' : playlist.id }) }}" >
+              <a class="playlist_unpick" href="{{ path_token('playlist_unpick', { 'playlist_id' : playlist.id }) }}" >
                 X
               </a>
             {% endif %}
@@ -35,11 +35,11 @@
         {% if app.user %}
           {% if not playlist.owned(app.user) and viewed_user.id != app.user.id %}
             {% if not app.user.havePlaylistPicked(playlist) %}
-              <a class="playlist_pick" href="{{ path('playlist_pick', { 'playlist_id' : playlist.id }) }}" >
+              <a class="playlist_pick" href="{{ path_token('playlist_pick', { 'playlist_id' : playlist.id }) }}" >
                 P
               </a>
             {% else %}
-              <a class="playlist_unpick" href="{{ path('playlist_unpick', { 'playlist_id' : playlist.id }) }}" >
+              <a class="playlist_unpick" href="{{ path_token('playlist_unpick', { 'playlist_id' : playlist.id }) }}" >
                 uP
               </a>
             {% endif %}

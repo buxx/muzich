@@ -266,7 +266,8 @@ class ContextTestCases
       $this->test->generateUrl('playlists_add_element', array(
         'playlist_id' => $playlist_id,
         'element_id'  => $element_id,
-        '_locale'     => 'fr'
+        '_locale'     => 'fr',
+        'token'       => $this->test->getToken()
       ))
     );
   }
@@ -293,7 +294,8 @@ class ContextTestCases
       'GET',
       $this->test->generateUrl('playlist_update_order', array(
         'playlist_id' => $playlist_id,
-        '_locale'     => 'fr'
+        '_locale'     => 'fr',
+        'token'       => $this->test->getToken()
       )),
       array(
         'elements' => $elements_ids
@@ -318,7 +320,8 @@ class ContextTestCases
       $this->test->generateUrl('playlist_remove_element', array(
         'playlist_id' => $playlist_id,
         'element_id'  => $element_id,
-        '_locale'     => 'fr'
+        '_locale'     => 'fr',
+        'token'       => $this->test->getToken()
       ))
     );
   }
@@ -330,7 +333,8 @@ class ContextTestCases
       $this->test->generateUrl('playlists_add_element_and_copy', array(
         'playlist_id' => $playlist_id,
         'element_id'  => $element_id,
-        '_locale'     => 'fr'
+        '_locale'     => 'fr',
+        'token'       => $this->test->getToken()
       ))
     );
   }
@@ -385,7 +389,8 @@ class ContextTestCases
         $this->test->generateUrl('playlists_add_element_and_copy', array(
           'playlist_id' => 0,
           'element_id'  => 0,
-          '_locale'     => 'fr'
+          '_locale'     => 'fr',
+          'token'       => $this->test->getToken()
         ))
       ), 
       $success, 
@@ -410,7 +415,8 @@ class ContextTestCases
       'GET', 
       $this->test->generateUrl('playlist_delete', array(
           'playlist_id' => $playlist_id,
-          '_locale'     => 'fr'
+          '_locale'     => 'fr',
+          'token'       => $this->test->getToken()
         )), 
       array(), 
       array(), 
@@ -433,7 +439,8 @@ class ContextTestCases
   {
     $this->test->goToPage($this->test->generateUrl('playlist_unpick', array(
       'playlist_id' => $playlist_id,
-      '_locale'     => 'fr'
+      '_locale'     => 'fr',
+      'token'       => $this->test->getToken()
     )));
   }
   
@@ -453,7 +460,8 @@ class ContextTestCases
       'GET',
       $this->test->generateUrl('playlist_pick', array(
         'playlist_id' => $playlist_id,
-        '_locale'     => 'fr'
+        '_locale'     => 'fr',
+        'token'       => $this->test->getToken()
       ))
     );
   }

@@ -685,4 +685,12 @@ class Controller extends BaseController
     return $this->createForm(new PlaylistForm(), $this->getPlaylistManager()->getNewPlaylist($this->getUserOrNullIfVisitor()));
   }
   
+  protected function tokenIsCorrect($intention = '')
+  {
+    if ($this->getRequest()->get('token') != $this->container->get('form.csrf_provider')->generateCsrfToken($intention))
+      return false;
+    
+    return true;
+  }
+  
 }

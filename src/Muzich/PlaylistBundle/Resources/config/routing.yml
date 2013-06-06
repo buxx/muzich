@@ -7,15 +7,15 @@ playlist:
   defaults: { _controller: MuzichPlaylistBundle:Show:show }
 
 playlist_delete:
-  pattern: /playlist/delete/{playlist_id}
+  pattern: /playlist/delete/{playlist_id}/{token}
   defaults: { _controller: MuzichPlaylistBundle:Edit:delete }
 
 playlist_unpick:
-  pattern: /playlist/unpick/{playlist_id}
+  pattern: /playlist/unpick/{playlist_id}/{token}
   defaults: { _controller: MuzichPlaylistBundle:Edit:unpick }
 
 playlist_pick:
-  pattern: /playlist/pick/{playlist_id}
+  pattern: /playlist/pick/{playlist_id}/{token}
   defaults: { _controller: MuzichPlaylistBundle:Edit:pick }
 
 playlist_datas_for_autoplay:
@@ -23,11 +23,11 @@ playlist_datas_for_autoplay:
   defaults: { _controller: MuzichPlaylistBundle:Show:getAutoplayData, offset: null }
 
 playlist_update_order:
-  pattern: /ajax/playlist/order/update/{playlist_id}
+  pattern: /ajax/playlist/order/update/{playlist_id}/{token}
   defaults: { _controller: MuzichPlaylistBundle:Edit:updateOrder }
 
 playlist_remove_element:
-  pattern: /ajax/playlist/element/remove/{playlist_id}/{element_id}
+  pattern: /ajax/playlist/element/remove/{playlist_id}/{element_id}/{token}
   defaults: { _controller: MuzichPlaylistBundle:Edit:removeElement }
 
 playlists_add_element_prompt:
@@ -35,11 +35,11 @@ playlists_add_element_prompt:
   defaults: { _controller: MuzichPlaylistBundle:Show:getAddElementPrompt }
 
 playlists_add_element:
-  pattern: /ajax/playlist/element/add/{playlist_id}/{element_id}
+  pattern: /ajax/playlist/element/add/{playlist_id}/{element_id}/{token}
   defaults: { _controller: MuzichPlaylistBundle:Edit:addElement }
   
 playlists_add_element_and_copy:
-  pattern: /ajax/playlist/element/add-and-copy/{playlist_id}/{element_id}
+  pattern: /ajax/playlist/element/add-and-copy/{playlist_id}/{element_id}/{token}
   defaults: { _controller: MuzichPlaylistBundle:Edit:addElementAndCopy }
 
 playlist_add_element_and_create:

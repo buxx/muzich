@@ -12,12 +12,12 @@
         <li class="playlist">
           <a class="add_element_to_playlist"
             {% if playlist.owned(app.user) %}
-              href="{{ path('playlists_add_element', {
+              href="{{ path_token('playlists_add_element', {
                 'playlist_id' : playlist.id,
                 'element_id'  : element_id
               }) }}"
             {% else %}
-              href="{{ path('playlists_add_element_and_copy', {
+              href="{{ path_token('playlists_add_element_and_copy', {
                 'playlist_id' : playlist.id,
                 'element_id'  : element_id
               }) }}"

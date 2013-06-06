@@ -5,16 +5,19 @@ namespace Muzich\CoreBundle\Extension;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Muzich\CoreBundle\Entity\Event;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\DependencyInjection\Container;
 
 class MyTwigExtension extends \Twig_Extension {
 
   private $translator;
+  private $container;
   protected $params = array();
 
-  public function __construct(Translator $translator, $params)
+  public function __construct(Translator $translator, $params, Container $container)
   {
     $this->translator = $translator;
     $this->params = $params;
+    $this->container = $container;
   }
   
   public function getFilters()
@@ -33,7 +36,9 @@ class MyTwigExtension extends \Twig_Extension {
     return array(
       'date_or_relative_date'  => new \Twig_Function_Method($this, 'date_or_relative_date'),
       'event_const'            => new \Twig_Function_Method($this, 'event_const'),
-      'css_list_length_class'  => new \Twig_Function_Method($this, 'getCssLengthClassForList')
+      'css_list_length_class'  => new \Twig_Function_Method($this, 'getCssLengthClassForList'),
+      'token'                  => new \Twig_Function_Method($this, 'token'),
+      'path_token'             => new \Twig_Function_Method($this, 'path_token')
     );
   }
   
@@ -190,6 +195,17 @@ class MyTwigExtension extends \Twig_Extension {
     {
       return 'list_length_default';
     }
+  }
+  
+  public function token($intention = '')
+  {
+    return $this->container->get('form.csrf_provider')->generateCsrfToken($intention);
+  }
+  
+  public function path_token($route, $parameters = array(), $intention = '', $absolute = false)
+  {
+    $parameters = array_merge($parameters, array('token' => $this->token($intention)));
+    return $this->container->get('router')->generate($route, $parameters, $absolute);
   }
   
   public function form_has_errors(FormView $form)

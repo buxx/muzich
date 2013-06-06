@@ -14,11 +14,11 @@
     {% if app.user %}
       {% if not playlist.owned(app.user) and viewed_user.id != app.user.id %}
         {% if not app.user.havePlaylistPicked(playlist) %}
-          <a class="playlist_pick" href="{{ path('playlist_pick', { 'playlist_id' : playlist.id }) }}" >
+          <a class="playlist_pick" href="{{ path_token('playlist_pick', { 'playlist_id' : playlist.id }) }}" >
             P
           </a>
         {% else %}
-          <a class="playlist_unpick" href="{{ path('playlist_unpick', { 'playlist_id' : playlist.id }) }}" >
+          <a class="playlist_unpick" href="{{ path_token('playlist_unpick', { 'playlist_id' : playlist.id }) }}" >
             uP
           </a>
         {% endif %}
@@ -32,7 +32,7 @@
     } %}
     
     {% if playlist.elements|length %}
-      <form action="{{ path('playlist_update_order', { 'playlist_id' : playlist.id }) }}" method="post">
+      <form action="{{ path_token('playlist_update_order', { 'playlist_id' : playlist.id }) }}" method="post">
         <ul class="playlist_elements">
           {% for element in playlist.elements %}
             <li class="playlist_element">
@@ -43,7 +43,7 @@
               <a class="open_element" href="{{ path('element_get_one', { 'element_id' : element.id }) }}" data-id="{{ element.id }}">
                 {{ element.name }}
               </a>
-              <a class="remove_element" href="{{ path('playlist_remove_element', { 'playlist_id' : playlist.id, 'element_id' : element.id }) }}">
+              <a class="remove_element" href="{{ path_token('playlist_remove_element', { 'playlist_id' : playlist.id, 'element_id' : element.id }) }}">
                 X
               </a>
             </li>

@@ -551,6 +551,7 @@ class FunctionalTest extends WebTestCase
   public function jsonResponseIsSuccess($json_response)
   {
     $response = json_decode($json_response, true);
+    $this->assertFalse(is_null($response));
     $this->assertTrue(array_key_exists('status', $response));
     $this->assertEquals('success', $response['status']);
   }
@@ -566,6 +567,11 @@ class FunctionalTest extends WebTestCase
   {
     $response = json_decode($json_response, true);
     $this->crawler = new Crawler($response['data']);
+  }
+  
+  public function getToken($intention = '')
+  {
+    return $this->getContainer()->get('form.csrf_provider')->generateCsrfToken($intention);
   }
   
 }

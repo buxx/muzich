@@ -16,7 +16,7 @@ class EditController extends Controller
       return $this->jsonResponseError($uncondition);
     
     $playlist_manager = $this->getPlaylistManager();
-    if (!($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser())) || !$request->get('elements'))
+    if (!$this->tokenIsCorrect() || !($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser())) || !$request->get('elements'))
       return $this->jsonNotFoundResponse();
     
     $playlist_manager->updatePlaylistElementsOrder($playlist, $request->get('elements'));
@@ -30,7 +30,7 @@ class EditController extends Controller
       return $this->jsonResponseError($uncondition);
     
     $playlist_manager = $this->getPlaylistManager();
-    if (!($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
+    if (!$this->tokenIsCorrect() || !($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
       return $this->jsonNotFoundResponse();
     
     $playlist_manager->removePlaylistElementWithId($playlist, $element_id);
@@ -44,7 +44,7 @@ class EditController extends Controller
       return $this->jsonResponseError($uncondition);
     
     $playlist_manager = $this->getPlaylistManager();
-    if (!($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser()))
+    if (!$this->tokenIsCorrect() || !($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser()))
         || !($element = $this->getElementWithId($element_id)))
       return $this->jsonNotFoundResponse();
     
@@ -83,7 +83,7 @@ class EditController extends Controller
     if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_COPY)) !== false)
       return $this->jsonResponseError($uncondition);
     
-    if (!($element = $this->getElementWithId($element_id)))
+    if (!$this->tokenIsCorrect() || !($element = $this->getElementWithId($element_id)))
       return $this->jsonNotFoundResponse();
     
     if (!($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id, $this->getUser())))
@@ -102,7 +102,7 @@ class EditController extends Controller
     if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_DELETE)) !== false)
       throw $this->createNotFoundException();
     
-    if (!($playlist = $this->getPlaylistManager()->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
+    if (!$this->tokenIsCorrect() || !($playlist = $this->getPlaylistManager()->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
       throw $this->createNotFoundException();
     
     $this->getPlaylistManager()->deletePlaylist($playlist);
@@ -118,7 +118,7 @@ class EditController extends Controller
     
     $playlist_manager = $this->getPlaylistManager();
     
-    if (!($playlist = $playlist_manager->findPlaylistWithId($playlist_id, $this->getUser())))
+    if (!$this->tokenIsCorrect() || !($playlist = $playlist_manager->findPlaylistWithId($playlist_id, $this->getUser())))
       throw $this->createNotFoundException();
     
     $playlist_manager->removePickedPlaylistToUser($this->getUser(), $playlist);
@@ -132,7 +132,7 @@ class EditController extends Controller
     if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_PICK)) !== false)
       return $this->jsonResponseError($uncondition);
     
-    if (!($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id)))
+    if (!$this->tokenIsCorrect() || !($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id)))
       return $this->jsonNotFoundResponse();
     
     $this->getPlaylistManager()->addPickedPlaylistToUser($this->getUser(), $playlist);
