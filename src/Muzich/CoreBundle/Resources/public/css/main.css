@@ -2182,12 +2182,7 @@ ul.playlist_elements
   margin-left: 0px;
 }
 
-ul.playlist_elements li.playlist_element
-{
-  background-color: #F8F8F8;
-}
-
-li.playlist_element div.actions
+li.playlist_element div.actions, li.playlist div.actions
 {
   float: left;
   margin-top: 4px;
@@ -2204,7 +2199,7 @@ li.playlist_element div.actions_right
   margin-top: 4px;
 }
 
-li.playlist_element div.actions a
+li.playlist_element div.actions a, li.playlist div.actions a
 {
   margin-left: -5px;
 }
@@ -2225,11 +2220,12 @@ ul.playlist_elements li.playlist_element a
   color: black;
 }
 
-li.playlist_element
+ul.playlist_elements li.playlist_element
 {
   border-top: 1px solid #C8C8C8;
   height: 27px;
   list-style: none outside none;
+  background-color: #F8F8F8;
 }
 
 ul.playlist_elements li.playlist_element ul.elements li.element
@@ -2237,8 +2233,52 @@ ul.playlist_elements li.playlist_element ul.elements li.element
   border-top: none;
 }
 
+a.button img
+{
+  float: left;
+}
 
+a.button span
+{
+  float: left;
+  margin-top: 4px;
+}
 
+ul.playlists
+{
+  margin-left: 0px;
+  margin-bottom: 10px;
+}
+
+ul.playlists li.playlist
+{
+  border-top: 1px solid #C8C8C8;
+  list-style: none outside none;
+  background-color: #F8F8F8;
+}
+
+ul.playlists li.playlist a.title
+{
+  color: black;
+  font-weight: bold;
+  font-size: 110%;
+}
+
+ul.playlists li.playlist a.title:hover
+{
+  text-decoration: underline;
+}
+
+ul.playlists li.playlist ul.tags_cloud
+{
+  margin-left: 25px;
+}
+
+li.playlist div.title
+{
+  margin-left: 42px;
+  margin-top: 3px;
+}
 
 /*
 *

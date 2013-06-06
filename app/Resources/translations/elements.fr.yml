@@ -114,3 +114,16 @@ show:
 
 tag_favorites:
   help:                 Filtrer les partages en selectionnant différents tags ci-dessous (vous pouvez en choisir plusieurs).
+
+playlist:
+  start_here:            Commencer la lecture d'ici
+  remove_element:        Retirer ce partage de la liste de lecture
+  open:                  Ouvrir
+  read:                  Lire
+  pick:                  Ajouter a mes listes
+  unpick:                Enlever de mes listes
+  gotoplaylists:         Retourner aux listes de lectures de %user_username%
+  user_title:            Listes de lectures de %user_username%
+  openplaylist:          Consulter les partages de la liste de lecture
+  delete:                Supprimer cette liste de lecture
+  play:                  Jouer la liste de lecture

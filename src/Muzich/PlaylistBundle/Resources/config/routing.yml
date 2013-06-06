@@ -11,12 +11,12 @@ playlist_delete:
   defaults: { _controller: MuzichPlaylistBundle:Edit:delete }
 
 playlist_unpick:
-  pattern: /playlist/unpick/{playlist_id}/{token}
-  defaults: { _controller: MuzichPlaylistBundle:Edit:unpick }
+  pattern: /playlist/unpick/{playlist_id}/{token}/{redirect_owner}
+  defaults: { _controller: MuzichPlaylistBundle:Edit:unpick, redirect_owner: false }
 
 playlist_pick:
-  pattern: /playlist/pick/{playlist_id}/{token}
-  defaults: { _controller: MuzichPlaylistBundle:Edit:pick }
+  pattern: /playlist/pick/{playlist_id}/{token}/{redirect_owner}
+  defaults: { _controller: MuzichPlaylistBundle:Edit:pick, redirect_owner: false }
 
 playlist_datas_for_autoplay:
   pattern: /ajax/autoplay/playlist/datas/{playlist_id}/{offset}

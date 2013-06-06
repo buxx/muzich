@@ -1,59 +1,109 @@
 {% extends "MuzichHomeBundle::layout.html.twig" %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ 'playlist.user_title'|trans({'%user_username%' : viewed_user.username }, 'elements') }}{% endblock %}
 {% block mainbox_classes %}{% endblock %}
 
 {% block content %}
   
-  {% if playlists|length %}
-  <ul class="playlists">
-    {% for playlist in playlists %}
-      <li class="playlist">
-        
-        <a class="autoplay_playlist" href="{{ path('playlist_datas_for_autoplay', { 'playlist_id' : playlist.id }) }}" >
-          Lire
-        </a>
-        
-        <a href="{{ path('playlist', { 'user_slug' : playlist.owner.slug, 'playlist_id' : playlist.id }) }}">
-          {{ playlist.name }}
-        </a>
-        
-        {% if app.user %}
-          {% if viewed_user.id == app.user.id %}
-            {% if playlist.owned(app.user) %}
-              <a class="playlist_delete" href="{{ path_token('playlist_delete', { 'playlist_id' : playlist.id }) }}" >
-                X
-              </a>
-            {% else %}
-              <a class="playlist_unpick" href="{{ path_token('playlist_unpick', { 'playlist_id' : playlist.id }) }}" >
-                X
-              </a>
-            {% endif %}
-          {% endif %}
-        {% endif %}
-        
-        {% if app.user %}
-          {% if not playlist.owned(app.user) and viewed_user.id != app.user.id %}
-            {% if not app.user.havePlaylistPicked(playlist) %}
-              <a class="playlist_pick" href="{{ path_token('playlist_pick', { 'playlist_id' : playlist.id }) }}" >
-                P
-              </a>
-            {% else %}
-              <a class="playlist_unpick" href="{{ path_token('playlist_unpick', { 'playlist_id' : playlist.id }) }}" >
-                uP
-              </a>
-            {% endif %}
-          {% endif %}
-        {% endif %}
+  <div class="top_tools">
+    
+    <div class="show_options">
       
-        
-        {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
-          'tags' : playlist.tags
-        } %}
-        
-      </li>
-    {% endfor %}
-  </ul>
-  {% endif %}
+      <a class="button darkbutton" href="{{ path('show_user', {'slug' : viewed_user.slug}) }}" >
+        {{ 'user.view_profile'|trans({}, 'users') }}
+      </a>
+      
+    </div>
+    
+    <h1>{{ 'playlist.user_title'|trans({'%user_username%' : viewed_user.username }, 'elements') }}</h1>
+
+    {% if playlists|length %}
+    <ul class="playlists">
+      {% for playlist in playlists %}
+        <li class="playlist">
+
+          <div class="actions">
+            
+            <a 
+              class="autoplay_playlist" 
+              href="{{ path('playlist_datas_for_autoplay', { 'playlist_id' : playlist.id }) }}"
+              title="{{ 'playlist.play'|trans({}, 'elements') }}"
+            >
+              <img src="{{ asset('/img/1361037350_control_play.png') }}" alt="playlist" />
+            </a>
+
+            {% if app.user %}
+              {% if not playlist.owned(app.user) and viewed_user.id != app.user.id %}
+                {% if not app.user.havePlaylistPicked(playlist) %}
+                  <a 
+                    class="playlist_pick_noajax" 
+                    href="{{ path_token('playlist_pick', { 
+                      'playlist_id'    : playlist.id,
+                      'redirect_owner' : true
+                    }) }}" 
+                    title="{{ 'playlist.pick'|trans({}, 'elements') }}"
+                  >
+                    <img src="{{ asset('/img/tick_untick.png') }}" alt="playlist" />
+                  </a>
+                {% else %}
+                  <a 
+                    class="playlist_unpick_noajax" 
+                    href="{{ path_token('playlist_unpick', { 
+                      'playlist_id'    : playlist.id,
+                      'redirect_owner' : true
+                    }) }}"
+                    title="{{ 'playlist.unpick'|trans({}, 'elements') }}"
+                  >
+                    <img src="{{ asset('/img/tick_ticked.png') }}" alt="playlist" />
+                  </a>
+                {% endif %}
+              {% endif %}
+            {% endif %}
+            
+            {% if app.user %}
+            {% if viewed_user.id == app.user.id %}
+              {% if playlist.owned(app.user) %}
+                <a 
+                  class="playlist_delete" 
+                  href="{{ path_token('playlist_delete', { 'playlist_id' : playlist.id }) }}" 
+                  title="{{ 'playlist.delete'|trans({}, 'elements') }}"
+                >
+                  <img src="{{ asset('/img/icon_close_2.png') }}" alt="delete" />
+                </a>
+              {% else %}
+                <a 
+                  class="playlist_unpick" 
+                  href="{{ path_token('playlist_unpick', { 'playlist_id' : playlist.id }) }}"
+                  title="{{ 'playlist.unpick'|trans({}, 'elements') }}"
+                >
+                  <img src="{{ asset('/img/icon_close_2.png') }}" alt="delete" />
+                </a>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          
+          </div>
+
+          <div class="title">
+            <a 
+              class="title" 
+              href="{{ path('playlist', { 'user_slug' : playlist.owner.slug, 'playlist_id' : playlist.id }) }}"
+              title="{{ 'playlist.openplaylist'|trans({}, 'elements') }}"
+            >
+              {{ playlist.name }}
+            </a>
+          </div>
+          
+
+          {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
+            'tags' : playlist.tags
+          } %}
+
+        </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  
+  </div>
   
 {% endblock %}

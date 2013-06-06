@@ -108,10 +108,11 @@ class EditController extends Controller
     $this->getPlaylistManager()->deletePlaylist($playlist);
     $this->flush();
     $this->setFlash('success', 'playlist.delete.success');
+    
     return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $this->getUser()->getSlug())));
   }
   
-  public function unpickAction($playlist_id)
+  public function unpickAction($playlist_id, $redirect_owner = false)
   {
     if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_UNPICK)) !== false)
       throw $this->createNotFoundException();
@@ -124,21 +125,37 @@ class EditController extends Controller
     $playlist_manager->removePickedPlaylistToUser($this->getUser(), $playlist);
     $this->flush();
     $this->setFlash('success', 'playlist.delete.success');
+    
+    if ($redirect_owner)
+      return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $playlist->getOwner()->getSlug())));
+    
     return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $this->getUser()->getSlug())));
   }
   
-  public function pickAction($playlist_id)
+  public function pickAction($playlist_id, $redirect_owner = false)
   {
     if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_PICK)) !== false)
-      return $this->jsonResponseError($uncondition);
-    
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+        return $this->jsonResponseError($uncondition);
+      throw $this->createNotFoundException();
+    }
     if (!$this->tokenIsCorrect() || !($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id)))
-      return $this->jsonNotFoundResponse();
-    
+    {
+      if ($this->getRequest()->isXmlHttpRequest())
+        return $this->jsonNotFoundResponse();
+      throw $this->createNotFoundException();
+    }
     $this->getPlaylistManager()->addPickedPlaylistToUser($this->getUser(), $playlist);
     $this->flush();
     
-    return $this->jsonSuccessResponse();
+    if ($this->getRequest()->isXmlHttpRequest())
+      return $this->jsonSuccessResponse();
+    
+    if ($redirect_owner)
+      return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $playlist->getOwner()->getSlug())));
+    
+    return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $this->getUser()->getSlug())));
   }
   
 }

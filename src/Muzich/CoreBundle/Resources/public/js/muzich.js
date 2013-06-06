@@ -436,12 +436,12 @@ $(document).ready(function(){
   // 1328283201_emblem-symbolic-link.png
   $('a.element_embed_open_link, a.element_name_embed_open_link').live("click", function(){
     
-     var li = $(this).parents('li.element');
+    var li = $(this).parents('li.element');
      
-     element_last_opened(li);
-     li.find('a.element_embed_close_link').show();
-     li.find('a.element_embed_open_link_text').hide();
-     li.find('div.element_embed').show();
+    element_last_opened(li);
+    li.find('a.element_embed_close_link').show();
+    li.find('a.element_embed_open_link_text').hide();
+    li.find('div.element_embed').show();
      
     if ((player = window.dynamic_player.play(
       li.find('div.element_embed'),
@@ -3113,13 +3113,14 @@ $(document).ready(function(){
 
         if (response.status === 'success')
         {
-          line.find('div.content_opened').html('<ul class="elements"><li class="element">' + response.data + '</li></ul>');
+          line.find('div.content_opened').html('<ul class="elements">' + response.data + '</ul>');
         }
       });
     }
     else
     {
       line.find('div.content_opened').html('');
+      line.removeClass('open');
       line.css('height', playlist_line_height);
     }
       
@@ -3127,7 +3128,7 @@ $(document).ready(function(){
     return false;
   });
   
-  $('ul.playlist_elements').sortable({
+  $('ul.playlist_elements.owned').sortable({
     update: function( event, ui ) {
       
       var form = ui.item.parents('form')
@@ -3225,19 +3226,36 @@ $(document).ready(function(){
     return false;
   });
   
+  $('ul.playlist_elements a.remove_element').jConfirmAction({
+    question : string_element_removefromplaylist_confirm_sentence, 
+    yesAnswer : string_element_delete_confirm_yes, 
+    cancelAnswer : string_element_delete_confirm_no,
+    onYes: function(link){
+      
+      $.getJSON(link.attr('href'), function(response) {
+        window.ResponseController.execute(
+          response,
+          function(){},
+          function(){}
+        );
+      });
+
+      link.parents('li.playlist_element').remove();
+      return false;
+    },
+    onOpen: function(link){},
+    onClose: function(link){}
+  });
   
-  $('ul.playlist_elements a.remove_element').live('click', function () {
-    
-    $.getJSON($(this).attr('href'), function(response) {
-      window.ResponseController.execute(
-        response,
-        function(){},
-        function(){}
-      );
-    });
-    
-    $(this).parents('li.playlist_element').remove();
-    return false;
+  $('ul.playlists a.playlist_delete').jConfirmAction({
+    question : string_element_deleteplaylist_confirm_sentence, 
+    yesAnswer : string_element_delete_confirm_yes, 
+    cancelAnswer : string_element_delete_confirm_no,
+    onYes: function(link){
+      $(location).attr('href', link.attr('href'));
+    },
+    onOpen: function(link){},
+    onClose: function(link){}
   });
    
 });
