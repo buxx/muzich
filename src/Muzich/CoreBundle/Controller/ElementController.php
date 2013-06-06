@@ -1089,7 +1089,7 @@ class ElementController extends Controller
     
     $html = $this->render('MuzichCoreBundle:SearchElement:element.html.twig', array(
       'element'               => $element,
-      'display_edit_actions'  => true,
+      'display_edit_actions'  => false,
       'display_player'        => true,
       'display_comments'      => true
     ))->getContent();

@@ -36,16 +36,43 @@
         <ul class="playlist_elements">
           {% for element in playlist.elements %}
             <li class="playlist_element">
+              
               <input type="hidden" name="elements[]"  value="{{ element.id }}" />
-              <a class="autoplay_playlist" href="{{ path('playlist_datas_for_autoplay', { 'playlist_id' : playlist.id, 'offset' : loop.index0 }) }}">
-                play
-              </a>
-              <a class="open_element" href="{{ path('element_get_one', { 'element_id' : element.id }) }}" data-id="{{ element.id }}">
-                {{ element.name }}
-              </a>
-              <a class="remove_element" href="{{ path_token('playlist_remove_element', { 'playlist_id' : playlist.id, 'element_id' : element.id }) }}">
-                X
-              </a>
+              
+              
+              <div class="actions">
+                
+                <a class="drag" href="#">
+                  <img src="{{ asset('/img/drag3.png') }}" alt="drag" />
+                </a>
+                
+                {% if element.type|can_autoplay_type %}
+                  <a class="autoplay_playlist" href="{{ path('playlist_datas_for_autoplay', { 'playlist_id' : playlist.id, 'offset' : loop.index0 }) }}">
+                    <img src="{{ asset('/img/1361037350_control_play.png') }}" alt="playlist" />
+                  </a>
+                {% else %}
+                  <img class="autoplay_off" src="{{ asset('/img/1361037350_control_play_off.png') }}" alt="playlist" />
+                {% endif %}
+
+                <a class="remove_element" href="{{ path_token('playlist_remove_element', { 'playlist_id' : playlist.id, 'element_id' : element.id }) }}">
+                  <img src="{{ asset('/img/icon_close_2.png') }}" alt="delete" />
+                </a>
+              </div>
+              
+              <div class="actions_right">
+                <a class="open_element" href="{{ path('element_get_one', { 'element_id' : element.id }) }}" data-id="{{ element.id }}">
+                  <img src="{{ asset('/img/icon_more_2.png') }}" alt="open" />
+                </a>
+              </div>
+              
+              <div class="title">
+                <a class="title" href="{{ path('element_get_one', { 'element_id' : element.id }) }}" data-id="{{ element.id }}">
+                  {{ element.name }}
+                </a>
+              </div>
+              
+              <div class="content_opened"></div>
+              
             </li>
           {% endfor %}
         </ul>

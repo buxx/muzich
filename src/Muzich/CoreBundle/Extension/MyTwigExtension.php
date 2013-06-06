@@ -28,7 +28,8 @@ class MyTwigExtension extends \Twig_Extension {
       'date_epurate'           => new \Twig_Filter_Method($this, 'date_epurate'),
       'form_has_errors'        => new \Twig_Filter_Method($this, 'form_has_errors'),
       'format_score'           => new \Twig_Filter_Method($this, 'format_score'),
-      'can_autoplay'           => new \Twig_Filter_Method($this, 'can_autoplay')
+      'can_autoplay'           => new \Twig_Filter_Method($this, 'can_autoplay'),
+      'can_autoplay_type'      => new \Twig_Filter_Method($this, 'can_autoplay_type')
     );
   }
   
@@ -50,6 +51,15 @@ class MyTwigExtension extends \Twig_Extension {
   public function can_autoplay($element)
   {
     if (in_array($element->getType(), $this->params['autoplay_sites_enabled']))
+    {
+      return true;
+    }
+    return false;
+  }
+  
+  public function can_autoplay_type($element_type)
+  {
+    if (in_array($element_type, $this->params['autoplay_sites_enabled']))
     {
       return true;
     }

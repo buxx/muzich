@@ -2089,71 +2089,6 @@ li.user_name a:hover
   text-decoration: underline;
 }
 
-@-webkit-keyframes clignote
-{
-  0%{box-shadow:0px 0px 10px #909090;}
-  50%{box-shadow:0px 0px 2px #909090;}
-  100%{box-shadow:0px 0px 10px #909090;}
-}
-
-@-moz-keyframes clignote
-{
-  0%{box-shadow:0px 0px 10px #909090;}
-  50%{box-shadow:0px 0px 2px #909090;}
-  100%{box-shadow:0px 0px 10px #909090;}
-}
-
-@-ms-keyframes clignote
-{
-  0%{box-shadow:0px 0px 10px #909090;}
-  50%{box-shadow:0px 0px 2px #909090;}
-  100%{box-shadow:0px 0px 10px #909090;}
-}
-
-@-o-keyframes clignote
-{
-  0%{box-shadow:0px 0px 10px #909090;}
-  50%{box-shadow:0px 0px 2px #909090;}
-  100%{box-shadow:0px 0px 10px #909090;}
-}
-
-@keyframes clignote
-{
-  0%{box-shadow:0px 0px 10px #909090;}
-  50%{box-shadow:0px 0px 2px #909090;}
-  100%{box-shadow:0px 0px 10px #909090;}
-}
-
-
-.flashing
-{
-  font-weight: bold;
-  text-shadow: 0 1px 0 white;
-  border-radius: 3px;
-  padding: 5px 10px;
-  box-shadow:0px 0px 10px #909090;
-  
-  -webkit-animation-name: clignote;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-iteration-count:infinite;
-  
-  -moz-animation-name: clignote;
-  -moz-animation-duration: 1s;
-  -moz-animation-iteration-count:infinite;
-  
-  -ms-animation-name: clignote;
-  -ms-animation-duration: 1s;
-  -ms-animation-iteration-count:infinite;
-  
-  -o-animation-name: clignote;
-  -o-animation-duration: 1s;
-  -o-animation-iteration-count:infinite;
-  
-  animation-name: clignote;
-  animation-duration: 1s;
-  animation-iteration-count:infinite;
-}
-
 div.myaccount_part.flashing
 {
   padding: 2px;
@@ -2240,4 +2175,138 @@ div.playlists_prompt
   border: 1px solid red;
   width: 320px;
   background-color: white;
+}
+
+ul.playlist_elements
+{
+  margin-left: 0px;
+}
+
+ul.playlist_elements li.playlist_element
+{
+  background-color: #F8F8F8;
+}
+
+li.playlist_element div.actions
+{
+  float: left;
+  margin-top: 4px;
+}
+
+li.playlist_element div.actions img.autoplay_off
+{
+  margin-left: -5px;
+}
+
+li.playlist_element div.actions_right
+{
+  float: right;
+  margin-top: 4px;
+}
+
+li.playlist_element div.actions a
+{
+  margin-left: -5px;
+}
+
+li.playlist_element div.actions a.drag
+{
+  cursor: move;
+}
+
+li.playlist_element div.title
+{
+  margin-left: 53px;
+  margin-top: 4px;
+}
+
+ul.playlist_elements li.playlist_element a
+{
+  color: black;
+}
+
+li.playlist_element
+{
+  border-top: 1px solid #C8C8C8;
+  height: 27px;
+  list-style: none outside none;
+}
+
+ul.playlist_elements li.playlist_element ul.elements li.element
+{
+  border-top: none;
+}
+
+
+
+
+/*
+*
+*
+*
+*/
+
+@-webkit-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@-moz-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@-ms-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@-o-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+
+.flashing
+{
+  font-weight: bold;
+  text-shadow: 0 1px 0 white;
+  border-radius: 3px;
+  padding: 5px 10px;
+  box-shadow:0px 0px 10px #909090;
+  
+  -webkit-animation-name: clignote;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count:infinite;
+  
+  -moz-animation-name: clignote;
+  -moz-animation-duration: 1s;
+  -moz-animation-iteration-count:infinite;
+  
+  -ms-animation-name: clignote;
+  -ms-animation-duration: 1s;
+  -ms-animation-iteration-count:infinite;
+  
+  -o-animation-name: clignote;
+  -o-animation-duration: 1s;
+  -o-animation-iteration-count:infinite;
+  
+  animation-name: clignote;
+  animation-duration: 1s;
+  animation-iteration-count:infinite;
 }

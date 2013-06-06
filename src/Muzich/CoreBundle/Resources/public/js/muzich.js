@@ -3091,27 +3091,38 @@ $(document).ready(function(){
     *PLAYLISTS
     */
    
+  var playlist_line_height = 0;
   $('ul.playlist_elements li a.open_element').live('click', function(){
-    
-    // Pour le moment
-    return false;
     
     var line = $(this).parents('li.playlist_element');
     
-    $.getJSON($(this).attr('href'), function(response) {
+    if (!line.hasClass('open'))
+    {
+      playlist_line_height = line.height();
+      line.css('height', 'auto');
+      line.find('div.content_opened').html('<img class="loader" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." />');
+      line.addClass('open');
+
+      $.getJSON($(this).attr('href'), function(response) {
+
+        window.ResponseController.execute(
+          response,
+          function(){},
+          function(){}
+        );
+
+        if (response.status === 'success')
+        {
+          line.find('div.content_opened').html('<ul class="elements"><li class="element">' + response.data + '</li></ul>');
+        }
+      });
+    }
+    else
+    {
+      line.find('div.content_opened').html('');
+      line.css('height', playlist_line_height);
+    }
       
-      window.ResponseController.execute(
-        response,
-        function(){},
-        function(){}
-      );
-      
-      if (response.status == 'success')
-      {
-        line.append('<ul class="elements"><li class="element">' + response.data + '</li></ul>');
-      }
-      
-    });
     
     return false;
   });
