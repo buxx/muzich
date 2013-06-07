@@ -6,6 +6,7 @@ container_menu:
   my_feeds:             Mes diffusions
   return:               Retour
   need_tags:            Demandes
+  my_playlists:         Mes listes de lecture
   
 top_bar:
   my_account:           Mon compte

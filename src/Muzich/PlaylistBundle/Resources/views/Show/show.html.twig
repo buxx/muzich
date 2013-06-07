@@ -9,8 +9,7 @@
     <div class="show_options">
       
       <a class="autoplay_playlist button darkbutton" href="{{ path('playlist_datas_for_autoplay', { 'playlist_id' : playlist.id }) }}" >
-        <img src="{{ asset('/img/1361037350_control_play.png') }}" alt="playlist" />
-        <span>{{ 'playlist.read'|trans({}, 'elements') }}</span>
+        {{ 'playlist.read'|trans({}, 'elements') }}
       </a>
 
       {% if app.user %}
@@ -27,13 +26,17 @@
         {% endif %}
       {% endif %}
       
+      <a class="button darkbutton" href="{{ path('playlists_user', {'user_slug' : viewed_user.slug}) }}" >
+        {{ 'user.view_playlists'|trans({}, 'users') }}
+      </a>
+      
     </div>
     
     <h1>{{ playlist.name }}</h1>
-    
+    <!--
     <a href="{{ path('playlists_user', { 'user_slug' : playlist.owner.slug }) }}">
       {{ 'playlist.gotoplaylists'|trans({ '%user_username%' : playlist.owner.username }, 'elements') }}
-    </a>
+    </a>-->
     
     {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
       'tags' : playlist.tags

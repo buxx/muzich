@@ -141,6 +141,8 @@ tags:
     submit:                 Enregistrer ces tags
 
 submenu:
+  my_content:
+    title:                 Mes contenus
   followed_users:
     title:                  Utilisateurs suivis
     nouser:                Aucun

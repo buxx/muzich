@@ -32,6 +32,10 @@
         {{ 'user.view_favorites'|trans({}, 'users') }}
       </a>
       
+      <a class="button darkbutton" href="{{ path('playlists_user', {'user_slug' : viewed_user.slug}) }}" >
+        {{ 'user.view_playlists'|trans({}, 'users') }}
+      </a>
+      
     </div>
     
     <h1>{{ 'user.show.title'|trans({'%name%' : viewed_user.name}, 'users') }}</h1>

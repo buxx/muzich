@@ -33,30 +33,15 @@
   {% endif %}
   <li class="separator"></li>
   {% if app.user %}
-    <li class="{% if app.request.get('topmenu') == 'showuser' and app.request.get('slug') == app.user.slug %}selected{% endif %}">
-      <a href="{{ path('show_user', {'slug': app.user.slug}) }}">
-        {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
+    <li class="{% if app.request.get('topmenu') == 'playlists' and app.request.get('user_slug') == app.user.slug %}selected{% endif %}">
+      <a href="{{ path('playlists_user', {'user_slug': app.user.slug}) }}">
+        {{ 'container_menu.my_playlists'|trans({}, 'navigationui') }}
       </a>
     </li>
   {% else %}
     <li>
       <a href="#" class="mustbeconnected">
-        {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
-      </a>
-    </li>
-  {% endif %}
-  <li class="separator"></li>
-  {% if app.user %}
-    {% if his_group is not defined %}{% set his_group = false %}{% endif %}
-    <li class="{% if app.request.get('topmenu') == 'mygroups' or his_group == true %}selected{% endif %}">
-      <a href="{{ path('groups_own_list') }}" >
-        {{ 'network.mygroups'|trans({}, 'navigationui') }}
-      </a>
-    </li>
-  {% else %}
-    <li>
-      <a href="#" class="mustbeconnected">
-        {{ 'network.mygroups'|trans({}, 'navigationui') }}
+        {{ 'container_menu.my_playlists'|trans({}, 'navigationui') }}
       </a>
     </li>
   {% endif %}

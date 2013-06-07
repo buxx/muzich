@@ -5,6 +5,32 @@
       
       <a href="" class="top_menu_link">
         <div class="blackgradiant">
+            {{ 'submenu.my_content.title'|trans({}, 'userui') }}
+            <div class="dart"></div>
+        </div>
+      </a>
+      
+      <ul class="submenu">
+        <li class="sub_menu_element">
+          <a href="{{ path('show_user', {'slug': app.user.slug}) }}">
+            {{ 'container_menu.my_feeds'|trans({}, 'navigationui') }}
+          </a>
+        </li>
+        <li class="sub_menu_element">
+          <a href="{{ path('groups_own_list') }}">
+            {{ 'network.mygroups'|trans({}, 'navigationui') }}
+          </a>
+        </li>
+      </ul>
+    </li>
+      
+  </ul>
+  
+  <ul class="secondarymenu">
+    <li class="top_menu_element close">
+      
+      <a href="" class="top_menu_link">
+        <div class="blackgradiant">
             {{ 'submenu.followed_users.title'|trans({}, 'userui') }}
             <div class="dart"></div>
         </div>

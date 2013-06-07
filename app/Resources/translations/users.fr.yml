@@ -3,9 +3,10 @@ user:
   follow:                       Suivre
   following:                    Suivi
   notfollow:                    Ne plus suivre
-  view_favorites:               Voir les favoris
-  view_profile:                 Voir le profil
+  view_favorites:               Favoris
+  view_profile:                 Profil
   stop_follow:                  Ne plus suivre
+  view_playlists:               Listes de lectures
   show:
     title:                      Diffusions de %name%
   reputation:
