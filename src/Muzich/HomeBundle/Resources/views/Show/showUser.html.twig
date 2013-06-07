@@ -7,12 +7,6 @@
 
   <div class="top_tools">
     
-    {% if app.user %}
-      {% if app.user.id == viewed_user.id %}
-        {% include 'MuzichCoreBundle:Component:element_add_buttons_topright.html.twig' %}
-      {% endif %}
-    {% endif  %}
-    
     <div class="show_options">
             
       {% if app.user %}

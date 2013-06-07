@@ -977,8 +977,9 @@ ul#favorite_tags li
 
 #element_add_link img, #element_add_close_link img, #group_add_link img, #group_add_link_disabled img, #group_add_close_link img, #registration_link img, #login_link img
 {
-  margin-bottom: -5px;
-    margin-right: -5px;
+  margin-left: -5px;
+  margin-right: 5px;
+  margin-top: -1px;
 }
 
 #element_add_link.justtopright, #element_add_close_link.justtopright, #group_add_link.justtopright, #group_add_link_disabled.justtopright, #group_add_close_link.justtopright
