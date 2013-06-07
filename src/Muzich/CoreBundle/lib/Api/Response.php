@@ -30,19 +30,22 @@ class Response
       }
     }
     
-    if (array_key_exists($searched, $content))
+    if ($content)
     {
-      if ($not_empty)
+      if (array_key_exists($searched, $content))
       {
-        if ((is_null($content[$searched]) || !count($content[$searched]) || !$content[$searched]) && ($content[$searched] !== 0 && $content[$searched] !== '0'))
+        if ($not_empty)
         {
-          return false;
-        }
-        if (is_string($content[$searched]))
-        {
-          if (trim($content[$searched]) == '')
+          if ((is_null($content[$searched]) || !count($content[$searched]) || !$content[$searched]) && ($content[$searched] !== 0 && $content[$searched] !== '0'))
           {
             return false;
+          }
+          if (is_string($content[$searched]))
+          {
+            if (trim($content[$searched]) == '')
+            {
+              return false;
+            }
           }
         }
       }
