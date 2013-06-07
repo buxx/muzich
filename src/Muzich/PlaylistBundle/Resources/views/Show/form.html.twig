@@ -4,9 +4,12 @@
 
 <div class="field">
   {{ form_widget(form.name, {'attr':{'class':'niceinput'}}) }}
+  
   {{ form_widget(form.public) }}
+  <label for="playlist_public">{{ 'playlist.public_label'|trans({}, 'elements') }}</label>
+  
+  <input class="niceinput" type="submit" value="{{ 'playlist.create_submit'|trans({}, 'elements') }}" />
 </div>
 
-{{ form_rest(form) }}
 
-<input type="submit" value="CREATE" />
+{{ form_rest(form) }}

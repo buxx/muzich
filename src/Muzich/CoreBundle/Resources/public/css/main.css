@@ -2169,14 +2169,6 @@ ul.playlists ul.tags_cloud li
   padding: 4px;
 }
 
-div.playlists_prompt
-{
-  padding: 10px;
-  border: 1px solid red;
-  width: 320px;
-  background-color: white;
-}
-
 ul.playlist_elements
 {
   margin-left: 0px;
@@ -2278,6 +2270,46 @@ li.playlist div.title
 {
   margin-left: 42px;
   margin-top: 3px;
+}
+
+div.playlists_prompt
+{
+  padding: 10px;
+  width: 375px;
+  background-color: #F8F8F8;
+}
+
+div.playlists_prompt h2
+{
+  font-size: 1em;
+  margin-top: 7px;
+}
+
+div.playlists_prompt h2.nomargintop
+{
+  margin-top: 0px;
+}
+
+div.playlists_prompt input.niceinput
+{
+  font-size: 13px;
+  height: 23px;
+}
+
+ul.form-errors
+{
+  margin-left: 10px;
+}
+
+ul.form-errors li
+{
+  color: red;
+  list-style-type: none;
+}
+
+div.playlists_prompt ul.form-errors li
+{
+  font-size: 85%;
 }
 
 /*

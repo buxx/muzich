@@ -3153,14 +3153,18 @@ $(document).ready(function(){
     }
   });
   
+  $('div.playlists_prompt form').live('submit', function(){
+    $(this).parents('div.playlists_prompt').find('img.loader').show();
+  });
+  
   $('ul.elements a.add_to_playlist').live('click', function(event){
     
     $('div.playlists_prompt').remove();
-    var prompt = $('<div class="playlists_prompt"><img class="loader" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>');
+    var prompt = $('<div class="playlists_prompt nicebox"><img class="loader" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>');
     $('body').append(prompt);
     
     prompt.position({
-      my: "left+3 bottom+0",
+      my: "left+15 bottom+0",
       of: event,
       collision: "fit"
     });
@@ -3177,6 +3181,8 @@ $(document).ready(function(){
       {
         prompt.append(response.data);
         prompt.find('div.create_playlist form').ajaxForm(function(response){
+          
+          $('div.playlists_prompt').find('img.loader').hide();
           window.ResponseController.execute(
             response,
             function(){},
