@@ -2297,6 +2297,13 @@ div.playlists_prompt input.niceinput
   height: 23px;
 }
 
+div.playlists_prompt a.close_playlists_prompt
+{
+  float: right;
+  margin-top: -5px;
+  margin-right: -5px;
+}
+
 ul.form-errors
 {
   margin-left: 10px;

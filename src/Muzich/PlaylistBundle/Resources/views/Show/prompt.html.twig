@@ -1,6 +1,10 @@
 
+<a href="#" class="close_playlists_prompt">
+  <img src="{{ asset('/img/icon_close.png') }}" alt="close" />
+</a>
+
 <div class="create_playlist">
-  <h2>{{ 'playlist.create_and_add'|trans({}, 'elements') }}</h2>
+  <h2 class="nomargintop">{{ 'playlist.create_and_add'|trans({}, 'elements') }}</h2>
   <form action="{{ path('playlist_add_element_and_create', { 'element_id' : element_id }) }}" method="post">
     {% include 'MuzichPlaylistBundle:Show:form.html.twig' %}
   </form>
@@ -8,7 +12,7 @@
 
 <div>
   {% if playlists|length %}
-    <h2 class="nomargintop">{{ 'playlist.add_to'|trans({}, 'elements') }}</h2>
+    <h2>{{ 'playlist.add_to'|trans({}, 'elements') }}</h2>
     <ul class="playlists_for_element">
       {% for playlist in playlists %}
         <li class="playlist">

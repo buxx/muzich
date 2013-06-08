@@ -3263,6 +3263,11 @@ $(document).ready(function(){
     onOpen: function(link){},
     onClose: function(link){}
   });
+  
+  $('div.playlists_prompt a.close_playlists_prompt').live('click', function(){
+     $('div.playlists_prompt').remove();
+     return false;
+  });
    
 });
 
