@@ -27,7 +27,7 @@ playlist_update_order:
   defaults: { _controller: MuzichPlaylistBundle:Edit:updateOrder }
 
 playlist_remove_element:
-  pattern: /ajax/playlist/element/remove/{playlist_id}/{element_id}/{token}
+  pattern: /ajax/playlist/element/remove/{playlist_id}/{index}/{token}
   defaults: { _controller: MuzichPlaylistBundle:Edit:removeElement }
 
 playlists_add_element_prompt:

@@ -239,6 +239,19 @@ class Playlist
     $this->setElements($elements_manager->getContent());
   }
   
+  public function getElementIndex(Element $element)
+  {
+    $elements_manager = new ElementCollectionManager(json_decode($this->elements, true));
+    return $elements_manager->index($element);
+  }
+  
+  public function removeElementWithIndex($index)
+  {
+    $elements_manager = new ElementCollectionManager(json_decode($this->elements, true));
+    $elements_manager->removeWithIndex($index);
+    $this->setElements($elements_manager->getContent());
+  }
+  
   public function getElementsIds()
   {
     $elements_manager = new ElementCollectionManager(json_decode($this->elements, true));

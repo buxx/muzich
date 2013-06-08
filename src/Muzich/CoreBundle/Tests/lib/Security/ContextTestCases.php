@@ -313,13 +313,13 @@ class ContextTestCases
     );
   }
   
-  public function playlistRemoveElement($playlist_id, $element_id)
+  public function playlistRemoveElement($playlist_id, $index)
   {
     return $this->getAjaxRequestContentResponse(
       'GET',
       $this->test->generateUrl('playlist_remove_element', array(
         'playlist_id' => $playlist_id,
-        'element_id'  => $element_id,
+        'index'       => $index,
         '_locale'     => 'fr',
         'token'       => $this->test->getToken()
       ))

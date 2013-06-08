@@ -148,7 +148,7 @@ class PlaylistControllerTest extends FunctionalTest
   
   protected function checkReadPlaylist($playlist, $elements = null)
   {
-    $this->exist('h2:contains("'.$playlist->getName().'")');
+    $this->exist('h1:contains("'.$playlist->getName().'")');
     
     if ($elements !== null)
     {
@@ -364,7 +364,8 @@ class PlaylistControllerTest extends FunctionalTest
   
   protected function removeElementFromPlaylist($playlist, $element)
   {
-    $this->tests_cases->playlistremoveElement($playlist->getId(), $element->getId());
+    $index = $playlist->getElementIndex($element);
+    $this->tests_cases->playlistRemoveElement($playlist->getId(), $index);
   }
   
   public function testCopyWhenAddingElementToPickedPlaylist()

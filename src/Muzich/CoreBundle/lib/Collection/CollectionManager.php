@@ -70,6 +70,29 @@ abstract class CollectionManager
     $this->content = $new_content;
   }
   
+  public function removeWithIndex($index)
+  {
+    if (array_key_exists($index, $this->content))
+    {
+      unset($this->content[$index]);
+      $this->content = array_values($this->content);
+    }
+  }
+  
+  public function index($object)
+  {
+    $method_name = 'get' . $this->object_reference_attribute;
+    foreach ($this->content as $index => $content_line)
+    {
+      if ($object->$method_name() == $content_line[lcfirst($this->object_reference_attribute)])
+      {
+        return $index;
+      }
+    }
+    
+    return null;
+  }
+  
   public function removeWithReference($reference)
   {
     $new_content = array();

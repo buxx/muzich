@@ -185,6 +185,13 @@ class PlaylistManager
     $this->entity_manager->persist($playlist);
   }
   
+  public function removePlaylistElementWithIndex(Playlist $playlist, $index)
+  {
+    $playlist->removeElementWithIndex($index);
+    $this->actualizePlaylistTags($playlist);
+    $this->entity_manager->persist($playlist);
+  }
+  
   protected function actualizePlaylistTags(Playlist $playlist)
   {
     $tag_lib = new TagLib();

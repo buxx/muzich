@@ -8,8 +8,6 @@ use Muzich\CoreBundle\Security\Context as SecurityContext;
 
 class EditController extends Controller
 {
-  
-  // TODO: Cette méthode ET les autres: Mettre à jour avec le gestionnaire d'accès (Security)
   public function updateOrderAction(Request $request, $playlist_id)
   {
     if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_UPDATE_ORDER)) !== false)
@@ -24,7 +22,7 @@ class EditController extends Controller
     return $this->jsonSuccessResponse();
   }
   
-  public function removeElementAction($playlist_id, $element_id)
+  public function removeElementAction($playlist_id, $index)
   {
     if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_REMOVE_ELEMENT)) !== false)
       return $this->jsonResponseError($uncondition);
@@ -33,7 +31,7 @@ class EditController extends Controller
     if (!$this->tokenIsCorrect() || !($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
       return $this->jsonNotFoundResponse();
     
-    $playlist_manager->removePlaylistElementWithId($playlist, $element_id);
+    $playlist_manager->removePlaylistElementWithIndex($playlist, $index);
     $this->flush();
     return $this->jsonSuccessResponse();
   }
