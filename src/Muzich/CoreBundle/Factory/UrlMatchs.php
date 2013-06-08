@@ -51,14 +51,16 @@ class UrlMatchs
       "#^\/[a-zA-Z_-]+\/music\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+-([0-9]+)#" => 1,
       // http://www.deezer.com/fr/album/379324
       "#^\/[a-zA-Z_-]+\/album\/([0-9]+)#" => 1
-    ),
+     ),
     Element::TYPE_PLAYLIST => array(
       // http://www.deezer.com/fr/music/playlist/18701350
       "#^\/[a-zA-Z_-]+\/music\/playlist\/([0-9]+)#" => 1
     ),
     Element::TYPE_TRACK => array(
       // http://www.deezer.com/track/4067216
-      "#^\/track\/([0-9]+)#" => 1
+      "#^\/track\/([0-9]+)#" => 1,
+      // http://www.deezer.com/fr/track/67238730
+      "#^\/[a-zA-Z_-]+\/track/([0-9]+)#" => 1
     )
   );
   
