@@ -40,7 +40,7 @@ class Vimeocom extends ElementFactory
       $width = $this->container->getParameter('vimeo_player_width');
       $height = $this->container->getParameter('vimeo_player_height');
       $this->element->setEmbed(
-        '<iframe src="http://player.vimeo.com/video/'.$ref_id.'&autoplay=1&api=1" '
+        '<iframe src="http://player.vimeo.com/video/'.$ref_id.'?autoplay=1&api=1" '
         .'width="'.$width.'" height="'.$height.'" frameborder="0" '
         .'webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>'
       );
