@@ -3,7 +3,9 @@ noelements:
   sentence:             Aucun élément à afficher
   sentence_filter:      |
                          Aucun élément a afficher, ceci est peut-être dû a un
-                         filtre trop restrictif.<br />Vous pouvez ajouter des tags ou
+                         filtre trop restrictif et/ou que vous avez choisis "Mon réseau"
+                         sans suivre d'utilisateurs ayant partagés de la musique.
+                         <br />Vous pouvez ajouter des tags ou
                          <a class="filter_clear_url" href="#" >%link_string%</a>.
   sentence_filter_link_string: les retirer
   
