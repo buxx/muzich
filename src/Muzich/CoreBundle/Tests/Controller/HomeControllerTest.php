@@ -188,7 +188,6 @@ class HomeControllerTest extends FunctionalTest
       'http://www.youtube.com/watch?v=WC8qb_of04E', 
       array($hardtek->getId(), $tribe->getId())
     );
-    
     $this->isResponseSuccess();
         
     $this->notExist('li:contains("Mon bel element a4er563a1r")');

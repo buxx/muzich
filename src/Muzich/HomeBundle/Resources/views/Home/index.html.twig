@@ -1,5 +1,9 @@
 {% extends "MuzichHomeBundle::layout.html.twig" %}
 
+{% if login is not defined %}
+  {% set login = false %}
+{% endif %}
+
 {% block title %}{{ 'title.home'|trans({}, 'userui') }}{% endblock %}
 {% block mainbox_classes %}mainbox_margintop mainbox_nopadding{% endblock %}
 
