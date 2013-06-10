@@ -3271,7 +3271,7 @@ $(document).ready(function(){
    
 });
 
-function open_ajax_popin(url, callback)
+function open_ajax_popin(url, callback, data)
 {
   if (!popin_opened)
   {
@@ -3280,7 +3280,7 @@ function open_ajax_popin(url, callback)
       '<div id="helpbox" class="popin_block"><img src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>'
     );
     open_popin_dialog('helpbox');
-    JQueryJson(url, {}, function(response){
+    JQueryJson(url, data, function(response){
       if (response.status == 'success')
       {
         $('div#helpbox').html(
@@ -3300,7 +3300,7 @@ function open_ajax_popin(url, callback)
   }
 }
 
-function open_connection_or_subscription_window(open_login_part)
+function open_connection_or_subscription_window(open_login_part, data)
 {
   if (window_login_or_subscription_opened == false)
   {
@@ -3310,6 +3310,7 @@ function open_connection_or_subscription_window(open_login_part)
       {
         $('div#helpbox div#login_box').show();
         $('a#registration_link').show();
+        $('input#username').focus();
       }
       else
       {
@@ -3328,7 +3329,7 @@ function open_connection_or_subscription_window(open_login_part)
         $('div.login form').find('img.loader').hide();
         if (response.status == 'success')
         {
-          $(location).attr('href', url_home);
+          $(location).attr('href', response.data.redirect_url);
         }
         else if (response.status == 'error')
         {
@@ -3356,7 +3357,7 @@ function open_connection_or_subscription_window(open_login_part)
       $('div#facebook_login').prependTo('div#helpbox');
       $('div#facebook_login').show();
       
-    });
+    }, data);
   }
 }
 

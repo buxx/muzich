@@ -41,12 +41,29 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
    function onAuthenticationSuccess(Request $request, TokenInterface $token)
    {
       if ($request->isXmlHttpRequest())
-      {
-        $response = new Response(json_encode(array('status' => 'success')));
+      {        
+        $response = new Response(json_encode(array(
+          'status' => 'success',
+          'data'   => array(
+            'redirect_url' => $this->getRedirectionUrl($request)
+          )
+        )));
         $response->headers->set('Content-Type', 'application/json; charset=utf-8');
         return $response;
       }
       
-      return new RedirectResponse($this->router->generate('home'));
+      return new RedirectResponse($this->getRedirectionUrl($request));
+   }
+   
+   protected function getRedirectionUrl(Request $request)
+   {
+     if ($request->get('email_confirmation_token'))
+     {
+       return $this->router->generate('email_confirm', array(
+         'token' => $request->get('email_confirmation_token')
+       ));
+     }
+     
+     return $this->router->generate('home');
    }
 }

@@ -15,7 +15,7 @@ class HomeController extends Controller
    * 
    * @Template()
    */
-  public function indexAction($count = null, $network = 'public')
+  public function indexAction($count = null, $network = 'public', $login = false)
   {
     $search_object = $this->getElementSearcher($count);
     $user = $this->getUser(true, array('join' => array(
@@ -26,8 +26,7 @@ class HomeController extends Controller
     $add_form = $this->getAddForm();
     
     $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
-    //$count_elements = count($elements);
-        
+    
     return array(
       'search_tags_id'   => $search_object->getTags(),
       'ids_display'      => $search_object->getIdsDisplay(),
@@ -39,8 +38,20 @@ class HomeController extends Controller
       'network_public'   => $search_object->isNetworkPublic(),
       'elements'         => $elements,
       'from_url'         => $this->getRequest()->get('from_url'),
-      'display_launch_demo' => true
+      'display_launch_demo' => true,
+      'login'            => $login,
+      'email_token'      => $this->getEmailTokenIfExist()
     );
+  }
+  
+  protected function getEmailTokenIfExist()
+  {
+    if ($this->get("session")->get('user.confirm_email.token'))
+    {
+      return $this->get("session")->get('user.confirm_email.token');
+    }
+    
+    return null;
   }
   
   public function needTagsAction()

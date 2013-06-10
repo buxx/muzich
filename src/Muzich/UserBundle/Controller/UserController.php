@@ -743,6 +743,12 @@ class UserController extends Controller
   
   public function confirmEmailAction(Request $request, $token)
   {
+    if ($this->isVisitor())
+    {
+      $this->get("session")->set('user.confirm_email.token', $token);
+      return $this->redirect($this->generateUrl('home_login'));
+    }
+    
     $user = $this->getUser();
     
     if ($token == hash('sha256', $user->getConfirmationToken().$user->getEmail()))

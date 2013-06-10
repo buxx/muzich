@@ -2,11 +2,15 @@
 
 home:
   pattern:  /
-  defaults: { _controller: MuzichHomeBundle:Home:index, network: network_public }
+  defaults: { _controller: MuzichHomeBundle:Home:index, network: network_public, login: false }
+  
+home_login:
+  pattern:  /login
+  defaults: { _controller: MuzichHomeBundle:Home:index, network: network_public, login: true }
   
 home_more:
   pattern:  /more/{count}
-  defaults: { _controller: MuzichHomeBundle:Home:index, count: null }
+  defaults: { _controller: MuzichHomeBundle:Home:index, count: null, login: false }
   
 show_user:
   pattern: /user/{slug}

@@ -35,6 +35,18 @@
     </script>
   {% endif %}
   {% endif %}
+    
+  {% if login %}
+    <script type="text/javascript">
+      $(document).ready(function(){
+        {% if not email_token %}
+          open_connection_or_subscription_window(true);
+        {% else %}
+          open_connection_or_subscription_window(true, {"email_confirmation_token":"{{ email_token }}"});
+        {% endif %}
+      });
+    </script>
+  {% endif %}
 
   <div class="top_tools" {% if search_tags_id|length == 0 %}style="display: none;"{% endif %}>
   
