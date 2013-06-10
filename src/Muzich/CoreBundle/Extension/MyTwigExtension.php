@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Muzich\CoreBundle\Entity\Event;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\DependencyInjection\Container;
+use Muzich\CoreBundle\Entity\User;
 
 class MyTwigExtension extends \Twig_Extension {
 
@@ -29,7 +30,8 @@ class MyTwigExtension extends \Twig_Extension {
       'form_has_errors'        => new \Twig_Filter_Method($this, 'form_has_errors'),
       'format_score'           => new \Twig_Filter_Method($this, 'format_score'),
       'can_autoplay'           => new \Twig_Filter_Method($this, 'can_autoplay'),
-      'can_autoplay_type'      => new \Twig_Filter_Method($this, 'can_autoplay_type')
+      'can_autoplay_type'      => new \Twig_Filter_Method($this, 'can_autoplay_type'),
+      'userId'                 => new \Twig_Filter_Method($this, 'id_or_null')
     );
   }
   
@@ -232,6 +234,19 @@ class MyTwigExtension extends \Twig_Extension {
       return true;
     }
     return false;
+  }
+  
+  public function id_or_null($user)
+  {
+    if ($user)
+    {
+      if ($user instanceof User)
+      {
+        return $user->getId();
+      }
+    }
+    
+    return null;
   }
 
 }

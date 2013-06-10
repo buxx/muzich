@@ -127,5 +127,28 @@
     </div>
     <div style="clear:both;"></div>
     
+    <h2 data-open="myaccount_privacy">{{ 'my_account.privacy.title'|trans({}, 'userui') }}</h2>
+  
+    <div id="myaccount_privacy" class="myaccount_part"
+       style="display: none;"
+    >
+      <form
+        class="privacy"
+        action="{{ path('user_update_privacy') }}"
+        method="post"
+      >
+        
+        <div class="field">
+          <label for="user_privacy_favorites_publics" >{{ 'my_account.privacy.form.favorites'|trans({}, 'userui') }}</label>
+          {{ form_widget(privacy_form.favorites_publics) }}
+        </div>
+        
+        {{ form_rest(privacy_form) }}
+      
+          <input type="submit" class="button" value="{{ 'my_account.privacy.submit'|trans({}, 'userui') }}" />
+      </form>
+    </div>
+    <div style="clear:both;"></div>
+    
   </div>
 {% endblock %}

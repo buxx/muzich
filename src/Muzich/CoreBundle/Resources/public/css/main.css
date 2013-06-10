@@ -1620,7 +1620,7 @@ form.changeemail input[type="text"]
   width: 388px;
 }
 
-form.changeemail input[type="submit"]
+form.changeemail input[type="submit"], form.privacy input[type="submit"]
 {
   float: right;
   margin-top: 5px;
@@ -2318,6 +2318,11 @@ ul.form-errors li
 div.playlists_prompt ul.form-errors li
 {
   font-size: 85%;
+}
+
+p.solop
+{
+  margin: 15px;
 }
 
 /*

@@ -10,9 +10,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\EntityManager;
 use Muzich\CoreBundle\Entity\UsersTagsFavorites;
 use Symfony\Component\Validator\Constraints as Assert;
-use Muzich\CoreBundle\Validator as MuzichAssert;
 use Muzich\CoreBundle\Entity\ElementTagsProposition;
 use Muzich\CoreBundle\Entity\Tag;
+use Muzich\CoreBundle\Managers\UserPrivacy as PrivacyManager;
 
 /**
  * Cet entité est l'utilisateur ayant effectué la requête.
@@ -295,6 +295,11 @@ class User extends BaseUser
   /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
   protected $facebook_id;
   
+  /** 
+   * @ORM\Column(type="text", unique=false, nullable=true)
+   */
+  protected $privacy;
+
   /**
    * 
    */
@@ -1256,6 +1261,28 @@ class User extends BaseUser
   public function setPlaylistsOwneds(Collection $playlists_owneds)
   {
     $this->playlists_owneds = $playlists_owneds;
+  }
+  
+  public function getPrivacy()
+  {
+    return json_decode($this->privacy, true);
+  }
+  
+  public function setPrivacy($privacy)
+  {
+    $this->privacy = json_encode($privacy);
+  }
+  
+  public function isFavoritesPublics()
+  {
+    $privacy_manager = new PrivacyManager($this);
+    return $privacy_manager->get(PrivacyManager::CONF_FAVORITES_PUBLIC);
+  }
+  
+  public function setFavoritesPublics($public)
+  {
+    $privacy_manager = new PrivacyManager($this);
+    return $privacy_manager->set(PrivacyManager::CONF_FAVORITES_PUBLIC, $public);
   }
   
 }

@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Muzich\UserBundle\Form\Type\RegistrationFormType;
 use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\Form\User\PasswordForm;
+use Muzich\CoreBundle\Form\User\PrivacyForm;
 
 class UserController extends Controller
 {
@@ -42,6 +43,11 @@ class UserController extends Controller
       ->add('mail_partner', 'checkbox', array('required' => false))
       ->getForm()
     ;
+  }
+  
+  protected function getPrivacyForm()
+  {
+    return $this->createForm(new PrivacyForm(), $this->getUser());
   }
   
   protected function getTagsFavoritesForm($user)
@@ -91,7 +97,8 @@ class UserController extends Controller
       'favorite_tags_id'         => $this->getTagsFavorites(),
       'change_email_form'        => $change_email_form->createView(),
       'avatar_form'              => $this->getAvatarForm()->createView(),
-      'preferences_form'         => $this->getPreferencesForm()->createView()
+      'preferences_form'         => $this->getPreferencesForm()->createView(),
+      'privacy_form'             => $this->getPrivacyForm()->createView()
     );
   }
   
@@ -263,7 +270,8 @@ class UserController extends Controller
         'favorite_tags_id'         => $this->getTagsFavorites(),
         'change_email_form'        => $change_email_form->createView(),
         'avatar_form'              => $this->getAvatarForm()->createView(),
-        'preferences_form'         => $this->getPreferencesForm()->createView()
+        'preferences_form'         => $this->getPreferencesForm()->createView(),
+        'privacy_form'             => $this->getPrivacyForm()->createView()
       )
     );
   }
@@ -441,7 +449,8 @@ class UserController extends Controller
         'favorite_tags_id'         => $this->getTagsFavorites(),
         'change_email_form'        => $change_email_form->createView(),
         'avatar_form'              => $this->getAvatarForm()->createView(),
-        'preferences_form'         => $this->getPreferencesForm()->createView()
+        'preferences_form'         => $this->getPreferencesForm()->createView(),
+        'privacy_form'             => $this->getPrivacyForm()->createView()
       )
     );
   }
@@ -563,6 +572,26 @@ class UserController extends Controller
     
     $this->setFlash('error',
       $this->trans('my_account.preferences.error', array(), 'userui'));
+    return $this->redirect($this->generateUrl('my_account'));
+  }
+  
+  public function updatePrivacyAction(Request $request)
+  {
+    $form = $this->getPrivacyForm();
+    $form->bind($request);
+    
+    if ($form->isValid()) {
+      $em = $this->getEntityManager();
+      $em->persist($form->getData());
+      $em->flush();
+
+      $this->setFlash('success',
+        $this->trans('my_account.privacy.success', array(), 'userui'));
+      return $this->redirect($this->generateUrl('my_account'));
+    }
+    
+    $this->setFlash('error',
+      $this->trans('my_account.privacy.error', array(), 'userui'));
     return $this->redirect($this->generateUrl('my_account'));
   }
   

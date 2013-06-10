@@ -3,7 +3,6 @@
 namespace Muzich\CoreBundle\Tests\Controller;
 
 use Muzich\CoreBundle\lib\FunctionalTest;
-use Muzich\CoreBundle\Entity\RegistrationToken;
 
 class UserControllerTest extends FunctionalTest
 {
@@ -544,6 +543,49 @@ class UserControllerTest extends FunctionalTest
     $paul = $this->getUser('paul');
     $this->assertEquals(false, $paul->mail_newsletter);
     $this->assertEquals(false, $paul->mail_partner);
+  }
+  
+  public function testPrivacyUpdate()
+  {
+    $this->client = self::createClient();
+    
+    $bux = $this->findUserByUsername('bux');
+    
+    $this->checkFavoritesViewable($bux, true);
+    $this->connectUser('bux', 'toor');
+    $this->updateFavoritePrivacy(false);
+    $this->disconnectUser();
+    $this->checkFavoritesViewable($bux, false);
+    $this->connectUser('paul', 'toor');
+    $this->checkFavoritesViewable($bux, false);
+    $this->disconnectUser();
+    $this->connectUser('bux', 'toor');
+    $this->checkFavoritesViewable($bux, true);
+  }
+  
+  protected function checkFavoritesViewable($user, $public)
+  {
+    $this->goToPage($this->generateUrl('favorite_user_list', array('slug' => $user->getSlug(), '_locale' => 'fr')));
+    $this->isResponseSuccess();
+    if ($public)
+      $this->notExist('p.favorites_no_publics');
+    if (!$public)
+      $this->exist('p.favorites_no_publics');
+  }
+  
+  protected function updateFavoritePrivacy($public)
+  {
+    $this->goToPage($this->generateUrl('my_account'));
+    $form = $this->selectForm('form.privacy input[type="submit"]');
+    if ($public)
+      $form['user_privacy[favorites_publics]']->tick();
+    if (!$public)
+      $form['user_privacy[favorites_publics]']->untick();
+    $this->submit($form);
+    
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseSuccess();
   }
   
 }

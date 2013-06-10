@@ -16,6 +16,7 @@ followed_by:          Ces utilisateurs suivent désormais vos publications
 favorites:
   your_favorites:     Vos favoris
   user_favorites:     Favoris de %name%
+  nopublic:           %user_username% n'a pas souhaité rendre ses favoris publiques
   
 nothing:    |
               Votre réseau n'est pas encore constitué. Utilisez la recherche pour

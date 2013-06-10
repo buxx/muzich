@@ -62,6 +62,12 @@ user_update_preferences:
   defaults: { _controller: MuzichUserBundle:User:updatePreferences }
   requirements:
     _method:  POST
+
+user_update_privacy:
+  pattern:  /account/update-privacy
+  defaults: { _controller: MuzichUserBundle:User:updatePrivacy }
+  requirements:
+    _method:  POST
   
 user_hide_help:
   pattern: /account/update-help/hide/{help_id}/{token}

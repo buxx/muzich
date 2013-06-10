@@ -11,11 +11,6 @@ use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\lib\Tag as TagLib;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
 
-//use Muzich\CoreBundle\Entity\Group;
-//use Muzich\CoreBundle\Form\Group\GroupForm;
-//use Symfony\Component\HttpFoundation\Request;
-//use Muzich\CoreBundle\Managers\GroupManager;
-
 class FavoriteController extends Controller
 {
   
@@ -205,20 +200,28 @@ class FavoriteController extends Controller
   {
     $viewed_user = $this->findUserWithSlug($slug);
     
-    $search_object = $this->createSearchObject(array(
-      'user_id'  => $viewed_user->getId(),
-      'favorite' => true,
-      'count'    => $this->container->getParameter('search_default_count')
-    ));
-    
-    $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
-      ->getTags($viewed_user->getId(), $this->getUserId(true))      
-    ;
-    
+    $tags = array();
     $tags_id = array();
-    foreach ($tags as $tag)
+    $elements = array();
+    if ($viewed_user->isFavoritesPublics() || $viewed_user->getId() == $this->getUserId(true))
     {
-      $tags_id[] = $tag->getId();
+      $search_object = $this->createSearchObject(array(
+        'user_id'  => $viewed_user->getId(),
+        'favorite' => true,
+        'count'    => $this->container->getParameter('search_default_count')
+      ));
+
+      $tags = $this->getDoctrine()->getRepository('MuzichCoreBundle:UsersElementsFavorites')
+        ->getTags($viewed_user->getId(), $this->getUserId(true))      
+      ;
+
+      $tags_id = array();
+      foreach ($tags as $tag)
+      {
+        $tags_id[] = $tag->getId();
+      }
+      
+      $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
     }
     
     return array(
@@ -226,7 +229,7 @@ class FavoriteController extends Controller
       'tags_id_json'  => json_encode($tags_id),
       'user'          => $this->getUser(),
       'viewed_user'   => $viewed_user,
-      'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId(true))
+      'elements'      => $elements
     );
   }
   
