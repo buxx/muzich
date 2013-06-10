@@ -16,6 +16,9 @@
 {% if tag_ids_json is not defined %}
   {% set tag_ids_json = '[]' %}
 {% endif %}
+{% if display_tags_proposition is not defined %}
+  {% set display_tags_proposition = false %}
+{% endif %}
 
 <table>
   <tr>
@@ -169,7 +172,7 @@
                 <a title="{{ 'element.proposition_tags.link_title'|trans({}, 'userui') }}" 
                   class="element_propose_tags" 
                   href="{{ path('ajax_element_propose_tags_open', {'element_id' : element.id}) }}">
-                  <img src="{{ asset('bundles/muzichcore/img/1333484018_rss-tag.png') }}" alt="tags_proposition" />
+                  <img src="{{ asset('img/tag.png') }}" alt="tags_proposition" />
                 </a>
               </li>
   
@@ -202,7 +205,7 @@
                   <a title="{{ 'element.view_propositions.link'|trans({}, 'elements') }}" class="element_view_propositions_link" 
                     href="{{ path('ajax_element_proposed_tags_view', {'element_id' : element.id})  }}"
                   >
-                    <img src="{{ asset('bundles/muzichcore/img/1333493527_tag_add.png') }}" alt="tags proposition" />
+                    <img src="{{ asset('img/tag_color.png') }}" alt="tags proposition" />
                   </a>
                 </li>
               {% endif %}
@@ -414,6 +417,13 @@
   } %}
 
 {% endif %}
+{% endif %}
+
+{% if display_tags_proposition %}
+  {% include 'MuzichCoreBundle:Element:tag.propositions.html.twig' with {
+    'propositions' : element.tagsProposition,
+    'element_id'   : element.id
+  } %}
 {% endif %}
 
 {% if display_player %}
