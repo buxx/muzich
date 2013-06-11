@@ -2594,12 +2594,32 @@ $(document).ready(function(){
       $(this).parents('li.top_menu_element').find('ul.submenu').hide();
       $(this).parents('li.top_menu_element').removeClass('close');
       $(this).parents('li.top_menu_element').addClass('open');
-      $(this).parents('li.top_menu_element').find('ul.submenu').slideDown();
+      $(this).parents('li.top_menu_element').find('ul.submenu').slideDown('500', function(){
+        if ($('.sidebar').css('position') == 'absolute')
+        {
+          contentHeight = $('.content').height();
+          sidebarHeight = $('.sidebar').outerHeight();
+          //$('.sidebar').css('top', contentHeight - sidebarHeight);
+          $(".sidebar").animate({ 
+            top: contentHeight - sidebarHeight,
+          }, 500 );
+        }
+      });
     }
     else
     {
       $(this).parents('li.top_menu_element').removeClass('open');
       $(this).parents('li.top_menu_element').addClass('close');
+      
+      if ($('.sidebar').css('position') == 'absolute')
+        {
+          contentHeight = $('.content').height();
+          sidebarHeight = $('.sidebar').outerHeight();
+          //$('.sidebar').css('top', contentHeight - sidebarHeight);
+          $(".sidebar").animate({ 
+            top: contentHeight - sidebarHeight,
+          }, 500 );
+        }
     }
     
     return false;
@@ -3276,12 +3296,10 @@ $(document).ready(function(){
   if ($('#sidebar .sidebar').height() < $('#content .content').height() &&
     $('#sidebar .sidebar').height() > $(window).height())
   {
-    console.log('sticky sidebar');
     $('#content').stickySidebar();
   }
   else
   {
-    console.log('sticky tout court');
     $('#sidebar .sidebar').css('padding-bottom', '155px');
     $("#sidebar .sidebar").sticky({topSpacing:25});
   }
