@@ -21,24 +21,28 @@ class UserRepository extends EntityRepository
     $select = 'u';
     $join = '';
     $where = '';
+    $order = '';
     $parameters = array('uid' => $user_id);
     
     if (in_array('followeds_users', $join_list))
     {
       $select .= ', fdu, fdu_u';
       $join   .= ' LEFT JOIN u.followeds_users fdu LEFT JOIN fdu.followed fdu_u';
+      $order = $this->updateOrderBy($order, 'fdu_u.username ASC');
     }
     
     if (in_array('followers_users', $join_list))
     {
       $select .= ', fru, fru_u';
       $join   .= ' LEFT JOIN u.followers_users fru LEFT JOIN fru.follower fru_u';
+      $order = $this->updateOrderBy($order, 'fru_u.username ASC');
     }
     
     if (in_array('followeds_groups', $join_list))
     {
       $select .= ', fdg, fdg_g';
       $join   .= ' LEFT JOIN u.followed_groups fdg LEFT JOIN fdg.group fdg_g';
+      $order = $this->updateOrderBy($order, 'fdg_g.name ASC');
     }
     
     if (in_array('favorites_tags', $join_list))
@@ -65,9 +69,25 @@ class UserRepository extends EntityRepository
         $join
         WHERE u.id = :uid
         $where
+        $order
       ")
       ->setParameters($parameters)
     ;
+  }
+  
+  protected function updateOrderBy($orderBy, $add)
+  {
+    if (strpos($orderBy, 'ORDER BY') === false)
+    {
+      $orderBy .= 'ORDER BY ';
+    }
+    
+    if ($orderBy !== 'ORDER BY ')
+    {
+      $orderBy .= ', ';
+    }
+    
+    return $orderBy .= $add;
   }
   
   /**
