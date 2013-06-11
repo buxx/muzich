@@ -40,6 +40,9 @@ user:
     sent_recently: Un email de confirmation a déjà été envoyé récemment (pensez à vérifier votre boite SPAM)
     confirmed:     Votre email est maintenant confirmé
     failtoken:     La demande de confirmation est trop ancienne, veuillez en demander une nouvelle
+  delete:
+    fail:           Le mot de passe saisi est incorrect
+    success:        Le compte a bien été supprimé
 
 presubscription:
   success:         Un email a été envoyé a votre adresse email pour confirmation (vérifiez aussi dans vos SPAM)

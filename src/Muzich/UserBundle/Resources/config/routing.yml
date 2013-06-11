@@ -94,4 +94,9 @@ send_email_confirmation:
 helpbox_tags_favorites:
   pattern: /account/favorites-tags
   defaults: { _controller: MuzichUserBundle:User:favoriteTagsHelpbox }
-    
+
+delete_user:
+  pattern: /account/delete
+  defaults: { _controller: MuzichUserBundle:User:delete }
+  requirements:
+    _method:  POST

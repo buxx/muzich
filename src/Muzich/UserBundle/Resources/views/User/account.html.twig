@@ -57,7 +57,7 @@
     <h2 data-open="myaccount_favorites_password">{{ 'my_account.change_password'|trans({}, 'userui') }}</h2>
 
     <div id="myaccount_favorites_password" class="myaccount_part {% if app.request.get('open') == 'change_password' %}flashing{% endif %}" 
-      {% if not form_password|form_has_errors and not app.request.get('open') == 'change_password' %}
+      {% if not app.request.get('open') == 'change_password' %}
        style="display: none;"
       {% endif %}
      >
@@ -146,6 +146,36 @@
         {{ form_rest(privacy_form) }}
       
           <input type="submit" class="button" value="{{ 'my_account.privacy.submit'|trans({}, 'userui') }}" />
+      </form>
+    </div>
+    <div style="clear:both;"></div>
+    
+    
+    <h2 data-open="myaccount_delete">{{ 'my_account.delete.title'|trans({}, 'userui') }}</h2>
+  
+    <div id="myaccount_delete" class="myaccount_part"
+      {% if not delete_form|form_has_errors and not app.request.get('open') == 'delete' %}
+        style="display: none;"
+      {% endif %}
+    >
+      
+      <p class="warning info">{{ 'my_account.delete.text'|trans({}, 'userui') }}
+      </p>
+      
+      <form
+        class="delete"
+        action="{{ path('delete_user', {'open':'delete'}) }}"
+        method="post"
+      >
+        
+        <div class="field">
+          {{ form_label(delete_form.current_password) }}
+          {{ form_widget(delete_form.current_password) }}
+        </div>
+        
+        {{ form_rest(delete_form) }}
+      
+          <input type="submit" class="button" value="{{ 'my_account.delete.submit'|trans({}, 'userui') }}" />
       </form>
     </div>
     <div style="clear:both;"></div>

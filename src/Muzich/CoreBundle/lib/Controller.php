@@ -693,4 +693,9 @@ class Controller extends BaseController
     return true;
   }
   
+  protected function getUserManager()
+  {
+    return $this->container->get('muzich_user_manager');
+  }
+  
 }

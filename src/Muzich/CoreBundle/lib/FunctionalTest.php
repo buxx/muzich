@@ -88,7 +88,7 @@ class FunctionalTest extends WebTestCase
     ;
   }
   
-  protected function connectUser($login, $password, $client = null)
+  protected function connectUser($login, $password, $client = null, $success = true)
   {
     if (!$client)
     {
@@ -118,20 +118,27 @@ class FunctionalTest extends WebTestCase
     $this->isResponseSuccess();
 
     $user = $this->getUser();
-    if ('anon.' != $user)
+    if ($success)
     {
-      if (strpos($login, '@') === false)
+      if ('anon.' != $user)
       {
-        $this->assertEquals($login, $user->getUsername());
+        if (strpos($login, '@') === false)
+        {
+          $this->assertEquals($login, $user->getUsername());
+        }
+        else
+        {
+          $this->assertEquals($login, $user->getEmail());
+        }
       }
       else
       {
-        $this->assertEquals($login, $user->getEmail());
+        $this->assertTrue(false);
       }
     }
     else
     {
-      $this->assertTrue(false);
+      $this->assertEquals('anon.', $user);
     }
   }
   

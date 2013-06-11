@@ -588,4 +588,34 @@ class UserControllerTest extends FunctionalTest
     $this->isResponseSuccess();
   }
   
+  public function testDeleteUser()
+  {
+    $this->client = self::createClient();
+    
+    $joelle = $this->findUserByUsername('joelle');
+    $this->assertEquals('joelle', $joelle->getUsername());
+    $this->assertEquals('joelle@root', $joelle->getEmail());
+    $this->connectUser('joelle', 'toor');
+    $this->deleteUser('toor');
+    $joelle = $this->findOneBy('User', array('id' => $joelle->getId()));
+    $this->assertTrue('joelle' != $joelle->getUsername());
+    $this->assertTrue('joelle@mail.com' != $joelle->getEmail());
+    $this->connectUser('joelle', 'toor', null, false);
+  }
+  
+  protected function deleteUser($password)
+  {
+    $this->goToPage($this->generateUrl('my_account'));
+    $this->exist('form.delete');
+    $form = $this->selectForm('form.delete input[type="submit"]');
+    $form['delete_user_form[current_password]'] = $password;
+    $this->submit($form);
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    $this->isResponseRedirection();
+    $this->followRedirection();
+    //$this->outputDebug();
+    $this->isResponseSuccess();
+  }
+  
 }

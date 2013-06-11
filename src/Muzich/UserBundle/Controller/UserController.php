@@ -15,6 +15,7 @@ use Muzich\UserBundle\Form\Type\RegistrationFormType;
 use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\Form\User\PasswordForm;
 use Muzich\CoreBundle\Form\User\PrivacyForm;
+use Muzich\CoreBundle\Form\User\DeleteForm;
 
 class UserController extends Controller
 {
@@ -48,6 +49,11 @@ class UserController extends Controller
   protected function getPrivacyForm()
   {
     return $this->createForm(new PrivacyForm(), $this->getUser());
+  }
+  
+  protected function getDeleteForm()
+  {
+    return $this->createForm(new DeleteForm(), $this->getUser());
   }
   
   protected function getTagsFavoritesForm($user)
@@ -98,7 +104,8 @@ class UserController extends Controller
       'change_email_form'        => $change_email_form->createView(),
       'avatar_form'              => $this->getAvatarForm()->createView(),
       'preferences_form'         => $this->getPreferencesForm()->createView(),
-      'privacy_form'             => $this->getPrivacyForm()->createView()
+      'privacy_form'             => $this->getPrivacyForm()->createView(),
+      'delete_form'              => $this->getDeleteForm()->createView()
     );
   }
   
@@ -257,7 +264,6 @@ class UserController extends Controller
     }
     
     $form_tags_favorites = $this->getTagsFavoritesForm($user);
-    $change_email_form = $this->getChangeEmailForm();
 
     return $this->container->get('templating')->renderResponse(
       'MuzichUserBundle:User:account.html.twig',
@@ -268,10 +274,11 @@ class UserController extends Controller
         'form_tags_favorites'      => $form_tags_favorites->createView(),
         'form_tags_favorites_name' => $form_tags_favorites->getName(),
         'favorite_tags_id'         => $this->getTagsFavorites(),
-        'change_email_form'        => $change_email_form->createView(),
+        'change_email_form'        => $this->getChangeEmailForm()->createView(),
         'avatar_form'              => $this->getAvatarForm()->createView(),
         'preferences_form'         => $this->getPreferencesForm()->createView(),
-        'privacy_form'             => $this->getPrivacyForm()->createView()
+        'privacy_form'             => $this->getPrivacyForm()->createView(),
+        'delete_form'              => $this->getDeleteForm()->createView()
       )
     );
   }
@@ -450,7 +457,8 @@ class UserController extends Controller
         'change_email_form'        => $change_email_form->createView(),
         'avatar_form'              => $this->getAvatarForm()->createView(),
         'preferences_form'         => $this->getPreferencesForm()->createView(),
-        'privacy_form'             => $this->getPrivacyForm()->createView()
+        'privacy_form'             => $this->getPrivacyForm()->createView(),
+        'delete_form'              => $this->getDeleteForm()->createView()
       )
     );
   }
@@ -781,6 +789,38 @@ class UserController extends Controller
         'form_name'        => 'favorites_tags_helpbox'
       ))->getContent()
     ));
+  }
+  
+  public function deleteAction(Request $request)
+  {
+    $form = $this->getDeleteForm();
+    $form->bind($request);
+    
+    if ($form->isValid())
+    {
+      $this->getUserManager()->disableUser($form->getData());
+      $this->setFlash('success', 'user.delete.success');
+      return $this->redirect($this->generateUrl('fos_user_security_logout'));
+    }
+    
+    $this->setFlash('error', 'user.delete.fail');
+    $form_tags_favorites = $this->getTagsFavoritesForm($form->getData());
+    return $this->container->get('templating')->renderResponse(
+      'MuzichUserBundle:User:account.html.twig',
+      array(
+        'form_password'            => $this->getChangePasswordForm($form->getData())->createView(),
+        'errors_pers'              => array(),
+        'user'                     => $form->getData(),
+        'form_tags_favorites'      => $form_tags_favorites->createView(),
+        'form_tags_favorites_name' => $form_tags_favorites->getName(),
+        'favorite_tags_id'         => $this->getTagsFavorites(),
+        'change_email_form'        => $this->getChangeEmailForm()->createView(),
+        'avatar_form'              => $this->getAvatarForm()->createView(),
+        'preferences_form'         => $this->getPreferencesForm()->createView(),
+        'privacy_form'             => $this->getPrivacyForm()->createView(),
+        'delete_form'              => $form->createView()
+      )
+    );
   }
   
 }

@@ -11,6 +11,7 @@ use FOS\UserBundle\Util\CanonicalizerInterface;
 use Doctrine\ORM\EntityManager;
 //use FOS\UserBundle\Entity\UserManager as UserManagerBase; UPGRADE FOSUserBundle 1.3
 use FOS\UserBundle\Doctrine\UserManager as UserManagerBase;
+use Muzich\CoreBundle\Entity\User;
 
 /**
  */
@@ -84,6 +85,14 @@ class UserManager extends UserManagerBase
   public function canonicalizeEmailLocal($email)
   {
     return $this->emailCanonicalizer->canonicalize($email);
+  }
+  
+  public function disableUser(User $user)
+  {
+    $user->setEnabled(false);
+    $user->setUsername(time());
+    $user->setEmail('deleted_'.time().'@mail.com');
+    $this->updateUser($user);
   }
 
 }
