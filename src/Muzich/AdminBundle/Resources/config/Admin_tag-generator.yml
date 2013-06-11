@@ -33,7 +33,7 @@ builders:
     params:
       title: "You're editing element \"%object%\"|{ %object%: Tag.name }|"
       display:
-        "General" : [ name ]
+        "General" : [ name, like_string ]
       actions:
         save: ~
         list: ~

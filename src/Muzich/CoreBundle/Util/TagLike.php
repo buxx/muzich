@@ -157,14 +157,15 @@ class TagLike
     {
       if ($where == '')
       {
-        $where .= 'WHERE UPPER(t.slug) LIKE :str'.$i;
+        $where .= 'WHERE UPPER(t.slug) LIKE :str'.$i.' OR UPPER(t.like_string) LIKE :strlike'.$i;
       }
       else
       {
-        $where .= ' OR UPPER(t.slug) LIKE :str'.$i;
+        $where .= ' OR UPPER(t.slug) LIKE :str'.$i.' OR UPPER(t.like_string) LIKE :strlike'.$i;
       }
 
       $params['str'.$i] = '%'.$word.'%';
+      $params['strlike'.$i] = '%'.$word.'%';
     }
 
     $private_tags_sql = '';

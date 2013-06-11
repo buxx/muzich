@@ -32,6 +32,12 @@ class LoadTagData  extends AbstractFixture implements OrderedFixtureInterface, C
   {
     $tag = new Tag();
     $tag->setName(ucfirst($name));
+    
+    if ($name == 'Reggae')
+    {
+      $tag->setLikeString('reggea regea regae rege regge');
+    }
+    
     $this->entity_manager->persist($tag);
     $this->addReference('tag_'.strtolower(str_replace(' ', '-', $name)), $tag);
   }

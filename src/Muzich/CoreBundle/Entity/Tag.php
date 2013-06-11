@@ -105,6 +105,12 @@ class Tag
   protected $arguments;
   
   /**
+   * @ORM\Column(type="text", nullable=true)
+   * @var type string
+   */
+  protected $like_string;
+  
+  /**
    * 
    */
   public function __construct()
@@ -258,6 +264,16 @@ class Tag
   public function setArguments($arguments)
   {
     $this->arguments = $arguments;
+  }
+  
+  public function setLikeString($like_string)
+  {
+    $this->like_string = $like_string;
+  }
+  
+  public function getLikeString()
+  {
+    return $this->like_string;
   }
   
 }

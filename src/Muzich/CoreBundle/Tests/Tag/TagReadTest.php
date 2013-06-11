@@ -60,6 +60,29 @@ class TagReadTest extends UnitTest
     }
   }
   
+  
+  /**
+   * Simple test des tags retournés
+   */
+  public function testSearchTagLike()
+  {
+    $bux = $this->getUser('bux');
+    
+    $cresults = array(
+      'Reggae'
+    );
+    
+    $TagLike = new TagLike($this->getDoctrine()->getEntityManager());
+    $response = $TagLike->getSimilarTags('reggea', $bux->getId());
+    
+    $this->assertEquals(count($cresults), count($response['tags']));
+    
+    foreach ($response['tags'] as $tag)
+    {
+      $this->assertTrue(in_array($tag['name'], $cresults));
+    }
+  }
+  
   /**
    * Test de l'ordre dans lequel les tags sont retourné
    */
