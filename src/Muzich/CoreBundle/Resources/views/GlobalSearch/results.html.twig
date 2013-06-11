@@ -46,7 +46,9 @@
         
         {% include "MuzichCoreBundle:SearchElement:default.html.twig" with {
           'noelements_filter' : true,
-          'elements'          : results.elements
+          'elements'          : results.elements,
+          'display_autoplay'     : true,
+          'autoplay_context'     : 'home'
         }%}
         
         {% if display_more_button and results.elements|length %}
