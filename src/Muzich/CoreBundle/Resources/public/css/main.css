@@ -37,6 +37,8 @@ div#header
   background-image: url("/img/header_background.png");
   background-repeat: repeat-x;
   border-bottom: 3px solid #e51936;
+  
+  margin-bottom: 25px;
 }
 
 div#header div#hgroup
@@ -258,24 +260,24 @@ aside#sidebar .sidebar
 
 .top-fixed {
     position: fixed;
-    top: 0;
+    top: 25px;
 }
 
 .bottom-fixed {
     position:fixed;
-    bottom: 0;
+    bottom: 25px;
 }
 
 #mainbox
 {
-  margin-top: 25px;
+  margin-top: 0px;
   /*padding: 10px;*/
   padding-bottom: 23px;
 }
 
 #mainbox.mainbox_margintop
 {
-  margin-top: 80px;
+  margin-top: 60px;
 }
 
 #mainbox.mainbox_nopadding
@@ -590,7 +592,7 @@ aside#sidebar div.nicebox
 
 div#user_statusbox
 {
-  margin-top: 25px;
+  margin-top: 0px;
 }
 
 div.user_score
@@ -2405,6 +2407,78 @@ div.tags_proposition_view a.darkbutton
   0%{box-shadow:0px 0px 10px #909090;}
   50%{box-shadow:0px 0px 2px #909090;}
   100%{box-shadow:0px 0px 10px #909090;}
+}
+
+
+
+@-webkit-keyframes sidesticktop
+{
+  0%{top: auto;}
+  50%{top: 0px;}
+  100%{top: 25px}
+}
+
+@-moz-keyframes sidesticktop
+{
+  0%{top: auto;}
+  50%{top: 0px;}
+  100%{top: 25px}
+}
+
+@-ms-keyframes sidesticktop
+{
+  0%{top: auto;}
+  50%{top: 0px;}
+  100%{top: 25px}
+}
+
+@-o-keyframes sidesticktop
+{
+  0%{top: auto;}
+  50%{top: 0px;}
+  100%{top: 25px}
+}
+
+@keyframes sidesticktop
+{
+  0%{top: auto;}
+  50%{top: 0px;}
+  100%{top: 25px}
+}
+
+@-webkit-keyframes sidestickbottom
+{
+  0%{bottom: auto;}
+  50%{bottom: 0px;}
+  100%{bottom: 25px}
+}
+
+@-moz-keyframes sidestickbottom
+{
+  0%{bottom: auto;}
+  50%{bottom: 0px;}
+  100%{bottom: 25px}
+}
+
+@-ms-keyframes sidestickbottom
+{
+  0%{bottom: auto;}
+  50%{bottom: 0px;}
+  100%{bottom: 25px}
+}
+
+@-o-keyframes sidestickbottom
+{
+  0%{bottom: auto;}
+  50%{bottom: 0px;}
+  100%{bottom: 25px}
+}
+
+@keyframes sidestickbottom
+{
+  0%{bottom: auto;}
+  50%{bottom: 0px;}
+  100%{bottom: 25px}
 }
 
 

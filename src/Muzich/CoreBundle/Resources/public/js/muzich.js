@@ -3276,12 +3276,14 @@ $(document).ready(function(){
   if ($('#sidebar .sidebar').height() < $('#content .content').height() &&
     $('#sidebar .sidebar').height() > $(window).height())
   {
+    console.log('sticky sidebar');
     $('#content').stickySidebar();
   }
   else
   {
+    console.log('sticky tout court');
     $('#sidebar .sidebar').css('padding-bottom', '155px');
-    $("#sidebar .sidebar").sticky({topSpacing:0});
+    $("#sidebar .sidebar").sticky({topSpacing:25});
   }
   
   
