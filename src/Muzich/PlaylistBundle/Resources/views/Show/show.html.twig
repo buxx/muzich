@@ -32,7 +32,12 @@
       
     </div>
     
-    <h1>{{ playlist.name }}</h1>
+    <h1>
+      {{ playlist.name }}
+      {% if playlist.public %}
+        {{ 'playlist.public_word'|trans({}, 'elements') }}
+      {% endif %}
+    </h1>
     
     {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
       'tags' : playlist.tags

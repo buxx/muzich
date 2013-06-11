@@ -31,6 +31,9 @@
           >
             {{ playlist.name }}
           </a>
+          {% if playlist.public %}
+            {{ 'playlist.public_word'|trans({}, 'elements') }}
+          {% endif %}
         </li>
       {% endfor %}
     </ul>

@@ -133,4 +133,5 @@ playlist:
   create_and_add:        Ajouter ce partage à une nouvelle liste de lecture:
   add_to:                Ou à une liste de lecture existante:
   create_submit:         Ajouter
-  public_label:          Publique
+  public_label:          Rendre cette liste publique
+  public_word:           (publique)
