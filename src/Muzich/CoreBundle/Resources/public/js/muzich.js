@@ -3268,6 +3268,23 @@ $(document).ready(function(){
      $('div.playlists_prompt').remove();
      return false;
   });
+  
+  /*
+   * STICK SIDEBAR
+   */
+  
+  if ($('#sidebar .sidebar').height() < $('#content .content').height() &&
+    $('#sidebar .sidebar').height() > $(window).height())
+  {
+    $('#content').stickySidebar();
+  }
+  else
+  {
+    $('#sidebar .sidebar').css('padding-bottom', '155px');
+    $("#sidebar .sidebar").sticky({topSpacing:0});
+  }
+  
+  
    
 });
 

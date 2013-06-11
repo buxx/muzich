@@ -22,10 +22,11 @@
   {% endif %}
 
 {% else %}
-
-  <div class="side_margin_top"></div>
   
   {% if display_help %}
+    
+    <div class="side_margin_top"></div>
+    
     <div class="center">
       <a id="know_more" class="helpbox button" href="{{ path('helpbox_bootstrap', {'ressource_id':'know_more'}) }}" title="{{ 'help.know_more'|trans({}, 'navigationui') }}">
         {{ 'help.know_more'|trans({}, 'navigationui') }}

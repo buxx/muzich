@@ -28,7 +28,7 @@
       
       <div id="content">
         
-        <div id="main">
+        <div id="main" class="content">
           
           <div id="mainbox" class="nicebox {% block mainbox_classes %}{% endblock %}">
             {% block main_content %}{% endblock %}
@@ -38,9 +38,11 @@
         </div>
           
         <aside id="sidebar">
-          {% block sidebar_top %}{% endblock %}
-          {% include 'MuzichCoreBundle:Layout:side.html.twig' %}
-          {% block sidebar_bottom %}{% endblock %}
+          <div class="sidebar">
+            {% block sidebar_top %}{% endblock %}
+            {% include 'MuzichCoreBundle:Layout:side.html.twig' %}
+            {% block sidebar_bottom %}{% endblock %}
+          </div>
         </aside>
           
       </div>
