@@ -9,7 +9,7 @@
         defaults = {
             sidebar: '.sidebar',
             content: '.content',
-            tolerance: 110
+            tolerance: -25
         },
         clearPosition = {
             position: '',

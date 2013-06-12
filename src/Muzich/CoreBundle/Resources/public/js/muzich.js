@@ -588,6 +588,7 @@ $(document).ready(function(){
    var last_id = null;
    $('a.elements_more').click(function(){
     
+    sidebar_fix_to_bottom_prepare();
     $('img.elements_more_loader').show();
     // On fait un cas isolé (pour l'instant!!)
     if (!$(this).hasClass('event_view'))
@@ -616,6 +617,8 @@ $(document).ready(function(){
       var data = {};
       var type = 'GET';
     }
+    
+    $('.sidebar').css('bottom', $('#footer').outerHeight());
          
      $.ajax({
        type: type,
@@ -638,6 +641,9 @@ $(document).ready(function(){
             {
               link.attr('href', response.data.more_link_href);
             }
+            
+            sidebar_fix_to_bottom_finish();
+          
           }
           
           if (response.end || response.count < 1)
@@ -2589,37 +2595,43 @@ $(document).ready(function(){
   /* Ouverture des menus deroulants */
   $('ul.secondarymenu a.top_menu_link').click(function(){
     
+    //sidebar_fix_to_bottom_prepare();
+    var sidebar_height = $('.sidebar').height();
+    
     if ($(this).parents('li.top_menu_element').hasClass('close'))
     {
       $(this).parents('li.top_menu_element').find('ul.submenu').hide();
       $(this).parents('li.top_menu_element').removeClass('close');
       $(this).parents('li.top_menu_element').addClass('open');
-      $(this).parents('li.top_menu_element').find('ul.submenu').slideDown('500', function(){
-        if ($('.sidebar').css('position') == 'absolute')
-        {
-          contentHeight = $('.content').height();
-          sidebarHeight = $('.sidebar').outerHeight();
-          //$('.sidebar').css('top', contentHeight - sidebarHeight);
-          $(".sidebar").animate({ 
-            top: contentHeight - sidebarHeight,
-          }, 500 );
-        }
-      });
+      $(this).parents('li.top_menu_element').find('ul.submenu').show();
+        
+      //sidebar_fix_to_bottom_finish();
+      if ($('.sidebar').css('position') == 'absolute' || $('.sidebar').position().top < 1)
+      {
+        var top = $('.sidebar').position().top;
+        var top_recalculated =  top - ($('.sidebar').height() - sidebar_height);
+        $(".sidebar").animate({
+          top: top_recalculated
+        }, 500);
+        
+      }
     }
     else
     {
       $(this).parents('li.top_menu_element').removeClass('open');
       $(this).parents('li.top_menu_element').addClass('close');
       
-      if ($('.sidebar').css('position') == 'absolute')
-        {
-          contentHeight = $('.content').height();
-          sidebarHeight = $('.sidebar').outerHeight();
-          //$('.sidebar').css('top', contentHeight - sidebarHeight);
-          $(".sidebar").animate({ 
-            top: contentHeight - sidebarHeight,
-          }, 500 );
-        }
+      //sidebar_fix_to_bottom_finish();
+      if ($('.sidebar').css('position') == 'absolute' || $('.sidebar').position().top < 1)
+      {
+        var top = $('.sidebar').position().top;
+        var diff = $('.sidebar').height() - sidebar_height;
+        var top_recalculated =  top - diff;
+        $(".sidebar").animate({
+          top: top_recalculated
+        }, 500);
+        
+      }
     }
     
     return false;
@@ -3293,19 +3305,21 @@ $(document).ready(function(){
    * STICK SIDEBAR
    */
   
+  window.sidebar_topsticked = false;
+  window.sidebar_sticked = false;
   if ($('#sidebar .sidebar').height() < $('#content .content').height() &&
     $('#sidebar .sidebar').height() > $(window).height())
   {
     $('#content').stickySidebar();
+    window.sidebar_sticked = true;
   }
   else
   {
     $('#sidebar .sidebar').css('padding-bottom', '155px');
     $("#sidebar .sidebar").sticky({topSpacing:25});
+    window.sidebar_topsticked = true;
   }
   
-  
-   
 });
 
 function open_ajax_popin(url, callback, data)
@@ -3407,4 +3421,26 @@ function close_popin()
   // On cache le lecteur
   $('#helpbox').remove();
   popin_opened = false;
+}
+
+function sidebar_fix_to_bottom_prepare()
+{
+  if (window.sidebar_sticked)
+  {
+    $('.sidebar').css('top', '');
+    $('.sidebar').css('position', '');
+    $('.sidebar').addClass('bottom-fixed');
+  }
+}
+
+function sidebar_fix_to_bottom_finish()
+{
+  if (window.sidebar_sticked)
+  {
+    $(".sidebar").animate({
+      bottom: '0'
+    }, 500 , "swing", function(){
+      $('.sidebar').css('bottom', '')
+    });
+  }
 }
