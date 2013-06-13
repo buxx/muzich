@@ -166,7 +166,7 @@ help_tour:
                       "C'est ici que l'on retrouve les musiques partagés par les "+
                       "différents utilisateurs.</p>"
       tooltip:        |
-                      "<p>Les musiques apparaissent des plus récentes aux plus "+
+                      "<p>Les musiques partagées par les utilisateurs apparaissent des plus récentes aux plus "+
                       "anciennes.</p>"
     element:
       tour:           |
@@ -181,7 +181,8 @@ help_tour:
                       "<p>Vous pouvez, sur chaque partage: "+
                       "<strong>Ouvrir la page d'origine</strong>, "+
                       "<strong>lancer la lecture automatique</strong> (si le lien est supporté), "+
-                      "<strong>Proposer des tags</strong>, "+
+                      "<strong>l'ajouter à une de vos listes de lectures</strong>, "+
+                      "<strong>proposer des tags</strong>, "+
                       "<strong>re-partager</strong> et "+
                       "<strong>signaler le partage comme innaproprié.</strong> "+
                       "</p>"
@@ -206,6 +207,9 @@ help_tour:
       private:        |
                       "<p>Le réseau personel (Mon réseau) représente les partages effectués par les "+
                       "utilisateurs et les groupes que vous avez décidé de suivre.</p>"
+      playlist:        |
+                      "<p>Vous pouvez composer vos listes de lectures avec les partages des internautes "+
+                      "pour les écouter quand bon vous semble</p>"
                       
     addelement:
       tour:           |

@@ -34,13 +34,13 @@
   <li class="separator"></li>
   {% if app.user %}
     <li class="{% if app.request.get('topmenu') == 'playlists' and app.request.get('user_slug') == app.user.slug %}selected{% endif %}">
-      <a href="{{ path('playlists_user', {'user_slug': app.user.slug}) }}">
+      <a id="link_playlist" href="{{ path('playlists_user', {'user_slug': app.user.slug}) }}">
         {{ 'container_menu.my_playlists'|trans({}, 'navigationui') }}
       </a>
     </li>
   {% else %}
     <li>
-      <a href="#" class="mustbeconnected">
+      <a id="link_playlist" href="#" class="mustbeconnected">
         {{ 'container_menu.my_playlists'|trans({}, 'navigationui') }}
       </a>
     </li>
