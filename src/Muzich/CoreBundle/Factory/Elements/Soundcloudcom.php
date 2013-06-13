@@ -44,7 +44,7 @@ class Soundcloudcom extends ElementFactory
         $this->setTagsData($response);
       }
       
-      if ($response->get('embeddable_by') == 'all')
+      if ($response->get('embeddable_by') != 'none')
       {
         $this->setElementEmbeddableData($response);
       }
