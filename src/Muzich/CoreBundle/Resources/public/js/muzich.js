@@ -2641,6 +2641,7 @@ $(document).ready(function(){
   $('div#secondarymenu ul.submenu').each(function(){
     if ($(this).find('li').length > 7)
     {
+      // TODO:  Hardcode bouh !
       $(this).css('overflow', 'auto');
       $(this).css('height', '283px');
     }

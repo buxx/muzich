@@ -828,6 +828,12 @@ div#secondarymenu ul.secondarymenu li.top_menu_element.open ul.submenu
   display: block;
 }
 
+ul.submenu
+{
+  direction: rtl;
+  text-align: left;
+}
+
 #tabs_tag_search_buttons
 {
   margin: 0;
