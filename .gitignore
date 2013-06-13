@@ -13,3 +13,4 @@ muzich.komodoproject
 web/files/avatars/*
 web/cache/*
 vendor/
+app/bootstrap.php.cache
