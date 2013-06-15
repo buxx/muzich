@@ -1898,7 +1898,7 @@ p.group_description
 
 #login_box input[id="username"], #login_box input[id="password"]
 {
-  width: 228px;
+  width: 220px;
 }
 
 #login_box div.login
