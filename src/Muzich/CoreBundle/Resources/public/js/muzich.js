@@ -3314,14 +3314,12 @@ $(document).ready(function(){
   {
     $('#content').stickySidebar();
     window.sidebar_sticked = true;
-    console.log('window.sidebar_sticked');
   }
   else
   {
     $('#sidebar .sidebar').css('padding-bottom', '155px');
     $("#sidebar .sidebar").sticky({topSpacing:25});
     window.sidebar_topsticked = true;
-    console.log('window.sidebar_topsticked');
   }
   
 });
