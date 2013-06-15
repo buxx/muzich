@@ -89,15 +89,16 @@ class UrlMatchs
   public static $youtu = array(
     Element::TYPE_OTHER => array(
       // http://youtu.be/2-5xt9MrI9w
-      "#\/([a-zA-Z0-9_]+)#" => 1
+      "#\/([a-zA-Z0-9_-]+)#" => 1
     )
   );
   
   public static $youtube = array(
     Element::TYPE_OTHER => array(
       // https://www.youtube.com/watch?v=2-5xt9MrI9w
-      "#(v\/|watch\?v=)([\w\-]+)#" => 2,
-      "#(v=|watch\?v=)([\w\-]+)#" => 2
+      // https://www.youtube.com/watch?feature=player_detailpage&v=M9PkADawUKU#t=73s
+      "#\/(watch|)(\?|)feature\=player_detailpage\&v=([a-zA-Z0-9_-]+)([.\w\W\d]*)#" => 3,
+      "#\/(watch|)(\?|)v=([a-zA-Z0-9_-]+)#" => 3
     )
   );
 }

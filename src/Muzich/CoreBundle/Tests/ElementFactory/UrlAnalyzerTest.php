@@ -64,4 +64,30 @@ class UrlAnalyzerTest extends \PHPUnit_Framework_TestCase
     $this->assertFalse($url_analyzer->haveMatch());
   }
   
+  public function testYoutu()
+  {
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('youtu.be', 'http://youtu.be/hPglbKE-byg'), UrlMatchs::$youtu);
+    $this->assertTrue($url_analyzer->haveMatch());
+    $this->assertEquals(Element::TYPE_OTHER, $url_analyzer->getType());
+    $this->assertEquals('hPglbKE-byg', $url_analyzer->getRefId());
+    
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('youtu.be', 'http://youtu.be/M9PkADawUKU'), UrlMatchs::$youtu);
+    $this->assertTrue($url_analyzer->haveMatch());
+    $this->assertEquals(Element::TYPE_OTHER, $url_analyzer->getType());
+    $this->assertEquals('M9PkADawUKU', $url_analyzer->getRefId());
+  }
+  
+  public function testYoutube()
+  {
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('youtube.com', 'https://www.youtube.com/watch?v=M9PkADawUKU'), UrlMatchs::$youtube);
+    $this->assertTrue($url_analyzer->haveMatch());
+    $this->assertEquals(Element::TYPE_OTHER, $url_analyzer->getType());
+    $this->assertEquals('M9PkADawUKU', $url_analyzer->getRefId());
+    
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('youtube.com', 'https://www.youtube.com/watch?feature=player_detailpage&v=M9PkADawUKU#t=73s'), UrlMatchs::$youtube);
+    $this->assertTrue($url_analyzer->haveMatch());
+    $this->assertEquals(Element::TYPE_OTHER, $url_analyzer->getType());
+    $this->assertEquals('M9PkADawUKU', $url_analyzer->getRefId());
+  }
+  
 }
