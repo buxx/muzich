@@ -21,6 +21,8 @@ builders:
         show: ~
         regenerate:
           route: Muzich_AdminBundle_Admin_element_regenerate
+          params:
+            pk: "{{ Element.id }}"
         edit: ~
         delete: ~
   filters:

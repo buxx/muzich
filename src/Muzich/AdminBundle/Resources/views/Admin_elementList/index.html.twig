@@ -1,1 +1,35 @@
 {% extends_admingenerated "MuzichAdminBundle:Admin_elementList:index.html.twig" %}
+
+{% block list_object_actions %}
+                 <td class="actions">
+            <div class="btn-group">
+                            
+                                                        
+                    <button class="btn btn-mini" data-action="{{ path("Muzich_AdminBundle_Admin_element_show", { 'pk': Element.id }) }}"rel="tooltip" data-original-title="{% trans from "Admingenerator" %}action.object.show.label{% endtrans %}">
+                        <i class="icon-eye-open"></i>
+                    </button>
+                              
+                    <button class="btn btn-mini" data-action="{{ path("Muzich_AdminBundle_Admin_element_edit", { 'pk': Element.id }) }}"rel="tooltip" data-original-title="{% trans from "Admingenerator" %}action.object.edit.label{% endtrans %}">
+                        <i class="icon-edit"></i>
+                    </button>
+
+                                                
+                                                        
+                    <button class="btn btn-mini" data-action="{{ path("Muzich_AdminBundle_Admin_element_delete", { 'pk': Element.id }) }}" data-confirm="{% trans from "Admingenerator" %}action.object.delete.confirm{% endtrans %}"  data-csrf-token="{{ path("Muzich_AdminBundle_Admin_element_delete", { 'pk': Element.id })|csrf_token }}" rel="tooltip" data-original-title="{% trans from "Admingenerator" %}action.object.delete.label{% endtrans %}">
+                        <i class="icon-remove"></i>
+                    </button>
+
+                    
+                                                
+                                                        
+                    <a
+                      class="btn btn-mini icon-asterisk"
+                      title="{% trans from "Admingenerator" %}Regenerate{% endtrans %}"
+                      href="{{ path("Muzich_AdminBundle_Admin_element_regenerate", {'pk' : Element.id}) }}"
+                    >
+                        {% trans from "Admingenerator" %}Regenerate{% endtrans %}
+                    </a>
+                    
+                                            </div>
+         </td>
+        {% endblock %}
