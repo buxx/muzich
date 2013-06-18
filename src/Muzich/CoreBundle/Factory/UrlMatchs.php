@@ -95,10 +95,12 @@ class UrlMatchs
   
   public static $youtube = array(
     Element::TYPE_OTHER => array(
-      // https://www.youtube.com/watch?v=2-5xt9MrI9w
       // https://www.youtube.com/watch?feature=player_detailpage&v=M9PkADawUKU#t=73s
       "#\/(watch|)(\?|)feature\=player_detailpage\&v=([a-zA-Z0-9_-]+)([.\w\W\d]*)#" => 3,
-      "#\/(watch|)(\?|)v=([a-zA-Z0-9_-]+)#" => 3
+      // https://www.youtube.com/watch?v=2-5xt9MrI9w
+      "#\/(watch|)(\?|)v=([a-zA-Z0-9_-]+)#" => 3,
+      // http://m.youtube.com/watch?feature=youtu.be&v=QQ3L3mqP5JY&desktop_uri=%2Fwatch%3Fv%3DQQ3L3mqP5JY%26feature%3Dyoutu.be
+      "#\/(watch|)(\?|)feature\=youtu.be\&v=([a-zA-Z0-9_-]+)([.\w\W\d]*)#" => 3
     )
   );
 }

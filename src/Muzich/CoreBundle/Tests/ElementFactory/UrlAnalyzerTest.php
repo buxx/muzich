@@ -88,6 +88,16 @@ class UrlAnalyzerTest extends \PHPUnit_Framework_TestCase
     $this->assertTrue($url_analyzer->haveMatch());
     $this->assertEquals(Element::TYPE_OTHER, $url_analyzer->getType());
     $this->assertEquals('M9PkADawUKU', $url_analyzer->getRefId());
+    
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('youtube.com', 'http://m.youtube.com/watch?feature=youtu.be&v=QQ3L3mqP5JY&desktop_uri=%2Fwatch%3Fv%3DQQ3L3mqP5JY%26feature%3Dyoutu.be'), UrlMatchs::$youtube);
+    $this->assertTrue($url_analyzer->haveMatch());
+    $this->assertEquals(Element::TYPE_OTHER, $url_analyzer->getType());
+    $this->assertEquals('QQ3L3mqP5JY', $url_analyzer->getRefId());
+    
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('youtube.com', 'http://m.youtube.com/watch?feature=youtu.be&v=QQ3L3mqP5JY'), UrlMatchs::$youtube);
+    $this->assertTrue($url_analyzer->haveMatch());
+    $this->assertEquals(Element::TYPE_OTHER, $url_analyzer->getType());
+    $this->assertEquals('QQ3L3mqP5JY', $url_analyzer->getRefId());
   }
   
 }
