@@ -12,6 +12,7 @@ use Muzich\CoreBundle\Searcher\GlobalSearcher;
 use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Entity\Presubscription;
 use Muzich\CoreBundle\Entity\User;
+use Muzich\CoreBundle\Entity\Playlist;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
 use Muzich\CoreBundle\Managers\PlaylistManager;
 use Muzich\CoreBundle\Form\Playlist\PlaylistForm;
@@ -680,9 +681,12 @@ class Controller extends BaseController
       ->findOneById($element_id);
   }
   
-  protected function getPlaylistForm()
+  protected function getPlaylistForm(Playlist $playlist = null)
   {
-    return $this->createForm(new PlaylistForm(), $this->getPlaylistManager()->getNewPlaylist($this->getUserOrNullIfVisitor()));
+    if (!$playlist)
+      $playlist = $this->getPlaylistManager()->getNewPlaylist($this->getUserOrNullIfVisitor());
+    
+    return $this->createForm(new PlaylistForm(), $playlist);
   }
   
   protected function tokenIsCorrect($intention = '')

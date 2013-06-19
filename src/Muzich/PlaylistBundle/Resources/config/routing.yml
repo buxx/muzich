@@ -6,6 +6,14 @@ playlist:
   pattern: /user/{user_slug}/playlist/{playlist_id}
   defaults: { _controller: MuzichPlaylistBundle:Show:show }
 
+playlist_edit:
+  pattern: /user/{user_slug}/playlist/{playlist_id}/edit
+  defaults: { _controller: MuzichPlaylistBundle:Edit:edit }
+  
+playlist_update:
+  pattern: /user/{user_slug}/playlist/{playlist_id}/update
+  defaults: { _controller: MuzichPlaylistBundle:Edit:update }
+
 playlist_delete:
   pattern: /playlist/delete/{playlist_id}/{token}
   defaults: { _controller: MuzichPlaylistBundle:Edit:delete }

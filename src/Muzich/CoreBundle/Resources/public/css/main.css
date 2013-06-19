@@ -2402,6 +2402,18 @@ ul.playlists_for_element li.in
   list-style-image: url(/img/in.png);
 }
 
+form.playlist_edit input#playlist_name
+{
+  width: 600px;
+}
+
+form.playlist_edit input[type="submit"]
+{
+  float: right;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
 /*
 *
 *

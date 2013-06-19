@@ -461,4 +461,39 @@ class PlaylistControllerTest extends FunctionalTest
     $this->isResponseSuccess();
   }
   
+  public function testUpdate()
+  {
+     $this->init();
+    $this->initReadContextData();
+    $this->connectUser('bux', 'toor');
+    $this->goToPage($this->generateUrl('playlist', array('user_slug' => $this->users['bux']->getSlug(), 'playlist_id' => $this->playlists['bux_1_pub']->getId())));
+    $this->checkReadPlaylist($this->playlists['bux_1_pub']);
+    $new_name = $this->playlists['bux_1_pub']->getName().' dans tes oreilles ?!';
+    $this->playlists['bux_1_pub']->setName($new_name);
+    $this->updatePlaylist($this->playlists['bux_1_pub']);
+    $this->checkPlaylistName($this->playlists['bux_1_pub'], $new_name);
+    $this->goToPage($this->generateUrl('playlist', array('user_slug' => $this->users['bux']->getSlug(), 'playlist_id' => $this->playlists['bux_1_pub']->getId())));
+    $this->checkReadPlaylist($this->playlists['bux_1_pub']);
+  }
+  
+  protected function updatePlaylist($playlist)
+  {
+    $this->goToPage($this->generateUrl('playlist_edit', array(
+      'user_slug' => $playlist->getOwner()->getSlug(),
+      'playlist_id' => $playlist->getId()
+    )));
+    $this->isResponseSuccess();
+    $this->exist('form.playlist_edit');
+    
+    $form = $this->selectForm('form.playlist_edit input[type="submit"]');
+    $form['playlist[name]'] = $playlist->getName();
+    $this->submit($form);
+  }
+  
+  protected function checkPlaylistName($playlist, $name)
+  {
+    $playlist_in_database = $this->findOneBy('Playlist', $name);
+    $this->assertTrue(!is_null($playlist_in_database));
+  }
+  
 }

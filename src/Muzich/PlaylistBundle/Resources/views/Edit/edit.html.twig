@@ -1,0 +1,36 @@
+{% extends "MuzichFavoriteBundle::layout.html.twig" %}
+
+{% block title %}{{ 'playlist.edit_title'|trans({'%playlist_name%' : playlist_name}, 'elements') }}{% endblock %}
+{% block mainbox_classes %}{% endblock %}
+
+{% block content %}
+  
+  <div class="top_tools">
+    <div class="show_options">
+      
+      <a class="button darkbutton" href="{{ path('playlist', {
+        'user_slug' : playlist.owner.slug,
+        'playlist_id' : playlist.id}
+      ) }}" >
+        {{ 'playlist.goback'|trans({}, 'elements') }}
+      </a>
+      
+    </div>
+    
+    <h1>
+        {{ 'playlist.edit_title'|trans({'%playlist_name%' : playlist_name}, 'elements') }}
+    </h1>
+    
+    <form class="playlist_edit" action="{{ path('playlist_update', {
+      'user_slug' : playlist.owner.slug,
+      'playlist_id' : playlist.id
+    }) }}" method="post">
+      {% include 'MuzichPlaylistBundle:Show:form.html.twig' with {
+        'display_public_widget' : false,
+        'submit_value'          : 'playlist.update_submit'|trans({}, 'elements')
+      } %}
+    </form>
+  
+  </div>
+  
+{% endblock %}

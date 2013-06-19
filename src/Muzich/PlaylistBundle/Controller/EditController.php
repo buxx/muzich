@@ -156,4 +156,43 @@ class EditController extends Controller
     return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $this->getUser()->getSlug())));
   }
   
+  public function editAction($playlist_id)
+  {
+    if (!($playlist = $this->getPlaylistManager()->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
+      throw $this->createNotFoundException();
+    
+    return $this->render('MuzichPlaylistBundle:Edit:edit.html.twig', array(
+      'form'          => $this->getPlaylistForm($playlist)->createView(),
+      'playlist'      => $playlist,
+      'playlist_name' => $playlist->getName()
+    ));
+  }
+  
+  public function updateAction(Request $request, $playlist_id)
+  {
+    if (!($playlist = $this->getPlaylistManager()->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
+      throw $this->createNotFoundException();
+    
+    $playlist_name = $playlist->getName();
+    $form = $this->getPlaylistForm($playlist);
+    $form->bind($request);
+    if ($form->isValid())
+    {
+      $this->persist($form->getData());
+      $this->flush();
+      
+      $this->setFlash('success', 'playlist.update.success');
+      return $this->redirect($this->generateUrl('playlist', array(
+        'user_slug'   => $playlist->getOwner()->getSlug(),
+        'playlist_id' => $playlist->getId()
+      )));
+    }
+    
+    return $this->render('MuzichPlaylistBundle:Edit:edit.html.twig', array(
+      'form'          => $form->createView(),
+      'playlist'      => $playlist,
+      'playlist_name' => $playlist_name
+    ));
+  }
+  
 }

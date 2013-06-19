@@ -6,7 +6,9 @@
 <div class="create_playlist">
   <h2 class="nomargintop">{{ 'playlist.create_and_add'|trans({}, 'elements') }}</h2>
   <form action="{{ path('playlist_add_element_and_create', { 'element_id' : element_id }) }}" method="post">
-    {% include 'MuzichPlaylistBundle:Show:form.html.twig' %}
+    {% include 'MuzichPlaylistBundle:Show:form.html.twig' with {
+      'display_public_widget' : true
+    } %}
   </form>
 </div>
 

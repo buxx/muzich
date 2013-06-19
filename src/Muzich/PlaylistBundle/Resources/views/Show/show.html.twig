@@ -33,15 +33,29 @@
     </div>
     
     <h1>
+      {% if app.user %}
+        {% if playlist.owned(app.user) %}
+          <a
+             href="{{ path('playlist_edit', { 'user_slug' : playlist.owner.slug, 'playlist_id' : playlist.id }) }}"
+             title="{{ 'playlist.edit'|trans({}, 'elements') }}"
+          >
+            <img src="{{ asset('/img/icon_pen_black.png') }}" alt="edit" />
+          </a>
+        {% endif %}
+      {% endif %}
+        
       {{ playlist.name }}
       {% if playlist.public %}
         {{ 'playlist.public_word'|trans({}, 'elements') }}
       {% endif %}
     </h1>
     
-    {% if playlist.owned(app.user) %}
-      <p>{{ 'playlist.how_add_element'|trans({}, 'elements') }}</p>
+    {% if app.user %}
+      {% if playlist.owned(app.user) %}
+        <p>{{ 'playlist.how_add_element'|trans({}, 'elements') }}</p>
+      {% endif %}
     {% endif %}
+    
     
     {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
       'tags' : playlist.tags

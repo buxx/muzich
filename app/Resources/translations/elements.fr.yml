@@ -141,3 +141,7 @@ playlist:
                           Pour ajouter de la musique a vos listes de lectures vous devez utiliser
                           les boutons disponibles en haut à droite des partages. Vous pourrez ensuite
                           choisir a quelle liste ajouter la musique en question.
+  edit:                  Modifier
+  update_submit:         Mettre à jour
+  goback:                Retour
+  edit_title:            Modification de "%playlist_name%"

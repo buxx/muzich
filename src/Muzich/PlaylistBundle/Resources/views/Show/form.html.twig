@@ -1,14 +1,20 @@
+{% if submit_value is not defined %}
+  {% set submit_value = 'playlist.create_submit'|trans({}, 'elements') %}
+{% endif %}
+
 {{ form_errors(form) }}
 {{ form_errors(form.name) }}
-{{ form_errors(form.public) }}
 
-{{ form_widget(form.public) }}
-<label for="playlist_public">{{ 'playlist.public_label'|trans({}, 'elements') }}</label>
-  
+{% if display_public_widget %}
+  {{ form_errors(form.public) }}
+  {{ form_widget(form.public) }}
+  <label for="playlist_public">{{ 'playlist.public_label'|trans({}, 'elements') }}</label>
+{% endif %}
+
 <div class="field">
   {{ form_widget(form.name, {'attr':{'class':'niceinput'}}) }}
-  <input class="niceinput" type="submit" value="{{ 'playlist.create_submit'|trans({}, 'elements') }}" />
+  <input class="niceinput" type="submit"
+    value="{{ submit_value }}" />
 </div>
-
 
 {{ form_rest(form) }}
