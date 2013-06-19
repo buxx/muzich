@@ -2282,9 +2282,8 @@ ul.playlists li.playlist
 
 ul.playlists li.playlist a.title
 {
-  color: black;
   font-weight: bold;
-  font-size: 110%;
+  font-size: 127%;
 }
 
 ul.playlists li.playlist a.title:hover
