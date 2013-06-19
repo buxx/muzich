@@ -15,7 +15,10 @@
     <h2>{{ 'playlist.add_to'|trans({}, 'elements') }}</h2>
     <ul class="playlists_for_element">
       {% for playlist in playlists %}
-        <li class="playlist">
+        <li
+          class="playlist {% if playlist.haveElementId(element_id) %}in{% endif %}"
+          title="{% if playlist.haveElementId(element_id) %}{{ 'playlist.contained'|trans({}, 'elements') }}{% else %}{{ 'playlist.not_contained'|trans({}, 'elements') }}{% endif %}"
+        >
           <a class="add_element_to_playlist"
             {% if playlist.owned(app.user) %}
               href="{{ path_token('playlists_add_element', {

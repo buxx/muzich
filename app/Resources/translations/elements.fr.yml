@@ -135,3 +135,5 @@ playlist:
   create_submit:         Ajouter
   public_label:          Rendre cette liste publique
   public_word:           (publique)
+  contained:             La musique est déjà présente dans cette liste
+  not_contained:             La musique n'est pas présente dans cette liste

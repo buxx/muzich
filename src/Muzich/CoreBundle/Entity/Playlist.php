@@ -264,6 +264,12 @@ class Playlist
     return $elements_manager->have($element);
   }
   
+  public function haveElementId($element_id)
+  {
+    $elements_manager = new ElementCollectionManager(json_decode($this->elements, true));
+    return $elements_manager->haveRefId($element_id);
+  }
+  
   public function setCopied(Playlist $copied)
   {
     $this->copied = $copied;

@@ -55,6 +55,19 @@ abstract class CollectionManager
     return false;
   }
   
+  public function haveRefId($ref_id)
+  {
+    foreach ($this->content as $content_line)
+    {
+      if ($ref_id == $content_line[lcfirst($this->object_reference_attribute)])
+      {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
   public function remove($object)
   {
     $new_content = array();

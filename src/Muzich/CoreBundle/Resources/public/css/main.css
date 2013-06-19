@@ -2386,6 +2386,22 @@ a.button_arrow span
   margin-top: 2px;
 }
 
+ul.playlists_for_element
+{
+  margin-left: 28px;
+  margin-top: 8px;
+}
+
+ul.playlists_for_element li
+{
+  list-style-image: url(/img/notin.png);
+}
+
+ul.playlists_for_element li.in
+{
+  list-style-image: url(/img/in.png);
+}
+
 /*
 *
 *
