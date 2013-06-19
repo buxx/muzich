@@ -1,4 +1,10 @@
 
+site:
+  description:   |
+                  Découvrez et partagez la musique d'internet ! Muzi.ch est un
+                  réseau vous permettant de partager et d'écouter vos découvertes
+                  musicales.
+
 sites:
   subtitle:      Support des sites externes
   text:          |
