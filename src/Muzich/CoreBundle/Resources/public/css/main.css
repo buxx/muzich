@@ -2414,6 +2414,11 @@ form.playlist_edit input[type="submit"]
   margin-top: 5px;
 }
 
+div.playlists_prompt
+{
+  z-index: 99999;
+}
+
 /*
 *
 *

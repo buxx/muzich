@@ -3191,7 +3191,7 @@ $(document).ready(function(){
     $(this).parents('div.playlists_prompt').find('img.loader').show();
   });
   
-  $('ul.elements a.add_to_playlist').live('click', function(event){
+  $('a.add_to_playlist').live('click', function(event){
     
     $('div.playlists_prompt').remove();
     var prompt = $('<div class="playlists_prompt nicebox"><img class="loader" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>');
