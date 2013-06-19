@@ -147,17 +147,24 @@ class Deezercom extends ElementFactory
     if (($ref_id = $this->element->getData(Element::DATA_REF_ID)) 
       && ($type = $this->element->getData(Element::DATA_TYPE))
       && ($this->element->getData(Element::DATA_TYPE) == 'album' ||
-         $this->element->getData(Element::DATA_TYPE) == 'playlist')
+         $this->element->getData(Element::DATA_TYPE) == 'playlist'||
+         $this->element->getData(Element::DATA_TYPE) == 'track')
       )
     {
+      if ($type == 'track')
+      {
+        $type = 'tracks';
+      }
+      
       $width = $this->container->getParameter('deezer_player_width');
       $heigth = $this->container->getParameter('deezer_player_height');
       $this->element->setEmbed(
         '<iframe scrolling="no" frameborder="0" allowTransparency="true" '
         .'src="http://www.deezer.com/fr/plugins/player?autoplay=true&playlist=true'
-        .'&width='.$width.'&height='.$heigth.'&cover=true&btn_popup=true&type='.$type.'&id='.$ref_id.'&title=" '
-        .'width="'.$width.'" height="'.$heigth.'"></iframe>'
+        .'&width='.$width.'&height='.$heigth.'&cover=true&type='.$type.'&id='.$ref_id.'&title=&app_id=undefined"'
+        .' width="'.$width.'" height="'.$heigth.'"></iframe>'
       );
+      
     }
   }
   
