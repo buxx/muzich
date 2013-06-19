@@ -39,6 +39,10 @@
       {% endif %}
     </h1>
     
+    {% if playlist.owned(app.user) %}
+      <p>{{ 'playlist.how_add_element'|trans({}, 'elements') }}</p>
+    {% endif %}
+    
     {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
       'tags' : playlist.tags
     } %}

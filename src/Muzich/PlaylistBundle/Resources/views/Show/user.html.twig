@@ -16,7 +16,13 @@
     </div>
     
     <h1>{{ 'playlist.user_title'|trans({'%user_username%' : viewed_user.username }, 'elements') }}</h1>
-
+    
+    {% if app.user %}
+      {% if viewed_user.id == app.user.id %}
+        <p>{{ 'playlist.how_add_element'|trans({}, 'elements') }}</p>
+      {% endif %}
+    {% endif %}
+    
     {% if playlists|length %}
     <ul class="playlists">
       {% for playlist in playlists %}

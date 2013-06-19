@@ -136,4 +136,8 @@ playlist:
   public_label:          Rendre cette liste publique
   public_word:           (publique)
   contained:             La musique est déjà présente dans cette liste
-  not_contained:             La musique n'est pas présente dans cette liste
+  not_contained:         La musique n'est pas présente dans cette liste
+  how_add_element:       |
+                          Pour ajouter de la musique a vos listes de lectures vous devez utiliser
+                          les boutons disponibles en haut à droite des partages. Vous pourrez ensuite
+                          choisir a quelle liste ajouter la musique en question.
