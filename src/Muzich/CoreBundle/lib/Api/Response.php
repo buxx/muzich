@@ -7,7 +7,7 @@ class Response
   
   protected $content = array();
   
-  public function __construct($content)
+  public function __construct($content = array())
   {
     $this->content = $content;
   }
@@ -17,9 +17,9 @@ class Response
     return !$this->have($searched);
   }
   
-  public function have($searched, $not_empty = true, $content = null)
+  public function have($searched, $not_empty = true, $content = array())
   {
-    if (!$content)
+    if (!$content || !count($content))
       $content = $this->content;
     
     if (is_array($searched))
@@ -30,24 +30,27 @@ class Response
       }
     }
     
-    if (array_key_exists($searched, $content))
+    if ($content)
     {
-      if ($not_empty)
+      if (array_key_exists($searched, $content))
       {
-        if ((is_null($content[$searched]) || !count($content[$searched]) || !$content[$searched]) && ($content[$searched] !== 0 && $content[$searched] !== '0'))
+        if ($not_empty)
         {
-          return false;
-        }
-        if (is_string($content[$searched]))
-        {
-          if (trim($content[$searched]) == '')
+          if ((is_null($content[$searched]) || !count($content[$searched]) || !$content[$searched]) && ($content[$searched] !== 0 && $content[$searched] !== '0'))
           {
             return false;
           }
+          if (is_string($content[$searched]))
+          {
+            if (trim($content[$searched]) == '')
+            {
+              return false;
+            }
+          }
         }
+
+        return true;
       }
-      
-      return true;
     }
     
     return false;

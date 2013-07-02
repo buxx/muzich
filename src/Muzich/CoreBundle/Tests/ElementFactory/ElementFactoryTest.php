@@ -263,7 +263,7 @@ class ElementFactoryTest extends UnitTest
         .'src="http://www.deezer.com/fr/plugins/player?autoplay=true&playlist=true'
         .'&width='.$this->getParam('deezer_player_width').'&height='
         .$this->getParam('deezer_player_height')
-        .'&cover=true&btn_popup=true&type=album&id=80398&title=" '
+        .'&cover=true&type=album&id=80398&title=&app_id=undefined" '
         .'width="'.$this->getParam('deezer_player_width').'" height="'
         .$this->getParam('deezer_player_height')
         .'"></iframe>'
@@ -278,7 +278,7 @@ class ElementFactoryTest extends UnitTest
         .'src="http://www.deezer.com/fr/plugins/player?autoplay=true&playlist=true'
         .'&width='.$this->getParam('deezer_player_width').'&height='
         .$this->getParam('deezer_player_height')
-        .'&cover=true&btn_popup=true&type=playlist&id=18701350&title=" '
+        .'&cover=true&type=playlist&id=18701350&title=&app_id=undefined" '
         .'width="'.$this->getParam('deezer_player_width').'" height="'
         .$this->getParam('deezer_player_height')
         .'"></iframe>'
