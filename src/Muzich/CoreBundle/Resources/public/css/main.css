@@ -2420,7 +2420,7 @@ form.playlist_edit input[type="submit"]
 
 div.playlists_prompt
 {
-  z-index: 99999;
+  z-index: 100001;
 }
 
 /*
