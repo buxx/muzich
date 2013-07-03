@@ -62,10 +62,14 @@ class ShowController extends Controller
     if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_ADD_PROMPT)) !== false)
       return $this->jsonResponseError($uncondition);
     
+    if (!($element = $this->getElementWithId($element_id)))
+      return $this->jsonNotFoundResponse();
+    
+    
     return $this->jsonSuccessResponse(
       $this->render('MuzichPlaylistBundle:Show:prompt.html.twig', array(
         'form'       => $this->getPlaylistForm()->createView(),
-        'element_id' => $element_id,
+        'element'    => $element,
         'playlists'  => (!$this->isVisitor())?$this->getPlaylistManager()->getOwnedsOrPickedsPlaylists($this->getUser()):array()
       ))->getContent()
     );

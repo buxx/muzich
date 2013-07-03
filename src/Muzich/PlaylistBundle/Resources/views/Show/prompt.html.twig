@@ -5,7 +5,7 @@
 
 <div class="create_playlist">
   <h2 class="nomargintop">{{ 'playlist.create_and_add'|trans({}, 'elements') }}</h2>
-  <form action="{{ path('playlist_add_element_and_create', { 'element_id' : element_id }) }}" method="post">
+  <form action="{{ path('playlist_add_element_and_create', { 'element_id' : element.id }) }}" method="post">
     {% include 'MuzichPlaylistBundle:Show:form.html.twig' with {
       'display_public_widget' : true
     } %}
@@ -18,19 +18,19 @@
     <ul class="playlists_for_element">
       {% for playlist in playlists %}
         <li
-          class="playlist {% if playlist.haveElementId(element_id) %}in{% endif %}"
-          title="{% if playlist.haveElementId(element_id) %}{{ 'playlist.contained'|trans({}, 'elements') }}{% else %}{{ 'playlist.not_contained'|trans({}, 'elements') }}{% endif %}"
+          class="playlist{% if playlist.haveElementId(element.id) %} in{% endif %}{% if playlist.haveOneOfTags(element.tags) %} remarquable{% endif %}"
+          title="{% if playlist.haveElementId(element.id) %}{{ 'playlist.contained'|trans({}, 'elements') }}{% else %}{{ 'playlist.not_contained'|trans({}, 'elements') }}{% endif %}"
         >
           <a class="add_element_to_playlist"
             {% if playlist.owned(app.user) %}
               href="{{ path_token('playlists_add_element', {
                 'playlist_id' : playlist.id,
-                'element_id'  : element_id
+                'element_id'  : element.id
               }) }}"
             {% else %}
               href="{{ path_token('playlists_add_element_and_copy', {
                 'playlist_id' : playlist.id,
-                'element_id'  : element_id
+                'element_id'  : element.id
               }) }}"
             {% endif %}
           >

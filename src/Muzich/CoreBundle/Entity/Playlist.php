@@ -270,6 +270,12 @@ class Playlist
     return $elements_manager->haveRefId($element_id);
   }
   
+  public function haveTagId($tag_id)
+  {
+    $tags_manager = new TagCollectionManager(json_decode($this->tags, true));
+    return $tags_manager->haveRefId($tag_id);
+  }
+  
   public function setCopied(Playlist $copied)
   {
     $this->copied = $copied;
@@ -300,6 +306,22 @@ class Playlist
     if ($this->getOwner()->getId() == $user->getId())
     {
       return true;
+    }
+    
+    return false;
+  }
+  
+  public function haveOneOfTags($tags)
+  {
+    if (count($tags))
+    {
+      foreach ($tags as $tag)
+      {
+        if ($this->haveTagId($tag->getId()))
+        {
+          return true;
+        }
+      }
     }
     
     return false;

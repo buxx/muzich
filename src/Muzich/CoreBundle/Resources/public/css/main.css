@@ -2333,6 +2333,11 @@ div.playlists_prompt a.close_playlists_prompt
   margin-right: -5px;
 }
 
+li.playlist.remarquable
+{
+  font-weight: bold;
+}
+
 ul.form-errors
 {
   margin-left: 10px;
