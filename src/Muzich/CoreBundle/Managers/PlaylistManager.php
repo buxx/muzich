@@ -82,7 +82,7 @@ class PlaylistManager
     
     if ($offset)
     {
-      $query_builder->setFirstResult( $offset-1 )
+      $query_builder->setFirstResult( $offset )
         ->setMaxResults( count($element_ids) );
     }
     
