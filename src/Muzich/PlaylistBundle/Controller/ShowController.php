@@ -40,7 +40,7 @@ class ShowController extends Controller
     ));
   }
   
-  public function getAutoplayDataAction($playlist_id, $offset = null)
+  public function getAutoplayDataAction($playlist_id, $offset = null, $shuffle = false)
   {
     if (($uncondition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_PLAYLIST_DATA_AUTOPLAY)) !== false)
       return $this->jsonResponseError($uncondition);
@@ -50,6 +50,9 @@ class ShowController extends Controller
       return $this->jsonNotFoundResponse();
     
     $autoplaym = new AutoplayManager($playlist_manager->getPlaylistElements($playlist, $offset), $this->container);
+    
+    if ($shuffle)
+      $autoplaym->shuffle();
     
     return $this->jsonResponse(array(
       'status'    => 'success',

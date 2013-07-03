@@ -11,6 +11,10 @@
       <a class="autoplay_playlist button darkbutton" href="{{ path('playlist_datas_for_autoplay', { 'playlist_id' : playlist.id }) }}" >
         {{ 'playlist.read'|trans({}, 'elements') }}
       </a>
+      
+      <a class="autoplay_playlist button simpleimg darkbutton" href="{{ path('playlist_datas_for_autoplay_shuffle', { 'playlist_id' : playlist.id}) }}" >
+        <img src="{{ asset('/img/1372889556_random_shuffle.png') }}" alt="shuffle" />
+      </a>
 
       {% if app.user %}
         {% if not playlist.owned(app.user) and viewed_user.id != app.user.id %}

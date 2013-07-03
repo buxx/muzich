@@ -28,7 +28,13 @@ playlist_pick:
 
 playlist_datas_for_autoplay:
   pattern: /ajax/autoplay/playlist/datas/{playlist_id}/{offset}
-  defaults: { _controller: MuzichPlaylistBundle:Show:getAutoplayData, offset: null }
+  defaults: { _controller: MuzichPlaylistBundle:Show:getAutoplayData, offset: null, shuffle: false }
+  requirements:
+    offset:  \d+
+  
+playlist_datas_for_autoplay_shuffle:
+  pattern: /ajax/autoplay/playlist/datas/{playlist_id}/shuffle
+  defaults: { _controller: MuzichPlaylistBundle:Show:getAutoplayData, offset: null, shuffle: true }
 
 playlist_update_order:
   pattern: /ajax/playlist/order/update/{playlist_id}/{token}

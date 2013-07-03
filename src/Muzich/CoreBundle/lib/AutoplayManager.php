@@ -60,4 +60,9 @@ class AutoplayManager
     return $list;
   }
   
+  public function shuffle()
+  {
+    shuffle($this->elements);
+  }
+  
 }
