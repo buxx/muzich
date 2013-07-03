@@ -160,7 +160,7 @@ filter:
   new_comments:     Nvx commentaires
   new_favoriteds:   Nvx favoris
   new_tags:         Propositions de tags
-  tag_strict:       Chaques tag doit être trouvé
+  tag_strict:       Chaque tag doit être trouvé
   
 element_add:
   prop_tags:
