@@ -247,38 +247,38 @@ class ElementSearcherQueryBuilder
             $tag_ids .= ','.(int)$tag_id;
           }
         }
-      }
       
-      $sql = "SELECT et.element_id FROM elements_tag et "
-      ."WHERE et.tag_id IN ($tag_ids) group by et.element_id "
-      ."having count(distinct et.tag_id) = ".count($tags);
-      $rsm = new \Doctrine\ORM\Query\ResultSetMapping;
-      $rsm->addScalarResult('element_id', 'element_id');
-   
-      $strict_element_ids_result = $this->em
-        ->createNativeQuery($sql, $rsm)
-        //->setParameter('ids', $tag_ids)
-        ->getScalarResult()
-      ;
-      
-      $strict_element_ids = array();
-      if (count($strict_element_ids_result))
-      {
-        foreach ($strict_element_ids_result as $strict_id)
+        $sql = "SELECT et.element_id FROM elements_tag et "
+        ."WHERE et.tag_id IN ($tag_ids) group by et.element_id "
+        ."having count(distinct et.tag_id) = ".count($tags);
+        $rsm = new \Doctrine\ORM\Query\ResultSetMapping;
+        $rsm->addScalarResult('element_id', 'element_id');
+
+        $strict_element_ids_result = $this->em
+          ->createNativeQuery($sql, $rsm)
+          //->setParameter('ids', $tag_ids)
+          ->getScalarResult()
+        ;
+
+        $strict_element_ids = array();
+        if (count($strict_element_ids_result))
         {
-          $strict_element_ids[] = $strict_id['element_id'];
+          foreach ($strict_element_ids_result as $strict_id)
+          {
+            $strict_element_ids[] = $strict_id['element_id'];
+          }
         }
-      }
-      
-      if (count($strict_element_ids))
-      {
-        $this->query_ids->andWhere('e.id IN (:tag_strict_ids)');
-        $this->parameters_ids['tag_strict_ids'] = $strict_element_ids;
-      }
-      // Ce else palie au bug du au cas ou $strict_element_ids est egal a array();
-      else
-      {
-        return false;
+
+        if (count($strict_element_ids))
+        {
+          $this->query_ids->andWhere('e.id IN (:tag_strict_ids)');
+          $this->parameters_ids['tag_strict_ids'] = $strict_element_ids;
+        }
+        // Ce else palie au bug du au cas ou $strict_element_ids est egal a array();
+        else
+        {
+          return false;
+        }
       }
     }
   }
