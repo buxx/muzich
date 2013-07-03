@@ -413,7 +413,7 @@ $(document).ready(function(){
       
       var form = $('form[name="search"]');
       id = str_replace('element_tag_', '', $(this).attr('id'));
-      var tag = new Tag(id, $(this).text());
+      var tag = new Tag(id, $.trim($(this).text()));
       
       window.search_tag_prompt_connector.initializeTags([tag]);
       
