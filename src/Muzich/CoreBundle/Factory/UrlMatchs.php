@@ -34,7 +34,9 @@ class UrlMatchs
       "#^\/[a-zA-Z0-9_-]+\/sets\/[a-zA-Z0-9_-]+#" => null,
       // http://soundcloud.com/noisia/black-sun-empire-noisia-feed
       // http://soundcloud.com/user4818423/mechanika-crew-andrew-dj-set
-      "#^\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+#" => null
+      "#^\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+#" => null,
+      // http://snd.sc/11CyOpN
+      "#\/[a-zA-Z0-9_-]#" => null
     )
   );
   

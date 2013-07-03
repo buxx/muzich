@@ -497,6 +497,28 @@ class ElementFactoryTest extends UnitTest
       $bux, 
       'http://soundcloud.com/groups/search?q%5Bfulltext%5D=EEK+A+MOUSSE&q%5Btype%5D=&q%5Bduration%5D='
     ));
+    
+    $datas = $this->proceed_element_datas_api(
+      $bux, 
+      'http://snd.sc/11CyOpN'
+    );
+    $this->assertTrue(array_key_exists('data_thumb_url', $datas));
+    if (array_key_exists('data_thumb_url', $datas))
+      unset($datas['data_thumb_url']);
+    
+    $this->assertEquals(array(
+      'data_ref_id' => 90126814,
+      'data_title' => 'The Test - WAKANTANKA #01 (Back to the originz)',
+      'data_type' => 'track',
+      'data_artist' => 'mgl32',
+      'data_tags' => array(
+        0 => 'Tribe',
+        1 => 'Acid Tekno'
+      ),
+      'data_normalized_url' => 'http://api.soundcloud.com/tracks/90126814',
+      'data_download' => true,
+      'data_download_url' => 'http://api.soundcloud.com/tracks/90126814/download'
+    ),$datas);
      
     /*
      *   - jamendo.com

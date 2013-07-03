@@ -62,6 +62,11 @@ class UrlAnalyzerTest extends \PHPUnit_Framework_TestCase
     
     $url_analyzer = new UrlAnalyzer($this->getNewElement('soundcloud.com', 'https://soundcloud.com/search?q=toto'), UrlMatchs::$soundcloud);
     $this->assertFalse($url_analyzer->haveMatch());
+    
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('snd.sc', 'http://snd.sc/11CyOpN'), UrlMatchs::$soundcloud);
+    $this->assertTrue($url_analyzer->haveMatch());
+    $this->assertEquals(Element::TYPE_OTHER, $url_analyzer->getType());
+    $this->assertEquals(null, $url_analyzer->getRefId());
   }
   
   public function testYoutu()

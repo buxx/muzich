@@ -12,6 +12,7 @@ use Muzich\CoreBundle\Factory\Elements\Youtube;
 use Muzich\CoreBundle\Factory\Elements\Dailymotioncom;
 use Muzich\CoreBundle\Factory\Elements\Jamendocom;
 use Muzich\CoreBundle\Factory\Elements\Soundcloudcom;
+use Muzich\CoreBundle\Factory\Elements\Sndsc;
 use Muzich\CoreBundle\Factory\Elements\Deezercom;
 use Muzich\CoreBundle\Factory\Elements\Vimeocom;
 use Muzich\CoreBundle\Factory\Elements\Spotifycom;
@@ -161,6 +162,9 @@ class ElementManager
       break;
       case 'soundcloud.com':
         return new Soundcloudcom($this->element, $this->container, $this->em);
+      break;
+      case 'snd.sc':
+        return new Sndsc($this->element, $this->container, $this->em);
       break;
       case 'jamendo.com':
         return new Jamendocom($this->element, $this->container, $this->em);
