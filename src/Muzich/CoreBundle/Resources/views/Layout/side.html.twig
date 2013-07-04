@@ -8,8 +8,8 @@
 {% if app.user %}
   
   <div id="user_statusbox" class="nicebox">
-    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-      {% render "MuzichUserBundle:Event:infoBar" %}
+    {% if app.user %}
+      {% render(controller("MuzichUserBundle:Event:infoBar")) %}
     {% endif %}
   </div>
 
@@ -40,12 +40,11 @@
 {% endif %}
 
   <div id="searchbox" class="nicebox">
-    {% render "MuzichCoreBundle:Search:renderGlobalSearchForm" %}
+    {% render(controller("MuzichCoreBundle:Search:renderGlobalSearchForm")) %}
   </div>
-  
   
   {% include 'MuzichCoreBundle:Layout:social.html.twig' %}
 
 {% if app.user %}
-  {% render 'MuzichCoreBundle:Core:renderSideMenu' %}
+  {% render(controller('MuzichCoreBundle:Core:renderSideMenu')) %}
 {% endif %}

@@ -335,10 +335,10 @@ $(document).ready(function(){
       $(this).parent('li').addClass('selected');
     }
     
-    if ($('div.top_tools:visible').length)
-    {
-      $('div.top_tools').slideUp();
-    }
+//    if ($('div.top_tools:visible').length)
+//    {
+//      $('div.top_tools').slideUp();
+//    }
     
     // On initialise la liste de tags déjà ajouté
     window.search_tag_prompt_connector.initializeTags([]);
@@ -357,10 +357,10 @@ $(document).ready(function(){
     $(this).parents('ul#tabs_tag_search_buttons').find('li').removeClass('selected');
     $(this).parent('li').addClass('selected');
     
-    if ($('div.top_tools:visible').length == 0)
-    {
-      $('div.top_tools').slideDown();
-    }
+//    if ($('div.top_tools:visible').length == 0)
+//    {
+//      $('div.top_tools').slideDown();
+//    }
     
     var form = $('form[name="search"]');
     
@@ -401,19 +401,20 @@ $(document).ready(function(){
       {
         $('ul#tabs_tag_search_buttons').find('li').removeClass('selected');
         $('li#tab_li_tag_search_with_tags').addClass('selected');
+        
+        // Ne devrais plus servir puisque on l'affiche toujours maintenant
         if (!$('div.top_tools:visible').length)
         {
           $('div.top_tools').slideDown();
         }
       }
       
-      
       $('img.elements_more_loader').show();
       $('ul.elements').html('');
       
       var form = $('form[name="search"]');
       id = str_replace('element_tag_', '', $(this).attr('id'));
-      var tag = new Tag(id, $(this).text());
+      var tag = new Tag(id, $.trim($(this).text()));
       
       window.search_tag_prompt_connector.initializeTags([tag]);
       
@@ -436,12 +437,12 @@ $(document).ready(function(){
   // 1328283201_emblem-symbolic-link.png
   $('a.element_embed_open_link, a.element_name_embed_open_link').live("click", function(){
     
-     var li = $(this).parents('li.element');
+    var li = $(this).parents('li.element');
      
-     element_last_opened(li);
-     li.find('a.element_embed_close_link').show();
-     li.find('a.element_embed_open_link_text').hide();
-     li.find('div.element_embed').show();
+    element_last_opened(li);
+    li.find('a.element_embed_close_link').show();
+    li.find('a.element_embed_open_link_text').hide();
+    li.find('div.element_embed').show();
      
     if ((player = window.dynamic_player.play(
       li.find('div.element_embed'),
@@ -588,6 +589,7 @@ $(document).ready(function(){
    var last_id = null;
    $('a.elements_more').click(function(){
     
+    sidebar_fix_to_bottom_prepare();
     $('img.elements_more_loader').show();
     // On fait un cas isolé (pour l'instant!!)
     if (!$(this).hasClass('event_view'))
@@ -616,6 +618,8 @@ $(document).ready(function(){
       var data = {};
       var type = 'GET';
     }
+    
+    $('.sidebar').css('bottom', $('#footer').outerHeight());
          
      $.ajax({
        type: type,
@@ -638,6 +642,9 @@ $(document).ready(function(){
             {
               link.attr('href', response.data.more_link_href);
             }
+            
+            sidebar_fix_to_bottom_finish();
+          
           }
           
           if (response.end || response.count < 1)
@@ -672,7 +679,9 @@ $(document).ready(function(){
     window.ResponseController.execute(
         response,
         function(){},
-        function(){}
+        function(){
+          $('img.elements_more_loader').hide();
+        }
       );
     
     $('ul.elements').html(response.html);
@@ -1277,10 +1286,7 @@ $(document).ready(function(){
       
       if ($('form[name="search"]').length)
       {
-        if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
-        {
-          $('div.top_tools').slideDown();
-        }
+        $('div.top_tools').slideDown();
       }
       remove_tags('add');
       recolorize_element_list();
@@ -2589,17 +2595,44 @@ $(document).ready(function(){
   /* Ouverture des menus deroulants */
   $('ul.secondarymenu a.top_menu_link').click(function(){
     
+    //sidebar_fix_to_bottom_prepare();
+    var sidebar_height = $('.sidebar').height();
+    
     if ($(this).parents('li.top_menu_element').hasClass('close'))
     {
       $(this).parents('li.top_menu_element').find('ul.submenu').hide();
       $(this).parents('li.top_menu_element').removeClass('close');
       $(this).parents('li.top_menu_element').addClass('open');
-      $(this).parents('li.top_menu_element').find('ul.submenu').slideDown();
+      $(this).parents('li.top_menu_element').find('ul.submenu').show();
+        
+        var top = parseInt($('.sidebar').css('top'), 10);
+        var diff = $('.sidebar').height() - sidebar_height;
+        var top_recalculated =  top - diff;
+      //sidebar_fix_to_bottom_finish();
+      if ($('.sidebar').css('position') == 'absolute' || parseInt($('.sidebar').css('top'), 10) < (25+diff))
+      {
+        $(".sidebar").animate({
+          top: top_recalculated
+        }, 500);
+        
+      }
     }
     else
     {
       $(this).parents('li.top_menu_element').removeClass('open');
       $(this).parents('li.top_menu_element').addClass('close');
+      
+        var top = parseInt($('.sidebar').css('top'), 10);
+        var diff = $('.sidebar').height() - sidebar_height;
+      //sidebar_fix_to_bottom_finish();
+      if ($('.sidebar').css('position') == 'absolute' || parseInt($('.sidebar').css('top'), 10) < (25-diff))
+      {
+        var top_recalculated =  top - diff;
+        $(".sidebar").animate({
+          top: top_recalculated
+        }, 500);
+        
+      }
     }
     
     return false;
@@ -2608,6 +2641,7 @@ $(document).ready(function(){
   $('div#secondarymenu ul.submenu').each(function(){
     if ($(this).find('li').length > 7)
     {
+      // TODO:  Hardcode bouh !
       $(this).css('overflow', 'auto');
       $(this).css('height', '283px');
     }
@@ -2719,10 +2753,8 @@ $(document).ready(function(){
      $('#element_add_box').slideDown("slow");
      $('#element_add_link').hide();
      $('#element_add_close_link').show();
-     if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
-     {
-       $('div.top_tools').slideUp();
-     }
+     $('div.top_tools').slideUp();
+     
      // Au cas ou firefox garde la valeur step 2:
         $('input#form_add_step').val('1');
     $('form[name="add"]').attr('action', url_datas_api);
@@ -2734,11 +2766,7 @@ $(document).ready(function(){
      $('#element_add_box').slideUp("slow");
      $('#element_add_link').show();
      $('#element_add_close_link').hide();
-     
-     if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
-     {
-       $('div.top_tools').slideDown();
-     }
+     $('div.top_tools').slideDown();
      
      //form_add_reinit();
      // copie du contenu de la fonction ci dessus, arrive pas a l'appeler ... huh
@@ -3018,6 +3046,7 @@ $(document).ready(function(){
    
    $('a.tags_prompt_remove_all').click(function(){
      window.search_tag_prompt_connector.initializeTags([]);
+     $('form[name="search"] input[type="submit"]').trigger('click');
    });
    
    $('a.tags_prompt_favorites').click(function(){
@@ -3073,6 +3102,7 @@ $(document).ready(function(){
         });
       }
       
+      $('form[name="search"] input[type="submit"]').trigger('click');
     });
     
     return false;
@@ -3091,32 +3121,44 @@ $(document).ready(function(){
     *PLAYLISTS
     */
    
+  var playlist_line_height = 0;
   $('ul.playlist_elements li a.open_element').live('click', function(){
-    
-    // Pour le moment
-    return false;
     
     var line = $(this).parents('li.playlist_element');
     
-    $.getJSON($(this).attr('href'), function(response) {
+    if (!line.hasClass('open'))
+    {
+      playlist_line_height = line.height();
+      line.css('height', 'auto');
+      line.find('div.content_opened').html('<img class="loader" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." />');
+      line.addClass('open');
+
+      $.getJSON($(this).attr('href'), function(response) {
+
+        window.ResponseController.execute(
+          response,
+          function(){},
+          function(){}
+        );
+
+        if (response.status === 'success')
+        {
+          line.find('div.content_opened').html('<ul class="elements">' + response.data + '</ul>');
+        }
+      });
+    }
+    else
+    {
+      line.find('div.content_opened').html('');
+      line.removeClass('open');
+      line.css('height', playlist_line_height);
+    }
       
-      window.ResponseController.execute(
-        response,
-        function(){},
-        function(){}
-      );
-      
-      if (response.status == 'success')
-      {
-        line.append('<ul class="elements"><li class="element">' + response.data + '</li></ul>');
-      }
-      
-    });
     
     return false;
   });
   
-  $('ul.playlist_elements').sortable({
+  $('ul.playlist_elements.owned').sortable({
     update: function( event, ui ) {
       
       var form = ui.item.parents('form')
@@ -3141,14 +3183,18 @@ $(document).ready(function(){
     }
   });
   
-  $('ul.elements a.add_to_playlist').live('click', function(event){
+  $('div.playlists_prompt form').live('submit', function(){
+    $(this).parents('div.playlists_prompt').find('img.loader').show();
+  });
+  
+  $('a.add_to_playlist').live('click', function(event){
     
     $('div.playlists_prompt').remove();
-    var prompt = $('<div class="playlists_prompt"><img class="loader" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>');
+    var prompt = $('<div class="playlists_prompt nicebox"><img class="loader" src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>');
     $('body').append(prompt);
     
     prompt.position({
-      my: "left+3 bottom+0",
+      my: "left+15 bottom+0",
       of: event,
       collision: "fit"
     });
@@ -3165,6 +3211,8 @@ $(document).ready(function(){
       {
         prompt.append(response.data);
         prompt.find('div.create_playlist form').ajaxForm(function(response){
+          
+          $('div.playlists_prompt').find('img.loader').hide();
           window.ResponseController.execute(
             response,
             function(){},
@@ -3214,24 +3262,65 @@ $(document).ready(function(){
     return false;
   });
   
-  
-  $('ul.playlist_elements a.remove_element').live('click', function () {
-    
-    $.getJSON($(this).attr('href'), function(response) {
-      window.ResponseController.execute(
-        response,
-        function(){},
-        function(){}
-      );
-    });
-    
-    $(this).parents('li.playlist_element').remove();
-    return false;
+  $('ul.playlist_elements a.remove_element').jConfirmAction({
+    question : string_element_removefromplaylist_confirm_sentence, 
+    yesAnswer : string_element_delete_confirm_yes, 
+    cancelAnswer : string_element_delete_confirm_no,
+    onYes: function(link){
+      
+      $.getJSON(link.attr('href'), function(response) {
+        window.ResponseController.execute(
+          response,
+          function(){},
+          function(){}
+        );
+      });
+
+      link.parents('li.playlist_element').remove();
+      return false;
+    },
+    onOpen: function(link){},
+    onClose: function(link){}
   });
-   
+  
+  $('ul.playlists a.playlist_delete').jConfirmAction({
+    question : string_element_deleteplaylist_confirm_sentence, 
+    yesAnswer : string_element_delete_confirm_yes, 
+    cancelAnswer : string_element_delete_confirm_no,
+    onYes: function(link){
+      $(location).attr('href', link.attr('href'));
+    },
+    onOpen: function(link){},
+    onClose: function(link){}
+  });
+  
+  $('div.playlists_prompt a.close_playlists_prompt').live('click', function(){
+     $('div.playlists_prompt').remove();
+     return false;
+  });
+  
+  /*
+   * STICK SIDEBAR
+   */
+  
+  window.sidebar_topsticked = false;
+  window.sidebar_sticked = false;
+  if ($('#sidebar .sidebar').height() < $('#content .content').height() &&
+    $('#sidebar .sidebar').height() > $(window).height())
+  {
+    $('#content').stickySidebar();
+    window.sidebar_sticked = true;
+  }
+  else
+  {
+    $('#sidebar .sidebar').css('padding-bottom', '155px');
+    $("#sidebar .sidebar").sticky({topSpacing:25});
+    window.sidebar_topsticked = true;
+  }
+  
 });
 
-function open_ajax_popin(url, callback)
+function open_ajax_popin(url, callback, data)
 {
   if (!popin_opened)
   {
@@ -3240,7 +3329,7 @@ function open_ajax_popin(url, callback)
       '<div id="helpbox" class="popin_block"><img src="/bundles/muzichcore/img/ajax-loader.gif" alt="loading..." /></div>'
     );
     open_popin_dialog('helpbox');
-    JQueryJson(url, {}, function(response){
+    JQueryJson(url, data, function(response){
       if (response.status == 'success')
       {
         $('div#helpbox').html(
@@ -3260,7 +3349,7 @@ function open_ajax_popin(url, callback)
   }
 }
 
-function open_connection_or_subscription_window(open_login_part)
+function open_connection_or_subscription_window(open_login_part, data)
 {
   if (window_login_or_subscription_opened == false)
   {
@@ -3270,6 +3359,7 @@ function open_connection_or_subscription_window(open_login_part)
       {
         $('div#helpbox div#login_box').show();
         $('a#registration_link').show();
+        $('input#username').focus();
       }
       else
       {
@@ -3288,7 +3378,7 @@ function open_connection_or_subscription_window(open_login_part)
         $('div.login form').find('img.loader').hide();
         if (response.status == 'success')
         {
-          $(location).attr('href', url_home);
+          $(location).attr('href', response.data.redirect_url);
         }
         else if (response.status == 'error')
         {
@@ -3316,7 +3406,7 @@ function open_connection_or_subscription_window(open_login_part)
       $('div#facebook_login').prependTo('div#helpbox');
       $('div#facebook_login').show();
       
-    });
+    }, data);
   }
 }
 
@@ -3329,4 +3419,26 @@ function close_popin()
   // On cache le lecteur
   $('#helpbox').remove();
   popin_opened = false;
+}
+
+function sidebar_fix_to_bottom_prepare()
+{
+  if (window.sidebar_sticked)
+  {
+    $('.sidebar').css('top', '');
+    $('.sidebar').css('position', '');
+    $('.sidebar').addClass('bottom-fixed');
+  }
+}
+
+function sidebar_fix_to_bottom_finish()
+{
+  if (window.sidebar_sticked)
+  {
+    $(".sidebar").animate({
+      bottom: '0'
+    }, 500 , "swing", function(){
+      $('.sidebar').css('bottom', '')
+    });
+  }
 }

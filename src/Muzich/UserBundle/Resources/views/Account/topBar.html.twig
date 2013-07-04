@@ -2,7 +2,7 @@
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 
   <div id="top_search">
-    {% render "MuzichCoreBundle:Search:renderGlobalSearchForm" %}
+    {% render(controller("MuzichCoreBundle:Search:renderGlobalSearchForm")) %}
   </div>
 
   <div id="top_bar">

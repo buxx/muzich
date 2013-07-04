@@ -2,9 +2,8 @@
 
 namespace Muzich\CoreBundle\Form\User;
 
-use Symfony\Component\Security\Core\Validator\Constraint\UserPassword;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\AbstractType;
 
 class DeleteForm extends AbstractType

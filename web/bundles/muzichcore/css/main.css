@@ -37,6 +37,7 @@ div#header
   background-image: url("/img/header_background.png");
   background-repeat: repeat-x;
   border-bottom: 3px solid #e51936;
+  
 }
 
 div#header div#hgroup
@@ -237,18 +238,48 @@ div#languages:hover
   display: table-cell;
   width: 650px;
   padding-right: 30px;
+  float: left;
+  position: relative;
+  margin-top: 25px;
+}
+
+aside#sidebar
+{
+  display: table-cell;
+/*  vertical-align: top;*/
+  float: left;
+  position: relative;
+}
+
+aside#sidebar .sidebar
+{
+  width: 300px;
+  padding-bottom: 25px;
+  padding-top: 25px;
+/* height: 800px;
+ background-color: blue;*/
+}
+
+.top-fixed {
+    position: fixed;
+    top: 0;
+}
+
+.bottom-fixed {
+    position:fixed;
+    bottom: 0;
 }
 
 #mainbox
 {
-  margin-top: 25px;
+  margin-top: 0px;
   /*padding: 10px;*/
   padding-bottom: 23px;
 }
 
 #mainbox.mainbox_margintop
 {
-  margin-top: 80px;
+  margin-top: 60px;
 }
 
 #mainbox.mainbox_nopadding
@@ -272,13 +303,6 @@ div#languages:hover
   -moz-box-shadow:    0px 0px 2px rgba(0, 0, 0, 0.3);
   box-shadow:         0px 0px 2px rgba(0, 0, 0, 0.3);
   border: 1px solid #d3d3d3;
-}
-
-aside#sidebar
-{
-  display: table-cell;
-  width: 300px;
-  vertical-align: top;
 }
 
 ul.elements
@@ -570,7 +594,7 @@ aside#sidebar div.nicebox
 
 div#user_statusbox
 {
-  margin-top: 25px;
+  margin-top: 0px;
 }
 
 div.user_score
@@ -688,7 +712,7 @@ div.seachboxcontainer input
   margin: 0;
   padding: 0;
   padding-left: 6px;
-  width: 222px;
+  width: 220px;
 }
 div.seachboxcontainer img
 {
@@ -804,6 +828,12 @@ div#secondarymenu ul.secondarymenu li.top_menu_element.open ul.submenu
   display: block;
 }
 
+ul.submenu
+{
+  direction: rtl;
+  text-align: left;
+}
+
 #tabs_tag_search_buttons
 {
   margin: 0;
@@ -840,7 +870,10 @@ div#secondarymenu ul.secondarymenu li.top_menu_element.open ul.submenu
   list-style-type: none;
   display: inline;
   float: left;
-  padding: 20px;
+  padding-left: 15px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
   
   background: #dddddd; /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -977,8 +1010,9 @@ ul#favorite_tags li
 
 #element_add_link img, #element_add_close_link img, #group_add_link img, #group_add_link_disabled img, #group_add_close_link img, #registration_link img, #login_link img
 {
-  margin-bottom: -5px;
-    margin-right: -5px;
+  margin-left: -5px;
+  margin-right: 5px;
+  margin-top: -1px;
 }
 
 #element_add_link.justtopright, #element_add_close_link.justtopright, #group_add_link.justtopright, #group_add_link_disabled.justtopright, #group_add_close_link.justtopright
@@ -1088,7 +1122,7 @@ div#form_add_first_part #element_add_url
 
 #tabs_tag_search_buttons a
 {
-  padding-left: 5px;
+  padding-left: 10px;
 }
 
 #tabs_tag_search_buttons img
@@ -1180,13 +1214,8 @@ div#footer_logo img
 
 div#footer_logo_2
 {
-  line-height: 18px;
   margin-top: 25px;
-  padding-left: 0;
-  padding-right: 40px;
-  text-align: left;
-  width: 135px;
-  float: left;
+  float: right;
 }
 
 div#footer_logo_2 img
@@ -1619,7 +1648,7 @@ form.changeemail input[type="text"]
   width: 388px;
 }
 
-form.changeemail input[type="submit"]
+form.changeemail input[type="submit"], form.privacy input[type="submit"], form.delete input[type="submit"]
 {
   float: right;
   margin-top: 5px;
@@ -1867,7 +1896,7 @@ p.group_description
 
 #login_box input[id="username"], #login_box input[id="password"]
 {
-  width: 228px;
+  width: 220px;
 }
 
 #login_box div.login
@@ -2089,71 +2118,6 @@ li.user_name a:hover
   text-decoration: underline;
 }
 
-@-webkit-keyframes clignote
-{
-  0%{box-shadow:0px 0px 10px #909090;}
-  50%{box-shadow:0px 0px 2px #909090;}
-  100%{box-shadow:0px 0px 10px #909090;}
-}
-
-@-moz-keyframes clignote
-{
-  0%{box-shadow:0px 0px 10px #909090;}
-  50%{box-shadow:0px 0px 2px #909090;}
-  100%{box-shadow:0px 0px 10px #909090;}
-}
-
-@-ms-keyframes clignote
-{
-  0%{box-shadow:0px 0px 10px #909090;}
-  50%{box-shadow:0px 0px 2px #909090;}
-  100%{box-shadow:0px 0px 10px #909090;}
-}
-
-@-o-keyframes clignote
-{
-  0%{box-shadow:0px 0px 10px #909090;}
-  50%{box-shadow:0px 0px 2px #909090;}
-  100%{box-shadow:0px 0px 10px #909090;}
-}
-
-@keyframes clignote
-{
-  0%{box-shadow:0px 0px 10px #909090;}
-  50%{box-shadow:0px 0px 2px #909090;}
-  100%{box-shadow:0px 0px 10px #909090;}
-}
-
-
-.flashing
-{
-  font-weight: bold;
-  text-shadow: 0 1px 0 white;
-  border-radius: 3px;
-  padding: 5px 10px;
-  box-shadow:0px 0px 10px #909090;
-  
-  -webkit-animation-name: clignote;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-iteration-count:infinite;
-  
-  -moz-animation-name: clignote;
-  -moz-animation-duration: 1s;
-  -moz-animation-iteration-count:infinite;
-  
-  -ms-animation-name: clignote;
-  -ms-animation-duration: 1s;
-  -ms-animation-iteration-count:infinite;
-  
-  -o-animation-name: clignote;
-  -o-animation-duration: 1s;
-  -o-animation-iteration-count:infinite;
-  
-  animation-name: clignote;
-  animation-duration: 1s;
-  animation-iteration-count:infinite;
-}
-
 div.myaccount_part.flashing
 {
   padding: 2px;
@@ -2234,10 +2198,406 @@ ul.playlists ul.tags_cloud li
   padding: 4px;
 }
 
+ul.playlist_elements
+{
+  margin-left: 0px;
+}
+
+li.playlist_element div.actions, li.playlist div.actions
+{
+  float: left;
+  margin-top: 4px;
+}
+
+li.playlist_element div.actions img.autoplay_off
+{
+  margin-left: -5px;
+}
+
+li.playlist_element div.actions_right
+{
+  float: right;
+  margin-top: 4px;
+}
+
+li.playlist_element div.actions a, li.playlist div.actions a
+{
+  margin-left: -5px;
+}
+
+li.playlist_element div.actions a.drag
+{
+  cursor: move;
+}
+
+li.playlist_element div.title
+{
+  margin-left: 53px;
+  margin-top: 4px;
+}
+
+ul.playlist_elements li.playlist_element a
+{
+  color: black;
+}
+
+ul.playlist_elements li.playlist_element
+{
+  border-top: 1px solid #C8C8C8;
+  height: 27px;
+  list-style: none outside none;
+  background-color: #F8F8F8;
+}
+
+ul.playlist_elements li.playlist_element ul.elements li.element
+{
+  border-top: none;
+}
+
+a.button img
+{
+  float: left;
+}
+
+a.button.simpleimg
+{
+  padding: 6px;
+  
+}
+
+a.button.simpleimg img
+{
+  float: none;
+}
+
+
+
+a.button span
+{
+  float: left;
+  margin-top: 4px;
+}
+
+ul.playlists
+{
+  margin-left: 0px;
+  margin-bottom: 10px;
+}
+
+ul.playlists li.playlist
+{
+  border-top: 1px solid #C8C8C8;
+  list-style: none outside none;
+  background-color: #F8F8F8;
+}
+
+ul.playlists li.playlist a.title
+{
+  font-weight: bold;
+  font-size: 127%;
+}
+
+ul.playlists li.playlist a.title:hover
+{
+  text-decoration: underline;
+}
+
+ul.playlists li.playlist ul.tags_cloud
+{
+  margin-left: 25px;
+}
+
+li.playlist div.title
+{
+  margin-left: 42px;
+  margin-top: 3px;
+}
+
 div.playlists_prompt
 {
   padding: 10px;
-  border: 1px solid red;
-  width: 320px;
-  background-color: white;
+  width: 375px;
+  background-color: #F8F8F8;
+}
+
+div.playlists_prompt h2
+{
+  font-size: 1em;
+  margin-top: 7px;
+}
+
+div.playlists_prompt h2.nomargintop
+{
+  margin-top: 0px;
+}
+
+div.playlists_prompt input.niceinput
+{
+  font-size: 13px;
+  height: 23px;
+}
+
+div.playlists_prompt a.close_playlists_prompt
+{
+  float: right;
+  margin-top: -5px;
+  margin-right: -5px;
+}
+
+li.playlist.remarquable
+{
+  font-weight: bold;
+}
+
+ul.form-errors
+{
+  margin-left: 10px;
+}
+
+ul.form-errors li
+{
+  color: red;
+  list-style-type: none;
+}
+
+div.playlists_prompt ul.form-errors li
+{
+  font-size: 85%;
+}
+
+p.solop
+{
+  margin: 15px;
+}
+
+div.tags_proposition_view
+{
+  padding: 10px;
+  margin: 5px;
+  margin-top: 10px;
+  /*--Les différentes définitions de Box Shadow en CSS3--*/
+  -webkit-box-shadow: 0px 0px 6px #999999;
+  -moz-box-shadow: 0px 0px 6px #999999;
+  box-shadow: 0px 0px 6px #999999;
+  /*--Coins arrondis en CSS3--*/
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+div.tags_proposition_view a.darkbutton
+{
+  margin: 2px;
+  padding: 6px 6px 4px 4px;
+}
+
+a.button_arrow span
+{
+  
+}
+
+a.button_arrow span
+{
+  margin-top: 2px;
+}
+
+ul.playlists_for_element
+{
+  margin-left: 28px;
+  margin-top: 8px;
+}
+
+ul.playlists_for_element li
+{
+  list-style-image: url(/img/notin.png);
+}
+
+ul.playlists_for_element li.in
+{
+  list-style-image: url(/img/in.png);
+}
+
+form.playlist_edit input#playlist_name
+{
+  width: 600px;
+}
+
+form.playlist_edit input[type="submit"]
+{
+  float: right;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+div.playlists_prompt
+{
+  z-index: 100001;
+}
+
+a.all_network
+{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+div#tags_prompt_search p.help_notags
+{
+  font-weight: bold;
+  margin-top: -10px;
+}
+
+div#tags_prompt_search p.help_notags img
+{
+  float: right;
+  margin: -16px 15px -10px 0;
+}
+
+div#tags_prompt_search p.help_notags span
+{
+  float: left;
+  margin-bottom: 10px;
+  width: 480px;
+}
+
+/*
+*
+*
+*
+*/
+
+@-webkit-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@-moz-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@-ms-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@-o-keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+@keyframes clignote
+{
+  0%{box-shadow:0px 0px 10px #909090;}
+  50%{box-shadow:0px 0px 2px #909090;}
+  100%{box-shadow:0px 0px 10px #909090;}
+}
+
+
+
+@-webkit-keyframes sidesticktop
+{
+  0%{top: auto;}
+  50%{top: 0px;}
+  100%{top: 25px}
+}
+
+@-moz-keyframes sidesticktop
+{
+  0%{top: auto;}
+  50%{top: 0px;}
+  100%{top: 25px}
+}
+
+@-ms-keyframes sidesticktop
+{
+  0%{top: auto;}
+  50%{top: 0px;}
+  100%{top: 25px}
+}
+
+@-o-keyframes sidesticktop
+{
+  0%{top: auto;}
+  50%{top: 0px;}
+  100%{top: 25px}
+}
+
+@keyframes sidesticktop
+{
+  0%{top: auto;}
+  50%{top: 0px;}
+  100%{top: 25px}
+}
+
+@-webkit-keyframes sidestickbottom
+{
+  0%{bottom: auto;}
+  50%{bottom: 0px;}
+  100%{bottom: 25px}
+}
+
+@-moz-keyframes sidestickbottom
+{
+  0%{bottom: auto;}
+  50%{bottom: 0px;}
+  100%{bottom: 25px}
+}
+
+@-ms-keyframes sidestickbottom
+{
+  0%{bottom: auto;}
+  50%{bottom: 0px;}
+  100%{bottom: 25px}
+}
+
+@-o-keyframes sidestickbottom
+{
+  0%{bottom: auto;}
+  50%{bottom: 0px;}
+  100%{bottom: 25px}
+}
+
+@keyframes sidestickbottom
+{
+  0%{bottom: auto;}
+  50%{bottom: 0px;}
+  100%{bottom: 25px}
+}
+
+
+.flashing
+{
+  font-weight: bold;
+  text-shadow: 0 1px 0 white;
+  border-radius: 3px;
+  padding: 5px 10px;
+  box-shadow:0px 0px 10px #909090;
+  
+  -webkit-animation-name: clignote;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count:infinite;
+  
+  -moz-animation-name: clignote;
+  -moz-animation-duration: 1s;
+  -moz-animation-iteration-count:infinite;
+  
+  -ms-animation-name: clignote;
+  -ms-animation-duration: 1s;
+  -ms-animation-iteration-count:infinite;
+  
+  -o-animation-name: clignote;
+  -o-animation-duration: 1s;
+  -o-animation-iteration-count:infinite;
+  
+  animation-name: clignote;
+  animation-duration: 1s;
+  animation-iteration-count:infinite;
 }

@@ -64,8 +64,11 @@ function Autoplay()
     players = window.players_manager.getAll();
     for (var i in players)
     {
-      players[i].stopAndDestroy();
-      window.players_manager.remove(i);
+      if (i in players)
+      {
+        players[i].stopAndDestroy();
+        window.players_manager.remove(i);
+      }
     }
   }
   

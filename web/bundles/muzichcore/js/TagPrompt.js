@@ -341,12 +341,28 @@ function TagPromptConnector(input, output, proposition_list, tag_box, prompt_loa
   var _tag_box_manager = new TagBoxManager(tag_box, this);
   var _prompt_loader = prompt_loader;
   
+  var updateHelpDisplay = function()
+  {
+    if (_tag_prompt.getSelectedTags())
+    {
+      if (_tag_prompt.getSelectedTags().length)
+      {
+        $('#tags_prompt_search p.help_notags').hide();
+      }
+      else
+      {
+        $('#tags_prompt_search p.help_notags').show();
+      }
+    }
+  }
+  
   this.updateOutput = function(tags)
   {
     _output.val(array2json(tagsToArrayIds(tags)));
     _tag_proposition_list.hide();
     _tag_box_manager.update(tags);
     cleanInput();
+    updateHelpDisplay();
   }
   
   var _tag_prompt = new TagPrompt(this.updateOutput, this);

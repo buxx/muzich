@@ -154,7 +154,6 @@ class FavoriteController extends Controller
   /**
    * Page affichant les elements favoris de l'utilisateur
    * 
-   * @Template()
    */
   public function myListAction()
   {
@@ -182,12 +181,12 @@ class FavoriteController extends Controller
       $tags_id[] = $tag->getId();
     }
     
-    return array(
+    return $this->render('MuzichFavoriteBundle:Favorite:myList.html.twig', array(
       'tags'          => $tags,
       'tags_id_json'  => json_encode($tags_id),
       'user'          => $this->getUser(),
       'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId())
-    );
+    ));
   }
   
   /**

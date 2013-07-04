@@ -30,6 +30,6 @@ show_group_more:
 
 show_elements_get:
   pattern:   /show/{type}/{object_id}/getElements/{tags_ids_json}/{id_limit}/{invert}
-  defaults: { _controller: MuzichHomeBundle:Show:getElements, id_limit: null, invert: false }
+  defaults: { _controller: MuzichHomeBundle:Show:getElements, tags_ids_json: null, id_limit: null, invert: false }
 
   
