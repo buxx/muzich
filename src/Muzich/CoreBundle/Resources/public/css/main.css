@@ -2431,7 +2431,7 @@ form.playlist_edit input[type="submit"]
 
 div.playlists_prompt
 {
-  z-index: 100001;
+  z-index: 100003;
 }
 
 a.all_network

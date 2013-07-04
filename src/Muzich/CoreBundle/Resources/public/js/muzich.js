@@ -3408,6 +3408,8 @@ function open_connection_or_subscription_window(open_login_part, data)
       
     }, data);
   }
+  
+  $('div.playlists_prompt').remove();
 }
 
 function close_popin()
