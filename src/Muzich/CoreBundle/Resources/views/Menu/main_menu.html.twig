@@ -7,16 +7,17 @@
   {% if app.user %}
     <li class="{% if network_public == '1' and not ids_display %}selected{% endif %}">
       <a id="link_all_network" href="{{ path('home') }}" class="all_network">
-        {{ 'filter.network_all'|trans({}, 'userui') }}
+        {{ 'filter.network_generic'|trans({}, 'userui') }}
       </a>
     </li>
   {% else %}
     <li class="{% if network_public == '1' and not ids_display %}selected{% endif %}">
       <a href="{{ path('home') }}" class="all_network">
-        {{ 'filter.network_all'|trans({}, 'userui') }}
+        {{ 'filter.network_generic'|trans({}, 'userui') }}
       </a>
     </li>
   {% endif %}
+  {#
   <li class="separator"></li>
   {% if app.user %}
     <li class="{% if network_public == '0' and not ids_display %}selected{% endif %}">
@@ -30,7 +31,7 @@
         {{ 'filter.network_my'|trans({}, 'userui') }}
       </a>
     </li>
-  {% endif %}
+  {% endif %}#}
   <li class="separator"></li>
   {% if app.user %}
     <li class="{% if app.request.get('topmenu') == 'playlists' and app.request.get('user_slug') == app.user.slug %}selected{% endif %}">

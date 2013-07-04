@@ -335,10 +335,10 @@ $(document).ready(function(){
       $(this).parent('li').addClass('selected');
     }
     
-    if ($('div.top_tools:visible').length)
-    {
-      $('div.top_tools').slideUp();
-    }
+//    if ($('div.top_tools:visible').length)
+//    {
+//      $('div.top_tools').slideUp();
+//    }
     
     // On initialise la liste de tags déjà ajouté
     window.search_tag_prompt_connector.initializeTags([]);
@@ -357,10 +357,10 @@ $(document).ready(function(){
     $(this).parents('ul#tabs_tag_search_buttons').find('li').removeClass('selected');
     $(this).parent('li').addClass('selected');
     
-    if ($('div.top_tools:visible').length == 0)
-    {
-      $('div.top_tools').slideDown();
-    }
+//    if ($('div.top_tools:visible').length == 0)
+//    {
+//      $('div.top_tools').slideDown();
+//    }
     
     var form = $('form[name="search"]');
     
@@ -401,12 +401,13 @@ $(document).ready(function(){
       {
         $('ul#tabs_tag_search_buttons').find('li').removeClass('selected');
         $('li#tab_li_tag_search_with_tags').addClass('selected');
+        
+        // Ne devrais plus servir puisque on l'affiche toujours maintenant
         if (!$('div.top_tools:visible').length)
         {
           $('div.top_tools').slideDown();
         }
       }
-      
       
       $('img.elements_more_loader').show();
       $('ul.elements').html('');
@@ -678,7 +679,9 @@ $(document).ready(function(){
     window.ResponseController.execute(
         response,
         function(){},
-        function(){}
+        function(){
+          $('img.elements_more_loader').hide();
+        }
       );
     
     $('ul.elements').html(response.html);
@@ -1283,10 +1286,7 @@ $(document).ready(function(){
       
       if ($('form[name="search"]').length)
       {
-        if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
-        {
-          $('div.top_tools').slideDown();
-        }
+        $('div.top_tools').slideDown();
       }
       remove_tags('add');
       recolorize_element_list();
@@ -2753,10 +2753,8 @@ $(document).ready(function(){
      $('#element_add_box').slideDown("slow");
      $('#element_add_link').hide();
      $('#element_add_close_link').show();
-     if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
-     {
-       $('div.top_tools').slideUp();
-     }
+     $('div.top_tools').slideUp();
+     
      // Au cas ou firefox garde la valeur step 2:
         $('input#form_add_step').val('1');
     $('form[name="add"]').attr('action', url_datas_api);
@@ -2768,11 +2766,7 @@ $(document).ready(function(){
      $('#element_add_box').slideUp("slow");
      $('#element_add_link').show();
      $('#element_add_close_link').hide();
-     
-     if ($('a#tabs_tag_search_with_tags').parent('li').hasClass('selected'))
-     {
-       $('div.top_tools').slideDown();
-     }
+     $('div.top_tools').slideDown();
      
      //form_add_reinit();
      // copie du contenu de la fonction ci dessus, arrive pas a l'appeler ... huh
@@ -3052,6 +3046,7 @@ $(document).ready(function(){
    
    $('a.tags_prompt_remove_all').click(function(){
      window.search_tag_prompt_connector.initializeTags([]);
+     $('form[name="search"] input[type="submit"]').trigger('click');
    });
    
    $('a.tags_prompt_favorites').click(function(){
@@ -3107,6 +3102,7 @@ $(document).ready(function(){
         });
       }
       
+      $('form[name="search"] input[type="submit"]').trigger('click');
     });
     
     return false;

@@ -1,7 +1,9 @@
 {% if display_tools is not defined %}
   {% set display_tools = false %}
 {% endif %}
-
+{% if display_help_notags is not defined %}
+  {% set display_help_notags = false %}
+{% endif %}
 
 <a title="{{ 'tags.prompt.help_box_title'|trans({}, 'userui') }}" href="{{ path('helpbox_bootstrap', {'ressource_id':'tags_prompt'}) }}" class="helpbox tag_prompt_tool tags_prompt_helpbox">
   <img alt="help ?" src="{{ asset('img/1362157855_help.png') }}" />
@@ -22,6 +24,13 @@
 <div class="tags_prompt" id="tags_prompt_{{ form_name }}">
    
   <ul class="tagbox"></ul>
+  
+  {% if display_help_notags %}
+    <p class="help_notags" {% if search_tags is defined %}{% if search_tags|length %}style="display: none;"{% endif %}{% endif %}>
+      <img src="{{ asset('/img/1372956700_gnome-dev-symlink.png') }}" alt="here" />
+      <span>{{ 'filter.help_text'|trans({}, 'userui') }}</span>
+    </p>
+  {% endif %}
   <div style="clear: both;"></div>
   
   <input

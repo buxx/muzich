@@ -155,6 +155,7 @@ filter:
   submit:  Filtrer
   clear:   Aucun filtre
   mytags:  Avec filtre
+  network_generic: Réseau
   network_all:   Réseau global
   network_my:    Mon réseau
   new_comments:     Nvx commentaires

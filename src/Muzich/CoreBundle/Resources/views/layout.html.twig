@@ -8,7 +8,9 @@
   </head>
   <body>
     
-    {% include 'MuzichCoreBundle:Component:facebook.html.twig' %}
+    {% if  app.environment == 'prod' %}
+      {% include 'MuzichCoreBundle:Component:facebook.html.twig' %}
+    {% endif %}
     {% include 'MuzichCoreBundle:Layout:noscript.html.twig' %}
     {% include 'MuzichCoreBundle:Autoplay:autoplay.html.twig' %}
   

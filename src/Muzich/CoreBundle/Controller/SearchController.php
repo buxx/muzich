@@ -80,6 +80,11 @@ class SearchController extends Controller
         // On met a jour l'objet avec les nouveaux paramétres saisie dans le form
         $data = $search_form->getData();
         
+        if ($data['network'] == ElementSearcher::NETWORK_PERSONAL && $this->isVisitor())
+        {
+          return $this->mustBeConnectedAjaxResponse();
+        }
+        
         // Le formulaire nous permet de récupérer uniquement les ids.
         // On va donc chercher les name en base pour le passer a l'objet
         // ElementSearch

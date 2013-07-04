@@ -15,13 +15,18 @@ class HomeController extends Controller
    * 
    * @Template()
    */
-  public function indexAction($count = null, $network = 'public', $login = false)
+  public function indexAction($count = null, $network = null, $login = false)
   {
     $search_object = $this->getElementSearcher($count);
     $user = $this->getUser(true, array('join' => array(
       'groups_owned'
     )), true);
-    $search_object->setNetwork($network);
+    
+    if (!$network && !$search_object->getNetwork())
+    {
+      $search_object->setNetwork(ElementSearcher::NETWORK_PUBLIC);
+    }
+    
     $search_form = $this->getSearchForm($search_object);
     $add_form = $this->getAddForm();
     

@@ -174,12 +174,17 @@ filter:
   submit:  Filtrer
   clear:   Aucun filtre
   mytags:  Avec filtre
+  network_generic: Réseau
   network_all:   Réseau global
   network_my:    Mon réseau
   new_comments:     Nvx commentaires
   new_favoriteds:   Nvx favoris
   new_tags:         Propositions de tags
   tag_strict:       Chaque tag doit être trouvé
+  help_text:        |
+                    Entrez ci-dessous les genre/styles de musiques que vous appréciez,
+                    une fois ces genres ajoutés en tant que "tags" vous pourrez filtrer les
+                    musiques partagés selon vos gouts !
   
 element_add:
   prop_tags:

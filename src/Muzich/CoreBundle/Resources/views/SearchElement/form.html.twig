@@ -1,3 +1,6 @@
+{% if display_help_notags is not defined %}
+  {% set display_help_notags = false %}
+{% endif %}
 
   {{ form_errors(search_form) }}
 
@@ -35,8 +38,9 @@
   </div>
   
   {% include "MuzichCoreBundle:Tag:tagsPrompt.html.twig" with { 
-    'form_name'     : form_name,
-    'display_tools' : true
+    'form_name'           : form_name,
+    'display_tools'       : true,
+    'display_help_notags' : display_help_notags
   } %}
   
   <div>

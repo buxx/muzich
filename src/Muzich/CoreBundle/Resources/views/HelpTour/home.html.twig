@@ -33,26 +33,19 @@
               position : 'R'
             },
             { 
-              element: '#tabs_tag_search_no_tags',
+              element: 'div#tags_prompt_search',
               text : {{ 'help_tour.home.filters.tour'|trans({}, 'text') }},
-              tooltip: {{ 'help_tour.home.filters.notags'|trans({}, 'text') }},
-              position : 'B'
+              tooltip: {{ 'help_tour.home.filters.tags'|trans({}, 'text') }},
+              position : 'T'
             },
             { 
-              element: '#tabs_tag_search_with_tags',
-              text : {{ 'help_tour.home.filters.tour'|trans({}, 'text') }},
-              tooltip: {{ 'help_tour.home.filters.withtags'|trans({}, 'text') }},
-              position : 'T',
-              tooltipCallback : function(){ $('#tabs_tag_search_with_tags').trigger('click'); }
-            },
-            { 
-              element: '#header_menu li a.all_network',
+              element: 'a#link_all_network',
               text : {{ 'help_tour.home.network.tour'|trans({}, 'text') }},
               tooltip: {{ 'help_tour.home.network.public'|trans({}, 'text') }},
               position : 'B'
             },
             { 
-              element: '#header_menu li a#link_my_network',
+              element: 'a#link_my_network',
               text : {{ 'help_tour.home.network.tour'|trans({}, 'text') }},
               tooltip: {{ 'help_tour.home.network.private'|trans({}, 'text') }},
               position : 'B'

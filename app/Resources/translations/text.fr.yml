@@ -199,10 +199,8 @@ help_tour:
       tour:           |
                       "<h1>Filtres</h1>"+
                       "<p>Vous pouvez filtrer les partages à l'aide de tags.</p>"
-      notags:         |
-                      "<p>Sans tags, comme maintenant.</p>"
-      withtags:       |
-                      "<p>Ou avec tags !</p>"
+      tags:           |
+                      "<p>Vous pouvez saisir vos genres/styles musicaux préférés dans le filtre afin d'afficher les musiques correspondantes.</p>"
     
     network:
       tour:           |

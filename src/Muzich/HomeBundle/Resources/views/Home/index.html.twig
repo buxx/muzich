@@ -52,14 +52,15 @@
     </script>
   {% endif %}
 
-  <div class="top_tools" {% if search_tags_id|length == 0 %}style="display: none;"{% endif %}>
+  <div class="top_tools">
   
     <div class="search_tools">
       <form name="{{ search_form_name }}" action="{{ path('search_elements', {'context':'home'}) }}" method="post" {{ form_enctype(search_form) }}>
         
         {% include "MuzichCoreBundle:SearchElement:form.html.twig" with { 
           'form_name'               : search_form_name,
-          'search_tags'             : search_tags_id
+          'search_tags'             : search_tags_id,
+          'display_help_notags'     : true
         } %}
         
         <input class="main button" type="submit" value="{{ 'filter.submit'|trans({}, 'userui') }}"/>

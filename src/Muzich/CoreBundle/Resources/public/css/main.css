@@ -870,7 +870,10 @@ ul.submenu
   list-style-type: none;
   display: inline;
   float: left;
-  padding: 20px;
+  padding-left: 15px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
   
   background: #dddddd; /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -1119,7 +1122,7 @@ div#form_add_first_part #element_add_url
 
 #tabs_tag_search_buttons a
 {
-  padding-left: 5px;
+  padding-left: 10px;
 }
 
 #tabs_tag_search_buttons img
@@ -2429,6 +2432,31 @@ form.playlist_edit input[type="submit"]
 div.playlists_prompt
 {
   z-index: 100001;
+}
+
+a.all_network
+{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+div#tags_prompt_search p.help_notags
+{
+  font-weight: bold;
+  margin-top: -10px;
+}
+
+div#tags_prompt_search p.help_notags img
+{
+  float: right;
+  margin: -16px 15px -10px 0;
+}
+
+div#tags_prompt_search p.help_notags span
+{
+  float: left;
+  margin-bottom: 10px;
+  width: 480px;
 }
 
 /*

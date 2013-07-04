@@ -495,15 +495,20 @@ class Controller extends BaseController
       
       if ($this->getRequest()->isXmlHttpRequest())
       {
-        return $this->jsonResponse(array(
-          'status' => 'mustbeconnected'
-        ));
+        return $this->mustBeConnectedResponse();
       }
       else
       {
         return $this->redirect($this->generateUrl('home'));
       }
     }
+  }
+  
+  protected function mustBeConnectedAjaxResponse()
+  {
+    return $this->jsonResponse(array(
+      'status' => 'mustbeconnected'
+    ));
   }
   
   /**
