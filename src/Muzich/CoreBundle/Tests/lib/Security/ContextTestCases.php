@@ -341,7 +341,8 @@ class ContextTestCases
   
   public function playlistCreateResponseIs($success, $condition)
   {
-    $this->playlistCreate(0, 'my_super_playlist');
+    $element = $this->test->findOneBy('Element', 'SOULFLY - Prophecy');
+    $this->playlistCreate($element->getId(), 'my_super_playlist');
     return $this->ajaxResponseSatisfyConditions(
       $this->test->getClient()->getResponse()->getContent(),
       $success, 
@@ -357,6 +358,7 @@ class ContextTestCases
     )));
     
     $response = json_decode($this->test->client->getResponse()->getContent(), true);
+    $this->test->assertTrue(array_key_exists('data', $response));
     $crawler = new Crawler($response['data']);
     
     $extract = $crawler->filter('input[name="playlist[_token]"]')

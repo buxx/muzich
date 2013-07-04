@@ -540,7 +540,7 @@ class FunctionalTest extends WebTestCase
    * @param array $params
    * @return object 
    */
-  protected function findOneBy($entityName, $params)
+  public function findOneBy($entityName, $params)
   {
     if (!is_array($params))
     {
