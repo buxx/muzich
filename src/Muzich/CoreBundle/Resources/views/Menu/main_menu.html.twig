@@ -6,7 +6,7 @@
   
   {% if app.user %}
     <li class="{% if network_public == '1' and not ids_display %}selected{% endif %}">
-      <a id="link_all_network" href="{{ path('home') }}" class="all_network">
+      <a href="{{ path('home') }}" class="all_network">
         {{ 'filter.network_generic'|trans({}, 'userui') }}
       </a>
     </li>

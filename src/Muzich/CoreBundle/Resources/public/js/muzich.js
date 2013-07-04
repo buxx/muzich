@@ -1252,7 +1252,7 @@ $(document).ready(function(){
   });
   
   // Selection Réseau global / Mon réseau
-  $('a.all_network, a.my_network').live('click', function(){
+  $('ul#tabs_tag_search_buttons a.all_network, ul#tabs_tag_search_buttons  a.my_network').live('click', function(){
     
     if ($('form[name="search"]').length)
     {
