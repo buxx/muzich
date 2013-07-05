@@ -1,38 +1,39 @@
 
 user:
-  follow:                       Suivre
-  following:                    Suivi
-  notfollow:                    Ne plus suivre
-  view_favorites:               Voir les favoris
-  view_profile:                 Voir le profil
-  stop_follow:                  Ne plus suivre
+  follow:                       Follow
+  following:                    Followed
+  notfollow:                    Don't follow
+  view_favorites:               See favorites
+  view_profile:                 See profile
+  stop_follow:                  Stop follow
+  view_playlists:               Playlists
   show:
-    title:                      Diffusions de %name%
+    title:                      %name% shares
   reputation:
-    name:                       Réputation
-    txt:                        points
+    name:                       Reputation
+    txt:                        Score
     
 events:
   new_comments:
-    no:                         Pas de nouveaux commentaires sur vos partages
-    one:                        %count% nouveau commentaire sur l'un de vos partages
-    yes:                        %count% nouveaux commentaires sur vos partages
+    no:                         No new comments on your shares
+    one:                        %count% new comment on your shares
+    yes:                        %count% new comment on your shares
   new_favoriteds:
-    no:                         Pas de nouveaux partages mis en favoris
-    one:                        %count% de vos partages a été mis en favoris
-    yes:                        %count% de vos partages ont été mis en favoris
+    no:                         No one of your shares added to favorites
+    one:                        %count% of your shares added to favorites
+    yes:                        %count% of your shares added to favorites
   new_follows:
-    no:                         Pas de nouveaux utilisateurs qui vous suivent
-    one:                        %count% nouvel utilisateur vous suit
-    yes:                        %count% nouveaux utilisateurs vous suivent
+    no:                         No new followers
+    one:                        %count% new follower
+    yes:                        %count% new followers
   new_tags:
-    no:                         Pas de nouvelle proposition de tags
-    one:                        %count% nouveau partage avec proposition de tags
-    yes:                        %count% nouveaux partages avec proposition de tags
+    no:                         No tags propositions
+    one:                        %count% tags proposition
+    yes:                        %count% tags propositions
     
 reputation:
   bar:
-    title:                      Votre réputation
+    title:                      Your reputation
 
 login:
   fail:                         Authentication fail

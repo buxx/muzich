@@ -2,6 +2,20 @@
 password.actual: Actual
 password.new.first: New
 password.new.second: New (check)
+
 username: Username
 new_username:  New username
+email:     Email
+password:
+  first:   Password
+  second:  Password (check)
+token:     Inscription code
+mail_newsletter:  I want to receive muzi.ch emails
+mail_partner:     I want to receive muzi.ch partners emails
+cgu_accepted:     I've read and accept <a href="%url%">Muzi.ch terms of use</a>
+
+help:
+  token:   |
+            Type registration token here.
+
 accept_cgu_registration: By processing registration you accept <a href="%link%">terms of service</a> of muzi.ch

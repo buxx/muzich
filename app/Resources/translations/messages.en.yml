@@ -1,0 +1,66 @@
+
+Username:     Username
+
+date_since:
+  default:
+    less_min:      Less than one minute
+    one_min:       One minute ago
+    one_hour:      One hour ago
+    one_day:       One day ago
+    one_week:      One week ago
+    one_month:     One month ago
+    one_year:      One year ago
+    x_min:         %x% minutes ago
+    x_hour:        %x% hours ago
+    x_day:         %x% days ago
+    x_week:        %x% weeks ago
+    x_month:       %x% months ago
+    x_year:        %x% years ago
+  comment:
+    created:
+      less_min:      Less than one minute
+      one_min:       One minute ago
+      one_hour:      One hour ago
+      one_day:       One day ago
+      one_week:      One week ago
+      one_month:     One month ago
+      one_year:      One year ago
+      x_min:         %x% minutes ago
+      x_hour:        %x% hours ago
+      x_day:         %x% days ago
+      x_week:        %x% weeks ago
+      x_month:       %x% months ago
+      x_year:        %x% years ago
+    edited:
+      less_min:      et modifié il y a moins d'une minute
+      one_min:       et modifié il y a une minute
+      one_hour:      et modifié il y a une heure
+      one_day:       et modifié il y a un jour
+      one_week:       et modifié il y a une semaine
+      one_month:       et modifié il y a un mois
+      one_year:       et modifié il y a un an
+      x_min:         et modifié il y a %x% minutes
+      x_hour:        et modifié il y a %x% heures
+      x_day:         et modifié il y a %x% jours
+      x_week:         et modifié il y a %x% semaines
+      x_month:         et modifié il y a %x% mois
+      x_year:         et modifié il y a %x% ans
+      
+      less_min:      and edited less than one minute
+      one_min:       and edited one minute ago
+      one_hour:      and edited one hour ago
+      one_day:       add edited one day ago
+      one_week:      and edited one week ago
+      one_month:     and edited one month ago
+      one_year:      and edited one year ago
+      x_min:         and edited %x% minutes ago
+      x_hour:        and edited %x% hours ago
+      x_day:         and edited %x% days ago
+      x_week:        and edited %x% weeks ago
+      x_month:       and edited %x% months ago
+      x_year:        and edited %x% years ago
+
+noscript:
+  message:           You need javascript to use this website !
+  link_text:         Need more
+  link_search:       https://duckduckgo.com/?q=activate+javascript

@@ -1,0 +1,206 @@
+
+site:
+  description:   |
+                  Find and share internet music ! Muzi.ch is a sharre network 
+                  where you can listen your, firend and all world uers music.
+
+sites:
+  subtitle:      Support des sites externes
+  text:          |
+                  Lorsque vous ajoutez un lien sur le réseau Muzi.ch celui-ci est
+                  interprété afin d'intégrer directement le contenu que vous souhaitez 
+                  partager. Ci-dessous la liste des sites dont certaines ressources sont
+                  actuellement supportées.
+dev:
+  subtitle:       Muzich est en cours de construction
+  text:           |
+                  Actuellement vous utilisez une version de test. De nombreuses 
+                  fonctionnalités doivent voir le jour au fur et a mesure du développement.
+about:
+  subtitle:       Découvrez et partagez la musique d'internet
+  text:           |
+                  Grâce au réseau de Muzi.ch découvrez chaque jour de nouvelles musiques partagés
+                  par les autres membres de ce réseau. Partagez également vos coups de cœurs 
+                  sur ce même réseau.
+
+mail:
+  general:
+    footer:       >
+                  
+                  
+                  --------------------------------
+                  
+                  For contact us : contact@muzi.ch
+                  
+                  
+                  Muzi.ch - Find and share your music discovery
+                  
+                  12b avenue de la roche, 04310 Peyruis, FRANCE.
+  resetting_password:
+    subject:      Muzi.ch: Reset password
+    content:      >
+                  Hello %username%,
+
+                  A password reset query has been done. If you don't query that, delete this email.
+                  
+                  In oppposite, if wou want change your Muzi.ch password, go to: %url%
+                  
+                  
+                  Cordially,
+                  
+                  Muzi.ch team
+  change_email:
+    subject:      Muzi.ch: Change email
+    content:      >
+                  Hello %username%,
+
+                  A email change query has been done. If you don't query that, delete this email.
+                  
+                  In oppposite, if you want to configure this new email adresse, go to: %url%
+                  
+                  Cordially,
+                  
+                  Muzi.ch team
+  presubscription:
+    subject:        Muzi.ch: Registration confirmation
+    text:           >
+                    
+                    An registration query on muzi.ch has been done. If you don't query that, delete this email.
+                    
+                    In oppposite, for confirm your registration go to: %url%
+                    
+                    Thank you!
+                    
+                    
+                    Cordially,
+                    
+                    Muzi.ch team
+  confirm_email:
+    subject:        Muzi.ch: Email confirmation
+    text:           >
+                    You registered on http://muzi.ch. If you don't query that, delete this email.
+                    
+                    In oppposite, for confirm your email go to: %url%
+                    
+                    Thank you!
+                    
+                    
+                    Cordially,
+                    
+                    Muzi.ch team
+
+help:
+  element_add_url:
+    title1:            Add a share: HTTP address
+    text1:            |
+                      You have to paste the internet page link in this field.
+                      Take care to share the correct url page: Exemple: if you perform a search
+                      don't share the search page adresse but the result page adress !
+    text1_plugin:     Soon an internet navigator plugin will make all of it easier.
+    title2:           Exemple with Youtube
+    title3:           Exemple with Soundcloud
+  tags_prompt:
+    title:            Tags list
+    text:             |
+                      Tag lists are way to filter shares and specify music styles.
+                      For that you have to add your tags:
+    subtitle1:        Start to enter your tag
+    subtitle2:        Choose corresponding tag in list
+    subtitle3:        You can add others
+    subtitle4:        As much as you want !
+  know_more:
+    presentation:
+      title:          Share and discover music !
+      text:           |
+                      Muzi.ch is a network dedicated to discover and share music on website 
+                      like soundcloud, Deezer, Youtube ... With some tools you can discover 
+                      music with your taste, listen them, create playlist ...
+    flux:
+      title:          Share feed
+      text:           |
+                      A feed (user shares) what you can filter with your favorites music styles
+    autoplay:
+      title:          Autoplay
+      text:           |
+                      You can automatically play musics, playlists, favorites ...
+    reputation:
+      title:          Make you an reputation
+      text:           |
+                      More your shares are listen, favoriteds, etc ... More your reputation inscrease !
+                      User other user reputation to make your own network of music lovers.
+              
+        
+
+help_tour:
+  buttons:
+    next:             Next
+    prev:             Previous
+    start:            Start
+    end:              Don't display anymore
+    close:            Close
+  home:
+    welcome:
+      tour:           |
+                      "<h1>A little demonstration tour ?</h1>"+
+                      "<p>Push Start button to start a tour</p>"
+    elements:
+      tour:           |
+                      "<h1>The feed</h1>"+
+                      "<p>You will find here all users shares.</p>"
+      tooltip:        |
+                      "<p>Shares are show most recently at top.</p>"
+    element:
+      tour:           |
+                      "<h1>Shares</h1>"+
+                      "<p>Different action are possible ...</p>"
+      play:           |
+                      "<p>By clicking on thumbnail you can start playing the music "+
+                      "or open the link shared.</p>"
+      actions:        |
+                      "<p>You can, on each shares: "+
+                      "<strong>Open original page</strong>, "+
+                      "<strong>launch autoplay</strong> (if link is supported), "+
+                      "<strong>add it to one of your playlists</strong>, "+
+                      "<strong>propose tags</strong>, "+
+                      "<strong>share it again</strong> et "+
+                      "<strong>report it.</strong> "+
+                      "</p>"
+      likefav:        |
+                      "<p>If you like the share you can reward the user or add it in your favorites.</p>"
+    filters:
+      tour:           |
+                      "<h1>Filter</h1>"+
+                      "<p>You can filter shares with your favorites musics styles.</p>"
+      tags:           |
+                      "<p>You can enter all your favorites music styles for see only musics corresponding at your taste.</p>"
+    
+    network:
+      tour:           |
+                      "<h1>Networks</h1>"+
+                      "<p>You can choos to display shares of global network or personal network.</p>"
+      public:         |
+                      "<p>The global network is all user's share in the world</p>"
+      private:        |
+                      "<p>The personal network is only share of your followed users and groups</p>"
+      playlist:        |
+                      "<p>You can create and follow playlists</p>"
+                      
+    addelement:
+      tour:           |
+                      "<h1>Add a share</h1>"+
+                      "<p>An other important thing is adding share to network. "+
+                      "More your share will be appreciated, more your reputation wil be increased. "+
+                      "And more you use tags for specify music style, more your share will be listened.</p>"
+      url:            |
+                      "<p>The first thing to do in to add URL (http://) of page "+
+                      "where an music is listenable.</p>"
+      form:           |
+                      "<p>If muzi.ch know shared website, it will prepare informations for you"+
+                      "otherwise you will have to add information manually. <strong>Think to add "+
+                      "tags !</strong></p>"
+    end:
+      tour:           |
+                      "<h1>Let's go !</h1>"+
+                      "<p>Have fun !</p>"
+      go:             |
+                      "<p>Tet's go !</p>"

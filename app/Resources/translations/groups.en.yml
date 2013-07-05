@@ -1,0 +1,16 @@
+
+nogroups:
+  sentence:                     No created groups.
+  
+havegroups:
+  sentence:                     "Owneds groups:"
+    
+group:
+  edit:                         Edit this group
+  follow:                       Follow
+  following:                    Followed
+  notfollow:                    Don't follow
+  remove:
+    link:                       Delete group
+  form:
+    submit:                     Save group

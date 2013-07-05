@@ -49,3 +49,5 @@ presubscription:
 playlist:
   delete:
     success:       Playlist deleted
+  update:
+    success:       Playlist updaded

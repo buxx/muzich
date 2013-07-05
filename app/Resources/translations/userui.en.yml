@@ -1,20 +1,18 @@
 login:
   remember_me:
-    label:     Rester connecté
+    label:      Stay connected
   presubscription:
     info:       |
-                Vous souhaitez être informé de l'ouverture officielle de muzi.ch ?
-                Saisissez votre email et nous vous ferons part de cette nouvelle le moment venu !
-    submit:     Enregistrer mon email
+                subscribe to presubscription
 
 security:
   login:
-    username: "Identifiant (adresse email)"
-    password: "Mot de passe"
+    username: "Login (nickname or email)"
+    password: "Password"
 
 start:
-  title:       Inscription terminé
-  titleh2:     Bienvenue sur Muzich !
+  title:       Subscription finished
+  titleh2:     Welcome on Muzich !
   description: |
                Muzi.ch est une plate-forme sur laquelle découvrir et partager vos découvertes 
                musicales sur le web. Un clip officiel sur youtube, un nouveau mix sur soundcloud, ou 
@@ -25,255 +23,265 @@ start:
                ainsi que créer votre propre réseau constitué de vos utilisateurs et groupes préférés.
                
   tags:
-    title:     Choisissez des tags représentant vos goûts
-    remind:    Vous pourrez bien entendu modifier cette liste ultérieurement.
+    title:     Choose tags with your favorites music styles
+    remind:    You can change theses tags later
    
 title:
-  myaccount:     Mon compte
-  mynetwork:     Mon réseau
-  home:          Le réseau
-  editgroup:     Modification du groupe %group_name%
-  favoriteof:    Favoris de %name%
-  myfavorites:   Mes favoris
-  sites:         Sites supportés
-  devvers:       En développement
-  about:         A propos
-  search:        Recherche
-  cgu:           Informations légales
+  myaccount:     My account
+  mynetwork:     My network
+  home:          The network
+  editgroup:     Edit %group_name% group
+  favoriteof:    %name% favorites
+  myfavorites:   My favorites
+  sites:         Supported websites
+  devvers:       Developpment
+  about:         About
+  search:        Search
+  cgu:           Legal informations
+  change_username: Change username
     
 my_account: 
-  title:          Mon compte
-  username:         Nom d'utilisateur
+  title:            My account
+  username:         Username
   change_username:  Change
-  email:            Adresse email
-  favorite_tags:    Vos tags préférés
-  change_password:  Changer mon mot de passe
-  change_password_submit: Mettre à jour mon mot de passe
-  change_email:     Changer mon adresse email
-  change_email_submit: Mettre à jour mon email
-  choose_password:  Choisir un mot de passe pour mon compte
+  email:            Email
+  favorite_tags:    Favorites tags
+  change_password:  Change password
+  change_password_submit: Update password
+  change_email:     Change email
+  change_email_submit: Update email
+  choose_password:  Choose password
   email_not_confirmed:
-    title:          Veuillez confirmer votre adresse email
+    title:          Please confirm your email
     text:           |
-                    Cette action nécéssite que vous confirmiez votre adresse mail.
-                    Pour cela veuillez cliquer sur le lien que nous vous avons envoyé par email.
-    button:         Renvoyer l'email de confirmation
-    help:           Pensez à vérifier le contenu de votre dossier SPAM
+                    To make this action you have to confirm your email.
+                    For it, click on confirmation email link.
+    button:         Send again confirmation email
+    help:           Check your SPAM folder
   address:
-    title:          Mon adresse
-    description:    Avec votre adresse Muzi.ch pourra vous avertir plus aisément des événements à venirs dans votre région.
+    title:          My adress
+    description:    With your address Muzi.ch can choose and propose event near your region.
     form:
-      ilivenear:    J'habite vers
-      in:           en
-      submit:       Mettre a jour
+      ilivenear:    I live near
+      in:           in
+      submit:       Update
       errors:
-        notown:     Veuillez saisir la ville
-        nocountry:  Veuillez saisir le pays
+        notown:     Please specify town (or near big town)
+        nocountry:  Please specify country
   help_clicks:      |
-                    Cliquez sur les titres ci-dessous pour accèder aux autres paramètres
+                    Click on titles to open configurations
   avatar:
-    title:          Mon avatar
-    submit:         Mettre à jour
-    help:           'Choisissez une image puis préssez le bouton "Mettre à jour"'
-    success:        Votre avatar a bien été mis à jour
-    error:          Une erreur est survenue lors de la mise à jour de votre avatar
+    title:          My avatar
+    submit:         Update
+    help:           'Choose picture then click on "Update"'
+    success:        Avatar updated
+    error:          Error happen when update your avatar !
   preferences:
-    title:         Mes préférences
-    submit:         Enregistrer mes préférences
-    success:        Vos préférences ont bien été mises à jour
-    error:          Une erreur est survenue lors de la mise à jour de vos préférences
-  send_email_confirm: Renvoyer l'email de confirmation
+    title:          My configurations
+    submit:         Save configuration
+    success:        Configuration updated
+    error:          Error happen when updating your configuration
+  send_email_confirm: Send again confirmation email
   favorite_tags_helpbox:
-    title:          Choisissez vos tags favoris
+    title:          Choose favorites tags
     text:           |
-                    La configuration de vos tags favoris permettrons de filtrer
-                    la liste de partage selon vos goûts musicaux lors de chacunes de vos
-                    visites. N'hésitez pas à en configurer beaucoups !
+                    You tags will be used to filter results on muzi.ch. Choose as much as you want!
+  privacy:
+    title:          Privacy
+    submit:         Update
+    form:
+      favorites:    Other users can see my favorites
+      playlists:    Other users can see my playlistsecture
+    success:        Privacy updated
+    error:          Error happen when updatin privacy
+  delete:
+    title:          Delete my account
+    text:           "Warning: This action is definitive !"
+    submit:         Yes i want to delete my account
+
+change_username:
+  submit:           Change
+  warning:          "Warning: You cannot redo it again !"
   
 connexion:
-  password_lost:    Récupérer mon mot de passe
+  password_lost:    Recover password
   
-more:    Plus de résultats
+more:    More results
 tags:
   prompt:
-    help_box_title: Afficher de l'aide pour la siasie de tags
+    help_box_title: Display tags help
     help:  |
-            Choissiez un tag dans la liste ci-dessous en cliquant dessus. Pour saisir plusieurs tags
-            renouvellez l'opération pour chacuns d'entre eux.
-    remove_all: Enlever tous les tags
-    favorites:  Mettre mes tags favoris
+            Choose one tag in list. For multiple tags, renew opération !
+    remove_all: Remove all tags
+    favorites:  Use my favorites tags
   help:  |
-           Saisissez <strong>une liste de tags</strong> ci-dessous: Entrez 
-           <strong>un tag a la fois</strong> et choisissez les a l'aide de 
-           la liste.
+            "Enter <strong>a tag list</strong> below: One by one and with list."
   inputtext:
-    help:      Saisissez vos tags ici (un par un)
+    help:      Enter your tags here (one by one)
   search:
-    message_found:  "Tags correspondant à \"%string%\":"
-    display_more:   Afficher les autres résultats
+    message_found:  "Tags for \"%string%\":"
+    display_more:   Display other results
   add:
-    title:          Ajouter un nouveau tag
-    text:           Ce tag n'est pas encore connu de Muzi.ch, mais vous pouvez proposer son ajout. Cependant sa validation sera soumise a l'équipe de modération du site.
-    argument:       "Vous pouvez argumenter votre demande:"
+    title:          Add a new tag
+    text:           Muzi.ch don't know this tag. You can propose it.
+    argument:       "You can argue:"
     inputs:
-      cancel:       Annuler
-      submit:       Faire la demande
+      cancel:       Cancel
+      submit:       Add tag
     errors:
-      min:              Le tag doit être de %limit% caractéres minimum
-      max:              Le tag doit être de %limit% caractéres maximum
-      unknow:           Une erreur est survenue
+      min:              Tag must at least have %limit% letters
+      max:              Tag must not have more than %limit% letters
+      unknow:           Error happen
   new:
-    has_news:       %count% éléments viennent d'être ajoutés, %link%
-    has_news_one:   %count% élément vient d'être ajouté, %link%
-    has_news_link:  cliquez ici pour les afficher
-    has_news_link_one:  cliquez ici pour l'afficher
-    has_news_link_more_x:  cliquez ici pour en afficher %x%
+    has_news:               %count% elements has been added, %link%
+    has_news_one:           %count% element has been added, %link%
+    has_news_link:          click here to display them
+    has_news_link_one:      click here to display it
+    has_news_link_more_x:   click here to display %x% of them
   cloud:
-    display_more:           Des tags ont été cachés, cliquez ici pour les afficher tous
+    display_more:           Tags have beed hidden, click here to display all of them
     filter:
-      text:                 Chercher un tag parmis la liste
+      text:                 Find a tag
   favorites:
-    submit:                 Enregistrer ces tags
+    submit:                 Save tags
 
 submenu:
+  my_content:
+    title:                 My content
   followed_users:
-    title:                  Utilisateurs suivis
-    nouser:                Aucun
+    title:                 Followed users
+    nouser:                No one
   followed_groups:
-    title:                  Groupes suivis
-    nouser:                Aucun
+    title:                 Followed groups
+    nouser:                No one
   follower_users:
-    title:                  Suivis par
-    nouser:                Aucun
+    title:                 Followed by
+    nouser:                No one
   otherpages:
-    title:                 Pages spéciales
+    title:                 Special pages
     needtags:
-      title:               Partages en demandes de tags
+      title:               Shares who need tags
 
 filter:
-  network: "Résultats de "
-  submit:  Filtrer
-  clear:   Aucun filtre
-  mytags:  Avec filtre
-  network_generic: Réseau
-  network_all:   Réseau global
-  network_my:    Mon réseau
-  new_comments:     Nvx commentaires
-  new_favoriteds:   Nvx favoris
-  new_tags:         Propositions de tags
-  tag_strict:       Chaque tag doit être trouvé
+  network: "Results of "
+  submit:  Filter
+  clear:   No filter
+  mytags:  With filter
+  network_generic: Network
+  network_all:   Global network
+  network_my:    My network
+  new_comments:     New comments
+  new_favoriteds:   New favorites
+  new_tags:         Tags propositions
+  tag_strict:       Each tags must be found
+  help_text:        |
+                    Enter here music style what you love. When you will have configured your tags,
+                    share will be filter with your taste !
   
 element_add:
   prop_tags:
-    text:     "Proposition de tags:"
+    text:     "Tags propositions:"
   url:
     name:     http://
     help:     |
-              Copier ici le lien internet (http://) pointant sur la ressource 
-              que vous souhaitez partager.
-    more_help: Cliquez ici pour plus d'aide
+              Paste here internet link (http://) of resource/page what you want share.
+    more_help: Click here for more help
               
   need_tags:
-    name:     Demander de l'aide pour tagger votre partage
+    name:     Ask help for tag this share
   name:
-    name:     Titre de la piste - Artiste
+    name:     Track name - Artist
     
   added_to_group:
     sentence:       |
-                     L'élément que vous venez d'ajouter semble correspondre
-                     a un des groupes que vous gérez. Cliquez sur le nom d'un groupe
-                     pour diffuser cet élément dans le groupe.
+                     You can add your share in one of your groups. 
+                     Click on group name to add in it.
                      
-    nothanks:       Non, ne pas diffuser cet élément dans un de mes groupes
+    nothanks:       No, don't add my share in group.
   
 element_edit:
-  title:      Modifier un partage
+  title:      Edit share
   url:
-    name:     Lien
+    name:     Link
   name:
-    name:     Nom
+    name:     Name
   submit:
-    value:    Mettre à jour
+    value:    Update
   cancel:
-    value:    Annuler
+    value:    Cancel
     
 tags_filter:
-  help:       Pour ne pas filtrer avec des tags, supprimez les tous de la liste.
+  help:       To filter without tags, delete them in list.
   
 index:
   beta:
-    warning:  L'accès au service est privé pendant le développement de l'application
+    warning:       |
+                    Les inscriptions sur Muzi.ch sont actuellement limités. Le service 
+                    est actuellement en bêta fermée ! Vous pouvez néanmoins vous inscrire si vous
+                    possédez un code d'inscription
     
 system:
   infos:
     normally_js:   |
-                    Vous avez ouvert cette page dans un nouvel onglet/nouvelle page
-                    Sachez qu'avez le clic gauche de votre souris la modification
-                    de l'élément est intégré dans la page.
+                    You have open url in new page. Please use left click (it's ajax).
                     
 date:
-  instant:               a l'instant
-  less_than_minute:      il y a moins d'une minute
+  instant:               just now
+  less_than_minute:      les than one minute
  
 element:
   report:
-    link_title:          Signaler cet élément
+    link_title:          Report share
     confirm: 
-      sentence:          Signaler ce contenu comme inapproprié ?
-      yes:               Oui
-      no:                Non
+      sentence:          Report like inapropriate share ?
+      yes:               Yes
+      no:                No
   proposition_tags:
-    link_title:        Proposer des tags
+    link_title:        Propose tags
   reshare:
-    link_title:        Re-partager
+    link_title:          Share again
     confirm: 
-      sentence:          Re-partager ce partage dans votre flux ?
-      yes:               Oui
-      no:                Non
+      sentence:          Share again in yours shares ?
+      yes:               Yes
+      no:                No
   share:
-    share_button:        Partager
+    share_button:        Share
     
 comment:
   report:
-    link_title:          Signaler ce commentaire
+    link_title:          Report comment
     confirm: 
-      sentence:          Signaler ce commentaire comme inapproprié ?
-      yes:               Oui
-      no:                Non
+      sentence:          Report like inapropriate comment ?
+      yes:               Yes
+      no:                No
       
 search_tag:
-  title:                 Recherche de tag correspondant à \"%string_search%\" ...
+  title:                 Searching tags for \"%string_search%\" ...
   
 global_search:
-  no_results:            Il n'y a aucun résultat a votre recherche.
+  no_results:            No results for your search.
   
 need_tags:
   text_help:             |
-                         Les utilisateurs ayant partagés leurs découvertes ont
-                         demandé de l'aide pour tagger correctement leurs partages.
-                         Gagnez en réputation en leurs proposants les tags qui conviennent !
+                         Some users are asking help for tags theirs share. You can increase
+                         your reputation if they accepts your tags propositions !
 register:
-  title:                 Création d'un compte
+  title:                 Account creation
 registration:
-  submit:                M'enregistrer
+  submit:                Register
 
 autoplay:
-  limitations_players:   La lecture automatique ne supporte actuellement que les lecteurs youtube, soundcloud et jamendo.
+  limitations_players:   Autoplay actually work with youtube, soundcloud and jamendo.
 
 events:
   view:
-    link_delete:         Considérer comme vu(s)
+    link_delete:         Consider like saw
     title:
-      comments:          Commentaires
-      nvxfav:            Mis en favoris
-      tagsprop:          Proposition de tags
+      comments:          Comments
+      nvxfav:            Added to favorites
+      tagsprop:          Tags propositions
     text:
-      comments:          |
-                          Sont affichés ci-dessous vos partages qui ont été commentés, ainsi que les
-                          partages sur lesquels vous avez rédigé un commentaire et souhaité être avertis des nouveaux
-                          commentaires.
-      nvxfav:            |
-                          Sont affichés ci-dessous vos partages qui ont été mis en favoris par d'autres utilisateurs
-      tagsprop:          |
-                          Sont affichés ci-dessous vos partages pour lesquels ont vous propose une nouvelle liste de tags
+      comments:          You can see below owned/followed share who are commented.
+      nvxfav:            You can see below your shares added to favorites by users.
+      tagsprop:          You can see below your shares with tags propositions.
       

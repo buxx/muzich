@@ -7,7 +7,6 @@
 'The username is already used'   :   This username is already used.
 'The email is already used'      :   This email address is already used.
 
-
 error:
   group:
     name:
@@ -40,6 +39,8 @@ error:
       duplicate:         Email address is already in use on muzi.ch
   change_username:
     duplicate:           Username is already in use on muzi.ch
+    min:               Username must at least have %limit% letters
+    max:               Username must not have more than %limit% letters
   
 registration:
   token:

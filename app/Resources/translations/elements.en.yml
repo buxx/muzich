@@ -2,8 +2,11 @@
 noelements:
   sentence:             Nothing to display
   sentence_filter:      |
-                         Nothin to displya, this may due because of an heavy filter.<br />You can add tags or 
+                         Nothin to display, this may due because of an heavy filter
+                          or you have choice "My Network" et don't have followed users.
+                         <br />You can add tags or 
                          <a class="filter_clear_url" href="#" >%link_string%</a>.
+  
   sentence_filter_link_string: delete them.
   
 element:
@@ -113,3 +116,31 @@ show:
 
 tag_favorites:
   help:                 Filter sharings selecting tags below(you can choose more than one).
+  
+playlist:
+  start_here:            Start playlist here
+  remove_element:        Remove this share from playlist
+  open:                  Open
+  read:                  Read
+  pick:                  Add to my playlists
+  unpick:                Remove from my playlists
+  gotoplaylists:         Go back to %user_username% playlistsusername%
+  user_title:            %user_username% playlists
+  openplaylist:          View playlist musics
+  delete:                Delete playlist
+  play:                  Play playlist
+  add_this_element:      Add this share to playlist
+  create_and_add:        "Add share to new playlist:"
+  add_to:                "Or to existing playlist:"
+  create_submit:         Create
+  public_label:          Make this playlist public
+  public_word:           (public)
+  contained:             Music already in playlist
+  not_contained:         Music not already in playlist
+  how_add_element:       |
+                          To add music in your playlists you have to use share buttons (at top right).
+                          You will choose or create playlist for the music.
+  edit:                  Edit
+  update_submit:         Update
+  goback:                Back
+  edit_title:            Edit "%playlist_name%"

@@ -14,8 +14,9 @@ groups:               Groups
 followed_by:          Those users are now following your publications.
 
 favorites:
-  your_favorites:     Your faves.
-  user_favorites:     %name%'s faves.
+  your_favorites:     Your favorites.
+  user_favorites:     %name%'s favorites.
+  nopublic:           %user_username% don't want to show his favorites
   
 nothing:    |
               Your network does not exist, yet. Use the search to find people and groups you may like !
