@@ -17,6 +17,11 @@
           </a>
         </li>
         <li class="sub_menu_element">
+          <a href="{{ path('playlists_user', {'user_slug': app.user.slug}) }}">
+            {{ 'container_menu.my_playlists'|trans({}, 'navigationui') }}
+          </a>
+        </li>
+        <li class="sub_menu_element">
           <a href="{{ path('groups_own_list') }}">
             {{ 'network.mygroups'|trans({}, 'navigationui') }}
           </a>
