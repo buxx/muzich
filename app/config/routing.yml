@@ -105,6 +105,11 @@ MuzichAdminBundle_admin_muzich_admin_bundle_Admin_group:
     resource: "@MuzichAdminBundle/Controller/Admin_group/"
     type:     admingenerator
     prefix:   /admin/muzich_admin_bundle/Admin_group
+    
+MuzichAdminBundle_admin_muzich_admin_bundle_Admin_playlist:
+    resource: "@MuzichAdminBundle/Controller/Admin_playlist/"
+    type:     admingenerator
+    prefix:   /admin/muzich_admin_bundle/Admin_playlist
 
 MuzichAdminBundle_admin_muzich_admin_bundle_Admin_user:
     resource: "@MuzichAdminBundle/Controller/Admin_user/"

@@ -43,6 +43,7 @@ class MenuBuilder extends BaseMenu
     $this->addNavLinkRoute($menu, 'Events Archives', 'Muzich_AdminBundle_Admin_event_archive_list');
     $this->addNavLinkRoute($menu, 'Registration Tokens', 'Muzich_AdminBundle_Admin_registration_token_list');
     $this->addNavLinkRoute($menu, 'Pre-subscriptions', 'Muzich_AdminBundle_Admin_presubscription_list');
+    $this->addNavLinkRoute($menu, 'Playlists', 'Muzich_AdminBundle_Admin_playlist_list');
   }
   
   protected function addModerationLinksToMenu($menu)

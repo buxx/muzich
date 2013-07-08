@@ -1,0 +1,47 @@
+generator: admingenerator.generator.doctrine
+params:
+  model: Muzich\CoreBundle\Entity\Playlist
+  namespace_prefix: Muzich
+  bundle_name: AdminBundle
+  fields:
+    owner:
+      formType: shtumi_ajax_autocomplete
+      formOptions:
+        entity_alias: users
+
+builders:
+  list:
+    params:
+      title: List for Playlists
+      display: [name, public, owner]
+      actions:
+        new: ~
+      object_actions:
+        show: ~
+        edit: ~
+        delete: ~
+  filters:
+    params:
+      display: [name, public, owner]
+  new:
+    params:
+      title: New Playlist
+      display: [name, owner, public]
+      actions:
+        save: ~
+        list: ~
+  edit:
+    params:
+      title: "You're editing the object \"%object%\"|{ %object%: Playlist.name }|"
+      display: [name, owner, public]
+      actions:
+        save: ~
+        list: ~
+  show:
+    params:
+      title: "You're viewing the object \"%object%\"|{ %object%: Playlist.name }|"
+      display: [name, owner, public]
+      actions:
+        list: ~
+        new: ~
+  delete: ~
