@@ -98,7 +98,7 @@
             >
               {{ playlist.name }}
             </a>
-            {% if app.user|userId == playlist.owner.id %}
+            {% if app.user|userId == playlist.owner.id and playlist.public %}
               {{ 'playlist.public_word'|trans({}, 'elements') }}
             {% endif %}
           </div>
