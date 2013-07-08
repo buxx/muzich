@@ -174,10 +174,16 @@ class EditController extends Controller
       throw $this->createNotFoundException();
     
     $playlist_name = $playlist->getName();
+    $playlist_public = $playlist->isPublic();
     $form = $this->getPlaylistForm($playlist);
     $form->bind($request);
     if ($form->isValid())
     {
+      if ($playlist_public && !$playlist->isPublic())
+      {
+        $this->getPlaylistManager()->privatizePlaylist($playlist);
+      }
+      
       $this->persist($form->getData());
       $this->flush();
       

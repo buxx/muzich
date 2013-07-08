@@ -5,11 +5,9 @@
 {{ form_errors(form) }}
 {{ form_errors(form.name) }}
 
-{% if display_public_widget %}
-  {{ form_errors(form.public) }}
-  {{ form_widget(form.public) }}
-  <label for="playlist_public">{{ 'playlist.public_label'|trans({}, 'elements') }}</label>
-{% endif %}
+{{ form_errors(form.public) }}
+{{ form_widget(form.public) }}
+<label for="playlist_public">{{ 'playlist.public_label'|trans({}, 'elements') }}</label>
 
 <div class="field">
   {{ form_widget(form.name, {'attr':{'class':'niceinput'}}) }}

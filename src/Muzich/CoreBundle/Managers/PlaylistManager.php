@@ -135,26 +135,12 @@ class PlaylistManager
     $playlist_copied = new Playlist();
     $playlist_copied->setOwner($user);
     $playlist_copied->setName($playlist->getName());
-    $playlist_copied->setPublic(true);
+    $playlist_copied->setPublic(false);
     $playlist_copied->setTags($playlist->getTags());
     $playlist_copied->setElements($playlist->getElements());
     $playlist_copied->setCopied($playlist);
     $playlist->addCopy($playlist_copied);
-    
-    //foreach ($user->getPlaylistsOwneds() as $fuck)
-    //{
-    //  var_dump($fuck->getName());
-    //}
-    //
     $user->getPlaylistsOwneds()->add($playlist_copied);
-    //
-    //var_dump($playlist_copied->getOwner()->getUsername());
-    //
-    //foreach ($user->getPlaylistsOwneds() as $fuck)
-    //{
-    //  var_dump($fuck->getName());
-    //}
-    //die();
     
     $this->entity_manager->persist($playlist_copied);
     $this->entity_manager->persist($user);
@@ -244,6 +230,13 @@ class PlaylistManager
     {
       $this->entity_manager->persist($this->copyPlaylist($user, $playlist));
     }
+  }
+  
+  public function privatizePlaylist(Playlist $playlist)
+  {
+    $this->copyPlaylistForPickedUsers($playlist);
+    $playlist->setPublic(false);
+    $this->entity_manager->persist($playlist);
   }
   
 }

@@ -14,12 +14,9 @@ class PlaylistForm extends AbstractType
       'required' => true,
     ));
     
-    if (!$options['data']->getId())
-    {
-      $builder->add('public', 'checkbox', array(
-        'required' => false,
-      ));
-    }
+    $builder->add('public', 'checkbox', array(
+      'required' => false,
+    ));
   }
 
   public function getName()

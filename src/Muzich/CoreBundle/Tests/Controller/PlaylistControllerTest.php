@@ -403,7 +403,7 @@ class PlaylistControllerTest extends FunctionalTest
   
   protected function checkPlaylistOwnedBy($playlist, $user)
   {
-    $this->assertEquals($playlist->getOwner()->getId(), $user->getId());
+    $this->assertEquals($playlist->getOwner()->getUsername(), $user->getUsername());
   }
   
   protected function checkPlaylistNotOwnedBy($playlist, $user)
@@ -422,6 +422,26 @@ class PlaylistControllerTest extends FunctionalTest
     $this->deletePlaylist($this->playlists['bob_pub']);
     $this->playlists['bux_bob_pub'] = $this->findOneBy('Playlist', array('name' => 'A travers l\'espace'));
     $this->assertTrue(!is_null($this->playlists['bux_bob_pub']));
+    $this->checkPlaylistOwnedBy($this->playlists['bux_bob_pub'], $this->users['bux']);
+  }
+  
+  public function testCopyWhenPickedPlaylistPrivatized()
+  {
+    $this->init();
+    $this->initCopysContextData();
+    $this->connectUser('bob', 'toor');
+    
+    $this->checkPlaylistPickedBy($this->playlists['bob_pub'], $this->users['bux']);
+    $this->checkPlaylistNotOwnedBy($this->playlists['bob_pub'], $this->users['bux']);
+    
+    $this->playlists['bob_pub']->setPublic(false);
+    $this->updatePlaylist($this->playlists['bob_pub']);
+    $this->playlists['bux_bob_pub'] = $this->findOneBy('Playlist', array(
+      'name' => 'A travers l\'espace',
+      'owner' => $this->users['bux']->getId()
+    ));
+    $this->assertTrue(!is_null($this->playlists['bux_bob_pub']));
+    $this->assertEquals(false, $this->playlists['bux_bob_pub']->isPublic());
     $this->checkPlaylistOwnedBy($this->playlists['bux_bob_pub'], $this->users['bux']);
   }
   
@@ -463,7 +483,7 @@ class PlaylistControllerTest extends FunctionalTest
   
   public function testUpdate()
   {
-     $this->init();
+    $this->init();
     $this->initReadContextData();
     $this->connectUser('bux', 'toor');
     $this->goToPage($this->generateUrl('playlist', array('user_slug' => $this->users['bux']->getSlug(), 'playlist_id' => $this->playlists['bux_1_pub']->getId())));
@@ -487,6 +507,7 @@ class PlaylistControllerTest extends FunctionalTest
     
     $form = $this->selectForm('form.playlist_edit input[type="submit"]');
     $form['playlist[name]'] = $playlist->getName();
+    $form['playlist[public]'] = $playlist->isPublic();
     $this->submit($form);
   }
   
