@@ -16,11 +16,11 @@ dev:
   subtitle:       Muzich est en cours de construction
   text:           |
                   Actuellement vous utilisez une version de test. De nombreuses 
-                  fonctionnalités doivent voir le jour au fur et a mesure du développement.
+                  fonctionnalités doivent voir le jour au fur et à mesure du développement.
 about:
   subtitle:       Découvrez et partagez la musique d'internet
   text:           |
-                  Grâce au réseau de Muzi.ch découvrez chaque jour de nouvelles musiques partagés
+                  Grâce au réseau de Muzi.ch découvrez chaque jour de nouvelles musiques partagées
                   par les autres membres de ce réseau. Partagez également vos coups de cœurs 
                   sur ce même réseau.
 
@@ -60,7 +60,7 @@ mail:
                   Bonjour %username%,
 
                   Une demande de changement d'email a été faite. Si vous
-                  n'êtes pas a l'origine de cette demande, ne tenez pas compte de cet email.
+                  n'êtes pas à l'origine de cette demande, ne tenez pas compte de cet email.
                   
                   Si au contraire vous souhaitez définir cette nouvelle adresse email
                   rendez-vous à cette adresse: %url%
@@ -108,8 +108,8 @@ help:
     title1:            Ajouter un partage: Adresse HTTP
     text1:            |
                       Vous devez mettre dans ce champ l'adresse de la page internet
-                      contenant la musique à partager. Faites bien attention a vous 
-                      trouver sur la page représentant la musique que vous souaihtez 
+                      contenant la musique à partager. Faites bien attention à vous 
+                      trouver sur la page représentant la musique que vous souhaitez 
                       partager. Evitez par exemple de partager une adresse après 
                       avoir effectué une recherche.
     text1_plugin:     Bientôt un plugin firefox, chrome (et d'autres) pour partager encore plus facilement !
@@ -147,7 +147,7 @@ help:
       title:          Faites-vous une réputation
       text:           |
                       Plus vos partages plaisent, plus vous gagnez de réputation !
-                      Fiez-vous à la réputation des utilisateurs pour chosir quels profils
+                      Fiez-vous à la réputation des utilisateurs pour choisir quels profils
                       suivre et créer votre réseau personnel.
               
         
@@ -169,7 +169,7 @@ help_tour:
       tour:           |
                       "<h1>Le flux</h1>"+
                       "<p>L'élément central de Muzi.ch est son flux de partages. "+
-                      "C'est ici que l'on retrouve les musiques partagés par les "+
+                      "C'est ici que l'on retrouve les musiques partagées par les "+
                       "différents utilisateurs.</p>"
       tooltip:        |
                       "<p>Les musiques partagées par les utilisateurs apparaissent des plus récentes aux plus "+

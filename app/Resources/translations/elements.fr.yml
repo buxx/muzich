@@ -2,9 +2,9 @@
 noelements:
   sentence:             Aucun élément à afficher
   sentence_filter:      |
-                         Aucun élément a afficher, ceci est peut-être dû a un
-                         filtre trop restrictif et/ou que vous avez choisis "Mon réseau"
-                         sans suivre d'utilisateurs ayant partagés de la musique.
+                         Aucun élément à afficher, ceci est peut-être dû a un
+                         filtre trop restrictif et/ou que vous avez choisi "Mon réseau"
+                         sans suivre d'utilisateurs ayant partagé de la musique.
                          <br />Vous pouvez ajouter des tags ou
                          <a class="filter_clear_url" href="#" >%link_string%</a>.
   sentence_filter_link_string: les retirer
@@ -69,7 +69,7 @@ element:
     follow:
       label:            M'avertir en cas de nouveaux commentaires
   vote:
-    good:               Ce partage mérite un point supplémentaire (cliquez a nouveau pour enlever)
+    good:               Ce partage mérite un point supplémentaire (cliquez à nouveau pour enlever)
   tag_proposition:
     form:
       submit:           Proposer ces tags
@@ -122,7 +122,7 @@ playlist:
   remove_element:        Retirer ce partage de la liste de lecture
   open:                  Ouvrir
   read:                  Lire
-  pick:                  Ajouter a mes listes
+  pick:                  Ajouter à mes listes
   unpick:                Enlever de mes listes
   gotoplaylists:         Retourner aux listes de lectures de %user_username%
   user_title:            Listes de lectures de %user_username%
@@ -138,9 +138,9 @@ playlist:
   contained:             La musique est déjà présente dans cette liste
   not_contained:         La musique n'est pas présente dans cette liste
   how_add_element:       |
-                          Pour ajouter de la musique a vos listes de lectures vous devez utiliser
+                          Pour ajouter de la musique à vos listes de lectures vous devez utiliser
                           les boutons disponibles en haut à droite des partages. Vous pourrez ensuite
-                          choisir a quelle liste ajouter la musique en question.
+                          choisir à quelle liste ajouter la musique en question.
   edit:                  Modifier
   update_submit:         Mettre à jour
   goback:                Retour

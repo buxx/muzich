@@ -87,9 +87,9 @@ my_account:
   favorite_tags_helpbox:
     title:          Choisissez vos tags favoris
     text:           |
-                    La configuration de vos tags favoris permettrons de filtrer
-                    la liste de partage selon vos goûts musicaux lors de chacunes de vos
-                    visites. N'hésitez pas à en configurer beaucoups !
+                    La configuration de vos tags favoris permettra de filtrer
+                    la liste de partage selon vos goûts musicaux lors de chacune de vos
+                    visites. N'hésitez pas à en configurer beaucoup !
   privacy:
     title:          Vie privée
     submit:         Mettre à jour
@@ -115,13 +115,13 @@ tags:
   prompt:
     help_box_title: Afficher de l'aide pour la saisie de tags
     help:  |
-            Choissiez un tag dans la liste ci-dessous en cliquant dessus. Pour saisir plusieurs tags
+            Choisissez un tag dans la liste ci-dessous en cliquant dessus. Pour saisir plusieurs tags
             renouvellez l'opération pour chacun d'entre eux.
     remove_all: Enlever tous les tags
     favorites:  Mettre mes tags favoris
   help:  |
            Saisissez <strong>une liste de tags</strong> ci-dessous: Entrez 
-           <strong>un tag à la fois</strong> et choisissez les à l'aide de 
+           <strong>un tag à la fois</strong> et choisissez -les à l'aide de 
            la liste.
   inputtext:
     help:      Saisissez vos tags ici (un par un)
@@ -136,8 +136,8 @@ tags:
       cancel:       Annuler
       submit:       Faire la demande
     errors:
-      min:              Le tag doit être de %limit% caractéres minimum
-      max:              Le tag doit être de %limit% caractéres maximum
+      min:              Le tag doit être de %limit% caractères minimum
+      max:              Le tag doit être de %limit% caractères maximum
       unknow:           Une erreur est survenue
   new:
     has_news:       %count% éléments viennent d'être ajoutés, %link%
@@ -204,7 +204,7 @@ element_add:
   added_to_group:
     sentence:       |
                      L'élément que vous venez d'ajouter semble correspondre
-                     a un des groupes que vous gérez. Cliquez sur le nom d'un groupe
+                     à un des groupes que vous gérez. Cliquez sur le nom d'un groupe
                      pour diffuser cet élément dans le groupe.
                      
     nothanks:       Non, ne pas diffuser cet élément dans un de mes groupes
@@ -226,7 +226,7 @@ tags_filter:
 index:
   beta:
     warning:       |
-                    Les inscriptions sur Muzi.ch sont actuellement limités. Le service 
+                    Les inscriptions sur Muzi.ch sont actuellement limitées. Le service 
                     est actuellement en bêta fermée ! Vous pouvez néanmoins vous inscrire si vous
                     possédez un code d'inscription
     
@@ -296,10 +296,10 @@ events:
     text:
       comments:          |
                           Sont affichés ci-dessous vos partages qui ont été commentés, ainsi que les
-                          partages sur lesquels vous avez rédigé un commentaire et souhaité être avertis des nouveaux
+                          partages sur lesquels vous avez rédigé un commentaire et souhaité être averti des nouveaux
                           commentaires.
       nvxfav:            |
                           Sont affichés ci-dessous vos partages qui ont été mis en favoris par d'autres utilisateurs
       tagsprop:          |
                           Sont affichés ci-dessous vos partages pour lesquels on vous propose une nouvelle liste de tags
-
+      

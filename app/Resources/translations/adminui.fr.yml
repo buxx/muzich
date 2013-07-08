@@ -3,9 +3,9 @@ moderate:
   title:            Modération
   tags:
     title:          Tags
-    to_moderate:      %count% a modérer
+    to_moderate:      %count% à modérer
   elements:
-    to_moderate:      %count% a modérer
+    to_moderate:      %count% à modérer
     title:          Elements
     action:
       delete:       Supprimer

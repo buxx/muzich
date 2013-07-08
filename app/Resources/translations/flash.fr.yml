@@ -15,7 +15,7 @@ group:
     failure:      Un erreur est survenue lors de la création du groupe.
   update:
     success:      La mise a jour a été un succès.
-    failure:      Une erreur est survenue lors de la mise a jour du groupe.
+    failure:      Une erreur est survenue lors de la mise à jour du groupe.
     
 element:
   add:
@@ -26,8 +26,8 @@ element:
     
 user:
   changeemail:
-    mail_send:     Un email a été envoyé a l'adresse communiquée pour confirmation (vérifiez aussi dans vos SPAM).
-    token_invalid: Le lien pour mettre a jour votre email est périmé, veuillez relancer la procédure.
+    mail_send:     Un email a été envoyé à l'adresse communiquée pour confirmation (vérifiez aussi dans vos SPAM).
+    token_invalid: Le lien pour mettre à jour votre email est périmé, veuillez relancer la procédure.
     success:       Votre email a correctement été mis à jour.
     wait:          Vous devez attendre avant de pouvoir faire une nouvelle demande de changement d'email.
   session_expired: Vous avez été déconnecté, veuillez vous ré-identifier
@@ -45,7 +45,7 @@ user:
     success:        Le compte a bien été supprimé
 
 presubscription:
-  success:         Un email a été envoyé a votre adresse email pour confirmation (vérifiez aussi dans vos SPAM)
+  success:         Un email a été envoyé à votre adresse email pour confirmation (vérifiez aussi dans vos SPAM)
   error:           Une erreur est survenue, veuillez réessayer
   confirmed:       Votre email a bien été pris en compte, merci !
 

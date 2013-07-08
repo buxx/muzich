@@ -16,10 +16,10 @@ error:
       min:               Votre nom d'utilisateur doit contenir au moins %limit% caractères.
       max:               Votre nom d'utilisateur doit contenir au maximum %limit% caractères.
     password:
-      notsame:           Vous avez saisi deux mots de passes différents.
+      notsame:           Vous avez saisi deux mots de passe différents.
   changepassword:
     new:
-      notsame:           Vous avez saisi deux nouveaux mots de passes différents.
+      notsame:           Vous avez saisi deux nouveaux mots de passe différents.
   changeemail:
     email:
       invalid:           L'email saisi n'est pas valide.
@@ -36,7 +36,7 @@ error:
     invalid:             L'adresse fournie est invalide
   registration:
     email:
-      duplicate:         L'adresse email est déjà utilisé sur muzi.ch
+      duplicate:         L'adresse email est déjà utilisée sur muzi.ch
   change_username:
     duplicate:           Le nom d'utilisateur est déjà utilisé sur muzi.ch
     min:               Votre nom d'utilisateur doit contenir au moins %limit% caractères.
