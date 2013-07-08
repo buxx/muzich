@@ -182,9 +182,9 @@ filter:
   new_tags:         Propositions de tags
   tag_strict:       Chaque tag doit être trouvé
   help_text:        |
-                    Entrez ci-dessous les genre/styles de musiques que vous appréciez,
+                    Entrez ci-dessous les genres/styles de musiques que vous appréciez,
                     une fois ces genres ajoutés en tant que "tags" vous pourrez filtrer les
-                    musiques partagés selon vos gouts !
+                    musiques partagées selon vos goûts !
   
 element_add:
   prop_tags:
@@ -302,4 +302,4 @@ events:
                           Sont affichés ci-dessous vos partages qui ont été mis en favoris par d'autres utilisateurs
       tagsprop:          |
                           Sont affichés ci-dessous vos partages pour lesquels on vous propose une nouvelle liste de tags
-      
+
