@@ -1,0 +1,59 @@
+<!doctype html>
+<html xmlns:fb="http://www.facebook.com/2008/fbml">
+  <head>
+    <title>Muzi.ch - {% block title %}{% endblock %}</title>
+    {% include 'MuzichCoreBundle:Layout:head.html.twig' with {
+      'userecho' : false
+    } %}
+    {% block css %}{% endblock %}
+    {% block js %}{% endblock %}
+  </head>
+  <body>
+    
+    {% if  app.environment == 'prod' %}
+      {% include 'MuzichCoreBundle:Component:facebook.html.twig' %}
+    {% endif %}
+    {% include 'MuzichCoreBundle:Layout:noscript.html.twig' %}
+  
+  <div id="container" class="iframe">
+    
+    <div id="main_content">
+      
+      <div id="content">
+        
+        <div id="main" class="content">
+          
+          <div id="mainbox" class="nicebox {% block mainbox_classes %}{% endblock %}">
+            {% block main_content %}{% endblock %}
+            {% block fos_user_content %}{% endblock %}
+          </div>
+          
+        </div>
+          
+      </div>
+      
+    </div>
+    
+  </div>
+    
+    {% if  app.environment == 'prod' %} 
+      <!-- Piwik -->
+      <script type="text/javascript"> 
+        var _paq = _paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+          //var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics.muzi.ch//"; # pas de certif sur analytics.muzi.ch pour le moment
+          var u=(("https:" == document.location.protocol) ? "http" : "http") + "://analytics.muzi.ch//";
+          _paq.push(['setTrackerUrl', u+'piwik.php']);
+          _paq.push(['setSiteId', 1]);
+          var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+          g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+        })();
+      
+      </script>
+      <noscript><p><img src="http://analytics.muzi.ch/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+      <!-- End Piwik Code -->
+    {% endif %}
+  </body>
+</html>

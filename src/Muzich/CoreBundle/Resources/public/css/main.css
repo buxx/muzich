@@ -2459,6 +2459,32 @@ div#tags_prompt_search p.help_notags span
   width: 480px;
 }
 
+.iframe #main_content
+{
+  min-height: available;
+  position: static;
+  width: 600px;
+}
+
+.iframe #content
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.iframe #main
+{
+  float: none;
+  width: 100%;
+}
+
+.iframe input#element_add_name, .iframe div#tags_prompt_add input.tag_prompt
+{
+  width: 440px;
+}
+
 /*
 *
 *

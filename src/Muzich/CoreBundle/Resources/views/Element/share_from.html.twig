@@ -1,0 +1,23 @@
+{% extends "MuzichCoreBundle::layout_iframe.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block main_content %}
+
+  {% include 'MuzichCoreBundle:Component:element_add_box.html.twig' with {
+    'box_title'     : 'home.add_element_box.title'|trans({}, 'navigationui'),
+    'add_form_name' : 'add',
+  } %}
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#element_add_box').slideDown("slow");
+      $('#element_add_link').hide();
+      $('form[name="search"]').slideUp();
+      $('img#form_add_loader').show();
+      $('input#element_add_url').val("{{ from_url }}");
+      $('form[name="add"]').submit();
+    });
+  </script>
+
+{% endblock %}

@@ -1208,4 +1208,15 @@ class ElementController extends Controller
     ));
   }
   
+  public function shareFromAction(Request $request)
+  {
+    if (!$request->get('from_url'))
+      throw $this->createNotFoundException();
+    
+    return $this->render('MuzichCoreBundle:Element:share_from.html.twig', array(
+      'add_form' => $this->getAddForm()->createView(),
+      'from_url' => $request->get('from_url')
+    ));
+  }
+  
 }

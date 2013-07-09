@@ -98,6 +98,7 @@ security:
         - { path: ^/(?:fr|en)/event/view/elements, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/test-error, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/share-from, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(?:fr|en)/element/share/from, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(?:fr|en)/account/email/confirm/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         

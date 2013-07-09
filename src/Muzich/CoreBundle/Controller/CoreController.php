@@ -662,7 +662,7 @@ class CoreController extends Controller
    */
   public function shareFromAction(Request $request)
   {
-    return $this->redirect($this->generateUrl('home', array(
+    return $this->redirect($this->generateUrl('share_from', array(
       'from_url' => $request->get('from_url'),
       // On ne se préoccupe pas de la locale coté plugins/applications
       '_locale'  => $this->determineLocale()

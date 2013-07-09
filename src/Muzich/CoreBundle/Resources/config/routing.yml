@@ -210,3 +210,6 @@ url_get_embed_for_element:
   pattern: /ajax/element/data/get/embed/{element_id}
   defaults: { _controller: MuzichCoreBundle:Element:getEmbedCode, element_id: null }
 
+share_from:
+  pattern: /element/share/from
+  defaults: { _controller: MuzichCoreBundle:Element:shareFrom }
