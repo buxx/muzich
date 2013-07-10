@@ -28,6 +28,7 @@ home:
   add_element_box:
     close:              Fermer l'ajout d'élément
     title:              Ajouter un partage
+    title_external:     Ajouter un partage sur Muzi.ch
   check_url:            Ajouter
   
 group:

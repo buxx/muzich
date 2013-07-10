@@ -2463,7 +2463,7 @@ div#tags_prompt_search p.help_notags span
 {
   min-height: available;
   position: static;
-  width: 600px;
+  width: 560px;
 }
 
 .iframe #content
@@ -2472,17 +2472,41 @@ div#tags_prompt_search p.help_notags span
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  padding-bottom: 0px;
 }
 
-.iframe #main
+.iframe #main.content
 {
   float: none;
   width: 100%;
+  margin-right: 0px;
+}
+
+.iframe #mainbox.nicebox
+{
+  border: none;
+  box-shadow: none;
+  padding: 25px;
 }
 
 .iframe input#element_add_name, .iframe div#tags_prompt_add input.tag_prompt
 {
-  width: 440px;
+  width: 400px;
+}
+
+.iframe div#add_url_title, div.element_title 
+{
+  width: 75%;
+}
+
+.iframe div#form_add_second_part input[type="submit"]
+{
+  margin-right: 20px;
+}
+
+.iframe #tags_prompt_add
+{
+  width: 100%;
 }
 
 /*
