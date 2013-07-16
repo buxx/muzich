@@ -518,12 +518,21 @@ class ElementRepository extends EntityRepository
     $doctrineConfig = $this->getEntityManager()->getConfiguration();
     $doctrineConfig->addCustomStringFunction('FIELD', 'Muzich\CoreBundle\DoctrineExtensions\Query\Mysql\Field');
     
+    if (count($element_ids))
+    {
+      return $this->getEntityManager()->createQueryBuilder()
+        ->select('e, field(e.id, ' . implode(', ', $element_ids) . ') as HIDDEN field')
+        ->from('MuzichCoreBundle:Element', 'e')
+        ->where('e.id IN (:element_ids)')
+        ->setParameter('element_ids', $element_ids)
+        ->orderBy('field')
+      ;
+    }
+    
     return $this->getEntityManager()->createQueryBuilder()
-      ->select('e, field(e.id, ' . implode(', ', $element_ids) . ') as HIDDEN field')
+      ->select('e')
       ->from('MuzichCoreBundle:Element', 'e')
-      ->where('e.id IN (:element_ids)')
-      ->setParameter('element_ids', $element_ids)
-      ->orderBy('field')
+      ->where('1 = 2')
     ;
   }
   
