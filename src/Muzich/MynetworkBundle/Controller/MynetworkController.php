@@ -51,8 +51,8 @@ class MynetworkController extends Controller
   {
     $ids = $event->getIds();
     
-    $this->getDoctrine()->getEntityManager()->remove($event);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->remove($event);
+    $this->getDoctrine()->getManager()->flush();
     
     $followers_users_new = array();
     foreach ($followers_users as $user)

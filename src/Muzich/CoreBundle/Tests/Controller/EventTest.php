@@ -22,7 +22,7 @@ class EventTest extends FunctionalTest
     $bux = $this->getUser('bux');
     
     // Actuellement il n'y a aucun event d'ouvert pour bux (fixtures)
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -55,7 +55,7 @@ class EventTest extends FunctionalTest
     $this->assertEquals($response['status'], 'success');
     
     // bux a maintenant un event en base
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('
         SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
@@ -92,7 +92,7 @@ class EventTest extends FunctionalTest
     $this->assertEquals($response['status'], 'success');
     
     // bux a toujours 1 seul event en base
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('
         SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
@@ -127,7 +127,7 @@ class EventTest extends FunctionalTest
     $this->assertEquals($response['status'], 'success');
     
     // bux a toujours 1 seul event en base
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -171,7 +171,7 @@ class EventTest extends FunctionalTest
     $this->exist('a[href="'.$url.'"]');
     
     // L'objet Event est encore en base
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -187,7 +187,7 @@ class EventTest extends FunctionalTest
     $this->isResponseSuccess();
     
     // L'objet Event ne doit plus être en base maintenant qu'il a été vu
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -230,7 +230,7 @@ class EventTest extends FunctionalTest
     $bux = $this->getUser('bux');
     
     // Actuellement il n'y a aucun event d'ouvert pour bux (fixtures)
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -266,7 +266,7 @@ class EventTest extends FunctionalTest
     $this->assertTrue(!is_null($fav));
     
     // bux a maintenant un event en base
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('
         SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
@@ -299,7 +299,7 @@ class EventTest extends FunctionalTest
     $this->assertTrue(is_null($fav));
     
     // bux a toujours qu'un event avec un seul element signalé.
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('
         SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
@@ -331,7 +331,7 @@ class EventTest extends FunctionalTest
     $paul = $this->getUser();
     
     // Actuellement il n'y a aucun event d'ouvert pour paul (fixtures)
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -380,7 +380,7 @@ class EventTest extends FunctionalTest
     $joelle = $this->getUser();
     
     // Actuellement il n'y a aucun event d'ouvert pour joelle (fixtures)
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -429,7 +429,7 @@ class EventTest extends FunctionalTest
     $bux = $this->getUser();
     
     // Actuellement il n'y a aucun event d'ouvert pour bux (fixtures)
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -462,7 +462,7 @@ class EventTest extends FunctionalTest
     $this->assertEquals($response['status'], 'success');
     
     // Paul et Joelle on maintenant des events
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -478,7 +478,7 @@ class EventTest extends FunctionalTest
     $this->assertEquals($result[0]['count'], 1);
     $this->assertEquals($result[0]['ids'], json_encode(array((string)$element->getId())));
     
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -514,7 +514,7 @@ class EventTest extends FunctionalTest
     $this->assertEquals($response['status'], 'success');
     
     // Pas de mouvement coté événements
-    $result_paul = $this->getDoctrine()->getEntityManager()
+    $result_paul = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -530,7 +530,7 @@ class EventTest extends FunctionalTest
     $this->assertEquals($result[0]['count'], 1);
     $this->assertEquals($result[0]['ids'], json_encode(array((string)$element->getId())));
     
-    $result_jo = $this->getDoctrine()->getEntityManager()
+    $result_jo = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -556,7 +556,7 @@ class EventTest extends FunctionalTest
     $this->isResponseSuccess();
     
     // L'objet Event doit encore être en bas etant que l'on a pas validé sa suppression
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -575,7 +575,7 @@ class EventTest extends FunctionalTest
     $this->isResponseSuccess();
         
     // L'objet Event ne doit plus être en base maintenant qu'il a été vu
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -634,7 +634,7 @@ class EventTest extends FunctionalTest
     $this->isResponseSuccess();
         
     // L'objet Event ne doit plus être en base maintenant qu'il a été vu
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -672,7 +672,7 @@ class EventTest extends FunctionalTest
     $this->assertEquals($response['status'], 'success');
     
     // Paul et Joelle on maintenant des events
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -684,7 +684,7 @@ class EventTest extends FunctionalTest
     ;
     $this->assertEquals(count($result), 0);
     
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -710,7 +710,7 @@ class EventTest extends FunctionalTest
     $bob = $this->getUser('bob');
     
     // Actuellement il n'y a aucun event d'ouvert pour paul (fixtures)
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -744,7 +744,7 @@ class EventTest extends FunctionalTest
     $this->isResponseSuccess();
     
     // Désormais bob doit avoir un event
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -778,7 +778,7 @@ class EventTest extends FunctionalTest
     $this->exist('ul#followers_users li:contains(\'bux\')');
     
     // L'event n'existe d'ailleurs plus en base
-    $result = $this->getDoctrine()->getEntityManager()
+    $result = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid'
       )
@@ -823,7 +823,7 @@ class EventTest extends FunctionalTest
   
   protected function eventCount($user, $type, $count)
   {
-    $events = $this->getDoctrine()->getEntityManager()
+    $events = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -860,7 +860,7 @@ class EventTest extends FunctionalTest
   
   protected function eventHasElementId($user, $type, $element_id)
   {
-    $events = $this->getDoctrine()->getEntityManager()
+    $events = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type AND e.ids LIKE :eid'
       )
@@ -877,7 +877,7 @@ class EventTest extends FunctionalTest
   
   protected function eventHasNotElementId($user, $type, $element_id)
   {
-    $events = $this->getDoctrine()->getEntityManager()
+    $events = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type AND e.ids LIKE :eid'
       )
@@ -935,7 +935,7 @@ class EventTest extends FunctionalTest
   
   protected function getElementTagProposition($element_id, $user_id)
   {
-    $propositions = $this->getDoctrine()->getEntityManager()
+    $propositions = $this->getDoctrine()->getManager()
       ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
         .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
       ->setParameters(array(

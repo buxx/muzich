@@ -253,7 +253,7 @@ class SearchController extends Controller
       if (strlen(trim($string_search)) > 1)
       {
         // On utilise l'objet TagLike
-        $TagLike = new TagLike($this->getDoctrine()->getEntityManager());
+        $TagLike = new TagLike($this->getDoctrine()->getManager());
         // Pour trier nos tags d'une manière plus humaine
         $sort_response = $TagLike->getSimilarTags($string_search, $this->getUserId(true));
       
@@ -302,7 +302,7 @@ class SearchController extends Controller
   {
     if ($this->getRequest()->isXmlHttpRequest())
     {
-      $tag_id = $this->getDoctrine()->getEntityManager()->createQuery("
+      $tag_id = $this->getDoctrine()->getManager()->createQuery("
         SELECT t.id FROM MuzichCoreBundle:Tag t
         WHERE t.name = :str
         ORDER BY t.name ASC"

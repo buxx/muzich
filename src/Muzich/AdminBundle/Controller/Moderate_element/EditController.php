@@ -26,9 +26,9 @@ class EditController extends BaseEditController
     $user_ids = $element->getReportIds();
     $element->setReportIds(null);
     $element->setCountReport(null);
-    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getManager()->persist($element);
     
-    $users = $this->getDoctrine()->getEntityManager()
+    $users = $this->getDoctrine()->getManager()
       ->createQuery('
         SELECT u FROM MuzichCoreBundle:User u
         WHERE u.id IN (:uids)'
@@ -40,10 +40,10 @@ class EditController extends BaseEditController
     foreach ($users as $user)
     {
       $user->addBadReport();
-      $this->getDoctrine()->getEntityManager()->persist($user);
+      $this->getDoctrine()->getManager()->persist($user);
     }
     
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->flush();
     
     $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
     return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_element_list" ));
@@ -56,9 +56,9 @@ class EditController extends BaseEditController
     $event->elementRemoved($element);
     $element->getOwner()->addModeratedElementCount();
     
-    $this->getDoctrine()->getEntityManager()->persist($element->getOwner());
-    $this->getDoctrine()->getEntityManager()->remove($element);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($element->getOwner());
+    $this->getDoctrine()->getManager()->remove($element);
+    $this->getDoctrine()->getManager()->flush();
     
     $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
     return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_element_list" ));

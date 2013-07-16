@@ -30,8 +30,8 @@ class ReputationTest extends FunctionalTest
 //    
 //    $bux = $this->getUser('bux');
 //    $bux->setReputation(0);
-//    $this->getDoctrine()->getEntityManager()->persist($bux);
-//    $this->getDoctrine()->getEntityManager()->flush();
+//    $this->getDoctrine()->getManager()->persist($bux);
+//    $this->getDoctrine()->getManager()->flush();
 //    
 //    $bux = $this->getUser('bux');
 //    $this->assertEquals($bux->getReputation(), 0);

@@ -79,8 +79,8 @@ class CommentController extends Controller
     // Event pour user d'un nouveau comment
     $event->commentAdded($element, $this->getUser());
 
-    $this->getDoctrine()->getEntityManager()->persist($element);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($element);
+    $this->getDoctrine()->getManager()->flush();
 
     // On récupère le html du li avec le comment pour la réponse
     $html = $this->render('MuzichCommentBundle:Comment:li.comment.html.twig', array(
@@ -139,8 +139,8 @@ class CommentController extends Controller
     // Si tout c'est bien passé on met a jour l'attribut de l'élément
     $element->setComments($cm->get());
       
-    $this->getDoctrine()->getEntityManager()->persist($element);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($element);
+    $this->getDoctrine()->getManager()->flush();
     
     return $this->jsonResponse(array(
       'status' => 'success'
@@ -260,8 +260,8 @@ class CommentController extends Controller
     $cm->update($this->getUser(), $date, $comment, $follow);
     $element->setComments($cm->get());
 
-    $this->getDoctrine()->getEntityManager()->persist($element);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($element);
+    $this->getDoctrine()->getManager()->flush();
         
     if (null === ($comment_index = $cm->getIndex($this->getUserId(), $date)))
     {
@@ -321,8 +321,8 @@ if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::A
     $element->setComments($cm->get());
     $element->setCountCommentReport($cm->countCommentAlert());
     
-    $this->getDoctrine()->getEntityManager()->persist($element);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($element);
+    $this->getDoctrine()->getManager()->flush();
     
     return $this->jsonResponse(array(
       'status' => 'success'
@@ -360,8 +360,8 @@ if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::A
     $element->setComments($cm->get());
     $element->setCountCommentReport($cm->countCommentAlert());
     
-    $this->getDoctrine()->getEntityManager()->persist($element);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($element);
+    $this->getDoctrine()->getManager()->flush();
     
     return $this->jsonResponse(array(
       'status' => 'success'

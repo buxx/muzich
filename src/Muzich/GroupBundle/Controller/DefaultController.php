@@ -64,7 +64,7 @@ if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::A
       throw $this->createNotFoundException();
     }
     
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     
     $new_group = new Group();
     $new_group->setOwner($user);
@@ -152,7 +152,7 @@ if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::A
   
   public function updateAction(Request $request, $slug)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $group = $this->findGroupWithSlug($slug);
     
     if ($group->getOwner()->getId() != $this->getUserId())
@@ -212,7 +212,7 @@ if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::A
       throw $this->createNotFoundException('Accès non autorisé.');
     }
     
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     
     // Il faudra le faire avec doctrine:
     $elements = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')

@@ -271,7 +271,7 @@ class FunctionalTest extends WebTestCase
    */
   protected function findUserByUsername($username)
   {
-    return $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:User')
+    return $this->getDoctrine()->getManager()->getRepository('MuzichCoreBundle:User')
       ->findOneByUsername($username)
     ;
   }
@@ -530,7 +530,7 @@ class FunctionalTest extends WebTestCase
    */
   protected function getEntityManager()
   {
-    return $this->getDoctrine()->getEntityManager();
+    return $this->getDoctrine()->getManager();
   }
   
   /**

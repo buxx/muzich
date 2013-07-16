@@ -945,7 +945,7 @@ class HomeControllerTest extends FunctionalTest
     $bux = $this->getUser();
     
     // On récupère la proposition
-    $propositions = $this->getDoctrine()->getEntityManager()
+    $propositions = $this->getDoctrine()->getManager()
       ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
         .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
       ->setParameters(array(

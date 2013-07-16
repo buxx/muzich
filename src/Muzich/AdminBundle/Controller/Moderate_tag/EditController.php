@@ -53,7 +53,7 @@ class EditController extends BaseEditController
     
     $uids = json_decode($tag->getPrivateids(), true);
     
-    $users = $this->getDoctrine()->getEntityManager()
+    $users = $this->getDoctrine()->getManager()
       ->createQuery('
         SELECT u FROM MuzichCoreBundle:User u
         WHERE u.id IN (:uids)'
@@ -65,10 +65,10 @@ class EditController extends BaseEditController
     foreach ($users as $user)
     {
       $user->addModeratedTagCount();
-      $this->getDoctrine()->getEntityManager()->persist($user);
+      $this->getDoctrine()->getManager()->persist($user);
     }
     
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->flush();
     
     if (!$this->getRequest()->isXmlHttpRequest())
     {

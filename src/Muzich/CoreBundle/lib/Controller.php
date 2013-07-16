@@ -517,7 +517,7 @@ class Controller extends BaseController
    */
   public function getEntityManager()
   {
-    return $this->getDoctrine()->getEntityManager();
+    return $this->getDoctrine()->getManager();
   }
   
   /**
