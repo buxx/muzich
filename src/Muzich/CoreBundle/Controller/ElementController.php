@@ -1085,8 +1085,10 @@ class ElementController extends Controller
     if (!($element = $es->getElements($this->getDoctrine(), $this->getUserId(true), 'single')))
     {
       return $this->jsonResponse(array(
-      'status'  => 'error'
-    ));
+        self::RESPONSE_STATUS_ID  => self::RESPONSE_STATUS_ERROR,
+        self::RESPONSE_ERROR_ID   => self::ERROR_TYPE_NOTFOUND,
+        self::RESPONSE_MESSAGE_ID => $this->trans('noelements.nofound_anymore', array(), 'elements')
+      ));
     }
     
     $html = $this->render('MuzichCoreBundle:SearchElement:li.element.html.twig', array(

@@ -8,6 +8,7 @@ noelements:
                          <br />Vous pouvez ajouter des tags ou
                          <a class="filter_clear_url" href="#" >%link_string%</a>.
   sentence_filter_link_string: les retirer
+  nofound_anymore:      Le partage est introuvable (il peut avoir été supprimé par son auteur)
   
 element:
   favorite:

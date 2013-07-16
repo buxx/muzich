@@ -9,6 +9,8 @@ noelements:
   
   sentence_filter_link_string: delete them.
   
+  nofound_anymore:      Share not found (maybe deleted by owner)
+  
 element:
   favorite:
     add:                Add to faves

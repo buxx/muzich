@@ -3,6 +3,7 @@
 namespace Muzich\CoreBundle\Searcher;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\NoResultException;
 
 class ElementSearcher extends Searcher implements SearcherInterface
 {
@@ -341,7 +342,15 @@ class ElementSearcher extends Searcher implements SearcherInterface
       break;
     
       case 'single':
-        return $query->getSingleResult();
+        try
+        {
+          return $query->getSingleResult();
+        } 
+        catch (NoResultException $exc)
+        {
+          return null;
+        }
+        
       break;
     
       default :

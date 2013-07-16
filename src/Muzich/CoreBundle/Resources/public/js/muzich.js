@@ -3141,9 +3141,15 @@ $(document).ready(function(){
           function(){}
         );
 
+        line.find('img.loader').hide();
         if (response.status === 'success')
         {
           line.find('div.content_opened').html('<ul class="elements">' + response.data + '</ul>');
+        }
+        else
+        if (response.status === 'error')
+        {
+          line.find('div.content_opened').html(response.message);
         }
       });
     }

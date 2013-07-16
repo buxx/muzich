@@ -20,6 +20,14 @@ use Muzich\CoreBundle\Form\Playlist\PlaylistForm;
 class Controller extends BaseController
 {
   
+  const RESPONSE_STATUS_ID = 'status';
+  const RESPONSE_ERROR_ID = 'error';
+  const RESPONSE_MESSAGE_ID = 'message';
+  const RESPONSE_STATUS_ERROR = 'error';
+  
+  const ERROR_TYPE_NOTFOUND = 'notfound';
+  const ERROR_TYPE_MUSTBECONNECTED = 'mustbeconnected';
+  
   protected static $user = null;
   protected static $user_personal_query = null;
   protected static $tags = array();
