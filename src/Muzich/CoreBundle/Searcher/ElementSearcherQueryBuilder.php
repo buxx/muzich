@@ -247,8 +247,8 @@ class ElementSearcherQueryBuilder
             $tag_ids .= ','.(int)$tag_id;
           }
         }
-      
-        if (!empty(trim($tag_ids)))
+        
+        if (!is_null(trim($tag_ids)))
         {
           $sql = "SELECT et.element_id FROM elements_tag et "
           ."WHERE et.tag_id IN ($tag_ids) group by et.element_id "
