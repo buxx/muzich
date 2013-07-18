@@ -2568,6 +2568,12 @@ $(document).ready(function(){
     $(this).hide();
   });
   
+  $('a.display_all_cloud_tag').click(function(){
+    $(this).parents('ul.tags_cloud').find('li').show();
+    $(this).parent().remove();
+    return false;
+  });
+  
   $('input#cloud_tags_filter').keyup(function(){
     var search_string = $(this).val();
     
@@ -3141,9 +3147,15 @@ $(document).ready(function(){
           function(){}
         );
 
+        line.find('img.loader').hide();
         if (response.status === 'success')
         {
           line.find('div.content_opened').html('<ul class="elements">' + response.data + '</ul>');
+        }
+        else
+        if (response.status === 'error')
+        {
+          line.find('div.content_opened').html(response.message);
         }
       });
     }

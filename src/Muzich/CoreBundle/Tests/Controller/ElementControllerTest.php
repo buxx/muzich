@@ -507,14 +507,14 @@ class ElementControllerTest extends FunctionalTest
     ;
     
     // Pas de proposition en base pur cet élément
-    $propositions = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
+    $propositions = $this->getDoctrine()->getManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
       ->findOneByElement($element->getId())
     ;
     
     $this->assertEquals(0, count($propositions));
     
     // Pas d'événement pour bux
-    $events = $this->getDoctrine()->getEntityManager()
+    $events = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -565,7 +565,7 @@ class ElementControllerTest extends FunctionalTest
     $this->assertEquals($response['status'], 'success');
     
     // On a maintenant la proposition en base
-    $propositions = $this->getDoctrine()->getEntityManager()
+    $propositions = $this->getDoctrine()->getManager()
       ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
         .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
       ->setParameters(array(
@@ -592,7 +592,7 @@ class ElementControllerTest extends FunctionalTest
     }
     
     // Il y a maintenant un event pour bux
-    $events = $this->getDoctrine()->getEntityManager()
+    $events = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -657,7 +657,7 @@ class ElementControllerTest extends FunctionalTest
     $this->assertEquals($response['status'], 'success');
     
     // On a maintenant la proposition en base
-    $propositions = $this->getDoctrine()->getEntityManager()
+    $propositions = $this->getDoctrine()->getManager()
       ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
         .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
       ->setParameters(array(
@@ -684,7 +684,7 @@ class ElementControllerTest extends FunctionalTest
     }
     
     // avec la propsoition de joelle le nombre d'event n'a pas bougé (le compteur compte les éléments)
-    $events = $this->getDoctrine()->getEntityManager()
+    $events = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -785,7 +785,7 @@ class ElementControllerTest extends FunctionalTest
     }
         
     // La proposition de joelle a disparu
-    $propositions = $this->getDoctrine()->getEntityManager()
+    $propositions = $this->getDoctrine()->getManager()
       ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
         .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
       ->setParameters(array(
@@ -797,7 +797,7 @@ class ElementControllerTest extends FunctionalTest
     $this->assertEquals(0, count($propositions));
     
     // celle de paul aussi 
-    $propositions = $this->getDoctrine()->getEntityManager()
+    $propositions = $this->getDoctrine()->getManager()
       ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
         .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
       ->setParameters(array(
@@ -809,7 +809,7 @@ class ElementControllerTest extends FunctionalTest
     $this->assertEquals(0, count($propositions));
     
     // Mais on a un event en archive pour joelle
-    $archives = $this->getDoctrine()->getEntityManager()
+    $archives = $this->getDoctrine()->getManager()
       ->createQuery('SELECT a FROM MuzichCoreBundle:EventArchive a'
         .' WHERE a.user = :uid AND a.type = :type')
       ->setParameters(array(
@@ -822,7 +822,7 @@ class ElementControllerTest extends FunctionalTest
     $this->assertEquals(1, $archives[0]->getCount());
     
     // paul lui n'a pas d'archives
-    $archives = $this->getDoctrine()->getEntityManager()
+    $archives = $this->getDoctrine()->getManager()
       ->createQuery('SELECT a FROM MuzichCoreBundle:EventArchive a'
         .' WHERE a.user = :uid AND a.type = :type')
       ->setParameters(array(
@@ -877,14 +877,14 @@ class ElementControllerTest extends FunctionalTest
     ;
     
     // Pas de proposition en base pur cet élément
-    $propositions = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
+    $propositions = $this->getDoctrine()->getManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
       ->findOneByElement($element->getId())
     ;
     
     $this->assertEquals(0, count($propositions));
     
     // Pas d'événement pour bux
-    $events = $this->getDoctrine()->getEntityManager()
+    $events = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -935,7 +935,7 @@ class ElementControllerTest extends FunctionalTest
     $this->assertEquals($response['status'], 'success');
     
     // On a maintenant la proposition en base
-    $propositions = $this->getDoctrine()->getEntityManager()
+    $propositions = $this->getDoctrine()->getManager()
       ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
         .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
       ->setParameters(array(
@@ -962,7 +962,7 @@ class ElementControllerTest extends FunctionalTest
     }
     
     // Il y a maintenant un event pour bux
-    $events = $this->getDoctrine()->getEntityManager()
+    $events = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -1027,7 +1027,7 @@ class ElementControllerTest extends FunctionalTest
     $this->assertEquals($response['status'], 'success');
     
     // On a maintenant la proposition en base
-    $propositions = $this->getDoctrine()->getEntityManager()
+    $propositions = $this->getDoctrine()->getManager()
       ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
         .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
       ->setParameters(array(
@@ -1054,7 +1054,7 @@ class ElementControllerTest extends FunctionalTest
     }
     
     // avec la propsoition de joelle le nombre d'event n'a pas bougé (le compteur compte les éléments)
-    $events = $this->getDoctrine()->getEntityManager()
+    $events = $this->getDoctrine()->getManager()
       ->createQuery('SELECT e FROM MuzichCoreBundle:Event e
         WHERE e.user = :uid AND e.type = :type'
       )
@@ -1136,7 +1136,7 @@ class ElementControllerTest extends FunctionalTest
     );
     
     // La proposition de joelle a disparu
-    $propositions = $this->getDoctrine()->getEntityManager()
+    $propositions = $this->getDoctrine()->getManager()
       ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
         .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
       ->setParameters(array(
@@ -1148,7 +1148,7 @@ class ElementControllerTest extends FunctionalTest
     $this->assertEquals(0, count($propositions));
     
     // celle de paul aussi 
-    $propositions = $this->getDoctrine()->getEntityManager()
+    $propositions = $this->getDoctrine()->getManager()
       ->createQuery('SELECT p, t FROM MuzichCoreBundle:ElementTagsProposition p'
         .' JOIN p.tags t WHERE p.element = :eid AND p.user = :uid')
       ->setParameters(array(
@@ -1160,7 +1160,7 @@ class ElementControllerTest extends FunctionalTest
     $this->assertEquals(0, count($propositions));
     
     // Et on as pas d'archive pour joelle
-    $archives = $this->getDoctrine()->getEntityManager()
+    $archives = $this->getDoctrine()->getManager()
       ->createQuery('SELECT a FROM MuzichCoreBundle:EventArchive a'
         .' WHERE a.user = :uid AND a.type = :type')
       ->setParameters(array(
@@ -1172,7 +1172,7 @@ class ElementControllerTest extends FunctionalTest
     $this->assertEquals(0, count($archives));
     
     // paul lui n'a pas d'archives non plus
-    $archives = $this->getDoctrine()->getEntityManager()
+    $archives = $this->getDoctrine()->getManager()
       ->createQuery('SELECT a FROM MuzichCoreBundle:EventArchive a'
         .' WHERE a.user = :uid AND a.type = :type')
       ->setParameters(array(

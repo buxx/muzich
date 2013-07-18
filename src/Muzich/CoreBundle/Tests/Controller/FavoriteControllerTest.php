@@ -22,7 +22,7 @@ class FavoriteControllerTest extends FunctionalTest
     $this->clickOnLink($link);
     $this->isResponseSuccess();
         
-    $elements = $this->getDoctrine()->getEntityManager()->createQuery("
+    $elements = $this->getDoctrine()->getManager()->createQuery("
       SELECT e FROM MuzichCoreBundle:Element e
       LEFT JOIN e.elements_favorites ef
       WHERE ef.user = :uid
@@ -56,7 +56,7 @@ class FavoriteControllerTest extends FunctionalTest
     // On se rend sur sa page des favoris de bux
     $this->crawler = $this->client->request('GET', $this->generateUrl('favorite_user_list', array('slug' => 'bux')));
            
-    $elements = $this->getDoctrine()->getEntityManager()->createQuery("
+    $elements = $this->getDoctrine()->getManager()->createQuery("
       SELECT e FROM MuzichCoreBundle:Element e
       LEFT JOIN e.elements_favorites ef
       WHERE ef.user = :uid
@@ -91,7 +91,7 @@ class FavoriteControllerTest extends FunctionalTest
     // On se rend sur sa page des favoris de bux
     $this->crawler = $this->client->request('GET', $this->generateUrl('favorite_user_list', array('slug' => 'bux')));
            
-    $elements = $this->getDoctrine()->getEntityManager()->createQuery("
+    $elements = $this->getDoctrine()->getManager()->createQuery("
       SELECT e FROM MuzichCoreBundle:Element e
       LEFT JOIN e.elements_favorites ef
       WHERE ef.user = :uid

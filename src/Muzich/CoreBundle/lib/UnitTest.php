@@ -46,7 +46,7 @@ class UnitTest extends \PHPUnit_Framework_TestCase
     
     $factory = new ElementManager(
       $element, 
-      $this->getDoctrine()->getEntityManager(), 
+      $this->getDoctrine()->getManager(), 
       $this->_container
     );
     $factory->proceedFill($user);
@@ -71,7 +71,7 @@ class UnitTest extends \PHPUnit_Framework_TestCase
     $element->setUrl($url);
     
     $factory = new ElementManager($element, 
-      $this->getDoctrine()->getEntityManager(), $this->_container);
+      $this->getDoctrine()->getManager(), $this->_container);
     $factory->proceedFill($user);
     
     return $element->getDatas();
@@ -95,12 +95,12 @@ class UnitTest extends \PHPUnit_Framework_TestCase
   
   protected function persist($entity)
   {
-    $this->getDoctrine()->getEntityManager()->persist($entity);
+    $this->getDoctrine()->getManager()->persist($entity);
   }
   
   protected function flush()
   {
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->flush();
   }
   
   /**
@@ -109,7 +109,7 @@ class UnitTest extends \PHPUnit_Framework_TestCase
    */
   protected function getEntityManager()
   {
-    return $this->getDoctrine()->getEntityManager();
+    return $this->getDoctrine()->getManager();
   }
   
   /**

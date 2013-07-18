@@ -80,7 +80,7 @@ class IndexControllerTest extends FunctionalTest
     // On a besoin d'un token pour le moment
     $token = new RegistrationToken();
     $token->setToken('4vcsdv54svqcc3q1v54sdv6qs');
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $em->persist($token);
     $em->flush();
     
@@ -106,7 +106,7 @@ class IndexControllerTest extends FunctionalTest
     $token = new RegistrationToken();
     $token_name = '45gf645jgf6xqz4dc'.time();
     $token->setToken($token_name);
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $em->persist($token);
     $em->flush();
     

@@ -105,7 +105,8 @@
           
 
           {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
-            'tags' : playlist.tags
+            'tags' : playlist.tags,
+            'tags_display_limit' : playlist_tags_count_displayed_max
           } %}
 
         </li>

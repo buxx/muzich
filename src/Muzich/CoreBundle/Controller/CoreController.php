@@ -120,7 +120,7 @@ class CoreController extends Controller
     }
 
     // On tente de récupérer l'enregistrement FollowUser / FollowGroup
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $Follow = $em
       ->getRepository('MuzichCoreBundle:Follow' . ucfirst($type))
       ->findOneBy(
@@ -204,7 +204,7 @@ class CoreController extends Controller
     }
     
     $user = $this->getUser(true, array('join' => array('groups_owned_groups_tags')));
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     
     /*
      * Contrôle préléminaire si groupe précisé
@@ -524,8 +524,8 @@ class CoreController extends Controller
       $fav->setTag($tag);
       $fav->setUser($user);
       $fav->setPosition(0);
-      $this->getDoctrine()->getEntityManager()->persist($fav);
-      $this->getDoctrine()->getEntityManager()->flush();
+      $this->getDoctrine()->getManager()->persist($fav);
+      $this->getDoctrine()->getManager()->flush();
     }
     
     return $this->jsonResponse(array(
@@ -573,8 +573,8 @@ class CoreController extends Controller
     
     // a partir d'ici on a tout ce qu'il faut
     $element->setGroup($group);
-    $this->getDoctrine()->getEntityManager()->persist($element);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($element);
+    $this->getDoctrine()->getManager()->flush();
     
     // On récupère le nouveau dom de l'élément
     $html = $this->render('MuzichCoreBundle:SearchElement:element.html.twig', array(
@@ -616,8 +616,8 @@ class CoreController extends Controller
     $erm = new ElementReportManager($element);
     $erm->add($this->getUser());
     
-    $this->getDoctrine()->getEntityManager()->persist($element);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($element);
+    $this->getDoctrine()->getManager()->flush();
     
     return $this->jsonResponse(array(
       'status' => 'success'

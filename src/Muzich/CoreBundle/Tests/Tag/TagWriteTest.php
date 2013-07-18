@@ -162,14 +162,14 @@ class TagWriteTest extends UnitTest
       ->findOneByName('Ed Cox - La fanfare des teuffeurs (Hardcordian)')
     ;
     $element->addTag($tag_3);
-    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getManager()->persist($element);
     
     // Ajout en tag favoris
     $new_fav = new UsersTagsFavorites();
     $new_fav->setTag($tag_3);
     $new_fav->setUser($bux);
     $new_fav->setPosition(0);
-    $this->getDoctrine()->getEntityManager()->persist($new_fav);
+    $this->getDoctrine()->getManager()->persist($new_fav);
     
     // Ajout en tag de groupe
     $group = $this->getDoctrine()->getRepository('MuzichCoreBundle:Group')
@@ -180,9 +180,9 @@ class TagWriteTest extends UnitTest
     $new_fav->setTag($tag_3);
     $new_fav->setGroup($group);
     $new_fav->setPosition(0);
-    $this->getDoctrine()->getEntityManager()->persist($new_fav);
+    $this->getDoctrine()->getManager()->persist($new_fav);
     
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->flush();
     
     // On check que ces netités soit en base
     // Et que celle qui vont suivre (après le remplacement) n'y soit pas
@@ -244,8 +244,8 @@ class TagWriteTest extends UnitTest
     ;
     $this->assertTrue(is_null($fav));
     
-    $this->getDoctrine()->getEntityManager()->persist($tag_1);
-    $this->getDoctrine()->getEntityManager()->persist($tag_3);
+    $this->getDoctrine()->getManager()->persist($tag_1);
+    $this->getDoctrine()->getManager()->persist($tag_3);
     
     // A ce stade les vérifications on été faites on lance le replace
     // Test 3: On remplace
@@ -312,7 +312,7 @@ class TagWriteTest extends UnitTest
     ;
     $this->assertTrue(!is_null($fav));
     
-    $this->getDoctrine()->getEntityManager()->persist($tag_3);
+    $this->getDoctrine()->getManager()->persist($tag_3);
     $this->clean();
   }
   
@@ -327,11 +327,11 @@ class TagWriteTest extends UnitTest
     $tag4 = $this->getDoctrine()->getRepository('MuzichCoreBundle:Tag')
       ->findOneByName('Xvlsd aoj 12');
     
-    ($tag1) ? $this->getDoctrine()->getEntityManager()->remove($tag1) : '';
-    ($tag2) ? $this->getDoctrine()->getEntityManager()->remove($tag2) : '';
-    ($tag3) ? $this->getDoctrine()->getEntityManager()->remove($tag3) : '';
-    ($tag4) ? $this->getDoctrine()->getEntityManager()->remove($tag4) : '';
-    $this->getDoctrine()->getEntityManager()->flush();
+    ($tag1) ? $this->getDoctrine()->getManager()->remove($tag1) : '';
+    ($tag2) ? $this->getDoctrine()->getManager()->remove($tag2) : '';
+    ($tag3) ? $this->getDoctrine()->getManager()->remove($tag3) : '';
+    ($tag4) ? $this->getDoctrine()->getManager()->remove($tag4) : '';
+    $this->getDoctrine()->getManager()->flush();
   }
   
 }

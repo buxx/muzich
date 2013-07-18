@@ -129,7 +129,7 @@ class ElementController extends Controller
     if ($form->isValid())
     {
       $status = 'success';
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       // On utilise le manager d'élément
       $factory = new ElementManager($element, $em, $this->container);
       $factory->proceedFill($user);
@@ -178,7 +178,7 @@ class ElementController extends Controller
     
     
     $element->setTagsWithIds(
-      $this->getDoctrine()->getEntityManager(), 
+      $this->getDoctrine()->getManager(), 
       json_decode($element->getTags())
     );
     
@@ -210,7 +210,7 @@ class ElementController extends Controller
     
     try {
       $element = $this->checkExistingAndOwned($element_id);
-      $em = $this->getDoctrine()->getEntityManager();
+      $em = $this->getDoctrine()->getManager();
       
       $event = new EventElement($this->container);
       $event->elementRemoved($element);
@@ -461,8 +461,8 @@ class ElementController extends Controller
     $event = new EventElement($this->container);
     $event->onePointAdded($element);
     
-    $this->getDoctrine()->getEntityManager()->persist($element);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($element);
+    $this->getDoctrine()->getManager()->flush();
     
     return $this->jsonResponse(array(
       'status' => 'success',
@@ -520,8 +520,8 @@ class ElementController extends Controller
     $event = new EventElement($this->container);
     $event->onePointRemoved($element);
     
-    $this->getDoctrine()->getEntityManager()->persist($element);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($element);
+    $this->getDoctrine()->getManager()->flush();
     
     return $this->jsonResponse(array(
       'status' => 'success',
@@ -625,7 +625,7 @@ class ElementController extends Controller
     if (count($tags_ids))
     {
       // On récupère les tags en base
-      $tags = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:Tag')
+      $tags = $this->getDoctrine()->getManager()->getRepository('MuzichCoreBundle:Tag')
         ->getTagsWithIds($tags_ids)
       ;
     }
@@ -663,7 +663,7 @@ class ElementController extends Controller
           $private_ids = json_decode($tag->getPrivateids(), true);
           $private_ids[] = $element->getOwner()->getId();
           $tag->setPrivateids(json_encode($private_ids));
-          $this->getDoctrine()->getEntityManager()->persist($tag);
+          $this->getDoctrine()->getManager()->persist($tag);
         }
       }
           
@@ -672,14 +672,14 @@ class ElementController extends Controller
     
     $element->setHasTagProposition(true);
     
-    $this->getDoctrine()->getEntityManager()->persist($element);
-    $this->getDoctrine()->getEntityManager()->persist($proposition);
+    $this->getDoctrine()->getManager()->persist($element);
+    $this->getDoctrine()->getManager()->persist($proposition);
     
     // Notifs etc 
     $event = new EventElement($this->container);
     $event->tagsProposed($element);
     
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->flush();
     
     return $this->jsonResponse(array(
       'status' => 'success',
@@ -712,7 +712,7 @@ class ElementController extends Controller
     }
     
     // On récupére toute les propsotions pour cet élément
-    $propositions = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
+    $propositions = $this->getDoctrine()->getManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
       ->findByElement($element->getId())
     ;
     
@@ -753,25 +753,25 @@ class ElementController extends Controller
     }
     $element->setHasTagProposition(false);
     $element->setNeedTags(false);
-    $this->getDoctrine()->getEntityManager()->persist($element);
+    $this->getDoctrine()->getManager()->persist($element);
     
     $event = new EventElement($this->container);
     $event->tagsAccepteds($proposition);
     
-    $propositions = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
+    $propositions = $this->getDoctrine()->getManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
       ->findByElement($element->getId())
     ;
     
     // On supprime les proposition liés a cet élement
     foreach ($propositions as $proposition)
     {
-      $this->getDoctrine()->getEntityManager()->remove($proposition);
+      $this->getDoctrine()->getManager()->remove($proposition);
     }
     
     // Traitement de l'Event si il y a
     $this->removeElementFromEvent($element->getId(), Event::TYPE_TAGS_PROPOSED);
     
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->flush();
     $element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
       ->findOneById($element->getId())
     ;
@@ -804,12 +804,12 @@ class ElementController extends Controller
     }
     
     // On supprime les proposition liés a cet élement
-    $propositions = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
+    $propositions = $this->getDoctrine()->getManager()->getRepository('MuzichCoreBundle:ElementTagsProposition')
       ->findByElement($element->getId())
     ;
     foreach ($propositions as $proposition)
     {
-      $this->getDoctrine()->getEntityManager()->remove($proposition);
+      $this->getDoctrine()->getManager()->remove($proposition);
     }
     
     // Traitement de l'Event si il y a
@@ -817,8 +817,8 @@ class ElementController extends Controller
     
     // On spécifie qu'il n'y as plus de proposition
     $element->setHasTagProposition(false);
-    $this->getDoctrine()->getEntityManager()->persist($element);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($element);
+    $this->getDoctrine()->getManager()->flush();
     
     return $this->jsonResponse(array(
       'status' => 'success'
@@ -903,7 +903,7 @@ class ElementController extends Controller
   
   protected function findTagsWithProposeds($tags)
   {
-    $tag_like = new TagLike($this->getDoctrine()->getEntityManager());
+    $tag_like = new TagLike($this->getDoctrine()->getManager());
     $tags_with_likes = array();
     foreach ($tags as $tag_name)
     {
@@ -1085,8 +1085,10 @@ class ElementController extends Controller
     if (!($element = $es->getElements($this->getDoctrine(), $this->getUserId(true), 'single')))
     {
       return $this->jsonResponse(array(
-      'status'  => 'error'
-    ));
+        self::RESPONSE_STATUS_ID  => self::RESPONSE_STATUS_ERROR,
+        self::RESPONSE_ERROR_ID   => self::ERROR_TYPE_NOTFOUND,
+        self::RESPONSE_MESSAGE_ID => $this->trans('noelements.nofound_anymore', array(), 'elements')
+      ));
     }
     
     $html = $this->render('MuzichCoreBundle:SearchElement:li.element.html.twig', array(

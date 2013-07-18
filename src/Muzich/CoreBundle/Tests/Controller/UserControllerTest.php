@@ -307,7 +307,7 @@ class UserControllerTest extends FunctionalTest
       - $this->getContainer()->getParameter('changeemail_security_delay')
     );
     
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->flush();
     
     $form = $this->selectForm('form[action="'.$url.'"] input[type="submit"]');
     $form['form[email]'] = 'trololololooo222@trolo.com';

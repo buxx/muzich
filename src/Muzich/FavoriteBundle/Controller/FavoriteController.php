@@ -102,7 +102,7 @@ class FavoriteController extends Controller
     }
     
     $user = $this->getUser();
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     
     if ($user->getPersonalHash($id) != $token || !is_numeric($id)
       || !($element = $em->getRepository('MuzichCoreBundle:Element')->findOneById($id))
@@ -271,7 +271,7 @@ class FavoriteController extends Controller
     $viewed_user = $this->getUser();
     if ($user_id != $this->getUserId(true))
     {
-      $viewed_user = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:User')
+      $viewed_user = $this->getDoctrine()->getManager()->getRepository('MuzichCoreBundle:User')
         ->findOneById($user_id, array())->getSingleResult();
     }
     

@@ -317,7 +317,7 @@ class UserController extends Controller
       if ($form->isValid())
       {
         $data = $form->getData();
-        $user->updateTagsFavoritesById($this->getDoctrine()->getEntityManager(), $data['tags']);
+        $user->updateTagsFavoritesById($this->getDoctrine()->getManager(), $data['tags']);
         
         // On réinitialise l'eventuel session de recherche en mémoire
         $session = $this->get("session");
@@ -383,7 +383,7 @@ class UserController extends Controller
    */
   public function changeEmailRequestAction()
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $user = $this->getUser();
     
     $request = $this->getRequest();
@@ -470,7 +470,7 @@ class UserController extends Controller
    */
   public function changeEmailConfirmAction($token)
   {
-    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     $um = $this->get('muzich_user_manager');
     $user = $this->getUser();
     
@@ -533,8 +533,8 @@ class UserController extends Controller
     
     $user->setTown(trim($this->getRequest()->request->get('town')));
     $user->setCountry(trim($this->getRequest()->request->get('country')));
-    $this->getDoctrine()->getEntityManager()->persist($user);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->persist($user);
+    $this->getDoctrine()->getManager()->flush();
     
     return $this->jsonResponse(array(
       'status' => 'success'

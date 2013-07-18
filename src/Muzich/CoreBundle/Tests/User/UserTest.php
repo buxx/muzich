@@ -109,7 +109,7 @@ class UserTest extends UnitTest
       ), $bux->getTagsFavoritesQuick());
     }
     
-    $this->getDoctrine()->getEntityManager()->remove($bux_melodique);
+    $this->getDoctrine()->getManager()->remove($bux_melodique);
     $this->flush();
     
     $bux = $this->getUser('bux');

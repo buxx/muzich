@@ -1,10 +1,24 @@
+{% if tags_display_limit is not defined %}
+  {% set tags_display_limit = cloud_tags_limit_to_display %}
+{% endif %}
+
 <ul class="tags_cloud">
   {% for key, tag in tags %}
-    <li class="{{ css_list_length_class(key, tags|length) }}" {% if loop.index0 > cloud_tags_limit_to_display %}style="display: none;"{% endif %}>
+    <li class="{{ css_list_length_class(key, tags|length) }}" {% if loop.index0 > tags_display_limit %}style="display: none;"{% endif %}>
       <a data-tagid="{{ tag.id }}" href="#" class="tag">
         {{ tag.name }}
       </a>
     </li>
   {% endfor %}
+  
+  {% if (tags|length)-1 > tags_display_limit %}
+    
+    <li>
+      <a class="display_all_cloud_tag" href="#" class="tag">
+        ...
+      </a>
+    </li>
+  {% endif %}
+    
 </ul>
 <div class="clearboth" ></div>

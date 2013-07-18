@@ -199,8 +199,8 @@ class ShowControllerTest extends FunctionalTest
         'followed' => $paul->getId()
       ))
     ;
-    $this->getDoctrine()->getEntityManager()->remove($follow);
-    $this->getDoctrine()->getEntityManager()->flush();
+    $this->getDoctrine()->getManager()->remove($follow);
+    $this->getDoctrine()->getManager()->flush();
     
     // On rafraichie la page
     $this->crawler = $this->client->request('GET', 

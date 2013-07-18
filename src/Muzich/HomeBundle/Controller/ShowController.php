@@ -158,12 +158,12 @@ class ShowController extends Controller
     }
     else if ($type == 'user')
     {
-      $object = $viewed_user = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:User')
+      $object = $viewed_user = $this->getDoctrine()->getManager()->getRepository('MuzichCoreBundle:User')
         ->findOneById($object_id, array())->getSingleResult();
     }
     else if ($type == 'group')
     {
-      $object = $this->getDoctrine()->getEntityManager()->getRepository('MuzichCoreBundle:Group')
+      $object = $this->getDoctrine()->getManager()->getRepository('MuzichCoreBundle:Group')
         ->findOneById($object_id);
     }
     
