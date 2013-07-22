@@ -397,15 +397,9 @@
           {%endif %}
         {% endautoescape %}
         
-        {% if app.user %}
-          <a href="#add_comment_{{ element.id }}" class="add_comment">
-            {{ 'element.comments.add'|trans({}, 'elements') }}
-          </a>
-        {% else %}
-          <a href="#" class="mustbeconnected add_comment_disabled">
-            {{ 'element.comments.add'|trans({}, 'elements') }}
-          </a>
-        {% endif %}
+        <a href="#add_comment_{{ element.id }}" class="add_comment">
+          {{ 'element.comments.add'|trans({}, 'elements') }}
+        </a>
       
       {% endif %}
       
@@ -481,23 +475,21 @@
     <div class="comments_loader">
       <img class="comments_loader" style="display: none;" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loading"/>
     </div>
-    
-    {% if app.user %}
-      <form 
-        action="{{ path('ajax_add_comment', {'element_id':element.id, 'token':app.user.getPersonalHash(element.id)}) }}" 
-        method="post" 
-        name="add_comment"
-        style="display: none;"
-        class="add_comment"
-      >
-        {% include "MuzichCommentBundle:Comment:form.html.twig" with {
-          'submit_value' : 'element.comments.add_submit'|trans({}, 'elements'),
-          'cancel_value' : 'element.comments.add_cancel'|trans({}, 'elements'),
-          'following'    : element.userFollowComments(app.user.id),
-          'own'          : (app.user.id == element.owner.id)
-        } %}
-      </form>
-    {% endif %}
+          
+    <form 
+      action="{{ path('ajax_add_comment', {'element_id':element.id, 'token' : token_or_unknow(app.user)}) }}" 
+      method="post" 
+      name="add_comment"
+      style="display: none;"
+      class="add_comment"
+    >
+      {% include "MuzichCommentBundle:Comment:form.html.twig" with {
+        'submit_value' : 'element.comments.add_submit'|trans({}, 'elements'),
+        'cancel_value' : 'element.comments.add_cancel'|trans({}, 'elements'),
+        'following'    : element.userFollowComments(app.user|userId),
+        'own'          : (app.user|userId == element.owner.id)
+      } %}
+    </form>
       
     <a href="#add_comment_{{ element.id }}" class="add_comment">
       {{ 'element.comments.add'|trans({}, 'elements') }}

@@ -701,8 +701,8 @@ class Controller extends BaseController
     return $this->createForm(new PlaylistForm(), $playlist);
   }
   
-  protected function tokenIsCorrect($intention = '')
-  {
+  protected function tokenIsCorrect($intention = 'unknown')
+  {    
     if ($this->getRequest()->get('token') != $this->container->get('form.csrf_provider')->generateCsrfToken($intention))
       return false;
     

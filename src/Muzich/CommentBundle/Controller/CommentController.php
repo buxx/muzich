@@ -18,7 +18,7 @@ class CommentController extends Controller
    * @param string $token
    * @return \Symfony\Component\HttpFoundation\Response 
    */
-  public function addAction($element_id, $token)
+  public function addAction($element_id)
   {
     if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::ACTION_COMMENT_ADD)) !== false)
     {
@@ -26,7 +26,7 @@ class CommentController extends Controller
     }
     
     if (!($element = $this->getDoctrine()->getRepository('MuzichCoreBundle:Element')
-      ->findOneById($element_id)) || $this->getUser()->getPersonalHash($element_id) != $token)
+      ->findOneById($element_id)) || !$this->tokenIsCorrect())
     {
       return $this->jsonResponse(array(
         'status' => 'error',

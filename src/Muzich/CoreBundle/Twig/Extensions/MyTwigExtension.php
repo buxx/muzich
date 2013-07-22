@@ -41,7 +41,9 @@ class MyTwigExtension extends \Twig_Extension {
       'event_const'            => new \Twig_Function_Method($this, 'event_const'),
       'css_list_length_class'  => new \Twig_Function_Method($this, 'getCssLengthClassForList'),
       'token'                  => new \Twig_Function_Method($this, 'token'),
-      'path_token'             => new \Twig_Function_Method($this, 'path_token')
+      'path_token'             => new \Twig_Function_Method($this, 'path_token'),
+      'token'                  => new \Twig_Function_Method($this, 'getToken'),
+      'token_or_unknow'        => new \Twig_Function_Method($this, 'getTokenOrUnknown')
     );
   }
   
@@ -249,4 +251,22 @@ class MyTwigExtension extends \Twig_Extension {
     return null;
   }
 
+  public function getToken()
+  {
+    return $this->container->get('form.csrf_provider')->generateCsrfToken('unknown');
+  }
+  
+  public function getTokenOrUnknown($user)
+  {
+    if ($user)
+    {
+      if ($user instanceof User)
+      {
+        return $this->getToken();
+      }
+    }
+    
+    return 'unknown';
+  }
+  
 }

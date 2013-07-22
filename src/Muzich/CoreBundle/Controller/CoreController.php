@@ -701,4 +701,23 @@ class CoreController extends Controller
     return $this->jsonSuccessResponse($csrfToken);
   }
   
+  public function reloadTopEndSideBarAction()
+  {
+    return $this->jsonSuccessResponse(array(
+      'top'   => $this->render('MuzichCoreBundle:Layout:header.html.twig')->getContent(),
+      'right' => $this->render('MuzichCoreBundle:Layout:side.html.twig')->getContent()
+    ));
+  }
+  
+  public function getUrlAction()
+  {
+    if (($response = $this->mustBeConnected(true)))
+      return $response;
+    
+    return $this->jsonSuccessResponse($this->generateUrl(
+      $this->getRequest()->get('route'),
+      $this->getRequest()->get('parameters') 
+    ));
+  }
+  
 }

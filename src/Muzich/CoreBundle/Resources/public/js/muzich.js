@@ -1551,23 +1551,18 @@ $(document).ready(function(){
   });
   $('form[name="add"]').ajaxForm(function(response) {
     
-    var callback_login = null;
-    // Dans le cas d'un ajout depuis l'extérieur (iframe)
-    if ($('form[name="add"] input[name="shared_from"]').val() === "1")
-    {
-      callback_login = function(){ 
-        $('#form_add_loader').show();
-        JQueryJson(url_csrf, {}, function(response){
-          if (response.status == 'success')
-          {
-            $('form[name="add"] input[name="element_add[_token]"]').val(response.data);
-            $('form[name="add"]').submit();
-            $('#form_add_loader').hide();
-          }
-        });
-         
-      };
-    }
+    var callback_login = function(){ 
+      $('#form_add_loader').show();
+      JQueryJson(url_csrf, {}, function(response){
+        if (response.status == 'success')
+        {
+          $('form[name="add"] input[name="element_add[_token]"]').val(response.data);
+          $('form[name="add"]').submit();
+          $('#form_add_loader').hide();
+        }
+      });
+    };
+    
     
     $('form[name="add"] img.tag_loader').hide();
     window.ResponseController.execute(
@@ -1969,10 +1964,23 @@ $(document).ready(function(){
       li_element.find('form.add_comment').show();
       
       li_element.find('form.add_comment').ajaxForm(function(response) {
+        
         window.ResponseController.execute(
         response,
         function(){},
-        function(){}
+        function(){},
+        function(){
+  
+          JQueryJson(url_csrf, {}, function(response){
+            if (response.status === 'success')
+            {
+              li_element.find('form.add_comment').attr('action', str_replace('unknown', response.data, li_element.find('form.add_comment').attr('action')));
+              li_element.find('form.add_comment').submit();
+            }
+          });
+          scrollTo(li_element);
+  
+        }
       );
 
         li_element.find('img.comments_loader').hide();
@@ -3045,7 +3053,9 @@ $(document).ready(function(){
     * MUSTBECONNECTED links
     */
    
-    $('a.mustbeconnected').live('click', function(){open_connection_or_subscription_window();});
+    $('a.mustbeconnected').live('click', function(){
+      open_connection_or_subscription_window();
+    });
     $('a.mustbeconnected').off('click').on('click',function(){
       open_connection_or_subscription_window();
     });
@@ -3424,6 +3434,7 @@ function open_connection_or_subscription_window(open_login_part, data, login_suc
           {
             $('a#helpbox_close').click();
             login_success_callback();
+            reload_top_and_side();
           }
           else
           {
@@ -3449,6 +3460,7 @@ function open_connection_or_subscription_window(open_login_part, data, login_suc
           {
             $('a#helpbox_close').click();
             login_success_callback();
+            reload_top_and_side();
           }
           else
           {
@@ -3501,4 +3513,27 @@ function sidebar_fix_to_bottom_finish()
       $('.sidebar').css('bottom', '')
     });
   }
+}
+
+function reload_top_and_side()
+{
+  JQueryJson(url_reload_top_and_side, {}, function(response){
+    if (response.status == 'success')
+    {
+      if ($('div#header'))
+      {
+        $('div#header').html(response.data.top);
+      }
+        
+      if ($('aside#sidebar div.sidebar'))
+      {
+        $('aside#sidebar div.sidebar').html(response.data.right);
+      }
+    }
+  });
+}
+
+function scrollTo(element)
+{
+  $('html, body').animate({ scrollTop: element.offset().top }, 'fast');
 }

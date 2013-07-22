@@ -222,3 +222,6 @@ get_csrf_token:
   pattern: /ajax/getcsrf
   defaults: { _controller: MuzichCoreBundle:Core:getCsrfToken }
   
+reload_top_right_bars:
+  pattern: /ajax/reload-bars
+  defaults: { _controller: MuzichCoreBundle:Core:reloadTopEndSideBar }
