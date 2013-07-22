@@ -18,6 +18,7 @@ element:
     group:
       will_be_in:       L'élément sera ajouté dans le groupe
     url_title_step2:    Ressource
+    shared_from_finish: Le partage a été effectué, vous pouvez fermer la boite (croix en haut à gauche)
   show:
     close_embed:        Fermer le lecteur
     open_embed:         Afficher le lecteur

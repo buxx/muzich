@@ -7,6 +7,9 @@
 {% if show_add_to_group is not defined %}
   {% set show_add_to_group = true %}
 {% endif %}
+{% if shared_from is not defined %}
+  {% set shared_from = 0 %}
+{% endif %}
 
 {% if not group_slug %}
   {% set form_action = path('element_add') %}
@@ -37,6 +40,8 @@
       'form_name'     : add_form_name
     } %}
   
+     <input type="hidden" name="shared_from" value="{{ shared_from }}" />
+          
   </form>
 </div>
 

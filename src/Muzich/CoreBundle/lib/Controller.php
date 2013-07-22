@@ -499,14 +499,13 @@ class Controller extends BaseController
     
     if ($this->getUser() == 'anon.')
     {
-      $this->setFlash('error', 'user.session_expired');
-      
       if ($this->getRequest()->isXmlHttpRequest())
       {
         return $this->mustBeConnectedResponse();
       }
       else
       {
+        $this->setFlash('error', 'user.session_expired');
         return $this->redirect($this->generateUrl('home'));
       }
     }

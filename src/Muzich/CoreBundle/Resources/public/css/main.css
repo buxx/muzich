@@ -2509,6 +2509,13 @@ div#tags_prompt_search p.help_notags span
   width: 100%;
 }
 
+div#share_from_message
+{
+  font-weight: bold;
+  padding: 15px;
+  font-size: 115%;
+}
+
 /*
 *
 *

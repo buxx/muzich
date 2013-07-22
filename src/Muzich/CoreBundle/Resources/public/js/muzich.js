@@ -23,7 +23,7 @@ function hideAllMessages()
 
 function ResponseController()
 {
-  var propagate = function(response)
+  var propagate = function(response, after_login_success_callback)
   {
     if (response.status === 'error')
     {
@@ -35,18 +35,19 @@ function ResponseController()
       }
       else if (response.error === 'UserNotConnected')
       {
-        open_connection_or_subscription_window();
+        open_connection_or_subscription_window(false, {}, after_login_success_callback);
       }
     }
     else if (response.status === 'mustbeconnected')
     {
-      open_connection_or_subscription_window(true);
+      open_connection_or_subscription_window(true, {}, after_login_success_callback);
     }
-  }
+  };
   
-  this.execute = function(response, success_callback, failure_callback)
+  this.execute = function(response, success_callback, failure_callback, after_login_success_callback)
   {
-    propagate(response);
+    propagate(response, after_login_success_callback);
+    
     if (response.status === 'success')
     {
       success_callback(response);
@@ -55,7 +56,7 @@ function ResponseController()
     {
       failure_callback(response);
     }
-  }
+  };
 }
 
 window.ResponseController = new ResponseController();
@@ -1320,6 +1321,16 @@ $(document).ready(function(){
       
       form_add_hide_errors();
       
+      // Dans le cas d'un ajout depuis l'extérieur (iframe)
+      if ($('form[name="add"] input[name="shared_from"]').val() === "1")
+      {
+        var elements = $('<ul class="elements"></ul>')
+        elements.prepend(response.html);
+        $('div#share_from_content').append(elements);
+        $('div#share_from_message').text(response.message);
+        //$('form[name="add"]').append($('<input type="hidden" name="shared_from_finished" id="shared_from_finished" value="1" />'));
+      }
+      
       return true;
     }
     else if (response.status == 'error')
@@ -1540,11 +1551,30 @@ $(document).ready(function(){
   });
   $('form[name="add"]').ajaxForm(function(response) {
     
+    var callback_login = null;
+    // Dans le cas d'un ajout depuis l'extérieur (iframe)
+    if ($('form[name="add"] input[name="shared_from"]').val() === "1")
+    {
+      callback_login = function(){ 
+        $('#form_add_loader').show();
+        JQueryJson(url_csrf, {}, function(response){
+          if (response.status == 'success')
+          {
+            $('form[name="add"] input[name="element_add[_token]"]').val(response.data);
+            $('form[name="add"]').submit();
+            $('#form_add_loader').hide();
+          }
+        });
+         
+      };
+    }
+    
     $('form[name="add"] img.tag_loader').hide();
     window.ResponseController.execute(
       response,
       function(){},
-      function(){}
+      function(){},
+      callback_login
     );
     
       // Si on en est a la première étape la réponse sera des données récupérés auprès
@@ -3361,7 +3391,7 @@ function open_ajax_popin(url, callback, data)
   }
 }
 
-function open_connection_or_subscription_window(open_login_part, data)
+function open_connection_or_subscription_window(open_login_part, data, login_success_callback)
 {
   if (window_login_or_subscription_opened == false)
   {
@@ -3390,7 +3420,15 @@ function open_connection_or_subscription_window(open_login_part, data)
         $('div.login form').find('img.loader').hide();
         if (response.status == 'success')
         {
-          $(location).attr('href', response.data.redirect_url);
+          if (login_success_callback)
+          {
+            $('a#helpbox_close').click();
+            login_success_callback();
+          }
+          else
+          {
+            $(location).attr('href', response.data.redirect_url);
+          }
         }
         else if (response.status == 'error')
         {
@@ -3407,7 +3445,15 @@ function open_connection_or_subscription_window(open_login_part, data)
         $('div.register form.fos_user_registration_register').find('img.loader').hide();
         if (response.status == 'success')
         {
-          $(location).attr('href', url_home);
+          if (login_success_callback)
+          {
+            $('a#helpbox_close').click();
+            login_success_callback();
+          }
+          else
+          {
+            $(location).attr('href', url_home);
+          }
         }
         else if (response.status == 'error')
         {

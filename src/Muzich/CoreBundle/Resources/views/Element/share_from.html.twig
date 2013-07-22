@@ -7,6 +7,7 @@
   {% include 'MuzichCoreBundle:Component:element_add_box.html.twig' with {
     'box_title'     : 'home.add_element_box.title_external'|trans({}, 'navigationui'),
     'add_form_name' : 'add',
+    'shared_from'   : 1
   } %}
 
   <script type="text/javascript">
@@ -19,5 +20,8 @@
       $('form[name="add"]').submit();
     });
   </script>
+  
+  <div id="share_from_content"></div>
+  <div id="share_from_message"></div>
 
 {% endblock %}

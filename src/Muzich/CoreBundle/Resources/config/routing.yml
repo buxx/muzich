@@ -213,3 +213,8 @@ url_get_embed_for_element:
 share_from:
   pattern: /element/share/from
   defaults: { _controller: MuzichCoreBundle:Element:shareFrom }
+  
+get_csrf_token:
+  pattern: /ajax/getcsrf
+  defaults: { _controller: MuzichCoreBundle:Core:getCsrfToken }
+  

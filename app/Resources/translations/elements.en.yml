@@ -19,6 +19,7 @@ element:
     group:
       will_be_in:       This element will be add to the group.
     url_title_step2:    Ressource
+    shared_from_finish: Music shared, you can close the box (top-left cross)
   show:
     close_embed:        Close the player
     open_embed:         Display the player

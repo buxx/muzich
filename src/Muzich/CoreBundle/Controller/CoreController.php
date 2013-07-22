@@ -284,7 +284,8 @@ class CoreController extends Controller
         return $this->jsonResponse(array(
           'status' => 'success',
           'html'   => $html,
-          'groups' => (!$group)?$this->isAddedElementCanBeInGroup($element):array()
+          'groups' => (!$group)?$this->isAddedElementCanBeInGroup($element):array(),
+          'message' => ($this->getRequest()->get('shared_from'))?$this->trans('element.add.shared_from_finish', array(), 'elements'):''
         ));
       }
       else
@@ -689,6 +690,15 @@ class CoreController extends Controller
   public function testErrorAction()
   {
     throw new \Exception('test error');
+  }
+  
+  public function getCsrfTokenAction()
+  {
+    if (($response = $this->mustBeConnected(true)))
+      return $response;
+    
+    $csrfToken = $this->container->get('form.csrf_provider')->generateCsrfToken('unknown');
+    return $this->jsonSuccessResponse($csrfToken);
   }
   
 }
