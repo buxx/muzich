@@ -1,0 +1,18 @@
+
+  {% if facebook is not sameas(false) %}
+    <div class="facebookButton">
+      {{ facebookButton(facebook) }}
+    </div>
+  {% endif %}
+
+  {% if googleplus is not sameas(false) %}
+    <div class="googleplus">
+      {{ googlePlusButton(googleplus) }}
+    </div>
+  {% endif %}
+
+  {% if twitter is not sameas(false) %}
+    <div class="twitterButton">
+      {{ twitterButton(twitter) }}
+    </div>
+  {% endif %}

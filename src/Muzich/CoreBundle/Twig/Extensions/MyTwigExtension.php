@@ -1,6 +1,6 @@
 <?php
 
-namespace Muzich\CoreBundle\Extension;
+namespace Muzich\CoreBundle\Twig\Extensions;
 
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Muzich\CoreBundle\Entity\Event;

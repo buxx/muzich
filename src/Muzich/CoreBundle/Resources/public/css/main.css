@@ -2516,6 +2516,23 @@ div#share_from_message
   font-size: 115%;
 }
 
+div.social_buttons ul
+{
+  list-style-type: none;
+  margin-left: 0;
+}
+
+div.social_buttons ul li
+{
+  display : inline;
+  margin-left: 5px;
+  float:left;
+}
+
+div.social_buttons ul li.googleplus {
+    margin-left: -25px;
+}
+
 /*
 *
 *

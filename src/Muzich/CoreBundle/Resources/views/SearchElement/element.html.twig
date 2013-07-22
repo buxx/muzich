@@ -410,6 +410,37 @@
       {% endif %}
       
       
+      <div class="social_buttons">
+        <ul>
+          <li class="facebook">
+            {{ facebookButton( {
+              'locale': 'fr_FR', 
+              'url': 'http:' ~ url('element_show_one', {
+                'element_id' : element.id,
+                'element_slug' : element.slug
+              }, true) })
+            }}
+          </li>
+          <li class="twitter">
+            {{ twitterButton( {
+              'locale': 'fr_FR', 
+              'url': 'http:' ~ url('element_show_one', {
+                'element_id' : element.id
+              }, true) }) 
+            }}
+          </li>
+          <li class="googleplus">
+            {{ googlePlusButton( {
+              'locale': 'fr_FR', 'url': 
+              'http:' ~ url('element_show_one', {
+                'element_id' : element.id,
+                'element_slug' : element.slug
+              }, true) }) 
+            }}
+          </li>
+        </ul>
+      </div>
+      
     </td>
   </tr>
 </table>

@@ -246,6 +246,8 @@ element:
       no:                No
   share:
     share_button:        Share
+    twitter:            
+      text:              "Some music ? "
     
 comment:
   report:

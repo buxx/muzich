@@ -124,7 +124,7 @@ element_remove_from_group:
 
 element_show_one:
   pattern: /song/{element_id}/{element_slug}
-  defaults: { _controller: MuzichHomeBundle:Home:showOneElement }
+  defaults: { _controller: MuzichHomeBundle:Home:showOneElement, element_slug: null }
 
 ##
 

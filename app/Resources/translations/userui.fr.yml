@@ -258,6 +258,8 @@ element:
       no:                Non
   share:
     share_button:        Partager
+    twitter:            
+      text:              "Un peu de musique ? "
     
 comment:
   report:
