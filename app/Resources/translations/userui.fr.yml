@@ -277,9 +277,8 @@ global_search:
   
 need_tags:
   text_help:             |
-                         Les utilisateurs ayant partagés leurs découvertes ont
-                         demandé de l'aide pour tagger correctement leurs partages.
-                         Gagnez en réputation en leurs proposants les tags qui conviennent !
+                         Certains ont besoin d'aide pour tagger leurs 
+                         partages... Gagnez en réputation en proposant des tags !
 register:
   title:                 Création d'un compte
 registration:

@@ -3,13 +3,13 @@ Username:     Username
 
 date_since:
   default:
-    less_min:      Less than one minute
-    one_min:       One minute ago
-    one_hour:      One hour ago
-    one_day:       One day ago
-    one_week:      One week ago
-    one_month:     One month ago
-    one_year:      One year ago
+    less_min:      less than one minute
+    one_min:       one minute ago
+    one_hour:      one hour ago
+    one_day:       one day ago
+    one_week:      one week ago
+    one_month:     one month ago
+    one_year:      one year ago
     x_min:         %x% minutes ago
     x_hour:        %x% hours ago
     x_day:         %x% days ago
@@ -18,13 +18,13 @@ date_since:
     x_year:        %x% years ago
   comment:
     created:
-      less_min:      Less than one minute
-      one_min:       One minute ago
-      one_hour:      One hour ago
-      one_day:       One day ago
-      one_week:      One week ago
-      one_month:     One month ago
-      one_year:      One year ago
+      less_min:      less than one minute
+      one_min:       one minute ago
+      one_hour:      one hour ago
+      one_day:       one day ago
+      one_week:      one week ago
+      one_month:     one month ago
+      one_year:      one year ago
       x_min:         %x% minutes ago
       x_hour:        %x% hours ago
       x_day:         %x% days ago
