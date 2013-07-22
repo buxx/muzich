@@ -45,7 +45,7 @@ class CommentControllerTest extends FunctionalTest
       'POST', 
       $this->generateUrl('ajax_add_comment', array(
         'element_id' => $element->getId(),
-        'token'      => $this->getUser()->getPersonalHash($element->getId())
+        'token'      => $this->getToken()
       )), 
       array(
           'comment' => "J'ai réécouté et ouaa je kiff BrOOO"

@@ -576,7 +576,7 @@ class FunctionalTest extends WebTestCase
     $this->crawler = new Crawler($response['data']);
   }
   
-  public function getToken($intention = '')
+  public function getToken($intention = 'unknown')
   {
     return $this->getContainer()->get('form.csrf_provider')->generateCsrfToken($intention);
   }
