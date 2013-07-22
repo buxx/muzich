@@ -11,6 +11,7 @@ noelements:
   nofound_anymore:      Le partage est introuvable (il peut avoir été supprimé par son auteur)
   
 element:
+  permalink:            Lien permanant
   favorite:
     add:                Ajouter à mes favoris
     remove:             Retirer de mes favoris

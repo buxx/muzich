@@ -13,11 +13,12 @@ class HomeController extends Controller
    * Page d'accueil ("home") de l'utilisateur. Cette page regroupe le fil
    * d'éléments général et personalisable et de quoi ajouter un élément.
    * 
-   * @Template()
    */
-  public function indexAction($count = null, $network = null, $login = false)
+  public function indexAction($count = null, $network = null, $login = false, $search_object = null)
   {
-    $search_object = $this->getElementSearcher($count);
+    if (!$search_object)
+      $search_object = $this->getElementSearcher($count);
+    
     $user = $this->getUser(true, array('join' => array(
       'groups_owned'
     )), true);
@@ -32,7 +33,7 @@ class HomeController extends Controller
     
     $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
     
-    return array(
+    return $this->render('MuzichHomeBundle:Home:index.html.twig', array(
       'search_tags_id'   => $search_object->getTags(),
       'ids_display'      => $search_object->getIdsDisplay(),
       'user'             => $user,
@@ -46,7 +47,15 @@ class HomeController extends Controller
       'display_launch_demo' => true,
       'login'            => $login,
       'email_token'      => $this->getEmailTokenIfExist()
-    );
+    ));
+  }
+  
+  public function showOneElementAction($element_id)
+  {
+    $es = $this->getNewElementSearcher();
+    $es->setNoTags();
+    $es->setIds(array($element_id));
+    return $this->indexAction(null, null, false, $es);
   }
   
   protected function getEmailTokenIfExist()

@@ -121,7 +121,11 @@ element_new_get:
 element_remove_from_group:
   pattern: /ajax/group/{group_id}/remove-element/{element_id}/{token}
   defaults: { _controller: MuzichCoreBundle:Element:removeFromGroup }
-  
+
+element_show_one:
+  pattern: /song/{element_id}/{element_slug}
+  defaults: { _controller: MuzichHomeBundle:Home:showOneElement }
+
 ##
 
 ajax_tag_add_to_favorites:

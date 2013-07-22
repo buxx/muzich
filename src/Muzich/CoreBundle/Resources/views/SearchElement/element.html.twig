@@ -284,11 +284,17 @@
       
       <span class="element_name">
         {% if element.embed %}
-          <a href="#" class="element_open element_name_embed_open_link">
+          <a href="{{ path('element_show_one', {
+            'element_id' : element.id,
+            'element_slug' : element.slug
+          }) }}" class="element_open element_name_embed_open_link">
             {{ element.name }}
           </a>
         {% else %}
-          <a href="{{ element.url }}" class="element_open" target="_blank">
+          <a href="{{ path('element_show_one', {
+            'element_id' : element.id,
+            'element_slug' : element.slug
+          }) }}" class="element_open" target="_blank">
             {{ element.name }}
           </a>
         {% endif %}
