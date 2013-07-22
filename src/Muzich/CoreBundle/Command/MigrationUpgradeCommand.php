@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 //use Muzich\CoreBundle\Managers\CommentsManager;
+use Muzich\CoreBundle\Util\StrictCanonicalizer;
 
 class MigrationUpgradeCommand extends ContainerAwareCommand
 {
@@ -59,6 +60,23 @@ class MigrationUpgradeCommand extends ContainerAwareCommand
           $em->persist($element);
         }
       }
+      $em->flush();
+      $output->writeln('<info>Terminé !</info>');
+    }
+    
+    if ($input->getArgument('from') == '0.9.8.1' && $input->getArgument('to') == '0.9.8.2')
+    {
+      $proceeded = true;
+      $canonicalizer = new StrictCanonicalizer();
+      $elements = $em->getRepository('MuzichCoreBundle:Element')->findAll();
+      foreach ($elements as $element)
+      {
+        $element->setSlug($canonicalizer->canonicalize_stricter($element->getName()));
+        $output->write('.');
+        $em->persist($element);
+      }
+      
+      $output->writeln('<info>Save in Database ...</info>');
       $em->flush();
       $output->writeln('<info>Terminé !</info>');
     }
