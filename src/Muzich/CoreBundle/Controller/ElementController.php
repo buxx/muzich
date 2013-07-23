@@ -456,11 +456,12 @@ class ElementController extends Controller
     }
     
     // On ajoute un vote a l'élément
-    $element->addVoteGood($this->getUser()->getId());
+    $element->addVoteGood($this->getUser()->getId(), $this->container->getParameter('reputation_element_point_value'));
     // Puis on lance les actions propagés par ce vote
     $event = new EventElement($this->container);
     $event->onePointAdded($element);
     
+    $this->getDoctrine()->getManager()->persist($element->getOwner());
     $this->getDoctrine()->getManager()->persist($element);
     $this->getDoctrine()->getManager()->flush();
     
@@ -515,11 +516,12 @@ class ElementController extends Controller
     }
     
     // Retrait du vote good
-    $element->removeVoteGood($this->getUser()->getId());
+    $element->removeVoteGood($this->getUser()->getId(), $this->container->getParameter('reputation_element_point_value'));
     // Puis on lance les actions propagés par retrait de vote
     $event = new EventElement($this->container);
     $event->onePointRemoved($element);
     
+    $this->getDoctrine()->getManager()->persist($element->getOwner());
     $this->getDoctrine()->getManager()->persist($element);
     $this->getDoctrine()->getManager()->flush();
     

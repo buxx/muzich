@@ -184,7 +184,9 @@ class RecalculateReputationCommand extends ContainerAwareCommand
     
     foreach ($elements as $element)
     {
-      $element->setPoints($this->getElementScore($element));
+      $element_score = $this->getElementScore($element);
+      $element->setPoints($element_score);
+      $output->writeln('<info>Element "'.$element->getName().'": '.$element_score.' score</info>');
       $em->persist($element);
     }
     

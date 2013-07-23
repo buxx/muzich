@@ -9,6 +9,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\StreamOutput;
+use Muzich\CoreBundle\Entity\Element;
 
 class FunctionalTest extends WebTestCase
 {
@@ -88,7 +89,7 @@ class FunctionalTest extends WebTestCase
     ;
   }
   
-  protected function connectUser($login, $password, $client = null, $success = true)
+  protected function connectUser($login, $password = 'toor', $client = null, $success = true)
   {
     if (!$client)
     {
@@ -579,6 +580,22 @@ class FunctionalTest extends WebTestCase
   public function getToken($intention = 'unknown')
   {
     return $this->getContainer()->get('form.csrf_provider')->generateCsrfToken($intention);
+  }
+  
+  public function getLastTagsProposition(Element $element)
+  {
+    $propositions = $this->getDoctrine()->getManager()
+      ->createQuery('SELECT p FROM MuzichCoreBundle:ElementTagsProposition p'
+        .' WHERE p.element = :eid ORDER BY p.id DESC')
+      ->setMaxResults(1)
+      ->setParameters(array(
+        'eid' => $element->getId()
+      ))
+      ->getResult()
+    ;
+    
+    $this->assertEquals(1, count($propositions));
+    return $propositions[0];
   }
   
 }

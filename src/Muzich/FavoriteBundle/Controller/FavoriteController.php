@@ -74,6 +74,7 @@ class FavoriteController extends Controller
     if ($this->getRequest()->isXmlHttpRequest())
     {
       return $this->jsonResponse(array(
+        'status'        => 'success',
         'favorite'      => true,
         'link_new_url'  => $this->generateUrl('favorite_remove', array(
             'id'    => $id,
@@ -138,6 +139,7 @@ class FavoriteController extends Controller
     if ($this->getRequest()->isXmlHttpRequest())
     {
       return $this->jsonResponse(array(
+        'status'        => 'success',
         'favorite'      => true,
         'link_new_url'  => $this->generateUrl('favorite_add', array(
             'id'    => $id,

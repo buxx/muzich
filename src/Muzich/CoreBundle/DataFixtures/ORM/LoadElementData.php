@@ -65,7 +65,7 @@ class LoadElementData  extends AbstractFixture implements OrderedFixtureInterfac
     {
       foreach ($vote_ids as $id)
       {
-        $element->addVoteGood($id);
+        $element->addVoteGood($id, $this->container->getParameter('reputation_element_point_value'));
       }
     }
     

@@ -6,6 +6,10 @@ use Muzich\CoreBundle\lib\Test\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
 use Symfony\Component\DomCrawler\Crawler;
+use Muzich\CoreBundle\Entity\Element;
+use Muzich\CoreBundle\Entity\User;
+use Muzich\CoreBundle\Entity\Playlist;
+use Muzich\CoreBundle\Entity\ElementTagsProposition;
 
 class ContextTestCases
 {
@@ -222,16 +226,21 @@ class ContextTestCases
   public function followUserResponseIs($success, $condition)
   {
     return $this->ajaxResponseSatisfyConditions(
-      $this->getAjaxRequestContentResponse(
-        'GET',
-        $this->test->generateUrl('follow', array(
-          'type' => 'user', 
-          'id' => 0,
-          'token' => 'notoken'
-        ))
-      ), 
+      $this->followUser(0), 
       $success, 
       $condition
+    );
+  }
+  
+  public function followUser($user_id)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('follow', array(
+        'type'  => 'user', 
+        'id'    => $user_id,
+        'token' => $this->test->getUser()->getPersonalHash($user_id)
+      ))
     );
   }
   
@@ -380,6 +389,8 @@ class ContextTestCases
       array(), 
       array('HTTP_X-Requested-With' => 'XMLHttpRequest')
     );
+    
+    return $this->test->getClient()->getResponse()->getContent();
   }
 
 
@@ -535,6 +546,88 @@ class ContextTestCases
       $this->test->generateUrl('playlists_add_element_prompt', array(
         'element_id' => $element_id,
         '_locale'    => 'fr'
+      ))
+    );
+  }
+  
+  public function elementAddGoodPoint(Element $element, User $user)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('ajax_element_add_vote_good', array(
+        'element_id' => $element->getId(),
+        'token'      => $user->getPersonalHash($element->getId()),
+        '_locale'    => 'fr'
+      ))
+    );
+  }
+  
+  public function elementRemoveGoodPoint(Element $element, User $user)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('ajax_element_remove_vote_good', array(
+        'element_id' => $element->getId(),
+        'token'      => $user->getPersonalHash($element->getId()),
+        '_locale'    => 'fr'
+      ))
+    );
+  }
+  
+  public function elementAddToFavorites(Element $element, User $user)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('favorite_add', array(
+        'id'    => $element->getId(),
+        'token' => $user->getPersonalHash($element->getId())
+      ))
+    );
+  }
+  
+  public function elementRemoveFromFavorites(Element $element, User $user)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('favorite_remove', array(
+        'id'    => $element->getId(),
+        'token' => $user->getPersonalHash($element->getId())
+      ))
+    );
+  }
+  
+  public function elementProposeTags(Element $element, User $user, $tags_ids)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'POST',
+      $this->test->generateUrl('ajax_element_propose_tags_proceed', 
+        array('element_id' => $element->getId(), 'token' => $user->getPersonalHash())
+      ), 
+      array(
+        'element_tag_proposition_'.$element->getId() => array(
+          'tags' => json_encode($tags_ids)
+        )
+      )
+    );
+  }
+  
+  public function elementAcceptTagsProposition(User $user, ElementTagsProposition $proposition)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('ajax_element_proposed_tags_accept', array(
+        'proposition_id' => $proposition->getId(),
+        'token'          => $user->getPersonalHash($proposition->getId())
+      ))
+    );
+  }
+  
+  public function elementDelete(Element $element, User $user)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'GET',
+      $this->test->generateUrl('element_remove', array(
+        'element_id' => $element->getId(), 'token' => $user->getPersonalHash($element->getId())
       ))
     );
   }

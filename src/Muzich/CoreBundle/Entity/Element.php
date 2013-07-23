@@ -865,7 +865,7 @@ class Element
    * 
    * @param int $user_id 
    */
-  public function addVoteGood($user_id)
+  public function addVoteGood($user_id, $score_action)
   {
     $votes = $this->getVoteGoodIds();
     if (!count($votes))
@@ -876,7 +876,7 @@ class Element
     if (!$this->hasVoteGood($user_id))
     {
       $votes[] = (string)$user_id;
-      $this->setPoints(count($votes));
+      $this->setPoints($this->getPoints()+$score_action);
     }
     $this->setVoteGoodIds($votes);
   }
@@ -886,7 +886,7 @@ class Element
    * 
    * @param int $user_id 
    */
-  public function removeVoteGood($user_id)
+  public function removeVoteGood($user_id, $score_action)
   {
     if (count($votes = $this->getVoteGoodIds()))
     {
@@ -899,7 +899,7 @@ class Element
         }
       }
       
-      $this->setPoints(count($votes_n));
+      $this->setPoints($this->getPoints()-$score_action);
       $this->setVoteGoodIds($votes_n);
     }
   }

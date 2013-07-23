@@ -231,45 +231,14 @@ class EventElement extends EventPropagator
     $this->container->get('doctrine')->getEntityManager()->persist($proposition->getUser());
   }
   
-  /**
-   * Intervien lorsque l'évènement est supprimé.
-   * Il doit retirer au propriétaire:
-   * * Les points de l'élément
-   * * Les points du aux mises en favoris
-   * 
-   * @param Element $element 
-   */
+  /** @param Element $element */
   public function elementRemoved(Element $element)
   {
-    // L'utilisateur n'a plus droits aux points de l'élément.
     $ur = new UserReputation($element->getOwner());
+    
     $ur->removePoints(
       $element->getPoints() * $this->container->getParameter('reputation_element_point_value')
     );
-    
-    // Ni aux points liés aux mises en favoris
-    $fav = $this->container->get('doctrine')->getEntityManager()->createQuery(
-      "SELECT COUNT(f) FROM MuzichCoreBundle:UsersElementsFavorites f"
-      . " JOIN f.element e"
-      . " WHERE e.owner = :uid AND f.user != :uid AND e.id = :eid"
-    )->setParameters(array(
-      'uid' => $element->getOwner()->getId(),
-      'eid' => $element->getId()
-    ))
-     ->getScalarResult()      
-    ;
-
-    if (count($fav))
-    {
-      if (count($fav[0]))
-      {
-        $count_favs = $fav[0][1];
-        $ur = new UserReputation($element->getOwner());
-        $ur->removePoints(
-          $count_favs * $this->container->getParameter('reputation_element_favorite_value')
-        );
-      }
-    }
   }
   
 }
