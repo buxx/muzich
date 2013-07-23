@@ -260,6 +260,12 @@ class Element
   protected $count_report;
   
   /**
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int 
+   */
+  protected $count_favorited;
+  
+  /**
    * @ORM\Column(type="boolean", nullable=false)
    * @var int 
    */
@@ -819,6 +825,16 @@ class Element
     $this->points = $points;
   }
   
+  public function addPoints($points)
+  {
+    $this->points = $this->getPoints()+$points;
+  }
+  
+  public function removePoints($points)
+  {
+    $this->points = $this->getPoints()-$points;
+  }
+  
   public function getVoteGoodIds()
   {
     return json_decode($this->vote_good_ids, true);
@@ -1050,6 +1066,29 @@ class Element
   public function setSlug($slug)
   {
     $this->slug = $slug;
+  }
+  
+  public function getCountFavorited()
+  {
+    if (!$this->count_favorited)
+      return 0;
+    
+    return $this->count_favorited;
+  }
+  
+  public function setCountFavorited($count_favorited)
+  {
+    $this->count_favorited = $count_favorited;
+  }
+  
+  public function increaseCountFavorited()
+  {
+    $this->setCountFavorited($this->getCountFavorited()+1);
+  }
+  
+  public function uncreaseCountFavorited()
+  {
+    $this->setCountFavorited($this->getCountFavorited()-1);
   }
   
 }

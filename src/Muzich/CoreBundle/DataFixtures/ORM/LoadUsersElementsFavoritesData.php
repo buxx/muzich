@@ -35,7 +35,15 @@ class LoadUsersElementsFavoritesData  extends AbstractFixture implements Ordered
     $favorite = new UsersElementsFavorites();
     $favorite->setUser($user);
     $favorite->setElement($element);
+    
+    if ($element->getOwner()->getId() != $user->getId())
+    {
+      $element->addPoints($this->container->getParameter('reputation_element_favorite_value'));
+      $element->increaseCountFavorited();
+    }
+    
     $this->entity_manager->persist($favorite);
+    $this->entity_manager->persist($element);
     //$this->addReference('user_tag_'.$user->getId().'_'.$tag->getId(), $userTag);
   }
   
