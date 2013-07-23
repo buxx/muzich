@@ -5,6 +5,7 @@ namespace Muzich\PlaylistBundle\Controller;
 use Muzich\CoreBundle\lib\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
+use Muzich\CoreBundle\Propagator\EventElement;
 
 class EditController extends Controller
 {
@@ -31,7 +32,13 @@ class EditController extends Controller
     if (!$this->tokenIsCorrect() || !($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
       return $this->jsonNotFoundResponse();
     
+    $element = $playlist_manager->getElementWithIndex($index);
     $playlist_manager->removePlaylistElementWithIndex($playlist, $index);
+    
+    $event = new EventElement($this->container);
+    $event->removedFromPlaylist($element, $this->getUser(), $playlist);
+    
+    $this->persist($element);
     $this->flush();
     return $this->jsonSuccessResponse();
   }
@@ -47,6 +54,11 @@ class EditController extends Controller
       return $this->jsonNotFoundResponse();
     
     $playlist_manager->addElementToPlaylist($element, $playlist);
+    
+    $event = new EventElement($this->container);
+    $event->addedFromPlaylist($element, $this->getUser(), $playlist);
+    
+    $this->persist($element);
     $this->flush();
     return $this->jsonSuccessResponse();
   }
@@ -64,6 +76,11 @@ class EditController extends Controller
     if ($form->isValid())
     {
       $this->getPlaylistManager()->addElementToPlaylist($element, $form->getData());
+      
+      $event = new EventElement($this->container);
+      $event->addedFromPlaylist($element, $this->getUser(), $form->getData());
+
+      $this->persist($element);
       $this->flush();
       return $this->jsonSuccessResponse();
     }
@@ -90,6 +107,11 @@ class EditController extends Controller
     $new_playlist = $this->getPlaylistManager()->copyPlaylist($this->getUser(), $playlist);
     $this->getPlaylistManager()->addElementToPlaylist($element, $new_playlist);
     $this->getPlaylistManager()->removePickedPlaylistToUser($this->getUser(), $playlist);
+    
+    $event = new EventElement($this->container);
+    $event->addedFromPlaylist($element, $this->getUser(), $new_playlist);
+    
+    $this->persist($element);
     $this->flush();
     
     return $this->jsonSuccessResponse();

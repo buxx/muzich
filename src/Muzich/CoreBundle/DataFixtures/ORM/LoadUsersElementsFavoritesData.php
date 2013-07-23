@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Muzich\CoreBundle\Entity\UsersElementsFavorites;
 use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\Managers\PlaylistManager;
+use Muzich\CoreBundle\Propagator\EventElement;
 
 class LoadUsersElementsFavoritesData  extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
@@ -48,6 +49,15 @@ class LoadUsersElementsFavoritesData  extends AbstractFixture implements Ordered
     
     $playlist_manager->addElementsToPlaylist($elements, $playlist);
     $this->entity_manager->persist($playlist);
+    $this->entity_manager->flush();
+    
+    foreach ($elements as $element)
+    {
+      $event = new EventElement($this->container);
+      $event->addedToPlaylist($element, $user, $playlist);
+      $this->entity_manager->persist($element);
+    }
+    
     return $playlist;
   }
   

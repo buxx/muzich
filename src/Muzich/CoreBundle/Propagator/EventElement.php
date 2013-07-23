@@ -13,6 +13,7 @@ use Muzich\CoreBundle\Entity\ElementTagsProposition;
 use Muzich\CoreBundle\Managers\EventArchiveManager;
 use Muzich\CoreBundle\Entity\EventArchive;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
+use Muzich\CoreBundle\Entity\Playlist;
 
 /**
  * Propagateur d'événement concernant les éléments
@@ -133,6 +134,67 @@ class EventElement extends EventPropagator
       $ur->removePoints(
         $this->container->getParameter('reputation_element_favorite_value')
       );
+    }
+  }
+  
+  public function addedToPlaylist(Element $element, User $added_by_user, Playlist $playlist)
+  {
+    // On persiste les modifs pour compter correctement
+    $this->getEntityManager()->persist($playlist);
+    $this->getEntityManager()->flush();
+    
+    $ur = new UserReputation($element->getOwner());
+    $security_context = new SecurityContext($added_by_user);
+    if (
+        !$security_context->actionIsAffectedBy(SecurityContext::AFFECT_NO_SCORING, SecurityContext::ACTION_PLAYLIST_ADD_ELEMENT) 
+        // Qu'une seule fois dans la playlist
+        && $playlist->getCountElement($element) == 1
+        // Element dans une seule playlist (par la suite ca ne rapporte plus de points)
+        && $this->countUserPlaylistWithElement($added_by_user, $element) == 1
+        && $element->getOwner()->getId() != $added_by_user->getId()
+    )
+    {
+      $score_action = $this->container->getParameter('reputation_element_added_to_playlist');
+      $ur->addPoints($score_action);
+      $element->addPoints($score_action);
+      $element->increaseCountPlaylisted();
+    }
+  }
+  
+  protected function countUserPlaylistWithElement(User $user, Element $element)
+  {
+    return $this->getEntityManager()->createQueryBuilder()
+      ->select('COUNT(p)')
+      ->from('MuzichCoreBundle:Playlist', 'p')
+      ->where('p.elements LIKE :element_id AND p.owner = :owner_id')
+      ->setParameter('owner_id', $user->getId())
+      ->setParameter('element_id', '%"id":"'.$element->getId().'"%')
+      ->getQuery()
+      ->getSingleScalarResult()
+    ;
+  }
+  
+  public function removedFromPlaylist(Element $element, User $removed_by_user, Playlist $playlist)
+  {
+    // On persiste les modifs pour compter correctement
+    $this->getEntityManager()->persist($playlist);
+    $this->getEntityManager()->flush();
+    
+    $ur = new UserReputation($element->getOwner());
+    $security_context = new SecurityContext($removed_by_user);
+    if (
+        !$security_context->actionIsAffectedBy(SecurityContext::AFFECT_NO_SCORING, SecurityContext::ACTION_PLAYLIST_REMOVE_ELEMENT) 
+        // L'element n'est plus dans la playlist
+        && $playlist->getCountElement($element) == 0
+        // On ne trouve plus l'element dans ses playlists
+        && $this->countUserPlaylistWithElement($removed_by_user, $element) == 0
+        && $element->getOwner()->getId() != $removed_by_user->getId()
+    )
+    {
+      $score_action = $this->container->getParameter('reputation_element_added_to_playlist');
+      $ur->removePoints($score_action);
+      $element->removePoints($score_action);
+      $element->uncreaseCountPlaylisted();
     }
   }
   

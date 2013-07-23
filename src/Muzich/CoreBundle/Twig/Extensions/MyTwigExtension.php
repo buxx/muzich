@@ -216,7 +216,7 @@ class MyTwigExtension extends \Twig_Extension {
     return $this->container->get('form.csrf_provider')->generateCsrfToken($intention);
   }
   
-  public function path_token($route, $parameters = array(), $intention = '', $absolute = false)
+  public function path_token($route, $parameters = array(), $intention = 'unknown', $absolute = false)
   {
     $parameters = array_merge($parameters, array('token' => $this->token($intention)));
     return $this->container->get('router')->generate($route, $parameters, $absolute);

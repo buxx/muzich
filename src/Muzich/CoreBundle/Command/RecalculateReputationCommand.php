@@ -8,14 +8,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Muzich\CoreBundle\Entity\EventArchive;
+use Muzich\CoreBundle\Entity\Element;
 
 class RecalculateReputationCommand extends ContainerAwareCommand
 {
   protected function configure()
   {
     $this
-      ->setName('users:reputation:recalculate')
-      ->setDescription('Recalcul des scores de reputation')
+      ->setName('score:recalculate')
+      ->setDescription('Recalcul des scores')
       ->addOption('user', null, InputOption::VALUE_REQUIRED, 'username du compte a traiter')
 //      ->addArgument('sites', InputArgument::OPTIONAL, 'Liste exhaustive des site a traiter')
 //      ->addOption('yell', null, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters')
@@ -26,12 +27,24 @@ class RecalculateReputationCommand extends ContainerAwareCommand
   {
     $doctrine = $this->getContainer()->get('doctrine');
     $em = $doctrine->getEntityManager();
-
+    
     $output->writeln('#');
-    $output->writeln('## Script de recalcul des scores de reputation ##');
+    $output->writeln('## Script de recalcul des scores ##');
     $output->writeln('#');
 
     $output->writeln('<info>Début du traitement ...</info>');
+    $this->recalculateUserScores($input, $output);
+    $this->recalculateElementScores($input, $output);
+    
+    $output->writeln('<info>Saving in database ...</info>');
+    $em->flush();
+    $output->writeln('<info>Terminé !</info>');
+  }
+  
+  protected function recalculateUserScores(InputInterface $input, OutputInterface $output)
+  {
+    $doctrine = $this->getContainer()->get('doctrine');
+    $em = $doctrine->getEntityManager();
     
     if (($username = $input->getOption('user')))
     {
@@ -79,6 +92,8 @@ class RecalculateReputationCommand extends ContainerAwareCommand
       foreach ($elements as $element)
       {
         $element_points += $element->getPoints();
+        // Point déjà ajoutés a l'user
+        $element_points -= ($element->getCountFavorited()*$this->getContainer()->getParameter('reputation_element_favorite_value'));
       }
       
       /*
@@ -153,9 +168,39 @@ class RecalculateReputationCommand extends ContainerAwareCommand
       
       $user->setReputation($points);
       $em->persist($user);
-      $em->flush();
+      $output->writeln('<info>User "'.$user->getUsername().'": '.$points.' score</info>');
     }
     
-    $output->writeln('<info>Terminé !</info>');
   }
+    
+  protected function recalculateElementScores(InputInterface $input, OutputInterface $output)
+  {
+    $doctrine = $this->getContainer()->get('doctrine');
+    $em = $doctrine->getEntityManager();
+    
+    $elements = $em->createQuery(
+      "SELECT element FROM MuzichCoreBundle:Element element"
+    )->getResult();
+    
+    foreach ($elements as $element)
+    {
+      $element->setPoints($this->getElementScore($element));
+      $em->persist($element);
+    }
+    
+  }
+  
+  protected function getElementScore(Element $element)
+  {
+    $element_score = 0;
+    
+    $element_score += (count($element->getVoteGoodIds())*$this->getContainer()->getParameter('reputation_element_point_value'));
+    
+    $element_score += ($element->getCountFavorited()*$this->getContainer()->getParameter('reputation_element_favorite_value'));
+    
+    $element_score += ($element->getCountPlaylisted()*$this->getContainer()->getParameter('reputation_element_added_to_playlist'));
+    
+    return $element_score;
+  }
+  
 }

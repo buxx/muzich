@@ -239,4 +239,12 @@ class PlaylistManager
     $this->entity_manager->persist($playlist);
   }
   
+  /** @return Element */
+  public function getElementWithIndex(Playlist $playlist, $index)
+  {
+    $element_data = $playlist->getElementDataWithIndex($index);
+    return $this->entity_manager->getRepository('MuzichCoreBundle:Element')
+      ->findOneById($element_data['id']);
+  }
+  
 }

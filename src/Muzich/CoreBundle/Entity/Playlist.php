@@ -264,10 +264,22 @@ class Playlist
     return $elements_manager->have($element);
   }
   
+  public function getCountElement(Element $element)
+  {
+    $elements_manager = new ElementCollectionManager(json_decode($this->elements, true));
+    return $elements_manager->count($element);
+  }
+  
   public function haveElementId($element_id)
   {
     $elements_manager = new ElementCollectionManager(json_decode($this->elements, true));
     return $elements_manager->haveRefId($element_id);
+  }
+  
+  public function getElementDataWithIndex($index)
+  {
+    $elements_manager = new ElementCollectionManager(json_decode($this->elements, true));
+    return $elements_manager->getLineWithIndex($index);
   }
   
   public function haveTagId($tag_id)

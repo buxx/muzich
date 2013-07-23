@@ -260,6 +260,21 @@ class Element
   protected $count_report;
   
   /**
+<<<<<<< Updated upstream
+=======
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int 
+   */
+  protected $count_favorited;
+  
+  /**
+   * @ORM\Column(type="integer", nullable=true)
+   * @var int 
+   */
+  protected $count_playlisted;
+  
+  /**
+>>>>>>> Stashed changes
    * @ORM\Column(type="boolean", nullable=false)
    * @var int 
    */
@@ -1050,6 +1065,52 @@ class Element
   public function setSlug($slug)
   {
     $this->slug = $slug;
+  }
+  
+  public function getCountFavorited()
+  {
+    if (!$this->count_favorited)
+      return 0;
+    
+    return $this->count_favorited;
+  }
+  
+  public function setCountFavorited($count_favorited)
+  {
+    $this->count_favorited = $count_favorited;
+  }
+  
+  public function increaseCountFavorited()
+  {
+    $this->setCountFavorited($this->getCountFavorited()+1);
+  }
+  
+  public function uncreaseCountFavorited()
+  {
+    $this->setCountFavorited($this->getCountFavorited()-1);
+  }
+  
+  public function getCountPlaylisted()
+  {
+    if (!$this->count_playlisted)
+      return 0;
+    
+    return $this->count_playlisted;
+  }
+  
+  public function setCountPlaylisted($count_playlisted)
+  {
+    $this->count_playlisted = $count_playlisted;
+  }
+  
+  public function increaseCountPlaylisted()
+  {
+    $this->setCountPlaylisted($this->getCountPlaylisted()+1);
+  }
+  
+  public function uncreaseCountPlaylisted()
+  {
+    $this->setCountPlaylisted($this->getCountPlaylisted()-1);
   }
   
 }

@@ -41,6 +41,21 @@ abstract class CollectionManager
     }
   }
   
+  public function count($object)
+  {
+    $count = 0;
+    $method_name = 'get' . $this->object_reference_attribute;
+    foreach ($this->content as $content_line)
+    {
+      if ($object->$method_name() == $content_line[lcfirst($this->object_reference_attribute)])
+      {
+        $count++;
+      }
+    }
+    
+    return $count;
+  }
+  
   public function have($object)
   {
     $method_name = 'get' . $this->object_reference_attribute;
@@ -89,6 +104,14 @@ abstract class CollectionManager
     {
       unset($this->content[$index]);
       $this->content = array_values($this->content);
+    }
+  }
+  
+  public function getLineWithIndex($index)
+  {
+    if (array_key_exists($index, $this->content))
+    {
+      return $this->content[$index];
     }
   }
   
