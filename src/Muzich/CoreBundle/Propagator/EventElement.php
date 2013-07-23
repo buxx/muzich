@@ -110,9 +110,10 @@ class EventElement extends EventPropagator
     $security_context = new SecurityContext($added_by_user);
     if (!$security_context->actionIsAffectedBy(SecurityContext::AFFECT_NO_SCORING, SecurityContext::ACTION_ELEMENT_ADD_TO_FAVORITES))
     {
-      $ur->addPoints(
-        $this->container->getParameter('reputation_element_favorite_value')
-      );
+      $score_action = $this->container->getParameter('reputation_element_favorite_value');
+      $ur->addPoints($score_action);
+      $element->addPoints($score_action);
+      $element->increaseCountFavorited();
     }
     
     $uea = new UserEventAction($element->getOwner(), $this->container);
@@ -131,9 +132,10 @@ class EventElement extends EventPropagator
     $security_context = new SecurityContext($removed_by_user);
     if (!$security_context->actionIsAffectedBy(SecurityContext::AFFECT_NO_SCORING, SecurityContext::ACTION_ELEMENT_ADD_TO_FAVORITES))
     {
-      $ur->removePoints(
-        $this->container->getParameter('reputation_element_favorite_value')
-      );
+      $score_action = $this->container->getParameter('reputation_element_favorite_value');
+      $ur->removePoints($score_action);
+      $element->removePoints($score_action);
+      $element->uncreaseCountFavorited();
     }
   }
   

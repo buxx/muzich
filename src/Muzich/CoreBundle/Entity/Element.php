@@ -260,14 +260,18 @@ class Element
   protected $count_report;
   
   /**
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> feature/v0.9.8.2/score
    * @ORM\Column(type="integer", nullable=true)
    * @var int 
    */
   protected $count_favorited;
   
   /**
+<<<<<<< HEAD
    * @ORM\Column(type="integer", nullable=true)
    * @var int 
    */
@@ -275,6 +279,8 @@ class Element
   
   /**
 >>>>>>> Stashed changes
+=======
+>>>>>>> feature/v0.9.8.2/score
    * @ORM\Column(type="boolean", nullable=false)
    * @var int 
    */
@@ -832,6 +838,16 @@ class Element
   public function setPoints($points)
   {
     $this->points = $points;
+  }
+  
+  public function addPoints($points)
+  {
+    $this->points = $this->getPoints()+$points;
+  }
+  
+  public function removePoints($points)
+  {
+    $this->points = $this->getPoints()-$points;
   }
   
   public function getVoteGoodIds()

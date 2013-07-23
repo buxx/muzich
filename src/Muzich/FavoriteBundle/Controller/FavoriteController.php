@@ -60,6 +60,7 @@ class FavoriteController extends Controller
         $event = new EventElement($this->container);
         $event->addedToFavorites($element, $user);
         $em->persist($user);
+        $em->persist($element);
       }
       
       // On signale que cet user a modifié sa liste de favoris
@@ -129,6 +130,7 @@ class FavoriteController extends Controller
       $user->setData(User::DATA_FAV_UPDATED, true);
       
       $em->persist($element->getOwner());
+      $em->persist($element);
       $em->remove($fav);
       $em->flush();
     }
