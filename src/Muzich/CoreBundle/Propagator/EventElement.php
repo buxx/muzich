@@ -114,11 +114,12 @@ class EventElement extends EventPropagator
       $ur->addPoints($score_action);
       $element->addPoints($score_action);
       $element->increaseCountFavorited();
+      $this->getEntityManager()->persist($element);
     }
     
     $uea = new UserEventAction($element->getOwner(), $this->container);
     $event = $uea->proceed(Event::TYPE_FAV_ADDED_ELEMENT, $element->getId());
-    $this->container->get('doctrine')->getEntityManager()->persist($event);
+    $this->getEntityManager()->persist($event);
   }
   
   /**
@@ -136,6 +137,7 @@ class EventElement extends EventPropagator
       $ur->removePoints($score_action);
       $element->removePoints($score_action);
       $element->uncreaseCountFavorited();
+      $this->getEntityManager()->persist($element);
     }
   }
   
@@ -176,11 +178,14 @@ class EventElement extends EventPropagator
     ;
   }
   
-  public function removedFromPlaylist(Element $element, User $removed_by_user, Playlist $playlist)
+  public function removedFromPlaylist(Element $element, User $removed_by_user, Playlist $playlist, $persist_before = true)
   {
-    // On persiste les modifs pour compter correctement
-    $this->getEntityManager()->persist($playlist);
-    $this->getEntityManager()->flush();
+    if ($persist_before)
+    {
+      // On persiste les modifs pour compter correctement
+      $this->getEntityManager()->persist($playlist);
+      $this->getEntityManager()->flush();
+    }
     
     $ur = new UserReputation($element->getOwner());
     $security_context = new SecurityContext($removed_by_user);

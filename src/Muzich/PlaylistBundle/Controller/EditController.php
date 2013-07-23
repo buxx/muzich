@@ -32,7 +32,7 @@ class EditController extends Controller
     if (!$this->tokenIsCorrect() || !($playlist = $playlist_manager->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
       return $this->jsonNotFoundResponse();
     
-    $element = $playlist_manager->getElementWithIndex($index);
+    $element = $playlist_manager->getElementWithIndex($playlist, $index);
     $playlist_manager->removePlaylistElementWithIndex($playlist, $index);
     
     $event = new EventElement($this->container);
@@ -56,7 +56,7 @@ class EditController extends Controller
     $playlist_manager->addElementToPlaylist($element, $playlist);
     
     $event = new EventElement($this->container);
-    $event->addedFromPlaylist($element, $this->getUser(), $playlist);
+    $event->addedToPlaylist($element, $this->getUser(), $playlist);
     
     $this->persist($element);
     $this->flush();
@@ -78,7 +78,7 @@ class EditController extends Controller
       $this->getPlaylistManager()->addElementToPlaylist($element, $form->getData());
       
       $event = new EventElement($this->container);
-      $event->addedFromPlaylist($element, $this->getUser(), $form->getData());
+      $event->addedToPlaylist($element, $this->getUser(), $form->getData());
 
       $this->persist($element);
       $this->flush();
@@ -109,7 +109,7 @@ class EditController extends Controller
     $this->getPlaylistManager()->removePickedPlaylistToUser($this->getUser(), $playlist);
     
     $event = new EventElement($this->container);
-    $event->addedFromPlaylist($element, $this->getUser(), $new_playlist);
+    $event->addedToPlaylist($element, $this->getUser(), $new_playlist);
     
     $this->persist($element);
     $this->flush();

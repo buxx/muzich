@@ -247,4 +247,10 @@ class PlaylistManager
       ->findOneById($element_data['id']);
   }
   
+  public function getElementsObjects(Playlist $playlist)
+  {
+    return $this->entity_manager->getRepository('MuzichCoreBundle:Element')
+      ->findById($playlist->getElementsIds());
+  }
+  
 }
