@@ -234,12 +234,18 @@ class ContextTestCases
   
   public function followUser($user_id)
   {
+    $token = 'notoken';
+    if ($this->test->getUser() instanceof User)
+    {
+      $token = $this->test->getUser()->getPersonalHash($user_id);
+    }
+    
     return $this->getAjaxRequestContentResponse(
       'GET',
       $this->test->generateUrl('follow', array(
         'type'  => 'user', 
         'id'    => $user_id,
-        'token' => $this->test->getUser()->getPersonalHash($user_id)
+        'token' => $token
       ))
     );
   }
@@ -413,7 +419,10 @@ class ContextTestCases
   
   public function playlistDeleteResponseIs($success, $condition)
   {
+    
+    
     $this->playlistDelete(0);
+    
     return $this->responseSatisfyConditions(
       $this->test->getClient()->getResponse(), 
       $success, 

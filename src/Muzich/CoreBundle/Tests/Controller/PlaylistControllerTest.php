@@ -60,19 +60,19 @@ class PlaylistControllerTest extends FunctionalTest
       true
     );
     
-    $this->security_context_test->testUserCantMakeActionStatus( 
+    $this->security_context_test->testUserCantMakeActionStatus(
       SecurityContext::ACTION_PLAYLIST_DELETE, 
       SecurityContext::CONDITION_USER_NOT_CONNECTED,
       true
     );
     
-    $this->security_context_test->testUserCantMakeActionStatus( 
+    $this->security_context_test->testUserCantMakeActionStatus(
       SecurityContext::ACTION_PLAYLIST_UNPICK, 
       SecurityContext::CONDITION_USER_NOT_CONNECTED,
       true
     );
     
-    $this->security_context_test->testUserCantMakeActionStatus( 
+    $this->security_context_test->testUserCantMakeActionStatus(
       SecurityContext::ACTION_PLAYLIST_PICK, 
       SecurityContext::CONDITION_USER_NOT_CONNECTED,
       true

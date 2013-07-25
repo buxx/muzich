@@ -145,10 +145,6 @@ class FavoriteControllerTest extends FunctionalTest
     
     $this->isResponseSuccess();
     
-    // Controle de l'évolution du score de joelle
-    $joelle = $this->getUser('joelle');
-    $this->assertEquals($joelle->getReputation(), 2);
-    
     // L'élément est présent sur la page
     $this->exist('li:contains("DUDELDRUM")');
     $this->exist('a[href="'.($url = $this->generateUrl('favorite_add', array(
@@ -180,10 +176,6 @@ class FavoriteControllerTest extends FunctionalTest
     
     $this->assertTrue(!is_null($favorite));
     
-    // Controle de l'évolution du score de joelle
-    $joelle = $this->getUser('joelle');
-    $this->assertEquals($joelle->getReputation(), 7);
-    
     // On se rend sur la page de ses favoris
     $this->crawler = $this->client->request('GET', $this->generateUrl('favorites_my_list'));
     
@@ -208,9 +200,6 @@ class FavoriteControllerTest extends FunctionalTest
     
     $this->assertTrue(is_null($favorite));
     
-    // Controle de l'évolution du score de joelle
-    $joelle = $this->getUser('joelle');
-    $this->assertEquals($joelle->getReputation(), 2);
   }
   
   public function testAjax()

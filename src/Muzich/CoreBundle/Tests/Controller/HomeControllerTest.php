@@ -61,6 +61,7 @@ class HomeControllerTest extends FunctionalTest
         'tag_strict'  => false,
         'string'      => null,
         'need_tags'   => false,
+        'display_privates' => false
     ), $this->getSession()->get('user.element_search.params'));
     
     // On fabrique l'ElementSearcher correspondant
