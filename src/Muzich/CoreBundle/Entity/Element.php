@@ -188,7 +188,7 @@ class Element
    * 
    * @ORM\Column(type = "string", length = 128)
    * @Assert\NotBlank(message = "error.element.name.notblank")
-   * @Assert\Length(min = 3, max = 84, minMessage = "error.element.name.toshort", maxMessage = "error.element.name.tolong")
+   * @Assert\Length(min = 3, max = 128, minMessage = "error.element.name.toshort", maxMessage = "error.element.name.tolong")
    * @var type string
    */
   protected $name;
@@ -198,6 +198,11 @@ class Element
    * @ORM\Column(length=128, unique=false)
    */
   protected $slug;
+  
+  /**
+   * @ORM\Column(type="boolean")
+   */
+  protected $private = false;
   
   /**
    * Code d'embed
@@ -260,27 +265,18 @@ class Element
   protected $count_report;
   
   /**
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> feature/v0.9.8.2/score
    * @ORM\Column(type="integer", nullable=true)
    * @var int 
    */
   protected $count_favorited;
   
   /**
-<<<<<<< HEAD
    * @ORM\Column(type="integer", nullable=true)
    * @var int 
    */
   protected $count_playlisted;
   
   /**
->>>>>>> Stashed changes
-=======
->>>>>>> feature/v0.9.8.2/score
    * @ORM\Column(type="boolean", nullable=false)
    * @var int 
    */
@@ -1127,6 +1123,60 @@ class Element
   public function uncreaseCountPlaylisted()
   {
     $this->setCountPlaylisted($this->getCountPlaylisted()-1);
+  }
+  
+  public function isPrivate()
+  {
+    return ($this->private)?true:false;
+  }
+  
+  public function getPrivate()
+  {
+    return $this->isPrivate();
+  }
+  
+  public function setPrivate($private)
+  {
+    $this->private = ($private)?true:false;
+  }
+  
+  public function setNameWithData($clean = true)
+  {
+    $name = '';
+    if (($title = $this->getData(self::DATA_TITLE)))
+    {
+      if (($artist = $this->getData(self::DATA_ARTIST)))
+      {
+        $name = $title.' - '.$artist;
+      }
+      else
+      {
+        $name = $title;
+      }
+    }
+    
+    if ($clean)
+    {
+      if (strlen($name) < 3)
+      {
+        try
+        {
+          $str = file_get_contents($this->getUrl());
+          if (strlen($str) > 0)
+          {
+            preg_match("/\<title\>(.*)\<\/title\>/",$str,$title);
+            $name = $title[1];
+          }
+        }
+        catch (\Exception $e)
+        {
+          $name = $this->getUrl();
+        }
+      }
+      $name = substr($name, 0, 128);
+    }
+    
+    $this->setName($name);
   }
   
 }

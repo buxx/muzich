@@ -1081,7 +1081,8 @@ class ElementController extends Controller
   {
     $es = new ElementSearcher();
     $es->init(array(
-      'ids' => array($element_id)
+      'ids'              => array($element_id),
+      'display_privates' => true
     ));
     
     if (!($element = $es->getElements($this->getDoctrine(), $this->getUserId(true), 'single')))
@@ -1130,7 +1131,8 @@ class ElementController extends Controller
     // On prépare la récupèration de l'élèment
     $es = new ElementSearcher();
     $es->init(array(
-      'ids' => array($element_id)
+      'ids'              => array($element_id),
+      'display_privates' => true
     ));
     
     if (!($element = $es->getElements($this->getDoctrine(), $this->getUserId(true), 'single')))

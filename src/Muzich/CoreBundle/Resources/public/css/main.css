@@ -2533,6 +2533,28 @@ div.social_buttons ul li.googleplus {
     margin-left: -25px;
 }
 
+a.button.toplist:visited
+{
+  color: white;
+}
+
+a.button.toplist
+{
+  float: right;
+}
+
+div.private_links form div.inputs
+{
+  float: right;
+}
+
+div.private_links textarea
+{
+  height: 60px;
+  width: 435px;
+}
+
+
 /*
 *
 *

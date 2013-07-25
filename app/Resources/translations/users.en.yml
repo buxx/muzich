@@ -7,6 +7,7 @@ user:
   view_profile:                 See profile
   stop_follow:                  Stop follow
   view_playlists:               Playlists
+  new_playlist:                 Create new playlist
   show:
     title:                      %name% shares
   reputation:

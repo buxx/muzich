@@ -7,6 +7,7 @@ use Muzich\CoreBundle\Entity\Event;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\DependencyInjection\Container;
 use Muzich\CoreBundle\Entity\User;
+use Muzich\CoreBundle\Entity\Playlist;
 
 class MyTwigExtension extends \Twig_Extension {
 
@@ -43,7 +44,8 @@ class MyTwigExtension extends \Twig_Extension {
       'token'                  => new \Twig_Function_Method($this, 'token'),
       'path_token'             => new \Twig_Function_Method($this, 'path_token'),
       'token'                  => new \Twig_Function_Method($this, 'getToken'),
-      'token_or_unknow'        => new \Twig_Function_Method($this, 'getTokenOrUnknown')
+      'token_or_unknow'        => new \Twig_Function_Method($this, 'getTokenOrUnknown'),
+      'playlist_element_displayable' => new \Twig_Function_Method($this, 'displayElementPlaylist')
     );
   }
   
@@ -267,6 +269,25 @@ class MyTwigExtension extends \Twig_Extension {
     }
     
     return 'unknown';
+  }
+  
+  public function displayElementPlaylist(Playlist $playlist, $user_id, $element_data)
+  {
+    if (!$playlist->isPublic() && $playlist->getOwner()->getId() != $user_id)
+      return false;
+    
+    if (!$playlist->isPublic() && $playlist->getOwner()->getId() == $user_id)
+      return true;
+    
+    if ($playlist->isPublic() && !array_key_exists('private', $element_data))
+      return true;
+    
+    if ($playlist->isPublic() && array_key_exists('private', $element_data))
+    {
+      if ($element_data['private'] && $playlist->getOwner()->getId() != $user_id)
+        return false;
+      return true;
+    }
   }
   
 }

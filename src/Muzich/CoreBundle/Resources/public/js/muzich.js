@@ -1328,7 +1328,7 @@ $(document).ready(function(){
         elements.prepend(response.html);
         $('div#share_from_content').append(elements);
         $('div#share_from_message').text(response.message);
-        //$('form[name="add"]').append($('<input type="hidden" name="shared_from_finished" id="shared_from_finished" value="1" />'));
+        $('form[name="add"]').append($('<input type="hidden" name="shared_from_finished" id="shared_from_finished" value="1" />'));
       }
       
       return true;
@@ -3369,6 +3369,20 @@ $(document).ready(function(){
     $("#sidebar .sidebar").sticky({topSpacing:25});
     window.sidebar_topsticked = true;
   }
+  
+  /*
+   * Playlist private links lien privés
+   * 
+   */
+  
+  $('a.open_playlist_private_links').click(function(){
+    $('div.private_links').slideDown();
+  });
+  
+  $('div.private_links input.cancel').click(function(){
+    $('div.private_links').slideUp();
+  });
+  
   
 });
 

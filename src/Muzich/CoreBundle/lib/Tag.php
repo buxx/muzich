@@ -21,18 +21,21 @@ class Tag
     
     foreach ($elements as $element)
     {
-      foreach ($element->getTags() as $tag)
+      if (count($element->getTags()))
       {
-        // Si on a déjà un compteur pour ce tag
-        if (array_key_exists($tag->getId(), $tags_count))
+        foreach ($element->getTags() as $tag)
         {
-          // On incrémente
-          $tags_count[$tag->getId()] = $tags_count[$tag->getId()] + 1;
-        }
-        else
-        {
-          // On commence le compteur
-          $tags_count[$tag->getId()] = 1;
+          // Si on a déjà un compteur pour ce tag
+          if (array_key_exists($tag->getId(), $tags_count))
+          {
+            // On incrémente
+            $tags_count[$tag->getId()] = $tags_count[$tag->getId()] + 1;
+          }
+          else
+          {
+            // On commence le compteur
+            $tags_count[$tag->getId()] = 1;
+          }
         }
       }
     }
@@ -62,9 +65,12 @@ class Tag
     $tags_ordered = array();
     foreach ($elements as $element)
     {
-      foreach ($element->getTags() as $tag)
+      if (count($element->getTags()))
       {
-        $tags[$tag->getId()] = $tag;
+        foreach ($element->getTags() as $tag)
+        {
+          $tags[$tag->getId()] = $tag;
+        }
       }
     }
     

@@ -115,6 +115,8 @@ class ElementSearcher extends Searcher implements SearcherInterface
    */
   protected $need_tags = false;
   
+  protected $display_privates = false;
+  
   /**
    * @see SearcherInterface
    * @param array $params 
@@ -159,7 +161,8 @@ class ElementSearcher extends Searcher implements SearcherInterface
       'ids_display' => $this->getIdsDisplay(),
       'tag_strict'  => $this->getTagStrict(),
       'need_tags'   => $this->getNeedTags(),
-      'string'      => $this->getString()
+      'string'      => $this->getString(),
+      'display_privates' => $this->getDisplayPrivates()
     );
   }
   
@@ -380,6 +383,16 @@ class ElementSearcher extends Searcher implements SearcherInterface
       throw new \Exception("Wrong network set");
     }
     $this->network = $network;
+  }
+  
+  public function getDisplayPrivates()
+  {
+    return ($this->display_privates)?true:false;
+  }
+  
+  public function setDisplayPrivates($display)
+  {
+    $this->display_privates = ($display)?true:false;
   }
   
 }

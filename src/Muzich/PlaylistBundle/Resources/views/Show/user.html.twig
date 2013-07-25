@@ -9,6 +9,14 @@
     
     <div class="show_options">
       
+      {% if app.user %}
+        {% if viewed_user.id == app.user.id %}
+          <a class="button darkbutton" href="{{ path('playlist_new', {'user_slug' : app.user.slug}) }}" >
+            {{ 'user.new_playlist'|trans({}, 'users') }}
+          </a>
+        {% endif %}
+      {% endif %}
+      
       <a class="button darkbutton" href="{{ path('show_user', {'slug' : viewed_user.slug}) }}" >
         {{ 'user.view_profile'|trans({}, 'users') }}
       </a>

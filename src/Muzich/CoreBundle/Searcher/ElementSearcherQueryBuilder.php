@@ -319,6 +319,16 @@ class ElementSearcherQueryBuilder
       ->addOrderBy('e.id', 'DESC')
     ;
     
+    if ($this->es->getDisplayPrivates() && $this->user_id)
+    {
+      $this->query_ids->andWhere('(e.private = 0 OR (e.private = 1 AND e.owner = :owner_id))');
+      $this->parameters_ids['owner_id'] = $this->user_id;
+    }
+    else
+    {
+      $this->query_ids->andWhere('e.private = 0');
+    }
+    
     if (!$disable_limit)
     {
       $this->query_ids->setMaxResults($this->es->getCount());

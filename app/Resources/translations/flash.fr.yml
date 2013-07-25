@@ -54,3 +54,5 @@ playlist:
     success:       Playlist supprimée
   update:
     success:       La liste de lecture a été mise à jour
+  create:
+    success:       La liste de lecture a été créée

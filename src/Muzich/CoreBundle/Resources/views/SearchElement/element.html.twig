@@ -1,6 +1,9 @@
 {% if display_edit_actions is not defined %}
   {% set display_edit_actions = true %}
 {% endif %}
+{% if display_social_buttons is not defined %}
+  {% set display_social_buttons = true %}
+{% endif %}
 {% if display_player is not defined %}
   {% set display_player = true %}
 {% endif %}
@@ -86,20 +89,24 @@
               {% endif %}
             </li>
         <li class="star">
-          {% if app.user %}
-            {% if element.hasFavoriteUser(app.user.id) %}
-              <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash(element.id) }) }}" >
-                <img id="favorite_{{ element.id }}_is" src="{{ asset('img/icon_star_2_red.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
-              </a>
+          {% if not element.private %}
+            {% if app.user %}
+              {% if element.hasFavoriteUser(app.user.id) %}
+                <a class="favorite_link" href="{{ path('favorite_remove', { 'id': element.id, 'token': app.user.personalHash(element.id) }) }}" >
+                  <img id="favorite_{{ element.id }}_is" src="{{ asset('img/icon_star_2_red.png') }}" title="{{ 'element.favorite.remove'|trans({}, 'elements') }}" alt="{{ 'element.favorite.remove'|trans({}, 'elements') }}"/>
+                </a>
+              {% else %}
+                <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': app.user.personalHash(element.id) }) }}" >
+                  <img id="favorite_{{ element.id }}_isnot" src="{{ asset('img/icon_star_2.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
+                </a>
+              {% endif %}
             {% else %}
-              <a class="favorite_link" href="{{ path('favorite_add', { 'id': element.id, 'token': app.user.personalHash(element.id) }) }}" >
-                <img id="favorite_{{ element.id }}_isnot" src="{{ asset('img/icon_star_2.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
+              <a class="mustbeconnected" href="#" >
+                <img src="{{ asset('img/icon_star_2.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
               </a>
             {% endif %}
           {% else %}
-            <a class="mustbeconnected" href="#" >
-              <img src="{{ asset('img/icon_star_2.png') }}" title="{{ 'element.favorite.add'|trans({}, 'elements') }}" alt="{{ 'element.favorite.add'|trans({}, 'elements') }}" />
-            </a>
+            <img src="{{ asset('img/icon_star_2_gray.png') }}" alt="favorite" />
           {% endif %}
         </li>
       </ul>
@@ -270,6 +277,7 @@
           </li>
         {% endif %}
         
+        {% if not element.private %} 
         <li>
           <a
             class="add_to_playlist"
@@ -279,6 +287,7 @@
             <img src="{{ asset('/img/playlist_add_gray.png') }}" alt="add to playlist" />
           </a>
         </li>
+        {% endif %}
         
       </ul>
       
@@ -403,37 +412,38 @@
       
       {% endif %}
       
-      
-      <div class="social_buttons">
-        <ul>
-          <li class="facebook">
-            {{ facebookButton( {
-              'locale': 'fr_FR', 
-              'url': 'http:' ~ url('element_show_one', {
-                'element_id' : element.id,
-                'element_slug' : element.slug
-              }, true) })
-            }}
-          </li>
-          <li class="twitter">
-            {{ twitterButton( {
-              'locale': 'fr_FR', 
-              'url': 'http:' ~ url('element_show_one', {
-                'element_id' : element.id
-              }, true) }) 
-            }}
-          </li>
-          <li class="googleplus">
-            {{ googlePlusButton( {
-              'locale': 'fr_FR', 'url': 
-              'http:' ~ url('element_show_one', {
-                'element_id' : element.id,
-                'element_slug' : element.slug
-              }, true) }) 
-            }}
-          </li>
-        </ul>
-      </div>
+      {% if display_social_buttons %}
+        <div class="social_buttons">
+          <ul>
+            <li class="facebook">
+              {{ facebookButton( {
+                'locale': 'fr_FR', 
+                'url': 'http:' ~ url('element_show_one', {
+                  'element_id' : element.id,
+                  'element_slug' : element.slug
+                }, true) })
+              }}
+            </li>
+            <li class="twitter">
+              {{ twitterButton( {
+                'locale': 'fr_FR', 
+                'url': 'http:' ~ url('element_show_one', {
+                  'element_id' : element.id
+                }, true) }) 
+              }}
+            </li>
+            <li class="googleplus">
+              {{ googlePlusButton( {
+                'locale': 'fr_FR', 'url': 
+                'http:' ~ url('element_show_one', {
+                  'element_id' : element.id,
+                  'element_slug' : element.slug
+                }, true) }) 
+              }}
+            </li>
+          </ul>
+        </div>
+      {% endif %}
       
     </td>
   </tr>

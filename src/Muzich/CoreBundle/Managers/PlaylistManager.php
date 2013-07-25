@@ -9,6 +9,8 @@ use Muzich\CoreBundle\Entity\Element;
 use Muzich\CoreBundle\Entity\UserPlaylistPicked;
 use \Doctrine\Common\Collections\ArrayCollection;
 use Muzich\CoreBundle\lib\Tag as TagLib;
+use Muzich\CoreBundle\Managers\ElementManager;
+use Symfony\Component\DependencyInjection\Container;
 
 class PlaylistManager
 {
@@ -73,11 +75,11 @@ class PlaylistManager
     ;
   }
   
-  public function getPlaylistElements(Playlist $playlist, $offset = null)
+  public function getPlaylistElements(Playlist $playlist, $offset = null, $user_id = null)
   {
     $element_ids = $playlist->getElementsIds();
     $query_builder = $this->entity_manager->getRepository('MuzichCoreBundle:Element')
-      ->getElementsWithIdsOrderingQueryBuilder($element_ids)
+      ->getElementsWithIdsOrderingQueryBuilder($element_ids, true, $user_id)
     ;
     
     if ($offset)
@@ -251,6 +253,42 @@ class PlaylistManager
   {
     return $this->entity_manager->getRepository('MuzichCoreBundle:Element')
       ->findById($playlist->getElementsIds());
+  }
+  
+  public function addPrivateLinks(Playlist $playlist, User $user, $links, Container $container)
+  {
+    // Pour le moment on le fait ici car le ElementManager est mal pensé.
+    $count_added = 0;
+    if (count($links))
+    {
+      foreach ($links as $link)
+      {
+        $link = trim($link);
+        if (filter_var($link, FILTER_VALIDATE_URL) !== false)
+        {
+          $element = new Element();
+          $element->setUrl($link);
+          $element->setType('none');
+          $element->setPrivate(true);
+
+          $factory = new ElementManager($element, $this->entity_manager, $container);
+          $factory->proceedFill($user);
+          
+          $element->setNameWithData(true);
+          
+          $this->entity_manager->persist($element);
+          $this->entity_manager->flush();
+          $this->addElementToPlaylist($element, $playlist);
+          
+          $count_added += 1;
+        }
+      }
+    }
+    
+    $this->entity_manager->persist($playlist);
+    $this->entity_manager->flush();
+    
+    return $count_added;
   }
   
 }

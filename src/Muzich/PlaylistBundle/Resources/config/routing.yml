@@ -5,27 +5,37 @@ playlists_user:
 playlist:
   pattern: /user/{user_slug}/playlist/{playlist_id}
   defaults: { _controller: MuzichPlaylistBundle:Show:show }
+  requirements:
+    playlist_id:  \d+
+
+playlist_new:
+  pattern: /private/user/{user_slug}/playlist/new
+  defaults: { _controller: MuzichPlaylistBundle:Edit:create }
 
 playlist_edit:
-  pattern: /user/{user_slug}/playlist/{playlist_id}/edit
+  pattern: /private/user/{user_slug}/playlist/{playlist_id}/edit
   defaults: { _controller: MuzichPlaylistBundle:Edit:edit }
   
 playlist_update:
-  pattern: /user/{user_slug}/playlist/{playlist_id}/update
+  pattern: /private/user/{user_slug}/playlist/{playlist_id}/update
   defaults: { _controller: MuzichPlaylistBundle:Edit:update }
 
 playlist_delete:
-  pattern: /playlist/delete/{playlist_id}/{token}
+  pattern: /private/playlist/delete/{playlist_id}/{token}
   defaults: { _controller: MuzichPlaylistBundle:Edit:delete }
 
 playlist_unpick:
-  pattern: /playlist/unpick/{playlist_id}/{token}/{redirect_owner}
+  pattern: /private/playlist/unpick/{playlist_id}/{token}/{redirect_owner}
   defaults: { _controller: MuzichPlaylistBundle:Edit:unpick, redirect_owner: false }
 
 playlist_pick:
-  pattern: /playlist/pick/{playlist_id}/{token}/{redirect_owner}
+  pattern: /private/playlist/pick/{playlist_id}/{token}/{redirect_owner}
   defaults: { _controller: MuzichPlaylistBundle:Edit:pick, redirect_owner: false }
 
+playlist_add_private_links:
+  pattern: /private/playlist/add-private-links/{playlist_id}
+  defaults: { _controller: MuzichPlaylistBundle:Edit:addPrivateLinks }
+  
 playlist_datas_for_autoplay:
   pattern: /ajax/autoplay/playlist/datas/{playlist_id}/{offset}
   defaults: { _controller: MuzichPlaylistBundle:Show:getAutoplayData, offset: null, shuffle: false }

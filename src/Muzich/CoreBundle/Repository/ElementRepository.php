@@ -21,6 +21,7 @@ class ElementRepository extends EntityRepository
     return $this->getEntityManager()
       ->createQuery('
         SELECT e FROM MuzichCoreBundle:Element e 
+        WHERE e.private = 0
         ORDER BY e.name ASC'
       )
       ->getResult()
@@ -39,7 +40,7 @@ class ElementRepository extends EntityRepository
         ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
       ;
     }
-     
+    
     $esqb = new ElementSearcherQueryBuilder($this->getEntityManager(), $searcher, $user_id, $params);
     
     // Si on demande une comptabilisation, on retourne juste la requete qui selectionne les ids
@@ -51,335 +52,6 @@ class ElementRepository extends EntityRepository
     // Sinon on retourne la requete sur les éléments
     return $esqb->getElementsQuery();
   }
-  
-  
-  
-//  /**
-//   * TODO: Faire un bel objet pour gérer tout ça =)
-//   * => Utiliser l'objet ElementSearcher (ou du moin réorganiser ça en plusieurs 
-//   * objets)
-//   * 
-//   * 
-//   * @param ElementSearcher $searcher
-//   * @return Doctrine\ORM\Query
-//   */
-//  public function findBySearchOLD(ElementSearcher $searcher, $user_id, $exec_type = 'execute', $params = array())
-//  {
-//    // Tableaux des paramétres
-//    $params_ids = array();
-//    $params_select = array();
-//    $params_select['uid'] = $user_id;
-//    $order_by = "ORDER BY e_.created DESC, e_.id DESC";
-//    
-//    // Première chose, si on impose les element_ids on a pas besoin de faire 
-//    // le filtrage
-//    if ($searcher->hasIds())
-//    {
-//      // Dans ce cas ou les ids sont déjà donné, on ne peut pas avoir de nouveaux
-//      // éléments
-//      if ($searcher->isSearchingNew())
-//      {
-//        return $query = $this->getEntityManager()
-//          ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
-//        ;
-//      }
-//      
-//      if (($id_limit = $searcher->getIdLimit()))
-//      {
-//        return $this->getSelectElementForSearchQuery($params_select, $user_id, $searcher->getIds(), $id_limit, $searcher->getCount(), $searcher->getIdsDisplay());
-//      }
-//      return $this->getSelectElementForSearchQuery($params_select, $user_id, $searcher->getIds(), null, null, $searcher->getIdsDisplay());
-//    }
-//    
-//    // Booléen nous permettant de savoir si un where a déjà été écrit
-//    $is_where = false;
-//    
-//    // Si c'est une recherche string, les autres paramètres ne sont pas nécéssaire
-//    // TODO: Dans la nouvelle version ourquoi pas !!
-//    // TODOOO: Pas encore dans new version (string)
-//    $where_string = '';
-//    if (($string = $searcher->getString()))
-//    {
-//      // On prépare notre liste de mots
-//      $words = array_unique(array_merge(
-//        explode(' ', $string),
-//        explode('-', $string),
-//        explode('- ', $string),
-//        explode(' -', $string),
-//        explode(' - ', $string),
-//        explode(',', $string),
-//        explode(', ', $string),
-//        explode(' ,', $string),
-//        explode(' , ', $string)
-//      ));
-//      
-//      // On récupère les ids des elements correspondants
-//      $word_min_length = 0;
-//      if (isset($params['word_min_length']))
-//      {
-//        $word_min_length = $params['word_min_length'];
-//      }
-//      foreach ($words as $i => $word)
-//      {
-//        if (strlen($word) >= $word_min_length)
-//        {
-//          if ($where_string === '')
-//          {
-//            $where_string = ($is_where) ? ' AND (' : ' WHERE (';
-//            $is_where = true;
-//            $where_string .= "UPPER(e_.name) LIKE :str".$i;
-//          }
-//          else
-//          {
-//            $where_string .= " OR UPPER(e_.name) LIKE :str".$i;
-//          }
-//          $params_ids['str'.$i] = '%'.strtoupper($word).'%';
-//        }
-//      }
-//      $where_string .= ')';
-//      
-//    }
-//    
-//    
-//    // Construction des conditions pour la selection d'ids
-//    $where_tags = '';
-//    $join_tags  = '';
-//    
-//    /*
-//     * des fois on se retrouve avec un string au lieu d'un tableau
-//     */
-//    $tags = $searcher->getTags();
-//    
-//    if (!is_array($tags))
-//    {
-//      $tags_decoded = json_decode($tags);
-//      $tags = array();
-//      foreach ($tags_decoded as $tag_id)
-//      {
-//        $tags[$tag_id] = $tag_id;
-//      }
-//    }
-//    
-//    if (count($tags))
-//    {
-//      foreach ($tags as $tag_id => $tag_name)
-//      {
-//        // LEFT JOIN car un element n'est pas obligatoirement lié a un/des tags
-//        $join_tags = " LEFT JOIN e_.tags t_";
-//
-//        // Construction du chere pour les tags
-//        if ($where_tags == '')
-//        {
-//          $where_tags .= ' WHERE (t_.id = :tid'.$tag_id;
-//        }
-//        else
-//        {
-//          $where_tags .= ' OR t_.id = :tid'.$tag_id;
-//        }
-//        $params_ids['tid'.$tag_id] = $tag_id;
-//      }
-//      // Fermeture de la parenthése qui isole la condition des tags
-//      $where_tags .= ')';
-//      $is_where = true;
-//    }
-//    
-//    // Construction de la condition network
-//    $join_network  = '';
-//    $where_network = '';
-//    if ($searcher->getNetwork() == ElementSearcher::NETWORK_PERSONAL)
-//    {
-//      $join_network = 
-//        " JOIN e_.owner o_"
-//      // LEFT JOIN car l'element n'est pas obligatoirement lié a un groupe
-//      . " LEFT JOIN e_.group g_"
-//      // LEFT JOIN car owner n'est pas obligatoirement lié a des followers
-//      . " LEFT JOIN o_.followers_users f_"
-//      // LEFT JOIN car le groupe n'est pas obligatoirement lié a des followers
-//      . " LEFT JOIN g_.followers gf_"
-//      ;
-//      $where_network = ($is_where) ? ' AND' : ' WHERE';
-//      $is_where = true;
-//      // Le filtre applique: Soit le proprio fait partis des followeds de l'utilisateur
-//      // soit l'element est ajouté dans un groupe que l'utilisateur follow.
-//      $where_network .= ' (f_.follower = :userid OR gf_.follower = :useridg)';
-//      $params_ids['userid'] = $user_id;
-//      $params_ids['useridg'] = $user_id;
-//    }
-//    
-//    // ajout du filtre sur un user si c'est le cas
-//    $where_user = '';
-//    //                                                  Si c'est une recherche 
-//    //                de favoris, on ne filtre pas sur le proprio de l'element
-//    if (($search_user_id = $searcher->getUserId()) && !$searcher->isFavorite())
-//    {
-//      $where_user = ($is_where) ? ' AND' : ' WHERE';
-//      $is_where = true;
-//      $where_user .= ' e_.owner = :suid';
-//      $params_ids['suid'] = $search_user_id;
-//    }
-//    
-//    // ajout du filtre sur un user si c'est le cas
-//    $where_group = '';
-//    //                                                 Si c'est une recherche 
-//    //               de favoris, on ne filtre pas sur le proprio de l'element
-//    if (($search_group_id = $searcher->getGroupId()) && !$searcher->isFavorite())
-//    {
-//      $where_group = ($is_where) ? ' AND' : ' WHERE';
-//      $is_where = true;
-//      $where_group .= ' e_.group = :sgid';
-//      $params_ids['sgid'] = $search_group_id;
-//    }
-//    
-//    // Filtre pour afficher uniquement les elements mis en favoris
-//    $join_favorite = ''; 
-//    $where_favorite = '';
-//    if ($searcher->isFavorite())
-//    {
-//      $where_favorite = ($is_where) ? ' AND' : ' WHERE';
-//      $is_where = true;
-//      if (($favorite_user_id = $searcher->getUserId()) && !$searcher->getGroupId())
-//      {
-//        // Pas de LEFT JOIN car on ne veut que les elements mis en favoris
-//        $join_favorite = 'JOIN e_.elements_favorites fav2_';
-//        $where_favorite .= ' fav2_.user = :fuid';
-//        $params_ids['fuid'] = $favorite_user_id;
-//      }
-//      else if (($favorite_group_id = $searcher->getGroupId()) && !$searcher->getUserId())
-//      {
-//        // TODO: Faire en sorte que ça affiche les favoris des gens suivant
-//        // le groupe
-//      }
-//      else
-//      {
-//        throw new Exception('For use favorite search element, you must specify an user_id or group_id');
-//      }
-//    }
-//    
-//    // Si id_limit est précisé c'est que l'on demande "la suite" ou "les nouveaux"
-//    $where_id_limit = '';
-//    if (($id_limit = $searcher->getIdLimit()) && !$searcher->isSearchingNew())
-//    {
-//      $where_id_limit = ($is_where) ? ' AND' : ' WHERE';
-//      $is_where = true;
-//      $where_id_limit .= " e_.id < :id_limit";
-//      $params_ids['id_limit'] = $id_limit;
-//    }
-//    elseif ($id_limit && $searcher->isSearchingNew())
-//    {
-//      $where_id_limit = ($is_where) ? ' AND' : ' WHERE';
-//      $is_where = true;
-//      $where_id_limit .= " e_.id > :id_limit";
-//      $params_ids['id_limit'] = $id_limit;
-//      // Pour pouvoir charger les x nouveaux on doit organiser la liste 
-//      // de manière croissante
-//      $order_by = "ORDER BY e_.created ASC, e_.id ASC";
-//    }
-//    
-//    
-//    // Recherche strict ou non ?
-//    $where_tag_strict = '';
-//    if ($searcher->getTagStrict() && count($tags))
-//    {
-//      // On a besoin de récupérer la liste des element_id qui ont les tags
-//      // demandés.
-//      $tag_ids = '';
-//      foreach ($tags as $tag_id => $tag_name)
-//      {
-//        if ($tag_ids === '')
-//        {
-//          $tag_ids .= (int)$tag_id;
-//        }
-//        else
-//        {
-//          $tag_ids .= ','.(int)$tag_id;
-//        }
-//      }
-//      
-//      $sql = "SELECT et.element_id FROM elements_tag et "
-//      ."WHERE et.tag_id IN ($tag_ids) group by et.element_id "
-//      ."having count(distinct et.tag_id) = ".count($tags);
-//      $rsm = new \Doctrine\ORM\Query\ResultSetMapping;
-//      $rsm->addScalarResult('element_id', 'element_id');
-//      
-//      $strict_element_ids_result = $this->getEntityManager()
-//        ->createNativeQuery($sql, $rsm)
-//        //->setParameter('ids', $tag_ids)
-//        ->getScalarResult()
-//      ;
-//      
-//      $strict_element_ids = array();
-//      foreach ($strict_element_ids_result as $strict_id)
-//      {
-//        $strict_element_ids[] = $strict_id['element_id'];
-//      }
-//      
-//      if (count($strict_element_ids))
-//      {
-//        $where_tag_strict = ($is_where) ? ' AND' : ' WHERE';
-//        $where_tag_strict .= ' e_.id IN (:tag_strict_ids)';
-//        $params_ids['tag_strict_ids'] = $strict_element_ids;
-//      }
-//      // Ce else palie au bug du au cas ou $strict_element_ids est egal a array();
-//      else
-//      {
-//        $where_tag_strict = ($is_where) ? ' AND' : ' WHERE';
-//        $where_tag_strict .= ' 1 = 2';
-//      }
-//    }
-//    
-//    // Requête qui selectionnera les ids en fonction des critéres
-//    $id_query = $this->getEntityManager()
-//      ->createQuery(
-//        "SELECT e_.id
-//        FROM MuzichCoreBundle:Element e_
-//        $join_tags
-//        $join_network
-//        $join_favorite
-//        $where_tags
-//        $where_network
-//        $where_user
-//        $where_group
-//        $where_favorite
-//        $where_tag_strict
-//        $where_string
-//        $where_id_limit
-//        GROUP BY e_.id
-//        $order_by")
-//     ->setParameters($params_ids)
-//    ;
-//    
-//    // Si on a précisé que l'on voulait un count, pas de limite
-//    if ($exec_type != 'count')
-//    {
-//      $id_query->setMaxResults($searcher->getCount());
-//    }
-//    
-//    // si l'on a demandé un count
-//    if ($exec_type == 'count')
-//    {
-//      // On retourne cette query
-//      return $id_query;
-//    }
-//    
-//    $r_ids = $id_query->getArrayResult();
-//    
-//    $ids = array();
-//    
-//    if (count($r_ids))
-//    {
-//      foreach ($r_ids as $r_id)
-//      {
-//        $ids[] = $r_id['id'];
-//      }
-//
-//      return $this->getSelectElementForSearchQuery($params_select, $user_id, $ids);
-//    }
-//    
-//    // Il faut retourner une Query
-//    return $query = $this->getEntityManager()
-//      ->createQuery("SELECT e FROM MuzichCoreBundle:Element e WHERE 1 = 2")
-//    ;
-//  }
   
   protected function getSelectElementForSearchQuery($params_select, $user_id, $ids, $id_limit = null, $count_limit = null, $ids_display = null)
   {
@@ -408,6 +80,7 @@ class ElementRepository extends EntityRepository
       $left_join
       JOIN e.owner o
       WHERE e.id IN (:ids) $where
+      AND WHERE e.private = 0
       ORDER BY e.created DESC, e.id DESC"
     ;
 
@@ -443,6 +116,7 @@ class ElementRepository extends EntityRepository
         JOIN e.group g
         JOIN e.tags t
         WHERE u.id = :uid
+        AND WHERE e.private = 0
         ORDER BY e.created DESC'
       )
       ->setParameter('uid', $user_id)
@@ -467,6 +141,7 @@ class ElementRepository extends EntityRepository
         JOIN e.group g
         JOIN e.tags t
         WHERE g.id = :gid
+        AND WHERE e.private = 0
         ORDER BY e.created DESC'
       )
       ->setParameter('gid', $group_id)
@@ -513,20 +188,32 @@ class ElementRepository extends EntityRepository
   /**
    * WARNING: Seulement compatibel avec MySQL !!
    */
-  public function getElementsWithIdsOrderingQueryBuilder($element_ids)
+  public function getElementsWithIdsOrderingQueryBuilder($element_ids, $show_privates = false, $user_id = true)
   {
     $doctrineConfig = $this->getEntityManager()->getConfiguration();
     $doctrineConfig->addCustomStringFunction('FIELD', 'Muzich\CoreBundle\DoctrineExtensions\Query\Mysql\Field');
     
     if (count($element_ids))
     {
-      return $this->getEntityManager()->createQueryBuilder()
+      $qb =  $this->getEntityManager()->createQueryBuilder()
         ->select('e, field(e.id, ' . implode(', ', $element_ids) . ') as HIDDEN field')
         ->from('MuzichCoreBundle:Element', 'e')
         ->where('e.id IN (:element_ids)')
         ->setParameter('element_ids', $element_ids)
         ->orderBy('field')
       ;
+      
+      if (!$show_privates)
+      {
+        $qb->andWhere('e.private = 0');
+      }
+      else if ($user_id)
+      {
+        $qb->andWhere('(e.private = 0 OR (e.private = 1 AND e.owner = :owner_id))');
+        $qb->setParameter('owner_id', $user_id);
+      }
+      
+      return $qb;
     }
     
     return $this->getEntityManager()->createQueryBuilder()

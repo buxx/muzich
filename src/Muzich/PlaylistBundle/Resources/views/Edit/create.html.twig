@@ -1,0 +1,32 @@
+{% extends "MuzichFavoriteBundle::layout.html.twig" %}
+
+{% block title %}{{ 'playlist.create_title'|trans({}, 'elements') }}{% endblock %}
+{% block mainbox_classes %}{% endblock %}
+
+{% block content %}
+  
+  <div class="top_tools">
+    <div class="show_options">
+      
+      <a class="button darkbutton" href="{{ path('playlists_user', {
+        'user_slug' : app.user.slug,
+      }) }}" >
+        {{ 'playlist.goback'|trans({}, 'elements') }}
+      </a>
+      
+    </div>
+    
+    <h1>{{ 'playlist.create_title'|trans({}, 'elements') }}</h1>
+    
+    <form class="playlist_create playlist_edit" action="{{ path('playlist_new', {
+      'user_slug' : app.user.slug
+    }) }}" method="post">
+      {% include 'MuzichPlaylistBundle:Show:form.html.twig' with {
+        'display_public_widget' : true,
+        'submit_value'          : 'playlist.create_submit'|trans({}, 'elements')
+      } %}
+    </form>
+  
+  </div>
+  
+{% endblock %}

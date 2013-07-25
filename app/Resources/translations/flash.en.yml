@@ -51,3 +51,5 @@ playlist:
     success:       Playlist deleted
   update:
     success:       Playlist updaded
+  create:
+    success:       Playlist created

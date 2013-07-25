@@ -143,8 +143,24 @@ playlist:
   how_add_element:       |
                           Pour ajouter de la musique à vos listes de lectures vous devez utiliser
                           les boutons disponibles en haut à droite des partages. Vous pourrez ensuite
-                          choisir à quelle liste ajouter la musique en question.
+                          choisir à quelle liste ajouter la musique en question. Vous pouvez aussi
+                          constituer des playlists avec des liens "privés": C'est à dire que vous 
+                          pouvez ajouter des musiques (youtube, soundcloud, ...) afin de constituer 
+                          une liste de lecture sans que ces musiques ne soit ajoutés dans le réseau 
+                          publique de muzi.ch.
   edit:                  Modifier
   update_submit:         Mettre à jour
+  create_submit:         Créer
   goback:                Retour
   edit_title:            Modification de "%playlist_name%"
+  create_title:          Nouvelle liste de lecture
+  add_private_links:     Ajouter des musiques "privées"
+  add_private_links_help: |
+                          Saisissez ici les liens (http://) vers les pages (youtube, soundcloud, etc)
+                          des musiques à ajouter a cette liste de lecture. Vous pouvez en saisir
+                          plusieurs (une par ligne).
+  add_private_links_submit: Ajouter ces liens
+  add_private_links_cancel: Annuler
+  no_links_added:         Aucune musiques n'ont été ajoutés
+  links_added:            Les musiques ont été ajoutés
+  links_added_witherr:    Des musiques ont été ajoutés mais certains liens n'ont pu être interprétés

@@ -5,6 +5,7 @@ namespace Muzich\PlaylistBundle\Controller;
 use Muzich\CoreBundle\lib\Controller;
 use Muzich\CoreBundle\lib\AutoplayManager;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
+use Muzich\CoreBundle\Form\Playlist\PrivateLinksForm;
 
 class ShowController extends Controller
 {
@@ -36,7 +37,8 @@ class ShowController extends Controller
     
     return $this->render('MuzichPlaylistBundle:Show:show.html.twig', array(
       'playlist'    => $playlist,
-      'viewed_user' => $viewed_user
+      'viewed_user' => $viewed_user,
+      'links_form'  => $this->createForm(new PrivateLinksForm())->createView()
     ));
   }
   
@@ -49,7 +51,7 @@ class ShowController extends Controller
     if (!($playlist = $playlist_manager->findOneAccessiblePlaylistWithId($playlist_id, $this->getUserOrNullIfVisitor())))
       return $this->jsonNotFoundResponse();
     
-    $autoplaym = new AutoplayManager($playlist_manager->getPlaylistElements($playlist, $offset), $this->container);
+    $autoplaym = new AutoplayManager($playlist_manager->getPlaylistElements($playlist, $offset, $this->getUserId(true)), $this->container);
     
     if ($shuffle)
       $autoplaym->shuffle();

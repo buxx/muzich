@@ -6,6 +6,7 @@ use Muzich\CoreBundle\lib\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
 use Muzich\CoreBundle\Propagator\EventElement;
+use Muzich\CoreBundle\Form\Playlist\PrivateLinksForm;
 
 class EditController extends Controller
 {
@@ -33,6 +34,10 @@ class EditController extends Controller
       return $this->jsonNotFoundResponse();
     
     $element = $playlist_manager->getElementWithIndex($playlist, $index);
+    
+    if (!$element)
+      return $this->jsonNotFoundResponse();
+    
     $playlist_manager->removePlaylistElementWithIndex($playlist, $index);
     
     $event = new EventElement($this->container);
@@ -178,6 +183,32 @@ class EditController extends Controller
     return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $this->getUser()->getSlug())));
   }
   
+  public function createAction(Request $request)
+  {
+    $playlist_form = $this->getPlaylistForm($this->getPlaylistManager()
+      ->getNewPlaylist($this->getUser()));
+    
+    if ($request->getMethod() == 'POST')
+    {
+      $playlist_form->bind($request);
+      if ($playlist_form->isValid())
+      {
+        $this->persist($playlist_form->getData());
+        $this->flush();
+        
+        $this->setFlash('success', $this->trans('playlist.create.success', array(), 'flash'));
+        return $this->redirect($this->generateUrl('playlist', array(
+          'user_slug'   => $this->getUser()->getSlug(),
+          'playlist_id' => $playlist_form->getData()->getId()
+        )));
+      }
+    }
+    
+    return $this->render('MuzichPlaylistBundle:Edit:create.html.twig', array(
+      'form'          => $playlist_form->createView()
+    ));
+  }
+  
   public function editAction($playlist_id)
   {
     if (!($playlist = $this->getPlaylistManager()->findOwnedPlaylistWithId($playlist_id, $this->getUser())))
@@ -221,6 +252,41 @@ class EditController extends Controller
       'playlist'      => $playlist,
       'playlist_name' => $playlist_name
     ));
+  }
+  
+  public function addPrivateLinksAction(Request $request, $playlist_id)
+  {
+    if (!($playlist = $this->getPlaylistManager()->findOneAccessiblePlaylistWithId($playlist_id, $this->getUser())))
+      throw $this->createNotFoundException();
+    
+    $form = $this->createForm(new PrivateLinksForm());
+    $form->bind($request);
+    $data = $form->getData();
+    
+    if (!$data['links'])
+    {
+      $this->setFlash('warning', $this->trans('playlist.no_links_added', array(), 'elements'));
+      return $this->redirect($this->generateUrl('playlist', array(
+        'user_slug'   => $this->getUser()->getSlug(),
+        'playlist_id' => $playlist_id
+      )));
+    }
+    
+    $count_added = $this->getPlaylistManager()->addPrivateLinks($playlist, $this->getUser(), explode("\n", $data['links']), $this->container);
+    
+    if ($count_added == count(explode("\n", $data['links'])))
+    {
+      $this->setFlash('success', $this->trans('playlist.links_added', array(), 'elements'));
+    }
+    else
+    {
+      $this->setFlash('warning', $this->trans('playlist.links_added_witherr', array(), 'elements'));
+    }
+    
+    return $this->redirect($this->generateUrl('playlist', array(
+      'user_slug'   => $this->getUser()->getSlug(),
+      'playlist_id' => $playlist_id
+    )));
   }
   
 }

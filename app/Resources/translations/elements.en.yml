@@ -142,9 +142,24 @@ playlist:
   contained:             Music already in playlist
   not_contained:         Music not already in playlist
   how_add_element:       |
-                          To add music in your playlists you have to use share buttons (at top right).
-                          You will choose or create playlist for the music.
+                          To add music in your playlists you have to use share buttons 
+                          (at top right in shares).
+                          You will choose or create playlist to add music in. You can also
+                          add private songs in playlists: When you add private songs 
+                          (youtube, soundcloud, ...) they are not publish in muzi.ch public network.
+                          
   edit:                  Edit
   update_submit:         Update
+  create_submit:         Create
   goback:                Back
   edit_title:            Edit "%playlist_name%"
+  create_title:          New playlist
+  add_private_links:     Add "privates" musics
+  add_private_links_help: |
+                          Add here your musics links (http://youtube... , http://soundcloud..., etc) to add them in
+                          the playlist. You can add multiples links (one by line).
+  add_private_links_submit: Add these links
+  add_private_links_cancel: Cancel
+  no_links_added:         No musics added
+  links_added:            Musics added
+  links_added_witherr:    Musics added but wom links was not useable

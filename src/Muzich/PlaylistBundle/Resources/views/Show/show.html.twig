@@ -60,71 +60,101 @@
       {% endif %}
     {% endif %}
     
-    
+    {% if app.user %}
+      {% if playlist.owned(app.user) %}
+        <a class="button darkbutton toplist open_playlist_private_links" href="#" >
+          {{ 'playlist.add_private_links'|trans({}, 'elements') }}
+        </a>
+      {% endif %}
+    {% endif %}
+        
     {% include "MuzichCoreBundle:Tag:tag_cloud.html.twig" with {
       'tags' : playlist.tags
     } %}
+        
+    {% if app.user %}
+      {% if playlist.owned(app.user) %}
+        <div class="private_links" style="display: none;">
+          <form action="{{ path_token('playlist_add_private_links', { 'playlist_id' : playlist.id }) }}" method="post">
+
+            <p class="help">{{ 'playlist.add_private_links_help'|trans({}, 'elements') }}</p>
+
+            <div class="inputs">
+              <input class="button" type="submit" value="{{ 'playlist.add_private_links_submit'|trans({}, 'elements') }}" />
+              <br />
+              <input class="button cancel" type="button" value="{{ 'playlist.add_private_links_cancel'|trans({}, 'elements') }}" />
+            </div>
+
+            {{ form_widget(links_form.links) }}
+            {{ form_rest(links_form) }}
+
+          </form>
+        </div>
+      {% endif %}
+    {% endif %}
     
     {% if playlist.elements|length %}
       <form action="{{ path_token('playlist_update_order', { 'playlist_id' : playlist.id }) }}" method="post">
         <ul class="playlist_elements {% if app.user%}{% if playlist.owned(app.user) %}owned{% endif %}{% endif %}">
           {% for element in playlist.elements %}
-            <li class="playlist_element">
-              
-              <input type="hidden" name="elements[]"  value="{{ element.id }}" />
-              
-              
-              <div class="actions">
-                
-                {% if app.user%}
-                  {% if playlist.owned(app.user) %}
-                    <a class="drag" href="#">
-                      <img src="{{ asset('/img/drag3.png') }}" alt="drag" />
-                    </a>
+            {% if playlist_element_displayable(playlist, app.user|userId, element) %}
+              <li class="playlist_element">
+
+                <input type="hidden" name="elements[]"  value="{{ element.id }}" />
+
+
+                <div class="actions">
+
+                  {% if app.user%}
+                    {% if playlist.owned(app.user) %}
+                      <a class="drag" href="#">
+                        <img src="{{ asset('/img/drag3.png') }}" alt="drag" />
+                      </a>
+                    {% endif %}
                   {% endif %}
-                {% endif %}
-                
-                {% if element.type|can_autoplay_type %}
-                  <a class="autoplay_playlist" 
-                    href="{{ path('playlist_datas_for_autoplay', { 'playlist_id' : playlist.id, 'offset' : loop.index0 }) }}"
-                    title="{{ 'playlist.start_here'|trans({}, 'elements') }}"
-                  >
-                    <img src="{{ asset('/img/1361037350_control_play.png') }}" alt="playlist" />
-                  </a>
-                {% else %}
-                  <img class="autoplay_off" src="{{ asset('/img/1361037350_control_play_off.png') }}" alt="playlist" />
-                {% endif %}
-                
-                {% if app.user%}
-                  {% if playlist.owned(app.user) %}
-                    <a 
-                      class="remove_element" 
-                      href="{{ path_token('playlist_remove_element', { 'playlist_id' : playlist.id, 'index' : loop.index0 }) }}"
-                      title="{{ 'playlist.remove_element'|trans({}, 'elements') }}"
+
+                  {% if element.type|can_autoplay_type %}
+                    <a class="autoplay_playlist" 
+                      href="{{ path('playlist_datas_for_autoplay', { 'playlist_id' : playlist.id, 'offset' : loop.index0 }) }}"
+                      title="{{ 'playlist.start_here'|trans({}, 'elements') }}"
                     >
-                      <img src="{{ asset('/img/icon_close_2.png') }}" alt="delete" />
+                      <img src="{{ asset('/img/1361037350_control_play.png') }}" alt="playlist" />
                     </a>
+                  {% else %}
+                    <img class="autoplay_off" src="{{ asset('/img/1361037350_control_play_off.png') }}" alt="playlist" />
                   {% endif %}
-                {% endif %}
-              </div>
-              
-              <div class="actions_right">
-                <a 
-                  class="open_element" 
-                  href="{{ path('element_get_one', { 'element_id' : element.id }) }}" data-id="{{ element.id }}"
-                  title="{{ 'playlist.open'|trans({}, 'elements') }}"
-                  >
-                  <img src="{{ asset('/img/icon_more_2.png') }}" alt="open" />
-                </a>
-              </div>
-              
-              <div class="title">
-                {{ element.name }}
-              </div>
-              
-              <div class="content_opened"></div>
-              
-            </li>
+
+                  {% if app.user%}
+                    {% if playlist.owned(app.user) %}
+                      <a 
+                        class="remove_element" 
+                        href="{{ path_token('playlist_remove_element', { 'playlist_id' : playlist.id, 'index' : loop.index0 }) }}"
+                        title="{{ 'playlist.remove_element'|trans({}, 'elements') }}"
+                      >
+                        <img src="{{ asset('/img/icon_close_2.png') }}" alt="delete" />
+                      </a>
+                    {% endif %}
+                  {% endif %}
+                </div>
+
+                <div class="actions_right">
+                  <a 
+                    class="open_element" 
+                    href="{{ path('element_get_one', { 'element_id' : element.id }) }}" data-id="{{ element.id }}"
+                    title="{{ 'playlist.open'|trans({}, 'elements') }}"
+                    >
+                    <img src="{{ asset('/img/icon_more_2.png') }}" alt="open" />
+                  </a>
+                </div>
+
+                <div class="title">
+                  {{ element.name }}
+                </div>
+
+                <div class="content_opened"></div>
+
+              </li>
+            {% endif %}
           {% endfor %}
         </ul>
       </form>
