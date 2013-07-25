@@ -419,10 +419,7 @@ class ContextTestCases
   
   public function playlistDeleteResponseIs($success, $condition)
   {
-    
-    
     $this->playlistDelete(0);
-    
     return $this->responseSatisfyConditions(
       $this->test->getClient()->getResponse(), 
       $success, 
@@ -556,6 +553,22 @@ class ContextTestCases
         'element_id' => $element_id,
         '_locale'    => 'fr'
       ))
+    );
+  }
+  
+  public function playlistAddPrivateLinks(Playlist $playlist, $links)
+  {
+    return $this->getAjaxRequestContentResponse(
+      'POST',
+      $this->test->generateUrl('playlist_add_private_links', array(
+        'playlist_id' => $playlist->getId(),
+        '_token'     => $this->test->getToken()
+      )),
+      array(
+        'playlist_private_links_form' => array(
+          'links' => implode("\n", $links)
+        )
+      )
     );
   }
   

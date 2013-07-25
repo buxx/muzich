@@ -7,6 +7,7 @@ use Muzich\CoreBundle\Tests\lib\Security\Context as SecurityContextTest;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
 use Muzich\CoreBundle\Tests\lib\Security\ContextTestCases;
 use Muzich\CoreBundle\lib\Collection\ElementCollectionManager;
+use Muzich\CoreBundle\Entity\Playlist;
 
 class PlaylistControllerTest extends FunctionalTest
 {
@@ -156,12 +157,22 @@ class PlaylistControllerTest extends FunctionalTest
     }
   }
   
-  protected function checkPlaylistElements($playlist, $elements)
+  protected function checkPlaylistElements(Playlist $playlist, $elements, $exists = true, $check_count = true)
   {
-    $this->assertEquals(count($elements), $this->crawler->filter('li.playlist_element')->count());
+    $this->goToPage($this->generateUrl('playlist', array(
+      'playlist_id' => $playlist->getId(),
+      'user_slug'   => $playlist->getOwner()->getSlug()
+    )));
+    
+    if ($check_count)
+      $this->assertEquals(count($elements), $this->crawler->filter('li.playlist_element')->count());
+    
     foreach ($elements as $element)
     {
-      $this->exist('a[data-id="'.$element->getId().'"]');
+      if ($exists)
+        $this->exist('a[data-id="'.$element->getId().'"]');
+      if (!$exists)
+        $this->notExist('a[data-id="'.$element->getId().'"]');
     }
   }
   
@@ -515,6 +526,53 @@ class PlaylistControllerTest extends FunctionalTest
   {
     $playlist_in_database = $this->findOneBy('Playlist', $name);
     $this->assertTrue(!is_null($playlist_in_database));
+  }
+  
+  public function testAddPrivateLinks()
+  {
+    $this->init();
+    $this->initReadContextData();
+    $this->connectUser('bux', 'toor');
+    
+    $this->goToPage($this->generateUrl('playlist', array('user_slug' => $this->users['bux']->getSlug(), 'playlist_id' => $this->playlists['bux_1_pub']->getId())));
+    $this->exist('div.private_links form');
+    $this->exist('a.open_playlist_private_links');
+    
+    $this->addSomePrivateLinks($this->playlists['bux_1_pub'], $private_links = array(
+      'https://soundcloud.com/st-tetik/read-only-memories-g-noush',
+      'https://soundcloud.com/triby/triby-extrait-next-liveset',
+      'http://blog.bux.fr'
+    ));
+    $elements = $this->checkElementExistanceAndPresenceInPlaylistWithUrls($private_links, $this->playlists['bux_1_pub']);
+    
+    $this->checkPlaylistElements($this->playlists['bux_1_pub'], $elements, true, false);
+    
+    $this->disconnectUser();
+    $this->connectUser('paul', 'toor');
+    
+    $this->checkPlaylistElements($this->playlists['bux_1_pub'], $elements, false, false);
+  }
+  
+  protected function addSomePrivateLinks(Playlist $playlist, $links)
+  {
+    $this->tests_cases->playlistAddPrivateLinks($playlist, $links);
+    $this->isResponseRedirection();
+  }
+  
+  protected function checkElementExistanceAndPresenceInPlaylistWithUrls($urls_to_check, Playlist $playlist)
+  {
+    $elements = array();
+    foreach ($urls_to_check as $url_to_check)
+    {
+      $element_to_check = $this->findOneBy('Element', array('url' => $url_to_check));
+      $this->assertTrue(!is_null($element_to_check));
+      $elements[] = $element_to_check;
+      $playlist_to_check = $this->findOneBy('Playlist', array('id' => $playlist->getId()));
+      $this->assertTrue(!is_null($playlist_to_check));
+      $this->assertTrue($playlist_to_check->haveElement($element_to_check));
+    }
+    
+    return $elements;
   }
   
 }

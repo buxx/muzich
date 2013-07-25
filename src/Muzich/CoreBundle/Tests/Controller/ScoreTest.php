@@ -104,12 +104,6 @@ class ScoreTest extends FunctionalTest
     $this->disconnectUser();
   }
   
-  protected function stringResponseIsSuccess($response_string)
-  {
-    $response_array = json_decode($response_string, true);
-    $this->assertEquals('success', $response_array['status']);
-  }
-  
   protected function checkRemoveVoteGood()
   {
     $this->connectUser('paul');

@@ -598,4 +598,10 @@ class FunctionalTest extends WebTestCase
     return $propositions[0];
   }
   
+  protected function stringResponseIsSuccess($response_string)
+  {
+    $response_array = json_decode($response_string, true);
+    $this->assertEquals('success', $response_array['status']);
+  }
+  
 }
