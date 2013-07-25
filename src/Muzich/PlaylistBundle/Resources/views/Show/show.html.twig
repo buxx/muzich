@@ -103,7 +103,7 @@
                 <input type="hidden" name="elements[]"  value="{{ element.id }}" />
 
 
-                <div class="actions">
+                <div class="actions{% if app.user%}{% if playlist.owned(app.user) %} fixwidth{% endif %}{% endif %}">
 
                   {% if app.user%}
                     {% if playlist.owned(app.user) %}

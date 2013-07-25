@@ -2254,6 +2254,11 @@ ul.playlist_elements li.playlist_element ul.elements li.element
   border-top: none;
 }
 
+ul.playlist_elements li.playlist_element div.actions.fixwidth
+{
+  width: 65px;
+}
+
 a.button img
 {
   float: left;
