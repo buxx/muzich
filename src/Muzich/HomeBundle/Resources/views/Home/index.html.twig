@@ -4,7 +4,7 @@
   {% set login = false %}
 {% endif %}
 
-{% block title %}{{ 'title.home'|trans({}, 'userui') }}{% endblock %}
+{% block title %}{% if page_title %}{{ page_title }}{% else %}{{ 'title.home'|trans({}, 'userui') }}{% endif %}{% endblock %}
 {% block mainbox_classes %}mainbox_margintop mainbox_nopadding{% endblock %}
 
 {% block content %}
