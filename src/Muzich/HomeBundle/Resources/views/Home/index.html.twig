@@ -3,6 +3,9 @@
 {% if login is not defined %}
   {% set login = false %}
 {% endif %}
+{% if page_title is not defined %}
+  {% set page_title = null %}
+{% endif %}
 
 {% block title %}{% if page_title %}{{ page_title }}{% else %}{{ 'title.home'|trans({}, 'userui') }}{% endif %}{% endblock %}
 {% block mainbox_classes %}mainbox_margintop mainbox_nopadding{% endblock %}
