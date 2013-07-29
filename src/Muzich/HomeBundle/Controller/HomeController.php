@@ -14,7 +14,7 @@ class HomeController extends Controller
    * d'éléments général et personalisable et de quoi ajouter un élément.
    * 
    */
-  public function indexAction($count = null, $network = null, $login = false, $search_object = null)
+  public function indexAction($count = null, $network = null, $login = false, $search_object = null, $context = 'home')
   {
     if (!$search_object)
       $search_object = $this->getElementSearcher($count);
@@ -46,7 +46,8 @@ class HomeController extends Controller
       'from_url'         => $this->getRequest()->get('from_url'),
       'display_launch_demo' => true,
       'login'            => $login,
-      'email_token'      => $this->getEmailTokenIfExist()
+      'email_token'      => $this->getEmailTokenIfExist(),
+      'elements_context' => $context
     ));
   }
   
@@ -55,7 +56,7 @@ class HomeController extends Controller
     $es = $this->getNewElementSearcher();
     $es->setNoTags();
     $es->setIds(array($element_id));
-    return $this->indexAction(null, null, false, $es);
+    return $this->indexAction(null, null, false, $es, 'one');
   }
   
   protected function getEmailTokenIfExist()

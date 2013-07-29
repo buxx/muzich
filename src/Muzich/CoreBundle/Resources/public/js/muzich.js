@@ -1757,7 +1757,7 @@ $(document).ready(function(){
   
   function check_new_elements()
   {
-    if ($('ul.elements li').length)
+    if ($('ul.elements li').length && $('ul.elements').data('context') === 'home')
     {
       // Si l'utilisateur a quitté la page on reporte le check
       if ($('body.blurred').length)
