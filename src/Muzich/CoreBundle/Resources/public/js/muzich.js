@@ -3197,6 +3197,7 @@ $(document).ready(function(){
         if (response.status === 'success')
         {
           line.find('div.content_opened').html('<ul class="elements">' + response.data + '</ul>');
+          refresh_social_buttons();
         }
         else
         if (response.status === 'error')
