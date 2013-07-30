@@ -3400,23 +3400,28 @@ $(document).ready(function(){
 });
 
 var facebook_like_rendereds = new Array();
-function refresh_social_buttons()
+var facebook_like_rendereds_autoplay = new Array();
+
+function refresh_social_buttons(autoplay)
 {
-  proceed_facebook_like_buttons();
+  proceed_facebook_like_buttons(autoplay);
   gapi.plusone.go();
   twttr.widgets.load();
 }
 
-function proceed_facebook_like_buttons()
+function proceed_facebook_like_buttons(autoplay)
 {
-  $('ul.elements li.element').each(function(){
+  $('ul.elements li.element, ul#autoplay_element li.element').each(function(){
     
-    if ($.inArray($(this).get(0), facebook_like_rendereds) === -1)
+    if ( ($.inArray($(this).get(0), facebook_like_rendereds) === -1 && !autoplay) || ($.inArray($(this).get(0), facebook_like_rendereds_autoplay) === -1 && autoplay))
     {
       FB.XFBML.parse($(this).get(0));
     }
     
-    facebook_like_rendereds.push($(this).get(0));
+    if (!autoplay)
+      facebook_like_rendereds.push($(this).get(0));
+    if (autoplay)
+      facebook_like_rendereds_autoplay.push($(this).get(0));
   });
   
 }
