@@ -116,6 +116,12 @@ class Context
       ),
       self::ACTION_USER_FOLLOW => array(
         self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_PLAYLIST_ADD_ELEMENT => array(
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
+      ),
+      self::ACTION_PLAYLIST_REMOVE_ELEMENT => array(
+        self::CONDITION_USER_EMAIL_NOT_CONFIRMED
       )
     )
   );

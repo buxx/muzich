@@ -33,8 +33,8 @@ class RecalculateReputationCommand extends ContainerAwareCommand
     $output->writeln('#');
 
     $output->writeln('<info>Début du traitement ...</info>');
-    $this->recalculateUserScores($input, $output);
     $this->recalculateElementScores($input, $output);
+    $this->recalculateUserScores($input, $output);
     
     $output->writeln('<info>Saving in database ...</info>');
     $em->flush();
@@ -87,34 +87,11 @@ class RecalculateReputationCommand extends ContainerAwareCommand
        ->getResult()      
       ;
       
-      $coef_element_point = $this->getContainer()->getParameter('reputation_element_point_value');
+      //$coef_element_point = $this->getContainer()->getParameter('reputation_element_point_value');
       $element_points = 0;
       foreach ($elements as $element)
       {
         $element_points += $element->getPoints();
-        // Point déjà ajoutés a l'user
-        $element_points -= ($element->getCountFavorited()*$this->getContainer()->getParameter('reputation_element_favorite_value'));
-      }
-      
-      /*
-       * On calcule pour les favoris
-       */
-      $coef_element_fav = $this->getContainer()->getParameter('reputation_element_favorite_value');
-      $count_favs = 0;
-      $fav = $em->createQuery(
-        "SELECT COUNT(f) FROM MuzichCoreBundle:UsersElementsFavorites f"
-        . " JOIN f.element e JOIN f.user fu"
-        . " WHERE e.owner = :uid AND f.user != :uid AND fu.email_confirmed = 1"
-      )->setParameter('uid', $user->getId())
-       ->getScalarResult()      
-      ;
-      
-      if (count($fav))
-      {
-        if (count($fav[0]))
-        {
-          $count_favs = $fav[0][1];
-        }
       }
       
       /*
@@ -160,8 +137,7 @@ class RecalculateReputationCommand extends ContainerAwareCommand
       }
 
       $points = 
-          ($element_points * $coef_element_point)
-        + ($count_favs     * $coef_element_fav)
+          $element_points
         + ($count_follow   * $coef_follow)
         + ($count_tag_prop * $coef_tag_prop)
       ;
