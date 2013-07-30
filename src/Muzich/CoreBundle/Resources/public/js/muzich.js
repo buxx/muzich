@@ -1333,6 +1333,7 @@ $(document).ready(function(){
         $('div#share_from_content').append(elements);
         $('div#share_from_message').text(response.message);
         $('form[name="add"]').append($('<input type="hidden" name="shared_from_finished" id="shared_from_finished" value="1" />'));
+        refresh_social_buttons();
       }
       
       return true;
