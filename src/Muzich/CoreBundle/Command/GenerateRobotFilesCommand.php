@@ -35,7 +35,9 @@ class GenerateRobotFilesCommand extends ContainerAwareCommand
   protected function init()
   {
     $this->sitemap_content = new \DOMDocument('1.0', 'utf-8');
+    
     $this->sitemap_urls = $this->sitemap_content->createElement('urlset');
+    $this->sitemap_urls->setAttributeNode(new \DOMAttr('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9'));
     $this->router = $this->getContainer()->get('router');
     $this->locales = $this->getContainer()->getParameter('supported_langs');
     $this->siteurl_prefix = $this->getContainer()->getParameter('siteurl');
