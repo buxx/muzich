@@ -30,8 +30,7 @@ function SoundCloudPlayer(ref_id, object_for_player, finish_callback, autoplay)
     }
     else
     {
-      // On gère la lecture auto difframment: rappel: si on supprime une iframe l'api SC ne la trouve plus et bug
-      $('#autoplay').append('<iframe id="'+_iframe_id+'" src="http://w.soundcloud.com/player/?url='
+      $('#autoplay_player_soundcloud').append('<iframe id="'+_iframe_id+'" src="http://w.soundcloud.com/player/?url='
         +_ref_id+'&show_artwork=false&auto_play=true" width="100%" '
         +'height="350" scrolling="no" frameborder="no"></iframe>');
     }
@@ -93,13 +92,13 @@ function SoundCloudPlayer(ref_id, object_for_player, finish_callback, autoplay)
   
   this.destroy = function(force)
   {
-    if (_player)
+    if (_player && !_autoplay)
     {
-      _player.pause();
+      _object_for_player.html('');
     }
     if (_autoplay || force)
     {
-      $('#'+_iframe_id).hide();
+      $('#autoplay_player_soundcloud').html('');
     }
   }
   
