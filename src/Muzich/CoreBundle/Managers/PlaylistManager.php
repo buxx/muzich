@@ -255,6 +255,25 @@ class PlaylistManager
       ->findById($playlist->getElementsIds());
   }
   
+  public function getElementsOfPlaylists($playlists)
+  {
+    $elements_ids = array();
+    
+    foreach ($playlists as $playlist)
+    {
+      foreach ($playlist->getElementsIds() as $element_id)
+      {
+        $elements_ids[] = $element_id;
+      }
+    }
+    $elements_ids = array_unique($elements_ids);
+    if ($elements_ids)
+      return $this->entity_manager->getRepository('MuzichCoreBundle:Element')
+      ->findById($elements_ids);
+    
+    return array();
+  }
+  
   public function addPrivateLinks(Playlist $playlist, User $user, $links, Container $container)
   {
     // Pour le moment on le fait ici car le ElementManager est mal pensé.

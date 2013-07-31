@@ -375,6 +375,20 @@ class User extends BaseUser
   {
     return $this->elements_favorites;
   }
+  
+  public function getElementsFavoritesElements()
+  {
+    if (!$this->elements_favorites)
+      return new ArrayCollection();
+    
+    $elements = array();
+    foreach ($this->elements_favorites as $element_favorite)
+    {
+      $elements[] = $element_favorite->getElement();
+    }
+    
+    return $elements;
+  }
 
   /**
    * Add elements
@@ -902,6 +916,19 @@ class User extends BaseUser
     }
     
     return json_decode($this->tags_favorites_quick, true);
+  }
+  
+  public function getTagsFavoritesQuickIds()
+  {
+    $tags_favorites_ids = array();
+    $tags_favorites_data = $this->getTagsFavoritesQuick();
+    
+    foreach ($tags_favorites_data as $tag_id => $tag_name)
+    {
+      $tags_favorites_ids[] = $tag_id;
+    }
+    
+    return $tags_favorites_ids;
   }
   
   /**
