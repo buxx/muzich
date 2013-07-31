@@ -3331,7 +3331,17 @@ $(document).ready(function(){
       $.getJSON(link.attr('href'), function(response) {
         window.ResponseController.execute(
           response,
-          function(){},
+          function(response){
+            
+            if (response.data.element_remove_links.length)
+            {
+              for (index in response.data.element_remove_links)
+              {
+                $($('ul.playlist_elements li.playlist_element').get(index)).find('a.remove_element').attr('href', response.data.element_remove_links[index]);
+              }
+            }
+            
+          },
           function(){}
         );
       });

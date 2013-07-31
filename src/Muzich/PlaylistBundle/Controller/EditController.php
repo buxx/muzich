@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Muzich\CoreBundle\Security\Context as SecurityContext;
 use Muzich\CoreBundle\Propagator\EventElement;
 use Muzich\CoreBundle\Form\Playlist\PrivateLinksForm;
+use Muzich\CoreBundle\Entity\Playlist;
 
 class EditController extends Controller
 {
@@ -45,7 +46,24 @@ class EditController extends Controller
     
     $this->persist($element);
     $this->flush();
-    return $this->jsonSuccessResponse();
+    return $this->jsonSuccessResponse(array(
+      'element_remove_links' => $this->getRemoveLinksForPlaylist($playlist)
+    ));
+  }
+  
+  protected function getRemoveLinksForPlaylist(Playlist $playlist)
+  {
+    $element_remove_urls = array();
+    foreach ($playlist->getElements() as $index => $element_data)
+    {
+      $element_remove_urls[] = $this->generateUrl('playlist_remove_element', array(
+        'playlist_id' => $playlist->getId(),
+        'index'       => $index,
+        'token'       => $this->getToken()
+      ));
+    }
+    
+    return $element_remove_urls;
   }
   
   public function addElementAction($playlist_id, $element_id)

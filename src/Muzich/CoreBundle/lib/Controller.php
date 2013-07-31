@@ -447,6 +447,10 @@ class Controller extends BaseController
     return $response;
   }
   
+  /**
+   * @param array $data
+   * @return \Symfony\Component\HttpFoundation\Response
+   */
   protected function jsonSuccessResponse($data = array())
   {
     $response = new Response(json_encode(array(
@@ -707,6 +711,11 @@ class Controller extends BaseController
       return false;
     
     return true;
+  }
+  
+  protected function getToken($intention = 'unknown')
+  {
+    return $this->container->get('form.csrf_provider')->generateCsrfToken($intention);
   }
   
   protected function getUserManager()
