@@ -517,7 +517,7 @@ ul.element_tags .button
 
 }
 
-a.button.element_tag, ul.tagbox li.tag, ul.search_tag_list li, ul#favorite_tags li, ul.tags_cloud li
+a.button.element_tag, ul.tagbox li.tag, ul.search_tag_list li, ul#favorite_tags li, ul.tags_cloud li, a.button.tag_to_favorites
 {
   padding: 6px;
   border: none;
@@ -555,6 +555,14 @@ li.element a.tag_to_favorites, li.element img.tag_to_favorites
 {
   margin-left: -17px;
   margin-right: 4px;
+}
+
+li.element a.tag_to_favorites.out
+{
+  margin-left: -3px;
+  margin-left: 0px;
+  margin-bottom: -5px;
+  padding: 5px;
 }
 
 img.tag_to_favorites
@@ -2254,6 +2262,11 @@ ul.playlist_elements li.playlist_element ul.elements li.element
   border-top: none;
 }
 
+ul.playlist_elements li.playlist_element div.actions.fixwidth
+{
+  width: 65px;
+}
+
 a.button img
 {
   float: left;
@@ -2431,7 +2444,7 @@ form.playlist_edit input[type="submit"]
 
 div.playlists_prompt
 {
-  z-index: 100001;
+  z-index: 100003;
 }
 
 a.all_network
@@ -2458,6 +2471,102 @@ div#tags_prompt_search p.help_notags span
   margin-bottom: 10px;
   width: 480px;
 }
+
+.iframe #main_content
+{
+  min-height: available;
+  position: static;
+  width: 560px;
+}
+
+.iframe #content
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-bottom: 0px;
+}
+
+.iframe #main.content
+{
+  float: none;
+  width: 100%;
+  margin-right: 0px;
+}
+
+.iframe #mainbox.nicebox
+{
+  border: none;
+  box-shadow: none;
+  padding: 25px;
+}
+
+.iframe input#element_add_name, .iframe div#tags_prompt_add input.tag_prompt
+{
+  width: 400px;
+}
+
+.iframe div#add_url_title, div.element_title 
+{
+  width: 75%;
+}
+
+.iframe div#form_add_second_part input[type="submit"]
+{
+  margin-right: 20px;
+}
+
+.iframe #tags_prompt_add
+{
+  width: 100%;
+}
+
+div#share_from_message
+{
+  font-weight: bold;
+  padding: 15px;
+  font-size: 115%;
+}
+
+div.social_buttons ul
+{
+  list-style-type: none;
+  margin-left: 0;
+}
+
+div.social_buttons ul li
+{
+  display : inline;
+  margin-left: 5px;
+  float:left;
+}
+
+div.social_buttons ul li.googleplus {
+    margin-left: -25px;
+}
+
+a.button.toplist:visited
+{
+  color: white;
+}
+
+a.button.toplist
+{
+  float: right;
+}
+
+div.private_links form div.inputs
+{
+  float: right;
+}
+
+div.private_links textarea
+{
+  height: 60px;
+  width: 435px;
+}
+
 
 /*
 *

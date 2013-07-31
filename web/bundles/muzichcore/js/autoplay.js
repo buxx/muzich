@@ -81,6 +81,7 @@ function Autoplay()
       if (response.status == 'success')
       {
         $('li#autoplay_element_container').html(response.data);
+        refresh_social_buttons(true);
       }
       else
       {
