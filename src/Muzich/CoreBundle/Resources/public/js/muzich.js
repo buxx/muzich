@@ -2204,6 +2204,7 @@ $(document).ready(function(){
       });
       
       $('div.question').fadeOut();
+      $('a.tag_to_favorites').removeClass('mustBeDisplayed');
       return false;
     },
     onOpen: function(link){
@@ -2211,10 +2212,7 @@ $(document).ready(function(){
       li.find('a.tag_to_favorites').addClass('mustBeDisplayed');
     },
     onClose: function(link){
-      var li = link.parents('li.element_tag');
-      li.find('a.tag_to_favorites').removeClass('mustBeDisplayed');
-      li.find('a.element_tag').removeClass('element_tag_large_for_fav');
-      li.find('a.tag_to_favorites').hide();
+      $('a.tag_to_favorites').removeClass('mustBeDisplayed');
     }
   });
   

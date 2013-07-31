@@ -517,7 +517,7 @@ ul.element_tags .button
 
 }
 
-a.button.element_tag, ul.tagbox li.tag, ul.search_tag_list li, ul#favorite_tags li, ul.tags_cloud li
+a.button.element_tag, ul.tagbox li.tag, ul.search_tag_list li, ul#favorite_tags li, ul.tags_cloud li, a.button.tag_to_favorites
 {
   padding: 6px;
   border: none;
@@ -555,6 +555,14 @@ li.element a.tag_to_favorites, li.element img.tag_to_favorites
 {
   margin-left: -17px;
   margin-right: 4px;
+}
+
+li.element a.tag_to_favorites.out
+{
+  margin-left: -3px;
+  margin-left: 0px;
+  margin-bottom: -5px;
+  padding: 5px;
 }
 
 img.tag_to_favorites

@@ -360,11 +360,11 @@
                     'tag_id' : tag.id,
                     'token'  : app.user.getPersonalHash(tag.id)
                   }) }}" 
-                  class="tag_to_favorites" 
+                  class="tag_to_favorites out button" 
                   style="display: none;"
                   title="{{ 'element.tag.addtofav.title'|trans({}, 'elements') }}"   
                 >
-                  <img class="tag_add_to_favorites"  src="{{ asset('/img/icon_heart.png') }}" alt="add-to-favorites"/>
+                  <img class="tag_add_to_favorites"  src="{{ asset('/img/icon_heart_add.png') }}" alt="add-to-favorites"/>
                 </a>
               {% endif %}
             {% else %}
@@ -412,7 +412,7 @@
       
       {% endif %}
       
-      {% if display_social_buttons %}
+      {% if display_social_buttons and app.environment == 'prod' %}
         <div class="social_buttons">
           <ul>
             <li class="facebook">
