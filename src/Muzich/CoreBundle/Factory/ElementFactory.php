@@ -119,13 +119,13 @@ abstract class ElementFactory
     return $this->url_analyzer;
   }
   
-  protected function setDataTagsForElement($tags_string, $merge = array())
+  protected function setDataTagsForElement($tags_string, $merge = array(), $separator = ' ')
   {
     $tags_like = array();
     if (strlen(trim($tags_string)))
     {
       $tag_like = new TagLike($this->entity_manager);
-      foreach (explode(' ', $tags_string) as $word)
+      foreach (explode($separator, $tags_string) as $word)
       {
         $similar_tags = $tag_like->getSimilarTags($word, ($this->element->getOwner())?$this->element->getOwner()->getId():null);
         if (count($similar_tags))

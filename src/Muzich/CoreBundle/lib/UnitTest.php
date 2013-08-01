@@ -37,7 +37,7 @@ class UnitTest extends \PHPUnit_Framework_TestCase
     return $this->_container->getParameter($param);
   }
   
-  protected function proceed_elementAndFill($user, $name, $url, $tag_ids, $final_embed)
+  protected function proceed_elementAndFill($user, $name, $url, $tag_ids, $final_embed = null, $embed_contained = null)
   {
     $element = new Element();
     $element->setName($name);
@@ -62,7 +62,12 @@ class UnitTest extends \PHPUnit_Framework_TestCase
     }
     
     $this->assertEquals($element_tag_ids, $tag_ids);
-    $this->assertEquals($element->getEmbed(), $final_embed);
+    
+    if ($final_embed)
+      $this->assertEquals($element->getEmbed(), $final_embed);
+    
+    if ($embed_contained)
+      $this->assertTrue((strpos($element->getEmbed(), $embed_contained) !== false));
   }
   
   protected function proceed_element_datas_api($user, $url)

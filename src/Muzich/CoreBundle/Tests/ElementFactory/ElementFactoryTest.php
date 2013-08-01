@@ -284,6 +284,15 @@ class ElementFactoryTest extends UnitTest
         .'"></iframe>'
     );
     
+    $this->proceed_elementAndFill(
+      $bux, 
+      'poil de carotte', 
+      'http://www.mixcloud.com/nevrakse_ISM/nevrakse-tranceplantation/', 
+      array($hardtek->getId(), $tribe->getId()), 
+      null,
+      'src="//www.mixcloud.com/widget/iframe/?feed=http%3A%2F%2Fwww.mixcloud.com%2Fnevrakse_ISM%2Fnevrakse-tranceplantation%2F&amp;emb'
+    );
+    
   }
   
   public function testDataApiengine()
@@ -645,6 +654,27 @@ class ElementFactoryTest extends UnitTest
     ),$this->proceed_element_datas_api(
       $bux, 
       'http://open.spotify.com/track/3d5FWJe19DkUJaO2wDEQHY'
+    ));
+    
+    /*
+     * Mixcloud
+     *
+     */
+    
+    $this->assertEquals(array(
+      'data_ref_id' => '/nevrakse_ISM/nevrakse-tranceplantation/',
+      'data_title'  => 'Nevrakse - Tranceplantation',
+      'data_artist' => 'nevrakse_ISM',
+      'data_type'   => 'track',
+      'data_normalized_url' => 'http://www.mixcloud.com/nevrakse_ISM/nevrakse-tranceplantation/',
+      'data_thumb_url' => 'http://images-mix.netdna-ssl.com/w/100/h/100/q/85/upload/images/profile/e0cf41b2-a34e-4638-abbe-4713ac17a9c8.jpeg',
+      'data_tags' => array(
+         0 => 'Trance',
+         1 => 'Psytrance'
+       )
+    ),$this->proceed_element_datas_api(
+      $bux, 
+      'http://www.mixcloud.com/nevrakse_ISM/nevrakse-tranceplantation/'
     ));
     
   }

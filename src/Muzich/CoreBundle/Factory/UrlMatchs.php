@@ -107,4 +107,11 @@ class UrlMatchs
       "#\/(watch|)(\?|)feature\=player_embedded\&v=([a-zA-Z0-9_-]+)([.\w\W\d]*)#" => 3,
     )
   );
+  
+  public static $mixcloud = array(
+    Element::TYPE_TRACK => array(
+      // http://www.mixcloud.com/nevrakse_ISM/nevrakse-tranceplantation/
+      "#^\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+[\/]*#" => null,
+    )
+  );
 }

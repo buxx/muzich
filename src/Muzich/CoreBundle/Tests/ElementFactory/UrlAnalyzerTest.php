@@ -105,4 +105,11 @@ class UrlAnalyzerTest extends \PHPUnit_Framework_TestCase
     $this->assertEquals('QQ3L3mqP5JY', $url_analyzer->getRefId());
   }
   
+  public function testMixcloud()
+  {
+    $url_analyzer = new UrlAnalyzer($this->getNewElement('mixcloud.com', 'http://www.mixcloud.com/nevrakse_ISM/nevrakse-tranceplantation/'), UrlMatchs::$mixcloud);
+    $this->assertTrue($url_analyzer->haveMatch());
+    
+  }
+  
 }

@@ -16,6 +16,7 @@ use Muzich\CoreBundle\Factory\Elements\Sndsc;
 use Muzich\CoreBundle\Factory\Elements\Deezercom;
 use Muzich\CoreBundle\Factory\Elements\Vimeocom;
 use Muzich\CoreBundle\Factory\Elements\Spotifycom;
+use Muzich\CoreBundle\Factory\Elements\Mixcloudcom;
 
 /**
  * 
@@ -180,6 +181,9 @@ class ElementManager
       break;
       case 'spotify.com':
         return new Spotifycom($this->element, $this->container, $this->em);
+      break;
+      case 'mixcloud.com':
+        return new Mixcloudcom($this->element, $this->container, $this->em);
       break;
       default:
         throw new \Exception("La Factory n'est pas prise en charge pour le type \"".$this->element->getType()."\".");
