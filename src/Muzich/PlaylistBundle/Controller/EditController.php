@@ -8,6 +8,7 @@ use Muzich\CoreBundle\Security\Context as SecurityContext;
 use Muzich\CoreBundle\Propagator\EventElement;
 use Muzich\CoreBundle\Form\Playlist\PrivateLinksForm;
 use Muzich\CoreBundle\Entity\Playlist;
+use Muzich\CoreBundle\Entity\User;
 
 class EditController extends Controller
 {
@@ -40,6 +41,7 @@ class EditController extends Controller
       return $this->jsonNotFoundResponse();
     
     $playlist_manager->removePlaylistElementWithIndex($playlist, $index);
+    $this->getUser()->setData(User::DATA_PLAY_UPDATED, true);
     
     $event = new EventElement($this->container);
     $event->removedFromPlaylist($element, $this->getUser(), $playlist);
@@ -77,6 +79,7 @@ class EditController extends Controller
       return $this->jsonNotFoundResponse();
     
     $playlist_manager->addElementToPlaylist($element, $playlist);
+    $this->getUser()->setData(User::DATA_PLAY_UPDATED, true);
     
     $event = new EventElement($this->container);
     $event->addedToPlaylist($element, $this->getUser(), $playlist);
@@ -102,6 +105,7 @@ class EditController extends Controller
       
       $event = new EventElement($this->container);
       $event->addedToPlaylist($element, $this->getUser(), $form->getData());
+      $this->getUser()->setData(User::DATA_PLAY_UPDATED, true);
 
       $this->persist($element);
       $this->flush();
@@ -133,6 +137,7 @@ class EditController extends Controller
     
     $event = new EventElement($this->container);
     $event->addedToPlaylist($element, $this->getUser(), $new_playlist);
+    $this->getUser()->setData(User::DATA_PLAY_UPDATED, true);
     
     $this->persist($element);
     $this->flush();
@@ -149,6 +154,7 @@ class EditController extends Controller
       throw $this->createNotFoundException();
     
     $this->getPlaylistManager()->deletePlaylist($playlist);
+    $this->getUser()->setData(User::DATA_PLAY_UPDATED, true);
     $this->flush();
     $this->setFlash('success', 'playlist.delete.success');
     
@@ -166,6 +172,7 @@ class EditController extends Controller
       throw $this->createNotFoundException();
     
     $playlist_manager->removePickedPlaylistToUser($this->getUser(), $playlist);
+    $this->getUser()->setData(User::DATA_PLAY_UPDATED, true);
     $this->flush();
     $this->setFlash('success', 'playlist.delete.success');
     
@@ -190,6 +197,7 @@ class EditController extends Controller
       throw $this->createNotFoundException();
     }
     $this->getPlaylistManager()->addPickedPlaylistToUser($this->getUser(), $playlist);
+    $this->getUser()->setData(User::DATA_PLAY_UPDATED, true);
     $this->flush();
     
     if ($this->getRequest()->isXmlHttpRequest())
@@ -212,6 +220,7 @@ class EditController extends Controller
       if ($playlist_form->isValid())
       {
         $this->persist($playlist_form->getData());
+        $this->getUser()->setData(User::DATA_PLAY_UPDATED, true);
         $this->flush();
         
         $this->setFlash('success', $this->trans('playlist.create.success', array(), 'flash'));

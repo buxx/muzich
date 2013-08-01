@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Shtumi\UsefulBundle\ShtumiUsefulBundle(),
             new FOS\FacebookBundle\FOSFacebookBundle(),
+            new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle(),
             
             new Muzich\CoreBundle\MuzichCoreBundle(),
             new Muzich\UserBundle\MuzichUserBundle(),

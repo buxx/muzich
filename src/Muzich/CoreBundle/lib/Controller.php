@@ -531,6 +531,18 @@ class Controller extends BaseController
     return $this->getDoctrine()->getManager();
   }
   
+  /** @return Doctrine\ODM\MongoDB\DocumentManager */
+  public function getMongoManager()
+  {
+    return $this->get('doctrine_mongodb')->getManager();
+  }
+  
+  /** @return Doctrine\ODM\MongoDB\DocumentRepository */
+  public function getMongoRepository($repository)
+  {
+    return $this->get('doctrine_mongodb')->getRepository($repository);
+  }
+  
   /**
    *
    * @param object $entity 
@@ -721,6 +733,18 @@ class Controller extends BaseController
   protected function getUserManager()
   {
     return $this->container->get('muzich_user_manager');
+  }
+  
+  /** @return \Muzich\CoreBundle\Mining\Tag\TagMiner */
+  protected function getMineTagMiner()
+  {
+    return $this->container->get('muzich.mining.tag.miner');
+  }
+  
+  /** @return \Muzich\CoreBundle\Mining\Tag\TagData */
+  protected function getMineTagData()
+  {
+    return $this->container->get('muzich.mining.tag.data');
   }
   
 }
