@@ -3,8 +3,6 @@ namespace Muzich\CoreBundle\Mining\Tag;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry as MongoManagerRegistry;
-use Doctrine\ODM\MongoDB\DocumentRepository;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Muzich\CoreBundle\Document\EntityTags;
 use Muzich\CoreBundle\Document\UserTags;
 use Muzich\CoreBundle\Document\GroupTags;
@@ -15,38 +13,20 @@ use Muzich\CoreBundle\lib\TagScorer;
 use Muzich\CoreBundle\Entity\User;
 use Muzich\CoreBundle\Managers\PlaylistManager;
 
-class TagMiner
+use Muzich\CoreBundle\Mining\Tag\Tag as Base;
+
+class TagMiner extends Base
 {
   
-  protected $doctrine_entity_manager;
-  protected $mongo_manager_registry;
   protected $tag_scorer;
   protected $tag_orderer;
+  protected $logger_parent;
   
   public function __construct(EntityManager $doctrine_entity_manager, MongoManagerRegistry $mongo_manager_registry)
   {
-    $this->doctrine_entity_manager = $doctrine_entity_manager;
-    $this->mongo_manager_registry = $mongo_manager_registry;
+    parent::__construct($doctrine_entity_manager, $mongo_manager_registry);
     $this->tag_scorer = new TagScorer();
     $this->tag_orderer = new TagOrderer();
-  }
-  
-  /** @return EntityManager */
-  protected function getDoctrineEntityManager()
-  {
-    return $this->doctrine_entity_manager;
-  }
-  
-  /** @return DocumentRepository */
-  protected function getMongoRepository($repository)
-  {
-    return $this->mongo_manager_registry->getRepository($repository);
-  }
-  
-  /** @return DocumentManager */
-  protected function getMongoManager()
-  {
-    return $this->mongo_manager_registry->getManager();
   }
   
   /** @return TagScorer */
@@ -59,6 +39,21 @@ class TagMiner
   protected function getTagOrderer()
   {
     return $this->tag_orderer;
+  }
+  
+  // Experimental
+  public function setLogger($parent)
+  {
+    $this->logger_parent = $parent;
+  }
+  
+  // Experimental
+  protected function log($action_name)
+  {
+    $action_name_complete = 'log'.ucfirst($action_name);
+    
+    if ($this->logger_parent)
+      $this->logger_parent->$action_name_complete();
   }
   
   /** 
@@ -81,22 +76,52 @@ class TagMiner
   /**
    * @param array $users
    */
+  public function mineForUsers($users, $mining_action, $user_action = null)
+  {
+    if (count($users))
+    {
+      foreach ($users as $user)
+      {
+        $user_tags = $this->getEntityTagsDocument($user->getId(), EntityTags::TYPE_USER);
+
+        $this->log('userProceed');
+        $this->$mining_action($user_tags, $user);
+        if ($user_action)
+          $user->$user_action();
+
+        $this->getMongoManager()->persist($user_tags);
+        $this->getDoctrineEntityManager()->persist($user);
+      }
+      
+      $this->log('savingInDatabase');
+      $this->getMongoManager()->flush();
+      $this->getDoctrineEntityManager()->flush();
+    }
+  }
+  
+  public function mineDiffusionTagsForUsers($users)
+  {
+    $this->mineForUsers($users, 'orderUserDiffusionsTags', 'setDataDiffusionsNoMoreUpdated');
+  }
+  
+  public function mineFavoriteTagsForUsers($users)
+  {
+    $this->mineForUsers($users, 'orderUserFavoritesTags', 'setDataFavoriteNoMoreUpdated');
+  }
+  
+  public function minePlaylistTagsForUsers($users)
+  {
+    $this->mineForUsers($users, 'orderUserPlaylistsTags', 'setDataPlaylistNoMoreUpdated');
+  }
+  
   public function mineTagsForUsers($users)
   {
-    foreach ($users as $user)
-    {
-      $user_tags = $this->getEntityTagsDocument($user->getId(), EntityTags::TYPE_USER);
-      
-      $this->scoreUserDiffusionsTags($user_tags, $user);
-      $this->scoreUserFavoritesTags($user_tags, $user);
-      $this->scoreUserPlaylistsTags($user_tags, $user);
-      $this->scoreUserTags($user_tags, $user);
-      $this->determineTagsTops($user_tags);
-      
-      $this->getMongoManager()->persist($user_tags);
-    }
-    
-    $this->getMongoManager()->flush();
+    $this->mineForUsers($users, 'orderUserTags');
+  }
+  
+  public function mineTopTagsForUsers($users)
+  {
+    $this->mineForUsers($users, 'determineTagsTops');
   }
   
   /** @return EntityTags */
@@ -131,26 +156,23 @@ class TagMiner
     }
   }
   
-  protected function scoreUserDiffusionsTags(EntityTags $user_tags, User $user)
+  protected function orderUserDiffusionsTags(EntityTags $user_tags, User $user)
   {
     $tags_ids_ordereds = $this->getTagOrderer()->getOrderedTagsWithElements($user->getElements());
-    $scoreds_tags_ids = $this->getTagsScorer()->scoreOrderedsTagsIds($tags_ids_ordereds);
-    $user_tags->setElementDiffusionTags($scoreds_tags_ids);
+    $user_tags->setElementDiffusionTags($tags_ids_ordereds);
   }
   
-  protected function scoreUserFavoritesTags(EntityTags $user_tags, User $user)
+  protected function orderUserFavoritesTags(EntityTags $user_tags, User $user)
   {
     $tags_ids_ordereds = $this->getTagOrderer()->getOrderedTagsWithElements($user->getElementsFavoritesElements());
-    $scoreds_tags_ids = $this->getTagsScorer()->scoreOrderedsTagsIds($tags_ids_ordereds);
-    $user_tags->setElementFavoriteTags($scoreds_tags_ids);
+    $user_tags->setElementFavoriteTags($tags_ids_ordereds);
   }
   
-  protected function scoreUserPlaylistsTags(EntityTags $user_tags, User $user)
+  protected function orderUserPlaylistsTags(EntityTags $user_tags, User $user)
   {
     $playlist_manager = new PlaylistManager($this->getDoctrineEntityManager());
     $tags_ids_ordereds = $this->getTagOrderer()->getOrderedTagsWithElements($playlist_manager->getElementsOfPlaylists($this->getUserPlaylists($user)));
-    $scoreds_tags_ids = $this->getTagsScorer()->scoreOrderedsTagsIds($tags_ids_ordereds);
-    $user_tags->setElementPlaylistTags($scoreds_tags_ids);
+    $user_tags->setElementPlaylistTags($tags_ids_ordereds);
   }
   
   protected function getUserPlaylists(User $user)
@@ -174,7 +196,7 @@ class TagMiner
     return $playlists;
   }
   
-  protected function scoreUserTags(EntityTags $user_tags, User $user)
+  protected function orderUserTags(EntityTags $user_tags, User $user)
   {
     $all_tags_ordered = $this->getTagsScorer()->scoreEntireOrderedTagsIds(array(
       $user_tags->getElementDiffusionTags(),
@@ -185,7 +207,7 @@ class TagMiner
     $user_tags->setTagsAll($all_tags_ordered);
   }
   
-  protected function determineTagsTops(EntityTags $user_tags)
+  protected function determineTagsTops(EntityTags $user_tags, User $user)
   {
     $user_tags->setTagsTop1($this->getTopTagsRange($user_tags->getTagsAll(), 1));
     $user_tags->setTagsTop2($this->getTopTagsRange($user_tags->getTagsAll(), 2));

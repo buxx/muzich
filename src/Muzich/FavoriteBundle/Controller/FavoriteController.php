@@ -176,8 +176,7 @@ class FavoriteController extends Controller
     
     // Organisation des tags en fonction de leurs utilisation
     $tag_lib = new TagLib();
-    $tags = $tag_lib->sortTagWithOrderedReference($tags, 
-      $user->getData(User::DATA_TAGS_ORDER_PAGE_FAV, array()));
+    $tags = $tag_lib->sortTagWithOrderedReference($tags, $this->getMineTagData()->getTagOrderForFavorites($user));
     
     $tags_id = array();
     foreach ($tags as $tag)
@@ -218,6 +217,9 @@ class FavoriteController extends Controller
         ->getTags($viewed_user->getId(), $this->getUserId(true))      
       ;
 
+      $tag_lib = new TagLib();
+      $tags = $tag_lib->sortTagWithOrderedReference($tags, $this->getMineTagData()->getTagOrderForFavorites($viewed_user));
+      
       $tags_id = array();
       foreach ($tags as $tag)
       {

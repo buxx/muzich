@@ -25,29 +25,9 @@ use Muzich\CoreBundle\Managers\UserPrivacy as PrivacyManager;
 class User extends BaseUser
 {
   
-  /**
-   * Data ordre des tags de sa page favoris
-   * @var string 
-   */
-  const DATA_TAGS_ORDER_PAGE_FAV = "data_tags_order_page_fav";
-  
-  /**
-   * Data ordre des tags de ses diffusions
-   * @var string 
-   */
-  const DATA_TAGS_ORDER_DIFF     = "data_tags_order_diff";
-  
-  /**
-   * Data, les favoris ont ils été modifiés
-   * @var string 
-   */
-  const DATA_FAV_UPDATED         = "data_fav_updated";
-  
-  /**
-   * Data, les favoris ont ils été modifiés
-   * @var string 
-   */
-  const DATA_DIFF_UPDATED        = "data_diff_updated";
+  const DATA_FAV_UPDATED = "data_fav_updated";
+  const DATA_DIFF_UPDATED = "data_diff_updated";
+  const DATA_PLAY_UPDATED = "data_play_updated";
   
   const HELP_TOUR_HOME = "home";
   
@@ -1310,6 +1290,21 @@ class User extends BaseUser
   {
     $privacy_manager = new PrivacyManager($this);
     return $privacy_manager->set(PrivacyManager::CONF_FAVORITES_PUBLIC, $public);
+  }
+  
+  public function setDataFavoriteNoMoreUpdated()
+  {
+    $this->setData(self::DATA_FAV_UPDATED, false);
+  }
+  
+  public function setDataDiffusionsNoMoreUpdated()
+  {
+    $this->setData(self::DATA_DIFF_UPDATED, false);
+  }
+  
+  public function setDataPlaylistNoMoreUpdated()
+  {
+    $this->setData(self::DATA_PLAY_UPDATED, false);
   }
   
 }

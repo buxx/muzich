@@ -34,8 +34,7 @@ class ShowController extends Controller
     
     // Organisation des tags en fonction de leurs utilisation
     $tag_lib = new TagLib();
-    $tags = $tag_lib->sortTagWithOrderedReference($tags, 
-    $viewed_user->getData(User::DATA_TAGS_ORDER_DIFF, array()));
+    $tags = $tag_lib->sortTagWithOrderedReference($tags, $this->getMineTagData()->getTagOrderForDiffusions($viewed_user));
     
     $tags_id = array();
     foreach ($tags as $tag)

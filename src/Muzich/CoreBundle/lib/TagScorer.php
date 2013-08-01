@@ -5,7 +5,7 @@ namespace Muzich\CoreBundle\lib;
 class TagScorer
 {
   
-  public function scoreOrderedsTagsIds($ordered_tags)
+  protected function scoreOrderedsTagsIds($ordered_tags)
   {
     $tags_ordered_by_score = array();
     $score_max = count($ordered_tags);
@@ -25,7 +25,8 @@ class TagScorer
     
     foreach ($ordereds_elements_tags_ids as $ordereds_tags_ids)
     {
-      foreach ($ordereds_tags_ids as $score_tag => $tag_id)
+      $scored_tags_ids = $this->scoreOrderedsTagsIds($ordereds_tags_ids);
+      foreach ($scored_tags_ids as $score_tag => $tag_id)
       {
         if (!array_key_exists($tag_id, $tags_score))
           $tags_score[$tag_id] = 0;

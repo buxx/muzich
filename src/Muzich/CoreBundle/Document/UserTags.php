@@ -11,22 +11,25 @@ class UserTags extends EntityTags
 {
 
   /**
-   * @MongoDB\Hash
+   * @MongoDB\Collection
    */
   protected $element_diffusion_tags;
 
   /**
-   * @MongoDB\Hash
+   * @MongoDB\Collection
    */
   protected $element_favorite_tags;
 
   /**
-   * @MongoDB\Hash
+   * @MongoDB\Collection
    */
   protected $element_playlist_tags;
   
   public function getElementDiffusionTags()
   {
+    if (!$this->element_diffusion_tags)
+      return array();
+      
     return $this->element_diffusion_tags;
   }
   
@@ -37,6 +40,9 @@ class UserTags extends EntityTags
   
   public function getElementFavoriteTags()
   {
+    if (!$this->element_favorite_tags)
+      return array();
+      
     return $this->element_favorite_tags;
   }
   
@@ -47,6 +53,9 @@ class UserTags extends EntityTags
   
   public function getElementPlaylistTags()
   {
+    if (!$this->element_playlist_tags)
+      return array();
+      
     return $this->element_playlist_tags;
   }
   
