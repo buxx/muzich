@@ -17,14 +17,12 @@ class MineTagsDataCommand extends ContainerAwareCommand
   const MINE_FAVORITE = 'favorite';
   const MINE_PLAYLIST = 'playlist';
   const MINE_TAGS = 'tags';
-  const MINE_TOPS = 'tops';
   
   static $mine_types = array(
     self::MINE_DIFFUSION,
     self::MINE_FAVORITE,
     self::MINE_PLAYLIST,
-    self::MINE_TAGS,
-    self::MINE_TOPS
+    self::MINE_TAGS
   );
   
   protected $em;
@@ -44,7 +42,6 @@ class MineTagsDataCommand extends ContainerAwareCommand
       ->addOption(self::MINE_FAVORITE, null, InputOption::VALUE_NONE, 'Ne traite que les favoris')
       ->addOption(self::MINE_PLAYLIST, null, InputOption::VALUE_NONE, 'Ne traite que les playlists')
       ->addOption(self::MINE_TAGS, null, InputOption::VALUE_NONE, 'Ne traite que les tags')
-      ->addOption(self::MINE_TOPS, null, InputOption::VALUE_NONE, 'Ne traite que les top tags')
     ;
   }
   
@@ -88,9 +85,6 @@ class MineTagsDataCommand extends ContainerAwareCommand
     
     if ($this->canIMineThat(self::MINE_TAGS))
       $this->mineTags();
-    
-    if ($this->canIMineThat(self::MINE_TOPS))
-      $this->mineTopTags();
     
     $this->output->writeln('<info>Terminé !</info>');
   }
@@ -137,13 +131,6 @@ class MineTagsDataCommand extends ContainerAwareCommand
     $this->output->writeln('<info>Tags: '.count($this->users_mineds).' utilisateurs</info>');
     $this->progress->start($this->output, count($this->users_mineds));
     $this->getTagMiner()->mineTagsForUsers($this->users_mineds);
-  }
-  
-  protected function mineTopTags()
-  {
-    $this->output->writeln('<info>TopTags: '.count($this->users_mineds).' utilisateurs</info>');
-    $this->progress->start($this->output, count($this->users_mineds));
-    $this->getTagMiner()->mineTopTagsForUsers($this->users_mineds);
   }
   
   protected function getUsersToProceed($condition)

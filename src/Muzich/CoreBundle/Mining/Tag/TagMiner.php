@@ -119,11 +119,6 @@ class TagMiner extends Base
     $this->mineForUsers($users, 'orderUserTags');
   }
   
-  public function mineTopTagsForUsers($users)
-  {
-    $this->mineForUsers($users, 'determineTagsTops');
-  }
-  
   /** @return EntityTags */
   protected function getEntityTagsDocument($ref, $type)
   {
@@ -204,38 +199,7 @@ class TagMiner extends Base
       $user_tags->getElementPlaylistTags()
     ), $user->getTagsFavoritesQuickIds());
     
-    $user_tags->setTagsAll($all_tags_ordered);
-  }
-  
-  protected function determineTagsTops(EntityTags $user_tags, User $user)
-  {
-    $user_tags->setTagsTop1($this->getTopTagsRange($user_tags->getTagsAll(), 1));
-    $user_tags->setTagsTop2($this->getTopTagsRange($user_tags->getTagsAll(), 2));
-    $user_tags->setTagsTop3($this->getTopTagsRange($user_tags->getTagsAll(), 3));
-    $user_tags->setTagsTop5($this->getTopTagsRange($user_tags->getTagsAll(), 5));
-    $user_tags->setTagsTop10($this->getTopTagsRange($user_tags->getTagsAll(), 10));
-    $user_tags->setTagsTop25($this->getTopTagsRange($user_tags->getTagsAll(), 25));
-  }
-  
-  protected function getTopTagsRange($tags, $range_end)
-  {
-    $tags_top = array();
-    if ($range_end <= count($tags))
-    {
-      $max = $range_end;
-    }
-    else
-    {
-      $max = count($tags);
-    }
-      
-    for ($index = 0; $index <= $max-1; $index++)
-    {
-      $tags_top[] = $tags[$index];
-    }
-    
-    
-    return $tags_top;
+    $user_tags->setTags($all_tags_ordered);
   }
   
 }

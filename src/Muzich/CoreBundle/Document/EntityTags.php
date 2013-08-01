@@ -27,37 +27,7 @@ class EntityTags
   /**
    * @MongoDB\Collection
    */
-  protected $tags_top_1;
-
-  /**
-   * @MongoDB\Collection
-   */
-  protected $tags_top_2;
-
-  /**
-   * @MongoDB\Collection
-   */
-  protected $tags_top_3;
-
-  /**
-   * @MongoDB\Collection
-   */
-  protected $tags_top_5;
-
-  /**
-   * @MongoDB\Collection
-   */
-  protected $tags_top_10;
-
-  /**
-   * @MongoDB\Collection
-   */
-  protected $tags_top_25;
-
-  /**
-   * @MongoDB\Collection
-   */
-  protected $tags_all;
+  protected $tags;
 
   public function getId()
   {
@@ -74,74 +44,14 @@ class EntityTags
     $this->ref = (int)$ref;
   }
 
-  public function getTagsAll()
+  public function getTags()
   {
-    return $this->tags_all;
+    return $this->tags;
   }
   
-  public function setTagsAll($tags)
+  public function setTags($tags)
   {
-    $this->tags_all = $tags;
-  }
-  
-  public function setTagsTop1($tags)
-  {
-    $this->tags_top_1 = $tags;
-  }
-  
-  public function getTagsTop1()
-  {
-    return $this->tags_top_1;
-  }
-  
-  public function setTagsTop2($tags)
-  {
-    $this->tags_top_2 = $tags;
-  }
-  
-  public function getTagsTop2()
-  {
-    return $this->tags_top_2;
-  }
-  
-  public function setTagsTop3($tags)
-  {
-    $this->tags_top_3 = $tags;
-  }
-  
-  public function getTagsTop3()
-  {
-    return $this->tags_top_3;
-  }
-  
-  public function setTagsTop5($tags)
-  {
-    $this->tags_top_5 = $tags;
-  }
-  
-  public function getTagsTop5()
-  {
-    return $this->tags_top_5;
-  }
-  
-  public function setTagsTop10($tags)
-  {
-    $this->tags_top_10 = $tags;
-  }
-  
-  public function getTagsTop10()
-  {
-    return $this->tags_top_10;
-  }
-  
-  public function setTagsTop25($tags)
-  {
-    $this->tags_top_25 = $tags;
-  }
-  
-  public function getTagsTop25()
-  {
-    return $this->tags_top_25;
+    $this->tags = $tags;
   }
   
 }
