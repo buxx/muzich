@@ -290,7 +290,7 @@ class ElementFactoryTest extends UnitTest
       'http://www.mixcloud.com/nevrakse_ISM/nevrakse-tranceplantation/', 
       array($hardtek->getId(), $tribe->getId()), 
       null,
-      'src="//www.mixcloud.com/widget/iframe/?feed=http%3A%2F%2Fwww.mixcloud.com%2Fnevrakse_ISM%2Fnevrakse-tranceplantation%2F&amp;emb'
+      'src="//www.mixcloud.com/widget/iframe/?feed=http%3A%2F%2Fwww.mixcloud.com%2Fnevrakse_ISM%2Fnevrakse-tranceplantation'
     );
     
   }
@@ -525,8 +525,8 @@ class ElementFactoryTest extends UnitTest
         1 => 'Acid Tekno'
       ),
       'data_normalized_url' => 'http://api.soundcloud.com/tracks/90126814',
-      'data_download' => true,
-      'data_download_url' => 'http://api.soundcloud.com/tracks/90126814/download'
+      //'data_download' => true,
+      //'data_download_url' => 'http://api.soundcloud.com/tracks/90126814/download'
     ),$datas);
      
     /*
