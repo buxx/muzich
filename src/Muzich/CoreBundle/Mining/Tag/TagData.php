@@ -20,11 +20,15 @@ class TagData extends Base
   public function getTagOrderForDiffusions(User $user)
   {
     $user_tags = $this->getUserTagsTags($user, 'element_diffusion_tags');
-    
-   if (count($tags_ordereds = $user_tags->getElementDiffusionTags()))
-     return $tags_ordereds;
-   
-   return array();
+    $user_tags = null;
+    if ($user_tags)
+    {
+      if (count($tags_ordereds = $user_tags->getElementDiffusionTags()))
+      {
+        return $tags_ordereds;
+      }
+    }
+    return array();
   }
   
   protected function getUserTagsTags(User $user, $field)
