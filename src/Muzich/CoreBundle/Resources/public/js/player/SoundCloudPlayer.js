@@ -24,13 +24,13 @@ function SoundCloudPlayer(ref_id, object_for_player, finish_callback, autoplay)
     _iframe_id = 'soundcloud_player_'+new Date().getTime();
     if (!_autoplay)
     {
-      _object_for_player.html('<iframe id="'+_iframe_id+'" src="http://w.soundcloud.com/player/?url='
+      _object_for_player.html('<iframe id="'+_iframe_id+'" src="https://w.soundcloud.com/player/?url='
             +_ref_id+'&show_artwork=false&auto_play=true" width="100%" '
             +'height="350" scrolling="no" frameborder="no"></iframe>');
     }
     else
     {
-      $('#autoplay_player_soundcloud').append('<iframe id="'+_iframe_id+'" src="http://w.soundcloud.com/player/?url='
+      $('#autoplay_player_soundcloud').append('<iframe id="'+_iframe_id+'" src="https://w.soundcloud.com/player/?url='
         +_ref_id+'&show_artwork=false&auto_play=true" width="100%" '
         +'height="350" scrolling="no" frameborder="no"></iframe>');
     }
