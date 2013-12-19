@@ -2542,10 +2542,6 @@ div.social_buttons ul li
   float:left;
 }
 
-div.social_buttons ul li.googleplus {
-    margin-left: -25px;
-}
-
 a.button.toplist:visited
 {
   color: white;
