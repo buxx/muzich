@@ -11,16 +11,21 @@ class TagData extends Base
   {
     $user_tags = $this->getUserTagsTags($user, 'element_favorite_tags');
     
-   if (count($tags_ordereds = $user_tags->getElementFavoriteTags()))
-     return $tags_ordereds;
-   
+    if ($user_tags)
+    {
+      if (count($tags_ordereds = $user_tags->getElementFavoriteTags()))
+      {
+        return $tags_ordereds;
+      }
+    }
+    
    return array();
   }
   
   public function getTagOrderForDiffusions(User $user)
   {
     $user_tags = $this->getUserTagsTags($user, 'element_diffusion_tags');
-    $user_tags = null;
+    
     if ($user_tags)
     {
       if (count($tags_ordereds = $user_tags->getElementDiffusionTags()))
