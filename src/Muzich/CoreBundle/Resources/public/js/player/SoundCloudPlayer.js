@@ -3,7 +3,16 @@ function SoundCloudPlayer(ref_id, object_for_player, finish_callback, autoplay)
   autoplay = typeof autoplay !== 'undefined' ? autoplay : false;
   var _autoplay = autoplay;
   var _iframe_id = '';
-  var _ref_id = ref_id;
+  
+  if (typeof(ref_id) == 'string')
+  {
+    var _ref_id = ref_id.replace('http://', 'https://');
+  }
+  else
+  {
+    var _ref_id = ref_id
+  }
+  
   var _object_for_player = object_for_player;
   var _player = null;
   var _sounds_count = 0;
