@@ -9,7 +9,9 @@ class TagData extends Base
   
   public function getTagOrderForFavorites(User $user)
   {
-    $user_tags = $this->getUserTagsTags($user, 'element_favorite_tags');
+    if (!($user_tags = $this->getUserTagsTags($user, 'element_favorite_tags'))) {
+        return array();
+    }
     
    if (count($tags_ordereds = $user_tags->getElementFavoriteTags()))
      return $tags_ordereds;
@@ -19,7 +21,9 @@ class TagData extends Base
   
   public function getTagOrderForDiffusions(User $user)
   {
-    $user_tags = $this->getUserTagsTags($user, 'element_diffusion_tags');
+    if (!($user_tags = $this->getUserTagsTags($user, 'element_diffusion_tags'))) {
+        return array();
+    }
     
    if (count($tags_ordereds = $user_tags->getElementDiffusionTags()))
      return $tags_ordereds;
