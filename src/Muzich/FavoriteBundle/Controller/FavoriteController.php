@@ -292,7 +292,8 @@ class FavoriteController extends Controller
         'user'             => $this->getUser(),
         'elements'         => $elements,
         'tag_ids_json'     => $tags_ids_json,
-        'viewed_user'      => $viewed_user
+        'viewed_user'      => $viewed_user,
+        'autoplay_shuffle' => 'elements_get_filter_data_autoplay_favorite'
       ))->getContent();
     }
     

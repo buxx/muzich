@@ -73,7 +73,9 @@ class ShowController extends Controller
       'count_favorited_users' => $count_favorited_users,
       'count_followers' => $count_followers,
       'add_form'        => ($this->getUserId(true) == $viewed_user->getId())?$this->getAddForm()->createView():null,
-      'add_form_name'   => 'add'
+      'add_form_name'   => 'add',
+      'autoplay_shuffle' => 'elements_get_filter_data_autoplay_show',
+      'autoplay_shuffle_show_type' => 'user'
     );
   }
   

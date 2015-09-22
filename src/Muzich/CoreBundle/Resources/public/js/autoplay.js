@@ -148,7 +148,7 @@ $(document).ready(function() {
     return false;
   });
   
-  $('a.autoplay_playlist').live('click', function(){
+  $('a.autoplay_playlist, a.autoplay_favshow').live('click', function(){
     window.autoplay.start($(this));
     $('html, body').animate({ scrollTop: 0 }, 'fast');
     return false;

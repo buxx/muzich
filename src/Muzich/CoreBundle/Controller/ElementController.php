@@ -1015,6 +1015,11 @@ class ElementController extends Controller
       $tag_ids = json_decode($data);
       $search_object = new ElementSearcher();
       
+      $id_limit = $element_id+1;
+      if ($element_id < 1) {
+          $id_limit = Null;
+      }
+      
       if (count($tag_ids))
       {
         $tags = array();
@@ -1028,7 +1033,7 @@ class ElementController extends Controller
         'tags'           => $tags,
         $show_type.'_id' => $show_id,
         'count'          => $this->container->getParameter('autoplay_max_elements'),
-        'id_limit' => $element_id+1
+        'id_limit' => $id_limit
       ));
       
       $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
@@ -1047,13 +1052,18 @@ class ElementController extends Controller
           $tags[$id] = $id;
         }
       }
+      
+      $id_limit = $element_id+1;
+      if ($element_id < 1) {
+          $id_limit = Null;
+      }
 
       $search_object->init(array(
         'tags'     => $tags,
         'user_id'  => $show_id,
         'favorite' => true,
         'count'    => $this->container->getParameter('autoplay_max_elements'),
-        'id_limit' => $element_id+1
+        'id_limit' => $id_limit
       ));
       
       $elements = $search_object->getElements($this->getDoctrine(), $this->getUserId(true));
@@ -1063,6 +1073,12 @@ class ElementController extends Controller
     {
       // On récupère les élements
       $autoplaym = new AutoplayManager($elements, $this->container);
+      
+      // Petit hack pour savoir qu'on est en suffle
+      if ($element_id == -1) {
+          $autoplaym->shuffle();
+      }
+      
       $elements_json = $autoplaym->getList();
     }
     

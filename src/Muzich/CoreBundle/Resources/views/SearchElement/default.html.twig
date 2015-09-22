@@ -10,6 +10,12 @@
 {% if elements_context is not defined %}
   {% set elements_context = '' %}
 {% endif %}
+{% if autoplay_shuffle is not defined %}
+  {% set autoplay_shuffle = '' %}
+{% endif %}
+{% if tag_ids_json is not defined %}
+  {% set tag_ids_json = '[]' %}
+{% endif %}
 
 {% if display_new_elements %}
   <div class="display_more_elements" style="display: none;">
@@ -25,6 +31,34 @@
 
 {% if elements|length %}
   {% if not app.request.isXmlHttpRequest %}<ul class="elements" data-autoplay_context="{{ autoplay_context }}" data-context="{{ elements_context }}">{% endif %}
+    
+    {% if autoplay_shuffle %}
+        <li class="inline_actions">
+            <a class="autoplay_favshow button simpleimg darkbutton" 
+                {% if autoplay_shuffle == 'elements_get_filter_data_autoplay_show' %}
+                    href="{{ path(autoplay_shuffle, {
+                             'element_id' : -1,
+                             'type'       : 'show',
+                             'show_type'  : autoplay_shuffle_show_type,
+                             'show_id'    : viewed_user.id, 
+                             'data'       : tag_ids_json
+                           }) }}"
+                {% endif %}
+                {% if autoplay_shuffle == 'elements_get_filter_data_autoplay_favorite' %}
+                    href="{{ path(autoplay_shuffle, {
+                             'element_id' : -1,
+                             'type'       : 'favorite',
+                             'show_type'  : 'user',
+                             'show_id'    : viewed_user.id, 
+                             'data'       : tag_ids_json
+                           }) }}"
+                {% endif %}
+            >
+              <img src="{{ asset('/img/1372889556_random_shuffle.png') }}" alt="shuffle" />
+            </a>
+        </li>
+    {% endif %}
+      
     {% for element in elements %} 
       
       {% include "MuzichCoreBundle:SearchElement:li.element.html.twig" %}

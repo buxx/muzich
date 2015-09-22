@@ -2710,3 +2710,14 @@ div.private_links textarea
   animation-duration: 1s;
   animation-iteration-count:infinite;
 }
+
+ul.elements li.inline_actions {
+    float: right;
+    text-align: right;
+}
+
+ul.elements li.inline_actions a.button {
+    margin-left: -30px;
+    margin-top: -15px;
+    position: absolute;
+}
