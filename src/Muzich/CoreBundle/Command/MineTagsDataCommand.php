@@ -101,6 +101,7 @@ class MineTagsDataCommand extends ContainerAwareCommand
   
   protected function mineDiffusions()
   {
+    $this->output->writeln('<info>Retriving users ...</info>');
     $users = $this->getUsersToProceed(User::DATA_DIFF_UPDATED);
     $this->output->writeln('<info>Diffusions: '.count($users).' utilisateurs</info>');
     $this->progress->start($this->output, count($users));

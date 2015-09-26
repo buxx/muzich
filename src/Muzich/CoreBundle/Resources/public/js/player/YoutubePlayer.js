@@ -86,7 +86,14 @@ function YoutubePlayer(ref_id, object_for_player, finish_callback)
     {
       if(typeof(_yt_player.stopVideo)!=='undefined')
       {
-        _yt_player.stopVideo();
+        try
+        {
+          _yt_player.stopVideo();
+        }
+        catch (e)
+        {
+          
+        }
       }
     }
   }

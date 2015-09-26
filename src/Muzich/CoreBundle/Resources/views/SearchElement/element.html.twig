@@ -412,34 +412,26 @@
       
       {% endif %}
       
-      {% if display_social_buttons and app.environment == 'prod' %}
+      {% if display_social_buttons %}
+        {% set permalink = 'https:' ~ url('element_show_one', {
+          'element_id' : element.id,
+          'element_slug' : element.slug
+        }, true) %}
+       {% set element_title = 'Muzich - ' ~ element.name %}
+
         <div class="social_buttons">
           <ul>
             <li class="facebook">
-              {{ facebookButton( {
-                'locale': 'fr_FR', 
-                'url': 'http:' ~ url('element_show_one', {
-                  'element_id' : element.id,
-                  'element_slug' : element.slug
-                }, true) })
-              }}
+               <a target="_blank" title="Facebook" href="https://www.facebook.com/sharer.php?u={{ permalink }}&t={{ element_title }}" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;"><img src="{{ asset('/img/1387489343_facebook_square.png') }}" alt="Facebook" /></a>
             </li>
             <li class="twitter">
-              {{ twitterButton( {
-                'locale': 'fr_FR', 
-                'url': 'http:' ~ url('element_show_one', {
-                  'element_id' : element.id
-                }, true) }) 
-              }}
+              <a target="_blank" title="Twitter" href="https://twitter.com/share?url={{ permalink }}&text={{ element_title }}&via=Muzich_Official" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;"><img src="{{ asset('/img/1387489330_twitter_square.png') }}" alt="Twitter" /></a>
             </li>
             <li class="googleplus">
-              {{ googlePlusButton( {
-                'locale': 'fr_FR', 'url': 
-                'http:' ~ url('element_show_one', {
-                  'element_id' : element.id,
-                  'element_slug' : element.slug
-                }, true) }) 
-              }}
+               <a target="_blank" title="Google +" href="https://plus.google.com/share?url={{ permalink }}&hl=fr" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="{{ asset('/img/1387489316_google_square.png') }}" alt="Google Plus" /></a>
+            </li>
+            <li class="mail">
+               <a target="_blank" title="Envoyer par mail" href="mailto:?subject={{ element_title }}&body={{ permalink }}" rel="nofollow"><img src="{{ asset('/img/1387489139_aiga_mail.png') }}" alt="email" /></a>
             </li>
           </ul>
         </div>

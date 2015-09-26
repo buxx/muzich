@@ -3414,9 +3414,10 @@ var facebook_like_rendereds_autoplay = new Array();
 
 function refresh_social_buttons(autoplay)
 {
-  proceed_facebook_like_buttons(autoplay);
-  gapi.plusone.go();
-  twttr.widgets.load();
+  // On n'utilise plus ca
+//  proceed_facebook_like_buttons(autoplay);
+//  gapi.plusone.go();
+//  twttr.widgets.load();
 }
 
 function proceed_facebook_like_buttons(autoplay)

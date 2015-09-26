@@ -3,7 +3,16 @@ function SoundCloudPlayer(ref_id, object_for_player, finish_callback, autoplay)
   autoplay = typeof autoplay !== 'undefined' ? autoplay : false;
   var _autoplay = autoplay;
   var _iframe_id = '';
-  var _ref_id = ref_id;
+  
+  if (typeof(ref_id) == 'string')
+  {
+    var _ref_id = ref_id.replace('http://', 'https://');
+  }
+  else
+  {
+    var _ref_id = ref_id
+  }
+  
   var _object_for_player = object_for_player;
   var _player = null;
   var _sounds_count = 0;
@@ -30,13 +39,13 @@ function SoundCloudPlayer(ref_id, object_for_player, finish_callback, autoplay)
     _iframe_id = 'soundcloud_player_'+new Date().getTime();
     if (!_autoplay)
     {
-      _object_for_player.html('<iframe id="'+_iframe_id+'" src="http://w.soundcloud.com/player/?url='
+      _object_for_player.html('<iframe id="'+_iframe_id+'" src="https://w.soundcloud.com/player/?url='
             +_ref_id+'&show_artwork=false&auto_play=true" width="100%" '
             +'height="350" scrolling="no" frameborder="no"></iframe>');
     }
     else
     {
-      $('#autoplay_player_soundcloud').append('<iframe id="'+_iframe_id+'" src="http://w.soundcloud.com/player/?url='
+      $('#autoplay_player_soundcloud').append('<iframe id="'+_iframe_id+'" src="https://w.soundcloud.com/player/?url='
         +_ref_id+'&show_artwork=false&auto_play=true" width="100%" '
         +'height="350" scrolling="no" frameborder="no"></iframe>');
     }

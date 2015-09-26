@@ -13,9 +13,14 @@ class TagData extends Base
         return array();
     }
     
-   if (count($tags_ordereds = $user_tags->getElementFavoriteTags()))
-     return $tags_ordereds;
-   
+    if ($user_tags)
+    {
+      if (count($tags_ordereds = $user_tags->getElementFavoriteTags()))
+      {
+        return $tags_ordereds;
+      }
+    }
+    
    return array();
   }
   
@@ -25,10 +30,14 @@ class TagData extends Base
         return array();
     }
     
-   if (count($tags_ordereds = $user_tags->getElementDiffusionTags()))
-     return $tags_ordereds;
-   
-   return array();
+    if ($user_tags)
+    {
+      if (count($tags_ordereds = $user_tags->getElementDiffusionTags()))
+      {
+        return $tags_ordereds;
+      }
+    }
+    return array();
   }
   
   protected function getUserTagsTags(User $user, $field)
