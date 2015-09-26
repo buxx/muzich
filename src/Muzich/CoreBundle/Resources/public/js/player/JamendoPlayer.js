@@ -5,14 +5,14 @@ function JamendoPlayer(ref_id, object_for_player, finish_callback)
   var _player = null;
   var _finish_callback = finish_callback;
   
-  this.play = function()
+  this.play = function(play_callback)
   {
     _player = new GenericStreamingPlayer(_ref_id, _object_for_player,
       event_play,
       event_end,
       event_error,
       event_finish_playlist);
-    _player.create_player();
+    _player.create_player(play_callback);
   }
   
   var event_play = function()
@@ -59,5 +59,13 @@ function JamendoPlayer(ref_id, object_for_player, finish_callback)
   this.close = function()
   {
     this.stopAndDestroy();
+  }
+
+  this.enableFullScreen = function() {
+
+  }
+
+  this.disableFullScreen = function() {
+
   }
 }

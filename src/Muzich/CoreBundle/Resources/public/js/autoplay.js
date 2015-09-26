@@ -5,6 +5,7 @@ function Autoplay()
   var _player = null;
   var _current_index = 0;
   var _link = null;
+  var _full_screen = false;
   
   this.start = function(link)
   {
@@ -93,17 +94,23 @@ function Autoplay()
   var createPlayer = function(play_data, finish_callback)
   {
     $('#autoplay_loader').show();
-    if ((player = window.dynamic_player.play(
+    if ((_player = window.dynamic_player.play(
       $('#autoplay_player'),
       play_data.element_type,
       play_data.element_ref_id,
       play_data.element_id,
       true,
-      finish_callback
+      finish_callback,
+      function(player) {
+        if (!_player || !_full_screen) {
+          return;
+        }
+        player.enableFullScreen();
+      }
     )))
     {
       $('#autoplay_loader').hide();
-      window.players_manager.add(player, 'autoplay_'+play_data.element_id);
+      window.players_manager.add(_player, 'autoplay_'+play_data.element_id);
       return true;
     }
     else
@@ -135,6 +142,13 @@ function Autoplay()
     $('#autoplay iframe').hide();
     $('#autoplay img[alt="loader"]').hide();
   }
+
+  this.setFullScreen = function(status) {
+    _full_screen = status;
+    if (status) {
+      _player.enableFullScreen();
+    }
+  }
   
 }
 
@@ -165,5 +179,9 @@ $(document).ready(function() {
     $('#autoplay').hide();
     window.autoplay.stopAndClearAllPlayers();
   });
-  
+
+  $('#full_screen_toggle input[name="full_screen_toggle"]').on('change', function(){
+    window.autoplay.setFullScreen($(this).is(':checked'));
+  });
+
 });

@@ -18,11 +18,16 @@ function GenericStreamingPlayer(ref_id, object_for_player,
   
   var _current_index = 0;
   
-  this.create_player = function()
+  this.create_player = function(play_callback)
   {
     var jplayer_player  = $('#jquery_jplayer_1').clone();
     var jplayer_content = $('#jp_container_1').clone();
-    
+
+    var event_play_callback = function(event) {
+      event_play(event);
+      play_callback();
+    };
+
     jplayer_player.attr ('id', 'jplayer_player_element_'+ref_id);
     jplayer_content.attr('id', 'jplayer_content_element_'+ref_id);
     
@@ -61,7 +66,7 @@ function GenericStreamingPlayer(ref_id, object_for_player,
           );
           
           var _player_dom = $('#jplayer_player_element_'+ref_id);
-          _player_dom.bind($.jPlayer.event.play, event_play);
+          _player_dom.bind($.jPlayer.event.play, event_play_callback);
           _player_dom.bind($.jPlayer.event.ended, event_end);
           _player_dom.bind($.jPlayer.event.error, event_error);
         }
@@ -103,9 +108,10 @@ function GenericStreamingPlayer(ref_id, object_for_player,
     _callback_event_finish_playlist(event);
   }
   
-  this.play = function()
+  this.play = function(play_callback)
   {
     _player_dom.jPlayer("play");
+    play_callback();
   }
   
   this.stop = function()
@@ -122,6 +128,15 @@ function GenericStreamingPlayer(ref_id, object_for_player,
   {
     _object_for_player.html('');
   }
+
+  this.enableFullScreen = function() {
+
+  }
+
+  this.disableFullScreen = function() {
+
+  }
+
 }
 
 function GenericSong(title, mp3)

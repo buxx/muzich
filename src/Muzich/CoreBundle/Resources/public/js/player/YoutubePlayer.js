@@ -4,27 +4,35 @@ function YoutubePlayer(ref_id, object_for_player, finish_callback)
   var _object_for_player = object_for_player;
   var _yt_player;
   var _finish_callback = finish_callback;
+  var that = this;
   
-  this.play = function()
+  this.play = function(play_callback)
   { 
-    create_player();
+    create_player(play_callback);
   }
   
-  var create_player = function()
+  var create_player = function(play_callback)
   {
     var div_for_iframe = $('<div>').attr('id', _object_for_player.attr('id')+'_iframe_'+ref_id);
     _object_for_player.append(div_for_iframe);
-    
+
+    var onPlayerReady_callback = function(){
+      onPlayerReady();
+      play_callback(that);
+    };
+
     _yt_player = new YT.Player(_object_for_player.attr('id')+'_iframe_'+ref_id, {
       height  : config_player_youtube_height,
       width   : '100%',
       videoId : _ref_id,
       events  : {
-        'onReady': onPlayerReady,
+        'onReady': onPlayerReady_callback,
         'onStateChange': onPlayerStateChange,
         'onError': onError
       }
     });
+
+
   }
   
   var onPlayerReady = function(event)
@@ -92,10 +100,22 @@ function YoutubePlayer(ref_id, object_for_player, finish_callback)
   {
     this.stop();
     this.destroy();
+    this.disableFullScreen();
   }
   
   this.close = function()
   {
     this.stopAndDestroy();
   }
+
+  this.enableFullScreen = function() {
+    var iframe = $('#'+_object_for_player.attr('id')+'_iframe_'+_ref_id);
+    set_full_screen_on(iframe);
+  }
+
+  this.disableFullScreen = function() {
+    $('#close_full_screen').remove();
+  }
+
+
 }

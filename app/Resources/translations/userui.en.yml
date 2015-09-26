@@ -274,6 +274,7 @@ registration:
 
 autoplay:
   limitations_players:   Autoplay actually work with youtube, soundcloud and jamendo.
+  full_screen_toggle:    Set full screen when possible
 
 events:
   view:

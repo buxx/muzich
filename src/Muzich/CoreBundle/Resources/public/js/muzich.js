@@ -3601,3 +3601,13 @@ function scrollTo(element)
 {
   $('html, body').animate({ scrollTop: element.offset().top }, 'fast');
 }
+
+function set_full_screen_on(element) {
+    $(element).addClass('full_screen');
+    $('#close_full_screen').remove();
+    $('body').append($('<a id="close_full_screen" href="#">X</a>'));
+    $('#close_full_screen').on('click', function(){
+        $(element).removeClass('full_screen');
+        this.remove();
+    });
+}

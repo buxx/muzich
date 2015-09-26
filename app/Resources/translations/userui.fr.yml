@@ -286,6 +286,7 @@ registration:
 
 autoplay:
   limitations_players:   La lecture automatique ne supporte actuellement que les lecteurs youtube, soundcloud et jamendo.
+  full_screen_toggle:    Activer le plein écran quand c'est possible
 
 events:
   view:

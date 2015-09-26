@@ -1,13 +1,15 @@
 function DynamicPlayer()
 {
   
-  this.play = function(object_for_player, player_type, ref_id, element_id, autoplay, finish_callback)
+  this.play = function(object_for_player, player_type, ref_id, element_id, autoplay, finish_callback, play_callback)
   {
     autoplay = typeof autoplay !== 'undefined' ? autoplay : false;
     finish_callback = typeof finish_callback !== 'undefined' ? finish_callback : $.noop;
+    play_callback = typeof play_callback !== 'undefined' ? play_callback : $.noop;
+
     if ((player = getPlayerObjectForElementType(object_for_player, player_type, ref_id, element_id, autoplay, finish_callback)))
     {
-      player.play();
+      player.play(play_callback);
       return player;
     }
     

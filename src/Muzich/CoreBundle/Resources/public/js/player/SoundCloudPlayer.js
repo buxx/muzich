@@ -10,11 +10,17 @@ function SoundCloudPlayer(ref_id, object_for_player, finish_callback, autoplay)
   var _current_sound_index = 0;
   var _finish_callback = finish_callback;
   
-  this.play = function()
+  this.play = function(play_callback)
   {
+
+    var event_play_callback = function() {
+      event_play();
+      play_callback();
+    }
+
     createPlayer(
       event_ready,
-      event_play,
+      event_play_callback,
       event_finish
     );
   }
@@ -111,5 +117,13 @@ function SoundCloudPlayer(ref_id, object_for_player, finish_callback, autoplay)
   this.close = function()
   {
     this.destroy(true);
+  }
+
+  this.enableFullScreen = function() {
+
+  }
+
+  this.disableFullScreen = function() {
+
   }
 }

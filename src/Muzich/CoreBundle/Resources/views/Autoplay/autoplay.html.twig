@@ -66,7 +66,12 @@
   </div>
   <img id="autoplay_loader" src="{{ asset('/bundles/muzichcore/img/ajax-loader.gif') }}" alt="loader" />
   <p id="autoplay_noelements_text" style="display: none;">{{ 'elements.autoplay.noelements.text'|trans({}, 'elements') }}</p>
-      
+
+  <p id="full_screen_toggle">
+    {{ 'autoplay.full_screen_toggle'|trans({}, 'userui') }}
+    <input type="checkbox" name="full_screen_toggle" />
+  </p>
+
   <p><span class="sinfo">{{ 'autoplay.limitations_players'|trans({}, 'userui') }}</span></p>
 
 </div>

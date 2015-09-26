@@ -2721,3 +2721,29 @@ ul.elements li.inline_actions a.button {
     margin-top: -15px;
     position: absolute;
 }
+
+#full_screen_toggle {
+  font-size: 70%;
+  text-align: right;
+}
+
+.full_screen {
+  position: fixed;
+  width: 90%;
+  height: 95%;
+  left: 0;
+  top: 0;
+  z-index: 99;
+  margin-left: 5%;
+  margin-top: 1%;
+}
+
+#close_full_screen {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000000000;
+  font-weight: bolder;
+  font-size: 70px;
+  margin-right: 12px;
+}
