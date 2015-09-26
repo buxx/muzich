@@ -17,7 +17,9 @@
   
   {% include "MuzichCoreBundle:SearchElement:default.html.twig" with{
       'display_autoplay'     : true,
-      'autoplay_context'     : 'favorite_my'
+      'autoplay_context'     : 'favorite_my',
+      'autoplay_shuffle'     : 'elements_get_filter_data_autoplay_favorite',
+      'autoplay_context'     : 'favorite_user'
   } %}
   
   {% if elements|length %}
