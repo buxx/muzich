@@ -188,6 +188,7 @@ class FavoriteController extends Controller
       'tags'          => $tags,
       'tags_id_json'  => json_encode($tags_id),
       'user'          => $this->getUser(),
+      'viewed_user'   => $this->getUser(),
       'elements'      => $search_object->getElements($this->getDoctrine(), $this->getUserId())
     ));
   }
