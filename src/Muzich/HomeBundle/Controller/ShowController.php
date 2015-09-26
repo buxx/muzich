@@ -207,7 +207,9 @@ class ShowController extends Controller
         'viewed_user'      => $viewed_user,
         'elements'         => $elements,
         'tag_ids_json'     => $tags_ids_json,
-        $type              => $object
+        $type              => $object,
+        'autoplay_shuffle' => 'elements_get_filter_data_autoplay_show',
+        'autoplay_shuffle_show_type' => 'user'
       ))->getContent();
     }
     
