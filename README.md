@@ -73,3 +73,5 @@ mysql --execute "GRANT ALL PRIVILEGES ON muzich_test.* To 'muzich'@'localhost' I
 * Choose a licence
 * Update dependencies
 * list bugs and possible enhancements
+* make tests gree
+n
