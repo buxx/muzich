@@ -1,10 +1,10 @@
 parameters:
     database_driver:   pdo_mysql
-    database_host:     10.6.0.5
+    database_host:     localhost
     database_port:     3306
     database_name:     muzich
     database_user:     muzich
-    database_password: secret
+    database_password: muzi.ch
 
     mailer_transport:  smtp
     mailer_host:       localhost
