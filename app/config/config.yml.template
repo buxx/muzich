@@ -1,0 +1,408 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+
+framework:
+    #esi:             ~
+    #translator:      { fallback: %locale% }
+    default_locale:  fr
+    secret:          %secret%
+    router:
+      strict_requirements: %kernel.debug%
+      resource:            "%kernel.root_dir%/config/routing.yml"
+    trusted_proxies: false
+    form:            true
+    csrf_protection: true
+    validation:
+        enable_annotations:      true
+#        annotations:
+#          namespaces:
+#              Muzich: Muzich\CoreBundle\Validator\
+        
+    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
+    session:
+        #                      14 jours
+        cookie_lifetime:       1209600
+        #cookie_path:       \
+        #cookie_domain:     example.com
+        #cookie_secure:     true
+        #cookie_httponly:   true
+    translator: { fallback: fr }
+
+fos_facebook:
+    #file:   %kernel.root_dir%/../vendor/facebook/php-sdk/src/base_facebook.php
+    alias:  facebook
+    app_id: %api_facebook_id%
+    secret: %api_facebook_secret%
+    cookie: true
+    permissions: [email]
+    #permissions: [email, user_location]
+
+services:
+  
+    core.twig.extension:
+      class: Muzich\CoreBundle\Twig\Extensions\MyTwigExtension
+      tags:
+        -  { name: twig.extension }
+      arguments: 
+        - "@translator"
+        - %twig_extension_parameters%
+        - "@service_container"
+    
+    muzich.security.authentication.success_handler:
+      class: %muzich.security.authentication.success_handler.class%
+      public: false
+      arguments:  ['@router', '@doctrine.orm.entity_manager']
+    
+    muzich.security.authentication.failure_handler:
+      class: %muzich.security.authentication.failure_handler.class%
+      public: false
+      arguments:  ['@router', '@doctrine.orm.entity_manager', '@translator']
+    
+    muzich_user_manager:
+      class:        Muzich\UserBundle\Entity\UserManager
+      arguments:    
+        - "@security.encoder_factory"
+        #- "%fos_user.encoder.algorithm%"
+        - "@fos_user.util.username_canonicalizer"
+        - "@fos_user.util.email_canonicalizer"
+        - "@fos_user.entity_manager"
+        - "%fos_user.model.user.class%"
+    
+    muzich.manager.playlist:
+      class: Muzich\CoreBundle\Managers\PlaylistManager
+      arguments:
+        - "@doctrine.orm.entity_manager"
+    
+    muzich.mining.tag.miner:
+      class: Muzich\CoreBundle\Mining\Tag\TagMiner
+      arguments:
+        - "@doctrine.orm.entity_manager"
+        - "@doctrine_mongodb"
+    
+    muzich.mining.tag.data:
+      class: Muzich\CoreBundle\Mining\Tag\TagData
+      arguments:
+        - "@doctrine.orm.entity_manager"
+        - "@doctrine_mongodb"
+    
+    my_user.facebook_provider:
+      class: %my_user.facebook_provider.class%
+      arguments:
+        - "@fos_facebook.api"
+        - "@muzich_user_manager"
+        - "@validator"
+        - "@service_container"
+        - "%my_user.facebook_provider.class%"
+    
+    muzich_tag_manager:
+      class:        Muzich\CoreBundle\Managers\TagManager
+      arguments:    
+        - "@fos_user.util.username_canonicalizer"
+    
+    muzich_user.registration.form.type:
+        class: Muzich\UserBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: muzich_user_registration }
+    
+    muzich_user.registration.form.handler:
+        class: Muzich\UserBundle\Form\Handler\RegistrationFormHandler
+        arguments:
+          - "@fos_user.registration.form"
+          - "@request"
+          - "@fos_user.user_manager"
+          - "@fos_user.mailer"
+          - "@fos_user.util.token_generator"
+          - "@translator"
+          - "@doctrine"
+        scope: request
+        public: false
+        tags:
+            - { name: muzich_user_registration_form_handler }
+        
+    # validateurs
+    
+    validator.tags:
+        class: Muzich\CoreBundle\Validator\TagsValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: validator.tags }
+       
+    validator.groupownedorpublic:
+        class: Muzich\CoreBundle\Validator\GroupOwnedOrPublicValidator
+        arguments: ["@doctrine.orm.entity_manager", "@security.context"]
+        tags:
+            - { name: validator.constraint_validator, alias: validator.groupownedorpublic }
+           
+    #
+    
+    muzich_strict_canonicalizer:
+        class: Muzich\CoreBundle\Util\StrictCanonicalizer
+        public: false
+    
+    admingenerator.menu.moderation:
+        class: %admingenerator.menu_builder.class%
+        factory_service: admingenerator.menu_builder
+        factory_method: createModerationMenu
+        arguments: ["@request"]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: moderation }
+    
+    muzich.socialBarHelper:
+        class: Muzich\CoreBundle\Templating\Helper\SocialBarHelper
+        tags: 
+            - { name: templating.helper, alias: social-buttons }
+        arguments:
+            - "@templating"
+
+    twig.extension.muzich_social_bar:
+        class: Muzich\CoreBundle\Twig\Extensions\MuzichTwigSocialBar
+        tags:
+            - { name: twig.extension }
+        arguments:
+            - "@service_container"
+            - "@translator"
+           
+#sonata_admin:
+#  #security_handler: sonata.admin.security.handler.acl
+#  security_handler: sonata.admin.security.handler.noop
+##  dashboard_groups:
+##    muzich:
+##      items:
+##        - muzich.admin.element
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    globals:
+          cloud_tags_limit_to_display  :  %tag_cloud_limit_display%
+          player_config_youtube_width  :  %youtube_player_width%
+          player_config_youtube_height :  %youtube_player_height%
+          playlist_tags_count_displayed_max : %playlist_tags_count_displayed_max%
+    form:
+        resources:
+            - "ShtumiUsefulBundle::fields.html.twig"
+
+shtumi_useful:
+    autocomplete_entities:
+        users:
+            class: MuzichCoreBundle:User
+            role: ROLE_ADMIN
+            property: slug
+            search: contains
+        tags:
+            class: MuzichCoreBundle:Tag
+            property: slug
+            search: contains
+        groups:
+            class: MuzichCoreBundle:Group
+            property: slug
+            search: contains
+        elements:
+            class: MuzichCoreBundle:Element
+            property: name
+            search: contains
+
+admingenerator_generator:
+    # choose only one
+    use_propel:           false
+    use_doctrine_orm:     true
+    use_doctrine_odm:     false
+    # choose and uncomment only one
+#    base_admin_template: AdmingeneratorGeneratorBundle::base_admin.html.twig
+    base_admin_template: MuzichAdminBundle::base_admin_assetic_less.html.twig
+    dashboard_welcome_path:  AdmingeneratorDashboard_welcome
+
+knp_menu:
+    twig:
+        template: AdmingeneratorGeneratorBundle:KnpMenu:knp_menu_trans.html.twig
+
+jms_security_extra:
+    expressions: true
+    
+# Assetic Configuration
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    bundles:
+      - "MuzichCoreBundle"
+    java: "/usr/bin/java"
+    filters:
+        cssrewrite: ~
+        # closure:
+        #     jar: %kernel.root_dir%/java/compiler.jar
+        # yui_css:
+        #     jar: %kernel.root_dir%/java/yuicompressor-2.4.2.jar
+        yui_css:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8pre.jar"
+        yui_js:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8pre.jar"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   %database_name%
+        user:     %database_user%
+        password: %database_password%
+        charset:  utf8
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+
+doctrine_mongodb:
+    connections:
+        default:
+            server: mongodb://10.6.0.4:27017
+            options: {}
+    default_database: muzichmdb
+    document_managers:
+        default:
+            auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport:  smtp
+    username:   secret
+    password:   secret
+    host:       in-v3.mailjet.com
+    port:       587
+    encryption: tls
+    auth_mode:  login
+    #spool: { type: memory } # conflict with monolog sending emails
+
+stof_doctrine_extensions:
+    default_locale: fr_FR
+#    orm:
+#        tree: true
+#        timestampable: false
+
+fos_user:
+    db_driver:               orm
+    firewall_name:           main
+    use_listener:            false
+    user_class:              Muzich\CoreBundle\Entity\User
+    from_email:
+        address: contact@muzi.ch
+        sender_name: Muzi.ch
+#    encoder:
+#        algorithm: sha512
+#        encode_as_base64: false
+#        iterations: 10
+    service:
+        user_manager:           muzich_user_manager
+        username_canonicalizer: muzich_strict_canonicalizer
+        
+    registration:
+        form:
+            type: muzich_user_registration
+            handler: muzich_user.registration.form.handler
+    
+    resetting:
+        email:
+            template: MuzichUserBundle:User:resetting.email.twig
+
+gregwar_image: ~
+    
+parameters:
+  
+    supported_langs:
+      - fr
+      - en
+    
+    test.client.class: Muzich\CoreBundle\lib\Test\Client
+    admingenerator.menu_builder.class: Muzich\AdminBundle\Menu\MenuBuilder
+    muzich.security.authentication.success_handler.class: Muzich\CoreBundle\Security\Http\Authentication\AuthenticationSuccessHandler
+    muzich.security.authentication.failure_handler.class: Muzich\CoreBundle\Security\Http\Authentication\AuthenticationFailureHandler
+    my_user.facebook_provider.class: Muzich\CoreBundle\Security\User\Provider\FacebookProvider
+    
+    # Ce siteurl permet au str_replace de changeLanguage d'obtenir l'url 
+    siteurl:      https://muzi.ch
+    siteurl_www:  https://www.muzi.ch
+    emails_from:  contact@muzi.ch
+    emails_from_name: Muzi.ch
+    
+    sitebase: /home/bux/projets/muzich/
+    video_embed_config_file: src/Muzich/CoreBundle/Resources/config/video_embed.yaml
+    video_embed_debug: true
+    
+    search_default_count: 10
+    search_ajax_more:     10
+    search_default_favorites_tags_count: 999
+    
+    comment_add_min_length:      3
+    comment_add_max_length:      512
+  
+    tag_add_min_length:          2
+    tag_add_max_length:          64
+    
+    changeemail_security_delay:  3600
+    
+    playlist_tags_count_displayed_max: 7
+    
+    soundcloud_player_height:    81
+    
+    jamendo_player_width:        200
+    jamendo_player_height:       300
+    
+    youtube_player_width:        590
+    youtube_player_height:       300
+    
+    vimeo_player_width:        590
+    vimeo_player_height:       300
+    
+    dailymotion_player_width:    590
+    dailymotion_player_height:   300
+    
+    deezer_player_width:         590
+    deezer_player_height:        200
+    
+    tag_cloud_limit_display:     40
+      
+    factories:
+      - youtube.com
+      - youtu.be
+      - dailymotion.com
+      - soundcloud.com
+      - snd.sc
+      - jamendo.com
+      - deezer.com
+      - vimeo.com
+      - spotify.com
+      - mixcloud.com
+      
+    autoplay_sites_enabled:
+      - youtube.com
+      - youtu.be
+      - soundcloud.com
+      - snd.sc
+      - jamendo.com
+      
+    twig_extension_parameters:
+      autoplay_sites_enabled: %autoplay_sites_enabled%
+      
+    autoplay_contexts:
+      - home
+      - show
+      - show_user
+      - show_group
+      - favorite
+      - favorite_user
+      - favorite_my
+      
+    autoplay_max_elements: 256
+    
+    reputation_element_point_value:                  1
+    reputation_element_favorite_value:               5
+    reputation_element_follow_value:                10
+    reputation_element_tags_element_prop_value:     12
+    reputation_element_added_to_playlist:           1
+    
+    search_global_elements_word_min_length:         3
+    email_confirmation_email_interval:              3600

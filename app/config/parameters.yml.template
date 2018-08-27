@@ -1,0 +1,20 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     10.6.0.5
+    database_port:     3306
+    database_name:     muzich
+    database_user:     muzich
+    database_password: secret
+
+    mailer_transport:  smtp
+    mailer_host:       localhost
+    mailer_user:       ~
+    mailer_password:   ~
+
+    locale:            fr
+    secret:            secret
+
+    api_facebook_id:      secret
+    api_facebook_secret:  secret
+    api_facebook_name:    http://apps.facebook.com/muzi-ch/
+    api_facebook_server:  https://muzi.ch/
