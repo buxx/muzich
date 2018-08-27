@@ -57,7 +57,6 @@
     
   </div>
     
-    {% if not app.request.secure %}
       {% if  app.environment == 'prod' %} 
         <!-- Piwik -->
         <script type="text/javascript"> 
@@ -65,8 +64,8 @@
           _paq.push(['trackPageView']);
           _paq.push(['enableLinkTracking']);
           (function() {
-            //var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics.muzi.ch//"; # pas de certif sur analytics.muzi.ch pour le moment
             var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics.muzi.ch//";
+            //var u=(("https:" == document.location.protocol) ? "https" : "http") + "://analytics.muzi.ch//";
             _paq.push(['setTrackerUrl', u+'piwik.php']);
             _paq.push(['setSiteId', 1]);
             var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
@@ -77,6 +76,5 @@
         <noscript><p><img src="https://analytics.muzi.ch/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
         <!-- End Piwik Code -->
       {% endif %}
-    {% endif %}
   </body>
 </html>

@@ -14,3 +14,4 @@ web/files/avatars/*
 web/cache/*
 vendor/
 app/bootstrap.php.cache
+web/sitemap.xml

@@ -24,6 +24,9 @@ class Connector
     );
       
     curl_setopt_array($api_url, $options);
+    //exit($url);
+    //var_dump(json_decode(curl_exec($api_url), true));
+    //exit(1);
     return new Response(json_decode(curl_exec($api_url), true));
   }
   

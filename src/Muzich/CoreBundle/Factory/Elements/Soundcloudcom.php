@@ -53,14 +53,13 @@ class Soundcloudcom extends ElementFactory
   
   protected function getApiDatasResponse()
   {
-    if (($response = $this->getApiConnector()->getResponseForUrl('http://api.soundcloud.com/resolve.json?url='.$this->element->getUrl().'&client_id=39946ea18e3d78d64c0ac95a025794e1')))
+    if (($response = $this->getApiConnector()->getResponseForUrl('https://api.soundcloud.com.bux.fr/resolve.json?url='.$this->element->getUrl().'&client_id=39946ea18e3d78d64c0ac95a025794e1')))
     {
       if ($response->haveNot('errors') && $response->have('location'))
       {
         return $this->getApiConnector()->getResponseForUrl($response->get('location'));
       }
     }
-    
     return null;
   }
   

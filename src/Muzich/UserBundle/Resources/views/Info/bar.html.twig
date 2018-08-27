@@ -2,7 +2,7 @@
 <div class="user_score">
   <div class="user_avatar">
     {% if app.user.avatar_path %}
-      <img alt="avatar" src="{{ image(app.user.avatarWebPath).resize(130,137,'#000000') }}" />
+      <img alt="avatar" src="{{ image(app.user.avatarWebPath).resize(130,137,'#000000').jpeg() }}" />
     {% else %}
       <img alt="default_avatar" src="{{ asset('/img/1360770994_user.png') }}" />
     {% endif %}

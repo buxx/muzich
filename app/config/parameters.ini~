@@ -13,4 +13,4 @@
     mailer_user=""
     mailer_password=""
     locale="fr"
-    secret="***REMOVED***"
+    secret="secret"

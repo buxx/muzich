@@ -1,5 +1,5 @@
 {
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "name": "symfony/framework-standard-edition",
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {

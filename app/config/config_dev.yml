@@ -12,7 +12,7 @@ web_profiler:
 swiftmailer:
     #transport:  smtp
     #username:   contact@muzi.ch
-    #password:   ***REMOVED***
+    #password:   secret
     #host:       mx.muzi.ch
     #port:       587
     #encryption: tls
