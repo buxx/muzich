@@ -67,11 +67,12 @@ mysql --execute "GRANT ALL PRIVILEGES ON muzich_test.* To 'muzich'@'localhost' I
 ./phpunit -c app src
 ```
 
+Note: something is missing to make tests working.
+
 ## TODO
 
 * Write a howto for installation
 * Choose a licence
 * Update dependencies
 * list bugs and possible enhancements
-* make tests gree
-n
+* make tests green
