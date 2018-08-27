@@ -14,7 +14,7 @@ Muzi.ch is a website who permit to:
 
 ## Install
 
-Muzi.ch source code is old and corrently not maintened. The following howto
+Muzi.ch source code is old and currently not maintened. The following howto
 have been tested on debian 9 in a docker container.
 
 ```
