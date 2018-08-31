@@ -20,8 +20,7 @@ have been tested on debian 9 in a docker container.
 
 ```
 # OS dependencies
-apt-get install git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip
-# wget
+apt-get install git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip wget
 
 # Need php5.x
 curl https://packages.sury.org/php/apt.gpg | apt-key add -
