@@ -1,4 +1,5 @@
 # Muzi.ch
+Official repository is [github.com/buxx/muzich](https://github.com/buxx/muzich)
 
 Muzi.ch is a website who permit to:
 
