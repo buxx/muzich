@@ -4,7 +4,7 @@ parameters:
     database_port:     3306
     database_name:     muzich
     database_user:     muzich
-    database_password: muzi.ch
+    database_password: muzich
 
     mailer_transport:  smtp
     mailer_host:       localhost
