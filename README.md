@@ -23,7 +23,7 @@ have been tested on debian 9 in a docker container.
 
 ```
 # OS dependencies
-apt-get install git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip wget
+apt-get install git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip wget lsb-release
 
 # Need php5.x
 curl https://packages.sury.org/php/apt.gpg | apt-key add -
@@ -32,7 +32,7 @@ apt-get update
 apt-get install php5.6 php5.6-xml php5.6-gd libjpeg-dev php5.6-mongo php5.6-curl php5.6-mysql php5.6-mbstring
 
 # Install muzi.ch
-git clone https://gitea.bux.fr/bux/muzich.git
+git clone https://github.com/buxx/muzich.git
 cd muzich
 cp app/config/config.yml.template app/config/config.yml
 cp app/config/parameters.yml.template app/config/parameters.yml
