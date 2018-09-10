@@ -1,5 +1,8 @@
 # Muzi.ch
-Official repository is [github.com/buxx/muzich](https://github.com/buxx/muzich)
+
+* Project presentation (FR, 2013): [https://openclassrooms.com/forum/sujet/site-web-muzi-ch](https://openclassrooms.com/forum/sujet/site-web-muzi-ch)
+* Muzi.ch is now open source news: [https://linuxfr.org/news/liberation-du-code-source-de-muzi-ch-quelle-licence](https://linuxfr.org/news/liberation-du-code-source-de-muzi-ch-quelle-licence)
+* Official repository is [github.com/buxx/muzich](https://github.com/buxx/muzich)
 
 Muzi.ch is a website who permit to:
 
