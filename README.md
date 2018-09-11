@@ -62,8 +62,8 @@ wget -O phpunit https://phar.phpunit.de/phpunit-4.phar
 chmod +x phpunit
 
 # Prepare database
-php app/console doctrine:database:create --env=test -n
-php app/console doctrine:schema:create --env=test -n
+mysql --execute "CREATE DATABASE muzich_test;"
+mysql --execute "GRANT ALL PRIVILEGES ON muzich_test.* To 'muzich'@'localhost' IDENTIFIED BY 'muzich';"
 php app/console doctrine:fixtures:load --env=test
 ```
 Then run tests with:
