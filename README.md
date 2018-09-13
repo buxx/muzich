@@ -1,5 +1,8 @@
 # Muzi.ch
-Official repository is [github.com/buxx/muzich](https://github.com/buxx/muzich)
+
+* Project presentation (FR, 2013): [https://openclassrooms.com/forum/sujet/site-web-muzi-ch](https://openclassrooms.com/forum/sujet/site-web-muzi-ch)
+* Muzi.ch is now open source news (FR, 2018): [https://linuxfr.org/news/liberation-du-code-source-de-muzi-ch-quelle-licence](https://linuxfr.org/news/liberation-du-code-source-de-muzi-ch-quelle-licence)
+* Official repository is [github.com/buxx/muzich](https://github.com/buxx/muzich)
 
 Muzi.ch is a website who permit to:
 
@@ -20,8 +23,7 @@ have been tested on debian 9 in a docker container.
 
 ```
 # OS dependencies
-apt-get install git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip
-# wget
+apt-get install git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip wget lsb-release
 
 # Need php5.x
 curl https://packages.sury.org/php/apt.gpg | apt-key add -
@@ -30,7 +32,7 @@ apt-get update
 apt-get install php5.6 php5.6-xml php5.6-gd libjpeg-dev php5.6-mongo php5.6-curl php5.6-mysql php5.6-mbstring
 
 # Install muzi.ch
-git clone https://gitea.bux.fr/bux/muzich.git
+git clone https://github.com/buxx/muzich.git
 cd muzich
 cp app/config/config.yml.template app/config/config.yml
 cp app/config/parameters.yml.template app/config/parameters.yml
@@ -62,7 +64,10 @@ chmod +x phpunit
 # Prepare database
 mysql --execute "CREATE DATABASE muzich_test;"
 mysql --execute "GRANT ALL PRIVILEGES ON muzich_test.* To 'muzich'@'localhost' IDENTIFIED BY 'muzich';"
+php app/console doctrine:schema:create --env=test -n
+php app/console doctrine:fixtures:load --env=test
 ```
+Then run tests with:
 
 ```
 ./phpunit -c app src
