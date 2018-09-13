@@ -39,9 +39,9 @@
         "doctrine/mongodb-odm": "1.0.0-BETA9",
         "symfony/options-resolver": "v2.2.4",
         "symfony/doctrine-bridge": "v2.2.4",
-        "doctrine/mongodb": "1.0.0-BETA1"
-        
-        
+        "doctrine/mongodb": "1.0.0-BETA1",
+
+        "gedmo/doctrine-extensions": "v2.3.6"
     },
     "scripts": {
         "post-install-cmd": [
