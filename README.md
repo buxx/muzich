@@ -77,8 +77,6 @@ Note: something is missing to make tests working.
 
 ## TODO
 
-* Write a howto for installation
-* Choose a licence
-* Update dependencies
+* Upgrade dependencies
 * list bugs and possible enhancements
-* make tests green
+* make tests green: https://github.com/buxx/muzich/issues/5
