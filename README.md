@@ -70,11 +70,12 @@ chmod +x phpunit
 # Prepare database
 mysql --execute "CREATE DATABASE muzich_test;"
 mysql --execute "GRANT ALL PRIVILEGES ON muzich_test.* To 'muzich'@'localhost' IDENTIFIED BY 'muzich';"
+service mongodb start
 php app/console doctrine:schema:create --env=test -n
 php app/console doctrine:fixtures:load --env=test -n
 php app/console score:recalculate --env=test
 ```
-Then run tests with:
+Then run tests with (mongodb server and mysql server must be started when run tests):
 
 ```
 ./phpunit -c app src
