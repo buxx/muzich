@@ -45,8 +45,14 @@ mysql --execute "CREATE DATABASE muzich;"
 mysql --execute "CREATE USER 'muzich'@'localhost';"
 mysql --execute "GRANT ALL PRIVILEGES ON muzich.* To 'muzich'@'localhost' IDENTIFIED BY 'muzich';"
 
+# Mongodb database
+apt-get install mongodb
+service mongodb start
+
 # First time, create database
 php app/console doctrine:schema:create
+php app/console doctrine:fixtures:load -n
+php app/console score:recalculate
 
 # Start dev server
 php app/console server:run
@@ -65,7 +71,8 @@ chmod +x phpunit
 mysql --execute "CREATE DATABASE muzich_test;"
 mysql --execute "GRANT ALL PRIVILEGES ON muzich_test.* To 'muzich'@'localhost' IDENTIFIED BY 'muzich';"
 php app/console doctrine:schema:create --env=test -n
-php app/console doctrine:fixtures:load --env=test
+php app/console doctrine:fixtures:load --env=test -n
+php app/console score:recalculate --env=test
 ```
 Then run tests with:
 
