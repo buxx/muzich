@@ -10,7 +10,7 @@ before_script:
  - sudo apt-get install -q -y git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip wget lsb-release php-pear php5-dev
  - cp app/config/config.yml.template app/config/config.yml
  - cp app/config/parameters.yml.template app/config/parameters.yml
- - sudo pecl -q install mongo
+ - echo 'no' | sudo pecl -q install mongo
  - sudo echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
  - COMPOSER_MEMORY_LIMIT=-1 php composer.phar install
  - sudo mysql --execute "CREATE USER 'muzich'@'localhost';"
