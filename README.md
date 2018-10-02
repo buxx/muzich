@@ -81,8 +81,6 @@ Then run tests with (mongodb server and mysql server must be started when run te
 ./phpunit -c app src
 ```
 
-Note: something is missing to make tests working.
-
 ## TODO
 
 * Upgrade dependencies
