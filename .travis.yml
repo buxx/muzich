@@ -7,7 +7,7 @@ services:
  - mysql
 
 before_script:
- - sudo -q -y apt-get install git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip wget lsb-release
+ - sudo apt-get install -q -y git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip wget lsb-release
  - cp app/config/config.yml.template app/config/config.yml
  - cp app/config/parameters.yml.template app/config/parameters.yml
  - php composer.phar install
