@@ -41,7 +41,8 @@
         "symfony/doctrine-bridge": "v2.2.4",
         "doctrine/mongodb": "1.0.0-BETA1",
 
-        "gedmo/doctrine-extensions": "v2.3.6"
+        "gedmo/doctrine-extensions": "v2.3.6",
+        "symfony/debug": "3.4.x-dev"
     },
     "scripts": {
         "post-install-cmd": [

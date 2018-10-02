@@ -1,5 +1,6 @@
 <?php
 
+use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -65,9 +66,10 @@ class AppKernel extends Kernel
     
     public function init()
     {
-      if ($this->debug) {
+      if ($this->debug || $this->getEnvironment() == "test") {
         ini_set('display_errors', 1);
         error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
+        Debug::enable(E_RECOVERABLE_ERROR & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED, false);
       } else {
         ini_set('display_errors', 0);
       }
