@@ -7,13 +7,13 @@ services:
  - mysql
 
 before_script:
- - apt-get install git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip wget lsb-release
+ - sudo -q -y apt-get install git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip wget lsb-release
  - cp app/config/config.yml.template app/config/config.yml
  - cp app/config/parameters.yml.template app/config/parameters.yml
  - php composer.phar install
- - mysql --execute "CREATE USER 'muzich'@'localhost';"
- - mysql --execute "CREATE DATABASE muzich_test;"
- - mysql --execute "GRANT ALL PRIVILEGES ON muzich_test.* To 'muzich'@'localhost' IDENTIFIED BY 'muzich';"
+ - sudo mysql --execute "CREATE USER 'muzich'@'localhost';"
+ - sudo mysql --execute "CREATE DATABASE muzich_test;"
+ - sudo mysql --execute "GRANT ALL PRIVILEGES ON muzich_test.* To 'muzich'@'localhost' IDENTIFIED BY 'muzich';"
  - php app/console doctrine:schema:create --env=test -n
  - php app/console doctrine:fixtures:load --env=test -n
  - php app/console score:recalculate --env=test
