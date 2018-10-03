@@ -22,4 +22,4 @@ before_script:
  - wget -O phpunit https://phar.phpunit.de/phpunit-4.phar
  - chmod +x phpunit
 
-script: ./phpunit -c app src
+script: php -d memory_limit=-1 ./phpunit -c app src
