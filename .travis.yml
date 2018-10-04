@@ -19,5 +19,6 @@ before_script:
  - php app/console score:recalculate --env=test
  - wget -O phpunit https://phar.phpunit.de/phpunit-4.phar
  - chmod +x phpunit
+ - find ./vendor -type f -print0 | xargs -0 sed -i 's/trigger_error/@trigger_error/g'
 
 script: ./phpunit -c app src
