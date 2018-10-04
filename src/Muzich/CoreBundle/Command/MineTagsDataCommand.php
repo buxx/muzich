@@ -59,7 +59,7 @@ class MineTagsDataCommand extends ContainerAwareCommand
 
   protected function init(InputInterface $input, OutputInterface $output)
   {
-    $this->em = $this->getContainer()->get('doctrine')->getEntityManager();
+    $this->em = $this->getContainer()->get('doctrine')->getManager();
     $this->tag_miner = $this->getContainer()->get('muzich.mining.tag.miner');
     
     // Experimental

@@ -286,7 +286,7 @@ class ModerateControllerTest extends FunctionalTest
      *   de joelle s'incrémente de 1.
      */
     
-    $em = $this->client->getKernel()->getContainer()->get('doctrine')->getEntityManager();
+    $em = $this->client->getKernel()->getContainer()->get('doctrine')->getManager();
     $this->connectUser('joelle', 'toor');
     $joelle = $this->getUser();
     $joelle_fake_alerts = $joelle->getBadReportCount();

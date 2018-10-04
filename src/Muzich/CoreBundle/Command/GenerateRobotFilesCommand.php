@@ -41,7 +41,7 @@ class GenerateRobotFilesCommand extends ContainerAwareCommand
     $this->router = $this->getContainer()->get('router');
     $this->locales = $this->getContainer()->getParameter('supported_langs');
     $this->siteurl_prefix = $this->getContainer()->getParameter('siteurl');
-    $this->em = $this->getContainer()->get('doctrine')->getEntityManager();
+    $this->em = $this->getContainer()->get('doctrine')->getManager();
   }
   
   protected function generateRobotsTxt()

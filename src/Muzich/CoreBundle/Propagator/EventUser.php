@@ -37,7 +37,7 @@ class EventUser extends EventPropagator
     // Event de suivis
     $uea = new UserEventAction($user, $this->container);
     $event = $uea->proceed(Event::TYPE_USER_FOLLOW, $follower->getId());
-    $this->container->get('doctrine')->getEntityManager()->persist($event);
+    $this->container->get('doctrine')->getManager()->persist($event);
   }
   
   /**

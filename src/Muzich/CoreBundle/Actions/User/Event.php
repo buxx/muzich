@@ -42,7 +42,7 @@ class Event
    */
   protected function initialize($type)
   {
-    $em = $this->container->get('doctrine')->getEntityManager();
+    $em = $this->container->get('doctrine')->getManager();
     try
     {
       $this->event = $em->createQuery(

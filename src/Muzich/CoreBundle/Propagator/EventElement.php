@@ -40,7 +40,7 @@ class EventElement extends EventPropagator
     {
       $uea = new UserEventAction($element->getOwner(), $this->container);
       $event = $uea->proceed(Event::TYPE_COMMENT_ADDED_ELEMENT, $element->getId());
-      $this->container->get('doctrine')->getEntityManager()->persist($event);
+      $this->container->get('doctrine')->getManager()->persist($event);
     }
     
     // Pour chaque utilisateur qui a demandé a être avertis d'un nouveau commentaire
@@ -49,7 +49,7 @@ class EventElement extends EventPropagator
     
     if (count($uids))
     {
-      $users = $this->container->get('doctrine')->getEntityManager()
+      $users = $this->container->get('doctrine')->getManager()
         ->getRepository('MuzichCoreBundle:User')
         ->getUsersWithIds($uids)
       ;
@@ -62,7 +62,7 @@ class EventElement extends EventPropagator
           {
             $uea = new UserEventAction($user_c, $this->container);
             $event = $uea->proceed(Event::TYPE_COMMENT_ADDED_ELEMENT, $element->getId());
-            $this->container->get('doctrine')->getEntityManager()->persist($event);
+            $this->container->get('doctrine')->getManager()->persist($event);
           }
         }
       }
@@ -214,13 +214,13 @@ class EventElement extends EventPropagator
   {
     $uea = new UserEventAction($element->getOwner(), $this->container);
     $event = $uea->proceed(Event::TYPE_TAGS_PROPOSED, $element->getId());
-    $this->container->get('doctrine')->getEntityManager()->persist($event);
+    $this->container->get('doctrine')->getManager()->persist($event);
   }
   
   public function tagsAccepteds(ElementTagsProposition $proposition)
   {
     // On archive le fait que la proposition est été accepté
-    $eam = new EventArchiveManager($this->container->get('doctrine')->getEntityManager());
+    $eam = new EventArchiveManager($this->container->get('doctrine')->getManager());
     $eam->add($proposition->getUser(), EventArchive::PROP_TAGS_ELEMENT_ACCEPTED);
     
     // Et on donne des points a l'utilisateur
@@ -228,7 +228,7 @@ class EventElement extends EventPropagator
     $ur->addPoints(
       $this->container->getParameter('reputation_element_tags_element_prop_value')
     );
-    $this->container->get('doctrine')->getEntityManager()->persist($proposition->getUser());
+    $this->container->get('doctrine')->getManager()->persist($proposition->getUser());
   }
   
   /** @param Element $element */

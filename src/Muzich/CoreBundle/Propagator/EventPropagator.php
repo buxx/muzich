@@ -22,7 +22,7 @@ class EventPropagator
   /** @return EntityManager */
   protected function getEntityManager()
   {
-    return $this->container->get('doctrine')->getEntityManager();
+    return $this->container->get('doctrine')->getManager();
   }
   
 }

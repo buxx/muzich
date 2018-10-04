@@ -97,7 +97,7 @@ class MigrationUpgradeCommand extends ContainerAwareCommand
   
   protected function updateCountFavorited(Element $element)
   {
-    $em = $this->getContainer()->get('doctrine')->getEntityManager();
+    $em = $this->getContainer()->get('doctrine')->getManager();
     
     // Compter le nombre de favoris de cet élement 
     // + Effectué par un autre que le proprio
@@ -120,7 +120,7 @@ class MigrationUpgradeCommand extends ContainerAwareCommand
   
   protected function updateCountPlaylisted(Element $element)
   {
-    $em = $this->getContainer()->get('doctrine')->getEntityManager();
+    $em = $this->getContainer()->get('doctrine')->getManager();
     
     // Compter le nombre d'user qui ont l'element dans une playlist
     // + Effectué par un user différent que le proprio
