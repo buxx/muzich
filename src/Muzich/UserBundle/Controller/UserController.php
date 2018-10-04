@@ -127,7 +127,7 @@ class UserController extends Controller
     $userManager = $this->container->get('fos_user.user_manager');
     $user = $this->getNewUser($userManager);
     $form = $this->getRegistrationForm($user);
-    $form->bindRequest($request);
+    $form->bind($request);
     $errors = $this->checkRegistrationValues($form);
     
     if ($form->isValid() && !count($errors))
@@ -259,7 +259,7 @@ class UserController extends Controller
       $form->getData()->setPasswordSet(true);
       $this->persist($form->getData());
       $this->flush();
-      $this->container->get('session')->setFlash('fos_user_success', 'change_password.flash.success');
+      $this->container->get('session')->getFlashBag()->add('fos_user_success', 'change_password.flash.success');
       return new RedirectResponse($this->generateUrl('home'));
     }
     
@@ -352,7 +352,7 @@ class UserController extends Controller
       ));
     }
     
-    $this->container->get('session')->setFlash('success', 'Vos tags péférés ont correctements été mis a jour.');
+    $this->container->get('session')->getFlashBag()->add('success', 'Vos tags péférés ont correctements été mis a jour.');
     // (Il y aura aussi une redirection vers "mon compte / tags")
     if ($redirect == 'home')
     {
@@ -397,7 +397,7 @@ class UserController extends Controller
       
       if (!$this->checkChangeEmailFrequencies($user, $email))
       {
-        $this->setFlash('error', 'user.changeemail.wait');
+        $this->getFlashBag()->add('error', 'user.changeemail.wait');
         return new RedirectResponse($this->generateUrl('my_account'));
       }
       
@@ -437,7 +437,7 @@ class UserController extends Controller
       $mailer = $this->get('mailer');
       $mailer->send($message);
       
-      $this->setFlash('success', 'user.changeemail.mail_send');
+      $this->getFlashBag()->add('success', 'user.changeemail.mail_send');
       $em->flush();
       return new RedirectResponse($this->generateUrl('my_account'));
     }
@@ -479,7 +479,7 @@ class UserController extends Controller
     // Le token est-il valide
     if ($token_ != $token)
     {
-      $this->setFlash('error', 'user.changeemail.token_invalid');
+      $this->getFlashBag()->add('error', 'user.changeemail.token_invalid');
       return new RedirectResponse($this->generateUrl('my_account'));
     }
     
@@ -488,7 +488,7 @@ class UserController extends Controller
     $um->updateCanonicalFields($user);
     $em->flush();
     
-    $this->setFlash('success', 'user.changeemail.success');
+    $this->getFlashBag()->add('success', 'user.changeemail.success');
     return new RedirectResponse($this->generateUrl('my_account'));
   }
   
@@ -553,12 +553,12 @@ class UserController extends Controller
       $em->persist($form->getData());
       $em->flush();
 
-      $this->setFlash('success',
+      $this->getFlashBag()->add('success',
         $this->trans('my_account.avatar.success', array(), 'userui'));
       return $this->redirect($this->generateUrl('my_account'));
     }
     
-    $this->setFlash('error',
+    $this->getFlashBag()->add('error',
       $this->trans('my_account.avatar.error', array(), 'userui'));
     return $this->redirect($this->generateUrl('my_account'));
   }
@@ -573,12 +573,12 @@ class UserController extends Controller
       $em->persist($form->getData());
       $em->flush();
 
-      $this->setFlash('success',
+      $this->getFlashBag()->add('success',
         $this->trans('my_account.preferences.success', array(), 'userui'));
       return $this->redirect($this->generateUrl('my_account'));
     }
     
-    $this->setFlash('error',
+    $this->getFlashBag()->add('error',
       $this->trans('my_account.preferences.error', array(), 'userui'));
     return $this->redirect($this->generateUrl('my_account'));
   }
@@ -593,12 +593,12 @@ class UserController extends Controller
       $em->persist($form->getData());
       $em->flush();
 
-      $this->setFlash('success',
+      $this->getFlashBag()->add('success',
         $this->trans('my_account.privacy.success', array(), 'userui'));
       return $this->redirect($this->generateUrl('my_account'));
     }
     
-    $this->setFlash('error',
+    $this->getFlashBag()->add('error',
       $this->trans('my_account.privacy.error', array(), 'userui'));
     return $this->redirect($this->generateUrl('my_account'));
   }
@@ -649,12 +649,12 @@ class UserController extends Controller
         $form->getData()->setUsernameUpdatable(false);
         $this->persist($user);
         $this->flush();
-        $this->setFlash('success', 'user.change_username.success');
+        $this->getFlashBag()->add('success', 'user.change_username.success');
         return new RedirectResponse($this->generateUrl('my_account'));
       }
       else
       {
-        $this->setFlash('error', 'user.change_username.failure');
+        $this->getFlashBag()->add('error', 'user.change_username.failure');
       }
     }
     
@@ -716,7 +716,7 @@ class UserController extends Controller
         ));
       }
       
-      $this->setFlash('success', 'user.confirm_email.alreaydy');
+      $this->getFlashBag()->add('success', 'user.confirm_email.alreaydy');
       return new RedirectResponse($this->generateUrl('home'));
     }
     if ((time() - $user->getEmailConfirmationSentTimestamp() < $this->getParameter('email_confirmation_email_interval')))
@@ -730,7 +730,7 @@ class UserController extends Controller
         ));
       }
       
-      $this->setFlash('success', 'user.confirm_email.sent_recently');
+      $this->getFlashBag()->add('success', 'user.confirm_email.sent_recently');
       return new RedirectResponse($this->generateUrl('my_account'));
     }
     
@@ -745,7 +745,7 @@ class UserController extends Controller
       ));
     }
     
-    $this->setFlash('success', 'user.confirm_email.sent');
+    $this->getFlashBag()->add('success', 'user.confirm_email.sent');
     return new RedirectResponse($this->generateUrl('my_account'));
   }
   
@@ -764,11 +764,11 @@ class UserController extends Controller
       $user->setEmailConfirmed(true);
       $this->persist($user);
       $this->flush();
-      $this->setFlash('success', 'user.confirm_email.confirmed');
+      $this->getFlashBag()->add('success', 'user.confirm_email.confirmed');
       return new RedirectResponse($this->generateUrl('home'));
     }
     
-    $this->setFlash('success', 'user.confirm_email.failtoken');
+    $this->getFlashBag()->add('success', 'user.confirm_email.failtoken');
     return new RedirectResponse($this->generateUrl('my_account'));
   }
   
@@ -799,11 +799,11 @@ class UserController extends Controller
     if ($form->isValid())
     {
       $this->getUserManager()->disableUser($form->getData());
-      $this->setFlash('success', 'user.delete.success');
+      $this->getFlashBag()->add('success', 'user.delete.success');
       return $this->redirect($this->generateUrl('fos_user_security_logout'));
     }
     
-    $this->setFlash('error', 'user.delete.fail');
+    $this->getFlashBag()->add('error', 'user.delete.fail');
     $form_tags_favorites = $this->getTagsFavoritesForm($form->getData());
     return $this->container->get('templating')->renderResponse(
       'MuzichUserBundle:User:account.html.twig',

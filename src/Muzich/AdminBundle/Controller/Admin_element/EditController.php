@@ -30,7 +30,7 @@ class EditController extends BaseEditController
     $em->persist($Element);
     $em->flush();
     
-    $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
+    $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
     return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Admin_element_list" ));
   }
   

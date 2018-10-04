@@ -230,7 +230,7 @@ class ElementController extends Controller
       {
         return $this->jsonResponse(array('status' => 'success'));
       }
-      $this->setFlash('success', 'element.remove.success');
+      $this->getFlashBag()->add('success', 'element.remove.success');
       return $this->redirect($this->container->get('request')->headers->get('referer'));
     } 
     catch(Exception $e)
@@ -239,7 +239,7 @@ class ElementController extends Controller
       {
         return $this->jsonResponse(array('status' => 'error'));
       }
-      $this->setFlash('error', 'element.remove.error');
+      $this->getFlashBag()->add('error', 'element.remove.error');
       return $this->redirect($this->container->get('request')->headers->get('referer'));
     }
   }

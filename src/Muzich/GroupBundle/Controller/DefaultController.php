@@ -80,7 +80,7 @@ if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::A
       $em->persist($new_group);
       $em->flush();
       
-      $this->setFlash('success', 'group.create.success');
+      $this->getFlashBag()->add('success', 'group.create.success');
       return $this->redirect($this->generateUrl('groups_own_list'));
     }
     else
@@ -89,7 +89,7 @@ if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::A
         'groups_owned'
       )));
       
-      //$this->setFlash('error', 'group.create.failure');
+      //$this->getFlashBag()->add('error', 'group.create.failure');
       
       return $this->render(
         'MuzichGroupBundle:Default:myList.html.twig', 
@@ -180,7 +180,7 @@ if (($non_condition = $this->userHaveNonConditionToMakeAction(SecurityContext::A
       $em->persist($group);
       $em->flush();
       
-      $this->setFlash('success', 'group.update.success');
+      $this->getFlashBag()->add('success', 'group.update.success');
       return $this->redirect($this->generateUrl('show_group', array('slug' => $group->getSlug())));
     }
     else

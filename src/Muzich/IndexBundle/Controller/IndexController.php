@@ -105,11 +105,11 @@ class IndexController extends Controller
 //      
 //      $this->persist($form->getData());
 //      $this->flush();
-//      $this->setFlash('info', 'presubscription.success');
+//      $this->getFlashBag()->add('info', 'presubscription.success');
 //      return $this->redirect($this->generateUrl('index'));
 //    }
 //    
-//    $this->setFlash('error', 'presubscription.error');
+//    $this->getFlashBag()->add('error', 'presubscription.error');
 //    return $this->render('MuzichIndexBundle:Index:index.html.twig', array(
 //      'form' => $this->getRegistrationForm()->createView(),
 //      'presubscription_form' => $form->createView(),
@@ -135,7 +135,7 @@ class IndexController extends Controller
 //    $this->persist($presubscription);
 //    $this->flush();
 //    
-//    $this->setFlash('success', 'presubscription.confirmed');
+//    $this->getFlashBag()->add('success', 'presubscription.confirmed');
 //    return $this->redirect($this->generateUrl('index'));
 //  }
   

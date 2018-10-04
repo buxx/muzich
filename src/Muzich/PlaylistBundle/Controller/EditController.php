@@ -156,7 +156,7 @@ class EditController extends Controller
     $this->getPlaylistManager()->deletePlaylist($playlist);
     $this->getUser()->setData(User::DATA_PLAY_UPDATED, true);
     $this->flush();
-    $this->setFlash('success', 'playlist.delete.success');
+    $this->getFlashBag()->add('success', 'playlist.delete.success');
     
     return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $this->getUser()->getSlug())));
   }
@@ -174,7 +174,7 @@ class EditController extends Controller
     $playlist_manager->removePickedPlaylistToUser($this->getUser(), $playlist);
     $this->getUser()->setData(User::DATA_PLAY_UPDATED, true);
     $this->flush();
-    $this->setFlash('success', 'playlist.delete.success');
+    $this->getFlashBag()->add('success', 'playlist.delete.success');
     
     if ($redirect_owner)
       return $this->redirect($this->generateUrl('playlists_user', array('user_slug' => $playlist->getOwner()->getSlug())));
@@ -223,7 +223,7 @@ class EditController extends Controller
         $this->getUser()->setData(User::DATA_PLAY_UPDATED, true);
         $this->flush();
         
-        $this->setFlash('success', $this->trans('playlist.create.success', array(), 'flash'));
+        $this->getFlashBag()->add('success', $this->trans('playlist.create.success', array(), 'flash'));
         return $this->redirect($this->generateUrl('playlist', array(
           'user_slug'   => $this->getUser()->getSlug(),
           'playlist_id' => $playlist_form->getData()->getId()
@@ -267,7 +267,7 @@ class EditController extends Controller
       $this->persist($form->getData());
       $this->flush();
       
-      $this->setFlash('success', 'playlist.update.success');
+      $this->getFlashBag()->add('success', 'playlist.update.success');
       return $this->redirect($this->generateUrl('playlist', array(
         'user_slug'   => $playlist->getOwner()->getSlug(),
         'playlist_id' => $playlist->getId()
@@ -292,7 +292,7 @@ class EditController extends Controller
     
     if (!$data['links'])
     {
-      $this->setFlash('warning', $this->trans('playlist.no_links_added', array(), 'elements'));
+      $this->getFlashBag()->add('warning', $this->trans('playlist.no_links_added', array(), 'elements'));
       return $this->redirect($this->generateUrl('playlist', array(
         'user_slug'   => $this->getUser()->getSlug(),
         'playlist_id' => $playlist_id
@@ -303,11 +303,11 @@ class EditController extends Controller
     
     if ($count_added == count(explode("\n", $data['links'])))
     {
-      $this->setFlash('success', $this->trans('playlist.links_added', array(), 'elements'));
+      $this->getFlashBag()->add('success', $this->trans('playlist.links_added', array(), 'elements'));
     }
     else
     {
-      $this->setFlash('warning', $this->trans('playlist.links_added_witherr', array(), 'elements'));
+      $this->getFlashBag()->add('warning', $this->trans('playlist.links_added_witherr', array(), 'elements'));
     }
     
     return $this->redirect($this->generateUrl('playlist', array(

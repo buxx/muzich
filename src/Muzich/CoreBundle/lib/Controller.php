@@ -290,7 +290,7 @@ class Controller extends BaseController
    */
   protected function setFlash($type, $value)
   {
-    $this->container->get('session')->setFlash($type, $value);
+    $this->container->get('session')->getFlashBag()->add($type, $value);
   }
   
   /**
@@ -509,7 +509,7 @@ class Controller extends BaseController
       }
       else
       {
-        $this->setFlash('error', 'user.session_expired');
+        $this->getFlashBag()->add('error', 'user.session_expired');
         return $this->redirect($this->generateUrl('home'));
       }
     }

@@ -53,7 +53,7 @@ class EditController extends BaseController
     
     if (!$this->getRequest()->isXmlHttpRequest())
     {
-      $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
+      $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
       return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_comment_list" ));
     }
     return $this->getJsonEmptyResponse();
@@ -91,7 +91,7 @@ class EditController extends BaseController
     
     if (!$this->getRequest()->isXmlHttpRequest())
     {
-      $this->get('session')->setFlash('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
+      $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans("object.edit.success", array(), 'Admingenerator') );
       return new RedirectResponse($this->generateUrl("Muzich_AdminBundle_Moderate_comment_list" ));
     }
     return $this->getJsonEmptyResponse();
