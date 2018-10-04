@@ -7,9 +7,11 @@ services:
  - mysql
 
 before_script:
- - sudo apt-get install -q -y git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip wget lsb-release
+ - sudo apt-get install -q -y git curl gnupg apt-transport-https lsb-release ca-certificates zip unzip wget lsb-release php-pear php5-dev
  - cp app/config/config.yml.template app/config/config.yml
  - cp app/config/parameters.yml.template app/config/parameters.yml
+ - echo 'no' | sudo pecl -q install mongo
+ - sudo echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
  - COMPOSER_MEMORY_LIMIT=-1 php composer.phar install
  - sudo mysql --execute "CREATE USER 'muzich'@'localhost';"
  - sudo mysql --execute "CREATE DATABASE muzich_test;"
@@ -21,4 +23,4 @@ before_script:
  - chmod +x phpunit
  - find ./vendor -type f -print0 | xargs -0 sed -i 's/trigger_error/@trigger_error/g'
 
-script: ./phpunit -c app src
+script: php -d memory_limit=-1 ./phpunit -c app src
